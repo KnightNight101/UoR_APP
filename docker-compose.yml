@@ -4,7 +4,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: frontend/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     networks:
@@ -13,17 +13,9 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: frontend/Dockerfile
+      dockerfile: backend/Dockerfile
     ports:
       - "5000:5000"
-    networks:
-      - app-network
-
-  deepseek_r1:
-    image: deepseek_r1:latest
-    container_name: deepseek_r1
-    ports:
-      - "8000:8000"
     networks:
       - app-network
 
