@@ -35,6 +35,49 @@ function CreateProject() {
         placeholder="Project Name"
         onChange={(e) => setProject({ ...project, name: e.target.value })}
       />
+// Inputs for team members
+<input
+  type="text"
+  placeholder="Team Member Name"
+  onChange={(e) => {
+    const newMember = { name: e.target.value, role: '' };
+    setProject({ ...project, teamMembers: [...project.teamMembers, newMember] });
+  }}
+/>
+<input
+  type="text"
+  placeholder="Team Member Role"
+  onChange={(e) => {
+    const updatedMembers = [...project.teamMembers];
+    updatedMembers[updatedMembers.length - 1].role = e.target.value;
+    setProject({ ...project, teamMembers: updatedMembers });
+  }}
+/>
+
+// Input for deadline
+<input
+  type="date"
+  onChange={(e) => setProject({ ...project, deadline: e.target.value })}
+/>
+
+// Inputs for tasks and subtasks
+<input
+  type="text"
+  placeholder="Task Name"
+  onChange={(e) => {
+    const newTask = { name: e.target.value, status: 'Pending', subTasks: [] };
+    setProject({ ...project, tasks: [...project.tasks, newTask] });
+  }}
+/>
+<input
+  type="text"
+  placeholder="Subtask Name"
+  onChange={(e) => {
+    const updatedTasks = [...project.tasks];
+    updatedTasks[updatedTasks.length - 1].subTasks.push({ name: e.target.value, status: 'Pending' });
+    setProject({ ...project, tasks: updatedTasks });
+  }}
+/>
       {/* Add inputs for team members, deadline, tasks */}
       <button type="submit">Create Project</button>
     </form>
