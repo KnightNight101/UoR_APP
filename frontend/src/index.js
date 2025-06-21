@@ -4,6 +4,47 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
+// MainPage component for displaying tasks and projects
+function MainPage({ tasks, projects }) {
+  return (
+    <div>
+      {/* Top-right menu */}
+      <div style={{ position: 'absolute', top: 0, right: 0 }}>
+        <button>Login</button>
+        <button>System Settings</button>
+        <button>Other Features</button>
+      </div>
+
+      {/* Main content */}
+      <h1>Tasks</h1>
+      <ul>
+        {tasks.map((task, index) => (
+          <li key={index}>{task.name} - {task.status}</li>
+        ))}
+      </ul>
+
+      <h1>Projects</h1>
+      <ul>
+        {projects.map((project, index) => (
+          <li key={index}>{project.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+// Example usage of MainPage
+const exampleTasks = [
+  { name: 'Subtask 1', status: 'Pending' },
+  { name: 'Subtask 2', status: 'Completed' }
+];
+
+const exampleProjects = [
+  { name: 'Project A' },
+  { name: 'Project B' }
+];
+
+ReactDOM.render(<MainPage tasks={exampleTasks} projects={exampleProjects} />, document.getElementById('root'));
 ReactDOM.render(<App />, document.getElementById('root'));
 // Feature: Creating projects UI
 
