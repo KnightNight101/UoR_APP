@@ -113,23 +113,31 @@ function MainPage() {
             </button>
             <h1>Today's To-Do List</h1>
             <ul>
-              {tasks.length === 0 ? <li>No tasks</li> : tasks.map((task, index) => (
-                <li key={index}>{task.name} - {task.status}</li>
-              ))}
+              {tasks.map((task, index) => (
+  <li key={index}>{task.name} - {task.status}</li>
+))}
             </ul>
             <h1>Projects</h1>
             <ul>
-              {projects.length === 0 ? <li>No projects</li> : projects.map((project, index) => (
-                <li
-                  key={index}
-                  style={{ cursor: 'pointer', color: '#007bff', textDecoration: 'underline' }}
-                  onClick={() => setCurrentProject(project)}
-                  tabIndex={0}
-                  onKeyPress={e => { if (e.key === 'Enter') setCurrentProject(project); }}
-                >
-                  {project.name}
-                </li>
-              ))}
+              {projects.map((project, index) => (
+  <li key={index} style={{ listStyle: 'none', margin: '0.5rem 0', padding: 0 }}>
+    <button
+      style={{
+        cursor: 'pointer',
+        color: '#fff',
+        background: '#007bff',
+        border: 'none',
+        borderRadius: '4px',
+        padding: '0.5rem 1.5rem',
+        fontSize: '1rem',
+        textDecoration: 'none'
+      }}
+      onClick={() => setCurrentProject(project)}
+    >
+      {project.name}
+    </button>
+  </li>
+))}
             </ul>
           </>
         ) : (
