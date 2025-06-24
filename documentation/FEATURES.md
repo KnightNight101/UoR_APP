@@ -15,44 +15,25 @@ This application is a local-first project and task management tool with a React-
   - **Today's To Do List**: Aggregated list of all tasks from all projects.
 - **Navigation**: Buttons for login, system settings, and other features.
 
-```mermaid
-flowchart LR
-  Home[Homepage]
-  Projects[Projects List]
-  Todo[Today's To Do List]
-  ProjectPage[Project Page]
-  CreateProject[Create Project]
-  Login[Login Page]
-
-  Home -- "View Project" --> ProjectPage
-  Home -- "Create Project" --> CreateProject
-  Home -- "Login" --> Login
-  Home -- "Projects Column" --> Projects
-  Home -- "To Do Column" --> Todo
-  ProjectPage -- "Back/Home/Delete" --> Home
-  CreateProject -- "Cancel/Create" --> Home
-```
-
----
-
 ### 2. Project Creation
 
-- Inline form for project name, deadline, team members, and tasks.
-- Add team members and tasks without browser dialogs.
-- Cancel button to return to homepage.
-
----
+- The "Create Project" button on the homepage navigates to a dedicated project creation page.
+- The project creation page includes:
+  - **Project Name** (required)
+  - **Deadline** (optional, date picker)
+  - **Team Members**: Add multiple members with name and role fields, inline (no dialogs)
+  - **Tasks**: Add multiple tasks with name, status, assignee (from team members), and optional deadline, inline (no dialogs)
+- All additions and edits are performed inline on the form.
+- "Create" saves the project and returns to the homepage; "Cancel" discards changes.
+- All features are accessible without browser dialogs or prompts.
 
 ### 3. Project Page
 
-- View and edit project details.
-- Rename project inline.
-- Add/remove team members and tasks with inline forms.
+- View and edit project details, including renaming and deadline.
+- Add/remove team members and tasks inline.
 - Assign/reassign tasks to team members.
-- Delete project button (removes project and returns home).
-- Navigation: Back to projects, Home.
-
----
+- Delete project returns to homepage.
+- Navigation: "Back to Home" and "Delete Project".
 
 ### 4. Task Management
 
@@ -60,14 +41,11 @@ flowchart LR
 - Tasks default to first team member if present.
 - All tasks are visible in the "Today's To Do List" column on the homepage.
 
----
-
 ### 5. Team Member Management
 
-- Add team members via inline form during project creation and in project page.
-- Team members are available for task assignment.
-
----
+- Team members and tasks can be added during project creation and from the project page.
+- Tasks can be assigned to any team member or left unassigned.
+- All tasks appear in the "Today's To Do List" column on the homepage.
 
 ### 6. Login Page
 
