@@ -291,7 +291,6 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
             <li key={idx} style={{ marginBottom: 16 }}>
               <div>
                 {task.name} - {task.status} - 
-                {task.assignee ? task.assignee : 'unassigned'}
                 {task.deadline ? ` [Due: ${task.deadline}]` : ''}
                 <select
                   value={task.assignee || ''}
