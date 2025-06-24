@@ -353,12 +353,16 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
           </label>
           <label style={{ flex: 1 }}>
             Assignee (optional):
-            <input
-              type="text"
+            <select
               value={newTask.assignee}
               onChange={e => setNewTask({ ...newTask, assignee: e.target.value })}
               style={{ width: '100%' }}
-            />
+            >
+              <option value="">unassigned</option>
+              {teamMembers.map((member, idx) => (
+                <option key={idx} value={member.name}>{member.name}</option>
+              ))}
+            </select>
           </label>
           <label style={{ flex: 1 }}>
             Task Deadline (optional):
