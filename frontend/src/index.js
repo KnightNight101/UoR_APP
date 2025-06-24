@@ -50,6 +50,7 @@ function CreateProject({ onProjectCreated }) {
     tasks: []
   });
   const [currentTask, setCurrentTask] = useState({ name: '', status: 'Pending', assignee: '', subTasks: [] });
+  const [newMember, setNewMember] = useState({ name: '', role: '' });
 
   const handleAddTask = () => {
     setProject(prev => ({
@@ -60,17 +61,15 @@ function CreateProject({ onProjectCreated }) {
   };
 
   const handleAddTeamMember = () => {
-    const name = prompt('Enter team member name:');
-    const role = prompt('Enter team member role:');
-    if (name) {
+    if (newMember.name) {
       setProject(prev => {
-        const updatedMembers = [...prev.teamMembers, { name, role }];
-        // If this is the first member, set currentTask.assignee to their name
+        const updatedMembers = [...prev.teamMembers, { ...newMember }];
         if (updatedMembers.length === 1) {
-          setCurrentTask(ct => ({ ...ct, assignee: name }));
+          setCurrentTask(ct => ({ ...ct, assignee: newMember.name }));
         }
         return { ...prev, teamMembers: updatedMembers };
       });
+      setNewMember({ name: '', role: '' });
     }
   };
 
@@ -90,6 +89,18 @@ function CreateProject({ onProjectCreated }) {
           <li key={idx}>{member.name} - {member.role}</li>
         ))}
       </ul>
+      <input
+        type="text"
+        placeholder="Team Member Name"
+        value={newMember.name}
+        onChange={e => setNewMember({ ...newMember, name: e.target.value })}
+      />
+      <input
+        type="text"
+        placeholder="Team Member Role"
+        value={newMember.role}
+        onChange={e => setNewMember({ ...newMember, role: e.target.value })}
+      />
       <button type="button" onClick={handleAddTeamMember}>Add Team Member</button>
       <h3>Tasks</h3>
       <ul>
@@ -121,6 +132,8 @@ function CreateProject({ onProjectCreated }) {
 function ProjectDetails({ project, onBack, onHome }) {
   const [tasks, setTasks] = useState(project.tasks);
   const [teamMembers, setTeamMembers] = useState(project.teamMembers);
+  const [newTask, setNewTask] = useState({ name: '', status: 'Pending', assignee: '', subTasks: [] });
+  const [newMember, setNewMember] = useState({ name: '', role: '' });
 
   const handleAssigneeChange = (idx, newAssignee) => {
     setTasks(prev =>
@@ -131,17 +144,16 @@ function ProjectDetails({ project, onBack, onHome }) {
   };
 
   const handleAddTask = () => {
-    const name = prompt('Enter task name:');
-    if (name) {
-      setTasks(prev => [...prev, { name, status: 'Pending', assignee: teamMembers[0]?.name || '', subTasks: [] }]);
+    if (newTask.name) {
+      setTasks(prev => [...prev, { ...newTask, assignee: newTask.assignee || (teamMembers[0]?.name || '') }]);
+      setNewTask({ name: '', status: 'Pending', assignee: '', subTasks: [] });
     }
   };
 
   const handleAddTeamMember = () => {
-    const name = prompt('Enter team member name:');
-    const role = prompt('Enter team member role:');
-    if (name) {
-      setTeamMembers(prev => [...prev, { name, role }]);
+    if (newMember.name) {
+      setTeamMembers(prev => [...prev, { ...newMember }]);
+      setNewMember({ name: '', role: '' });
     }
   };
 
@@ -167,6 +179,18 @@ function ProjectDetails({ project, onBack, onHome }) {
           </li>
         ))}
       </ul>
+      <input
+        type="text"
+        placeholder="Task Name"
+        value={newTask.name}
+        onChange={e => setNewTask({ ...newTask, name: e.target.value })}
+      />
+      <input
+        type="text"
+        placeholder="Assignee (optional)"
+        value={newTask.assignee}
+        onChange={e => setNewTask({ ...newTask, assignee: e.target.value })}
+      />
       <button type="button" onClick={handleAddTask}>Add Task</button>
       <h3>Team Members</h3>
       <ul>
@@ -174,6 +198,18 @@ function ProjectDetails({ project, onBack, onHome }) {
           <li key={idx}>{member.name} - {member.role}</li>
         ))}
       </ul>
+      <input
+        type="text"
+        placeholder="Team Member Name"
+        value={newMember.name}
+        onChange={e => setNewMember({ ...newMember, name: e.target.value })}
+      />
+      <input
+        type="text"
+        placeholder="Team Member Role"
+        value={newMember.role}
+        onChange={e => setNewMember({ ...newMember, role: e.target.value })}
+      />
       <button type="button" onClick={handleAddTeamMember}>Add Team Member</button>
     </div>
   );
