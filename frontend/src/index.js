@@ -51,7 +51,136 @@ function MainPage({ projects, onCreateProject, onViewProject, onLogin }) {
   );
 }
 
-// ... (LoginPage and CreateProject unchanged for brevity)
+function CreateProject({ onCreate, onCancel }) {
+  const [name, setName] = useState('');
+  const [deadline, setDeadline] = useState('');
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [newMember, setNewMember] = useState({ name: '', role: '' });
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState({ name: '', status: 'Pending', assignee: '', deadline: '', subTasks: [] });
+
+  const handleAddTeamMember = () => {
+    if (newMember.name) {
+      setTeamMembers(prev => [...prev, { ...newMember }]);
+      setNewMember({ name: '', role: '' });
+    }
+  };
+
+  const handleAddTask = () => {
+    if (newTask.name) {
+      setTasks(prev => [...prev, { ...newTask, assignee: newTask.assignee || (teamMembers[0]?.name || ''), deadline: newTask.deadline, subTasks: [] }]);
+      setNewTask({ name: '', status: 'Pending', assignee: '', deadline: '', subTasks: [] });
+    }
+  };
+
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '90vh' }}>
+      <div style={{ minWidth: 350, background: '#f9f9f9', padding: 32, borderRadius: 12, boxShadow: '0 2px 8px #0001', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <h2>Create New Project</h2>
+        <label style={{ width: '100%', marginBottom: 12 }}>
+          Project Name:
+          <input
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            style={{ width: '100%', marginTop: 4 }}
+          />
+        </label>
+        <label style={{ width: '100%', marginBottom: 12 }}>
+          Deadline (optional):
+          <input
+            type="date"
+            value={deadline}
+            onChange={e => setDeadline(e.target.value)}
+            style={{ width: '100%', marginTop: 4 }}
+          />
+        </label>
+        <h3>Team Members</h3>
+        <ul style={{ width: '100%' }}>
+          {teamMembers.map((member, idx) => (
+            <li key={idx}>{member.name} - {member.role}</li>
+          ))}
+        </ul>
+        <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
+          <label style={{ flex: 1 }}>
+            Name:
+            <input
+              type="text"
+              value={newMember.name}
+              onChange={e => setNewMember({ ...newMember, name: e.target.value })}
+              style={{ width: '100%' }}
+            />
+          </label>
+          <label style={{ flex: 1 }}>
+            Role:
+            <input
+              type="text"
+              value={newMember.role}
+              onChange={e => setNewMember({ ...newMember, role: e.target.value })}
+              style={{ width: '100%' }}
+            />
+          </label>
+          <button type="button" onClick={handleAddTeamMember}>Add</button>
+        </div>
+        <h3>Tasks</h3>
+        <ul style={{ width: '100%' }}>
+          {tasks.map((task, idx) => (
+            <li key={idx}>
+              {task.name} - {task.status} - {task.assignee || 'unassigned'}
+              {task.deadline ? ` [Due: ${task.deadline}]` : ''}
+            </li>
+          ))}
+        </ul>
+        <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
+          <label style={{ flex: 1 }}>
+            Task Name:
+            <input
+              type="text"
+              value={newTask.name}
+              onChange={e => setNewTask({ ...newTask, name: e.target.value })}
+              style={{ width: '100%' }}
+            />
+          </label>
+          <label style={{ flex: 1 }}>
+            Assignee (optional):
+            <input
+              type="text"
+              value={newTask.assignee}
+              onChange={e => setNewTask({ ...newTask, assignee: e.target.value })}
+              style={{ width: '100%' }}
+            />
+          </label>
+          <label style={{ flex: 1 }}>
+            Deadline (optional):
+            <input
+              type="date"
+              value={newTask.deadline}
+              onChange={e => setNewTask({ ...newTask, deadline: e.target.value })}
+              style={{ width: '100%' }}
+            />
+          </label>
+          <button type="button" onClick={handleAddTask}>Add Task</button>
+        </div>
+        <div style={{ display: 'flex', gap: 8, width: '100%', marginTop: 16 }}>
+          <button
+            type="button"
+            onClick={() => {
+              if (name.trim()) {
+                onCreate(name.trim(), deadline, teamMembers, tasks);
+              }
+            }}
+            style={{ flex: 1 }}
+          >
+            Create
+          </button>
+          <button type="button" onClick={onCancel} style={{ flex: 1 }}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // ProjectDetails: project page with tasks, subtasks, team members, and project deadline
 function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
@@ -147,25 +276,10 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
           Project Deadline: {project.deadline ? project.deadline : <span style={{ color: '#888' }}>No deadline set</span>}
           <input
             type="date"
-            value={editName === project.name && project.deadline ? project.deadline : ''}
-            onChange={e => {
-              const newDeadline = e.target.value;
-              // Update deadline in parent state
-              onRename(editName, newDeadline);
-            }}
+            value={project.deadline || ''}
+            onChange={e => onRename(editName, e.target.value)}
             style={{ marginLeft: 8 }}
           />
-          <button
-            type="button"
-            onClick={() => {
-              const newDeadline = prompt("Enter new deadline (YYYY-MM-DD):", project.deadline || "");
-              if (newDeadline !== null) {
-                onRename(editName, newDeadline);
-              }
-            }}
-          >
-            Set Deadline
-          </button>
         </div>
         <h3>Tasks</h3>
         <ul style={{ width: '100%' }}>
@@ -300,11 +414,19 @@ function RootApp() {
   const [currentProjectIdx, setCurrentProjectIdx] = useState(null);
 
   // Navigation handlers
+  const [creatingProject, setCreatingProject] = useState(false);
+
   const handleCreateProject = () => {
-    const name = prompt("Enter project name:");
-    if (name) {
-      setProjects(prev => [...prev, { name, deadline: "", tasks: [], teamMembers: [] }]);
-    }
+    setCreatingProject(true);
+  };
+
+  const handleProjectCreated = (name, deadline) => {
+    setProjects(prev => [...prev, { name, deadline: deadline || "", tasks: [], teamMembers: [] }]);
+    setCreatingProject(false);
+  };
+
+  const handleCancelCreate = () => {
+    setCreatingProject(false);
   };
   const handleViewProject = idx => setCurrentProjectIdx(idx);
   const handleBack = () => setCurrentProjectIdx(null);
@@ -323,6 +445,15 @@ function RootApp() {
     }
   };
   const handleLogin = () => alert("Login not implemented.");
+
+  if (creatingProject) {
+    return (
+      <CreateProject
+        onCreate={handleProjectCreated}
+        onCancel={handleCancelCreate}
+      />
+    );
+  }
 
   if (currentProjectIdx === null) {
     return (
