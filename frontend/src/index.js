@@ -333,8 +333,12 @@ function RootApp() {
 
   const handleCreateProject = () => setPage('create');
   const handleProjectCreated = (project) => {
-    setProjects(prev => [...prev, project]);
-    setPage('main');
+    setProjects(prev => {
+      const newProjects = [...prev, project];
+      setSelectedProjectIdx(newProjects.length - 1);
+      setPage('details');
+      return newProjects;
+    });
   };
   const handleViewProject = (idx) => {
     setSelectedProjectIdx(idx);
