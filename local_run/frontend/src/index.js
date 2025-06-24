@@ -120,7 +120,15 @@ function MainPage() {
             <h1>Projects</h1>
             <ul>
               {projects.length === 0 ? <li>No projects</li> : projects.map((project, index) => (
-                <li key={index}>{project.name}</li>
+                <li
+                  key={index}
+                  style={{ cursor: 'pointer', color: '#007bff', textDecoration: 'underline' }}
+                  onClick={() => setCurrentProject(project)}
+                  tabIndex={0}
+                  onKeyPress={e => { if (e.key === 'Enter') setCurrentProject(project); }}
+                >
+                  {project.name}
+                </li>
               ))}
             </ul>
           </>
