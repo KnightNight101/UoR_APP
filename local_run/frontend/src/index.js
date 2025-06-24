@@ -45,15 +45,40 @@ function LoginPage({ onBack }) {
   );
 }
 
+// ProjectPage component
+function ProjectPage({ project, onBack }) {
+  return (
+    <div style={{ minHeight: '100vh', position: 'relative' }}>
+      <div style={{ position: 'absolute', top: 20, left: 20 }}>
+        <h2>{project.name}</h2>
+        <div style={{ marginTop: '0.5rem', fontWeight: 'bold' }}>
+          {project.deadline
+            ? <>Deadline: {project.deadline}</>
+            : <>No Deadline Specified</>}
+        </div>
+      </div>
+      <div style={{ position: 'absolute', top: 20, right: 20 }}>
+        <button onClick={onBack}>Back to Home</button>
+      </div>
+      {/* Additional project details can be added here */}
+    </div>
+  );
+}
+
 // MainPage component for displaying tasks and projects
 function MainPage() {
   const [showCreate, setShowCreate] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [currentProject, setCurrentProject] = useState(null);
 
   if (showLogin) {
     return <LoginPage onBack={() => setShowLogin(false)} />;
+  }
+
+  if (currentProject) {
+    return <ProjectPage project={currentProject} onBack={() => setCurrentProject(null)} />;
   }
 
   return (
@@ -100,7 +125,14 @@ function MainPage() {
             </ul>
           </>
         ) : (
-          <CreateProject onBack={() => setShowCreate(false)} />
+          <CreateProject
+            onBack={() => setShowCreate(false)}
+            onProjectCreated={proj => {
+              setProjects([...projects, proj]);
+              setShowCreate(false);
+              setCurrentProject(proj);
+            }}
+          />
         )}
       </div>
     </div>
@@ -110,7 +142,7 @@ function MainPage() {
 ReactDOM.render(<MainPage />, document.getElementById('root'));
 
 // Feature: Creating projects UI
-function CreateProject({ onBack }) {
+function CreateProject({ onBack, onProjectCreated }) {
   const [project, setProject] = useState({
     name: '',
     teamMembers: [],
@@ -120,7 +152,6 @@ function CreateProject({ onBack }) {
   const [currentTeamMember, setCurrentTeamMember] = useState({ name: '', role: '' });
   const [currentTaskName, setCurrentTaskName] = useState('');
   const [currentTaskAssignee, setCurrentTaskAssignee] = useState('');
-  const [draggedSubTaskIdx] = useState(null); // Not used anymore
 
   // Add a new team member
   const addTeamMember = () => {
@@ -155,14 +186,7 @@ function CreateProject({ onBack }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('/create-project', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(project)
-    });
-    const data = await response.json();
-    alert(data.message);
-    if (onBack) onBack();
+    if (onProjectCreated) onProjectCreated(project);
   };
 
   return (
