@@ -131,8 +131,7 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '90vh' }}>
       <div style={{ minWidth: 350, background: '#f9f9f9', padding: 32, borderRadius: 12, boxShadow: '0 2px 8px #0001', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <div style={{ width: '100%', display: 'flex', gap: 8, justifyContent: 'flex-start', marginBottom: 8 }}>
-          <button onClick={onBack}>Back to Projects</button>
-          <button onClick={onHome}>Home</button>
+          <button onClick={onHome}>Back to Home</button>
           <button onClick={onDelete} style={{marginLeft: '1em', color: 'red'}}>Delete Project</button>
         </div>
         <h2>
@@ -144,8 +143,29 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
           />
           <button type="button" onClick={handleRename}>Rename</button>
         </h2>
-        <div style={{ marginBottom: 16, fontWeight: 'bold' }}>
+        <div style={{ marginBottom: 16, fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 8 }}>
           Project Deadline: {project.deadline ? project.deadline : <span style={{ color: '#888' }}>No deadline set</span>}
+          <input
+            type="date"
+            value={editName === project.name && project.deadline ? project.deadline : ''}
+            onChange={e => {
+              const newDeadline = e.target.value;
+              // Update deadline in parent state
+              onRename(editName, newDeadline);
+            }}
+            style={{ marginLeft: 8 }}
+          />
+          <button
+            type="button"
+            onClick={() => {
+              const newDeadline = prompt("Enter new deadline (YYYY-MM-DD):", project.deadline || "");
+              if (newDeadline !== null) {
+                onRename(editName, newDeadline);
+              }
+            }}
+          >
+            Set Deadline
+          </button>
         </div>
         <h3>Tasks</h3>
         <ul style={{ width: '100%' }}>
