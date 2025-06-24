@@ -143,12 +143,16 @@ function CreateProject({ onCreate, onCancel }) {
           </label>
           <label style={{ flex: 1 }}>
             Assignee (optional):
-            <input
-              type="text"
+            <select
               value={newTask.assignee}
               onChange={e => setNewTask({ ...newTask, assignee: e.target.value })}
               style={{ width: '100%' }}
-            />
+            >
+              <option value="">unassigned</option>
+              {teamMembers.map((member, idx) => (
+                <option key={idx} value={member.name}>{member.name}</option>
+              ))}
+            </select>
           </label>
           <label style={{ flex: 1 }}>
             Deadline (optional):
