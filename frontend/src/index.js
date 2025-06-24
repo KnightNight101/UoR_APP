@@ -1,6 +1,4 @@
-// DEBUG: index.js loaded
-console.log("DEBUG: index.js loaded");
-// Entry point for React.js application
+/* Entry point for React.js application */
 
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
@@ -268,5 +266,63 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
 }
 
 // ... (RootApp unchanged)
+
+function RootApp() {
+  // Example initial state
+  const [projects, setProjects] = useState([
+    {
+      name: "Example Project",
+      deadline: "",
+      tasks: [],
+      teamMembers: []
+    }
+  ]);
+  const [currentProjectIdx, setCurrentProjectIdx] = useState(null);
+
+  // Navigation handlers
+  const handleCreateProject = () => {
+    const name = prompt("Enter project name:");
+    if (name) {
+      setProjects(prev => [...prev, { name, deadline: "", tasks: [], teamMembers: [] }]);
+    }
+  };
+  const handleViewProject = idx => setCurrentProjectIdx(idx);
+  const handleBack = () => setCurrentProjectIdx(null);
+  const handleHome = () => setCurrentProjectIdx(null);
+  const handleRename = newName => {
+    setProjects(prev =>
+      prev.map((p, i) =>
+        i === currentProjectIdx ? { ...p, name: newName } : p
+      )
+    );
+  };
+  const handleDelete = () => {
+    if (window.confirm("Delete this project?")) {
+      setProjects(prev => prev.filter((_, i) => i !== currentProjectIdx));
+      setCurrentProjectIdx(null);
+    }
+  };
+  const handleLogin = () => alert("Login not implemented.");
+
+  if (currentProjectIdx === null) {
+    return (
+      <MainPage
+        projects={projects}
+        onCreateProject={handleCreateProject}
+        onViewProject={handleViewProject}
+        onLogin={handleLogin}
+      />
+    );
+  }
+  return (
+    <ProjectDetails
+      project={projects[currentProjectIdx]}
+      onBack={handleBack}
+      onHome={handleHome}
+      onRename={handleRename}
+      onDelete={handleDelete}
+    />
+  );
+}
 
 ReactDOM.render(<RootApp />, document.getElementById('root'));
