@@ -261,8 +261,39 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '90vh' }}>
-      <div style={{ minWidth: 350, background: '#f9f9f9', padding: 32, borderRadius: 12, boxShadow: '0 2px 8px #0001', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minHeight: '90vh' }}>
+      {/* Column 1: Team Members */}
+      <div style={{ flex: 1, minWidth: 220, background: '#f9f9f9', padding: 24, borderRadius: 12, boxShadow: '0 2px 8px #0001', margin: 8 }}>
+        <h3>Team Members</h3>
+        <ul style={{ width: '100%' }}>
+          {teamMembers.map((member, idx) => (
+            <li key={idx}>{member.name} - {member.role}</li>
+          ))}
+        </ul>
+        <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
+          <label style={{ flex: 1 }}>
+            Team Member Name:
+            <input
+              type="text"
+              value={newMember.name}
+              onChange={e => setNewMember({ ...newMember, name: e.target.value })}
+              style={{ width: '100%' }}
+            />
+          </label>
+          <label style={{ flex: 1 }}>
+            Team Member Role:
+            <input
+              type="text"
+              value={newMember.role}
+              onChange={e => setNewMember({ ...newMember, role: e.target.value })}
+              style={{ width: '100%' }}
+            />
+          </label>
+        </div>
+        <button type="button" onClick={handleAddTeamMember} style={{ width: '100%' }}>Add Team Member</button>
+      </div>
+      {/* Column 2: Tasks and Subtasks */}
+      <div style={{ flex: 2, minWidth: 350, background: '#f9f9f9', padding: 24, borderRadius: 12, boxShadow: '0 2px 8px #0001', margin: 8 }}>
         <div style={{ width: '100%', display: 'flex', gap: 8, justifyContent: 'flex-start', marginBottom: 8 }}>
           <button onClick={onHome}>Back to Home</button>
           <button onClick={onDelete} style={{marginLeft: '1em', color: 'red'}}>Delete Project</button>
@@ -445,36 +476,89 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
           </label>
         </div>
         <button type="button" onClick={handleAddTask} style={{ width: '100%', marginBottom: 24 }}>Add Task</button>
-        <h3>Team Members</h3>
-        <ul style={{ width: '100%' }}>
-          {teamMembers.map((member, idx) => (
-            <li key={idx}>{member.name} - {member.role}</li>
-          ))}
-        </ul>
-        <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
-          <label style={{ flex: 1 }}>
-            Team Member Name:
-            <input
-              type="text"
-              value={newMember.name}
-              onChange={e => setNewMember({ ...newMember, name: e.target.value })}
-              style={{ width: '100%' }}
-            />
-          </label>
-          <label style={{ flex: 1 }}>
-            Team Member Role:
-            <input
-              type="text"
-              value={newMember.role}
-              onChange={e => setNewMember({ ...newMember, role: e.target.value })}
-              style={{ width: '100%' }}
-            />
-          </label>
-        </div>
-        <button type="button" onClick={handleAddTeamMember} style={{ width: '100%' }}>Add Team Member</button>
+      </div>
+      {/* Column 3: Gantt Chart */}
+      <div style={{ flex: 2, minWidth: 350, background: '#f9f9f9', padding: 24, borderRadius: 12, boxShadow: '0 2px 8px #0001', margin: 8 }}>
+        <h3>Gantt Chart</h3>
+        <GanttChart tasks={tasks} />
       </div>
     </div>
   );
+function GanttChart({ tasks }) {
+  // Flatten tasks and subtasks into a single array with type and parent info
+  const allItems = [];
+  tasks.forEach((task, idx) => {
+    if (task.deadline) {
+      allItems.push({
+        name: task.name,
+        start: task.deadline,
+        end: task.deadline,
+        type: 'Task',
+        parent: null,
+      });
+    }
+    (task.subTasks || []).forEach((sub, subIdx) => {
+      if (sub.deadline) {
+        allItems.push({
+          name: sub.name,
+          start: sub.deadline,
+          end: sub.deadline,
+          type: 'Subtask',
+          parent: task.name,
+        });
+      }
+    });
+  });
+
+  // Find min/max dates for chart range
+  const allDates = allItems.map(i => i.start).filter(Boolean);
+  const minDate = allDates.length ? new Date(Math.min(...allDates.map(d => new Date(d)))) : new Date();
+  const maxDate = allDates.length ? new Date(Math.max(...allDates.map(d => new Date(d)))) : new Date();
+
+  // Generate columns for each date in range
+  const days = [];
+  for (let d = new Date(minDate); d <= maxDate; d.setDate(d.getDate() + 1)) {
+    days.push(new Date(d));
+  }
+
+  return (
+    <div style={{ overflowX: 'auto', border: '1px solid #ccc', borderRadius: 8, background: '#fff', padding: 8 }}>
+      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+        <thead>
+          <tr>
+            <th style={{ minWidth: 120, textAlign: 'left' }}>Name</th>
+            {days.map((d, i) => (
+              <th key={i} style={{ minWidth: 40, fontWeight: 'normal', fontSize: 12 }}>
+                {d.toISOString().slice(5, 10)}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {allItems.map((item, i) => (
+            <tr key={i}>
+              <td style={{ fontWeight: item.type === 'Task' ? 'bold' : 'normal', paddingLeft: item.type === 'Subtask' ? 24 : 0 }}>
+                {item.name}
+                {item.parent && <span style={{ color: '#888', fontSize: 12 }}> (of {item.parent})</span>}
+              </td>
+              {days.map((d, j) => {
+                const isActive = item.start === d.toISOString().slice(0, 10);
+                return (
+                  <td key={j} style={{
+                    background: isActive ? '#4caf50' : undefined,
+                    border: '1px solid #eee',
+                    height: 18,
+                    minWidth: 40
+                  }} />
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 }
 
 // ... (RootApp unchanged)
