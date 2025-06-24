@@ -3,8 +3,16 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
-// MainPage: homepage listing projects and tasks
+// MainPage: homepage listing projects and today's to-do list
 function MainPage({ projects, onCreateProject, onViewProject, onLogin }) {
+  // Flatten all tasks for "Today's To Do List"
+  const allTasks = projects.flatMap(project =>
+    project.tasks.map(task => ({
+      ...task,
+      projectName: project.name
+    }))
+  );
+
   return (
     <div>
       <div style={{ position: 'absolute', top: 0, right: 0 }}>
@@ -12,15 +20,32 @@ function MainPage({ projects, onCreateProject, onViewProject, onLogin }) {
         <button>System Settings</button>
         <button>Other Features</button>
       </div>
-      <h1>Projects</h1>
-      <ul>
-        {projects.map((project, idx) => (
-          <li key={idx}>
-            <button onClick={() => onViewProject(idx)}>{project.name}</button>
-          </li>
-        ))}
-      </ul>
-      <button onClick={onCreateProject}>Create New Project</button>
+      <div style={{ display: 'flex', gap: '2em', alignItems: 'flex-start' }}>
+        {/* Projects column */}
+        <div style={{ flex: 1 }}>
+          <h1>Projects</h1>
+          <ul>
+            {projects.map((project, idx) => (
+              <li key={idx}>
+                <button onClick={() => onViewProject(idx)}>{project.name}</button>
+              </li>
+            ))}
+          </ul>
+          <button onClick={onCreateProject}>Create New Project</button>
+        </div>
+        {/* Today's To Do List column */}
+        <div style={{ flex: 1 }}>
+          <h1>Today's To Do List</h1>
+          <ul>
+            {allTasks.length === 0 && <li>No tasks for today.</li>}
+            {allTasks.map((task, idx) => (
+              <li key={idx}>
+                {task.name} ({task.status}) <span style={{ color: '#888' }}>in {task.projectName}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
