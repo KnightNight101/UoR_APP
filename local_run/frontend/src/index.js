@@ -117,56 +117,39 @@ function CreateProject({ onBack }) {
     deadline: '',
     tasks: []
   });
+  const [currentTeamMember, setCurrentTeamMember] = useState({ name: '', role: '' });
   const [currentTaskName, setCurrentTaskName] = useState('');
-  const [currentSubTaskName, setCurrentSubTaskName] = useState('');
-  const [draggedSubTaskIdx, setDraggedSubTaskIdx] = useState(null);
+  const [currentTaskAssignee, setCurrentTaskAssignee] = useState('');
+  const [draggedSubTaskIdx] = useState(null); // Not used anymore
+
+  // Add a new team member
+  const addTeamMember = () => {
+    if (currentTeamMember.name.trim() === '' || currentTeamMember.role.trim() === '') return;
+    setProject({
+      ...project,
+      teamMembers: [...project.teamMembers, { ...currentTeamMember }]
+    });
+    setCurrentTeamMember({ name: '', role: '' });
+  };
 
   // Add a new task
   const addTask = () => {
-    if (currentTaskName.trim() === '') return;
+    if (currentTaskName.trim() === '' || currentTaskAssignee === '') return;
     setProject({
       ...project,
       tasks: [
         ...project.tasks,
-        { name: currentTaskName, status: 'Pending', subTasks: [] }
+        { name: currentTaskName, status: 'Pending', assignee: currentTaskAssignee }
       ]
     });
     setCurrentTaskName('');
+    setCurrentTaskAssignee('');
   };
 
-  // Add a new subtask to the last task
-  const addSubTask = (taskIdx) => {
-    if (currentSubTaskName.trim() === '') return;
+  // Set task status
+  const setTaskStatus = (taskIdx, status) => {
     const updatedTasks = [...project.tasks];
-    updatedTasks[taskIdx].subTasks.push({ name: currentSubTaskName, status: 'Pending' });
-    setProject({ ...project, tasks: updatedTasks });
-    setCurrentSubTaskName('');
-  };
-
-  // Drag and drop handlers for subtasks
-  const handleDragStart = (taskIdx, subIdx) => {
-    setDraggedSubTaskIdx({ taskIdx, subIdx });
-  };
-
-  const handleDrop = (taskIdx, subIdx) => {
-    if (!draggedSubTaskIdx || draggedSubTaskIdx.taskIdx !== taskIdx) return;
-    const updatedTasks = [...project.tasks];
-    const subTasks = [...updatedTasks[taskIdx].subTasks];
-    const [removed] = subTasks.splice(draggedSubTaskIdx.subIdx, 1);
-    subTasks.splice(subIdx, 0, removed);
-    updatedTasks[taskIdx].subTasks = subTasks;
-    setProject({ ...project, tasks: updatedTasks });
-    setDraggedSubTaskIdx(null);
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  // Set subtask status
-  const setSubTaskStatus = (taskIdx, subIdx, status) => {
-    const updatedTasks = [...project.tasks];
-    updatedTasks[taskIdx].subTasks[subIdx].status = status;
+    updatedTasks[taskIdx].status = status;
     setProject({ ...project, tasks: updatedTasks });
   };
 
@@ -191,28 +174,33 @@ function CreateProject({ onBack }) {
         onChange={(e) => setProject({ ...project, name: e.target.value })}
         required
       />
-      {/* Inputs for team members */}
+      {/* Team Members */}
+      <div>
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '0.5rem' }}>
+          <input
+            type="text"
+            placeholder="Team Member Name"
+            value={currentTeamMember.name}
+            onChange={e => setCurrentTeamMember({ ...currentTeamMember, name: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Role"
+            value={currentTeamMember.role}
+            onChange={e => setCurrentTeamMember({ ...currentTeamMember, role: e.target.value })}
+          />
+          <button type="button" onClick={addTeamMember}>Add Team Member</button>
+        </div>
+        <ul>
+          {project.teamMembers.map((member, idx) => (
+            <li key={idx}>{member.name} - {member.role}</li>
+          ))}
+        </ul>
+      </div>
+      {/* Project Deadline */}
+      <label htmlFor="project-deadline"><strong>Project Deadline</strong></label>
       <input
-        type="text"
-        placeholder="Team Member Name"
-        onChange={(e) => {
-          const newMember = { name: e.target.value, role: '' };
-          setProject({ ...project, teamMembers: [...project.teamMembers, newMember] });
-        }}
-      />
-      <input
-        type="text"
-        placeholder="Team Member Role"
-        onChange={(e) => {
-          const updatedMembers = [...project.teamMembers];
-          if (updatedMembers.length > 0) {
-            updatedMembers[updatedMembers.length - 1].role = e.target.value;
-            setProject({ ...project, teamMembers: updatedMembers });
-          }
-        }}
-      />
-      {/* Input for deadline */}
-      <input
+        id="project-deadline"
         type="date"
         value={project.deadline}
         onChange={(e) => setProject({ ...project, deadline: e.target.value })}
@@ -225,9 +213,18 @@ function CreateProject({ onBack }) {
           value={currentTaskName}
           onChange={(e) => setCurrentTaskName(e.target.value)}
         />
+        <select
+          value={currentTaskAssignee}
+          onChange={e => setCurrentTaskAssignee(e.target.value)}
+        >
+          <option value="">Assign to...</option>
+          {project.teamMembers.map((member, idx) => (
+            <option key={idx} value={member.name}>{member.name}</option>
+          ))}
+        </select>
         <button type="button" onClick={addTask}>Add Task</button>
       </div>
-      {/* List of tasks and subtasks */}
+      {/* List of tasks */}
       {project.tasks.map((task, taskIdx) => (
         <div key={taskIdx} style={{ border: '1px solid #ccc', padding: '1rem', marginBottom: '1rem' }}>
           <strong>{task.name} ({task.status})</strong>
@@ -235,59 +232,15 @@ function CreateProject({ onBack }) {
             <label>Status: </label>
             <select
               value={task.status}
-              onChange={e => {
-                const updatedTasks = [...project.tasks];
-                updatedTasks[taskIdx].status = e.target.value;
-                setProject({ ...project, tasks: updatedTasks });
-              }}
+              onChange={e => setTaskStatus(taskIdx, e.target.value)}
             >
               <option value="Pending">Pending</option>
               <option value="In Progress">In Progress</option>
               <option value="Completed">Completed</option>
             </select>
           </div>
-          {/* Subtasks */}
           <div>
-            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-              <input
-                type="text"
-                placeholder="Subtask Name"
-                value={currentSubTaskName}
-                onChange={e => setCurrentSubTaskName(e.target.value)}
-              />
-              <button type="button" onClick={() => addSubTask(taskIdx)}>Add Subtask</button>
-            </div>
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-              {task.subTasks.map((sub, subIdx) => (
-                <li
-                  key={subIdx}
-                  draggable
-                  onDragStart={() => handleDragStart(taskIdx, subIdx)}
-                  onDragOver={handleDragOver}
-                  onDrop={() => handleDrop(taskIdx, subIdx)}
-                  style={{
-                    background: '#f9f9f9',
-                    margin: '0.25rem 0',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    display: 'flex',
-                    alignItems: 'center',
-                    cursor: 'grab'
-                  }}
-                >
-                  <span style={{ flex: 1 }}>{sub.name} ({sub.status})</span>
-                  <select
-                    value={sub.status}
-                    onChange={e => setSubTaskStatus(taskIdx, subIdx, e.target.value)}
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Completed">Completed</option>
-                  </select>
-                  <span style={{ marginLeft: '0.5rem', cursor: 'grab' }}>⠿</span>
-                </li>
-              ))}
-            </ul>
+            <span>Assigned to: {task.assignee}</span>
           </div>
         </div>
       ))}
