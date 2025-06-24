@@ -131,24 +131,26 @@ function CreateProject({ onProjectCreated, onCancel }) {
             <li key={idx}>{member.name} - {member.role}</li>
           ))}
         </ul>
-        <label style={{ width: '100%', marginBottom: 8 }}>
-          Team Member Name:
-          <input
-            type="text"
-            value={newMember.name}
-            onChange={e => setNewMember({ ...newMember, name: e.target.value })}
-            style={{ width: '100%' }}
-          />
-        </label>
-        <label style={{ width: '100%', marginBottom: 8 }}>
-          Team Member Role:
-          <input
-            type="text"
-            value={newMember.role}
-            onChange={e => setNewMember({ ...newMember, role: e.target.value })}
-            style={{ width: '100%' }}
-          />
-        </label>
+        <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
+          <label style={{ flex: 1 }}>
+            Team Member Name:
+            <input
+              type="text"
+              value={newMember.name}
+              onChange={e => setNewMember({ ...newMember, name: e.target.value })}
+              style={{ width: '100%' }}
+            />
+          </label>
+          <label style={{ flex: 1 }}>
+            Team Member Role:
+            <input
+              type="text"
+              value={newMember.role}
+              onChange={e => setNewMember({ ...newMember, role: e.target.value })}
+              style={{ width: '100%' }}
+            />
+          </label>
+        </div>
         <button type="button" onClick={handleAddTeamMember} style={{ width: '100%', marginBottom: 16 }}>Add Team Member</button>
         <h3>Tasks</h3>
         <ul style={{ width: '100%' }}>
@@ -158,33 +160,35 @@ function CreateProject({ onProjectCreated, onCancel }) {
             </li>
           ))}
         </ul>
-        <label style={{ width: '100%', marginBottom: 8 }}>
-          Task Name:
-          <input
-            type="text"
-            value={currentTask.name}
-            onChange={e => setCurrentTask({ ...currentTask, name: e.target.value })}
-            style={{ width: '100%' }}
-          />
-        </label>
-        <label style={{ width: '100%', marginBottom: 8 }}>
-          Assignee (optional):
-          <input
-            type="text"
-            value={currentTask.assignee}
-            onChange={e => setCurrentTask({ ...currentTask, assignee: e.target.value })}
-            style={{ width: '100%' }}
-          />
-        </label>
-        <label style={{ width: '100%', marginBottom: 8 }}>
-          Task Deadline (optional):
-          <input
-            type="date"
-            value={currentTask.deadline}
-            onChange={e => setCurrentTask({ ...currentTask, deadline: e.target.value })}
-            style={{ width: '100%' }}
-          />
-        </label>
+        <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
+          <label style={{ flex: 1 }}>
+            Task Name:
+            <input
+              type="text"
+              value={currentTask.name}
+              onChange={e => setCurrentTask({ ...currentTask, name: e.target.value })}
+              style={{ width: '100%' }}
+            />
+          </label>
+          <label style={{ flex: 1 }}>
+            Assignee (optional):
+            <input
+              type="text"
+              value={currentTask.assignee}
+              onChange={e => setCurrentTask({ ...currentTask, assignee: e.target.value })}
+              style={{ width: '100%' }}
+            />
+          </label>
+          <label style={{ flex: 1 }}>
+            Task Deadline (optional):
+            <input
+              type="date"
+              value={currentTask.deadline}
+              onChange={e => setCurrentTask({ ...currentTask, deadline: e.target.value })}
+              style={{ width: '100%' }}
+            />
+          </label>
+        </div>
         <button type="button" onClick={handleAddTask} style={{ width: '100%', marginBottom: 24 }}>Add Task</button>
         <div style={{ display: 'flex', gap: 16, width: '100%', justifyContent: 'center', marginTop: 16 }}>
           <button type="submit">Create Project</button>
