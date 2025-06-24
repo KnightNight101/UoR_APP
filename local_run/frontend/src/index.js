@@ -46,9 +46,11 @@ function LoginPage({ onBack }) {
 }
 
 // MainPage component for displaying tasks and projects
-function MainPage({ tasks, projects }) {
+function MainPage() {
   const [showCreate, setShowCreate] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [projects, setProjects] = useState([]);
 
   if (showLogin) {
     return <LoginPage onBack={() => setShowLogin(false)} />;
@@ -86,13 +88,13 @@ function MainPage({ tasks, projects }) {
             </button>
             <h1>Tasks</h1>
             <ul>
-              {tasks.map((task, index) => (
+              {tasks.length === 0 ? <li>No tasks</li> : tasks.map((task, index) => (
                 <li key={index}>{task.name} - {task.status}</li>
               ))}
             </ul>
             <h1>Projects</h1>
             <ul>
-              {projects.map((project, index) => (
+              {projects.length === 0 ? <li>No projects</li> : projects.map((project, index) => (
                 <li key={index}>{project.name}</li>
               ))}
             </ul>
@@ -105,18 +107,7 @@ function MainPage({ tasks, projects }) {
   );
 }
 
-// Example usage of MainPage
-const exampleTasks = [
-  { name: 'Subtask 1', status: 'Pending' },
-  { name: 'Subtask 2', status: 'Completed' }
-];
-
-const exampleProjects = [
-  { name: 'Project A' },
-  { name: 'Project B' }
-];
-
-ReactDOM.render(<MainPage tasks={exampleTasks} projects={exampleProjects} />, document.getElementById('root'));
+ReactDOM.render(<MainPage />, document.getElementById('root'));
 
 // Feature: Creating projects UI
 function CreateProject({ onBack }) {
