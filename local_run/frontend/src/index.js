@@ -167,9 +167,10 @@ function CreateProject({ onBack }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 300 }}>
+      <label htmlFor="project-name"><strong>Project Name</strong></label>
       <input
+        id="project-name"
         type="text"
-        placeholder="Project Name"
         value={project.name}
         onChange={(e) => setProject({ ...project, name: e.target.value })}
         required
@@ -177,15 +178,17 @@ function CreateProject({ onBack }) {
       {/* Team Members */}
       <div>
         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '0.5rem' }}>
+          <label htmlFor="team-member-name"><strong>Team Member Name</strong></label>
           <input
+            id="team-member-name"
             type="text"
-            placeholder="Team Member Name"
             value={currentTeamMember.name}
             onChange={e => setCurrentTeamMember({ ...currentTeamMember, name: e.target.value })}
           />
+          <label htmlFor="team-member-role"><strong>Role</strong></label>
           <input
+            id="team-member-role"
             type="text"
-            placeholder="Role"
             value={currentTeamMember.role}
             onChange={e => setCurrentTeamMember({ ...currentTeamMember, role: e.target.value })}
           />
@@ -197,7 +200,6 @@ function CreateProject({ onBack }) {
           ))}
         </ul>
       </div>
-      {/* Project Deadline */}
       <label htmlFor="project-deadline"><strong>Project Deadline</strong></label>
       <input
         id="project-deadline"
@@ -207,17 +209,20 @@ function CreateProject({ onBack }) {
       />
       {/* Task creation */}
       <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+        <label htmlFor="task-name"><strong>Task Name</strong></label>
         <input
+          id="task-name"
           type="text"
-          placeholder="Task Name"
           value={currentTaskName}
           onChange={(e) => setCurrentTaskName(e.target.value)}
         />
+        <label htmlFor="task-assignee"><strong>Assign to</strong></label>
         <select
+          id="task-assignee"
           value={currentTaskAssignee}
           onChange={e => setCurrentTaskAssignee(e.target.value)}
         >
-          <option value="">Assign to...</option>
+          <option value="">Select team member</option>
           {project.teamMembers.map((member, idx) => (
             <option key={idx} value={member.name}>{member.name}</option>
           ))}
