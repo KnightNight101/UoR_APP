@@ -237,11 +237,11 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
       setTasks(prev =>
         prev.map((task, i) =>
           i === taskIdx
-            ? { ...task, subTasks: [...(task.subTasks || []), { name: input.name, status: input.status || 'Pending' }] }
+            ? { ...task, subTasks: [...(task.subTasks || []), { name: input.name, status: input.status || 'Pending', assignee: input.assignee || '' }] }
             : task
         )
       );
-      setSubTaskInputs(inputs => ({ ...inputs, [taskIdx]: { name: '', status: 'Pending' } }));
+      setSubTaskInputs(inputs => ({ ...inputs, [taskIdx]: { name: '', status: 'Pending', assignee: '' } }));
     }
   };
 
@@ -308,7 +308,7 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                 <ul>
                   {(task.subTasks || []).map((sub, subIdx) => (
                     <li key={subIdx}>
-                      {sub.name} - 
+                      {sub.name} -
                       <select
                         value={sub.status}
                         onChange={e => handleSubTaskStatusChange(idx, subIdx, e.target.value)}
@@ -316,6 +316,30 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                       >
                         <option value="Pending">Pending</option>
                         <option value="Completed">Completed</option>
+                      </select>
+                      <select
+                        value={sub.assignee || ''}
+                        onChange={e => {
+                          const newAssignee = e.target.value;
+                          setTasks(prev =>
+                            prev.map((task, tIdx) =>
+                              tIdx === idx
+                                ? {
+                                    ...task,
+                                    subTasks: task.subTasks.map((s, sIdx) =>
+                                      sIdx === subIdx ? { ...s, assignee: newAssignee } : s
+                                    )
+                                  }
+                                : task
+                            )
+                          );
+                        }}
+                        style={{ marginLeft: 8 }}
+                      >
+                        <option value="">unassigned</option>
+                        {teamMembers.map((member, i) => (
+                          <option key={i} value={member.name}>{member.name}</option>
+                        ))}
                       </select>
                     </li>
                   ))}
@@ -333,6 +357,15 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                   >
                     <option value="Pending">Pending</option>
                     <option value="Completed">Completed</option>
+                  </select>
+                  <select
+                    value={subTaskInputs[idx]?.assignee || ''}
+                    onChange={e => handleSubTaskInputChange(idx, 'assignee', e.target.value)}
+                  >
+                    <option value="">unassigned</option>
+                    {teamMembers.map((member, i) => (
+                      <option key={i} value={member.name}>{member.name}</option>
+                    ))}
                   </select>
                   <button type="button" onClick={() => handleAddSubTask(idx)}>Add Subtask</button>
                 </div>
