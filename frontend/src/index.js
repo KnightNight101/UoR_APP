@@ -42,7 +42,7 @@ function LoginPage({ onLoginSuccess }) {
 }
 
 // CreateProject: project creation form
-function CreateProject({ onProjectCreated }) {
+function CreateProject({ onProjectCreated, onCancel }) {
   const [project, setProject] = useState({
     name: '',
     teamMembers: [],
@@ -124,12 +124,13 @@ function CreateProject({ onProjectCreated }) {
       />
       <button type="button" onClick={handleAddTask}>Add Task</button>
       <button type="submit">Create Project</button>
+      <button type="button" onClick={onCancel} style={{marginLeft: '1em'}}>Cancel</button>
     </form>
   );
 }
 
 // ProjectDetails: project page with tasks and team members
-function ProjectDetails({ project, onBack, onHome, onRename }) {
+function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
   const [tasks, setTasks] = useState(project.tasks);
   const [teamMembers, setTeamMembers] = useState(project.teamMembers);
   const [newTask, setNewTask] = useState({ name: '', status: 'Pending', assignee: '', subTasks: [] });
@@ -168,6 +169,7 @@ function ProjectDetails({ project, onBack, onHome, onRename }) {
     <div>
       <button onClick={onBack}>Back to Projects</button>
       <button onClick={onHome}>Home</button>
+      <button onClick={onDelete} style={{marginLeft: '1em', color: 'red'}}>Delete Project</button>
       <h2>
         <input
           type="text"
@@ -256,9 +258,14 @@ function RootApp() {
       )
     );
   };
+  const handleCancelCreate = () => setPage('main');
+  const handleDeleteProject = () => {
+    setProjects(prev => prev.filter((_, idx) => idx !== selectedProjectIdx));
+    setPage('main');
+  };
 
   if (page === 'login') return <LoginPage onLoginSuccess={handleLoginSuccess} />;
-  if (page === 'create') return <CreateProject onProjectCreated={handleProjectCreated} />;
+  if (page === 'create') return <CreateProject onProjectCreated={handleProjectCreated} onCancel={handleCancelCreate} />;
   if (page === 'details' && selectedProjectIdx !== null)
     return (
       <ProjectDetails
@@ -266,6 +273,7 @@ function RootApp() {
         onBack={handleBack}
         onHome={handleHome}
         onRename={handleRename}
+        onDelete={handleDeleteProject}
       />
     );
   return (
