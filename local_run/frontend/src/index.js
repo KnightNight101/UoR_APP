@@ -47,9 +47,41 @@ function LoginPage({ onBack }) {
 
 // ProjectPage component
 function ProjectPage({ project, onBack }) {
+  // Add local state for managing subtasks for each task
+  const [tasksWithSubtasks, setTasksWithSubtasks] = useState(
+    project.tasks.map(task => ({
+      ...task,
+      subtasks: task.subtasks || []
+    }))
+  );
+  const [newSubtask, setNewSubtask] = useState({});
+  const [editSubtask, setEditSubtask] = useState({});
+
+  const handleAddSubtask = (taskIdx) => {
+    const subtaskName = newSubtask[taskIdx]?.trim();
+    if (!subtaskName) return;
+    const updatedTasks = [...tasksWithSubtasks];
+    updatedTasks[taskIdx].subtasks = updatedTasks[taskIdx].subtasks || [];
+    updatedTasks[taskIdx].subtasks.push({ name: subtaskName, status: 'Pending' });
+    setTasksWithSubtasks(updatedTasks);
+    setNewSubtask({ ...newSubtask, [taskIdx]: '' });
+  };
+
+  const handleEditSubtask = (taskIdx, subIdx) => {
+    const updatedTasks = [...tasksWithSubtasks];
+    const newName = editSubtask[`${taskIdx}-${subIdx}`]?.trim();
+    if (!newName) return;
+    updatedTasks[taskIdx].subtasks[subIdx].name = newName;
+    setTasksWithSubtasks(updatedTasks);
+    setEditSubtask({ ...editSubtask, [`${taskIdx}-${subIdx}`]: '' });
+  };
+
   return (
-    <div style={{ minHeight: '100vh', position: 'relative' }}>
-      <div style={{ position: 'absolute', top: 20, left: 20 }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+      <div style={{ position: 'absolute', top: 20, right: 20 }}>
+        <button onClick={onBack}>Back to Home</button>
+      </div>
+      <div style={{ padding: '2rem 2rem 0 2rem' }}>
         <h2>{project.name}</h2>
         <div style={{ marginTop: '0.5rem', fontWeight: 'bold' }}>
           {project.deadline
@@ -57,10 +89,100 @@ function ProjectPage({ project, onBack }) {
             : <>No Deadline Specified</>}
         </div>
       </div>
-      <div style={{ position: 'absolute', top: 20, right: 20 }}>
-        <button onClick={onBack}>Back to Home</button>
+      <div style={{
+        display: 'flex',
+        flex: 1,
+        padding: '2rem',
+        gap: '2rem',
+        alignItems: 'flex-start'
+      }}>
+        {/* Left: Team Members */}
+        <div style={{
+          minWidth: 220,
+          background: '#f5f5f5',
+          borderRadius: 8,
+          padding: '1rem',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+        }}>
+          <h3>Team Members</h3>
+          <ul style={{ paddingLeft: 0, listStyle: 'none' }}>
+            {project.teamMembers && project.teamMembers.length > 0 ? (
+              project.teamMembers.map((member, idx) => (
+                <li key={idx} style={{ marginBottom: '0.5rem' }}>
+                  <span style={{ fontWeight: 'bold' }}>{member.name}</span>
+                  <span style={{ color: '#888', marginLeft: 8 }}>({member.role})</span>
+                </li>
+              ))
+            ) : (
+              <li>No team members</li>
+            )}
+          </ul>
+        </div>
+        {/* Right: Tasks and Subtasks */}
+        <div style={{
+          flex: 1,
+          background: '#fff',
+          borderRadius: 8,
+          padding: '1rem',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+        }}>
+          <h3>Tasks</h3>
+          {tasksWithSubtasks.length === 0 ? (
+            <div>No tasks</div>
+          ) : (
+            tasksWithSubtasks.map((task, taskIdx) => (
+              <div key={taskIdx} style={{ border: '1px solid #ccc', borderRadius: 6, padding: '1rem', marginBottom: '1.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <strong>{task.name} ({task.status})</strong>
+                  <span style={{ color: '#888' }}>Assigned to: {task.assignee}</span>
+                </div>
+                {/* Subtasks */}
+                <div style={{ marginTop: '1rem', marginBottom: '0.5rem' }}>
+                  <div style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Subtasks</div>
+                  <ul style={{ paddingLeft: 0, listStyle: 'none' }}>
+                    {task.subtasks && task.subtasks.length > 0 ? (
+                      task.subtasks.map((sub, subIdx) => (
+                        <li key={subIdx} style={{ marginBottom: '0.5rem', display: 'flex', alignItems: 'center' }}>
+                          <input
+                            type="text"
+                            value={editSubtask[`${taskIdx}-${subIdx}`] !== undefined ? editSubtask[`${taskIdx}-${subIdx}`] : sub.name}
+                            onChange={e =>
+                              setEditSubtask({ ...editSubtask, [`${taskIdx}-${subIdx}`]: e.target.value })
+                            }
+                            style={{ marginRight: 8, flex: 1 }}
+                          />
+                          <button
+                            style={{ marginLeft: 4, padding: '0.2rem 0.7rem' }}
+                            onClick={() => handleEditSubtask(taskIdx, subIdx)}
+                            type="button"
+                          >
+                            Save
+                          </button>
+                          <span style={{ marginLeft: 12, color: '#888' }}>({sub.status})</span>
+                        </li>
+                      ))
+                    ) : (
+                      <li style={{ color: '#888' }}>No subtasks</li>
+                    )}
+                  </ul>
+                  <div style={{ display: 'flex', marginTop: '0.5rem', gap: '0.5rem' }}>
+                    <input
+                      type="text"
+                      placeholder="Add subtask"
+                      value={newSubtask[taskIdx] || ''}
+                      onChange={e => setNewSubtask({ ...newSubtask, [taskIdx]: e.target.value })}
+                      style={{ flex: 1 }}
+                    />
+                    <button type="button" onClick={() => handleAddSubtask(taskIdx)}>
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
-      {/* Additional project details can be added here */}
     </div>
   );
 }
@@ -114,30 +236,30 @@ function MainPage() {
             <h1>Today's To-Do List</h1>
             <ul>
               {tasks.map((task, index) => (
-  <li key={index}>{task.name} - {task.status}</li>
-))}
+                <li key={index}>{task.name} - {task.status}</li>
+              ))}
             </ul>
             <h1>Projects</h1>
             <ul>
               {projects.map((project, index) => (
-  <li key={index} style={{ listStyle: 'none', margin: '0.5rem 0', padding: 0 }}>
-    <button
-      style={{
-        cursor: 'pointer',
-        color: '#fff',
-        background: '#007bff',
-        border: 'none',
-        borderRadius: '4px',
-        padding: '0.5rem 1.5rem',
-        fontSize: '1rem',
-        textDecoration: 'none'
-      }}
-      onClick={() => setCurrentProject(project)}
-    >
-      {project.name}
-    </button>
-  </li>
-))}
+                <li key={index} style={{ listStyle: 'none', margin: '0.5rem 0', padding: 0 }}>
+                  <button
+                    style={{
+                      cursor: 'pointer',
+                      color: '#fff',
+                      background: '#007bff',
+                      border: 'none',
+                      borderRadius: '4px',
+                      padding: '0.5rem 1.5rem',
+                      fontSize: '1rem',
+                      textDecoration: 'none'
+                    }}
+                    onClick={() => setCurrentProject(project)}
+                  >
+                    {project.name}
+                  </button>
+                </li>
+              ))}
             </ul>
           </>
         ) : (
