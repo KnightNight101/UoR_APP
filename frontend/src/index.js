@@ -237,11 +237,11 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
       setTasks(prev =>
         prev.map((task, i) =>
           i === taskIdx
-            ? { ...task, subTasks: [...(task.subTasks || []), { name: input.name, status: input.status || 'Pending', assignee: input.assignee || '' }] }
+            ? { ...task, subTasks: [...(task.subTasks || []), { name: input.name, status: input.status || 'Pending', assignee: input.assignee || '', deadline: input.deadline || '' }] }
             : task
         )
       );
-      setSubTaskInputs(inputs => ({ ...inputs, [taskIdx]: { name: '', status: 'Pending', assignee: '' } }));
+      setSubTaskInputs(inputs => ({ ...inputs, [taskIdx]: { name: '', status: 'Pending', assignee: '', deadline: '' } }));
     }
   };
 
@@ -290,11 +290,24 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
           {tasks.map((task, idx) => (
             <li key={idx} style={{ marginBottom: 16 }}>
               <div>
-                {task.name} - {task.status} - 
-                {task.deadline ? ` [Due: ${task.deadline}]` : ''}
+                {task.name} - {task.status}
+                <input
+                  type="date"
+                  value={task.deadline || ''}
+                  onChange={e => {
+                    const newDeadline = e.target.value;
+                    setTasks(prev =>
+                      prev.map((t, i) =>
+                        i === idx ? { ...t, deadline: newDeadline } : t
+                      )
+                    );
+                  }}
+                  style={{ marginLeft: 8 }}
+                />
                 <select
                   value={task.assignee || ''}
                   onChange={e => handleAssigneeChange(idx, e.target.value)}
+                  style={{ marginLeft: 8 }}
                 >
                   <option value="">unassigned</option>
                   {teamMembers.map((member, i) => (
@@ -317,6 +330,26 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                         <option value="Pending">Pending</option>
                         <option value="Completed">Completed</option>
                       </select>
+                      <input
+                        type="date"
+                        value={sub.deadline || ''}
+                        onChange={e => {
+                          const newDeadline = e.target.value;
+                          setTasks(prev =>
+                            prev.map((task, tIdx) =>
+                              tIdx === idx
+                                ? {
+                                    ...task,
+                                    subTasks: task.subTasks.map((s, sIdx) =>
+                                      sIdx === subIdx ? { ...s, deadline: newDeadline } : s
+                                    )
+                                  }
+                                : task
+                            )
+                          );
+                        }}
+                        style={{ marginLeft: 8 }}
+                      />
                       <select
                         value={sub.assignee || ''}
                         onChange={e => {
@@ -358,6 +391,11 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                     <option value="Pending">Pending</option>
                     <option value="Completed">Completed</option>
                   </select>
+                  <input
+                    type="date"
+                    value={subTaskInputs[idx]?.deadline || ''}
+                    onChange={e => handleSubTaskInputChange(idx, 'deadline', e.target.value)}
+                  />
                   <select
                     value={subTaskInputs[idx]?.assignee || ''}
                     onChange={e => handleSubTaskInputChange(idx, 'assignee', e.target.value)}
