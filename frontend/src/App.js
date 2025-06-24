@@ -1,3 +1,5 @@
+// DEBUG: App.js loaded
+console.log("DEBUG: App.js loaded");
 import React, { useState } from 'react';
 
 function App() {
