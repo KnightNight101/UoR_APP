@@ -23,6 +23,7 @@ This application is a local-first project and task management tool with a React-
   - **Deadline** (optional, date picker)
   - **Team Members**: Add multiple members with name and role fields, inline (no dialogs)
   - **Tasks**: Add multiple tasks with name, status, assignee (from team members), and optional deadline, inline (no dialogs)
+  - **Subtasks**: Each task can have subtasks, each with a name, status, and assignee (from team members), all managed inline.
 - All additions and edits are performed inline on the form.
 - "Create" saves the project and returns to the homepage; "Cancel" discards changes.
 - All features are accessible without browser dialogs or prompts.
@@ -31,20 +32,20 @@ This application is a local-first project and task management tool with a React-
 
 - View and edit project details, including renaming and deadline.
 - Add/remove team members and tasks inline.
-- Assign/reassign tasks to team members.
+- Assign/reassign tasks and subtasks to team members using dropdowns.
 - Delete project returns to homepage.
 - Navigation: "Back to Home" and "Delete Project".
 
-### 4. Task Management
+### 4. Task & Subtask Management
 
-- Tasks can be created with or without an assignee.
-- Tasks default to first team member if present.
+- Tasks and subtasks can be created with or without an assignee.
+- Both tasks and subtasks default to first team member if present.
 - All tasks are visible in the "Today's To Do List" column on the homepage.
 
 ### 5. Team Member Management
 
 - Team members and tasks can be added during project creation and from the project page.
-- Tasks can be assigned to any team member or left unassigned.
+- Tasks and subtasks can be assigned to any team member or left unassigned.
 - All tasks appear in the "Today's To Do List" column on the homepage.
 
 ### 6. Login Page
