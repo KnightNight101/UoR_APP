@@ -86,7 +86,7 @@ function MainPage() {
             >
               New project
             </button>
-            <h1>Tasks</h1>
+            <h1>Today's To-Do List</h1>
             <ul>
               {tasks.length === 0 ? <li>No tasks</li> : tasks.map((task, index) => (
                 <li key={index}>{task.name} - {task.status}</li>
