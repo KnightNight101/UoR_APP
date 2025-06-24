@@ -129,11 +129,12 @@ function CreateProject({ onProjectCreated }) {
 }
 
 // ProjectDetails: project page with tasks and team members
-function ProjectDetails({ project, onBack, onHome }) {
+function ProjectDetails({ project, onBack, onHome, onRename }) {
   const [tasks, setTasks] = useState(project.tasks);
   const [teamMembers, setTeamMembers] = useState(project.teamMembers);
   const [newTask, setNewTask] = useState({ name: '', status: 'Pending', assignee: '', subTasks: [] });
   const [newMember, setNewMember] = useState({ name: '', role: '' });
+  const [editName, setEditName] = useState(project.name);
 
   const handleAssigneeChange = (idx, newAssignee) => {
     setTasks(prev =>
@@ -157,11 +158,25 @@ function ProjectDetails({ project, onBack, onHome }) {
     }
   };
 
+  const handleRename = () => {
+    if (editName.trim()) {
+      onRename(editName.trim());
+    }
+  };
+
   return (
     <div>
       <button onClick={onBack}>Back to Projects</button>
       <button onClick={onHome}>Home</button>
-      <h2>{project.name} - Project Page</h2>
+      <h2>
+        <input
+          type="text"
+          value={editName}
+          onChange={e => setEditName(e.target.value)}
+          style={{ fontSize: '1.2em', fontWeight: 'bold' }}
+        />
+        <button type="button" onClick={handleRename}>Rename</button>
+      </h2>
       <h3>Tasks</h3>
       <ul>
         {tasks.map((task, idx) => (
@@ -234,11 +249,25 @@ function RootApp() {
   const handleLoginSuccess = () => setPage('main');
   const handleBack = () => setPage('main');
   const handleHome = () => setPage('main');
+  const handleRename = (newName) => {
+    setProjects(prev =>
+      prev.map((proj, idx) =>
+        idx === selectedProjectIdx ? { ...proj, name: newName } : proj
+      )
+    );
+  };
 
   if (page === 'login') return <LoginPage onLoginSuccess={handleLoginSuccess} />;
   if (page === 'create') return <CreateProject onProjectCreated={handleProjectCreated} />;
   if (page === 'details' && selectedProjectIdx !== null)
-    return <ProjectDetails project={projects[selectedProjectIdx]} onBack={handleBack} onHome={handleHome} />;
+    return (
+      <ProjectDetails
+        project={projects[selectedProjectIdx]}
+        onBack={handleBack}
+        onHome={handleHome}
+        onRename={handleRename}
+      />
+    );
   return (
     <MainPage
       projects={projects}
