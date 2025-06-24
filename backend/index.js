@@ -68,7 +68,7 @@ const teamMemberSchema = new mongoose.Schema({
 });
 
 const subTaskSchema = new mongoose.Schema({ name: String, status: String });
-const taskSchema = new mongoose.Schema({ name: String, status: String, subTasks: [subTaskSchema] });
+const taskSchema = new mongoose.Schema({ name: String, status: String, assignee: { type: String, default: null }, subTasks: [subTaskSchema] });
 const projectSchema = new mongoose.Schema({
   name: String,
   teamMembers: [teamMemberSchema],
@@ -79,7 +79,17 @@ const projectSchema = new mongoose.Schema({
 const Project = mongoose.model('Project', projectSchema);
 
 // Update /create-project endpoint
+// DEBUG: Log incoming request for MongoDB create-project
+console.log('MongoDB /create-project called. Body:', req.body);
 app.post('/create-project', async (req, res) => {
+// Assign all unassigned tasks to the first team member by default
+if (teamMembers && teamMembers.length > 0 && tasks && tasks.length > 0) {
+  tasks.forEach(task => {
+    if (!task.assignee) {
+      task.assignee = teamMembers[0].name;
+    }
+  });
+}
   try {
     const { name, teamMembers, deadline, tasks } = req.body;
     const newProject = new Project({ name, teamMembers, deadline, tasks });
@@ -88,6 +98,27 @@ app.post('/create-project', async (req, res) => {
   } catch (error) {
     res.status(500).send({ message: 'Error creating project', error });
   }
+// Endpoint to assign/reassign a task's assignee in a project
+app.post('/assign-task-to-member', async (req, res) => {
+  const { projectId, taskId, assignee } = req.body;
+// DEBUG: Log incoming request for in-memory create-project
+console.log('In-memory /create-project called. Body:', req.body);
+  try {
+    const project = await Project.findById(projectId);
+    if (!project) {
+      return res.status(404).send({ message: 'Project not found' });
+    }
+    const task = project.tasks.id(taskId);
+    if (!task) {
+      return res.status(404).send({ message: 'Task not found' });
+    }
+    task.assignee = assignee || null;
+    await project.save();
+    res.status(200).send({ message: 'Task assignment updated', task });
+  } catch (error) {
+    res.status(500).send({ message: 'Error updating task assignment', error });
+  }
+});
 });
 // Feature: Creating projects
 
@@ -103,6 +134,7 @@ app.post('/create-project', (req, res) => {
     deadline,
     tasks: tasks.map(task => ({
       ...task,
+      assignee: task.assignee || null,
       subTasks: task.subTasks || []
     }))
   };
