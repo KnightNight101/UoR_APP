@@ -195,125 +195,251 @@ function CreateProject({ onCreate, onCancel }) {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '90vh' }}>
-      <div style={{ minWidth: 350, background: '#f9f9f9', padding: 32, borderRadius: 12, boxShadow: '0 2px 8px #0001', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <h2>Create New Project</h2>
-        <label style={{ width: '100%', marginBottom: 12 }}>
-          Project Name:
-          <input
-            type="text"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            style={{ width: '100%', marginTop: 4 }}
-          />
-        </label>
-        <label style={{ width: '100%', marginBottom: 12 }}>
-          Deadline (optional):
-          <input
-            type="date"
-            value={deadline}
-            onChange={e => setDeadline(e.target.value)}
-            style={{ width: '100%', marginTop: 4 }}
-          />
-        </label>
-        <h3>Team Members</h3>
-        <ul style={{ width: '100%' }}>
-          {teamMembers.map((member, idx) => (
-            <li key={idx}>
-              {member.name} - {member.role}
-              <button
-                style={{ marginLeft: 8, color: 'red' }}
-                onClick={() => {
-                  setTeamMembers(prev => prev.filter((_, i) => i !== idx));
-                }}
-              >
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
-        <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
-          <label style={{ flex: 1 }}>
-            Name:
+    <ThemedContainer>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '90vh'
+        }}
+      >
+        <div
+          style={{
+            width: '90%',
+            maxWidth: 600,
+            background: theme.card,
+            padding: 32,
+            borderRadius: theme.radius,
+            boxShadow: theme.shadow,
+            border: `1px solid ${theme.border}`,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}
+        >
+          <h2 style={{ fontWeight: 700, fontSize: 24, marginBottom: 16, color: theme.text }}>Create New Project</h2>
+          <label style={{ width: '100%', marginBottom: 12 }}>
+            Project Name:
             <input
               type="text"
-              value={newMember.name}
-              onChange={e => setNewMember({ ...newMember, name: e.target.value })}
-              style={{ width: '100%' }}
+              value={name}
+              onChange={e => setName(e.target.value)}
+              style={{
+                width: '100%',
+                marginTop: 4,
+                border: `1px solid ${theme.border}`,
+                borderRadius: theme.radius,
+                padding: "8px",
+                fontSize: 16
+              }}
             />
           </label>
-          <label style={{ flex: 1 }}>
-            Role:
-            <input
-              type="text"
-              value={newMember.role}
-              onChange={e => setNewMember({ ...newMember, role: e.target.value })}
-              style={{ width: '100%' }}
-            />
-          </label>
-          <button type="button" onClick={handleAddTeamMember}>Add</button>
-        </div>
-        <h3>Tasks</h3>
-        <ul style={{ width: '100%' }}>
-          {tasks.map((task, idx) => (
-            <li key={idx}>
-              {task.name} - {task.status} - {task.assignee || 'unassigned'}
-              {task.deadline ? ` [Due: ${task.deadline}]` : ''}
-            </li>
-          ))}
-        </ul>
-        <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
-          <label style={{ flex: 1 }}>
-            Task Name:
-            <input
-              type="text"
-              value={newTask.name}
-              onChange={e => setNewTask({ ...newTask, name: e.target.value })}
-              style={{ width: '100%' }}
-            />
-          </label>
-          <label style={{ flex: 1 }}>
-            Assignee (optional):
-            <select
-              value={newTask.assignee}
-              onChange={e => setNewTask({ ...newTask, assignee: e.target.value })}
-              style={{ width: '100%' }}
-            >
-              <option value="">unassigned</option>
-              {teamMembers.map((member, idx) => (
-                <option key={idx} value={member.name}>{member.name}</option>
-              ))}
-            </select>
-          </label>
-          <label style={{ flex: 1 }}>
+          <label style={{ width: '100%', marginBottom: 12 }}>
             Deadline (optional):
             <input
               type="date"
-              value={newTask.deadline}
-              onChange={e => setNewTask({ ...newTask, deadline: e.target.value })}
-              style={{ width: '100%' }}
+              value={deadline}
+              onChange={e => setDeadline(e.target.value)}
+              style={{
+                width: '100%',
+                marginTop: 4,
+                border: `1px solid ${theme.border}`,
+                borderRadius: theme.radius,
+                padding: "8px",
+                fontSize: 16
+              }}
             />
           </label>
-          <button type="button" onClick={handleAddTask}>Add Task</button>
-        </div>
-        <div style={{ display: 'flex', gap: 8, width: '100%', marginTop: 16 }}>
-          <button
-            type="button"
-            onClick={() => {
-              if (name.trim()) {
-                onCreate(name.trim(), deadline, teamMembers, tasks);
-              }
-            }}
-            style={{ flex: 1 }}
-          >
-            Create
-          </button>
-          <button type="button" onClick={onCancel} style={{ flex: 1 }}>
-            Cancel
-          </button>
+          <h3 style={{ color: theme.accent, fontWeight: 600, marginTop: 16 }}>Team Members</h3>
+          <ul style={{ width: '100%', padding: 0, listStyle: "none" }}>
+            {teamMembers.map((member, idx) => (
+              <li key={idx} style={{ marginBottom: 8 }}>
+                {member.name} - {member.role}
+                <button
+                  style={{
+                    marginLeft: 8,
+                    color: "#fff",
+                    background: theme.accent,
+                    border: "none",
+                    borderRadius: theme.radius,
+                    padding: "4px 10px",
+                    cursor: "pointer"
+                  }}
+                  onClick={() => {
+                    setTeamMembers(prev => prev.filter((_, i) => i !== idx));
+                  }}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+          <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
+            <label style={{ flex: 1 }}>
+              Name:
+              <input
+                type="text"
+                value={newMember.name}
+                onChange={e => setNewMember({ ...newMember, name: e.target.value })}
+                style={{
+                  width: '100%',
+                  border: `1px solid ${theme.border}`,
+                  borderRadius: theme.radius,
+                  padding: "6px",
+                  fontSize: 15
+                }}
+              />
+            </label>
+            <label style={{ flex: 1 }}>
+              Role:
+              <input
+                type="text"
+                value={newMember.role}
+                onChange={e => setNewMember({ ...newMember, role: e.target.value })}
+                style={{
+                  width: '100%',
+                  border: `1px solid ${theme.border}`,
+                  borderRadius: theme.radius,
+                  padding: "6px",
+                  fontSize: 15
+                }}
+              />
+            </label>
+            <button
+              type="button"
+              onClick={handleAddTeamMember}
+              style={{
+                background: theme.accent,
+                color: "#fff",
+                border: "none",
+                borderRadius: theme.radius,
+                padding: "8px 14px",
+                fontWeight: 500,
+                cursor: "pointer"
+              }}
+            >
+              Add
+            </button>
+          </div>
+          <h3 style={{ color: theme.text, fontWeight: 600, marginTop: 16 }}>Tasks</h3>
+          <ul style={{ width: '100%', padding: 0, listStyle: "none" }}>
+            {tasks.map((task, idx) => (
+              <li key={idx} style={{ marginBottom: 8 }}>
+                {task.name} - {task.status} - {task.assignee || 'unassigned'}
+                {task.deadline ? ` [Due: ${task.deadline}]` : ''}
+              </li>
+            ))}
+          </ul>
+          <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
+            <label style={{ flex: 1 }}>
+              Task Name:
+              <input
+                type="text"
+                value={newTask.name}
+                onChange={e => setNewTask({ ...newTask, name: e.target.value })}
+                style={{
+                  width: '100%',
+                  border: `1px solid ${theme.border}`,
+                  borderRadius: theme.radius,
+                  padding: "6px",
+                  fontSize: 15
+                }}
+              />
+            </label>
+            <label style={{ flex: 1 }}>
+              Assignee (optional):
+              <select
+                value={newTask.assignee}
+                onChange={e => setNewTask({ ...newTask, assignee: e.target.value })}
+                style={{
+                  width: '100%',
+                  border: `1px solid ${theme.border}`,
+                  borderRadius: theme.radius,
+                  padding: "6px",
+                  fontSize: 15
+                }}
+              >
+                <option value="">unassigned</option>
+                {teamMembers.map((member, idx) => (
+                  <option key={idx} value={member.name}>{member.name}</option>
+                ))}
+              </select>
+            </label>
+            <label style={{ flex: 1 }}>
+              Deadline (optional):
+              <input
+                type="date"
+                value={newTask.deadline}
+                onChange={e => setNewTask({ ...newTask, deadline: e.target.value })}
+                style={{
+                  width: '100%',
+                  border: `1px solid ${theme.border}`,
+                  borderRadius: theme.radius,
+                  padding: "6px",
+                  fontSize: 15
+                }}
+              />
+            </label>
+            <button
+              type="button"
+              onClick={handleAddTask}
+              style={{
+                background: theme.accent,
+                color: "#fff",
+                border: "none",
+                borderRadius: theme.radius,
+                padding: "8px 14px",
+                fontWeight: 500,
+                cursor: "pointer"
+              }}
+            >
+              Add Task
+            </button>
+          </div>
+          <div style={{ display: 'flex', gap: 8, width: '100%', marginTop: 16 }}>
+            <button
+              type="button"
+              onClick={() => {
+                if (name.trim()) {
+                  onCreate(name.trim(), deadline, teamMembers, tasks);
+                }
+              }}
+              style={{
+                flex: 1,
+                background: theme.accent,
+                color: "#fff",
+                border: "none",
+                borderRadius: theme.radius,
+                padding: "10px 18px",
+                fontWeight: 600,
+                cursor: "pointer",
+                boxShadow: theme.shadow
+              }}
+            >
+              Create
+            </button>
+            <button
+              type="button"
+              onClick={onCancel}
+              style={{
+                flex: 1,
+                background: theme.accentLight,
+                color: theme.accent,
+                border: "none",
+                borderRadius: theme.radius,
+                padding: "10px 18px",
+                fontWeight: 600,
+                cursor: "pointer",
+                boxShadow: theme.shadow
+              }}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </ThemedContainer>
   );
 }
 
