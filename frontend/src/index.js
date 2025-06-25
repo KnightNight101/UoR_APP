@@ -98,7 +98,17 @@ function CreateProject({ onCreate, onCancel }) {
         <h3>Team Members</h3>
         <ul style={{ width: '100%' }}>
           {teamMembers.map((member, idx) => (
-            <li key={idx}>{member.name} - {member.role}</li>
+            <li key={idx}>
+              {member.name} - {member.role}
+              <button
+                style={{ marginLeft: 8, color: 'red' }}
+                onClick={() => {
+                  setTeamMembers(prev => prev.filter((_, i) => i !== idx));
+                }}
+              >
+                Remove
+              </button>
+            </li>
           ))}
         </ul>
         <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
@@ -267,7 +277,26 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
         <h3>Team Members</h3>
         <ul style={{ width: '100%' }}>
           {teamMembers.map((member, idx) => (
-            <li key={idx}>{member.name} - {member.role}</li>
+            <li key={idx}>
+              {member.name} - {member.role}
+              <button
+                style={{ marginLeft: 8, color: 'red' }}
+                onClick={() => {
+                  setTeamMembers(prev => prev.filter((_, i) => i !== idx));
+                  setTasks(prev =>
+                    prev.map(task => ({
+                      ...task,
+                      assignee: task.assignee === member.name ? '' : task.assignee,
+                      subTasks: (task.subTasks || []).map(sub =>
+                        sub.assignee === member.name ? { ...sub, assignee: '' } : sub
+                      ),
+                    }))
+                  );
+                }}
+              >
+                Remove
+              </button>
+            </li>
           ))}
         </ul>
         <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
@@ -360,6 +389,14 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                   />
                   Dependent on previous
                 </label>
+                <button
+                  style={{ marginLeft: 8, color: 'red' }}
+                  onClick={() => {
+                    setTasks(prev => prev.filter((_, i) => i !== idx));
+                  }}
+                >
+                  Remove Task
+                </button>
               </div>
               {/* Subtasks */}
               <div style={{ marginLeft: 24 }}>
@@ -442,6 +479,23 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                         />
                         Dependent on previous
                       </label>
+                      <button
+                        style={{ marginLeft: 8, color: 'red' }}
+                        onClick={() => {
+                          setTasks(prev =>
+                            prev.map((task, tIdx) =>
+                              tIdx === idx
+                                ? {
+                                    ...task,
+                                    subTasks: task.subTasks.filter((_, sIdx) => sIdx !== subIdx)
+                                  }
+                                : task
+                            )
+                          );
+                        }}
+                      >
+                        Remove Subtask
+                      </button>
                     </li>
                   ))}
                 </ul>
