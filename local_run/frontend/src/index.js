@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
+console.log("RootApp loaded")
+
 // LoginPage component
 function LoginPage({ onBack }) {
   const [username, setUsername] = useState('');

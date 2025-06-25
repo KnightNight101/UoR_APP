@@ -36,6 +36,7 @@ function ThemedContainer({ children, style = {}, ...props }) {
 
 // MainPage: homepage listing projects and today's to-do list
 function MainPage({ projects, onCreateProject, onViewProject, onLogin }) {
+  console.log("MainPage render", projects);
   const allTasks = projects.flatMap(project =>
     project.tasks.map(task => ({
       ...task,
@@ -318,6 +319,7 @@ function CreateProject({ onCreate, onCancel }) {
 
 // ProjectDetails: project page with tasks, subtasks, team members, and project deadline
 function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
+  console.log("ProjectDetails render", project);
   const [tasks, setTasks] = useState(project.tasks);
   const [teamMembers, setTeamMembers] = useState(project.teamMembers);
   const [newTask, setNewTask] = useState({ name: '', status: 'Pending', assignee: '', deadline: '', subTasks: [] });
@@ -946,7 +948,9 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
         <GanttChart tasks={tasks} />
       </div>
     </div>
+  </ThemedContainer>
   );
+// --- GanttChart Component ---
 function GanttChart({ tasks }) {
   // Flatten tasks and subtasks into a single array with type and parent info
   const allItems = [];
@@ -962,7 +966,6 @@ function GanttChart({ tasks }) {
         index: idx,
       });
     }
-    
     (task.subTasks || []).forEach((sub, subIdx) => {
       if (sub.deadline) {
         allItems.push({
@@ -989,12 +992,6 @@ function GanttChart({ tasks }) {
     days.push(new Date(d));
   }
 
-  // Helper to get the previous item for dependency lines
-  function getPrevItem(i) {
-    if (i === 0) return null;
-    return allItems[i - 1];
-  }
-
   return (
     <div style={{ width: '100%', border: '1px solid #ccc', borderRadius: 8, background: '#fff', padding: 8, display: 'flex', flexDirection: 'row' }}>
       {/* Left: Text info (40%) */}
@@ -1018,12 +1015,7 @@ function GanttChart({ tasks }) {
                 duration = Math.max(1, Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1) + ' day(s)';
               }
               let dependencyText = '';
-              if (item.dependency) {
-                const prevIdx = getPrevDependencyIndex(allItems, i, item);
-                if (prevIdx !== null) {
-                  dependencyText = `Depends on: ${allItems[prevIdx].name}`;
-                }
-              }
+              // Dependency logic placeholder
               return (
                 <tr key={i}>
                   <td style={{ fontWeight: item.type === 'Task' ? 'bold' : 'normal', paddingLeft: item.type === 'Subtask' ? 24 : 0, position: 'relative' }}>
@@ -1122,13 +1114,13 @@ function GanttChart({ tasks }) {
     </div>
   );
 }
-}
 
-// ... (RootApp unchanged)
-
+// --- Root App and Render ---
 function RootApp() {
+  // Debug: log state on each render
+  console.log("RootApp loaded");
   // Example initial state
-  const [projects, setProjects] = useState([
+  const [projects, setProjects] = React.useState([
     {
       name: "Example Project",
       deadline: "",
@@ -1136,10 +1128,90 @@ function RootApp() {
       teamMembers: []
     }
   ]);
-  const [currentProjectIdx, setCurrentProjectIdx] = useState(null);
+  const [currentProjectIdx, setCurrentProjectIdx] = React.useState(null);
 
   // Navigation handlers
-  const [creatingProject, setCreatingProject] = useState(false);
+  const [creatingProject, setCreatingProject] = React.useState(false);
+
+  const handleCreateProject = () => {
+    setCreatingProject(true);
+  };
+
+  const handleProjectCreated = (name, deadline) => {
+    setProjects(prev => [...prev, { name, deadline: deadline || "", tasks: [], teamMembers: [] }]);
+    setCreatingProject(false);
+  };
+
+  const handleCancelCreate = () => {
+    setCreatingProject(false);
+  };
+  const handleViewProject = idx => setCurrentProjectIdx(idx);
+  const handleBack = () => setCurrentProjectIdx(null);
+  const handleHome = () => setCurrentProjectIdx(null);
+  const handleRename = newName => {
+    setProjects(prev =>
+      prev.map((p, i) =>
+        i === currentProjectIdx ? { ...p, name: newName } : p
+      )
+    );
+  };
+  const handleDelete = () => {
+    if (window.confirm("Delete this project?")) {
+      setProjects(prev => prev.filter((_, i) => i !== currentProjectIdx));
+      setCurrentProjectIdx(null);
+    }
+  };
+  const handleLogin = () => alert("Login not implemented.");
+
+  if (creatingProject) {
+    return (
+      <CreateProject
+        onCreate={handleProjectCreated}
+        onCancel={handleCancelCreate}
+      />
+    );
+  }
+
+  if (currentProjectIdx === null) {
+    return (
+      <MainPage
+        projects={projects}
+        onCreateProject={handleCreateProject}
+        onViewProject={handleViewProject}
+        onLogin={handleLogin}
+      />
+    );
+  }
+  return (
+    <ProjectDetails
+      project={projects[currentProjectIdx]}
+      onBack={handleBack}
+      onHome={handleHome}
+      onRename={handleRename}
+      onDelete={handleDelete}
+    />
+  );
+}
+
+ReactDOM.render(<RootApp />, document.getElementById('root'));
+
+// --- Root App and Render ---
+function RootApp() {
+  // Debug: log state on each render
+  console.log("RootApp render");
+  // Example initial state
+  const [projects, setProjects] = React.useState([
+    {
+      name: "Example Project",
+      deadline: "",
+      tasks: [],
+      teamMembers: []
+    }
+  ]);
+  const [currentProjectIdx, setCurrentProjectIdx] = React.useState(null);
+
+  // Navigation handlers
+  const [creatingProject, setCreatingProject] = React.useState(false);
 
   const handleCreateProject = () => {
     setCreatingProject(true);
