@@ -412,21 +412,23 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                     <option key={i} value={member.name}>{member.name}</option>
                   ))}
                 </select>
-                <label style={{ marginLeft: 8 }}>
-                  <input
-                    type="checkbox"
-                    checked={!!task.dependency}
-                    onChange={e => {
-                      const checked = e.target.checked;
-                      setTasks(prev =>
-                        prev.map((t, i) =>
-                          i === idx ? { ...t, dependency: checked } : t
-                        )
-                      );
-                    }}
-                  />
-                  Dependent on previous
-                </label>
+                {idx > 0 && (
+                  <label style={{ marginLeft: 8 }}>
+                    <input
+                      type="checkbox"
+                      checked={!!task.dependency}
+                      onChange={e => {
+                        const checked = e.target.checked;
+                        setTasks(prev =>
+                          prev.map((t, i) =>
+                            i === idx ? { ...t, dependency: checked } : t
+                          )
+                        );
+                      }}
+                    />
+                    Dependent on previous
+                  </label>
+                )}
                 <button
                   style={{ marginLeft: 8, color: 'red' }}
                   onClick={() => {
@@ -517,28 +519,30 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                           <option key={i} value={member.name}>{member.name}</option>
                         ))}
                       </select>
-                      <label style={{ marginLeft: 8 }}>
-                        <input
-                          type="checkbox"
-                          checked={!!sub.dependency}
-                          onChange={e => {
-                            const checked = e.target.checked;
-                            setTasks(prev =>
-                              prev.map((task, tIdx) =>
-                                tIdx === idx
-                                  ? {
-                                      ...task,
-                                      subTasks: task.subTasks.map((s, sIdx) =>
-                                        sIdx === subIdx ? { ...s, dependency: checked } : s
-                                      )
-                                    }
-                                  : task
-                              )
-                            );
-                          }}
-                        />
-                        Dependent on previous
-                      </label>
+                      {subIdx > 0 && (
+                        <label style={{ marginLeft: 8 }}>
+                          <input
+                            type="checkbox"
+                            checked={!!sub.dependency}
+                            onChange={e => {
+                              const checked = e.target.checked;
+                              setTasks(prev =>
+                                prev.map((task, tIdx) =>
+                                  tIdx === idx
+                                    ? {
+                                        ...task,
+                                        subTasks: task.subTasks.map((s, sIdx) =>
+                                          sIdx === subIdx ? { ...s, dependency: checked } : s
+                                        )
+                                      }
+                                    : task
+                                )
+                              );
+                            }}
+                          />
+                          Dependent on previous
+                        </label>
+                      )}
                       <button
                         style={{ marginLeft: 8, color: 'red' }}
                         onClick={() => {
@@ -657,6 +661,7 @@ function GanttChart({ tasks }) {
         index: idx,
       });
     }
+    
     (task.subTasks || []).forEach((sub, subIdx) => {
       if (sub.deadline) {
         allItems.push({
@@ -711,10 +716,13 @@ function GanttChart({ tasks }) {
               if (startDate && endDate) {
                 duration = Math.max(1, Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1) + ' day(s)';
               }
-              const dependencyText =
-                item.dependency && getPrevItem(i)
-                  ? `Depends on: ${getPrevItem(i).name}`
-                  : '';
+              let dependencyText = '';
+              if (item.dependency) {
+                const prevIdx = getPrevDependencyIndex(allItems, i, item);
+                if (prevIdx !== null) {
+                  dependencyText = `Depends on: ${allItems[prevIdx].name}`;
+                }
+              }
               return (
                 <tr key={i}>
                   <td style={{ fontWeight: item.type === 'Task' ? 'bold' : 'normal', paddingLeft: item.type === 'Subtask' ? 24 : 0, position: 'relative' }}>
@@ -732,13 +740,14 @@ function GanttChart({ tasks }) {
         </table>
       </div>
       {/* Right: Bar chart (60%) */}
-      <div style={{ flex: '0 0 60%', maxWidth: '60%', paddingLeft: 16 }}>
+      <div style={{ flex: '0 0 60%', maxWidth: '60%', paddingLeft: 16, overflow: 'hidden' }}>
         {/* Dates row */}
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: `repeat(${days.length}, 1fr)`,
             marginBottom: 4,
+            width: '100%',
           }}
         >
           {days.map((d, i) => (
@@ -750,6 +759,9 @@ function GanttChart({ tasks }) {
                 fontWeight: 'normal',
                 color: '#333',
                 borderRight: i === days.length - 1 ? 'none' : '1px solid #eee',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
               }}
             >
               {d.toISOString().slice(5, 10)}
@@ -757,7 +769,7 @@ function GanttChart({ tasks }) {
           ))}
         </div>
         {/* Bars */}
-        <div>
+        <div style={{ width: '100%' }}>
           {allItems.map((item, i) => {
             const startDate = item.start ? new Date(item.start) : null;
             const endDate = item.end ? new Date(item.end) : null;
@@ -775,6 +787,8 @@ function GanttChart({ tasks }) {
                   gridTemplateColumns: `repeat(${days.length}, 1fr)`,
                   alignItems: 'center',
                   height: 22,
+                  width: '100%',
+                  background: 'transparent'
                 }}
               >
                 {Array.from({ length: days.length }).map((_, j) => {
@@ -792,6 +806,9 @@ function GanttChart({ tasks }) {
                         background: isBar ? '#4caf50' : 'transparent',
                         margin: isBar ? '0 1px' : undefined,
                         transition: 'background 0.2s',
+                        width: '100%',
+                        gridColumn: j + 1,
+                        zIndex: isBar ? 1 : 0,
                       }}
                     />
                   );
