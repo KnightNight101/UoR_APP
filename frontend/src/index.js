@@ -204,6 +204,10 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
   const [newMember, setNewMember] = useState({ name: '', role: '' });
   const [editName, setEditName] = useState(project.name);
   const [subTaskInputs, setSubTaskInputs] = useState({}); // { taskIdx: { name: '', status: 'Pending' } }
+  const [draggedTaskIdx, setDraggedTaskIdx] = useState(null);
+  const [draggedSubTask, setDraggedSubTask] = useState({ parentIdx: null, subIdx: null });
+  const [dragOverTaskIdx, setDragOverTaskIdx] = useState(null);
+  const [dragOverSubTask, setDragOverSubTask] = useState({ parentIdx: null, subIdx: null });
 
   const handleAssigneeChange = (idx, newAssignee) => {
     setTasks(prev =>
@@ -371,7 +375,38 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
         <h3>Tasks</h3>
         <ul style={{ width: '100%' }}>
           {tasks.map((task, idx) => (
-            <li key={idx} style={{ marginBottom: 16 }}>
+            <li
+              key={idx}
+              style={{
+                marginBottom: 16,
+                background: dragOverTaskIdx === idx ? '#e0f7fa' : undefined,
+                opacity: draggedTaskIdx === idx ? 0.5 : 1,
+                cursor: 'move'
+              }}
+              draggable
+              onDragStart={() => setDraggedTaskIdx(idx)}
+              onDragOver={e => {
+                e.preventDefault();
+                setDragOverTaskIdx(idx);
+              }}
+              onDrop={e => {
+                e.preventDefault();
+                if (draggedTaskIdx !== null && draggedTaskIdx !== idx) {
+                  setTasks(prev => {
+                    const updated = [...prev];
+                    const [moved] = updated.splice(draggedTaskIdx, 1);
+                    updated.splice(idx, 0, moved);
+                    return updated;
+                  });
+                }
+                setDraggedTaskIdx(null);
+                setDragOverTaskIdx(null);
+              }}
+              onDragEnd={() => {
+                setDraggedTaskIdx(null);
+                setDragOverTaskIdx(null);
+              }}
+            >
               <div>
                 {task.name} - {task.status}
                 <input
@@ -443,7 +478,49 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                 <strong>Subtasks:</strong>
                 <ul>
                   {(task.subTasks || []).map((sub, subIdx) => (
-                    <li key={subIdx}>
+                    <li
+                      key={subIdx}
+                      style={{
+                        background:
+                          dragOverSubTask.parentIdx === idx && dragOverSubTask.subIdx === subIdx
+                            ? '#e0f7fa'
+                            : undefined,
+                        opacity:
+                          draggedSubTask.parentIdx === idx && draggedSubTask.subIdx === subIdx
+                            ? 0.5
+                            : 1,
+                        cursor: 'move'
+                      }}
+                      draggable
+                      onDragStart={() => setDraggedSubTask({ parentIdx: idx, subIdx })}
+                      onDragOver={e => {
+                        e.preventDefault();
+                        setDragOverSubTask({ parentIdx: idx, subIdx });
+                      }}
+                      onDrop={e => {
+                        e.preventDefault();
+                        if (
+                          draggedSubTask.parentIdx === idx &&
+                          draggedSubTask.subIdx !== null &&
+                          draggedSubTask.subIdx !== subIdx
+                        ) {
+                          setTasks(prev => {
+                            const updated = [...prev];
+                            const subTasks = [...updated[idx].subTasks];
+                            const [moved] = subTasks.splice(draggedSubTask.subIdx, 1);
+                            subTasks.splice(subIdx, 0, moved);
+                            updated[idx] = { ...updated[idx], subTasks };
+                            return updated;
+                          });
+                        }
+                        setDraggedSubTask({ parentIdx: null, subIdx: null });
+                        setDragOverSubTask({ parentIdx: null, subIdx: null });
+                      }}
+                      onDragEnd={() => {
+                        setDraggedSubTask({ parentIdx: null, subIdx: null });
+                        setDragOverSubTask({ parentIdx: null, subIdx: null });
+                      }}
+                    >
                       {sub.name} -
                       <select
                         value={sub.status}
