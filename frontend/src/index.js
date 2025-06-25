@@ -215,8 +215,18 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
 
   const handleAddTask = () => {
     if (newTask.name) {
-      setTasks(prev => [...prev, { ...newTask, assignee: newTask.assignee || (teamMembers[0]?.name || ''), deadline: newTask.deadline, subTasks: [] }]);
-      setNewTask({ name: '', status: 'Pending', assignee: '', deadline: '', subTasks: [] });
+      const now = new Date().toISOString().slice(0, 10);
+      setTasks(prev => [
+        ...prev,
+        {
+          ...newTask,
+          assignee: newTask.assignee || (teamMembers[0]?.name || ''),
+          start: newTask.start || now,
+          deadline: newTask.deadline,
+          subTasks: []
+        }
+      ]);
+      setNewTask({ name: '', status: 'Pending', assignee: '', deadline: '', start: '', subTasks: [] });
     }
   };
 
@@ -244,14 +254,27 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
   const handleAddSubTask = (taskIdx) => {
     const input = subTaskInputs[taskIdx] || { name: '', status: 'Pending' };
     if (input.name) {
+      const now = new Date().toISOString().slice(0, 10);
       setTasks(prev =>
         prev.map((task, i) =>
           i === taskIdx
-            ? { ...task, subTasks: [...(task.subTasks || []), { name: input.name, status: input.status || 'Pending', assignee: input.assignee || '', deadline: input.deadline || '' }] }
+            ? {
+                ...task,
+                subTasks: [
+                  ...(task.subTasks || []),
+                  {
+                    name: input.name,
+                    status: input.status || 'Pending',
+                    assignee: input.assignee || '',
+                    start: input.start || now,
+                    deadline: input.deadline || ''
+                  }
+                ]
+              }
             : task
         )
       );
-      setSubTaskInputs(inputs => ({ ...inputs, [taskIdx]: { name: '', status: 'Pending', assignee: '', deadline: '' } }));
+      setSubTaskInputs(inputs => ({ ...inputs, [taskIdx]: { name: '', status: 'Pending', assignee: '', deadline: '', start: '' } }));
     }
   };
 
@@ -353,6 +376,20 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                 {task.name} - {task.status}
                 <input
                   type="date"
+                  value={task.start || ''}
+                  onChange={e => {
+                    const newStart = e.target.value;
+                    setTasks(prev =>
+                      prev.map((t, i) =>
+                        i === idx ? { ...t, start: newStart } : t
+                      )
+                    );
+                  }}
+                  style={{ marginLeft: 8 }}
+                  placeholder="Start"
+                />
+                <input
+                  type="date"
                   value={task.deadline || ''}
                   onChange={e => {
                     const newDeadline = e.target.value;
@@ -363,6 +400,7 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                     );
                   }}
                   style={{ marginLeft: 8 }}
+                  placeholder="Deadline"
                 />
                 <select
                   value={task.assignee || ''}
@@ -415,6 +453,27 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                       </select>
                       <input
                         type="date"
+                        value={sub.start || ''}
+                        onChange={e => {
+                          const newStart = e.target.value;
+                          setTasks(prev =>
+                            prev.map((task, tIdx) =>
+                              tIdx === idx
+                                ? {
+                                    ...task,
+                                    subTasks: task.subTasks.map((s, sIdx) =>
+                                      sIdx === subIdx ? { ...s, start: newStart } : s
+                                    )
+                                  }
+                                : task
+                            )
+                          );
+                        }}
+                        style={{ marginLeft: 8 }}
+                        placeholder="Start"
+                      />
+                      <input
+                        type="date"
                         value={sub.deadline || ''}
                         onChange={e => {
                           const newDeadline = e.target.value;
@@ -432,6 +491,7 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                           );
                         }}
                         style={{ marginLeft: 8 }}
+                        placeholder="Deadline"
                       />
                       <select
                         value={sub.assignee || ''}
@@ -515,8 +575,15 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                   </select>
                   <input
                     type="date"
+                    value={subTaskInputs[idx]?.start || ''}
+                    onChange={e => handleSubTaskInputChange(idx, 'start', e.target.value)}
+                    placeholder="Start"
+                  />
+                  <input
+                    type="date"
                     value={subTaskInputs[idx]?.deadline || ''}
                     onChange={e => handleSubTaskInputChange(idx, 'deadline', e.target.value)}
+                    placeholder="Deadline"
                   />
                   <select
                     value={subTaskInputs[idx]?.assignee || ''}
@@ -582,7 +649,7 @@ function GanttChart({ tasks }) {
     if (task.deadline) {
       allItems.push({
         name: task.name,
-        start: task.deadline,
+        start: task.start || task.deadline,
         end: task.deadline,
         type: 'Task',
         parent: null,
@@ -594,7 +661,7 @@ function GanttChart({ tasks }) {
       if (sub.deadline) {
         allItems.push({
           name: sub.name,
-          start: sub.deadline,
+          start: sub.start || sub.deadline,
           end: sub.deadline,
           type: 'Subtask',
           parent: task.name,
