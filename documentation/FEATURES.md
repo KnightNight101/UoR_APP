@@ -116,18 +116,13 @@ graph TD
 
 ```mermaid
 graph TD
-  subgraph Frontend [Frontend (React)]
-    FE_UI[User Interface]
-    FE_API[API Client]
-  end
-  subgraph Backend [Backend (Node.js)]
-    BE_API[REST API]
-    BE_DB[Local Storage / DB]
-  end
-  subgraph Docker [Docker/Compose]
-    DockerFE[Frontend Container]
-    DockerBE[Backend Container]
-  end
+  FE_UI[Frontend: React UI]
+  FE_API[API Client]
+  BE_API[Backend: REST API (Node.js)]
+  BE_DB[Local Storage / DB]
+  DockerFE[Docker: Frontend Container]
+  DockerBE[Docker: Backend Container]
+
   FE_UI --> FE_API
   FE_API -->|HTTP| BE_API
   BE_API --> BE_DB
