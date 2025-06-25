@@ -950,8 +950,9 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
     </div>
   </ThemedContainer>
   );
-// --- GanttChart Component ---
-function GanttChart({ tasks }) {
+}
+  // --- GanttChart Component ---
+  function GanttChart({ tasks }) {
   // Flatten tasks and subtasks into a single array with type and parent info
   const allItems = [];
   tasks.forEach((task, idx) => {
@@ -1193,84 +1194,4 @@ function RootApp() {
   );
 }
 
-ReactDOM.render(<RootApp />, document.getElementById('root'));
-
-// --- Root App and Render ---
-function RootApp() {
-  // Debug: log state on each render
-  console.log("RootApp render");
-  // Example initial state
-  const [projects, setProjects] = React.useState([
-    {
-      name: "Example Project",
-      deadline: "",
-      tasks: [],
-      teamMembers: []
-    }
-  ]);
-  const [currentProjectIdx, setCurrentProjectIdx] = React.useState(null);
-
-  // Navigation handlers
-  const [creatingProject, setCreatingProject] = React.useState(false);
-
-  const handleCreateProject = () => {
-    setCreatingProject(true);
-  };
-
-  const handleProjectCreated = (name, deadline) => {
-    setProjects(prev => [...prev, { name, deadline: deadline || "", tasks: [], teamMembers: [] }]);
-    setCreatingProject(false);
-  };
-
-  const handleCancelCreate = () => {
-    setCreatingProject(false);
-  };
-  const handleViewProject = idx => setCurrentProjectIdx(idx);
-  const handleBack = () => setCurrentProjectIdx(null);
-  const handleHome = () => setCurrentProjectIdx(null);
-  const handleRename = newName => {
-    setProjects(prev =>
-      prev.map((p, i) =>
-        i === currentProjectIdx ? { ...p, name: newName } : p
-      )
-    );
-  };
-  const handleDelete = () => {
-    if (window.confirm("Delete this project?")) {
-      setProjects(prev => prev.filter((_, i) => i !== currentProjectIdx));
-      setCurrentProjectIdx(null);
-    }
-  };
-  const handleLogin = () => alert("Login not implemented.");
-
-  if (creatingProject) {
-    return (
-      <CreateProject
-        onCreate={handleProjectCreated}
-        onCancel={handleCancelCreate}
-      />
-    );
-  }
-
-  if (currentProjectIdx === null) {
-    return (
-      <MainPage
-        projects={projects}
-        onCreateProject={handleCreateProject}
-        onViewProject={handleViewProject}
-        onLogin={handleLogin}
-      />
-    );
-  }
-  return (
-    <ProjectDetails
-      project={projects[currentProjectIdx]}
-      onBack={handleBack}
-      onHome={handleHome}
-      onRename={handleRename}
-      onDelete={handleDelete}
-    />
-  );
-}
-
-ReactDOM.render(<RootApp />, document.getElementById('root'));
+ReactDOM.render(<RootApp />, document.getElementById('root'))
