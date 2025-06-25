@@ -345,6 +345,21 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                     <option key={i} value={member.name}>{member.name}</option>
                   ))}
                 </select>
+                <label style={{ marginLeft: 8 }}>
+                  <input
+                    type="checkbox"
+                    checked={!!task.dependency}
+                    onChange={e => {
+                      const checked = e.target.checked;
+                      setTasks(prev =>
+                        prev.map((t, i) =>
+                          i === idx ? { ...t, dependency: checked } : t
+                        )
+                      );
+                    }}
+                  />
+                  Dependent on previous
+                </label>
               </div>
               {/* Subtasks */}
               <div style={{ marginLeft: 24 }}>
@@ -405,6 +420,28 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
                           <option key={i} value={member.name}>{member.name}</option>
                         ))}
                       </select>
+                      <label style={{ marginLeft: 8 }}>
+                        <input
+                          type="checkbox"
+                          checked={!!sub.dependency}
+                          onChange={e => {
+                            const checked = e.target.checked;
+                            setTasks(prev =>
+                              prev.map((task, tIdx) =>
+                                tIdx === idx
+                                  ? {
+                                      ...task,
+                                      subTasks: task.subTasks.map((s, sIdx) =>
+                                        sIdx === subIdx ? { ...s, dependency: checked } : s
+                                      )
+                                    }
+                                  : task
+                              )
+                            );
+                          }}
+                        />
+                        Dependent on previous
+                      </label>
                     </li>
                   ))}
                 </ul>
@@ -495,6 +532,8 @@ function GanttChart({ tasks }) {
         end: task.deadline,
         type: 'Task',
         parent: null,
+        dependency: !!task.dependency,
+        index: idx,
       });
     }
     (task.subTasks || []).forEach((sub, subIdx) => {
@@ -505,6 +544,8 @@ function GanttChart({ tasks }) {
           end: sub.deadline,
           type: 'Subtask',
           parent: task.name,
+          dependency: !!sub.dependency,
+          index: idx + subIdx / 100, // for ordering
         });
       }
     });
@@ -519,6 +560,12 @@ function GanttChart({ tasks }) {
   const days = [];
   for (let d = new Date(minDate); d <= maxDate; d.setDate(d.getDate() + 1)) {
     days.push(new Date(d));
+  }
+
+  // Helper to get the previous item for dependency lines
+  function getPrevItem(i) {
+    if (i === 0) return null;
+    return allItems[i - 1];
   }
 
   return (
@@ -537,9 +584,14 @@ function GanttChart({ tasks }) {
         <tbody>
           {allItems.map((item, i) => (
             <tr key={i}>
-              <td style={{ fontWeight: item.type === 'Task' ? 'bold' : 'normal', paddingLeft: item.type === 'Subtask' ? 24 : 0 }}>
+              <td style={{ fontWeight: item.type === 'Task' ? 'bold' : 'normal', paddingLeft: item.type === 'Subtask' ? 24 : 0, position: 'relative' }}>
                 {item.name}
                 {item.parent && <span style={{ color: '#888', fontSize: 12 }}> (of {item.parent})</span>}
+                {item.dependency && getPrevItem(i) && (
+                  <span style={{ color: '#2196f3', fontSize: 10, marginLeft: 4 }}>
+                    ↳ depends on {getPrevItem(i).name}
+                  </span>
+                )}
               </td>
               {days.map((d, j) => {
                 const isActive = item.start === d.toISOString().slice(0, 10);
