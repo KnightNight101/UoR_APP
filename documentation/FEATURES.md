@@ -73,3 +73,104 @@ graph TD
 - Add backend API documentation.
 - Add screenshots or UI wireframes.
 - Add advanced usage and troubleshooting.
+---
+
+## Backend & API Overview
+
+- **Backend:** Node.js server (see [`backend/index.js`](../backend/index.js:1)), manages project, team, and task data.
+- **API:** RESTful endpoints for CRUD operations on projects, tasks, and team members.
+- **Local-first:** Data is stored locally by default; future updates may add remote sync.
+
+---
+
+## Running the Application Locally
+
+1. **Install dependencies:**
+   - Frontend: `cd frontend && npm install`
+   - Backend: `cd backend && npm install`
+2. **Start backend:** `npm start` (from `backend` directory)
+3. **Start frontend:** `npm start` (from `frontend` directory, default port: 3002)
+4. **Access app:** [http://localhost:3002](http://localhost:3002)
+
+---
+
+## Deployment
+
+- **Docker:** Both frontend and backend have Dockerfiles for containerized deployment.
+- **docker-compose:** Use `docker-compose.yml` for multi-container setup.
+- **Ports:** Frontend runs on 3002 by default; backend port can be configured.
+
+---
+
+## Tech Stack
+
+- React (frontend)
+- Node.js (backend)
+- Docker (deployment)
+- Local-first storage
+
+---
+---
+
+## Software Architecture Diagram
+
+```mermaid
+graph TD
+  subgraph Frontend [Frontend (React)]
+    FE_UI[User Interface]
+    FE_API[API Client]
+  end
+  subgraph Backend [Backend (Node.js)]
+    BE_API[REST API]
+    BE_DB[Local Storage / DB]
+  end
+  subgraph Docker [Docker/Compose]
+    DockerFE[Frontend Container]
+    DockerBE[Backend Container]
+  end
+  FE_UI --> FE_API
+  FE_API -->|HTTP| BE_API
+  BE_API --> BE_DB
+  DockerFE -.-> FE_UI
+  DockerBE -.-> BE_API
+```
+
+- **Frontend:** React app for UI, communicates with backend via REST API.
+- **Backend:** Node.js server, handles business logic and data storage.
+- **Local-first:** Data stored locally, with potential for future remote sync.
+- **Deployment:** Both frontend and backend can be containerized with Docker.
+
+---
+
+## User Flow Diagram
+
+```mermaid
+graph TD
+  Start([Start])
+  Login[Login Page]
+  Home[Homepage]
+  CreateProject[Create Project]
+  ProjectPage[Project Page]
+  AddTeam[Add Team Members]
+  AddTasks[Add Tasks/Subtasks]
+  Assign[Assign Tasks]
+  Sprint[Sprint Planning]
+  ToDo[Today's To Do List]
+  End([End])
+
+  Start --> Login
+  Login --> Home
+  Home -->|View| ProjectPage
+  Home -->|Create| CreateProject
+  CreateProject --> AddTeam
+  AddTeam --> AddTasks
+  AddTasks --> Assign
+  Assign --> ProjectPage
+  ProjectPage --> Sprint
+  Sprint --> ToDo
+  ToDo --> End
+```
+
+- **Typical flow:** User logs in, creates a project, adds team members and tasks, assigns work, plans sprints, and tracks tasks via the To Do List.
+
+---
