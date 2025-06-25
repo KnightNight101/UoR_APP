@@ -690,84 +690,117 @@ function GanttChart({ tasks }) {
   }
 
   return (
-    <div style={{ overflowX: 'auto', border: '1px solid #ccc', borderRadius: 8, background: '#fff', padding: 8 }}>
-      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
-        <thead>
-          <tr>
-            <th style={{ minWidth: 180, textAlign: 'left' }}>Name</th>
-            <th style={{ minWidth: 90 }}>Start</th>
-            <th style={{ minWidth: 90 }}>End</th>
-            <th style={{ minWidth: 90 }}>Duration</th>
-            <th style={{ minWidth: 120 }}>Dependencies</th>
-            <th colSpan={days.length} style={{ textAlign: 'center' }}>
-              Timeline
-            </th>
-          </tr>
-          <tr>
-            <th colSpan={5}></th>
-            {days.map((d, i) => (
-              <th key={i} style={{ minWidth: 40, fontWeight: 'normal', fontSize: 12 }}>
-                {d.toISOString().slice(5, 10)}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
+    <div style={{ width: '100%', border: '1px solid #ccc', borderRadius: 8, background: '#fff', padding: 8, display: 'flex', flexDirection: 'row' }}>
+      {/* Left: Text info (40%) */}
+      <div style={{ flex: '0 0 40%', maxWidth: '40%' }}>
+        <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+          <thead>
+            <tr>
+              <th style={{ minWidth: 120, textAlign: 'left' }}>Name</th>
+              <th style={{ minWidth: 90 }}>Start</th>
+              <th style={{ minWidth: 90 }}>End</th>
+              <th style={{ minWidth: 90 }}>Duration</th>
+              <th style={{ minWidth: 120 }}>Dependencies</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allItems.map((item, i) => {
+              const startDate = item.start ? new Date(item.start) : null;
+              const endDate = item.end ? new Date(item.end) : null;
+              let duration = '';
+              if (startDate && endDate) {
+                duration = Math.max(1, Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1) + ' day(s)';
+              }
+              const dependencyText =
+                item.dependency && getPrevItem(i)
+                  ? `Depends on: ${getPrevItem(i).name}`
+                  : '';
+              return (
+                <tr key={i}>
+                  <td style={{ fontWeight: item.type === 'Task' ? 'bold' : 'normal', paddingLeft: item.type === 'Subtask' ? 24 : 0, position: 'relative' }}>
+                    {item.name}
+                    {item.parent && <span style={{ color: '#888', fontSize: 12 }}> (of {item.parent})</span>}
+                  </td>
+                  <td>{item.start || ''}</td>
+                  <td>{item.end || ''}</td>
+                  <td>{duration}</td>
+                  <td>{dependencyText}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      {/* Right: Bar chart (60%) */}
+      <div style={{ flex: '0 0 60%', maxWidth: '60%', paddingLeft: 16 }}>
+        {/* Dates row */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${days.length}, 1fr)`,
+            marginBottom: 4,
+          }}
+        >
+          {days.map((d, i) => (
+            <div
+              key={i}
+              style={{
+                textAlign: 'center',
+                fontSize: 12,
+                fontWeight: 'normal',
+                color: '#333',
+                borderRight: i === days.length - 1 ? 'none' : '1px solid #eee',
+              }}
+            >
+              {d.toISOString().slice(5, 10)}
+            </div>
+          ))}
+        </div>
+        {/* Bars */}
+        <div>
           {allItems.map((item, i) => {
             const startDate = item.start ? new Date(item.start) : null;
             const endDate = item.end ? new Date(item.end) : null;
-            let duration = '';
+            let startIdx = -1;
+            let endIdx = -1;
             if (startDate && endDate) {
-              duration = Math.max(1, Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1) + ' day(s)';
+              startIdx = days.findIndex(d => d.toISOString().slice(0, 10) === item.start);
+              endIdx = days.findIndex(d => d.toISOString().slice(0, 10) === item.end);
             }
-            const dependencyText =
-              item.dependency && getPrevItem(i)
-                ? `Depends on: ${getPrevItem(i).name}`
-                : '';
             return (
-              <tr key={i}>
-                <td style={{ fontWeight: item.type === 'Task' ? 'bold' : 'normal', paddingLeft: item.type === 'Subtask' ? 24 : 0, position: 'relative' }}>
-                  {item.name}
-                  {item.parent && <span style={{ color: '#888', fontSize: 12 }}> (of {item.parent})</span>}
-                </td>
-                <td>{item.start || ''}</td>
-                <td>{item.end || ''}</td>
-                <td>{duration}</td>
-                <td>
-                  {dependencyText}
-                </td>
-                {days.map((d, j) => {
-                  const isActive =
-                    item.start &&
-                    item.end &&
-                    d >= new Date(item.start) &&
-                    d <= new Date(item.end);
+              <div
+                key={i}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: `repeat(${days.length}, 1fr)`,
+                  alignItems: 'center',
+                  height: 22,
+                }}
+              >
+                {Array.from({ length: days.length }).map((_, j) => {
+                  const isBar =
+                    startIdx >= 0 &&
+                    endIdx >= startIdx &&
+                    j >= startIdx &&
+                    j <= endIdx;
                   return (
-                    <td key={j} style={{
-                      background: isActive ? '#4caf50' : undefined,
-                      border: '1px solid #eee',
-                      height: 18,
-                      minWidth: 40
-                    }}>
-                      {isActive && j === days.findIndex(day => day.toISOString().slice(0, 10) === item.start) && (
-                        <div style={{
-                          height: 12,
-                          background: '#4caf50',
-                          borderRadius: 4,
-                          width: `calc(${Math.max(1, Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1) * 100}% / ${days.length})`,
-                          minWidth: 20,
-                          position: 'relative',
-                          left: 0,
-                        }} />
-                      )}
-                    </td>
+                    <div
+                      key={j}
+                      style={{
+                        height: 14,
+                        borderRadius: 4,
+                        background: isBar ? '#4caf50' : 'transparent',
+                        margin: isBar ? '0 1px' : undefined,
+                        transition: 'background 0.2s',
+                      }}
+                    />
                   );
                 })}
-              </tr>
+              </div>
             );
           })}
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
   );
 }
