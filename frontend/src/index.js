@@ -3,6 +3,37 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
+// Minimalist Modern Theme
+const theme = {
+  background: "#f6f7fb",
+  card: "#fff",
+  border: "#e0e3ea",
+  accent: "#4f8cff",
+  accentLight: "#eaf1ff",
+  text: "#222",
+  textLight: "#888",
+  shadow: "0 2px 16px 0 rgba(80, 120, 200, 0.06)",
+  radius: "12px"
+};
+
+function ThemedContainer({ children, style = {}, ...props }) {
+  return (
+    <div
+      style={{
+        background: theme.background,
+        minHeight: "100vh",
+        color: theme.text,
+        fontFamily: "Inter, Segoe UI, Arial, sans-serif",
+        fontSize: 16,
+        ...style
+      }}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
 // MainPage: homepage listing projects and today's to-do list
 function MainPage({ projects, onCreateProject, onViewProject, onLogin }) {
   const allTasks = projects.flatMap(project =>
@@ -13,41 +44,130 @@ function MainPage({ projects, onCreateProject, onViewProject, onLogin }) {
   );
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '90vh' }}>
-      <div style={{ width: '90%', maxWidth: 1000, background: '#f9f9f9', padding: 32, borderRadius: 12, boxShadow: '0 2px 8px #0001' }}>
-        <div style={{ position: 'absolute', top: 0, right: 0 }}>
-          <button onClick={onLogin}>Login</button>
-          <button>System Settings</button>
-          <button>Other Features</button>
-        </div>
-        <div style={{ display: 'flex', gap: '2em', alignItems: 'flex-start' }}>
-          {/* Projects column */}
-          <div style={{ flex: 1 }}>
-            <h1>Projects</h1>
-            <ul>
-              {projects.map((project, idx) => (
-                <li key={idx}>
-                  <button onClick={() => onViewProject(idx)}>{project.name}</button>
-                </li>
-              ))}
-            </ul>
-            <button onClick={onCreateProject}>Create New Project</button>
+    <ThemedContainer>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '90vh'
+        }}
+      >
+        <div
+          style={{
+            width: '90%',
+            maxWidth: 1100,
+            background: theme.card,
+            padding: 32,
+            borderRadius: theme.radius,
+            boxShadow: theme.shadow,
+            border: `1px solid ${theme.border}`,
+            position: 'relative'
+          }}
+        >
+          <div style={{ position: 'absolute', top: 24, right: 32, display: 'flex', gap: 12 }}>
+            <button style={{
+              background: theme.accent,
+              color: "#fff",
+              border: "none",
+              borderRadius: theme.radius,
+              padding: "8px 18px",
+              fontWeight: 500,
+              cursor: "pointer",
+              boxShadow: theme.shadow
+            }} onClick={onLogin}>Login</button>
+            <button style={{
+              background: theme.accentLight,
+              color: theme.accent,
+              border: "none",
+              borderRadius: theme.radius,
+              padding: "8px 18px",
+              fontWeight: 500,
+              cursor: "pointer"
+            }}>System Settings</button>
+            <button style={{
+              background: theme.accentLight,
+              color: theme.accent,
+              border: "none",
+              borderRadius: theme.radius,
+              padding: "8px 18px",
+              fontWeight: 500,
+              cursor: "pointer"
+            }}>Other Features</button>
           </div>
-          {/* Today's To Do List column */}
-          <div style={{ flex: 1 }}>
-            <h1>Today's To Do List</h1>
-            <ul>
-              {allTasks.length === 0 && <li>No tasks for today.</li>}
-              {allTasks.map((task, idx) => (
-                <li key={idx}>
-                  {task.name} ({task.status}) {task.deadline ? `[Due: ${task.deadline}]` : ''} <span style={{ color: '#888' }}>in {task.projectName}</span>
-                </li>
-              ))}
-            </ul>
+          <div style={{ display: 'flex', gap: '2em', alignItems: 'flex-start' }}>
+            {/* Projects column */}
+            <div style={{ flex: 1 }}>
+              <h1 style={{ fontWeight: 700, fontSize: 28, marginBottom: 16, color: theme.text }}>Projects</h1>
+              <ul style={{ padding: 0, listStyle: "none" }}>
+                {projects.map((project, idx) => (
+                  <li key={idx} style={{ marginBottom: 10 }}>
+                    <button
+                      onClick={() => onViewProject(idx)}
+                      style={{
+                        background: theme.accentLight,
+                        color: theme.accent,
+                        border: "none",
+                        borderRadius: theme.radius,
+                        padding: "10px 18px",
+                        fontWeight: 500,
+                        cursor: "pointer",
+                        width: "100%",
+                        textAlign: "left",
+                        boxShadow: theme.shadow
+                      }}
+                    >
+                      {project.name}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <button
+                onClick={onCreateProject}
+                style={{
+                  background: theme.accent,
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: theme.radius,
+                  padding: "10px 18px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  marginTop: 12,
+                  width: "100%",
+                  boxShadow: theme.shadow
+                }}
+              >
+                + Create New Project
+              </button>
+            </div>
+            {/* Today's To Do List column */}
+            <div style={{ flex: 1 }}>
+              <h1 style={{ fontWeight: 700, fontSize: 28, marginBottom: 16, color: theme.text }}>Today's To Do List</h1>
+              <ul style={{ padding: 0, listStyle: "none" }}>
+                {allTasks.length === 0 && <li style={{ color: theme.textLight }}>No tasks for today.</li>}
+                {allTasks.map((task, idx) => (
+                  <li key={idx} style={{ marginBottom: 10 }}>
+                    <span style={{
+                      background: theme.accentLight,
+                      color: theme.accent,
+                      borderRadius: theme.radius,
+                      padding: "6px 12px",
+                      fontWeight: 500,
+                      marginRight: 8
+                    }}>
+                      {task.name}
+                    </span>
+                    <span style={{ color: theme.textLight }}>
+                      ({task.status}) {task.deadline ? `[Due: ${task.deadline}]` : ''} in {task.projectName}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ThemedContainer>
   );
 }
 
@@ -298,82 +418,186 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minHeight: '90vh' }}>
-      {/* Column 1: Team Members */}
-      <div style={{ flex: 1, minWidth: 220, background: '#f9f9f9', padding: 24, borderRadius: 12, boxShadow: '0 2px 8px #0001', margin: 8 }}>
-        <h3>Team Members</h3>
-        <ul style={{ width: '100%' }}>
-          {teamMembers.map((member, idx) => (
-            <li key={idx}>
-              {member.name} - {member.role}
-              <button
-                style={{ marginLeft: 8, color: 'red' }}
-                onClick={() => {
-                  setTeamMembers(prev => prev.filter((_, i) => i !== idx));
-                  setTasks(prev =>
-                    prev.map(task => ({
-                      ...task,
-                      assignee: task.assignee === member.name ? '' : task.assignee,
-                      subTasks: (task.subTasks || []).map(sub =>
-                        sub.assignee === member.name ? { ...sub, assignee: '' } : sub
-                      ),
-                    }))
-                  );
+    <ThemedContainer>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minHeight: '90vh' }}>
+        {/* Column 1: Team Members */}
+        <div style={{
+          flex: 1,
+          minWidth: 220,
+          background: theme.card,
+          padding: 24,
+          borderRadius: theme.radius,
+          boxShadow: theme.shadow,
+          border: `1px solid ${theme.border}`,
+          margin: 8
+        }}>
+          <h3 style={{ color: theme.accent, fontWeight: 700, marginBottom: 16 }}>Team Members</h3>
+          <ul style={{ width: '100%', padding: 0, listStyle: "none" }}>
+            {teamMembers.map((member, idx) => (
+              <li key={idx} style={{ marginBottom: 8 }}>
+                {member.name} - {member.role}
+                <button
+                  style={{
+                    marginLeft: 8,
+                    color: "#fff",
+                    background: theme.accent,
+                    border: "none",
+                    borderRadius: theme.radius,
+                    padding: "4px 10px",
+                    cursor: "pointer"
+                  }}
+                  onClick={() => {
+                    setTeamMembers(prev => prev.filter((_, i) => i !== idx));
+                    setTasks(prev =>
+                      prev.map(task => ({
+                        ...task,
+                        assignee: task.assignee === member.name ? '' : task.assignee,
+                        subTasks: (task.subTasks || []).map(sub =>
+                          sub.assignee === member.name ? { ...sub, assignee: '' } : sub
+                        ),
+                      }))
+                    );
+                  }}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+          <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
+            <label style={{ flex: 1 }}>
+              Team Member Name:
+              <input
+                type="text"
+                value={newMember.name}
+                onChange={e => setNewMember({ ...newMember, name: e.target.value })}
+                style={{
+                  width: '100%',
+                  border: `1px solid ${theme.border}`,
+                  borderRadius: theme.radius,
+                  padding: "6px",
+                  fontSize: 15
                 }}
-              >
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
-        <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
-          <label style={{ flex: 1 }}>
-            Team Member Name:
+              />
+            </label>
+            <label style={{ flex: 1 }}>
+              Team Member Role:
+              <input
+                type="text"
+                value={newMember.role}
+                onChange={e => setNewMember({ ...newMember, role: e.target.value })}
+                style={{
+                  width: '100%',
+                  border: `1px solid ${theme.border}`,
+                  borderRadius: theme.radius,
+                  padding: "6px",
+                  fontSize: 15
+                }}
+              />
+            </label>
+          </div>
+          <button
+            type="button"
+            onClick={handleAddTeamMember}
+            style={{
+              background: theme.accent,
+              color: "#fff",
+              border: "none",
+              borderRadius: theme.radius,
+              padding: "8px 14px",
+              fontWeight: 500,
+              cursor: "pointer",
+              width: "100%"
+            }}
+          >
+            Add Team Member
+          </button>
+        </div>
+        {/* Column 2: Tasks and Subtasks */}
+        <div style={{
+          flex: 2,
+          minWidth: 350,
+          background: theme.card,
+          padding: 24,
+          borderRadius: theme.radius,
+          boxShadow: theme.shadow,
+          border: `1px solid ${theme.border}`,
+          margin: 8
+        }}>
+          <div style={{ width: '100%', display: 'flex', gap: 8, justifyContent: 'flex-start', marginBottom: 8 }}>
+            <button
+              onClick={onHome}
+              style={{
+                background: theme.accentLight,
+                color: theme.accent,
+                border: "none",
+                borderRadius: theme.radius,
+                padding: "8px 18px",
+                fontWeight: 500,
+                cursor: "pointer"
+              }}
+            >Back to Home</button>
+            <button
+              onClick={onDelete}
+              style={{
+                marginLeft: '1em',
+                color: "#fff",
+                background: "#ff4f4f",
+                border: "none",
+                borderRadius: theme.radius,
+                padding: "8px 18px",
+                fontWeight: 500,
+                cursor: "pointer"
+              }}
+            >Delete Project</button>
+          </div>
+          <h2 style={{ color: theme.accent, fontWeight: 700, marginBottom: 16 }}>
             <input
               type="text"
-              value={newMember.name}
-              onChange={e => setNewMember({ ...newMember, name: e.target.value })}
-              style={{ width: '100%' }}
+              value={editName}
+              onChange={e => setEditName(e.target.value)}
+              style={{
+                fontSize: '1.2em',
+                fontWeight: 'bold',
+                border: `1px solid ${theme.border}`,
+                borderRadius: theme.radius,
+                padding: "6px 12px",
+                color: theme.text,
+                background: theme.card,
+                marginRight: 8
+              }}
             />
-          </label>
-          <label style={{ flex: 1 }}>
-            Team Member Role:
+            <button
+              type="button"
+              onClick={handleRename}
+              style={{
+                background: theme.accent,
+                color: "#fff",
+                border: "none",
+                borderRadius: theme.radius,
+                padding: "6px 16px",
+                fontWeight: 500,
+                cursor: "pointer"
+              }}
+            >Rename</button>
+          </h2>
+          <div style={{ marginBottom: 16, fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 8 }}>
+            Project Deadline: {project.deadline ? project.deadline : <span style={{ color: theme.textLight }}>No deadline set</span>}
             <input
-              type="text"
-              value={newMember.role}
-              onChange={e => setNewMember({ ...newMember, role: e.target.value })}
-              style={{ width: '100%' }}
+              type="date"
+              value={project.deadline || ''}
+              onChange={e => onRename(editName, e.target.value)}
+              style={{
+                marginLeft: 8,
+                border: `1px solid ${theme.border}`,
+                borderRadius: theme.radius,
+                padding: "6px 12px",
+                fontSize: 15
+              }}
             />
-          </label>
-        </div>
-        <button type="button" onClick={handleAddTeamMember} style={{ width: '100%' }}>Add Team Member</button>
-      </div>
-      {/* Column 2: Tasks and Subtasks */}
-      <div style={{ flex: 2, minWidth: 350, background: '#f9f9f9', padding: 24, borderRadius: 12, boxShadow: '0 2px 8px #0001', margin: 8 }}>
-        <div style={{ width: '100%', display: 'flex', gap: 8, justifyContent: 'flex-start', marginBottom: 8 }}>
-          <button onClick={onHome}>Back to Home</button>
-          <button onClick={onDelete} style={{marginLeft: '1em', color: 'red'}}>Delete Project</button>
-        </div>
-        <h2>
-          <input
-            type="text"
-            value={editName}
-            onChange={e => setEditName(e.target.value)}
-            style={{ fontSize: '1.2em', fontWeight: 'bold' }}
-          />
-          <button type="button" onClick={handleRename}>Rename</button>
-        </h2>
-        <div style={{ marginBottom: 16, fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 8 }}>
-          Project Deadline: {project.deadline ? project.deadline : <span style={{ color: '#888' }}>No deadline set</span>}
-          <input
-            type="date"
-            value={project.deadline || ''}
-            onChange={e => onRename(editName, e.target.value)}
-            style={{ marginLeft: 8 }}
-          />
-        </div>
-        <h3>Tasks</h3>
-        <ul style={{ width: '100%' }}>
+          </div>
+          <h3 style={{ color: theme.text, fontWeight: 600, marginTop: 16 }}>Tasks</h3>
+          <ul style={{ width: '100%', padding: 0, listStyle: "none" }}>
           {tasks.map((task, idx) => (
             <li
               key={idx}
