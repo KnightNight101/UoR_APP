@@ -44,6 +44,49 @@ let eventLog = [
   { time: new Date().toLocaleString(), message: 'Server started' }
 ];
 
+// --- Simple Auth Middleware ---
+function requireAuth(req, res, next) {
+  if (
+    req.path.startsWith("/auth/") ||
+    req.method === "OPTIONS"
+  ) return next();
+  const token = req.headers.authorization || req.headers.Authorization;
+  if (token === "Bearer demo-token") return next();
+  res.status(401).json({ error: "Unauthorized" });
+}
+app.use(requireAuth);
+// --- Simple Auth (file-based, plaintext for demo) ---
+const USERS_FILE = './users.json';
+function loadUsers() {
+  if (fs.existsSync(USERS_FILE)) {
+    return JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
+  }
+  return [];
+}
+function saveUsers(users) {
+  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+}
+
+// Register
+app.post('/auth/register', (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password) return res.status(400).json({ error: 'Missing username or password' });
+  let users = loadUsers();
+  if (users.find(u => u.username === username)) return res.status(409).json({ error: 'User exists' });
+  users.push({ username, password });
+  saveUsers(users);
+  res.json({ success: true });
+});
+
+// Login
+app.post('/auth/login', (req, res) => {
+  const { username, password } = req.body;
+  let users = loadUsers();
+  const user = users.find(u => u.username === username && u.password === password);
+  if (!user) return res.status(401).json({ error: 'Invalid credentials' });
+  // For demo: return a fake token
+  res.json({ token: 'demo-token', username });
+});
 // Event log helper
 function logEvent(msg) {
   eventLog.unshift({ time: new Date().toLocaleString(), message: msg });
