@@ -10,7 +10,45 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(bodyParser.json());
 
+// Single permissive CSP middleware before static
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src *; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; img-src * data:; connect-src *;"
+  );
+  next();
+});
+
+// Serve static files before API routes
+app.use(express.static('public', {
+  extensions: ['js', 'html', 'css', 'ico'],
+  setHeaders: (res, path) => {
+    if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
+
 const DATA_FILE = './nodes.json';
+
+// In-memory mock data for UI
+let members = [
+  { id: '1', name: 'Alice', role: 'Developer' },
+  { id: '2', name: 'Bob', role: 'Manager' }
+];
+let projects = [
+  { id: 'p1', name: 'Project Alpha' },
+  { id: 'p2', name: 'Project Beta' }
+];
+let eventLog = [
+  { time: new Date().toLocaleString(), message: 'Server started' }
+];
+
+// Event log helper
+function logEvent(msg) {
+  eventLog.unshift({ time: new Date().toLocaleString(), message: msg });
+  if (eventLog.length > 100) eventLog.pop();
+}
 
 // Load or initialize node data
 function loadNodes() {
@@ -26,7 +64,23 @@ function saveNodes(nodes) {
 
 // Get all nodes
 app.get('/nodes', (req, res) => {
+  logEvent('Fetched all nodes');
   res.json(loadNodes());
+});
+
+// --- Admin UI endpoints ---
+app.get('/members', (req, res) => {
+  logEvent('Fetched members');
+  res.json(members);
+});
+
+app.get('/projects', (req, res) => {
+  logEvent('Fetched projects');
+  res.json(projects);
+});
+
+app.get('/logs', (req, res) => {
+  res.json(eventLog);
 });
 
 // Get a single node by id
@@ -43,6 +97,7 @@ app.post('/nodes', (req, res) => {
   const node = { ...req.body, id: Date.now().toString() };
   nodes.push(node);
   saveNodes(nodes);
+  logEvent('Created node ' + node.id);
   res.status(201).json(node);
 });
 
@@ -53,6 +108,7 @@ app.put('/nodes/:id', (req, res) => {
   if (idx === -1) return res.status(404).json({ error: 'Node not found' });
   nodes[idx] = { ...nodes[idx], ...req.body, id: nodes[idx].id };
   saveNodes(nodes);
+  logEvent('Updated node ' + req.params.id);
   res.json(nodes[idx]);
 });
 
@@ -63,9 +119,11 @@ app.delete('/nodes/:id', (req, res) => {
   if (idx === -1) return res.status(404).json({ error: 'Node not found' });
   const deleted = nodes.splice(idx, 1)[0];
   saveNodes(nodes);
+  logEvent('Deleted node ' + req.params.id);
   res.json(deleted);
 });
 
 app.listen(PORT, () => {
+  logEvent('Node Data Server running on port ' + PORT);
   console.log(`Node Data Server running on port ${PORT}`);
 });
