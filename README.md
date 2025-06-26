@@ -104,7 +104,14 @@ UoR_APP is an AI-assisted, local-first project and task management tool designed
 - **Docker issues:** Check Docker daemon is running; use `docker-compose up --build`.
 - **Data not saving:** Verify local storage permissions and browser settings.
 - **API errors:** Check backend logs for stack traces.
-
+- **ERR_OSSL_EVP_UNSUPPORTED error:**
+  This error occurs with Node.js v17+ and Webpack/react-scripts due to OpenSSL changes.
+  **Solutions:**
+  - Use Node.js v16 (LTS) for best compatibility.
+  - Or set the environment variable before running:
+    - On Windows: `set NODE_OPTIONS=--openssl-legacy-provider`
+    - On macOS/Linux: `export NODE_OPTIONS=--openssl-legacy-provider`
+  - Consider upgrading Webpack and react-scripts if possible.
 ---
 
 ## Screenshots & UI Wireframes
