@@ -444,7 +444,7 @@ function CreateProject({ onCreate, onCancel }) {
 }
 
 // ProjectDetails: project page with tasks, subtasks, team members, and project deadline
-function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
+function ProjectDetails({ project, onBack, onHome, onRename, onDelete, onOpenGantt }) {
   console.log("ProjectDetails render", project);
   const [tasks, setTasks] = useState(project.tasks);
   const [teamMembers, setTeamMembers] = useState(project.teamMembers);
@@ -491,7 +491,7 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
 
   const handleRename = () => {
     if (editName.trim()) {
-      onRename(editName.trim());
+      onRename(editName.trim(), project.deadline);
     }
   };
 
@@ -1032,49 +1032,52 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
               </div>
             </li>
           ))}
-        </ul>
-        <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
-          <label style={{ flex: 1 }}>
-            Task Name:
-            <input
-              type="text"
-              value={newTask.name}
-              onChange={e => setNewTask({ ...newTask, name: e.target.value })}
-              style={{ width: '100%' }}
-            />
-          </label>
-          <label style={{ flex: 1 }}>
-            Assignee (optional):
-            <select
-              value={newTask.assignee}
-              onChange={e => setNewTask({ ...newTask, assignee: e.target.value })}
-              style={{ width: '100%' }}
-            >
-              <option value="">unassigned</option>
-              {teamMembers.map((member, idx) => (
-                <option key={idx} value={member.name}>{member.name}</option>
-              ))}
-            </select>
-          </label>
-          <label style={{ flex: 1 }}>
-            Task Deadline (optional):
-            <input
-              type="date"
-              value={newTask.deadline}
-              onChange={e => setNewTask({ ...newTask, deadline: e.target.value })}
-              style={{ width: '100%' }}
-            />
-          </label>
+          </ul>
+          <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 8 }}>
+            <label style={{ flex: 1 }}>
+              Task Name:
+              <input
+                type="text"
+                value={newTask.name}
+                onChange={e => setNewTask({ ...newTask, name: e.target.value })}
+                style={{ width: '100%' }}
+              />
+            </label>
+            <label style={{ flex: 1 }}>
+              Assignee (optional):
+              <select
+                value={newTask.assignee}
+                onChange={e => setNewTask({ ...newTask, assignee: e.target.value })}
+                style={{ width: '100%' }}
+              >
+                <option value="">unassigned</option>
+                {teamMembers.map((member, idx) => (
+                  <option key={idx} value={member.name}>{member.name}</option>
+                ))}
+              </select>
+            </label>
+            <label style={{ flex: 1 }}>
+              Task Deadline (optional):
+              <input
+                type="date"
+                value={newTask.deadline}
+                onChange={e => setNewTask({ ...newTask, deadline: e.target.value })}
+                style={{ width: '100%' }}
+              />
+            </label>
+          </div>
+          <button type="button" onClick={handleAddTask} style={{ width: '100%', marginBottom: 24 }}>Add Task</button>
         </div>
-        <button type="button" onClick={handleAddTask} style={{ width: '100%', marginBottom: 24 }}>Add Task</button>
+        {/* Column 3: Gantt Chart */}
+        <div style={{ flex: 2, minWidth: 350, background: '#f9f9f9', padding: 24, borderRadius: 12, boxShadow: '0 2px 8px #0001', margin: 8, cursor: 'pointer' }} onClick={onOpenGantt}>
+          <h3>Gantt Chart</h3>
+          <GanttChart tasks={tasks} />
+          <div style={{ color: theme.textLight, fontSize: 14, marginTop: 8, textAlign: 'center' }}>
+            Click to expand
+          </div>
+        </div>
       </div>
-      {/* Column 3: Gantt Chart */}
-      <div style={{ flex: 2, minWidth: 350, background: '#f9f9f9', padding: 24, borderRadius: 12, boxShadow: '0 2px 8px #0001', margin: 8 }}>
-        <h3>Gantt Chart</h3>
-        <GanttChart tasks={tasks} />
-      </div>
-    </div>
-  </ThemedContainer>
+    </ThemedContainer>
   );
 }
   // --- GanttChart Component ---
@@ -1242,6 +1245,115 @@ function ProjectDetails({ project, onBack, onHome, onRename, onDelete }) {
   );
 }
 
+// --- Full Gantt Chart Page ---
+function FullGanttPage({ project, onClose }) {
+  const { tasks, teamMembers, name } = project;
+  return (
+    <ThemedContainer>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        width: '100vw',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        padding: 0
+      }}>
+        <div style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'row',
+          flex: 1,
+          alignItems: 'stretch',
+          marginTop: 32
+        }}>
+          {/* Left: Tasks/Subtasks */}
+          <div style={{
+            minWidth: 300,
+            background: theme.card,
+            borderRight: `1px solid ${theme.border}`,
+            padding: 24,
+            boxShadow: theme.shadow,
+            borderRadius: `${theme.radius} 0 0 ${theme.radius}`,
+            overflowY: 'auto'
+          }}>
+            <h2 style={{ color: theme.accent, fontWeight: 700, marginBottom: 16 }}>{name} - Tasks</h2>
+            <ul style={{ listStyle: 'none', padding: 0 }}>
+              {tasks.map((task, idx) => (
+                <li key={idx} style={{ marginBottom: 12 }}>
+                  <strong>{task.name}</strong>
+                  <ul style={{ listStyle: 'circle', marginLeft: 24 }}>
+                    {(task.subTasks || []).map((sub, subIdx) => (
+                      <li key={subIdx}>{sub.name}</li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </div>
+          {/* Center: Gantt Chart */}
+          <div style={{
+            flex: 1,
+            background: '#fff',
+            padding: 32,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <div style={{ width: '100%', maxWidth: 1200 }}>
+              <GanttChart tasks={tasks} />
+            </div>
+          </div>
+        </div>
+        {/* Bottom: Team Members */}
+        <div style={{
+          width: '100%',
+          background: theme.accentLight,
+          padding: '16px 0',
+          borderTop: `1px solid ${theme.border}`,
+          display: 'flex',
+          justifyContent: 'center',
+          gap: 32
+        }}>
+          {teamMembers.map((member, idx) => (
+            <div key={idx} style={{
+              background: theme.card,
+              borderRadius: theme.radius,
+              boxShadow: theme.shadow,
+              padding: '8px 24px',
+              margin: '0 8px',
+              minWidth: 120,
+              textAlign: 'center'
+            }}>
+              <div style={{ fontWeight: 600 }}>{member.name}</div>
+              <div style={{ color: theme.textLight }}>{member.role}</div>
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={onClose}
+          style={{
+            position: 'fixed',
+            top: 24,
+            right: 32,
+            background: theme.accent,
+            color: '#fff',
+            border: 'none',
+            borderRadius: theme.radius,
+            padding: '10px 24px',
+            fontWeight: 600,
+            fontSize: 16,
+            cursor: 'pointer',
+            boxShadow: theme.shadow,
+            zIndex: 100
+          }}
+        >
+          Close
+        </button>
+      </div>
+    </ThemedContainer>
+  );
+}
 // --- Root App and Render ---
 function RootApp() {
   // Debug: log state on each render
@@ -1256,6 +1368,7 @@ function RootApp() {
     }
   ]);
   const [currentProjectIdx, setCurrentProjectIdx] = React.useState(null);
+  const [fullGanttProject, setFullGanttProject] = React.useState(null);
 
   // Navigation handlers
   const [creatingProject, setCreatingProject] = React.useState(false);
@@ -1275,10 +1388,16 @@ function RootApp() {
   const handleViewProject = idx => setCurrentProjectIdx(idx);
   const handleBack = () => setCurrentProjectIdx(null);
   const handleHome = () => setCurrentProjectIdx(null);
-  const handleRename = newName => {
+  const handleRename = (newName, newDeadline) => {
     setProjects(prev =>
       prev.map((p, i) =>
-        i === currentProjectIdx ? { ...p, name: newName } : p
+        i === currentProjectIdx
+          ? {
+              ...p,
+              name: newName !== undefined ? newName : p.name,
+              deadline: newDeadline !== undefined ? newDeadline : p.deadline
+            }
+          : p
       )
     );
   };
@@ -1310,13 +1429,21 @@ function RootApp() {
     );
   }
   return (
-    <ProjectDetails
-      project={projects[currentProjectIdx]}
-      onBack={handleBack}
-      onHome={handleHome}
-      onRename={handleRename}
-      onDelete={handleDelete}
-    />
+    fullGanttProject !== null ? (
+      <FullGanttPage
+        project={projects[fullGanttProject]}
+        onClose={() => setFullGanttProject(null)}
+      />
+    ) : (
+      <ProjectDetails
+        project={projects[currentProjectIdx]}
+        onBack={handleBack}
+        onHome={handleHome}
+        onRename={handleRename}
+        onDelete={handleDelete}
+        onOpenGantt={() => setFullGanttProject(currentProjectIdx)}
+      />
+    )
   );
 }
 
