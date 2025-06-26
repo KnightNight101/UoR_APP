@@ -2,67 +2,50 @@
 
 ## Overview
 
-This application is a local-first project and task management tool with a React-based UI. It supports project creation, team management, task assignment, and a two-column homepage for projects and "Today's To Do List".
+This project consists of two separate apps:
+
+- **Node App**: The main project and task management tool (React-based UI, previously called "frontend").
+- **Server App**: The admin/server UI and API backend (Node.js/Express with its own React-based admin UI).
+
+Both apps interact via REST API endpoints, with authentication and user management handled by the Server App.
+
+---
 
 ---
 
 ## Main Features
 
-### 1. Homepage
+### Node App (Project/Task Manager)
 
-- **Two-column layout**:
-  - **Projects**: List of all projects, each clickable to view details.
-  - **Today's To Do List**: Aggregated list of all tasks from all projects.
-- **Navigation**: Buttons for login, system settings, and other features.
-
-### 2. Project Creation
-
-- The "Create Project" button on the homepage navigates to a dedicated project creation page.
-- The project creation page includes:
-  - **Project Name** (required)
-  - **Deadline** (optional, date picker)
-  - **Team Members**: Add multiple members with name and role fields, inline (no dialogs)
-  - **Tasks**: Add multiple tasks with name, status, assignee (from team members), and optional deadline, inline (no dialogs)
-  - **Subtasks**: Each task can have subtasks, each with a name, status, and assignee (from team members), all managed inline.
-- All additions and edits are performed inline on the form.
-- "Create" saves the project and returns to the homepage; "Cancel" discards changes.
-- All features are accessible without browser dialogs or prompts.
-
-### 3. Project Page
-
-- View and edit project details, including renaming and deadline.
-- Add/remove team members and tasks inline.
-- Assign/reassign tasks and subtasks to team members using dropdowns.
-- Inline editing for deadlines and dependencies.
+- Authentication required (login/register via Server App).
+- Project creation, editing, and deletion.
+- Team member management (add/remove/assign).
+- Task and subtask management (add/edit/remove, assign, dependencies).
 - Drag-and-drop reordering for tasks and subtasks.
-- Delete project returns to homepage.
-- Navigation: "Back to Home" and "Delete Project".
+- Gantt chart visualization for tasks/subtasks.
+- Today's To Do List aggregation.
+- Inline editing for deadlines, dependencies, and assignments.
+- All features accessible after login.
 
-### 4. Task & Subtask Management
+### Server App (Admin/Server UI)
 
-- Tasks and subtasks can be created with or without an assignee.
-- Both tasks and subtasks default to first team member if present.
-- All tasks are visible in the "Today's To Do List" column on the homepage.
-- Drag-and-drop reordering for both tasks and subtasks.
-- Dependencies can be set between tasks and subtasks.
+- Authentication required (login/register, username/password).
+- REST API for user management, members, projects, logs, and nodes.
+- Admin UI with three columns: members, projects, event log.
+- Event log of all API and user actions.
+- User registration and login endpoints (`/auth/register`, `/auth/login`).
+- File-based storage for users and node data.
+- Serves static React admin UI.
 
-### 5. Team Member Management
+### Shared/Integration Features
 
-- Team members and tasks can be added during project creation and from the project page.
-- Tasks and subtasks can be assigned to any team member or left unassigned.
-- Removing a team member unassigns their tasks and subtasks.
-- All tasks appear in the "Today's To Do List" column on the homepage.
+- Both apps communicate via REST API (JSON).
+- Authentication token required for all API endpoints except `/auth/*`.
+- User session stored in localStorage and sent as Bearer token.
+- Both apps can be run in development mode or bundled for production.
+- All features work cross-app after login.
 
-### 6. Gantt Chart Visualization
-
-- Each project page includes a Gantt chart view of all tasks and subtasks with start/end dates.
-- Full Gantt chart page available for expanded visualization.
-- Visualizes dependencies and durations for tasks and subtasks.
-
-### 7. Login Page
-
-- Simple login form (email and password, no backend auth yet).
-- Navigation back to homepage after login.
+---
 
 ---
 
@@ -127,24 +110,28 @@ graph TD
 
 ```mermaid
 graph TD
-  FE_UI[Frontend UI]
-  FE_API[API Client]
-  BE_API[Backend REST API]
-  BE_DB[Local Storage or DB]
-  DockerFE[Docker Frontend]
-  DockerBE[Docker Backend]
+  NodeApp[Node App (Project/Task Manager)]
+  ServerApp[Server App (Admin/API Server)]
+  NodeUI[Node App UI]
+  ServerUI[Server Admin UI]
+  NodeAPI[Node App API Client]
+  ServerAPI[Server REST API]
+  UsersFile[Users File]
+  NodesFile[Nodes File]
 
-  FE_UI --> FE_API
-  FE_API -->|HTTP| BE_API
-  BE_API --> BE_DB
-  DockerFE -.-> FE_UI
-  DockerBE -.-> BE_API
+  NodeUI -->|API (auth, projects, tasks, members)| ServerAPI
+  ServerUI -->|API (auth, members, projects, logs, nodes)| ServerAPI
+  ServerAPI --> UsersFile
+  ServerAPI --> NodesFile
+  NodeApp -.-> NodeUI
+  ServerApp -.-> ServerUI
 ```
 
-- **Frontend:** React app for UI, communicates with backend via REST API.
-- **Backend:** Node.js server, handles business logic and data storage.
-- **Local-first:** Data stored locally, with potential for future remote sync.
-- **Deployment:** Both frontend and backend can be containerized with Docker.
+- **Node App:** React app for project/task management, communicates with Server App via REST API.
+- **Server App:** Node.js/Express backend, provides authentication, user management, and admin UI.
+- **Authentication:** All API endpoints require a valid token except `/auth/*`.
+- **Data Storage:** Users and nodes stored in local JSON files.
+- **Deployment:** Both apps can be run independently or containerized.
 
 ---
 
