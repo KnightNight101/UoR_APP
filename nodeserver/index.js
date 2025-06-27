@@ -88,6 +88,11 @@ app.post('/auth/login', (req, res) => {
   res.json({ token: 'demo-token', username });
 });
 // Event log helper
+// List all registered users (for admin UI)
+app.get('/users', (req, res) => {
+  const users = loadUsers().map(u => ({ username: u.username }));
+  res.json(users);
+});
 function logEvent(msg) {
   eventLog.unshift({ time: new Date().toLocaleString(), message: msg });
   if (eventLog.length > 100) eventLog.pop();

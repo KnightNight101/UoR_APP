@@ -8,6 +8,7 @@ function App() {
   const [members, setMembers] = useState([]);
   const [projects, setProjects] = useState([]);
   const [logs, setLogs] = useState([]);
+  const [users, setUsers] = useState([]);
   const [auth, setAuth] = useState(() => localStorage.getItem("token") || "");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +21,7 @@ function App() {
       fetch("/members", { headers }).then(r => r.json()).then(setMembers);
       fetch("/projects", { headers }).then(r => r.json()).then(setProjects);
       fetch("/logs", { headers }).then(r => r.json()).then(setLogs);
+      fetch("/users", { headers }).then(r => r.json()).then(setUsers);
     }
   }, [auth]);
 
@@ -100,7 +102,7 @@ function App() {
 
   return (
     <div style={{ display: "flex", height: "100vh", fontFamily: "Segoe UI, Arial, sans-serif" }}>
-      {/* Column 1: Members */}
+      {/* Column 1: Members & Registered Users */}
       <div style={{ flex: 1, borderRight: "1px solid #ddd", padding: 24, overflowY: "auto" }}>
         <h2>Members</h2>
         <ul>
@@ -108,6 +110,12 @@ function App() {
             <li key={m.id || m.name}>
               {m.name} {m.role ? <span style={{ color: "#888" }}>({m.role})</span> : null}
             </li>
+          ))}
+        </ul>
+        <h2 style={{ marginTop: 32 }}>Registered Users</h2>
+        <ul>
+          {users.map(u => (
+            <li key={u.username}>{u.username}</li>
           ))}
         </ul>
       </div>
