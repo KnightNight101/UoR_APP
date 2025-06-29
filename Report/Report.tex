@@ -1,0 +1,100 @@
+\documentclass[12pt,a4paper]{report}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+
+% Page settings
+\geometry{margin=1in}
+\setlength{\parskip}{0.8em}
+\setlength{\parindent}{0pt}
+\doublespacing
+
+% Header and Footer
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+\lhead{ML-Powered Agile PM App}
+
+% Title
+\title{\textbf{An LLM-Powered Application for Agile Project Management}}
+\author{Nithin Gandhi Simanand \\ Supervisor: Pat Parslow \\ MSc Data Science and Advanced Computing}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+% 1. Introduction
+\chapter{Introduction}  % ~800 words
+\section{Problem Statement}
+\section{Motivation}
+\section{Project Objectives}
+\section{Overview of Dissertation Structure}
+
+% 2. Background & Literature Review
+\chapter{Background and Literature Review}  % ~2000 words
+\section{Agile Methodology: Overview and Key Concepts}
+\section{Existing Project Management Tools}
+\section{Applications of ML/LLMs in Project Management}
+\section{LLM Technologies: GPT, BERT, and Others}
+\section{Gaps in Current Research and Tools}
+
+% 3. Methodology
+\chapter{Methodology}  % ~1500 words
+\section{Requirements Gathering}
+\section{Design Methodology}
+\section{Data Sources and Preprocessing}
+\section{LLM Selection and Integration Strategy}
+\section{System Architecture Overview}
+
+% 4. System Design & Implementation
+\chapter{System Design and Implementation}  % ~2000 words
+\section{System Architecture}
+\section{Frontend and Backend Design}
+\section{Key Features and Functionalities}
+\section{LLM Integration and Prompt Engineering}
+\section{Security and Ethical Considerations}
+
+% 5. Evaluation & Testing
+\chapter{Evaluation and Testing}  % ~1500 words
+\section{Evaluation Criteria}
+\section{Functional Testing}
+\section{LLM Response Evaluation}
+\section{User Testing and Feedback}
+\section{Limitations in Testing}
+
+% 6. Discussion
+\chapter{Discussion}  % ~1000 words
+\section{Analysis of Results}
+\section{Challenges Faced}
+\section{Agile Methodology Reflection}
+\section{Model Performance vs Expectations}
+
+% 7. Conclusion & Future Work
+\chapter{Conclusion and Future Work}  % ~700 words
+\section{Summary of Contributions}
+\section{Applications and Impact}
+\section{Limitations}
+\section{Future Improvements}
+
+% Appendices (not included in word count)
+\appendix
+\chapter{Screenshots and Interface Designs}
+\chapter{Test Logs and Scripts}
+\chapter{User Feedback and Survey Responses}
+
+% References
+\bibliographystyle{IEEEtran} % Or change to your required style
+\bibliography{references}  % Add your .bib file later
+
+\end{document}
