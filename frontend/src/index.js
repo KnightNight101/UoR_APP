@@ -1416,7 +1416,7 @@ function RootApp() {
   function handleAuth(e) {
     e.preventDefault();
     setError("");
-    fetch(`http://localhost:4000/auth/${mode}`, {
+    fetch(`/auth/${mode}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password })
@@ -1539,7 +1539,7 @@ function AuthWrapper() {
   function handleAuth(e) {
     e.preventDefault();
     setError("");
-    fetch(`http://localhost:4000/auth/${mode}`, {
+    fetch(`/auth/${mode}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password })

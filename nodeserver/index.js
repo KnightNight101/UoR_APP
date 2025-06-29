@@ -19,15 +19,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve static files before API routes
-app.use(express.static('public', {
-  extensions: ['js', 'html', 'css', 'ico'],
-  setHeaders: (res, path) => {
-    if (path.endsWith('.js')) {
-      res.setHeader('Content-Type', 'application/javascript');
-    }
-  }
-}));
 
 const DATA_FILE = './nodes.json';
 
@@ -170,6 +161,15 @@ app.delete('/nodes/:id', (req, res) => {
   logEvent('Deleted node ' + req.params.id);
   res.json(deleted);
 });
+
+app.use(express.static('public', {
+  extensions: ['js', 'html', 'css', 'ico'],
+  setHeaders: (res, path) => {
+    if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
 
 app.listen(PORT, () => {
   logEvent('Node Data Server running on port ' + PORT);
