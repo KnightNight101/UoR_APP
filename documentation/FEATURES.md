@@ -12,6 +12,70 @@ Both apps interact via REST API endpoints, with authentication and user manageme
 ---
 
 ---
+## Software Architecture Diagram
+
+```mermaid
+flowchart LR
+
+    subgraph ClientApp [Client Application]
+        Login[Login & Authentication]
+        ToDo[Daily To-Do List]
+        Value[Value Analysis]
+        Prioritize[Task Prioritization]
+        Sprint[Sprint Planning]
+        Summary[Project Summary]
+    end
+
+    subgraph LLMServer [LLM Server]
+        LLMBackend[LLM Backend]
+        ModelMgmt[Model Management]
+        LLM1[LLM]
+        LLM2[LLM]
+        LLM3[LLM]
+    end
+
+    subgraph AppServer [Server]
+        UserMgmt[User Management]
+        ProjectMgmt[Project Management]
+        TaskSched[Task Scheduling]
+        KB[Knowledge Base]
+    end
+
+    subgraph AdminLLM [LLM Servw]
+        AdminModelMgmt[Model Management]
+        AdminLLM1[LLM]
+        AdminLLM2[LLM]
+        AdminLLM3[LLM]
+    end
+
+    User((Employee))
+    ITTeam((IT Infrastructure Team))
+
+    User -->|Uses| ClientApp
+    User -->|Feedback| LLMServer
+
+    ClientApp -->|HTTPS| LLMServer
+    ClientApp -->|Event Logs| AdminLLM
+    LLMServer -->|HTTPS| AppServer
+    AdminLLM -->|HTTPS| AppServer
+
+    LLMServer --> LLMBackend
+    LLMServer --> ModelMgmt
+    LLMServer --> LLM1
+    LLMServer --> LLM2
+    LLMServer --> LLM3
+
+    AdminLLM --> AdminModelMgmt
+    AdminLLM --> AdminLLM1
+    AdminLLM --> AdminLLM2
+    AdminLLM --> AdminLLM3
+
+    AppServer --> UserMgmt
+    AppServer --> ProjectMgmt
+    AppServer --> TaskSched
+    AppServer --> KB
+```
+
 
 ## Main Features
 
