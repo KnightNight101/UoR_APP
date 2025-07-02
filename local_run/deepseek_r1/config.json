@@ -1,8 +1,0 @@
-{
-  "model": "deepseek_r1",
-  "port": 8000,
-  "settings": {
-    "max_query_length": 512,
-    "response_timeout": 30
-  }
-}
