@@ -73,9 +73,22 @@ function App() {
           <div style={{ textAlign: "center", color: "#888", marginTop: 8 }}>
             Account creation is managed by your administrator.
           </div>
+          <button
+            type="button"
+            style={{ width: "100%", marginTop: 16, background: "#eee", color: "#333", border: "1px solid #bbb", borderRadius: 4, padding: 8, cursor: "pointer" }}
+            onClick={devBypass}
+          >
+            [DEV ONLY] Bypass Login
+          </button>
         </form>
       </div>
     );
+  }
+
+  // Development bypass: skip login for dev/testing
+  function devBypass() {
+    localStorage.setItem("token", "dev-bypass");
+    setAuth("dev-bypass");
   }
 
   // Add Task handler
@@ -101,6 +114,7 @@ function App() {
         )
       );
     }
+    // Add a dev bypass button for development only
   };
 
   // Assign/reassign task handler
