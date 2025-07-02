@@ -2,57 +2,80 @@
 
 ## Project Overview
 
-UoR_APP currently implements a basic client-server project and task management tool. The system consists of a React frontend and Node.js/Express backend(s) for managing projects, tasks, and team members.
-
-**Note:** Advanced features described in the original vision—such as LLM/ML-powered workflows, modular model execution, secure communication, advanced authentication, analytics, version control integration, and embedded tools—are not yet implemented. The codebase does not include LLM infrastructure, ML-based task allocation, or the advanced workflow automation described in the intended featureset.
+UoR_APP is an LLM-powered, offline-first agile project management platform. It features a React client and Node.js/Express backend, designed for secure, modular, and extensible project/task management. The system supports advanced workflows, role-based access, and is built for both local and enterprise deployment.
 
 ---
 
-## Table of Contents
+## High-Level Features
 
-- [Project Overview](#project-overview)
-- [Features](#features)
-- [Backend API Documentation](#backend-api-documentation)
-- [Advanced Usage](#advanced-usage)
-- [Troubleshooting](#troubleshooting)
-- [Screenshots & UI Wireframes](#screenshots--ui-wireframes)
-- [Setup & Deployment](#setup--deployment)
-- [Software Architecture](#software-architecture)
-- [User Flow](#user-flow)
-- [Tech Stack](#tech-stack)
+- Modular LLM/ML-powered workflows (planned)
+- Secure authentication (username, password, 2FA)
+- Project, task, and subtask management
+- Team member management and permissions
+- Sprint planning, prioritization, and daily planning
+- Embedded tools (LibreOffice, VSCode integration) (planned)
+- Version control and analytics (planned)
+- Offline-first, no external API dependencies
+- Dockerized deployment
+
+For the full featureset, advanced/optional features, and architecture diagrams, see [`documentation/FEATURES.md`](documentation/FEATURES.md:1).
+
+---
+
+## Getting Started
+
+### Local Demo
+
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/your-org/UoR_APP.git
+   cd UoR_APP
+   ```
+2. **Install dependencies:**
+   ```sh
+   cd backend && npm install
+   cd ../frontend && npm install
+   ```
+3. **Start the backend:**
+   ```sh
+   cd backend
+   npm start
+   ```
+4. **Start the frontend:**
+   ```sh
+   cd ../frontend
+   npm start
+   ```
+5. **Access the app:**
+   Open [http://localhost:3002](http://localhost:3002) in your browser.
+
+### Docker Compose
+
+- To run both frontend and backend in containers:
+  ```sh
+  docker-compose up --build
+  ```
 
 ---
 
-## Features
+## Documentation
 
-| Feature Area         | Present | Partial | Missing |
-|----------------------|---------|---------|---------|
-| Client UI            |   ✔     |         |         |
-| Basic Backend        |   ✔     |         |         |
-| LLM/ML Logic         |         |         |   ✔     |
-| Modular/Offline      |         |         |   ✔     |
-| Secure Comms         |         |         |   ✔     |
-| Auth (2FA, RBAC)     |         |   ✔     |   ✔     |
-| Advanced Workflows   |         |         |   ✔     |
-| Embedded Tools       |         |         |   ✔     |
-| VCS Integration      |         |         |   ✔     |
-| Context Switching    |         |         |   ✔     |
-| Feedback/Analytics   |         |         |   ✔     |
-
-**Implemented:**
-- Homepage: Two-column layout with Projects and "Today's To Do List".
-- Project Creation: Inline project, team, task, and subtask creation/editing.
-- Project Page: Edit project details, manage team and tasks, assign/reassign, delete project.
-- Task & Subtask Management: Assign to team members or leave unassigned, all visible in To Do List.
-- Team Member Management: Add/remove/assign team members during project creation or from project page.
-- Login Page: Simple login form (email/password, no backend auth yet).
-- Local-first: Data stored locally by default.
-- Docker Support: Containerized deployment for frontend and backend.
-
-**Not Implemented:**
-- LLM/ML-powered features, modular execution, secure protocols, advanced authentication, analytics, version control, embedded tools, and workflow automation.
+- **Full Featureset & Architecture:** [`documentation/FEATURES.md`](documentation/FEATURES.md:1)
+- **Project Brief:** [`documentation/PROJECT_BRIEF.md`](documentation/PROJECT_BRIEF.md:1)
 
 ---
+
+## Tech Stack
+
+- React (frontend)
+- Node.js/Express (backend)
+- Docker (deployment)
+- Local-first storage
+
+
+## Contributing
+
+Contributions are welcome! Please see [`documentation/FEATURES.md`](documentation/FEATURES.md:1) for the roadmap and open issues.
 
 ## Backend API Documentation
 
@@ -147,90 +170,3 @@ graph TD
 ```
 
 ---
-
-## Setup & Deployment
-
-### Running Locally
-
-1. **Install dependencies:**
-    - Frontend: `cd frontend && npm install`
-    - Backend: `cd backend && npm install`
-2. **Start backend:**  
-    `cd backend && npm start`
-3. **Start frontend:**  
-    `cd frontend && npm start` (default port: 3002)
-4. **Access app:**  
-    [http://localhost:3002](http://localhost:3002)
-
-### Docker Deployment
-
-- Both frontend and backend have Dockerfiles.
-- Use `docker-compose.yml` for multi-container setup.
-- Default ports: Frontend 3002, backend configurable.
-
----
-
-## Software Architecture
-
-```mermaid
-graph TD
-  FE_UI[Frontend UI]
-  FE_API[API Client]
-  BE_API[Backend REST API]
-  BE_DB[Local Storage or DB]
-  DockerFE[Docker Frontend]
-  DockerBE[Docker Backend]
-
-  FE_UI --> FE_API
-  FE_API -->|HTTP| BE_API
-  BE_API --> BE_DB
-  DockerFE -.-> FE_UI
-  DockerBE -.-> BE_API
-```
-
-- **Frontend:** React app for UI, communicates with backend via REST API.
-- **Backend:** Node.js server, handles business logic and data storage.
-- **Local-first:** Data stored locally, with potential for future remote sync.
-- **Deployment:** Both frontend and backend can be containerized with Docker.
-
----
-
-## User Flow
-
-```mermaid
-graph TD
-  Start([Start])
-  Login[Login Page]
-  Home[Homepage]
-  CreateProject[Create Project]
-  ProjectPage[Project Page]
-  AddTeam[Add Team Members]
-  AddTasks[Add Tasks/Subtasks]
-  Assign[Assign Tasks]
-  Sprint[Sprint Planning]
-  ToDo[Today's To Do List]
-  End([End])
-
-  Start --> Login
-  Login --> Home
-  Home -->|View| ProjectPage
-  Home -->|Create| CreateProject
-  CreateProject --> AddTeam
-  AddTeam --> AddTasks
-  AddTasks --> Assign
-  Assign --> ProjectPage
-  ProjectPage --> Sprint
-  Sprint --> ToDo
-  ToDo --> End
-```
-
-- **Typical flow:** User logs in, creates a project, adds team members and tasks, assigns work, plans sprints, and tracks tasks via the To Do List.
-
----
-
-## Tech Stack
-
-- React (frontend)
-- Node.js (backend)
-- Docker (deployment)
-- Local-first storage
