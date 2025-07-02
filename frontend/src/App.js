@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 
 function App() {
   // Authentication state
-  const [auth, setAuth] = useState(() => localStorage.getItem("token") || "");
+  const [auth, setAuth] = useState(() => {
+    // DEV: Always show login form if ?dev=1 in URL
+    if (window.location.search.includes("dev=1")) return "";
+    return localStorage.getItem("token") || "";
+  });
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [mode] = useState("login"); // Registration disabled
@@ -73,13 +77,15 @@ function App() {
           <div style={{ textAlign: "center", color: "#888", marginTop: 8 }}>
             Account creation is managed by your administrator.
           </div>
-          <button
-            type="button"
-            style={{ width: "100%", marginTop: 16, background: "#eee", color: "#333", border: "1px solid #bbb", borderRadius: 4, padding: 8, cursor: "pointer" }}
-            onClick={devBypass}
-          >
-            [DEV ONLY] Bypass Login
-          </button>
+          <div style={{ textAlign: "center", marginTop: 8 }}>
+            <button
+              type="button"
+              style={{ width: "100%", background: "#eee", color: "#333", border: "1px solid #bbb", borderRadius: 4, padding: 8, cursor: "pointer" }}
+              onClick={devBypass}
+            >
+              [DEV ONLY] Bypass Login
+            </button>
+          </div>
         </form>
       </div>
     );
@@ -87,8 +93,10 @@ function App() {
 
   // Development bypass: skip login for dev/testing
   function devBypass() {
+    console.log("[DEV BYPASS] Triggered");
     localStorage.setItem("token", "dev-bypass");
     setAuth("dev-bypass");
+    window.location.reload(); // Ensure re-render if state is not updating
   }
 
   // Add Task handler
