@@ -2,7 +2,9 @@
 
 ## Project Overview
 
-UoR_APP is an AI-assisted, local-first project and task management tool designed to streamline pre-brief planning and scope definition for projects. It supports project managers and team leaders in defining team roles, deadlines, task structures, and business value calculations, leveraging historical data and intelligent suggestions for adaptive scheduling.
+UoR_APP currently implements a basic client-server project and task management tool. The system consists of a React frontend and Node.js/Express backend(s) for managing projects, tasks, and team members.
+
+**Note:** Advanced features described in the original vision—such as LLM/ML-powered workflows, modular model execution, secure communication, advanced authentication, analytics, version control integration, and embedded tools—are not yet implemented. The codebase does not include LLM infrastructure, ML-based task allocation, or the advanced workflow automation described in the intended featureset.
 
 ---
 
@@ -23,15 +25,32 @@ UoR_APP is an AI-assisted, local-first project and task management tool designed
 
 ## Features
 
-- **Homepage:** Two-column layout with Projects and "Today's To Do List".
-- **Project Creation:** Inline project, team, task, and subtask creation/editing.
-- **Project Page:** Edit project details, manage team and tasks, assign/reassign, delete project.
-- **Task & Subtask Management:** Assign to team members or leave unassigned, all visible in To Do List.
-- **Team Member Management:** Add/remove/assign team members during project creation or from project page.
-- **Login Page:** Simple login form (email/password, no backend auth yet).
-- **Local-first:** Data stored locally by default.
-- **Docker Support:** Containerized deployment for frontend and backend.
-- **Version Control:** Built-in VCS powered by LLM for commit summaries and documentation.
+| Feature Area         | Present | Partial | Missing |
+|----------------------|---------|---------|---------|
+| Client UI            |   ✔     |         |         |
+| Basic Backend        |   ✔     |         |         |
+| LLM/ML Logic         |         |         |   ✔     |
+| Modular/Offline      |         |         |   ✔     |
+| Secure Comms         |         |         |   ✔     |
+| Auth (2FA, RBAC)     |         |   ✔     |   ✔     |
+| Advanced Workflows   |         |         |   ✔     |
+| Embedded Tools       |         |         |   ✔     |
+| VCS Integration      |         |         |   ✔     |
+| Context Switching    |         |         |   ✔     |
+| Feedback/Analytics   |         |         |   ✔     |
+
+**Implemented:**
+- Homepage: Two-column layout with Projects and "Today's To Do List".
+- Project Creation: Inline project, team, task, and subtask creation/editing.
+- Project Page: Edit project details, manage team and tasks, assign/reassign, delete project.
+- Task & Subtask Management: Assign to team members or leave unassigned, all visible in To Do List.
+- Team Member Management: Add/remove/assign team members during project creation or from project page.
+- Login Page: Simple login form (email/password, no backend auth yet).
+- Local-first: Data stored locally by default.
+- Docker Support: Containerized deployment for frontend and backend.
+
+**Not Implemented:**
+- LLM/ML-powered features, modular execution, secure protocols, advanced authentication, analytics, version control, embedded tools, and workflow automation.
 
 ---
 
