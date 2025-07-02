@@ -5,7 +5,7 @@ function App() {
   const [auth, setAuth] = useState(() => localStorage.getItem("token") || "");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [mode, setMode] = useState("login"); // or "register"
+  const [mode] = useState("login"); // Registration disabled
   const [error, setError] = useState("");
 
   // App state
@@ -48,7 +48,7 @@ function App() {
     return (
       <div style={{ display: "flex", height: "100vh", alignItems: "center", justifyContent: "center" }}>
         <form onSubmit={handleAuth} style={{ minWidth: 320, padding: 32, border: "1px solid #ddd", borderRadius: 8, background: "#fff" }}>
-          <h2 style={{ marginBottom: 16 }}>{mode === "login" ? "Login" : "Create Account"}</h2>
+          <h2 style={{ marginBottom: 16 }}>Login</h2>
           <div style={{ marginBottom: 12 }}>
             <input
               type="text"
@@ -68,24 +68,10 @@ function App() {
           </div>
           {error && <div style={{ color: "red", marginBottom: 8 }}>{error}</div>}
           <button type="submit" style={{ width: "100%", padding: 10, marginBottom: 8 }}>
-            {mode === "login" ? "Login" : "Register"}
+            Login
           </button>
-          <div style={{ textAlign: "center" }}>
-            {mode === "login" ? (
-              <span>
-                No account?{" "}
-                <button type="button" onClick={() => { setMode("register"); setError(""); }} style={{ background: "none", border: "none", color: "#007bff", cursor: "pointer" }}>
-                  Register
-                </button>
-              </span>
-            ) : (
-              <span>
-                Already have an account?{" "}
-                <button type="button" onClick={() => { setMode("login"); setError(""); }} style={{ background: "none", border: "none", color: "#007bff", cursor: "pointer" }}>
-                  Login
-                </button>
-              </span>
-            )}
+          <div style={{ textAlign: "center", color: "#888", marginTop: 8 }}>
+            Account creation is managed by your administrator.
           </div>
         </form>
       </div>
