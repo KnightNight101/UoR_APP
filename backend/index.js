@@ -1,3 +1,14 @@
+// Entry point for Node.js backend with PostgreSQL
+
+const express = require('express');
+const app = express();
+const port = 5000;
+const bcrypt = require('bcrypt');
+const speakeasy = require('speakeasy');
+const db = require('./db');
+
+app.use(express.json());
+
 // LLM Infrastructure: Modular LLM executor and switchboard (scaffold)
 const llmModules = {};
 function registerLLM(name, executor) {
@@ -8,6 +19,7 @@ function getLLM(name) {
 }
 // Secure communication (scaffold): recommend using HTTPS in production
 // const https = require('https');
+// const fs = require('fs');
 // LLM Task Delegation Endpoint (scaffold)
 app.post('/llm-task', async (req, res) => {
   const { model, prompt } = req.body;
@@ -22,60 +34,20 @@ app.post('/llm-task', async (req, res) => {
     res.status(500).json({ error: 'LLM execution failed', details: err.message });
   }
 });
-// const fs = require('fs');
 // const server = https.createServer({ key: fs.readFileSync('key.pem'), cert: fs.readFileSync('cert.pem') }, app);
 // server.listen(port);
 // Example: registerLLM('default', async (prompt) => { ... });
-// Entry point for Node.js backend
-
-const express = require('express');
-const app = express();
-const port = 5000;
-const bcrypt = require('bcrypt');
-const speakeasy = require('speakeasy');
 
 app.get('/', (req, res) => {
   res.send('Backend is running');
 });
 
-// Endpoint for assigning tasks to team members
-app.post('/assign-task', async (req, res) => {
-  const { teamMemberEmail, task } = req.body;
-  try {
-    const TeamMember = mongoose.model('TeamMember', teamMemberSchema);
-    const teamMember = await TeamMember.findOne({ email: teamMemberEmail });
-    if (!teamMember) {
-      return res.status(404).send({ message: 'Team member not found' });
-    }
-    teamMember.tasks = teamMember.tasks || [];
-    teamMember.tasks.push(task);
-    await teamMember.save();
-    res.status(200).send({ message: 'Task assigned successfully', teamMember });
-  } catch (error) {
-    res.status(500).send({ message: 'Error assigning task', error });
-  }
-});
-// Middleware for checking permissions
-function checkPermissions(requiredPermissions) {
-  return (req, res, next) => {
-    const userPermissions = req.user.permissions || [];
-    const hasPermission = requiredPermissions.every(permission => userPermissions.includes(permission));
-    if (!hasPermission) {
-      return res.status(403).send({ message: 'Access denied' });
-    }
-    next();
-  };
-}
-
-// Endpoint for user login
-/**
- * User login endpoint with password and optional 2FA
- */
+// User login endpoint with password and optional 2FA
 app.post('/login', async (req, res) => {
   const { email, password, twoFACode } = req.body;
   try {
-    const TeamMember = mongoose.model('TeamMember', teamMemberSchema);
-    const user = await TeamMember.findOne({ email });
+    const { rows } = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+    const user = rows[0];
     if (!user) {
       return res.status(401).send({ message: 'Invalid credentials' });
     }
@@ -83,12 +55,12 @@ app.post('/login', async (req, res) => {
     if (!validPassword) {
       return res.status(401).send({ message: 'Invalid credentials' });
     }
-    if (user.twoFAEnabled) {
+    if (user.twofa_enabled) {
       if (!twoFACode) {
         return res.status(401).send({ message: '2FA code required', twoFARequired: true });
       }
       const verified = speakeasy.totp.verify({
-        secret: user.twoFASecret,
+        secret: user.twofa_secret,
         encoding: 'base32',
         token: twoFACode
       });
@@ -96,18 +68,18 @@ app.post('/login', async (req, res) => {
         return res.status(401).send({ message: 'Invalid 2FA code' });
       }
     }
-    res.status(200).send({ message: 'Login successful', user: { email: user.email, name: user.name, twoFAEnabled: user.twoFAEnabled } });
+    res.status(200).send({ message: 'Login successful', user: { email: user.email, name: user.name, twoFAEnabled: user.twofa_enabled } });
   } catch (error) {
     res.status(500).send({ message: 'Error during login', error });
   }
 });
-// User registration endpoint with password hashing and 2FA secret generation
+
+// User registration endpoint with password hashing and 2FA secret generation (admin only)
 app.post('/register', async (req, res) => {
-  const { name, role, email, password, enable2FA } = req.body;
+  const { name, role, email, password, enable2FA, permissions = [] } = req.body;
   try {
-    const TeamMember = mongoose.model('TeamMember', teamMemberSchema);
-    const existing = await TeamMember.findOne({ email });
-    if (existing) {
+    const { rows: existing } = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (existing.length > 0) {
       return res.status(409).send({ message: 'User already exists' });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -117,116 +89,65 @@ app.post('/register', async (req, res) => {
       twoFASecret = speakeasy.generateSecret({ length: 20 }).base32;
       twoFAEnabled = true;
     }
-    const user = new TeamMember({
-      name,
-      role,
-      email,
-      password: hashedPassword,
-      permissions: [],
-      twoFAEnabled,
-      twoFASecret
-    });
-    await user.save();
+    const insertQuery = `
+      INSERT INTO users (name, role, email, password, permissions, twofa_enabled, twofa_secret)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING id, email, name, twofa_enabled
+    `;
+    const values = [name, role, email, hashedPassword, permissions, twoFAEnabled, twoFASecret];
+    const { rows } = await db.query(insertQuery, values);
     res.status(201).send({
       message: 'Registration successful',
-      user: { email: user.email, name: user.name, twoFAEnabled: user.twoFAEnabled, twoFASecret: twoFASecret || undefined }
+      user: rows[0]
     });
   } catch (error) {
     res.status(500).send({ message: 'Error during registration', error });
   }
 });
 
-app.listen(port, () => {
-  console.log(`Backend server is listening on port ${port}`);
-});
-// Database integration
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/projectDB', { useNewUrlParser: true, useUnifiedTopology: true });
-
-// Define schemas
-// Extend teamMemberSchema to include authentication and permissions
-const teamMemberSchema = new mongoose.Schema({
-  name: String,
-  role: String,
-  email: { type: String, unique: true, required: true },
-  password: { type: String, required: true },
-  permissions: [String], // Array of permissions
-  twoFAEnabled: { type: Boolean, default: false },
-  twoFASecret: { type: String, default: null }
-});
-
-const subTaskSchema = new mongoose.Schema({ name: String, status: String });
-const taskSchema = new mongoose.Schema({ name: String, status: String, assignee: { type: String, default: null }, subTasks: [subTaskSchema] });
-const projectSchema = new mongoose.Schema({
-  name: String,
-  teamMembers: [teamMemberSchema],
-  deadline: Date,
-  tasks: [taskSchema]
-});
-
-const Project = mongoose.model('Project', projectSchema);
-
-// Update /create-project endpoint
-// DEBUG: Log incoming request for MongoDB create-project
-console.log('MongoDB /create-project called. Body:', req.body);
-app.post('/create-project', async (req, res) => {
-// Assign all unassigned tasks to the first team member by default
-if (teamMembers && teamMembers.length > 0 && tasks && tasks.length > 0) {
-  tasks.forEach(task => {
-    if (!task.assignee) {
-      task.assignee = teamMembers[0].name;
-    }
-  });
-}
+// Example: Get all projects
+app.get('/projects', async (req, res) => {
   try {
-    const { name, teamMembers, deadline, tasks } = req.body;
-    const newProject = new Project({ name, teamMembers, deadline, tasks });
-    await newProject.save();
-    res.status(201).send({ message: 'Project created successfully', project: newProject });
+    const { rows } = await db.query('SELECT * FROM projects');
+    res.json(rows);
+  } catch (error) {
+    res.status(500).send({ message: 'Error fetching projects', error });
+  }
+});
+
+// Example: Create a project
+app.post('/create-project', async (req, res) => {
+  const { name, deadline, teamMembers = [], tasks = [] } = req.body;
+  try {
+    const projectResult = await db.query(
+      'INSERT INTO projects (name, deadline) VALUES ($1, $2) RETURNING id, name, deadline',
+      [name, deadline]
+    );
+    const projectId = projectResult.rows[0].id;
+
+    // Add team members
+    for (const member of teamMembers) {
+      // Find user by email
+      const { rows: userRows } = await db.query('SELECT id FROM users WHERE email = $1', [member.email]);
+      if (userRows.length > 0) {
+        await db.query('INSERT INTO team_members (project_id, user_id) VALUES ($1, $2)', [projectId, userRows[0].id]);
+      }
+    }
+
+    // Add tasks
+    for (const task of tasks) {
+      await db.query(
+        'INSERT INTO tasks (project_id, name, status, assignee_id) VALUES ($1, $2, $3, $4)',
+        [projectId, task.name, task.status, null]
+      );
+    }
+
+    res.status(201).send({ message: 'Project created successfully', project: projectResult.rows[0] });
   } catch (error) {
     res.status(500).send({ message: 'Error creating project', error });
   }
-// Endpoint to assign/reassign a task's assignee in a project
-app.post('/assign-task-to-member', async (req, res) => {
-  const { projectId, taskId, assignee } = req.body;
-// DEBUG: Log incoming request for in-memory create-project
-console.log('In-memory /create-project called. Body:', req.body);
-  try {
-    const project = await Project.findById(projectId);
-    if (!project) {
-      return res.status(404).send({ message: 'Project not found' });
-    }
-    const task = project.tasks.id(taskId);
-    if (!task) {
-      return res.status(404).send({ message: 'Task not found' });
-    }
-    task.assignee = assignee || null;
-    await project.save();
-    res.status(200).send({ message: 'Task assignment updated', task });
-  } catch (error) {
-    res.status(500).send({ message: 'Error updating task assignment', error });
-  }
 });
-});
-// Feature: Creating projects
 
-const projects = [];
-
-app.post('/create-project', (req, res) => {
-  const { name, teamMembers, deadline, tasks } = req.body;
-
-  const newProject = {
-    id: projects.length + 1,
-    name,
-    teamMembers,
-    deadline,
-    tasks: tasks.map(task => ({
-      ...task,
-      assignee: task.assignee || null,
-      subTasks: task.subTasks || []
-    }))
-  };
-
-  projects.push(newProject);
-  res.status(201).send({ message: 'Project created successfully', project: newProject });
+app.listen(port, () => {
+  console.log(`Backend server is listening on port ${port}`);
 });
