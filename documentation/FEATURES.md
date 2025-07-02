@@ -1,22 +1,65 @@
-# Project Management App Documentation
+# UoR_APP Features & Architecture
 
-## Overview
+## Full Featureset
 
-This project consists of two separate apps:
+### Core Features (Implemented/Planned)
+- Project, task, and subtask management
+- Team member management and permissions
+- Sprint planning, prioritization, and daily planning
+- Secure authentication (username, password, 2FA)
+- Local-first, offline-capable design
+- Dockerized deployment
 
-- **Node App**: The main project and task management tool (React-based UI, previously called "frontend").
-- **Server App**: The admin/server UI and API backend (Node.js/Express with its own React-based admin UI).
+### LLM/ML-Powered & Advanced Features (Planned)
+- Modular LLM/ML-powered workflows
+- Task delegation to local or server LLMs based on complexity
+- Pluggable model system (swap models at backend, no client changes)
+- Secure communication (HTTPS, gRPC)
+- Load balancing for LLM inference
+- No direct LLM chat: all model interactions are predefined and passive
+- Version control: monitors changes, auto-generates commit messages, logs for team leads
+- Analytics: bottleneck detection, task delay analysis, feedback-driven improvements
+- Embedded tools: LibreOffice and VSCode integration for native editing
+- Context switching: project summaries, task familiarization, knowledge base
+- Feedback tools: suggestion box, bug report form, analytics pipeline
 
-Both apps interact via REST API endpoints, with authentication and user management handled by the Server App.
+### User Roles
+- **Employee:** Uses client app, views projects/tasks, submits feedback and daily reports
+- **IT Infrastructure Team:** Accesses logs, model configs, server status, manages LLM deployments
+
+### Authentication & Identity Management
+- Username + password + 2FA
+- User profiles: project memberships, schedules, task history, role-based permissions
+
+### Core Workflows
+- **Task Lifecycle & Planning:** BVA, subtask suggestion, prioritization, sprint planning
+- **Daily Operations:** Auto-generated daily plan (Eisenhower Matrix), embedded tools, VCS, end-of-day reflection
+- **Context Switching:** Project context summary, task familiarization
+- **System Feedback:** Continuous analysis, feature rollout, feedback integration
+
+### Optional/ML-Enhanced Features
+- Commit message summarization from code diffs
+- Task similarity matching for auto-subtasking
+- Project health reports (velocity, blockers)
+- Per-user workstyle adaptation
+- Personal task memory ("you handled similar task in Q1")
 
 ---
 
+## Architecture Overview
+
+- **Client App:** React UI, to-do interface, embedded tools, local task execution, context workflows
+- **Server App:** Node.js/Express backend, project/task DB, sprint planner, knowledge base, LLM executor, admin dashboard
+- **LLM Infrastructure:** Modular execution, task allocation, predefined prompt chains
+
 ---
-## Software Architecture Diagram
+
+## Diagrams
+
+### High-Level Architecture
 
 ```mermaid
 flowchart LR
-
     subgraph ClientApp [Client Application]
         Login[Login & Authentication]
         ToDo[Daily To-Do List]
@@ -41,7 +84,7 @@ flowchart LR
         KB[Knowledge Base]
     end
 
-    subgraph AdminLLM [LLM Servw]
+    subgraph AdminLLM [LLM Admin]
         AdminModelMgmt[Model Management]
         AdminLLM1[LLM]
         AdminLLM2[LLM]
@@ -76,158 +119,16 @@ flowchart LR
     AppServer --> KB
 ```
 
+---
 
-## Main Features
+## How to Contribute
 
-### Node App (Project/Task Manager)
-
-- Authentication required (login/register via Server App).
-- Project creation, editing, and deletion.
-- Team member management (add/remove/assign).
-- Task and subtask management (add/edit/remove, assign, dependencies).
-- Drag-and-drop reordering for tasks and subtasks.
-- Gantt chart visualization for tasks/subtasks.
-- Today's To Do List aggregation.
-- Inline editing for deadlines, dependencies, and assignments.
-- All features accessible after login.
-
-### Server App (Admin/Server UI)
-
-- Authentication required (login/register, username/password).
-- REST API for user management, members, projects, logs, and nodes.
-- Admin UI with three columns: members, projects, event log.
-- Event log of all API and user actions.
-- User registration and login endpoints (`/auth/register`, `/auth/login`).
-- File-based storage for users and node data.
-- Serves static React admin UI.
-
-### Shared/Integration Features
-
-- Both apps communicate via REST API (JSON).
-- Authentication token required for all API endpoints except `/auth/*`.
-- User session stored in localStorage and sent as Bearer token.
-- Both apps can be run in development mode or bundled for production.
-- All features work cross-app after login.
+- See the [README](../README.md) for setup and demo instructions.
+- Open issues or pull requests for new features, bug fixes, or documentation improvements.
+- Roadmap and open issues are tracked here.
 
 ---
 
----
+## See Also
 
-## UI Structure
-
-```mermaid
-graph TD
-  A[Homepage] -->|View Project| B[Project Page]
-  A -->|Create Project| C[Create Project Page]
-  A -->|Login| D[Login Page]
-  B -->|Back/Home/Delete| A
-  C -->|Cancel/Create| A
-```
-
----
-
-## Future Documentation Updates
-
-- Add backend API documentation.
-- Add screenshots or UI wireframes.
-- Add advanced usage and troubleshooting.
----
-
-## Backend & API Overview
-
-- **Backend:** Node.js server (see [`backend/index.js`](../backend/index.js:1)), manages project, team, and task data.
-- **API:** RESTful endpoints for CRUD operations on projects, tasks, and team members.
-- **Local-first:** Data is stored locally by default; future updates may add remote sync.
-
----
-
-## Running the Application Locally
-
-1. **Install dependencies:**
-   - Frontend: `cd frontend && npm install`
-   - Backend: `cd backend && npm install`
-2. **Start backend:** `npm start` (from `backend` directory)
-3. **Start frontend:** `npm start` (from `frontend` directory, default port: 3002)
-4. **Access app:** [http://localhost:3002](http://localhost:3002)
-
----
-
-## Deployment
-
-- **Docker:** Both frontend and backend have Dockerfiles for containerized deployment.
-- **docker-compose:** Use `docker-compose.yml` for multi-container setup.
-- **Ports:** Frontend runs on 3002 by default; backend port can be configured.
-
----
-
-## Tech Stack
-
-- React (frontend)
-- Node.js (backend)
-- Docker (deployment)
-- Local-first storage
-
----
----
-
-## Software Architecture Diagram
-
-```mermaid
-graph TD
-  NodeApp[Node App (Project/Task Manager)]
-  ServerApp[Server App (Admin/API Server)]
-  NodeUI[Node App UI]
-  ServerUI[Server Admin UI]
-  NodeAPI[Node App API Client]
-  ServerAPI[Server REST API]
-  UsersFile[Users File]
-  NodesFile[Nodes File]
-
-  NodeUI -->|API (auth, projects, tasks, members)| ServerAPI
-  ServerUI -->|API (auth, members, projects, logs, nodes)| ServerAPI
-  ServerAPI --> UsersFile
-  ServerAPI --> NodesFile
-  NodeApp -.-> NodeUI
-  ServerApp -.-> ServerUI
-```
-
-- **Node App:** React app for project/task management, communicates with Server App via REST API.
-- **Server App:** Node.js/Express backend, provides authentication, user management, and admin UI.
-- **Authentication:** All API endpoints require a valid token except `/auth/*`.
-- **Data Storage:** Users and nodes stored in local JSON files.
-- **Deployment:** Both apps can be run independently or containerized.
-
----
-
-## User Flow Diagram
-
-```mermaid
-graph TD
-  Start([Start])
-  Login[Login Page]
-  Home[Homepage]
-  CreateProject[Create Project]
-  ProjectPage[Project Page]
-  AddTeam[Add Team Members]
-  AddTasks[Add Tasks/Subtasks]
-  Assign[Assign Tasks]
-  Sprint[Sprint Planning]
-  ToDo[Today's To Do List]
-  End([End])
-
-  Start --> Login
-  Login --> Home
-  Home -->|View| ProjectPage
-  Home -->|Create| CreateProject
-  CreateProject --> AddTeam
-  AddTeam --> AddTasks
-  AddTasks --> Assign
-  Assign --> ProjectPage
-  ProjectPage --> Sprint
-  Sprint --> ToDo
-  ToDo --> End
-```
-
-- **Typical flow:** User logs in, creates a project, adds team members and tasks, assigns work, plans sprints, and tracks tasks via the To Do List.
-
----
+- [Project Brief](PROJECT_BRIEF.md)
