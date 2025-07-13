@@ -1,40 +1,40 @@
 \contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Problem Statement and Motivation}{3}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Project Objectives}{4}{section.1.2}%
-\contentsline {chapter}{\numberline {2}Background and Literature Review}{5}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Agile Methodology: Overview and Key Concepts}{5}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Existing Project Management Tools}{5}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Applications of ML/LLMs in Project Management}{5}{section.2.3}%
-\contentsline {section}{\numberline {2.4}LLM Technologies: GPT, BERT, and Others}{5}{section.2.4}%
-\contentsline {section}{\numberline {2.5}Gaps in Current Research and Tools}{5}{section.2.5}%
-\contentsline {chapter}{\numberline {3}Methodology}{6}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Requirements Gathering}{6}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Design Methodology}{6}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Data Sources and Preprocessing}{6}{section.3.3}%
-\contentsline {section}{\numberline {3.4}LLM Selection and Integration Strategy}{6}{section.3.4}%
-\contentsline {section}{\numberline {3.5}System Architecture Overview}{6}{section.3.5}%
-\contentsline {chapter}{\numberline {4}System Design and Implementation}{7}{chapter.4}%
-\contentsline {section}{\numberline {4.1}System Architecture}{7}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Frontend and Backend Design}{7}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Key Features and Functionalities}{7}{section.4.3}%
-\contentsline {section}{\numberline {4.4}LLM Integration and Prompt Engineering}{7}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Security and Ethical Considerations}{7}{section.4.5}%
-\contentsline {chapter}{\numberline {5}Evaluation and Testing}{8}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Evaluation Criteria}{8}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Functional Testing}{8}{section.5.2}%
-\contentsline {section}{\numberline {5.3}LLM Response Evaluation}{8}{section.5.3}%
-\contentsline {section}{\numberline {5.4}User Testing and Feedback}{8}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Limitations in Testing}{8}{section.5.5}%
-\contentsline {chapter}{\numberline {6}Discussion}{9}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Analysis of Results}{9}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Challenges Faced}{9}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Agile Methodology Reflection}{9}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Model Performance vs Expectations}{9}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Conclusion and Future Work}{10}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Summary of Contributions}{10}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Applications and Impact}{10}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Limitations}{10}{section.7.3}%
-\contentsline {section}{\numberline {7.4}Future Improvements}{10}{section.7.4}%
-\contentsline {chapter}{\numberline {A}Screenshots and Interface Designs}{11}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Test Logs and Scripts}{12}{appendix.B}%
-\contentsline {chapter}{\numberline {C}User Feedback and Survey Responses}{13}{appendix.C}%
+\contentsline {chapter}{\numberline {2}Background and Literature Review}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Agile Methodology: Overview and Key Concepts}{6}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Existing Project Management Tools}{6}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Applications of ML/LLMs in Project Management}{6}{section.2.3}%
+\contentsline {section}{\numberline {2.4}LLM Technologies: GPT, BERT, and Others}{6}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Gaps in Current Research and Tools}{6}{section.2.5}%
+\contentsline {chapter}{\numberline {3}Methodology}{7}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Requirements Gathering}{7}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Design Methodology}{7}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Data Sources and Preprocessing}{7}{section.3.3}%
+\contentsline {section}{\numberline {3.4}LLM Selection and Integration Strategy}{7}{section.3.4}%
+\contentsline {section}{\numberline {3.5}System Architecture Overview}{7}{section.3.5}%
+\contentsline {chapter}{\numberline {4}System Design and Implementation}{8}{chapter.4}%
+\contentsline {section}{\numberline {4.1}System Architecture}{8}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Frontend and Backend Design}{8}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Key Features and Functionalities}{8}{section.4.3}%
+\contentsline {section}{\numberline {4.4}LLM Integration and Prompt Engineering}{8}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Security and Ethical Considerations}{8}{section.4.5}%
+\contentsline {chapter}{\numberline {5}Evaluation and Testing}{9}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Evaluation Criteria}{9}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Functional Testing}{9}{section.5.2}%
+\contentsline {section}{\numberline {5.3}LLM Response Evaluation}{9}{section.5.3}%
+\contentsline {section}{\numberline {5.4}User Testing and Feedback}{9}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Limitations in Testing}{9}{section.5.5}%
+\contentsline {chapter}{\numberline {6}Discussion}{10}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Analysis of Results}{10}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Challenges Faced}{10}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Agile Methodology Reflection}{10}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Model Performance vs Expectations}{10}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Conclusion and Future Work}{11}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Summary of Contributions}{11}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Applications and Impact}{11}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Limitations}{11}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Future Improvements}{11}{section.7.4}%
+\contentsline {chapter}{\numberline {A}Screenshots and Interface Designs}{12}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Test Logs and Scripts}{13}{appendix.B}%
+\contentsline {chapter}{\numberline {C}User Feedback and Survey Responses}{14}{appendix.C}%
