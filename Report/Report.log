@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.1)  29 JUN 2025 20:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.1)  13 JUL 2025 17:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -375,7 +375,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.23 ...nd Ethical Considerations}{6}{section.4.5}
+l.22 ...e {5}Evaluation and Testing}{8}{chapter.5}
                                                   % [1
 
 ])
@@ -398,63 +398,72 @@ Chapter 1.
 [3
 
 ]
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 14.49998pt, for example:
+(fancyhdr)                \setlength{\headheight}{14.49998pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
+
+[4]
 Chapter 2.
 
-Overfull \hbox (0.36983pt too wide) in paragraph at lines 46--46
+Overfull \hbox (0.36983pt too wide) in paragraph at lines 53--53
 |[]\OT1/cmr/bx/n/17.28 Agile Method-ol-ogy: Overview and Key Con-cepts| 
  []
 
 
 
-[4
+[5
 
 ]
 Chapter 3.
 
 
-[5
+[6
 
 ]
 Chapter 4.
 
 
-[6
+[7
 
 ]
 Chapter 5.
 
 
-[7
+[8
 
 ]
 Chapter 6.
 
 
-[8
+[9
 
 ]
 Chapter 7.
 
 
-[9
+[10
 
 ]
 Appendix A.
 
 
-[10
+[11
 
 ]
 Appendix B.
 
 
-[11
+[12
 
 ]
 Appendix C.
 (Report.bbl
 
-[12
+[13
 
 ]
 
@@ -462,7 +471,7 @@ LaTeX Warning: Empty `thebibliography' environment on input line 24.
 
 )
 
-[13
+[14
 
 ] (Report.aux)
  ***********
@@ -470,20 +479,20 @@ LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
  ***********
 Package rerunfilecheck Info: File `Report.out' has not changed.
-(rerunfilecheck)             Checksum: F4E9788CBF012E8D6D92771DC4C21AB0;7852.
+(rerunfilecheck)             Checksum: 7DE1C1E79879598BB55A63FF90EB87BA;7594.
  ) 
 Here is how much of TeX's memory you used:
- 10991 strings out of 473682
- 170524 string characters out of 5714932
+ 10988 strings out of 473682
+ 170483 string characters out of 5714932
  570849 words of memory out of 5000000
- 33886 multiletter control sequences out of 15000+600000
+ 33884 multiletter control sequences out of 15000+600000
  567438 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,79p,376b,475s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,11n,79p,845b,498s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on Report.pdf (14 pages, 80244 bytes).
+Output written on Report.pdf (15 pages, 84089 bytes).
 PDF statistics:
- 300 PDF objects out of 1000 (max. 8388607)
- 58 named destinations out of 1000 (max. 500000)
- 337 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 294 PDF objects out of 1000 (max. 8388607)
+ 57 named destinations out of 1000 (max. 500000)
+ 321 words of extra memory for PDF output out of 10000 (max. 10000000)
 
