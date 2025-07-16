@@ -9,6 +9,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import { useNavigate } from "react-router-dom";
 
 const initialData = {
   categories: {
@@ -70,6 +71,7 @@ const initialData = {
 
 function Dashboard() {
   const [data, setData] = useState(initialData);
+  const navigate = useNavigate();
 
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -270,6 +272,7 @@ function Dashboard() {
                         fontWeight: "bold",
                         cursor: "pointer",
                       }}
+                      onClick={() => navigate('/create-project')}
                     >
                       Create New Project
                     </button>
