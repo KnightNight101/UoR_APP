@@ -1,85 +1,207 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-const placeholderTasks = [
-  {
-    title: "Task 1",
-    subtasks: ["Subtask 1.1", "Subtask 1.2"],
+const initialData = {
+  categories: {
+    urgent_important: {
+      id: "urgent_important",
+      title: "Urgent and Important",
+      taskIds: ["task-1", "task-2"],
+    },
+    urgent: {
+      id: "urgent",
+      title: "Urgent",
+      taskIds: ["task-3"],
+    },
+    important: {
+      id: "important",
+      title: "Important",
+      taskIds: ["task-4"],
+    },
+    others: {
+      id: "others",
+      title: "Others",
+      taskIds: ["task-5"],
+    },
   },
-  {
-    title: "Task 2",
-    subtasks: ["Subtask 2.1"],
+  tasks: {
+    "task-1": {
+      id: "task-1",
+      title: "Finish report",
+      subtasks: ["Draft", "Review"],
+    },
+    "task-2": {
+      id: "task-2",
+      title: "Prepare slides",
+      subtasks: ["Outline", "Design"],
+    },
+    "task-3": {
+      id: "task-3",
+      title: "Reply to urgent emails",
+      subtasks: ["Client A", "Manager"],
+    },
+    "task-4": {
+      id: "task-4",
+      title: "Plan next sprint",
+      subtasks: ["Backlog grooming"],
+    },
+    "task-5": {
+      id: "task-5",
+      title: "Read industry news",
+      subtasks: ["AI trends"],
+    },
   },
-];
-
-const placeholderProjects = [
-  { name: "Project Alpha", role: "Member" },
-  { name: "Project Beta", role: "Owner" },
-];
+  categoryOrder: [
+    "urgent_important",
+    "urgent",
+    "important",
+    "others",
+  ],
+};
 
 function Dashboard() {
+  const [data, setData] = useState(initialData);
+
+  const onDragEnd = (result) => {
+    const { destination, source, draggableId } = result;
+    if (!destination) return;
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const start = data.categories[source.droppableId];
+    const finish = data.categories[destination.droppableId];
+
+    if (start === finish) {
+      const newTaskIds = Array.from(start.taskIds);
+      newTaskIds.splice(source.index, 1);
+      newTaskIds.splice(destination.index, 0, draggableId);
+
+      const newCategory = {
+        ...start,
+        taskIds: newTaskIds,
+      };
+
+      setData({
+        ...data,
+        categories: {
+          ...data.categories,
+          [newCategory.id]: newCategory,
+        },
+      });
+      return;
+    }
+
+    // Moving from one category to another
+    const startTaskIds = Array.from(start.taskIds);
+    startTaskIds.splice(source.index, 1);
+    const newStart = {
+      ...start,
+      taskIds: startTaskIds,
+    };
+
+    const finishTaskIds = Array.from(finish.taskIds);
+    finishTaskIds.splice(destination.index, 0, draggableId);
+    const newFinish = {
+      ...finish,
+      taskIds: finishTaskIds,
+    };
+
+    setData({
+      ...data,
+      categories: {
+        ...data.categories,
+        [newStart.id]: newStart,
+        [newFinish.id]: newFinish,
+      },
+    });
+  };
+
   return (
     <Container maxWidth="lg" sx={{ mt: 4 }}>
-      <Grid container spacing={4}>
-        {/* Left Column: To Do List */}
-        <Grid item xs={12} md={6}>
-          <Paper elevation={3} sx={{ p: 3 }}>
-            <Typography variant="h5" gutterBottom>
-              To Do List
-            </Typography>
-            <List>
-              {placeholderTasks.map((task, idx) => (
-                <Box key={idx} mb={2}>
-                  <ListItem>
-                    <ListItemText
-                      primary={task.title}
-                      primaryTypographyProps={{ fontWeight: "bold" }}
-                    />
-                  </ListItem>
-                  <List component="div" disablePadding sx={{ pl: 3 }}>
-                    {task.subtasks.map((sub, subIdx) => (
-                      <ListItem key={subIdx}>
-                        <ListItemText primary={sub} />
-                      </ListItem>
-                    ))}
-                  </List>
-                  {idx < placeholderTasks.length - 1 && <Divider sx={{ mt: 1, mb: 1 }} />}
-                </Box>
-              ))}
-            </List>
-          </Paper>
+      <Typography variant="h4" gutterBottom>
+        To-Do List
+      </Typography>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Grid container spacing={3}>
+          {data.categoryOrder.map((categoryId) => {
+            const category = data.categories[categoryId];
+            return (
+              <Grid item xs={12} md={6} lg={3} key={category.id}>
+                <Paper elevation={3} sx={{ p: 2, minHeight: 350 }}>
+                  <Typography variant="h6" align="center" gutterBottom>
+                    {category.title}
+                  </Typography>
+                  <Droppable droppableId={category.id}>
+                    {(provided, snapshot) => (
+                      <List
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        sx={{
+                          minHeight: 250,
+                          background: snapshot.isDraggingOver ? "#f0f4ff" : "inherit",
+                          transition: "background 0.2s",
+                        }}
+                      >
+                        {category.taskIds.map((taskId, index) => {
+                          const task = data.tasks[taskId];
+                          return (
+                            <Draggable key={task.id} draggableId={task.id} index={index}>
+                              {(provided, snapshot) => (
+                                <Box
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  mb={2}
+                                  sx={{
+                                    background: snapshot.isDragging ? "#e3f2fd" : "#fff",
+                                    borderRadius: 2,
+                                    boxShadow: snapshot.isDragging ? 4 : 1,
+                                  }}
+                                >
+                                  <ListItem>
+                                    <ListItemText
+                                      primary={task.title}
+                                      primaryTypographyProps={{ fontWeight: "bold" }}
+                                    />
+                                  </ListItem>
+                                  <List component="div" disablePadding sx={{ pl: 3 }}>
+                                    {task.subtasks.map((sub, subIdx) => (
+                                      <ListItem key={subIdx}>
+                                        <ListItemText primary={sub} />
+                                      </ListItem>
+                                    ))}
+                                  </List>
+                                  {index < category.taskIds.length - 1 && (
+                                    <Divider sx={{ mt: 1, mb: 1 }} />
+                                  )}
+                                </Box>
+                              )}
+                            </Draggable>
+                          );
+                        })}
+                        {provided.placeholder}
+                      </List>
+                    )}
+                  </Droppable>
+                </Paper>
+              </Grid>
+            );
+          })}
         </Grid>
-        {/* Right Column: Projects */}
-        <Grid item xs={12} md={6}>
-          <Paper elevation={3} sx={{ p: 3 }}>
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-              <Typography variant="h5">Projects</Typography>
-              <Button variant="contained" color="primary">
-                Create New Project
-              </Button>
-            </Box>
-            <List>
-              {placeholderProjects.map((project, idx) => (
-                <ListItem key={idx}>
-                  <ListItemText
-                    primary={project.name}
-                    secondary={`Role: ${project.role}`}
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </Paper>
-        </Grid>
-      </Grid>
+      </DragDropContext>
     </Container>
   );
 }
