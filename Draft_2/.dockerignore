@@ -1,0 +1,10 @@
+# Ignore test files
+tests/
+*.pyc
+__pycache__/
+# Ignore documentation
+../documentation/
+../README.md
+# Ignore host keys and configs if not needed at build
+config/host_key.txt
+config/ssh_config.txt

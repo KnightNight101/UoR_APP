@@ -1,0 +1,2 @@
+# Placeholder SSH configuration file
+# Add SSH server settings here
