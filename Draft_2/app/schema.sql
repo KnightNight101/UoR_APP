@@ -105,3 +105,25 @@ CREATE TABLE IF NOT EXISTS project_files (
     FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
     FOREIGN KEY (file_id) REFERENCES files(id) ON DELETE CASCADE
 );
+-- GitHub repository integration schema
+
+CREATE TABLE IF NOT EXISTS github_repos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    project_id INTEGER NOT NULL,
+    repo_url TEXT NOT NULL,
+    access_token TEXT, -- Store securely, consider encryption in production
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS file_versions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    file_id INTEGER NOT NULL,
+    repo_id INTEGER NOT NULL,
+    commit_hash TEXT NOT NULL,
+    version INTEGER NOT NULL,
+    committed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    author TEXT,
+    FOREIGN KEY (file_id) REFERENCES files(id) ON DELETE CASCADE,
+    FOREIGN KEY (repo_id) REFERENCES github_repos(id) ON DELETE CASCADE
+);
