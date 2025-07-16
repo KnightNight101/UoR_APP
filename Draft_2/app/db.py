@@ -122,6 +122,31 @@ class ProjectFile(Base):
 
     project = relationship("Project", backref="project_files")
     file = relationship("File", back_populates="project_links")
+# GitHub repository integration models
+
+class GitHubRepo(Base):
+    __tablename__ = "github_repos"
+    id = Column(Integer, primary_key=True)
+    project_id = Column(Integer, ForeignKey("projects.id", ondelete="CASCADE"), nullable=False)
+    repo_url = Column(String, nullable=False)
+    access_token = Column(String)  # Store securely, consider encryption in production
+    created_at = Column(DateTime, server_default=func.current_timestamp())
+
+    project = relationship("Project", backref="github_repos")
+    file_versions = relationship("FileVersion", back_populates="repo", cascade="all, delete-orphan")
+
+class FileVersion(Base):
+    __tablename__ = "file_versions"
+    id = Column(Integer, primary_key=True)
+    file_id = Column(Integer, ForeignKey("files.id", ondelete="CASCADE"), nullable=False)
+    repo_id = Column(Integer, ForeignKey("github_repos.id", ondelete="CASCADE"), nullable=False)
+    commit_hash = Column(String, nullable=False)
+    version = Column(Integer, nullable=False)
+    committed_at = Column(DateTime, server_default=func.current_timestamp())
+    author = Column(String)
+
+    file = relationship("File", backref="versions")
+    repo = relationship("GitHubRepo", back_populates="file_versions")
 
 def init_db():
     """Initialize the database schema from schema.sql if tables do not exist."""
