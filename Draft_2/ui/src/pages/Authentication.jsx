@@ -19,7 +19,7 @@ function Authentication() {
       minHeight="100vh"
       sx={{ backgroundColor: "background.default", py: { xs: 2, md: 4 } }}
     >
-      <Container maxWidth="sm" sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <Container maxWidth={false} sx={{ maxWidth: "60vw", width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
         <Paper elevation={3} sx={{ p: { xs: 2, sm: 4 }, borderRadius: 3, width: "100%" }}>
           <Box display="flex" flexDirection="column" alignItems="center" gap={3} width="100%">
             <Typography variant="h4" gutterBottom>
