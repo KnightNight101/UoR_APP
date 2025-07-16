@@ -76,6 +76,53 @@ class Subtask(Base):
     task = relationship("Task", back_populates="subtasks")
     assignee = relationship("User", back_populates="assigned_subtasks")
 
+# File management models
+
+class File(Base):
+    __tablename__ = "files"
+    id = Column(Integer, primary_key=True)
+    filename = Column(String, nullable=False)
+    path = Column(String, nullable=False)
+    size = Column(Integer)
+    mimetype = Column(String)
+    uploaded_at = Column(DateTime, server_default=func.current_timestamp())
+    owner_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    access_level = Column(String, nullable=False, default="private")  # 'private', 'project', 'public'
+    edit_level = Column(String, nullable=False, default="owner")      # 'owner', 'project', 'any'
+
+    owner = relationship("User", backref="files")
+    project_links = relationship("ProjectFile", back_populates="file", cascade="all, delete-orphan")
+
+    def can_user_access(self, user, project_ids=None):
+        # Returns True if user can access this file
+        if self.access_level == "public":
+            return True
+        if self.owner_id == user.id:
+            return True
+        if self.access_level == "project" and project_ids:
+            return any(link.project_id in project_ids and link.can_view for link in self.project_links)
+        return False
+
+    def can_user_edit(self, user, project_ids=None):
+        # Returns True if user can edit this file
+        if self.edit_level == "any":
+            return True
+        if self.owner_id == user.id:
+            return True
+        if self.edit_level == "project" and project_ids:
+            return any(link.project_id in project_ids and link.can_edit for link in self.project_links)
+        return False
+
+class ProjectFile(Base):
+    __tablename__ = "project_files"
+    project_id = Column(Integer, ForeignKey("projects.id", ondelete="CASCADE"), primary_key=True)
+    file_id = Column(Integer, ForeignKey("files.id", ondelete="CASCADE"), primary_key=True)
+    can_edit = Column(Integer, nullable=False, default=0)
+    can_view = Column(Integer, nullable=False, default=1)
+
+    project = relationship("Project", backref="project_files")
+    file = relationship("File", back_populates="project_links")
+
 def init_db():
     """Initialize the database schema from schema.sql if tables do not exist."""
     with engine.connect() as conn:
