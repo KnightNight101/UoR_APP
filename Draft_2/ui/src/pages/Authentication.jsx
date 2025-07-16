@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -8,6 +9,8 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 
 function Authentication() {
+  const navigate = useNavigate();
+
   return (
     <Container maxWidth="sm" sx={{ mt: 8 }}>
       <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
@@ -40,7 +43,12 @@ function Authentication() {
             <Button variant="outlined" color="secondary" fullWidth>
               Reset Password
             </Button>
-            <Button variant="text" color="info" fullWidth>
+            <Button
+              variant="text"
+              color="info"
+              fullWidth
+              onClick={() => navigate("/dashboard")}
+            >
               Debug
             </Button>
           </Stack>
