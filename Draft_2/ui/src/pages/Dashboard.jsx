@@ -130,121 +130,155 @@ function Dashboard() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Dashboard
-      </Typography>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Grid container spacing={3}>
-          {/* Left Column: To-Do Categories */}
-          <Grid item xs={12} md={8}>
-            <Box>
-              <Grid container spacing={2} direction="column">
-                {data.categoryOrder.map((categoryId) => {
-                  const category = data.categories[categoryId];
-                  return (
-                    <Grid item key={category.id}>
-                      <Paper elevation={3} sx={{ p: 2, minHeight: 200 }}>
-                        <Typography variant="h6" align="center" gutterBottom>
-                          {category.title}
-                        </Typography>
-                        <Droppable droppableId={category.id}>
-                          {(provided, snapshot) => (
-                            <List
-                              ref={provided.innerRef}
-                              {...provided.droppableProps}
-                              sx={{
-                                minHeight: 100,
-                                background: snapshot.isDraggingOver ? "#f0f4ff" : "inherit",
-                                transition: "background 0.2s",
-                              }}
-                            >
-                              {category.taskIds.map((taskId, index) => {
-                                const task = data.tasks[taskId];
-                                return (
-                                  <Draggable key={task.id} draggableId={task.id} index={index}>
-                                    {(provided, snapshot) => (
-                                      <Box
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        mb={2}
-                                        sx={{
-                                          background: snapshot.isDragging ? "#e3f2fd" : "#fff",
-                                          borderRadius: 2,
-                                          boxShadow: snapshot.isDragging ? 4 : 1,
-                                        }}
-                                      >
-                                        <ListItem>
-                                          <ListItemText
-                                            primary={task.title}
-                                            primaryTypographyProps={{ fontWeight: "bold" }}
-                                          />
-                                        </ListItem>
-                                        <List component="div" disablePadding sx={{ pl: 3 }}>
-                                          {task.subtasks.map((sub, subIdx) => (
-                                            <ListItem key={subIdx}>
-                                              <ListItemText primary={sub} />
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="100vh"
+      sx={{ backgroundColor: "background.default", py: { xs: 2, md: 4 } }}
+    >
+      <Container
+        maxWidth="lg"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+        }}
+      >
+        <Box display="flex" flexDirection="column" alignItems="center" width="100%">
+          <Typography variant="h4" gutterBottom>
+            Dashboard
+          </Typography>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Grid
+              container
+              spacing={3}
+              justifyContent="center"
+              alignItems="stretch"
+              sx={{ width: "100%" }}
+            >
+              {/* Left Column: To-Do Categories */}
+              <Grid item xs={12} md={8}>
+                <Box>
+                  <Grid container spacing={2} direction="column">
+                    {data.categoryOrder.map((categoryId) => {
+                      const category = data.categories[categoryId];
+                      return (
+                        <Grid item key={category.id}>
+                          <Paper elevation={3} sx={{ p: 2, minHeight: 200 }}>
+                            <Typography variant="h6" align="center" gutterBottom>
+                              {category.title}
+                            </Typography>
+                            <Droppable droppableId={category.id}>
+                              {(provided, snapshot) => (
+                                <List
+                                  ref={provided.innerRef}
+                                  {...provided.droppableProps}
+                                  sx={{
+                                    minHeight: 100,
+                                    background: snapshot.isDraggingOver ? "#f0f4ff" : "inherit",
+                                    transition: "background 0.2s",
+                                  }}
+                                >
+                                  {category.taskIds.map((taskId, index) => {
+                                    const task = data.tasks[taskId];
+                                    return (
+                                      <Draggable key={task.id} draggableId={task.id} index={index}>
+                                        {(provided, snapshot) => (
+                                          <Box
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            mb={2}
+                                            sx={{
+                                              background: snapshot.isDragging ? "#e3f2fd" : "#fff",
+                                              borderRadius: 2,
+                                              boxShadow: snapshot.isDragging ? 4 : 1,
+                                            }}
+                                          >
+                                            <ListItem>
+                                              <ListItemText
+                                                primary={task.title}
+                                                primaryTypographyProps={{ fontWeight: "bold" }}
+                                              />
                                             </ListItem>
-                                          ))}
-                                        </List>
-                                        {index < category.taskIds.length - 1 && (
-                                          <Divider sx={{ mt: 1, mb: 1 }} />
+                                            <List component="div" disablePadding sx={{ pl: 3 }}>
+                                              {task.subtasks.map((sub, subIdx) => (
+                                                <ListItem key={subIdx}>
+                                                  <ListItemText primary={sub} />
+                                                </ListItem>
+                                              ))}
+                                            </List>
+                                            {index < category.taskIds.length - 1 && (
+                                              <Divider sx={{ mt: 1, mb: 1 }} />
+                                            )}
+                                          </Box>
                                         )}
-                                      </Box>
-                                    )}
-                                  </Draggable>
-                                );
-                              })}
-                              {provided.placeholder}
-                            </List>
-                          )}
-                        </Droppable>
-                      </Paper>
-                    </Grid>
-                  );
-                })}
+                                      </Draggable>
+                                    );
+                                  })}
+                                  {provided.placeholder}
+                                </List>
+                              )}
+                            </Droppable>
+                          </Paper>
+                        </Grid>
+                      );
+                    })}
+                  </Grid>
+                </Box>
               </Grid>
-            </Box>
-          </Grid>
-          {/* Right Column: Projects */}
-          <Grid item xs={12} md={4}>
-            <Paper elevation={3} sx={{ p: 2, minHeight: 400, display: "flex", flexDirection: "column" }}>
-              <Typography variant="h6" align="center" gutterBottom>
-                Projects
-              </Typography>
-              <List>
-                <ListItem>
-                  <ListItemText primary="Project Alpha" />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary="Project Beta" />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primary="Project Gamma" />
-                </ListItem>
-              </List>
-              <Box sx={{ flexGrow: 1 }} />
-              <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
-                <button
-                  style={{
-                    background: "#1976d2",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: 4,
-                    padding: "8px 16px",
-                    fontWeight: "bold",
-                    cursor: "pointer",
+              {/* Right Column: Projects */}
+              <Grid item xs={12} md={4}>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    p: 2,
+                    minHeight: 400,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
                   }}
                 >
-                  Create New Project
-                </button>
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
-      </DragDropContext>
-    </Container>
+                  <Typography variant="h6" align="center" gutterBottom>
+                    Projects
+                  </Typography>
+                  <List>
+                    <ListItem>
+                      <ListItemText primary="Project Alpha" />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText primary="Project Beta" />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText primary="Project Gamma" />
+                    </ListItem>
+                  </List>
+                  <Box sx={{ flexGrow: 1 }} />
+                  <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+                    <button
+                      style={{
+                        background: "#1976d2",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: 4,
+                        padding: "8px 16px",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Create New Project
+                    </button>
+                  </Box>
+                </Paper>
+              </Grid>
+            </Grid>
+          </DragDropContext>
+        </Box>
+      </Container>
+    </Box>
   );
 }
 
