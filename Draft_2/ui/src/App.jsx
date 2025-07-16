@@ -1,9 +1,14 @@
+import { Routes, Route } from 'react-router-dom';
 import Authentication from './pages/Authentication.jsx';
-
-// Default Vite/React/Material UI demo content removed.
+import Dashboard from './pages/Dashboard.jsx';
 
 function App() {
-  return <Authentication />;
+  return (
+    <Routes>
+      <Route path="/" element={<Authentication />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
+  );
 }
 
 export default App;
