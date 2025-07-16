@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Authentication from './pages/Authentication.jsx';
 import Dashboard from './pages/Dashboard.jsx';
+import ProjectCreation from './pages/ProjectCreation.jsx';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Authentication />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/create-project" element={<ProjectCreation />} />
       </Routes>
     </div>
   );
