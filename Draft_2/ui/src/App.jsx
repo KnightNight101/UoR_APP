@@ -4,10 +4,22 @@ import Dashboard from './pages/Dashboard.jsx';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Authentication />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-    </Routes>
+    <div
+      style={{
+        maxWidth: '60vw',
+        width: '100%',
+        margin: '0 auto',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        background: 'transparent',
+      }}
+    >
+      <Routes>
+        <Route path="/" element={<Authentication />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </div>
   );
 }
 

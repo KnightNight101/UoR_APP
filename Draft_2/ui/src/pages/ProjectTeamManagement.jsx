@@ -12,7 +12,7 @@ function ProjectTeamManagement() {
       minHeight="100vh"
       sx={{ backgroundColor: "background.default", py: { xs: 2, md: 4 } }}
     >
-      <Container maxWidth="sm" sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <Container maxWidth={false} sx={{ maxWidth: "60vw", width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
         <Box display="flex" flexDirection="column" alignItems="center" gap={2} width="100%">
           <Typography variant="h4" gutterBottom>
             Project/Team Management

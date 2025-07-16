@@ -138,8 +138,10 @@ function Dashboard() {
       sx={{ backgroundColor: "background.default", py: { xs: 2, md: 4 } }}
     >
       <Container
-        maxWidth="lg"
+        maxWidth={false}
         sx={{
+          maxWidth: "60vw",
+          width: "100%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
