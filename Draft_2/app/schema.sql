@@ -80,3 +80,28 @@ CREATE TABLE IF NOT EXISTS subtasks (
     FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
     FOREIGN KEY (assigned_to) REFERENCES users(id) ON DELETE SET NULL
 );
+
+-- File management schema
+
+CREATE TABLE IF NOT EXISTS files (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    filename TEXT NOT NULL,
+    path TEXT NOT NULL,
+    size INTEGER,
+    mimetype TEXT,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    owner_id INTEGER NOT NULL,
+    access_level TEXT NOT NULL DEFAULT 'private', -- 'private', 'project', 'public'
+    edit_level TEXT NOT NULL DEFAULT 'owner',    -- 'owner', 'project', 'any'
+    FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS project_files (
+    project_id INTEGER NOT NULL,
+    file_id INTEGER NOT NULL,
+    can_edit BOOLEAN NOT NULL DEFAULT 0,
+    can_view BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (project_id, file_id),
+    FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+    FOREIGN KEY (file_id) REFERENCES files(id) ON DELETE CASCADE
+);
