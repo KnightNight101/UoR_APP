@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Header from "../components/Header.jsx";
 import { Box, Button, TextField, Typography, MenuItem, Select, InputLabel, FormControl, Alert } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { useNavigate } from "react-router-dom";
@@ -61,84 +62,87 @@ const AddUser = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: "60vw", margin: "0 auto", p: 4 }}>
-      <Typography variant="h5" gutterBottom>
-        Onboard New Employee
-      </Typography>
-      <TextField
-        label="First Name"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-        fullWidth
-        sx={{ mb: 2 }}
-      />
-      <TextField
-        label="Middle Name"
-        value={middleName}
-        onChange={(e) => setMiddleName(e.target.value)}
-        fullWidth
-        sx={{ mb: 2 }}
-      />
-      <TextField
-        label="Last Name"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-        fullWidth
-        sx={{ mb: 2 }}
-      />
-      <TextField
-        label="Job Role"
-        value={jobRole}
-        onChange={(e) => setJobRole(e.target.value)}
-        fullWidth
-        sx={{ mb: 2 }}
-      />
-      <FormControl fullWidth sx={{ mb: 2 }}>
-        <InputLabel>Permissions</InputLabel>
-        <Select
-          value={permission}
-          label="Permissions"
-          onChange={(e) => setPermission(e.target.value)}
+    <>
+      <Header />
+      <Box sx={{ maxWidth: "60vw", margin: "0 auto", p: 4 }}>
+        <Typography variant="h5" gutterBottom>
+          Onboard New Employee
+        </Typography>
+        <TextField
+          label="First Name"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          fullWidth
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          label="Middle Name"
+          value={middleName}
+          onChange={(e) => setMiddleName(e.target.value)}
+          fullWidth
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          label="Last Name"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          fullWidth
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          label="Job Role"
+          value={jobRole}
+          onChange={(e) => setJobRole(e.target.value)}
+          fullWidth
+          sx={{ mb: 2 }}
+        />
+        <FormControl fullWidth sx={{ mb: 2 }}>
+          <InputLabel>Permissions</InputLabel>
+          <Select
+            value={permission}
+            label="Permissions"
+            onChange={(e) => setPermission(e.target.value)}
+          >
+            <MenuItem value="Admin">Admin</MenuItem>
+            <MenuItem value="Employee">Employee</MenuItem>
+          </Select>
+        </FormControl>
+        <Box sx={{ mb: 2 }}>
+          <Typography variant="subtitle1">Generated Username</Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <TextField value={username} InputProps={{ readOnly: true }} sx={{ mr: 1 }} />
+            <Button onClick={() => handleCopy(username)}><ContentCopyIcon /></Button>
+          </Box>
+        </Box>
+        <Box sx={{ mb: 2 }}>
+          <Typography variant="subtitle1">Default Password</Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <TextField value={password} InputProps={{ readOnly: true }} sx={{ mr: 1 }} />
+            <Button onClick={() => handleCopy(password)}><ContentCopyIcon /></Button>
+          </Box>
+        </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleSubmit}
+          sx={{ mt: 2 }}
         >
-          <MenuItem value="Admin">Admin</MenuItem>
-          <MenuItem value="Employee">Employee</MenuItem>
-        </Select>
-      </FormControl>
-      <Box sx={{ mb: 2 }}>
-        <Typography variant="subtitle1">Generated Username</Typography>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <TextField value={username} InputProps={{ readOnly: true }} sx={{ mr: 1 }} />
-          <Button onClick={() => handleCopy(username)}><ContentCopyIcon /></Button>
-        </Box>
+          Submit
+        </Button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          fullWidth
+          onClick={() => navigate(-1)}
+          sx={{ mt: 1 }}
+        >
+          Cancel
+        </Button>
+        {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+        {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
       </Box>
-      <Box sx={{ mb: 2 }}>
-        <Typography variant="subtitle1">Default Password</Typography>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <TextField value={password} InputProps={{ readOnly: true }} sx={{ mr: 1 }} />
-          <Button onClick={() => handleCopy(password)}><ContentCopyIcon /></Button>
-        </Box>
-      </Box>
-      <Button
-        variant="contained"
-        color="primary"
-        fullWidth
-        onClick={handleSubmit}
-        sx={{ mt: 2 }}
-      >
-        Submit
-      </Button>
-      <Button
-        variant="outlined"
-        color="secondary"
-        fullWidth
-        onClick={() => navigate(-1)}
-        sx={{ mt: 1 }}
-      >
-        Cancel
-      </Button>
-      {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-      {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
-    </Box>
+    </>
   );
 };
 
