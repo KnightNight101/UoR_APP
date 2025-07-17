@@ -6,6 +6,8 @@ import AdminDashboard from './pages/AdminDashboard.jsx';
 import LeaderDashboard from './pages/LeaderDashboard.jsx';
 import MemberDashboard from './pages/MemberDashboard.jsx';
 
+import EmployeeList from './pages/EmployeeList.jsx';
+
 function App() {
   return (
     <div
@@ -26,6 +28,7 @@ function App() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/leader-dashboard" element={<LeaderDashboard />} />
         <Route path="/member-dashboard" element={<MemberDashboard />} />
+        <Route path="/employee-list" element={<EmployeeList />} />
       </Routes>
     </div>
   );
