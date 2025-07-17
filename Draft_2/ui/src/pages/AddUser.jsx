@@ -11,10 +11,12 @@ import {
   InputAdornment,
 } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { useNavigate } from "react-router-dom";
 
 const permissions = ["Admin", "Employee"];
 
 function AddUser() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     firstName: "",
     middleName: "",
@@ -60,7 +62,7 @@ function AddUser() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Generate onboarding timestamp
     const now = new Date();
     const onboardingTimestamp = {
@@ -69,7 +71,7 @@ function AddUser() {
       month: now.getMonth() + 1,
       year: now.getFullYear(),
     };
-
+  
     // Prepare user data
     const userData = {
       ...form,
@@ -77,14 +79,14 @@ function AddUser() {
       password,
       onboardingTimestamp,
     };
-
+  
     try {
       const res = await fetch("/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
       });
-
+  
       if (res.ok) {
         setSubmitStatus({ success: true, message: "User added successfully." });
         setForm({
@@ -94,12 +96,27 @@ function AddUser() {
           jobRole: "",
           permissions: "",
         });
+        // Ensure employee list updates by navigating and forcing refresh
+        navigate("/employee-list", { replace: true });
       } else {
-        const error = await res.text();
-        setSubmitStatus({ success: false, message: error || "Failed to add user." });
+        let errorMsg = "Failed to add user.";
+        let errorData;
+        try {
+          errorData = await res.json();
+          if (errorData?.error) {
+            errorMsg = errorData.error;
+          } else if (errorData?.message) {
+            errorMsg = errorData.message;
+          } else {
+            errorMsg = JSON.stringify(errorData);
+          }
+        } catch {
+          // If JSON parsing fails, fallback to generic message
+        }
+        setSubmitStatus({ success: false, message: errorMsg });
       }
     } catch (err) {
-      setSubmitStatus({ success: false, message: "Network error." });
+      setSubmitStatus({ success: false, message: err?.message || "Network error." });
     }
   };
 
