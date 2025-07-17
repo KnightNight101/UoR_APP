@@ -1,261 +1,145 @@
-import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Paper,
-  Typography,
-  TextField,
-  Button,
-  Grid,
-  MenuItem,
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
+import React, { useState } from "react";
+import { Box, Button, TextField, Typography, MenuItem, Select, InputLabel, FormControl, Alert } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { useNavigate } from "react-router-dom";
 
-const permissions = ["Admin", "Employee"];
+const DEFAULT_PASSWORD = "changeme123";
 
-function AddUser() {
+const AddUser = () => {
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [jobRole, setJobRole] = useState("");
+  const [permission, setPermission] = useState("Employee");
+  const [employeeCount, setEmployeeCount] = useState(0);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
-  const [form, setForm] = useState({
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    jobRole: "",
-    permissions: "",
-  });
 
-  const [userCount, setUserCount] = useState(null);
-  const [submitStatus, setSubmitStatus] = useState({ success: null, message: "" });
-  useEffect(() => {
-    // Fetch user count from backend
-    fetch("/api/user-count")
+  React.useEffect(() => {
+    fetch("http://localhost:5000/api/user-count")
       .then((res) => res.json())
-      .then((data) => setUserCount(data.count))
-      .catch(() => setUserCount(0));
+      .then((data) => setEmployeeCount(data.count || 0));
   }, []);
 
-  // Generate initials
-  const initials =
-    (form.firstName[0] || "") +
-    (form.middleName[0] || "") +
-    (form.lastName[0] || "");
+  const initials = `${firstName.charAt(0)}${middleName.charAt(0)}${lastName.charAt(0)}`.toLowerCase();
+  const username = `${initials}${employeeCount + 1}`;
+  const password = DEFAULT_PASSWORD;
 
-  // Username: initials + (userCount + 1)
-  const username =
-    initials +
-    (userCount !== null ? userCount + 1 : "");
-
-  const password = "changeme123";
-
-  const [copied, setCopied] = useState({ username: false, password: false });
-
-  const handleCopy = (type, value) => {
-    navigator.clipboard.writeText(value);
-    setCopied((prev) => ({ ...prev, [type]: true }));
-    setTimeout(() => setCopied((prev) => ({ ...prev, [type]: false })), 1200);
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text);
   };
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    // Generate onboarding timestamp
-    const now = new Date();
-    const onboardingTimestamp = {
-      time: now.toLocaleTimeString(),
-      day: now.getDate(),
-      month: now.getMonth() + 1,
-      year: now.getFullYear(),
-    };
-  
-    // Prepare user data
-    const userData = {
-      ...form,
-      username,
-      password,
-      onboardingTimestamp,
-    };
-  
+  const handleSubmit = async () => {
+    setError("");
+    setSuccess("");
     try {
-      const res = await fetch("/api/users", {
+      const res = await fetch("http://localhost:5000/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
+        body: JSON.stringify({
+          username,
+          password,
+          role: permission === "Admin" ? "admin" : "user",
+          firstName,
+          middleName,
+          lastName,
+          jobRole,
+          onboarding: new Date().toISOString(),
+        }),
       });
-  
+      const data = await res.json();
       if (res.ok) {
-        setSubmitStatus({ success: true, message: "User added successfully." });
-        setForm({
-          firstName: "",
-          middleName: "",
-          lastName: "",
-          jobRole: "",
-          permissions: "",
-        });
-        // Ensure employee list updates by navigating and forcing refresh
-        navigate("/employee-list", { replace: true });
+        setSuccess("User added successfully!");
+        setTimeout(() => navigate("/employee-list"), 1500);
       } else {
-        let errorMsg = "Failed to add user.";
-        let errorData;
-        try {
-          errorData = await res.json();
-          if (errorData?.error) {
-            errorMsg = errorData.error;
-          } else if (errorData?.message) {
-            errorMsg = errorData.message;
-          } else {
-            errorMsg = JSON.stringify(errorData);
-          }
-        } catch {
-          // If JSON parsing fails, fallback to generic message
-        }
-        setSubmitStatus({ success: false, message: errorMsg });
+        setError(data.error || data.message || JSON.stringify(data));
       }
     } catch (err) {
-      setSubmitStatus({ success: false, message: err?.message || "Network error." });
+      setError(err.message);
     }
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 4 }}>
-      <Paper elevation={3} sx={{ p: 4 }}>
-        <Typography variant="h5" gutterBottom>
-          Add New User
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={2} direction="column">
-            <Grid item xs={12}>
-              <TextField
-                label="First Name"
-                name="firstName"
-                value={form.firstName}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Middle Name"
-                name="middleName"
-                value={form.middleName}
-                onChange={handleChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Last Name"
-                name="lastName"
-                value={form.lastName}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Job Role"
-                name="jobRole"
-                value={form.jobRole}
-                onChange={handleChange}
-                fullWidth
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                select
-                label="Permissions"
-                name="permissions"
-                value={form.permissions}
-                onChange={handleChange}
-                fullWidth
-                required
-              >
-                {permissions.map((perm) => (
-                  <MenuItem key={perm} value={perm}>
-                    {perm}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Username"
-                value={username}
-                InputProps={{
-                  readOnly: true,
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => handleCopy("username", username)}
-                        edge="end"
-                        size="small"
-                        aria-label="copy username"
-                      >
-                        <ContentCopyIcon fontSize="small" />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                fullWidth
-              />
-              {copied.username && (
-                <Typography variant="caption" color="success.main">
-                  Copied!
-                </Typography>
-              )}
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                label="Default Password"
-                value={password}
-                InputProps={{
-                  readOnly: true,
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => handleCopy("password", password)}
-                        edge="end"
-                        size="small"
-                        aria-label="copy password"
-                      >
-                        <ContentCopyIcon fontSize="small" />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                fullWidth
-              />
-              {copied.password && (
-                <Typography variant="caption" color="success.main">
-                  Copied!
-                </Typography>
-              )}
-            </Grid>
-            <Grid item xs={12}>
-              <Button type="submit" variant="contained" color="primary" fullWidth>
-                Submit
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Paper>
-      {submitStatus.success !== null && (
-        <Typography
-          sx={{ mt: 2 }}
-          color={submitStatus.success ? "success.main" : "error.main"}
+    <Box sx={{ maxWidth: "60vw", margin: "0 auto", p: 4 }}>
+      <Typography variant="h5" gutterBottom>
+        Onboard New Employee
+      </Typography>
+      <TextField
+        label="First Name"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+        fullWidth
+        sx={{ mb: 2 }}
+      />
+      <TextField
+        label="Middle Name"
+        value={middleName}
+        onChange={(e) => setMiddleName(e.target.value)}
+        fullWidth
+        sx={{ mb: 2 }}
+      />
+      <TextField
+        label="Last Name"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+        fullWidth
+        sx={{ mb: 2 }}
+      />
+      <TextField
+        label="Job Role"
+        value={jobRole}
+        onChange={(e) => setJobRole(e.target.value)}
+        fullWidth
+        sx={{ mb: 2 }}
+      />
+      <FormControl fullWidth sx={{ mb: 2 }}>
+        <InputLabel>Permissions</InputLabel>
+        <Select
+          value={permission}
+          label="Permissions"
+          onChange={(e) => setPermission(e.target.value)}
         >
-          {submitStatus.message}
-        </Typography>
-      )}
-    </Container>
+          <MenuItem value="Admin">Admin</MenuItem>
+          <MenuItem value="Employee">Employee</MenuItem>
+        </Select>
+      </FormControl>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="subtitle1">Generated Username</Typography>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <TextField value={username} InputProps={{ readOnly: true }} sx={{ mr: 1 }} />
+          <Button onClick={() => handleCopy(username)}><ContentCopyIcon /></Button>
+        </Box>
+      </Box>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="subtitle1">Default Password</Typography>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <TextField value={password} InputProps={{ readOnly: true }} sx={{ mr: 1 }} />
+          <Button onClick={() => handleCopy(password)}><ContentCopyIcon /></Button>
+        </Box>
+      </Box>
+      <Button
+        variant="contained"
+        color="primary"
+        fullWidth
+        onClick={handleSubmit}
+        sx={{ mt: 2 }}
+      >
+        Submit
+      </Button>
+      <Button
+        variant="outlined"
+        color="secondary"
+        fullWidth
+        onClick={() => navigate(-1)}
+        sx={{ mt: 1 }}
+      >
+        Cancel
+      </Button>
+      {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+      {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
+    </Box>
   );
-}
+};
 
 export default AddUser;

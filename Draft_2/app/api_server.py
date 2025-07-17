@@ -28,17 +28,20 @@ def get_user_count():
 
 @app.route("/api/users", methods=["POST"])
 def create_user():
-    data = request.json
-    username = data.get("username")
-    password = data.get("password")
-    role = data.get("role", "user")
-    if not username or not password:
-        return jsonify({"error": "Username and password required"}), 400
-    success = register_user(username, password, role)
-    if success:
-        return jsonify({"message": "User created successfully"}), 201
-    else:
-        return jsonify({"error": "Username already exists"}), 409
+    try:
+        data = request.json
+        username = data.get("username")
+        password = data.get("password")
+        role = data.get("role", "user")
+        if not username or not password:
+            return jsonify({"error": "Username and password required"}), 400
+        success = register_user(username, password, role)
+        if success:
+            return jsonify({"message": "User created successfully"}), 201
+        else:
+            return jsonify({"error": "Username already exists"}), 409
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
