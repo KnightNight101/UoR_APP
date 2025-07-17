@@ -149,18 +149,8 @@ class FileVersion(Base):
     repo = relationship("GitHubRepo", back_populates="file_versions")
 
 def init_db():
-    """Initialize the database schema from schema.sql if tables do not exist."""
-    with engine.connect() as conn:
-        # Check if the 'users' table exists
-        result = conn.execute(
-            text("SELECT name FROM sqlite_master WHERE type='table' AND name='users';")
-        )
-        if not result.fetchone():
-            with open(SCHEMA_PATH, "r", encoding="utf-8") as f:
-                schema_sql = f.read()
-            conn.execute(text(schema_sql))
-        # Create SQLAlchemy models if not present
-        Base.metadata.create_all(bind=engine)
+    """Initialize the database schema if tables do not exist."""
+    Base.metadata.create_all(bind=engine)
 
 import bcrypt
 
