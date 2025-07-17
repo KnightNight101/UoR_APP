@@ -24,7 +24,7 @@ function AddUser() {
   });
 
   const [userCount, setUserCount] = useState(null);
-
+  const [submitStatus, setSubmitStatus] = useState({ success: null, message: "" });
   useEffect(() => {
     // Fetch user count from backend
     fetch("/api/user-count")
@@ -58,9 +58,49 @@ function AddUser() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Placeholder: handle form submission
+
+    // Generate onboarding timestamp
+    const now = new Date();
+    const onboardingTimestamp = {
+      time: now.toLocaleTimeString(),
+      day: now.getDate(),
+      month: now.getMonth() + 1,
+      year: now.getFullYear(),
+    };
+
+    // Prepare user data
+    const userData = {
+      ...form,
+      username,
+      password,
+      onboardingTimestamp,
+    };
+
+    try {
+      const res = await fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+
+      if (res.ok) {
+        setSubmitStatus({ success: true, message: "User added successfully." });
+        setForm({
+          firstName: "",
+          middleName: "",
+          lastName: "",
+          jobRole: "",
+          permissions: "",
+        });
+      } else {
+        const error = await res.text();
+        setSubmitStatus({ success: false, message: error || "Failed to add user." });
+      }
+    } catch (err) {
+      setSubmitStatus({ success: false, message: "Network error." });
+    }
   };
 
   return (
@@ -189,6 +229,14 @@ function AddUser() {
           </Grid>
         </form>
       </Paper>
+      {submitStatus.success !== null && (
+        <Typography
+          sx={{ mt: 2 }}
+          color={submitStatus.success ? "success.main" : "error.main"}
+        >
+          {submitStatus.message}
+        </Typography>
+      )}
     </Container>
   );
 }
