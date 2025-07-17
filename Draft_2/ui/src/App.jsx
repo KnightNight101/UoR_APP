@@ -7,6 +7,7 @@ import LeaderDashboard from './pages/LeaderDashboard.jsx';
 import MemberDashboard from './pages/MemberDashboard.jsx';
 
 import EmployeeList from './pages/EmployeeList.jsx';
+import AddUser from './pages/AddUser.jsx';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/leader-dashboard" element={<LeaderDashboard />} />
         <Route path="/member-dashboard" element={<MemberDashboard />} />
         <Route path="/employee-list" element={<EmployeeList />} />
+        <Route path="/add-user" element={<AddUser />} />
       </Routes>
     </div>
   );

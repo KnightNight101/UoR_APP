@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Grid, Paper, Typography, Checkbox, FormControlLabel, List, ListItem, ListItemText, Select, MenuItem } from "@mui/material";
+import { Grid, Paper, Typography, Checkbox, FormControlLabel, List, ListItem, ListItemText, Select, MenuItem, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
 
 // Placeholder projects
 const projects = [
@@ -48,6 +49,7 @@ const columns = [
 function EmployeeList() {
   const [filterOpenTicket, setFilterOpenTicket] = useState(false);
   const [filterProject, setFilterProject] = useState("");
+  const navigate = useNavigate();
 
   const filteredUsers = users.filter(user => {
     if (filterOpenTicket && !user.hasOpenTicket) return false;
@@ -90,6 +92,15 @@ function EmployeeList() {
               </Select>
             </ListItem>
           </List>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ mt: 2 }}
+            onClick={() => navigate("/add-user")}
+          >
+            Add User
+          </Button>
         </Paper>
       </Grid>
 
