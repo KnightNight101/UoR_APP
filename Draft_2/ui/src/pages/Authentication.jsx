@@ -50,13 +50,31 @@ function Authentication() {
               <Button variant="outlined" color="secondary" fullWidth>
                 Reset Password
               </Button>
+            </Stack>
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mt: 2, width: "100%" }} justifyContent="center">
               <Button
-                variant="text"
+                variant="contained"
                 color="info"
                 fullWidth
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/admin-dashboard")}
               >
-                Debug
+                IT/Admin
+              </Button>
+              <Button
+                variant="contained"
+                color="success"
+                fullWidth
+                onClick={() => navigate("/leader-dashboard")}
+              >
+                Team Leader
+              </Button>
+              <Button
+                variant="contained"
+                color="warning"
+                fullWidth
+                onClick={() => navigate("/member-dashboard")}
+              >
+                Team Member
               </Button>
             </Stack>
           </Box>
