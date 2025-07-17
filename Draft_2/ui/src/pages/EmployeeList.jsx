@@ -1,129 +1,94 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Paper, Typography, Checkbox, FormControlLabel, List, ListItem, ListItemText, Select, MenuItem, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 
-// Placeholder projects
-const projects = [
-  "Project Alpha",
-  "Project Beta",
-  "Project Gamma"
-];
-
-// Placeholder users
-const users = [
-  {
-    id: 1,
-    name: "Alice Smith",
-    privilege: "Admin",
-    onboarding: "2024-01-15",
-    hasOpenTicket: true,
-    project: "Project Alpha"
-  },
-  {
-    id: 2,
-    name: "Bob Johnson",
-    privilege: "Member",
-    onboarding: "2024-03-22",
-    hasOpenTicket: false,
-    project: "Project Beta"
-  },
-  {
-    id: 3,
-    name: "Carol Lee",
-    privilege: "Leader",
-    onboarding: "2024-02-10",
-    hasOpenTicket: true,
-    project: "Project Gamma"
-  }
-];
-
-const columns = [
-  { field: "name", headerName: "Name", flex: 1, sortable: true },
-  { field: "privilege", headerName: "Privilege", flex: 1, sortable: true },
-  { field: "onboarding", headerName: "Onboarding Date", flex: 1, sortable: true },
-  { field: "hasOpenTicket", headerName: "Has Open Ticket", flex: 1, sortable: true, renderCell: (params) => params.value ? "Yes" : "No" },
-  { field: "project", headerName: "Project", flex: 1, sortable: true }
-];
-
-function EmployeeList() {
-  const [filterOpenTicket, setFilterOpenTicket] = useState(false);
-  const [filterProject, setFilterProject] = useState("");
+const EmployeeList = () => {
+  const [users, setUsers] = useState([]);
+  const [projectFilter, setProjectFilter] = useState("");
+  const [hasOpenTicket, setHasOpenTicket] = useState(false);
+  const [projects, setProjects] = useState([]);
   const navigate = useNavigate();
 
-  const filteredUsers = users.filter(user => {
-    if (filterOpenTicket && !user.hasOpenTicket) return false;
-    if (filterProject && user.project !== filterProject) return false;
-    return true;
-  });
+  useEffect(() => {
+    // Fetch users from backend
+    fetch("http://localhost:5000/api/users")
+      .then((res) => res.json())
+      .then((data) => setUsers(data));
+
+    // TODO: Fetch projects from backend if available
+    setProjects(["Project Alpha", "Project Beta", "Project Gamma"]);
+  }, []);
+
+  // TODO: Filter logic for hasOpenTicket and projectFilter
+
+  const columns = [
+    { field: "id", headerName: "ID", width: 70 },
+    { field: "username", headerName: "Username", width: 200 },
+    { field: "created_at", headerName: "Onboarding Date", width: 200 },
+    // Add more fields as needed
+  ];
 
   return (
-    <Grid container spacing={2} sx={{ padding: 2 }}>
-      {/* Left Column: Filters */}
-      <Grid item xs={12} md={4} lg={3}>
-        <Paper elevation={3} sx={{ padding: 2, height: "100%" }}>
+    <Grid container spacing={2} sx={{ minHeight: "80vh", maxWidth: "60vw", margin: "0 auto" }}>
+      <Grid item xs={3}>
+        <Paper sx={{ p: 2 }}>
           <Typography variant="h6" gutterBottom>
-            Filter Options
+            Filters
           </Typography>
-          <List>
-            <ListItem>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={filterOpenTicket}
-                    onChange={e => setFilterOpenTicket(e.target.checked)}
-                  />
-                }
-                label="Has open ticket"
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={hasOpenTicket}
+                onChange={(e) => setHasOpenTicket(e.target.checked)}
               />
-            </ListItem>
-            <ListItem>
-              <Typography variant="subtitle1">Project</Typography>
-              <Select
-                fullWidth
-                value={filterProject}
-                onChange={e => setFilterProject(e.target.value)}
-                displayEmpty
-              >
-                <MenuItem value="">All Projects</MenuItem>
-                {projects.map(project => (
-                  <MenuItem key={project} value={project}>{project}</MenuItem>
-                ))}
-              </Select>
-            </ListItem>
-          </List>
+            }
+            label="Has Open Ticket"
+          />
+          <Typography variant="subtitle1" sx={{ mt: 2 }}>
+            Filter by Project
+          </Typography>
+          <Select
+            value={projectFilter}
+            onChange={(e) => setProjectFilter(e.target.value)}
+            fullWidth
+            sx={{ mb: 2 }}
+          >
+            <MenuItem value="">All Projects</MenuItem>
+            {projects.map((proj, idx) => (
+              <MenuItem key={idx} value={proj}>
+                {proj}
+              </MenuItem>
+            ))}
+          </Select>
           <Button
             variant="contained"
             color="primary"
             fullWidth
-            sx={{ mt: 2 }}
+            sx={{ mt: 4 }}
             onClick={() => navigate("/add-user")}
           >
             Add User
           </Button>
         </Paper>
       </Grid>
-
-      {/* Right/Main Column: DataGrid */}
-      <Grid item xs={12} md={8} lg={9}>
-        <Paper elevation={3} sx={{ padding: 2, height: "100%" }}>
+      <Grid item xs={9}>
+        <Paper sx={{ p: 2, height: "100%" }}>
           <Typography variant="h6" gutterBottom>
             Employee List
           </Typography>
-          <div style={{ height: 400, width: "100%" }}>
-            <DataGrid
-              rows={filteredUsers}
-              columns={columns}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
-              disableSelectionOnClick
-              autoHeight
-            />
-          </div>
+          <DataGrid
+            rows={users}
+            columns={columns}
+            pageSize={10}
+            rowsPerPageOptions={[10]}
+            autoHeight
+            disableSelectionOnClick
+          />
         </Paper>
       </Grid>
     </Grid>
   );
-}
+};
 
 export default EmployeeList;
