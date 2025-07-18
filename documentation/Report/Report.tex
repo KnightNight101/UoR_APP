@@ -1,5 +1,4 @@
-\documentclass[12pt,a4paper]{report}
-
+\documentclass{report}
 % Packages
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
@@ -9,14 +8,15 @@
 \usepackage{titlesec}
 \usepackage{fancyhdr}
 \usepackage{setspace}
+\usepackage{csquotes}
+\usepackage[style=authoryear-ibid,backend=biber]{biblatex}
+\addbibresource{UoR_Masters_Project.biblatex}
 
 % Page settings
 \geometry{margin=1in}
 \setlength{\parskip}{0.8em}
 \setlength{\parindent}{0pt}
-%\doublespacing 
-
-% Header and Footer
+\doublespacing% Header and Footer
 \pagestyle{fancy}
 \fancyhf{}
 \rhead{\thepage}
@@ -37,9 +37,10 @@
 % 1. Introduction
 \chapter{Introduction}  % ~800 words
 \section{Problem Statement and Motivation}
+
 Enterprise-scale organisations routinely operate across a complex matrix of interdependent projects, distributed teams, and extensive resource portfolios. To maintain operational coherence and deliver value efficiently, these firms typically rely on structured project management frameworks such as PRINCE2, PMBOK, or Agile-based hybrids. While such methodologies have demonstrated clear benefits in improving project visibility, governance, and stakeholder alignment, they remain susceptible to inherent inefficiencies. These stem largely from the rigidities of hierarchical communication, bureaucratic inertia, and the sheer scale of coordination required in large corporate environments.
 
-Despite adherence to best practices, many firms continue to experience avoidable project delays, resource misallocations, and suboptimal decision-making cycles. A significant portion of these inefficiencies can be traced to human limitations in managing high-dimensional data, repetitive administrative tasks, and the cognitive overload associated with large-scale project orchestration. This presents a critical bottleneck: even with mature frameworks in place, enterprise project management often lacks the real-time adaptability and computational agility required to fully optimize performance at scale.
+Despite adherence to best practices, many firms continue to experience avoidable project delays, resource misallocations, and suboptimal decision-making cycles \parencite{mankinsTurningGreatStrategy}. A significant portion of these inefficiencies can be traced to human limitations in managing high-dimensional data, repetitive administrative tasks, and the cognitive overload associated with large-scale project orchestration. This presents a critical bottleneck: even with mature frameworks in place, enterprise project management often lacks the real-time adaptability and computational agility required to fully optimize performance at scale.
 
 The emergence of Large Language Models (LLMs) and Machine Learning (ML) systems offers a transformative opportunity to address these structural inefficiencies. These technologies excel at pattern recognition, predictive analysis, and automating low-level cognitive functions, all attributes that align closely with the pain points of modern project management. By offloading repetitive, computation-heavy, and data-intensive components of project workflows to intelligent systems, organizations can enable human stakeholders to concentrate on strategic, creative, and high-context tasks where human judgment is irreplaceable.
 
@@ -49,25 +50,24 @@ This research is motivated by the need to bridge the gap between the theoretical
 
 
 \section{Project Objectives}
-The overarching aim of this project is to design and implement a secure, intelligent, and modular project management assistant that addresses key inefficiencies faced. The system is containerised for local deployment, ensuring that all data processing remains within company boundaries, which is critical given the growing concerns around data privacy, model transparency, and the use of proprietary information in third-party cloud-based AI systems.
 
-The software's modular architecture enables different (LLMs) to be allocated to different tasks. This decoupled design allows models to be replaced or updated without affecting the overall user experience, ensuring long-term adaptability as the performance landscape of available LLMs evolves. Critically, all interactions are encapsulated within predefined features and workflows, removing the need for prompt engineering expertise. Users engage with a clear, purpose-built interface rather than raw language models, allowing non-technical staff to fully leverage the software's capabilities.
+There are four main objectives for this project:
+\subsection{Develop a Multi-Dimensional Sprint Planner}
+The first goal is to design an intelligent sprint planning system that automates the prioritization and scheduling of project tasks. This planner considers multiple dynamic inputs, including team member availability, skill sets, task dependencies, organizational constraints, and regulatory and compliance related deadlines. The system is built to continuously ingest real-time updates, allowing it to refine project roadmaps dynamically as requirements shift. By embedding adaptive logic into the planner, the tool ensures that large-scale delivery remains aligned with strategic goals and operational timelines.
+\subsection{Implement an Eisenhower Matrix-Based To-Do List Generator}
+To enhance daily execution at the individual level, the system generates personalized task lists using the Eisenhower Matrix framework. This model categorizes tasks based on urgency and importance, helping users focus on high-impact work while deferring or delegating less critical activities. These lists are continuously updated based on project context and user input, supporting focused, high-leverage productivity without manual task sorting.
+\subsection{Integrate a Version Control System with LLM-Generated Commit Summaries}
+The third objective is to ensure knowledge continuity and reduce the cognitive cost of context switching by embedding a version control system (VCS) into the platform. The VCS tracks project artifacts, decisions, and revisions, while an LLM generates automatic commit summaries that document key changes in clear, concise language. These summaries can be aggregated into progress reports, streamlining communication with internal stakeholders and external clients. Additionally, the system surfaces relevant historical context during task transitions, reducing ramp-up time and minimizing productivity losses across team handovers or project shifts.
+\subsection{Ensure Secure, Containerized Local Deployment}
+Finally, the project emphasizes data security and deployment flexibility by containerizing the entire application for on-premise use. This architecture ensures that all data processing occurs within the organization’s infrastructure, mitigating the risks associated with cloud-based AI platforms. The modular software design also supports plug-and-play integration of different LLMs for specialized tasks, allowing components to be updated independently without disrupting the user experience. By abstracting LLM interactions behind clearly defined workflows, the system eliminates the need for prompt engineering, making advanced AI capabilities accessible to non-technical users.
 
-Agile methodology underpins the project’s development cycle, with synthetic training data and built-in feedback loops enabling iterative refinement. The centerpiece of the system is a multi-dimensional sprint planner that automates task prioritization and scheduling by considering factors such as team member skills and availability, organizational capacity, task dependencies and regulatory deadlines, to name a few. Project roadmaps are continuously refined in response to real-time inputs, ensuring that delivery remains aligned with deadlines even as priorities shift or disruptions occur. To support individual productivity, the system also generates personalized daily task lists using the Eisenhower Matrix, balancing urgency and importance to promote focused execution.
-
-To address the often-overlooked challenge of knowledge continuity and context switching, the software integrates a version control system and file manager. This ensures that key documents and decisions are never lost or fragmented across disparate tools. An embedded LLM automatically summarizes changes and generates “commit summaries,” providing clear, concise records of project evolution. These summaries can be compiled into automated progress reports for both internal teams and external stakeholders, reducing the need for time-consuming meetings and lengthy status emails.
-
-Furthermore, the contextual data accumulated through version control and task tracking is leveraged to minimize productivity losses during task or project transitions. By surfacing relevant background information dynamically, the software reduces the cognitive overhead associated with context switching, enabling team members to move seamlessly between assignments without repeated ramp-up time.
-
-Together, these objectives converge to create a robust, secure, and intelligent system that augments enterprise project management with AI-driven efficiency, transparency, and adaptability while maintaining strict control over organizational data.
+Testing for this project will focus on validating both functional performance and usability across the four core components. For the multi-dimensional sprint planner, tests will assess the accuracy and adaptability of task prioritization and scheduling in response to simulated changes in team availability, task dependencies, and deadlines. The Eisenhower Matrix task generator will be evaluated on its ability to categorize tasks correctly based on urgency and importance, as well as its impact on user focus and task completion rates.
+The version control system and commit summarization feature will be tested for robustness in tracking file changes, accuracy of LLM-generated summaries, and their usefulness in aiding project recall and progress reporting. Context-switching support will be assessed through user testing to measure reductions in ramp-up time when switching between tasks or projects.
+Finally, the containerized deployment will be tested for security, performance, and reliability in an isolated enterprise environment. This includes ensuring data remains local, validating LLM module swap-ins do not disrupt functionality, and confirming that all features work without requiring prompt engineering. Across all components, user feedback will be collected to evaluate usability, clarity, and relevance—ensuring the system meets real-world enterprise expectations.
 
 % 2. Background & Literature Review
 \chapter{Background and Literature Review}  % ~2000 words
-\section{Agile Methodology: Overview and Key Concepts}
-\section{Existing Project Management Tools}
-\section{Applications of ML/LLMs in Project Management}
-\section{LLM Technologies: GPT, BERT, and Others}
-\section{Gaps in Current Research and Tools}
+
 
 % 3. Methodology
 \chapter{Methodology}  % ~1500 words
@@ -107,14 +107,16 @@ Together, these objectives converge to create a robust, secure, and intelligent 
 \section{Limitations}
 \section{Future Improvements}
 
+% References
+
+\printbibliography% \bibliographystyle{plainnat}
+
 % Appendices (not included in word count)
 \appendix
 \chapter{Screenshots and Interface Designs}
 \chapter{Test Logs and Scripts}
 \chapter{User Feedback and Survey Responses}
 
-% References
-\bibliographystyle{IEEEtran} % Or change to your required style
-\bibliography{references}  % Add your .bib file later
+
 
 \end{document}
