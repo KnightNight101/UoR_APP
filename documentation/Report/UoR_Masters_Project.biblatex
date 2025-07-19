@@ -854,8 +854,10 @@
 @article{mankinsTurningGreatStrategy2005,
   title = {Turning {{Great Strategy}} into {{Great Performance}}},
   author = {Mankins, Michael and Steele, Richard},
-  date = {2005},
+  date = {2005-08},
   journaltitle = {Harvard Business Review},
+  volume = {83},
+  pages = {65--72},
   url = {https://hbr.org/2005/07/turning-great-strategy-into-great-performance},
   urldate = {2025-07-18},
   file = {C:\Users\KnightNight101\Zotero\storage\D2HHU3CJ\Turning Great Strategy into Great Performance.pdf}

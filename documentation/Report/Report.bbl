@@ -19,6 +19,59 @@
 
 \refsection{0}
   \datalist[entry]{nyt/global//global/global/global}
+    \entry{damijApproachOptimizingKanban2024}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=1,uniquepart=given,hash=595247cf885444cc8bf688770b1e2fe0}{%
+           family={Damij},
+           familyi={D\bibinitperiod},
+           given={Nadja},
+           giveni={N\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=47dde8e0c0f1dc7d82a594ba10d987dd}{%
+           family={Damij},
+           familyi={D\bibinitperiod},
+           given={Talib},
+           giveni={T\bibinitperiod},
+           givenun=1}}%
+      }
+      \strng{namehash}{562f7070645e3fb1b2b003b029cdddcd}
+      \strng{fullhash}{562f7070645e3fb1b2b003b029cdddcd}
+      \strng{fullhashraw}{562f7070645e3fb1b2b003b029cdddcd}
+      \strng{bibnamehash}{562f7070645e3fb1b2b003b029cdddcd}
+      \strng{authorbibnamehash}{562f7070645e3fb1b2b003b029cdddcd}
+      \strng{authornamehash}{562f7070645e3fb1b2b003b029cdddcd}
+      \strng{authorfullhash}{562f7070645e3fb1b2b003b029cdddcd}
+      \strng{authorfullhashraw}{562f7070645e3fb1b2b003b029cdddcd}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Kanban is a well-known agile method first implemented in Toyota's manufacturing process in the 1950s, later spreading across various industries and academic fields. It focuses on process and project improvement in different fields and emphasizes a team's ability to improve the efficiency of day-to-day activities by implementing the core practices (e.g., visualizing workflow, limiting work-in-progress, managing flow). The efficiency of day-to-day activities is crucial in every process, yet, recent times have called for a new out-of-the-box approach to address the challenges companies face. While the literature review presents efficiency improvements through the use of the core practices, one of the biggest problems while implementing Kanban is shown to be the setting of effective work-in-progress limits. This article addresses this issue and proves that the workflow does not exclusively depend on the work-in-progress limits—as the core practices suggest—but on determining the optimal relationship (solution) among the replenishment value, resource capacity, and work-in-progress limits. Such an approach ensures that the workflow pace on the Kanban board is sustainable by reducing the number of work items in queues as well as people's idleness. The proposed empirical approach runs a series of simulation scenarios aimed at helping to identify the optimal relationship among the three mentioned elements for generating a sustainable workflow pace and minimizing work/people's idleness.}
+      \field{issn}{1558-0040}
+      \field{journaltitle}{IEEE Transactions on Engineering Management}
+      \field{title}{An {{Approach}} to {{Optimizing Kanban Board Workflow}} and {{Shortening}} the {{Project Management Plan}}}
+      \field{urlday}{11}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{71}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{13266\bibrangedash 13273}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1109/TEM.2021.3120984
+      \endverb
+      \verb{urlraw}
+      \verb https://ieeexplore.ieee.org/abstract/document/9611021
+      \endverb
+      \verb{url}
+      \verb https://ieeexplore.ieee.org/abstract/document/9611021
+      \endverb
+      \keyw{Agile project management,Continuous improvement,Feedback loop,Kanban method,Project management,replenishment,resource capacity,Software,Standards,Task analysis,Visualization,work-in-progress (WIP) limits}
+    \endentry
     \entry{jovanovicAnalysisAvailableProject2018}{article}{}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=38ea4864c31026cf37688b31325a2d5e}{%
@@ -79,6 +132,91 @@
       \verb https://management.fon.bg.ac.rs/index.php/mng/article/view/245
       \endverb
     \endentry
+    \entry{loiroAgileProjectManagement2019}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=9f8b7723d5e072c69dfdadd771943442}{%
+           family={Loiro},
+           familyi={L\bibinitperiod},
+           given={Carina},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3bed456398dea6e54f882d948f20d6f1}{%
+           family={Castro},
+           familyi={C\bibinitperiod},
+           given={Hélio},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f27eb6a6045e3d5c6b065faa3f580e48}{%
+           family={Ávila},
+           familyi={Á\bibinitperiod},
+           given={Paulo},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=076e674f455f56eb8d53338593f61d79}{%
+           family={Cruz-Cunha},
+           familyi={C\bibinithyphendelim C\bibinitperiod},
+           given={Maria\bibnamedelima Manuela},
+           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b30be7d3fb31d57f63646327f63e94f3}{%
+           family={Putnik},
+           familyi={P\bibinitperiod},
+           given={Goran\bibnamedelima D.},
+           giveni={G\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=de35f3fe33180de35932fb9b74b1c9fa}{%
+           family={Ferreira},
+           familyi={F\bibinitperiod},
+           given={Luís},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2639a3d37fe77c8abc7565972d8753c9}
+      \strng{fullhash}{6d08c7d34cc1dc3e444163a36dfcb6af}
+      \strng{fullhashraw}{6d08c7d34cc1dc3e444163a36dfcb6af}
+      \strng{bibnamehash}{2639a3d37fe77c8abc7565972d8753c9}
+      \strng{authorbibnamehash}{2639a3d37fe77c8abc7565972d8753c9}
+      \strng{authornamehash}{2639a3d37fe77c8abc7565972d8753c9}
+      \strng{authorfullhash}{6d08c7d34cc1dc3e444163a36dfcb6af}
+      \strng{authorfullhashraw}{6d08c7d34cc1dc3e444163a36dfcb6af}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Embracing agility brings change to companies and everyone involved, so people have a fundamental role in project development. It is essential that teams have a good communication, motivation and concern about quality and client satisfaction, Agile Manufacturing is using Agile Project Management to provide the right team to performance difficult tasks and achieve goals. This paper proposes a team that deals with Agile Project Management, named as AGILE team, composed by a product owner, a team leader and team members, and a communication workflow proposal concerning the conjunction of 3 momentums (requirements analyze, planning and design) along the Agile Project Management. The proposed model is being implemented in a lightening manufacturing company in a very early stage.}
+      \field{day}{1}
+      \field{issn}{1877-0509}
+      \field{journaltitle}{Procedia Computer Science}
+      \field{month}{1}
+      \field{series}{{{CENTERIS}} 2019 - {{International Conference}} on {{ENTERprise Information Systems}} / {{ProjMAN}} 2019 - {{International Conference}} on {{Project MANagement}} / {{HCist}} 2019 - {{International Conference}} on {{Health}} and {{Social Care Information Systems}} and {{Technologies}}, {{CENTERIS}}/{{ProjMAN}}/{{HCist}} 2019}
+      \field{shortjournal}{Procedia Computer Science}
+      \field{shorttitle}{Agile {{Project Management}}}
+      \field{title}{Agile {{Project Management}}: {{A Communicational Workflow Proposal}}}
+      \field{urlday}{11}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{164}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{485\bibrangedash 490}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1016/j.procs.2019.12.210
+      \endverb
+      \verb{file}
+      \verb C\:\\Users\\KnightNight101\\Zotero\\storage\\JYNJY6VK\\Loiro et al. - 2019 - Agile Project Management A Communicational Workfl.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\NUXB2GUU\\S1877050919322574.html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S1877050919322574
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S1877050919322574
+      \endverb
+      \keyw{Agile Manufacturing,Agile Project Management,Agility,Communicational,Team}
+    \endentry
     \entry{pricaEnhancingProjectEfficiency2025}{article}{}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=66df74299b12db7506b44c6cafe6b7bb}{%
@@ -138,6 +276,47 @@
       \endverb
       \keyw{Agile Project Management,Corporate Project Strategies,Knowledge Work,Traditional Project Management}
     \endentry
+    \entry{schwaberAgileProjectManagement2004}{book}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=ee6f08fcba839e09471a0bc69152b6a5}{%
+           family={Schwaber},
+           familyi={S\bibinitperiod},
+           given={Ken},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Microsoft Press}%
+      }
+      \strng{namehash}{ee6f08fcba839e09471a0bc69152b6a5}
+      \strng{fullhash}{ee6f08fcba839e09471a0bc69152b6a5}
+      \strng{fullhashraw}{ee6f08fcba839e09471a0bc69152b6a5}
+      \strng{bibnamehash}{ee6f08fcba839e09471a0bc69152b6a5}
+      \strng{authorbibnamehash}{ee6f08fcba839e09471a0bc69152b6a5}
+      \strng{authornamehash}{ee6f08fcba839e09471a0bc69152b6a5}
+      \strng{authorfullhash}{ee6f08fcba839e09471a0bc69152b6a5}
+      \strng{authorfullhashraw}{ee6f08fcba839e09471a0bc69152b6a5}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The rules and practices for Scrum—a simple process for managing complex projects—are few, straightforward, and easy to learn. But Scrum’s simplicity itself—its lack of prescription—can be disarming, and new practitioners often find themselves reverting to old project management habits and tools and yielding lesser results. In this illuminating series of case studies, Scrum co-creator and evangelist Ken Schwaber identifies the real-world lessons—the successes and failures—culled from his years of experience coaching companies in agile project management. Through them, you’ll understand how to use Scrum to solve complex problems and drive better results—delivering more valuable software faster. Gain the foundation in Scrum theory—and practice—you need to: Rein in even the most complex, unwieldy projects Effectively manage unknown or changing product requirements Simplify the chain of command with self-managing development teams Receive clearer specifications—and feedback—from customers Greatly reduce project planning time and required tools Build—and release—products in 30-day cycles so clients get deliverables earlier Avoid missteps by regularly inspecting, reporting on, and fine-tuning projects Support multiple teams working on a large-scale project from many geographic locations Maximize return on investment!}
+      \field{day}{11}
+      \field{eprinttype}{googlebooks}
+      \field{isbn}{978-0-7356-3790-0}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{pagetotal}{214}
+      \field{title}{Agile {{Project Management}} with {{Scrum}}}
+      \field{year}{2004}
+      \field{dateera}{ce}
+      \verb{eprint}
+      \verb 6pZCAwAAQBAJ
+      \endverb
+      \keyw{Computers / Software Development & Engineering / General}
+    \endentry
     \entry{serradorDoesAgileWork2015}{article}{}{}
       \name{author}{2}{}{%
         {{un=0,uniquepart=base,hash=dabc747d7f5d16d83d9c9ef52828116b}{%
@@ -196,6 +375,72 @@
       \endverb
       \keyw{Agile,Efficiency,Methodology,Success}
     \endentry
+    \entry{sonta-draczkowskaChallengesScalingAgile2024}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=d67e3d2e09f845fc911c1a7a4349fbdd}{%
+           family={Sońta-Drączkowska},
+           familyi={S\bibinithyphendelim D\bibinitperiod},
+           given={Ewa},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=33e2a622c74dc163a77fb82d86550995}{%
+           family={Krogulec},
+           familyi={K\bibinitperiod},
+           given={Agnieszka},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Emerald Publishing Limited}%
+      }
+      \strng{namehash}{e9e2c0d402b2a93fb864a43148059ceb}
+      \strng{fullhash}{e9e2c0d402b2a93fb864a43148059ceb}
+      \strng{fullhashraw}{e9e2c0d402b2a93fb864a43148059ceb}
+      \strng{bibnamehash}{e9e2c0d402b2a93fb864a43148059ceb}
+      \strng{authorbibnamehash}{e9e2c0d402b2a93fb864a43148059ceb}
+      \strng{authornamehash}{e9e2c0d402b2a93fb864a43148059ceb}
+      \strng{authorfullhash}{e9e2c0d402b2a93fb864a43148059ceb}
+      \strng{authorfullhashraw}{e9e2c0d402b2a93fb864a43148059ceb}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This study seeks to illuminate the managerial tensions inherent in implementing scaled agile (on the organizational, top management, middle management and team levels) and to frame these challenges within the broader context of project management.,The study adopts a grounded theory approach and delves into a qualitative dataset sourced from 34 interviews with subject matter experts actively engaged in scaling agile initiatives within large organizations spanning various industries. Additionally, the data have been enriched through a comprehensive literature review of the existing body of knowledge on scaling agile.,As a result of our investigation, we propose a framework of managerial tensions in scaling agile in large corporate settings and a series of research propositions and questions that may contribute significantly to the body of knowledge surrounding the phenomenon of “deprojectification” and propose agenda for the future studies in the field of project management.,The study also carries significant managerial implications. Firstly, based on the insights from the practice of scaling agile in large corporate setting, management can build awareness of the challenges inherent of transitioning to agile practices. This may help to anticipate the possible problems and proactively develop strategies how to address them. Secondly, management can be instructed about contingencies inherent in scaling agile, along with the potential disfunctions and side effects (unintended outcomes) that may emerge during the transition process. Thirdly, project management practitioners can gain insights on how scaling agile may cause shifts in the approach to managing projects, project team management and competencies that need to be developed to cope with environments where various approaches to managing projects coexist.,These insights can aid in the agile transition process, beginning with directing managerial attention toward contextual factors and progressing through potential challenges at the organizational, top management, middle management and team levels. Furthermore, the study highlights possible dysfunctionalities and side effects of scaling agile, shedding light on the “dark side” of agile.,The study contributes to the expansion of the empirical database on the implementation of agile practices in large organizational settings. It plays a role in defining and delineating the phenomenon of scaling agile within the context of project management and outlines a research agenda for future project management studies. Additionally, our study adds to the ongoing discourse surrounding the “deprojectification” effect that can occur during the scaling of agile. Lastly, it establishes connections between project management and software development literature regarding the implementation of agile at scale.}
+      \field{day}{28}
+      \field{hour}{0}
+      \field{issn}{1753-8378}
+      \field{journaltitle}{International Journal of Managing Projects in Business}
+      \field{langid}{english}
+      \field{minute}{0}
+      \field{month}{3}
+      \field{number}{2}
+      \field{second}{0}
+      \field{timezone}{Z}
+      \field{title}{Challenges of Scaling Agile in Large Enterprises and Implications for Project Management}
+      \field{urlday}{13}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{17}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{360\bibrangedash 384}
+      \range{pages}{25}
+      \verb{doi}
+      \verb 10.1108/IJMPB-11-2023-0244
+      \endverb
+      \verb{file}
+      \verb C:\Users\KnightNight101\Zotero\storage\NNPXQGUI\html.html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.emerald.com/insight/content/doi/10.1108/ijmpb-11-2023-0244/full/html
+      \endverb
+      \verb{url}
+      \verb https://www.emerald.com/insight/content/doi/10.1108/ijmpb-11-2023-0244/full/html
+      \endverb
+    \endentry
     \entry{xueAnalysisComparisonProject}{article}{}{}
       \name{author}{4}{}{%
         {{un=0,uniquepart=base,hash=d628d74db4e2b82823e6983487ade93c}{%
@@ -244,7 +489,6 @@
       \endverb
     \endentry
   \enddatalist
-  \missing{mankinsTurningGreatStrategy}
 \endrefsection
 \endinput
 
