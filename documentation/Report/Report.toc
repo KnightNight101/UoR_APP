@@ -34,6 +34,7 @@
 \contentsline {section}{\numberline {7.2}Applications and Impact}{13}{section.7.2}%
 \contentsline {section}{\numberline {7.3}Limitations}{13}{section.7.3}%
 \contentsline {section}{\numberline {7.4}Future Improvements}{13}{section.7.4}%
-\contentsline {chapter}{\numberline {A}Screenshots and Interface Designs}{15}{appendix.A}%
-\contentsline {chapter}{\numberline {B}Test Logs and Scripts}{16}{appendix.B}%
-\contentsline {chapter}{\numberline {C}User Feedback and Survey Responses}{17}{appendix.C}%
+\contentsline {chapter}{\numberline {A}Detailed Literature Review}{15}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Screenshots and Interface Designs}{20}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Test Logs and Scripts}{21}{appendix.C}%
+\contentsline {chapter}{\numberline {D}User Feedback and Survey Responses}{22}{appendix.D}%

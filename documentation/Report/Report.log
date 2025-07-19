@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.1)  18 JUL 2025 16:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.1)  19 JUL 2025 13:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -615,7 +615,15 @@ Package biblatex Info: Automatic encoding selection.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'Report.bbl' found.
- (Report.bbl)
+ (Report.bbl
+
+Package biblatex Warning: The following entry could not be found
+(biblatex)                in the database:
+(biblatex)                mankinsTurningGreatStrategy
+(biblatex)                Please verify the spelling and rerun
+(biblatex)                LaTeX afterwards.
+
+)
 Package biblatex Info: Reference section=0 on input line 30.
 Package biblatex Info: Reference segment=0 on input line 30.
 LaTeX Font Info:    Trying to load font information for U+msa on input line 33.
@@ -648,6 +656,9 @@ l.18 ...ures and Functionalities}{10}{section.4.3}
 
 [3]
 Chapter 1.
+
+LaTeX Warning: Citation 'mankinsTurningGreatStrategy' on page 4 undefined on input line 43.
+
 
 
 [4
@@ -695,6 +706,11 @@ Chapter 7.
 [13
 
 ]
+Overfull \hbox (3.76573pt too wide) in paragraph at lines 113--113
+\OT1/cmr/m/n/10 gies". In: \OT1/cmr/m/it/10 Man-age-ment:Journal of Sus-tain-able Busi-ness and Man-age-ment So-lu-tions in Emerg-ing Economies
+ []
+
+
 
 [14
 
@@ -705,16 +721,30 @@ Appendix A.
 [15
 
 ]
+
+[16]
+
+[17]
+
+[18]
+
+[19]
 Appendix B.
 
 
-[16
+[20
 
 ]
 Appendix C.
 
 
-[17
+[21
+
+]
+Appendix D.
+
+
+[22
 
 ] (Report.aux)
  ***********
@@ -722,23 +752,23 @@ LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
  ***********
 Package rerunfilecheck Info: File `Report.out' has not changed.
-(rerunfilecheck)             Checksum: 5A408B50905DFC1E814DB0503BFF5014;7659.
+(rerunfilecheck)             Checksum: F3624DEA8562A55BA7EB6460F19858B8;7840.
 Package logreq Info: Writing requests to 'Report.run.xml'.
 \openout1 = `Report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 18888 strings out of 473682
- 329828 string characters out of 5714932
- 1164647 words of memory out of 5000000
- 41712 multiletter control sequences out of 15000+600000
- 568266 words of font info for 75 fonts, out of 8000000 for 9000
+ 18929 strings out of 473682
+ 331013 string characters out of 5714932
+ 1183042 words of memory out of 5000000
+ 41743 multiletter control sequences out of 15000+600000
+ 568601 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,81p,997b,1456s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Report.pdf (18 pages, 164130 bytes).
+ 75i,11n,81p,1673b,1457s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on Report.pdf (23 pages, 192518 bytes).
 PDF statistics:
- 330 PDF objects out of 1000 (max. 8388607)
- 60 named destinations out of 1000 (max. 500000)
- 313 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 375 PDF objects out of 1000 (max. 8388607)
+ 69 named destinations out of 1000 (max. 500000)
+ 321 words of extra memory for PDF output out of 10000 (max. 10000000)
 
