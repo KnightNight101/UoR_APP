@@ -1,15 +1,17 @@
 [0] Config.pm:308> INFO - This is Biber 2.20
 [0] Config.pm:311> INFO - Logfile is 'Report.blg'
-[303] biber-MSWIN64:340> INFO - === 
-[367] Biber.pm:420> INFO - Reading 'Report.bcf'
-[592] Biber.pm:994> INFO - Found 1 citekeys in bib section 0
-[622] Biber.pm:4463> INFO - Processing section 0
-[645] Biber.pm:4654> INFO - Looking for bibtex file 'UoR_Masters_Project.biblatex' for section 0
-[727] bibtex.pm:1713> INFO - LaTeX decoding ...
-[1108] bibtex.pm:1519> INFO - Found BibTeX data source 'UoR_Masters_Project.biblatex'
-[1202] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1202] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1203] Biber.pm:4283> INFO - Sorting list 'nyt/global//global/global/global' of type 'entry' with template 'nyt' and locale 'en-US'
-[1203] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
-[1214] bbl.pm:676> INFO - Writing 'Report.bbl' with encoding 'UTF-8'
-[1216] bbl.pm:779> INFO - Output to Report.bbl
+[206] biber-MSWIN64:340> INFO - === 
+[252] Biber.pm:420> INFO - Reading 'Report.bcf'
+[439] Biber.pm:994> INFO - Found 5 citekeys in bib section 0
+[462] Biber.pm:4463> INFO - Processing section 0
+[480] Biber.pm:4654> INFO - Looking for bibtex file 'UoR_Masters_Project.biblatex' for section 0
+[553] bibtex.pm:1713> INFO - LaTeX decoding ...
+[944] bibtex.pm:1519> INFO - Found BibTeX data source 'UoR_Masters_Project.biblatex'
+[1153] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1153] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1153] Biber.pm:4283> INFO - Sorting list 'nyt/global//global/global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[1153] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[1169] bbl.pm:676> INFO - Writing 'Report.bbl' with encoding 'UTF-8'
+[1175] bbl.pm:779> INFO - Output to Report.bbl
+[1175] Biber.pm:131> WARN - I didn't find a database entry for 'mankinsTurningGreatStrategy' (section 0)
+[1175] Biber.pm:133> INFO - WARNINGS: 1

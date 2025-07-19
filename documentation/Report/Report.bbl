@@ -19,52 +19,232 @@
 
 \refsection{0}
   \datalist[entry]{nyt/global//global/global/global}
-    \entry{mankinsTurningGreatStrategy}{article}{}{}
+    \entry{jovanovicAnalysisAvailableProject2018}{article}{}{}
       \name{author}{2}{}{%
-        {{un=0,uniquepart=base,hash=77641d5c96d644136db8d6c92fd7028c}{%
-           family={Mankins},
-           familyi={M\bibinitperiod},
-           given={Michael},
-           giveni={M\bibinitperiod},
+        {{un=0,uniquepart=base,hash=38ea4864c31026cf37688b31325a2d5e}{%
+           family={Jovanovic},
+           familyi={J\bibinitperiod},
+           given={Petar},
+           giveni={P\bibinitperiod},
            givenun=0}}%
-        {{un=0,uniquepart=base,hash=6ef5c2f9e2d418f9b8cca0301408a9f8}{%
-           family={Steele},
-           familyi={S\bibinitperiod},
-           given={Richard},
-           giveni={R\bibinitperiod},
+        {{un=0,uniquepart=base,hash=cc38b8700c49b19742e62081464770c0}{%
+           family={Beric},
+           familyi={B\bibinitperiod},
+           given={Ivana},
+           giveni={I\bibinitperiod},
            givenun=0}}%
       }
-      \strng{namehash}{9f73b62a96c864b6d18c84c909c9d1aa}
-      \strng{fullhash}{9f73b62a96c864b6d18c84c909c9d1aa}
-      \strng{fullhashraw}{9f73b62a96c864b6d18c84c909c9d1aa}
-      \strng{bibnamehash}{9f73b62a96c864b6d18c84c909c9d1aa}
-      \strng{authorbibnamehash}{9f73b62a96c864b6d18c84c909c9d1aa}
-      \strng{authornamehash}{9f73b62a96c864b6d18c84c909c9d1aa}
-      \strng{authorfullhash}{9f73b62a96c864b6d18c84c909c9d1aa}
-      \strng{authorfullhashraw}{9f73b62a96c864b6d18c84c909c9d1aa}
-      \field{sortinit}{M}
-      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \strng{namehash}{31a1115bfe458a62de4ca0dc2c6b57a7}
+      \strng{fullhash}{31a1115bfe458a62de4ca0dc2c6b57a7}
+      \strng{fullhashraw}{31a1115bfe458a62de4ca0dc2c6b57a7}
+      \strng{bibnamehash}{31a1115bfe458a62de4ca0dc2c6b57a7}
+      \strng{authorbibnamehash}{31a1115bfe458a62de4ca0dc2c6b57a7}
+      \strng{authornamehash}{31a1115bfe458a62de4ca0dc2c6b57a7}
+      \strng{authorfullhash}{31a1115bfe458a62de4ca0dc2c6b57a7}
+      \strng{authorfullhashraw}{31a1115bfe458a62de4ca0dc2c6b57a7}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
       \field{extradatescope}{labelyear}
-      \field{labeldatesource}{url}
+      \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Harvard Business Review}
-      \field{title}{Turning {{Great Strategy}} into {{Great Performance}}}
-      \field{urlday}{18}
+      \field{abstract}{The paper is an analysis of the available project management methodologies from the standpoint of their applicability. Our aim is to establish specific characteristics of the today available methodologies (PMS, APM, PRINCE2, YUPMA, etc.) that can ensure realistic foundations on which an adequate methodology for a certain group of similar projects can be defined. The use of an adequate project management methodology brings a numerous advantages and benefits to project manager and project team and it shows them the right route towards project completion. This paper gives a review of the most recognizable methodologies proposed and implemented in the project management practice. Specific features of these methodologies were analysed bearing in mind the possibilities of implementation. It was found that general characteristics of traditional methodologies (PMI, IPMA, APM,YUPMA) make them more adequate to be implemented in larger and more complex projects such as: investment, military, manufacturing, overhaul, etc. projects. On the other hand, general characteristics of agile methodologies lead to a conclusion that these methodologies are more suitable to use for IT projects as well as for some smaller and less complex projects, such as devising various studies, project reports, etc. The research presented in this paper should be treated as a basis for further research oriented towards defining specific methodologies adequate for certain groups of similar projects.}
+      \field{day}{18}
+      \field{issn}{2406-0658}
+      \field{issue}{3}
+      \field{journaltitle}{Management:Journal of Sustainable Business and Management Solutions in Emerging Economies}
+      \field{langid}{english}
+      \field{month}{12}
+      \field{number}{3}
+      \field{title}{Analysis of the {{Available Project Management Methodologies}}}
+      \field{urlday}{10}
       \field{urlmonth}{7}
       \field{urlyear}{2025}
+      \field{volume}{23}
+      \field{year}{2018}
+      \field{dateera}{ce}
       \field{urldateera}{ce}
+      \field{pages}{1\bibrangedash 13}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.7595/management.fon.2018.0027
+      \endverb
       \verb{file}
-      \verb C:\Users\KnightNight101\Zotero\storage\D2HHU3CJ\Turning Great Strategy into Great Performance.pdf
+      \verb C:\Users\KnightNight101\Zotero\storage\MZXVKWQC\Jovanovic and Beric - 2018 - Analysis of the Available Project Management Metho.pdf
       \endverb
       \verb{urlraw}
-      \verb https://hbr.org/2005/07/turning-great-strategy-into-great-performance
+      \verb https://management.fon.bg.ac.rs/index.php/mng/article/view/245
       \endverb
       \verb{url}
-      \verb https://hbr.org/2005/07/turning-great-strategy-into-great-performance
+      \verb https://management.fon.bg.ac.rs/index.php/mng/article/view/245
+      \endverb
+    \endentry
+    \entry{pricaEnhancingProjectEfficiency2025}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=66df74299b12db7506b44c6cafe6b7bb}{%
+           family={Prica},
+           familyi={P\bibinitperiod},
+           given={Fadil},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b14bc3483b620562b2e18ca5246e826d}{%
+           family={Bjelic},
+           familyi={B\bibinitperiod},
+           given={Nenad},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2a3de75714c12908646efdb621cd34b8}
+      \strng{fullhash}{2a3de75714c12908646efdb621cd34b8}
+      \strng{fullhashraw}{2a3de75714c12908646efdb621cd34b8}
+      \strng{bibnamehash}{2a3de75714c12908646efdb621cd34b8}
+      \strng{authorbibnamehash}{2a3de75714c12908646efdb621cd34b8}
+      \strng{authornamehash}{2a3de75714c12908646efdb621cd34b8}
+      \strng{authorfullhash}{2a3de75714c12908646efdb621cd34b8}
+      \strng{authorfullhashraw}{2a3de75714c12908646efdb621cd34b8}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Over recent years, the rising importance of knowledge work has prompted organizations to transition from traditional project management approaches to more collaborative methodologies. In today's globally connected environment, it is crucial for project managers to utilize a dynamic project management system that allows for swift and effective responses to emerging challenges and opportunities. Agile project management is recognized for its emphasis on decentralizing control and empowering team members to adapt to change. This article will explore and compare Agile Project Management with traditional project management techniques, highlighting historical practices and their relevance in the contemporary business landscape. Given the increasing complexity and unpredictability of today’s projects, Agile Project Management has proven to be an invaluable asset for both knowledge workers and the project managers who oversee their efforts. This document aims to encourage the adoption of agile methodologies within the corporate sector, providing a comprehensive outline of the approach.}
+      \field{day}{30}
+      \field{issn}{3006-7626}
+      \field{issue}{1}
+      \field{journaltitle}{Journal of Policy Options}
+      \field{langid}{english}
+      \field{month}{3}
+      \field{number}{1}
+      \field{shorttitle}{Enhancing {{Project Efficiency}}}
+      \field{title}{Enhancing {{Project Efficiency}}: {{The Role}} of {{Agile Project Management}} in a {{Dynamic Corporate Landscape}}}
+      \field{urlday}{10}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{8}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{1\bibrangedash 10}
+      \range{pages}{10}
+      \verb{file}
+      \verb C:\Users\KnightNight101\Zotero\storage\P5QD5MM7\Prica and Bjelic - 2025 - Enhancing Project Efficiency The Role of Agile Pr.pdf
+      \endverb
+      \verb{urlraw}
+      \verb http://resdojournals.com/index.php/jpo/article/view/401
+      \endverb
+      \verb{url}
+      \verb http://resdojournals.com/index.php/jpo/article/view/401
+      \endverb
+      \keyw{Agile Project Management,Corporate Project Strategies,Knowledge Work,Traditional Project Management}
+    \endentry
+    \entry{serradorDoesAgileWork2015}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=dabc747d7f5d16d83d9c9ef52828116b}{%
+           family={Serrador},
+           familyi={S\bibinitperiod},
+           given={Pedro},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=171dc0d6cf55588c4c957a9a529ce8f9}{%
+           family={Pinto},
+           familyi={P\bibinitperiod},
+           given={Jeffrey\bibnamedelima K.},
+           giveni={J\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2d07d5fdb20ddccba44782439e06c2f6}
+      \strng{fullhash}{2d07d5fdb20ddccba44782439e06c2f6}
+      \strng{fullhashraw}{2d07d5fdb20ddccba44782439e06c2f6}
+      \strng{bibnamehash}{2d07d5fdb20ddccba44782439e06c2f6}
+      \strng{authorbibnamehash}{2d07d5fdb20ddccba44782439e06c2f6}
+      \strng{authornamehash}{2d07d5fdb20ddccba44782439e06c2f6}
+      \strng{authorfullhash}{2d07d5fdb20ddccba44782439e06c2f6}
+      \strng{authorfullhashraw}{2d07d5fdb20ddccba44782439e06c2f6}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{The Agile project management methodology has been widely used in recent years as a means to counter the dangers of traditional, front-end planning methods that often lead to downstream development pathologies. Although numerous authors have pointed to the advantages of Agile, with its emphasis on individuals and interactions over processes, customer collaboration over contracts and formal negotiations, and responsiveness over rigid planning, there are, to date, very few large-scale, empirical studies to support the contention that Agile methods can improve the likelihood of project success. Developed originally for software development, it is still predominantly an IT phenomenon. But due to its success it has now spread to non-IT projects. Using a data sample of 1002 projects across multiple industries and countries, we tested the effect of Agile use in organizations on two dimensions of project success: efficiency and overall stakeholder satisfaction against organizational goals. We further examined the moderating effects of variables such as perceived quality of the vision/goals of the project, project complexity, and project team experience. Our findings suggest that Agile methods do have a positive impact on both dimensions of project success. Further, the quality of the vision/goals is a marginally significant moderator of this effect. Implications of these findings and directions for future research are discussed.}
+      \field{day}{1}
+      \field{issn}{0263-7863}
+      \field{journaltitle}{International Journal of Project Management}
+      \field{month}{7}
+      \field{number}{5}
+      \field{shortjournal}{International Journal of Project Management}
+      \field{shorttitle}{Does {{Agile}} Work?}
+      \field{title}{Does {{Agile}} Work? — {{A}} Quantitative Analysis of Agile Project Success}
+      \field{urlday}{10}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{33}
+      \field{year}{2015}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{1040\bibrangedash 1051}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1016/j.ijproman.2015.01.006
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0263786315000071
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0263786315000071
+      \endverb
+      \keyw{Agile,Efficiency,Methodology,Success}
+    \endentry
+    \entry{xueAnalysisComparisonProject}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=d628d74db4e2b82823e6983487ade93c}{%
+           family={Xue},
+           familyi={X\bibinitperiod},
+           given={Rui},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f1324721f5f52d2c85593398df1e3ac6}{%
+           family={Baron},
+           familyi={B\bibinitperiod},
+           given={Claude},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c082c0fea7ff30c24e3dc3fb73ccf22c}{%
+           family={Esteban},
+           familyi={E\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ded7f29f07a8d61a63016c8708c3efdf}{%
+           family={Zheng},
+           familyi={Z\bibinitperiod},
+           given={Li},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{30fbd5c531591b46336f97c1345a268c}
+      \strng{fullhash}{99854f7d3345bcd7574e5ea3a29407e8}
+      \strng{fullhashraw}{99854f7d3345bcd7574e5ea3a29407e8}
+      \strng{bibnamehash}{30fbd5c531591b46336f97c1345a268c}
+      \strng{authorbibnamehash}{30fbd5c531591b46336f97c1345a268c}
+      \strng{authornamehash}{30fbd5c531591b46336f97c1345a268c}
+      \strng{authorfullhash}{99854f7d3345bcd7574e5ea3a29407e8}
+      \strng{authorfullhashraw}{99854f7d3345bcd7574e5ea3a29407e8}
+      \field{sortinit}{X}
+      \field{sortinithash}{1965c258adceecf23ce3d67b05113442}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{With the increasing scale of systems and products, many large companies ask different suppliers to manufacture the components of the final systems or products. Thus, managing projects dedicated to complex systems engineering is very tricky and ensuring the success of projects is a real issue. Many project management tools, techniques and even standards or guides have been developed by different organizations in order to support the management of such projects. For project managers, selecting and relying on immediately operational methods, tools and references (standards and guides) for a project manager to lead his project represents a true difficulty. The purpose of this paper is to introduce, analyze and compare the most famous project management references (PMBoK, ISO 21500 and ISO/IEC 29110) to provide a global and a detailed views on project management methodological guidelines, in order to facilitate the choice of a project management reference to help the project manager to manage the project effectively, thus to improve the success rate of projects.}
+      \field{langid}{english}
+      \field{title}{Analysis and {{Comparison}} of {{Project Management Standards}} and {{Guides}}}
+      \verb{file}
+      \verb C:\Users\KnightNight101\Zotero\storage\4UKEY5A6\Xue et al. - Analysis and Comparison of Project Management Stan.pdf
       \endverb
     \endentry
   \enddatalist
+  \missing{mankinsTurningGreatStrategy}
 \endrefsection
 \endinput
 
