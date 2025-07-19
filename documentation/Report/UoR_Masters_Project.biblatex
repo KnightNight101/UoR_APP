@@ -84,26 +84,6 @@
   file = {C:\Users\KnightNight101\Zotero\storage\WY4RKTVD\html.html}
 }
 
-@article{alsudiriAlignmentLargeProject2013a,
-  title = {Alignment of Large Project Management Process to Business Strategy: {{A}} Review and Conceptual Framework},
-  shorttitle = {Alignment of Large Project Management Process to Business Strategy},
-  author = {Alsudiri, Turki and Al-Karaghouli, Wafi and Eldabi, Tillal},
-  editor = {Zahir Irani, Professor},
-  date = {2013-10-14},
-  journaltitle = {Journal of Enterprise Information Management},
-  volume = {26},
-  number = {5},
-  pages = {596--615},
-  publisher = {Emerald},
-  issn = {1741-0398},
-  doi = {10.1108/jeim-07-2013-0050},
-  url = {https://www.emerald.com/insight/content/doi/10.1108/JEIM-07-2013-0050/full/html},
-  urldate = {2025-07-18},
-  abstract = {Purpose – The purpose of this paper is to discuss in depth the factors that lead to misalignment between the project management (PM) and the business strategy by investigating four case studies in the telecommunications industry in Saudi Arabia.},
-  langid = {english},
-  file = {C:\Users\KnightNight101\Zotero\storage\MZSUNXMJ\Alsudiri et al. - 2013 - Alignment of large project management process to b.pdf}
-}
-
 @online{AttentionSpanLectures,
   title = {Attention Span during Lectures: 8 Seconds, 10 Minutes, or More? | {{Advances}} in {{Physiology Education}} | {{American Physiological Society}}},
   url = {https://journals.physiology.org/doi/full/10.1152/advan.00109.2016?},
@@ -117,20 +97,22 @@
   file = {C:\Users\KnightNight101\Zotero\storage\XH3SB2UR\Baym et al. - Collaboration and Meetings.pdf}
 }
 
-@inproceedings{bergmannAgileProjectManagement2019,
-  title = {Agile {{Project Management}} and {{Project Success}}: {{A Literature Review}}},
-  shorttitle = {Agile {{Project Management}} and {{Project Success}}},
-  booktitle = {Advances in {{Human Factors}}, {{Business Management}} and {{Society}}},
-  author = {Bergmann, Thomas and Karwowski, Waldemar},
-  editor = {Kantola, Jussi Ilari and Nazir, Salman and Barath, Tibor},
-  date = {2019},
-  pages = {405--414},
-  publisher = {Springer International Publishing},
-  location = {Cham},
-  doi = {10.1007/978-3-319-94709-9_39},
-  abstract = {Agile project management (APM) has recently emerged as a new and different way of managing projects. Some experts are already voicing the opinion that APM will become the project management of the 21st century. However, so far APM has not impacted project management as much as it should have. Its focus was mainly on IT projects. The literature on APM is still in its early stages, and more research needs to be done in areas other than software development. Therefore, the present paper provides a review of the existing literature in the agile project management domain. It compares traditional to modern project management, specifically APM, and discusses the influence of project complexity factors. Further, it reviews different frameworks of project success and critical success factors. Finally, it recommends APM dimensions irrespective of project types, which potentially could impact the success of a project.},
-  isbn = {978-3-319-94709-9},
-  langid = {english}
+@article{blijlevenIdentifyingEliminatingInefficiencies2017,
+  title = {Identifying and Eliminating Inefficiencies in Information System Usage: {{A}} Lean Perspective},
+  shorttitle = {Identifying and Eliminating Inefficiencies in Information System Usage},
+  author = {Blijleven, Vincent and Koelemeijer, Kitty and Jaspers, Monique},
+  date = {2017-11-01},
+  journaltitle = {International Journal of Medical Informatics},
+  shortjournal = {International Journal of Medical Informatics},
+  volume = {107},
+  pages = {40--47},
+  issn = {1386-5056},
+  doi = {10.1016/j.ijmedinf.2017.08.005},
+  url = {https://www.sciencedirect.com/science/article/pii/S1386505617302046},
+  urldate = {2025-07-19},
+  abstract = {Objectives Mismatches frequently occur between information system (IS) dictated workflows and actual workflows of IS users. The resulting impeded workflows negatively influence the efficiency with which goods or services are produced and delivered to customers. Within a healthcare context, impeded workflows can additionally have a negative impact on the safety and effectiveness of care delivered to patients. Methods This study evaluates the impact of an electronic health record system of a large university hospital on workflows of healthcare professionals from a lean management waste perspective. Workflow mismatches were identified from direct observations and follow-up semi-structured interviews with physicians and nurses and assessed in terms of waste generated. Results In total, 241 manifestations of waste were identified and classified according to 8 types of waste. Furthermore, noteworthy relationships among the identified manifestations of waste were found. These include differences in frequency per type of waste, certain types of waste having a cascading effect, and waste proliferating as a result of mimicked and routinized behavior. Conclusions The knowledge obtained from this study can support (re)design of IS to better match workflows which may subsequently lead to more safe, effective and efficient patient care.},
+  keywords = {Case study,Electronic health records,Healthcare,Inefficiency,Information system,Information technology,Lean,Usability,Waste},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\8ZBKRBUR\\Blijleven et al. - 2017 - Identifying and eliminating inefficiencies in information system usage A lean perspective.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\C7DHA2DV\\S1386505617302046.html}
 }
 
 @book{bourkeServerLoadBalancing2001,
@@ -281,6 +263,26 @@
   file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\XMY3722W\\Chu et al. - 2025 - LLM Agents for Education Advances and Application.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\3TKPP4MR\\2503.html}
 }
 
+@article{dadashiSeeingWoodsTrees2017,
+  title = {Seeing the Woods for the Trees: The Problem of Information Inefficiency and Information Overload on Operator Performance},
+  shorttitle = {Seeing the Woods for the Trees},
+  author = {Dadashi, Nastaran and Golightly, David and Sharples, Sarah},
+  date = {2017-11-01},
+  journaltitle = {Cognition, Technology \& Work},
+  shortjournal = {Cogn Tech Work},
+  volume = {19},
+  number = {4},
+  pages = {561--570},
+  issn = {1435-5566},
+  doi = {10.1007/s10111-017-0451-1},
+  url = {https://doi.org/10.1007/s10111-017-0451-1},
+  urldate = {2025-07-19},
+  abstract = {One of the recurring questions in designing dynamic control environments is whether providing more information leads to better operational decisions. The idea of having every piece of information is increasingly tempting (and in safety critical domains often mandatory) but has become a potential obstacle for designers and operators. The present research study examined this challenge of appropriate information design and usability within a railway control setting. A laboratory study was conducted to investigate the presentation of different levels of information (taken from data processing framework, Dadashi et al. in Ergonomics 57(3):387–402, 2014) and the association with, and potential prediction of, the performance of a human operator when completing a cognitively demanding problem-solving scenario within railways. Results indicated that presenting users only with information corresponding to their cognitive task, and in the absence of other, non task-relevant information, improves the performance of their problem-solving/alarm handling. Knowing the key features of interest to various agents (machine or human) and using the data processing framework to guide the optimal level of information required by each of these agents could potentially lead to safer and more usable designs.},
+  langid = {english},
+  keywords = {Cognition,Cognitive Control,Decision support system,Human computer interaction,Information Model,Information Processing,Instructional Design,Interaction Design,Usability engineering},
+  file = {C:\Users\KnightNight101\Zotero\storage\FBQIJMGN\Dadashi et al. - 2017 - Seeing the woods for the trees the problem of information inefficiency and information overload on.pdf}
+}
+
 @article{damijApproachOptimizingKanban2024,
   title = {An {{Approach}} to {{Optimizing Kanban Board Workflow}} and {{Shortening}} the {{Project Management Plan}}},
   author = {Damij, Nadja and Damij, Talib},
@@ -385,23 +387,6 @@
   abstract = {Virtual Intelligent Assistants take user requests in the voice form, perform actions such as setting an alarm, turning on a light, and answering a question, and provide answers or confirmations in the voice form or through other channels such as a screen. Assistants have become prevalent in the past decade, and users have been taking services from assistants like Amazon Alexa, Apple Siri, Google Assistant, and Microsoft Cortana.The emergence of AR/VR devices raised many new challenges for building intelligent assistants. The unique requirements have inspired new research directions such as (a) understanding users' situated multi-modal contexts (e.g. vision, sensor signals) as well as language-oriented conversational contexts, (b) personalizing the assistant services by grounding interactions on growing public and personal knowledge graphs and online search engines, and (c) on- device model inference and training techniques that satisfy strict resource and privacy constraints.In this tutorial, we will provide an in-depth walk-through of techniques in the afore-mentioned areas in the recent literature. We aim to introduce techniques for researchers and practitioners who are building intelligent assistants, and inspire research that will bring us one step closer to realizing the dream of building an all-day accompanying assistant. Additionally, we will highlight the significant role that Large Language Models (LLMs) play in enhancing these strategies, underscoring their potential to reshape the future landscape of intelligent assistance.},
   isbn = {979-8-4007-0103-0},
   file = {C:\Users\KnightNight101\Zotero\storage\DMIYBRXU\Dong et al. - 2023 - Towards Next-Generation Intelligent Assistants Lev.pdf}
-}
-
-@incollection{dybaAgileProjectManagement2014,
-  title = {Agile {{Project Management}}},
-  booktitle = {Software {{Project Management}} in a {{Changing World}}},
-  author = {Dybå, Tore and Dingsøyr, Torgeir and Moe, Nils Brede},
-  editor = {Ruhe, Günther and Wohlin, Claes},
-  date = {2014},
-  pages = {277--300},
-  publisher = {Springer},
-  location = {Berlin, Heidelberg},
-  doi = {10.1007/978-3-642-55035-5_11},
-  url = {https://doi.org/10.1007/978-3-642-55035-5_11},
-  urldate = {2025-07-10},
-  abstract = {Agile software development represents a new approach for planning and managing software projects. It puts less emphasis on up-front plans and strict control and relies more on informal collaboration, coordination, and learning. This chapter provides a characterization and definition of agile project management based on extensive studies of industrial projects. It explains the circumstances behind the change from traditional management with its focus on direct supervision and standardization of work processes, to the newer, agile focus on self-managing teams, including its opportunities and benefits, but also its complexity and challenges. The main contribution of the chapter is the four principles of agile project management: minimum critical specification, autonomous teams, redundancy, and feedback and learning.},
-  isbn = {978-3-642-55035-5},
-  langid = {english}
 }
 
 @book{epsteinProjectWorkflowManagement2013,
@@ -633,6 +618,20 @@
   file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\NUGXWIIX\\Iftikhar et al. - 2025 - Therapy as an NLP Task Psychologists' Comparison .pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\ZC2P8WKH\\2409.html}
 }
 
+@inproceedings{illankoonIdentifyingPsychologicalEffects2008,
+  title = {Identifying the Psychological Effects of Short, Repetitive and Easy Tasks on Production Lines},
+  booktitle = {Proceedings of the 13th {{International Conference}} on {{Productivity}} and {{Quality Research}}},
+  author = {Illankoon, Prasanna and Manathunge, Yamuna},
+  date = {2008-06-25},
+  volume = {13},
+  pages = {221--231},
+  url = {https://www.researchgate.net/profile/Paeivi-Iskanius/publication/235983800_Proceedings_of_the_13th_International_Conference_on_Productivity_and_Quality_Research_-_ICPQR_2008/links/00b7d5152ffe6875cf000000/Proceedings-of-the-13th-International-Conference-on-Productivity-and-Quality-Research-ICPQR-2008.pdf#page=221},
+  urldate = {2025-07-19},
+  eventtitle = {International {{Conference}} on {{Productivity}} and {{Quality Research}}},
+  isbn = {978-951-42-8827-2},
+  file = {C:\Users\KnightNight101\Zotero\storage\G4SFU7XG\httpswww.researchgate.netprofilePaeivi-Iskaniuspublication235983800_Proceedings_of_the_13th_I.pdf}
+}
+
 @article{jafarnejadghomiLoadbalancingAlgorithmsCloud2017,
   title = {Load-Balancing Algorithms in Cloud Computing: {{A}} Survey},
   shorttitle = {Load-Balancing Algorithms in Cloud Computing},
@@ -852,9 +851,10 @@
   file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\5FZALIS2\\Lu et al. - 2024 - Corporate Communication Companion (CCC) An LLM-em.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\NZL4JJUQ\\2405.html}
 }
 
-@article{mankinsTurningGreatStrategy,
+@article{mankinsTurningGreatStrategy2005,
   title = {Turning {{Great Strategy}} into {{Great Performance}}},
   author = {Mankins, Michael and Steele, Richard},
+  date = {2005},
   journaltitle = {Harvard Business Review},
   url = {https://hbr.org/2005/07/turning-great-strategy-into-great-performance},
   urldate = {2025-07-18},
@@ -1182,25 +1182,6 @@
   file = {C:\Users\KnightNight101\Zotero\storage\NNPXQGUI\html.html}
 }
 
-@article{sonta-draczkowskaChallengesScalingAgile2024a,
-  title = {Challenges of Scaling Agile in Large Enterprises and~Implications for~Project Management},
-  author = {Sońta-Drączkowska, Ewa and Krogulec, Agnieszka},
-  date = {2024-04-19},
-  journaltitle = {International Journal of Managing Projects in Business},
-  shortjournal = {IJMPB},
-  volume = {17},
-  number = {2},
-  pages = {360--384},
-  publisher = {Emerald},
-  issn = {1753-8378},
-  doi = {10.1108/ijmpb-11-2023-0244},
-  url = {https://www.emerald.com/insight/content/doi/10.1108/IJMPB-11-2023-0244/full/html},
-  urldate = {2025-07-13},
-  abstract = {Purpose – This study seeks to illuminate the managerial tensions inherent in implementing scaled agile (on the organizational, top management, middle management and team levels) and to frame these challenges within the broader context of project management.},
-  langid = {english},
-  file = {C:\Users\KnightNight101\Zotero\storage\9MCKT8XY\Sońta-Drączkowska and Krogulec - 2024 - Challenges of scaling agile in large enterprises a.pdf}
-}
-
 @article{spinellisVersionControlSystems2005,
   title = {Version Control Systems},
   author = {Spinellis, D.},
@@ -1216,20 +1197,6 @@
   abstract = {Sane programmers don't write production code without the help of an editor and an interpreter or a compiler, yet the author has seen many software projects limping along without using a version control system. We can explain this contrast if we think in terms of the increased start-up costs and delayed gratification associated with adopting a VCS. We humans typically discount the future, and therefore implementing version control in a project appears to be a fight against human nature. It's true that you can't beat the productivity boost that compilers and editors provide, but four decades after punched-card programming in assembly language has gone out of fashion, we must now look elsewhere for our next efficiency gains. And if you or your project isn't using a VCS, adopting one might well be the single most important tooling improvement you can undertake.},
   keywords = {Best practices,Books,configuration management,Control systems,Data mining,Documentation,Graphical user interfaces,History,Software testing,VCS,version control system,Web pages,Writing},
   file = {C:\Users\KnightNight101\Zotero\storage\5LVLC3XF\Spinellis - 2005 - Version control systems.pdf}
-}
-
-@book{sternLeanAgileProject2020,
-  title = {Lean and {{Agile Project Management}}: {{How}} to {{Make Any Project Better}}, {{Faster}}, and {{More Cost Effective}}, {{Second Edition}}},
-  shorttitle = {Lean and {{Agile Project Management}}},
-  author = {Stern, Terra Vanzant and PhD},
-  date = {2020-04-30},
-  edition = {2},
-  publisher = {Productivity Press},
-  location = {New York},
-  doi = {10.4324/9780429343414},
-  abstract = {When project managers are faced with budget cuts and fewer resources, waste elimination becomes a priority in maintaining effectiveness. This does not mean shortening or abandoning traditional project cycles. In fact, fast results on critical assignments can only be completed with strong plans and a detailed work breakdown structure. The connections, or lack thereof, are what strongly impact performance and quality. Lean and Agile, as covered in this book, are meant to enhance traditional project management, not replace the science. A strong foundation in traditional project management is necessary to appreciate the benefits of adopting Lean and Agile. Lean and Agile Project Management: How to Make Any Project Better, Faster, and More Cost Effective defines the wastes and issues found in project management and demonstrates how they can be addressed by engaging Lean thinking and Agile techniques. This book also:  • Shows how to apply Lean principles to project management (PM) • Teaches the application of simple Six Sigma metrics in PM • Discusses the adoption of Agile techniques in PM in order to stay on task and remain flexible • Helps readers discover the theoretical synergies between popular PM programs • Promotes an understanding of how Lean people skills can help a person become a better leader and manager Since the publication of the first edition of this book, the bodies of knowledge have all been systematically updated. In addition, through conducting peer groups and detailed workshops, the Author has simplified many of the basics, and they are now much easier to understand. Essentially, the Author believes traditional project management can benefit from adding Lean and Agile, but she has simplified the model for greater efficiency.},
-  isbn = {978-0-429-34341-4},
-  pagetotal = {354}
 }
 
 @article{subramanianMythMysteryShrinking2018,
