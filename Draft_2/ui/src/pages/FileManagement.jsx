@@ -4,6 +4,36 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 function FileManagement() {
+  const [files, setFiles] = React.useState([]);
+  const [uploading, setUploading] = React.useState(false);
+
+  React.useEffect(() => {
+    fetch("/api/files")
+      .then(res => res.json())
+      .then(data => setFiles(data));
+  }, []);
+
+  const handleUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    await fetch("/api/files/upload", {
+      method: "POST",
+      body: formData,
+    });
+    setUploading(false);
+    // Refresh file list
+    fetch("/api/files")
+      .then(res => res.json())
+      .then(data => setFiles(data));
+  };
+
+  const handleDownload = async (filename) => {
+    window.location.href = `/api/files/download/${filename}`;
+  };
+
   return (
     <Box
       display="flex"
@@ -17,9 +47,18 @@ function FileManagement() {
           <Typography variant="h4" gutterBottom>
             File Management
           </Typography>
-          <Typography variant="body1">
-            Placeholder for file management UI.
+          <input type="file" onChange={handleUpload} disabled={uploading} />
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            {files.length === 0 ? "No files found." : "Files:"}
           </Typography>
+          <ul>
+            {files.map((file) => (
+              <li key={file}>
+                {file}{" "}
+                <button onClick={() => handleDownload(file)}>Download</button>
+              </li>
+            ))}
+          </ul>
         </Box>
       </Container>
     </Box>
