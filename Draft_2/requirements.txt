@@ -1,2 +1,4 @@
-paramiko
-bcrypt
+Flask==3.0.0
+SQLAlchemy==2.0.23
+paramiko==3.4.0
+bcrypt==4.1.2
