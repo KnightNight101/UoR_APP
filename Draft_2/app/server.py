@@ -17,7 +17,8 @@ def start_ssh_server():
         print(f"Connection from {addr}")
         # Placeholder: Initialize SSH transport
         transport = paramiko.Transport(client)
-        # TODO: Add authentication and session handling
+        # Security Hardening: Add authentication and session handling
+        # TODO: Implement secure SSH authentication, session timeout, and logging
         transport.close()
 
 if __name__ == "__main__":
