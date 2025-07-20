@@ -12,69 +12,25 @@ import Divider from "@mui/material/Divider";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useNavigate } from "react-router-dom";
 
-const initialData = {
-  categories: {
-    urgent_important: {
-      id: "urgent_important",
-      title: "Urgent and Important",
-      taskIds: ["task-1", "task-2"],
-    },
-    urgent: {
-      id: "urgent",
-      title: "Urgent",
-      taskIds: ["task-3"],
-    },
-    important: {
-      id: "important",
-      title: "Important",
-      taskIds: ["task-4"],
-    },
-    others: {
-      id: "others",
-      title: "Others",
-      taskIds: ["task-5"],
-    },
-  },
-  tasks: {
-    "task-1": {
-      id: "task-1",
-      title: "Finish report",
-      subtasks: ["Draft", "Review"],
-    },
-    "task-2": {
-      id: "task-2",
-      title: "Prepare slides",
-      subtasks: ["Outline", "Design"],
-    },
-    "task-3": {
-      id: "task-3",
-      title: "Reply to urgent emails",
-      subtasks: ["Client A", "Manager"],
-    },
-    "task-4": {
-      id: "task-4",
-      title: "Plan next sprint",
-      subtasks: ["Backlog grooming"],
-    },
-    "task-5": {
-      id: "task-5",
-      title: "Read industry news",
-      subtasks: ["AI trends"],
-    },
-  },
-  categoryOrder: [
-    "urgent_important",
-    "urgent",
-    "important",
-    "others",
-  ],
-};
 
 function Dashboard() {
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState(null);
+  const [projects, setProjects] = useState([]);
   const navigate = useNavigate();
 
-  const onDragEnd = (result) => {
+  React.useEffect(() => {
+    // Fetch tasks/categories from backend
+    fetch("/api/tasks")
+      .then(res => res.json())
+      .then(tasksData => setData(tasksData));
+    // Fetch projects from backend
+    fetch("/api/projects")
+      .then(res => res.json())
+      .then(projectsData => setProjects(projectsData));
+  }, []);
+
+  const onDragEnd = async (result) => {
+    if (!data) return;
     const { destination, source, draggableId } = result;
     if (!destination) return;
     if (
@@ -87,6 +43,7 @@ function Dashboard() {
     const start = data.categories[source.droppableId];
     const finish = data.categories[destination.droppableId];
 
+    let newData;
     if (start === finish) {
       const newTaskIds = Array.from(start.taskIds);
       newTaskIds.splice(source.index, 1);
@@ -97,40 +54,50 @@ function Dashboard() {
         taskIds: newTaskIds,
       };
 
-      setData({
+      newData = {
         ...data,
         categories: {
           ...data.categories,
           [newCategory.id]: newCategory,
         },
-      });
-      return;
+      };
+    } else {
+      // Moving from one category to another
+      const startTaskIds = Array.from(start.taskIds);
+      startTaskIds.splice(source.index, 1);
+      const newStart = {
+        ...start,
+        taskIds: startTaskIds,
+      };
+
+      const finishTaskIds = Array.from(finish.taskIds);
+      finishTaskIds.splice(destination.index, 0, draggableId);
+      const newFinish = {
+        ...finish,
+        taskIds: finishTaskIds,
+      };
+
+      newData = {
+        ...data,
+        categories: {
+          ...data.categories,
+          [newStart.id]: newStart,
+          [newFinish.id]: newFinish,
+        },
+      };
     }
-
-    // Moving from one category to another
-    const startTaskIds = Array.from(start.taskIds);
-    startTaskIds.splice(source.index, 1);
-    const newStart = {
-      ...start,
-      taskIds: startTaskIds,
-    };
-
-    const finishTaskIds = Array.from(finish.taskIds);
-    finishTaskIds.splice(destination.index, 0, draggableId);
-    const newFinish = {
-      ...finish,
-      taskIds: finishTaskIds,
-    };
-
-    setData({
-      ...data,
-      categories: {
-        ...data.categories,
-        [newStart.id]: newStart,
-        [newFinish.id]: newFinish,
-      },
+    setData(newData);
+    // Persist changes to backend
+    await fetch("/api/tasks/update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newData),
     });
   };
+
+  if (!data) {
+    return <Typography>Loading...</Typography>;
+  }
 
   return (
     <>
@@ -158,6 +125,85 @@ function Dashboard() {
             <Typography variant="h4" gutterBottom>
               Dashboard
             </Typography>
+            <Box sx={{ width: "100%", mb: 4 }}>
+              <Typography variant="h5" gutterBottom>
+                Analytics & Reporting
+              </Typography>
+              <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<DownloadIcon />}
+                  onClick={() => handleExport("csv")}
+                >
+                  Export CSV
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  startIcon={<DownloadIcon />}
+                  onClick={() => handleExport("pdf")}
+                >
+                  Export PDF
+                </Button>
+              </Box>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    Project Statistics
+                  </Typography>
+                  <TableContainer component={Paper}>
+                    <Table size="small">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Project Name</TableCell>
+                          <TableCell>Tasks</TableCell>
+                          <TableCell>Members</TableCell>
+                          <TableCell>Created At</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {projectStats.map((stat) => (
+                          <TableRow key={stat.project_id}>
+                            <TableCell>{stat.name}</TableCell>
+                            <TableCell>{stat.task_count}</TableCell>
+                            <TableCell>{stat.member_count}</TableCell>
+                            <TableCell>{stat.created_at}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    User Activity
+                  </Typography>
+                  <TableContainer component={Paper}>
+                    <Table size="small">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>User</TableCell>
+                          <TableCell>Projects</TableCell>
+                          <TableCell>Tasks</TableCell>
+                          <TableCell>Joined</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {userActivity.map((user) => (
+                          <TableRow key={user.user_id}>
+                            <TableCell>{user.username}</TableCell>
+                            <TableCell>{user.projects_count}</TableCell>
+                            <TableCell>{user.tasks_count}</TableCell>
+                            <TableCell>{user.created_at}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Grid>
+              </Grid>
+            </Box>
             <DragDropContext onDragEnd={onDragEnd}>
               <Grid
                 container
@@ -253,15 +299,11 @@ function Dashboard() {
                       Projects
                     </Typography>
                     <List>
-                      <ListItem>
-                        <ListItemText primary="Project Alpha" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="Project Beta" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="Project Gamma" />
-                      </ListItem>
+                      {projects.map((project) => (
+                        <ListItem key={project.id}>
+                          <ListItemText primary={project.name} />
+                        </ListItem>
+                      ))}
                     </List>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>

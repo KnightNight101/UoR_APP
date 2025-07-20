@@ -11,6 +11,29 @@ import Stack from "@mui/material/Stack";
 
 function Authentication() {
   const navigate = useNavigate();
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState("");
+
+  const handleLogin = async () => {
+    setError("");
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      // Save token if provided, then redirect
+      if (data.role === "admin") {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/dashboard");
+      }
+    } else {
+      setError("Invalid credentials");
+    }
+  };
 
   return (
     <>
@@ -31,12 +54,19 @@ function Authentication() {
               <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
                 Please sign in to continue
               </Typography>
+              {error && (
+                <Typography color="error" sx={{ mb: 2 }}>
+                  {error}
+                </Typography>
+              )}
               <Stack spacing={2} sx={{ width: "100%" }}>
                 <TextField
                   label="Username"
                   variant="outlined"
                   fullWidth
                   autoComplete="username"
+                  value={username}
+                  onChange={e => setUsername(e.target.value)}
                 />
                 <TextField
                   label="Password"
@@ -44,32 +74,16 @@ function Authentication() {
                   variant="outlined"
                   fullWidth
                   autoComplete="current-password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
                 />
               </Stack>
               <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mt: 3, width: "100%" }} justifyContent="center">
-                <Button variant="contained" color="primary" fullWidth>
+                <Button variant="contained" color="primary" fullWidth onClick={handleLogin}>
                   Verify
                 </Button>
                 <Button variant="outlined" color="secondary" fullWidth>
                   Reset Password
-                </Button>
-              </Stack>
-              <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mt: 2, width: "100%" }} justifyContent="center">
-                <Button
-                  variant="contained"
-                  color="info"
-                  fullWidth
-                  onClick={() => navigate("/admin-dashboard")}
-                >
-                  Admin
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  onClick={() => navigate("/dashboard")}
-                >
-                  User
                 </Button>
               </Stack>
             </Box>

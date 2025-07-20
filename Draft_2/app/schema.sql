@@ -7,6 +7,17 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Multi-tenancy: Tenants table
+CREATE TABLE IF NOT EXISTS tenants (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Add tenant_id to users
+ALTER TABLE users ADD COLUMN tenant_id INTEGER REFERENCES tenants(id);
+
+
 CREATE TABLE IF NOT EXISTS roles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
@@ -45,6 +56,10 @@ CREATE TABLE IF NOT EXISTS projects (
     owner_id INTEGER NOT NULL,
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- Add tenant_id to projects
+ALTER TABLE projects ADD COLUMN tenant_id INTEGER REFERENCES tenants(id);
+
 
 CREATE TABLE IF NOT EXISTS project_members (
     project_id INTEGER NOT NULL,

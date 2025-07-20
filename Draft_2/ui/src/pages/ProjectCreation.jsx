@@ -9,6 +9,9 @@ const ProjectCreation = () => {
   const [projectName, setProjectName] = useState('');
   const [projectDeadline, setProjectDeadline] = useState(null);
   const [tasks, setTasks] = useState([]);
+  const [creating, setCreating] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const handleTaskChange = (index, field, value) => {
     const updatedTasks = [...tasks];
@@ -22,6 +25,34 @@ const ProjectCreation = () => {
 
   const handleRemoveTask = (index) => {
     setTasks(tasks.filter((_, i) => i !== index));
+  };
+
+  const handleCreateProject = async () => {
+    setCreating(true);
+    setError("");
+    setSuccess(false);
+    const payload = {
+      name: projectName,
+      deadline: projectDeadline,
+      tasks: tasks.map(t => ({
+        name: t.name,
+        deadline: t.deadline,
+      })),
+    };
+    const res = await fetch("/api/projects/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    setCreating(false);
+    if (res.ok) {
+      setSuccess(true);
+      setProjectName('');
+      setProjectDeadline(null);
+      setTasks([]);
+    } else {
+      setError("Failed to create project");
+    }
   };
 
   return (
@@ -100,10 +131,21 @@ const ProjectCreation = () => {
             variant="contained"
             color="primary"
             fullWidth
-            disabled={!projectName}
+            disabled={!projectName || creating}
+            onClick={handleCreateProject}
           >
-            Create Project
+            {creating ? "Creating..." : "Create Project"}
           </Button>
+          {error && (
+            <Typography color="error" sx={{ mt: 2 }}>
+              {error}
+            </Typography>
+          )}
+          {success && (
+            <Typography color="success.main" sx={{ mt: 2 }}>
+              Project created successfully!
+            </Typography>
+          )}
         </Paper>
       </Box>
     </LocalizationProvider>
