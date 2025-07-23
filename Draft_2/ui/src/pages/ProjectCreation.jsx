@@ -39,19 +39,25 @@ const ProjectCreation = () => {
         deadline: t.deadline,
       })),
     };
-    const res = await fetch("/api/projects/create", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    setCreating(false);
-    if (res.ok) {
-      setSuccess(true);
-      setProjectName('');
-      setProjectDeadline(null);
-      setTasks([]);
-    } else {
-      setError("Failed to create project");
+    try {
+      const res = await fetch("/api/projects/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      setCreating(false);
+      if (res.ok) {
+        setSuccess(true);
+        setProjectName('');
+        setProjectDeadline(null);
+        setTasks([]);
+        navigate("/dashboard");
+      } else {
+        setError("Failed to create project");
+      }
+    } catch (err) {
+      setCreating(false);
+      setError("Network error");
     }
   };
 

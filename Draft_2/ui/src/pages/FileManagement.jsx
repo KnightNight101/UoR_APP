@@ -10,7 +10,8 @@ function FileManagement() {
   React.useEffect(() => {
     fetch("/api/files")
       .then(res => res.json())
-      .then(data => setFiles(data));
+      .then(data => setFiles(data))
+      .catch(() => setFiles([]));
   }, []);
 
   const handleUpload = async (e) => {
@@ -19,15 +20,20 @@ function FileManagement() {
     setUploading(true);
     const formData = new FormData();
     formData.append("file", file);
-    await fetch("/api/files/upload", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      await fetch("/api/files/upload", {
+        method: "POST",
+        body: formData,
+      });
+    } catch (err) {
+      // handle error
+    }
     setUploading(false);
     // Refresh file list
     fetch("/api/files")
       .then(res => res.json())
-      .then(data => setFiles(data));
+      .then(data => setFiles(data))
+      .catch(() => setFiles([]));
   };
 
   const handleDownload = async (filename) => {
