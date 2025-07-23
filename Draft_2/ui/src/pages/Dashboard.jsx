@@ -9,6 +9,14 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
+import Button from "@mui/material/Button";
+import Table from "@mui/material/Table";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import TableBody from "@mui/material/TableBody";
+import DownloadIcon from "@mui/icons-material/Download";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useNavigate } from "react-router-dom";
 
@@ -16,17 +24,31 @@ import { useNavigate } from "react-router-dom";
 function Dashboard() {
   const [data, setData] = useState(null);
   const [projects, setProjects] = useState([]);
+  const [projectStats, setProjectStats] = useState([]);
+  const [userActivity, setUserActivity] = useState([]);
   const navigate = useNavigate();
 
   React.useEffect(() => {
     // Fetch tasks/categories from backend
     fetch("/api/tasks")
       .then(res => res.json())
-      .then(tasksData => setData(tasksData));
+      .then(tasksData => setData(tasksData))
+      .catch(() => setData(null));
     // Fetch projects from backend
     fetch("/api/projects")
       .then(res => res.json())
-      .then(projectsData => setProjects(projectsData));
+      .then(projectsData => setProjects(projectsData))
+      .catch(() => setProjects([]));
+    // Fetch project stats
+    fetch("/api/projects/stats")
+      .then(res => res.json())
+      .then(stats => setProjectStats(stats))
+      .catch(() => setProjectStats([]));
+    // Fetch user activity
+    fetch("/api/users/activity")
+      .then(res => res.json())
+      .then(activity => setUserActivity(activity))
+      .catch(() => setUserActivity([]));
   }, []);
 
   const onDragEnd = async (result) => {
@@ -134,7 +156,18 @@ function Dashboard() {
                   variant="contained"
                   color="primary"
                   startIcon={<DownloadIcon />}
-                  onClick={() => handleExport("csv")}
+                  onClick={() => {
+                    fetch("/api/projects/export/csv")
+                      .then(res => res.blob())
+                      .then(blob => {
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = "projects.csv";
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                      });
+                  }}
                 >
                   Export CSV
                 </Button>
@@ -142,7 +175,18 @@ function Dashboard() {
                   variant="contained"
                   color="secondary"
                   startIcon={<DownloadIcon />}
-                  onClick={() => handleExport("pdf")}
+                  onClick={() => {
+                    fetch("/api/projects/export/pdf")
+                      .then(res => res.blob())
+                      .then(blob => {
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = "projects.pdf";
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                      });
+                  }}
                 >
                   Export PDF
                 </Button>
