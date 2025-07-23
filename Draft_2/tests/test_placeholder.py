@@ -1,5 +1,39 @@
 # test_placeholder.py
-# Placeholder test file for SSH server
+# Realistic tests for backend and frontend features
 
-def test_placeholder():
-    assert True  # Replace with real tests later
+import requests
+
+def test_api_health():
+    """Test backend API health endpoint."""
+    response = requests.get("http://localhost:8000/health")
+    assert response.status_code == 200
+    assert response.json().get("status") == "ok"
+
+def test_authentication():
+    """Test backend authentication logic."""
+    payload = {"username": "admin", "password": "admin123"}
+    response = requests.post("http://localhost:8000/login", json=payload)
+    assert response.status_code == 200
+    assert "token" in response.json()
+
+def test_database_connection():
+    """Test backend DB connection via API."""
+    response = requests.get("http://localhost:8000/db_status")
+    assert response.status_code == 200
+    assert response.json().get("db_connected") is True
+
+# Frontend tests (requires selenium and chromedriver)
+# Uncomment and configure if selenium is available
+
+# from selenium import webdriver
+# from selenium.webdriver.common.by import By
+
+# def test_frontend_login_page():
+#     driver = webdriver.Chrome()
+#     driver.get("http://localhost:5173/login")
+#     assert "Login" in driver.title
+#     username_input = driver.find_element(By.NAME, "username")
+#     password_input = driver.find_element(By.NAME, "password")
+#     assert username_input is not None
+#     assert password_input is not None
+#     driver.quit()

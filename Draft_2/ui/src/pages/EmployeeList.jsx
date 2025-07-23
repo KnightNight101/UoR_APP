@@ -17,11 +17,24 @@ const EmployeeList = () => {
       .then((res) => res.json())
       .then((data) => setUsers(data));
 
-    // TODO: Fetch projects from backend if available
-    setProjects(["Project Alpha", "Project Beta", "Project Gamma"]);
+    // Fetch projects from backend
+    fetch("http://localhost:5000/api/projects")
+      .then((res) => res.json())
+      .then((data) => setProjects(data.map(p => p.name)))
+      .catch(() => setProjects([]));
   }, []);
 
-  // TODO: Filter logic for hasOpenTicket and projectFilter
+  // Filter logic for hasOpenTicket and projectFilter
+  const filteredUsers = users.filter(user => {
+    let match = true;
+    if (hasOpenTicket) {
+      match = match && user.open_ticket;
+    }
+    if (projectFilter) {
+      match = match && user.projects && user.projects.includes(projectFilter);
+    }
+    return match;
+  });
 
   const columns = [
     { field: "id", headerName: "ID", width: 70 },
@@ -81,7 +94,7 @@ const EmployeeList = () => {
               Employee List
             </Typography>
             <DataGrid
-              rows={users}
+              rows={filteredUsers}
               columns={columns}
               pageSize={10}
               rowsPerPageOptions={[10]}

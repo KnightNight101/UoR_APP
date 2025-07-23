@@ -1332,17 +1332,55 @@ def upload_file_endpoint(project_id):
         description = request.form.get("description")
         task_id = request.form.get("task_id")
         # Save file to disk (encrypted)
-        upload_dir = os.path.join("uploads", str(project_id))
+        # Use absolute path for uploads, prevent overwrite, validate file type
+        upload_dir = os.path.abspath(os.path.join("uploads", str(project_id)))
         os.makedirs(upload_dir, exist_ok=True)
-        filepath = os.path.join(upload_dir, filename)
-        file_obj.save(filepath)
-        encrypt_file(filepath)  # Encrypt after saving
-        file_record = create_file(project_id, filename, filepath, current_user_id, description, int(task_id) if task_id else None)
-        if not file_record:
+        # Prevent file overwrite
+        safe_filename = secrets.token_hex(8) + "_" + os.path.basename(filename)
+        filepath = os.path.join(upload_dir, safe_filename)
+        # Basic file extension validation (allow only .pdf, .docx, .xlsx, .png, .jpg, .txt)
+        allowed_ext = {'.pdf', '.docx', '.xlsx', '.png', '.jpg', '.jpeg', '.txt'}
+        ext = os.path.splitext(filename)[1].lower()
+        if ext not in allowed_ext:
+            return jsonify({
+                "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Invalid file type"
+                },
+                "status": "error",
+                "timestamp": datetime.utcnow().isoformat() + 'Z'
+            }), 400
+        try:
+            file_obj.save(filepath)
+        except Exception as e:
             return jsonify({
                 "error": {
                     "code": "SERVER_ERROR",
-                    "message": "Failed to save file"
+                    "message": f"Failed to save file: {str(e)}"
+                },
+                "status": "error",
+                "timestamp": datetime.utcnow().isoformat() + 'Z'
+            }), 500
+        # Encrypt after saving, handle encryption errors
+        try:
+            encrypt_file(filepath)
+        except Exception as e:
+            os.remove(filepath)
+            return jsonify({
+                "error": {
+                    "code": "SERVER_ERROR",
+                    "message": f"Encryption failed: {str(e)}"
+                },
+                "status": "error",
+                "timestamp": datetime.utcnow().isoformat() + 'Z'
+            }), 500
+        file_record = create_file(project_id, safe_filename, filepath, current_user_id, description, int(task_id) if task_id else None)
+        if not file_record:
+            os.remove(filepath)
+            return jsonify({
+                "error": {
+                    "code": "SERVER_ERROR",
+                    "message": "Failed to save file record"
                 },
                 "status": "error",
                 "timestamp": datetime.utcnow().isoformat() + 'Z'
@@ -1388,7 +1426,18 @@ def get_file_endpoint(project_id, file_id):
                 "timestamp": datetime.utcnow().isoformat() + 'Z'
             }), 404
         # Decrypt file for access (temporary)
-        decrypt_file(file.filepath)
+        # Decrypt file for access (temporary), handle errors
+        try:
+            decrypt_file(file.filepath)
+        except Exception as e:
+            return jsonify({
+                "error": {
+                    "code": "SERVER_ERROR",
+                    "message": f"Decryption failed: {str(e)}"
+                },
+                "status": "error",
+                "timestamp": datetime.utcnow().isoformat() + 'Z'
+            }), 500
         return jsonify({
             "data": {
                 "id": file.id,
@@ -1545,17 +1594,52 @@ def upload_task_file_endpoint(project_id, task_id):
         file_obj = request.files['file']
         filename = file_obj.filename
         description = request.form.get("description")
-        # Save file to disk
-        upload_dir = os.path.join("uploads", str(project_id), "tasks", str(task_id))
+        # Use absolute path for uploads, prevent overwrite, validate file type
+        upload_dir = os.path.abspath(os.path.join("uploads", str(project_id), "tasks", str(task_id)))
         os.makedirs(upload_dir, exist_ok=True)
-        filepath = os.path.join(upload_dir, filename)
-        file_obj.save(filepath)
-        file_record = create_file(project_id, filename, filepath, current_user_id, description, task_id)
-        if not file_record:
+        safe_filename = secrets.token_hex(8) + "_" + os.path.basename(filename)
+        filepath = os.path.join(upload_dir, safe_filename)
+        allowed_ext = {'.pdf', '.docx', '.xlsx', '.png', '.jpg', '.jpeg', '.txt'}
+        ext = os.path.splitext(filename)[1].lower()
+        if ext not in allowed_ext:
+            return jsonify({
+                "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Invalid file type"
+                },
+                "status": "error",
+                "timestamp": datetime.utcnow().isoformat() + 'Z'
+            }), 400
+        try:
+            file_obj.save(filepath)
+        except Exception as e:
             return jsonify({
                 "error": {
                     "code": "SERVER_ERROR",
-                    "message": "Failed to save file"
+                    "message": f"Failed to save file: {str(e)}"
+                },
+                "status": "error",
+                "timestamp": datetime.utcnow().isoformat() + 'Z'
+            }), 500
+        try:
+            encrypt_file(filepath)
+        except Exception as e:
+            os.remove(filepath)
+            return jsonify({
+                "error": {
+                    "code": "SERVER_ERROR",
+                    "message": f"Encryption failed: {str(e)}"
+                },
+                "status": "error",
+                "timestamp": datetime.utcnow().isoformat() + 'Z'
+            }), 500
+        file_record = create_file(project_id, safe_filename, filepath, current_user_id, description, task_id)
+        if not file_record:
+            os.remove(filepath)
+            return jsonify({
+                "error": {
+                    "code": "SERVER_ERROR",
+                    "message": "Failed to save file record"
                 },
                 "status": "error",
                 "timestamp": datetime.utcnow().isoformat() + 'Z'
@@ -1675,8 +1759,8 @@ def analytics_project_stats():
                     "project_id": project.id,
                     "name": project.name,
                     "created_at": project.created_at.isoformat() + 'Z' if project.created_at else None,
-                    "task_count": len(project.tasks) if project.tasks else 0,
-                    "member_count": len(project.members) if project.members else 0,
+                    "task_count": len(project.tasks) if hasattr(project, "tasks") and project.tasks else 0,
+                    "member_count": len(project.members) if hasattr(project, "members") and project.members else 0,
                 }
                 stats.append(stat)
         return jsonify({"data": stats, "status": "success"}), 200
@@ -1719,31 +1803,33 @@ def analytics_export():
                     "Project ID": project.id,
                     "Name": project.name,
                     "Created At": project.created_at.isoformat() + 'Z' if project.created_at else "",
-                    "Task Count": len(project.tasks) if project.tasks else 0,
-                    "Member Count": len(project.members) if project.members else 0,
+                    "Task Count": len(project.tasks) if hasattr(project, "tasks") and project.tasks else 0,
+                    "Member Count": len(project.members) if hasattr(project, "members") and project.members else 0,
                 }
                 stats.append(stat)
-        if export_type == "csv":
-            si = StringIO()
-            writer = csv.DictWriter(si, fieldnames=list(stats[0].keys()))
-            writer.writeheader()
-            writer.writerows(stats)
-            output = BytesIO()
-            output.write(si.getvalue().encode("utf-8"))
-            output.seek(0)
-            return send_file(output, mimetype="text/csv", as_attachment=True, download_name="project_analytics.csv")
-        elif export_type == "pdf":
-            pdf = FPDF()
-            pdf.add_page()
-            pdf.set_font("Arial", size=12)
-            for stat in stats:
-                for k, v in stat.items():
-                    pdf.cell(0, 10, f"{k}: {v}", ln=1)
-                pdf.cell(0, 10, "", ln=1)
-            pdf_output = BytesIO(pdf.output(dest='S').encode('latin1'))
-            pdf_output.seek(0)
-            return send_file(pdf_output, mimetype="application/pdf", as_attachment=True, download_name="project_analytics.pdf")
-        else:
-            return jsonify({"error": {"code": "VALIDATION_ERROR", "message": "Invalid export type"}, "status": "error"}), 400
-    except Exception as e:
-        return jsonify({"error": {"code": "SERVER_ERROR", "message": str(e)}, "status": "error"}), 500
+            if not stats:
+                return jsonify({"error": {"code": "NOT_FOUND", "message": "No analytics data available"}, "status": "error"}), 404
+            if export_type == "csv":
+                si = StringIO()
+                writer = csv.DictWriter(si, fieldnames=list(stats[0].keys()))
+                writer.writeheader()
+                writer.writerows(stats)
+                output = BytesIO()
+                output.write(si.getvalue().encode("utf-8"))
+                output.seek(0)
+                return send_file(output, mimetype="text/csv", as_attachment=True, download_name="project_analytics.csv")
+            elif export_type == "pdf":
+                pdf = FPDF()
+                pdf.add_page()
+                pdf.set_font("Arial", size=12)
+                for stat in stats:
+                    for k, v in stat.items():
+                        pdf.cell(0, 10, f"{k}: {v}", ln=1)
+                    pdf.cell(0, 10, "", ln=1)
+                pdf_output = BytesIO(pdf.output(dest='S').encode('latin1'))
+                pdf_output.seek(0)
+                return send_file(pdf_output, mimetype="application/pdf", as_attachment=True, download_name="project_analytics.pdf")
+            else:
+                return jsonify({"error": {"code": "VALIDATION_ERROR", "message": "Invalid export type"}, "status": "error"}), 400
+        except Exception as e:
+            return jsonify({"error": {"code": "SERVER_ERROR", "message": str(e)}, "status": "error"}), 500

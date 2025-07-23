@@ -4,6 +4,7 @@ import os
 import bcrypt
 from datetime import datetime, timedelta
 from sqlalchemy import create_engine, text, Table
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship, selectinload
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, func, Boolean
 
@@ -42,7 +43,7 @@ def decrypt_file(filepath):
 
 
 DB_PATH = os.getenv("AUTH_DB_PATH", os.path.join(os.path.dirname(os.path.abspath(__file__)), "auth.db"))
-engine = create_engine(f"sqlite:///{DB_PATH}", connect_args={"check_same_thread": False})
+engine = create_engine(f"sqlite:///{DB_PATH}", connect_args={"check_same_thread": False}, pool_pre_ping=True, pool_size=10, max_overflow=20)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
@@ -360,8 +361,12 @@ def register_user(username: str, password: str, role: str = "user") -> bool:
             
             # Assign role to user
             role_obj = session.query(Role).filter(Role.name == role).first()
-            if role_obj:
-                new_user.roles.append(role_obj)
+            if not role_obj:
+                # Create role if missing
+                role_obj = Role(name=role, description=f"Auto-created role: {role}")
+                session.add(role_obj)
+                session.flush()
+            new_user.roles.append(role_obj)
             
             session.commit()
             print(f"User {username} created successfully with role {role}")
@@ -781,11 +786,15 @@ def get_project_statistics(project_id: int, user_id: int = None):
             
             # Build statistics
             stats = {
-                'total_tasks': sum(stat.count for stat in task_stats),
+                'total_tasks': sum(getattr(stat, 'count', 0) for stat in task_stats),
                 'member_count': member_count,
                 'task_status_breakdown': {stat.status: stat.count for stat in task_stats}
             }
             
+            # Handle edge case for project_id == 0 (invalid)
+            if project_id == 0:
+                return None
+        
             return stats
             
     except Exception as e:
