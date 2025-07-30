@@ -99,3 +99,26 @@ Viewed details for project 'Trial 1'
 Project 'Trial 1' (ID 1) deleted.
 Viewed details for project 'Trial 2'
 Project 'Trial 2' (ID 2) deleted.
+Navigated to User/File Management
+User logged out
+Navigated to Dashboard
+Application started
+User 'user' logged in
+Navigated to User/File Management
+User logged out
+Navigated to Dashboard
+Application started
+Failed login attempt for user 'admin'
+Failed login attempt for user 'admin'
+Failed login attempt for user 'superuser'
+User 'user' logged in
+Viewed details for project 'One more time'
+Navigated to User/File Management
+Navigated to Dashboard
+User logged out
+Navigated to Dashboard
+Application started
+User 'user' logged in
+Navigated to User/File Management
+Viewed Event Log
+User logged out

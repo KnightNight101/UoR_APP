@@ -182,8 +182,6 @@ class LoginScreen(QWidget):
         layout.addLayout(form)
         self.login_btn = QPushButton("Login")
         layout.addWidget(self.login_btn)
-        self.register_btn = QPushButton("Register")
-        layout.addWidget(self.register_btn)
         self.setLayout(layout)
 
 class DashboardView(QWidget):
@@ -279,6 +277,13 @@ class UserFileManagement(QWidget):
         self.user_list = QListWidget()
         self.layout.addWidget(QLabel("Users"))
         self.layout.addWidget(self.user_list)
+
+        # Add User and Edit User buttons (role-restricted)
+        self.add_user_btn = QPushButton("Add User")
+        self.edit_user_btn = QPushButton("Edit User Info")
+        if self._can_manage_users():
+            self.layout.addWidget(self.add_user_btn)
+            self.layout.addWidget(self.edit_user_btn)
         self.refresh_users_btn = QPushButton("Refresh Users")
         self.layout.addWidget(self.refresh_users_btn)
         self.file_list = QListWidget()
@@ -290,8 +295,18 @@ class UserFileManagement(QWidget):
 
         self.refresh_users_btn.clicked.connect(self.load_users)
         self.refresh_files_btn.clicked.connect(self.load_files)
+        if self._can_manage_users():
+            self.add_user_btn.clicked.connect(self.show_add_user_dialog)
+            self.edit_user_btn.clicked.connect(self.show_edit_user_dialog)
         self.load_users()
         self.load_files()
+
+    def _can_manage_users(self):
+        # Only allow for admin, IT, or superuser roles
+        if not self.user:
+            return False
+        role = getattr(self.user, "role", "").lower()
+        return role in ["admin", "it", "superuser"]
 
     def load_users(self):
         self.user_list.clear()
@@ -301,6 +316,93 @@ class UserFileManagement(QWidget):
                 users = session.query(db.User).all()
                 for user in users:
                     self.user_list.addItem(f"{user.id}: {user.username}")
+    
+    def show_add_user_dialog(self):
+        # Dialog for onboarding a new user
+        dialog = QMessageBox(self)
+        dialog.setWindowTitle("Add User")
+        form = QFormLayout()
+        username_input = QLineEdit()
+        password_input = QLineEdit()
+        password_input.setEchoMode(QLineEdit.Password)
+        role_input = QLineEdit()
+        form.addRow("Username:", username_input)
+        form.addRow("Password:", password_input)
+        form.addRow("Role:", role_input)
+        # Use a QWidget to hold the form
+        form_widget = QWidget()
+        form_widget.setLayout(form)
+        dialog.layout().addWidget(form_widget, 0, 0, 1, dialog.layout().columnCount())
+        dialog.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        result = dialog.exec_()
+        if result == QMessageBox.Ok:
+            username = username_input.text().strip()
+            password = password_input.text().strip()
+            role = role_input.text().strip()
+            if not username or not password or not role:
+                QMessageBox.warning(self, "Validation Error", "All fields are required.")
+                return
+            if db:
+                with db.SessionLocal() as session:
+                    # Check if user exists
+                    existing = session.query(db.User).filter_by(username=username).first()
+                    if existing:
+                        QMessageBox.warning(self, "Error", "Username already exists.")
+                        return
+                    new_user = db.User(username=username, password=password, role=role)
+                    session.add(new_user)
+                    session.commit()
+                    QMessageBox.information(self, "Success", f"User '{username}' added.")
+                    self.load_users()
+
+    def show_edit_user_dialog(self):
+        # Dialog for editing selected user info
+        selected = self.user_list.currentItem()
+        if not selected:
+            QMessageBox.warning(self, "No Selection", "Select a user to edit.")
+            return
+        user_id = int(selected.text().split(":")[0])
+        if db:
+            with db.SessionLocal() as session:
+                user = session.query(db.User).filter_by(id=user_id).first()
+                if not user:
+                    QMessageBox.warning(self, "Error", "User not found.")
+                    return
+                dialog = QMessageBox(self)
+                dialog.setWindowTitle("Edit User Info")
+                form = QFormLayout()
+                username_input = QLineEdit(user.username)
+                password_input = QLineEdit()
+                password_input.setEchoMode(QLineEdit.Password)
+                role_input = QLineEdit(user.role)
+                form.addRow("Username:", username_input)
+                form.addRow("Password (leave blank to keep):", password_input)
+                form.addRow("Role:", role_input)
+                form_widget = QWidget()
+                form_widget.setLayout(form)
+                dialog.layout().addWidget(form_widget, 0, 0, 1, dialog.layout().columnCount())
+                dialog.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+                result = dialog.exec_()
+                if result == QMessageBox.Ok:
+                    new_username = username_input.text().strip()
+                    new_password = password_input.text().strip()
+                    new_role = role_input.text().strip()
+                    if not new_username or not new_role:
+                        QMessageBox.warning(self, "Validation Error", "Username and role are required.")
+                        return
+                    # Check for username conflict
+                    if new_username != user.username:
+                        existing = session.query(db.User).filter_by(username=new_username).first()
+                        if existing:
+                            QMessageBox.warning(self, "Error", "Username already exists.")
+                            return
+                    user.username = new_username
+                    if new_password:
+                        user.password = new_password
+                    user.role = new_role
+                    session.commit()
+                    QMessageBox.information(self, "Success", f"User '{new_username}' updated.")
+                    self.load_users()
 
     def load_files(self):
         self.file_list.clear()
