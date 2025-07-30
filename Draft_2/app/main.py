@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QStackedWidget, QVBoxLayout, QLabel,
-    QPushButton, QHBoxLayout, QListWidget, QListWidgetItem, QTextEdit, QLineEdit, QFormLayout, QMessageBox, QInputDialog
+    QPushButton, QHBoxLayout, QListWidget, QListWidgetItem, QTextEdit, QLineEdit, QFormLayout, QMessageBox, QInputDialog, QComboBox, QDialog, QDialogButtonBox
 )
 from PyQt5.QtCore import Qt
 
@@ -199,7 +199,7 @@ class DashboardView(QWidget):
         self.add_project_btn = QPushButton("Add Project")
         self.layout.addWidget(self.add_project_btn)
         self.task_list = QListWidget()
-        self.layout.addWidget(QLabel("Tasks"))
+        self.layout.addWidget(QLabel("Tasks & Assigned Subtasks"))
         self.layout.addWidget(self.task_list)
         self.add_task_btn = QPushButton("Add Task")
         self.layout.addWidget(self.add_task_btn)
@@ -251,6 +251,17 @@ class DashboardView(QWidget):
             tasks = db.get_tasks(project_id)
             for task in tasks:
                 self.task_list.addItem(f"{task.id}: {task.title}")
+            # Show assigned subtasks
+            subtasks = []
+            for task in tasks:
+                if hasattr(db, "get_subtasks"):
+                    try:
+                        subs = db.get_subtasks(task.id)
+                        for sub in subs:
+                            if getattr(sub, "assigned_to", None) == self.user.id:
+                                self.task_list.addItem(f"Subtask {sub.id}: {sub.title} (Task {task.title})")
+                    except Exception:
+                        pass
 
     def add_task(self):
         if db and self.user:
@@ -440,6 +451,9 @@ class ProjectDetailPage(QWidget):
     def __init__(self, project, parent=None):
         super().__init__(parent)
         self.project = project
+        self.members = getattr(project, "members", [])
+        self.member_usernames = [getattr(m, "username", str(m)) for m in self.members]
+        self.member_ids = [getattr(m, "id", None) for m in self.members]
         layout = QVBoxLayout()
         layout.addWidget(QLabel("<b>Project Details</b>"))
         layout.addWidget(QLabel(f"Name: {getattr(project, 'name', '')}"))
@@ -447,13 +461,45 @@ class ProjectDetailPage(QWidget):
         layout.addWidget(QLabel(f"Start Date: {getattr(project, 'start_date', '')}"))
         layout.addWidget(QLabel(f"End Date: {getattr(project, 'end_date', '')}"))
         # Team members
-        members = getattr(project, "members", [])
-        member_names = ", ".join([getattr(m, "username", str(m)) for m in members]) if members else "N/A"
+        members = self.members
+        member_names = ", ".join(self.member_usernames) if members else "N/A"
         layout.addWidget(QLabel(f"Team Members: {member_names}"))
         # Leaders (if available)
         leaders = [m for m in members if getattr(m, "role", "") == "leader"] if members else []
         leader_names = ", ".join([getattr(m, "username", str(m)) for m in leaders]) if leaders else "N/A"
         layout.addWidget(QLabel(f"Leaders: {leader_names}"))
+
+        # --- Task List Section ---
+        layout.addWidget(QLabel("<b>Tasks</b>"))
+
+        # Inline Add Task Form
+        from PyQt5.QtWidgets import QHBoxLayout
+        form_layout = QHBoxLayout()
+        self.title_input = QLineEdit()
+        self.title_input.setPlaceholderText("Task Name")
+        self.deadline_input = QLineEdit()
+        self.deadline_input.setPlaceholderText("Deadline (YYYY-MM-DD)")
+        self.dependencies_input = QLineEdit()
+        self.dependencies_input.setPlaceholderText("Dependencies (comma IDs)")
+        self.assigned_input = QComboBox()
+        self.assigned_input.addItem("Unassigned", None)
+        for m in self.members:
+            self.assigned_input.addItem(getattr(m, "username", str(m)), getattr(m, "id", None))
+        self.add_task_inline_btn = QPushButton("Add Task")
+        form_layout.addWidget(self.title_input)
+        form_layout.addWidget(self.deadline_input)
+        form_layout.addWidget(self.dependencies_input)
+        form_layout.addWidget(self.assigned_input)
+        form_layout.addWidget(self.add_task_inline_btn)
+        layout.addLayout(form_layout)
+
+        self.task_list = QListWidget()
+        layout.addWidget(self.task_list)
+        self.load_tasks()
+
+        self.add_task_inline_btn.clicked.connect(self.add_task_inline)
+        self.task_list.itemClicked.connect(self.expand_task_item)
+
         # Delete Project button
         self.delete_btn = QPushButton("Delete Project")
         layout.addWidget(self.delete_btn)
@@ -463,6 +509,123 @@ class ProjectDetailPage(QWidget):
         self.setLayout(layout)
         self.back_btn.clicked.connect(self.go_back)
         self.delete_btn.clicked.connect(self.confirm_delete_project)
+
+    def load_tasks(self):
+        self.task_list.clear()
+        if db and hasattr(self.project, "id"):
+            tasks = db.get_tasks(self.project.id)
+            for task in tasks:
+                item = QListWidgetItem(f"{task.id}: {task.title} | Deadline: {getattr(task, 'deadline', 'N/A')} | Assigned: {getattr(task, 'assigned_to', 'Unassigned')}")
+                item.setData(32, task.id)
+                self.task_list.addItem(item)
+
+    def expand_task_item(self, item):
+        task_id = item.data(32)
+        if db and hasattr(db, "get_task") and hasattr(db, "get_subtasks"):
+            try:
+                task = db.get_task(task_id)
+                subtasks = db.get_subtasks(task_id)
+            except Exception:
+                QMessageBox.warning(self, "Error", "Could not load task or subtasks.")
+                return
+            dlg = QDialog(self)
+            dlg.setWindowTitle(f"Task Details: {getattr(task, 'title', '')}")
+            vbox = QVBoxLayout()
+            vbox.addWidget(QLabel(f"Task: {getattr(task, 'title', '')}"))
+            vbox.addWidget(QLabel(f"Deadline: {getattr(task, 'deadline', 'N/A')}"))
+            vbox.addWidget(QLabel(f"Assigned: {getattr(task, 'assigned_to', 'Unassigned')}"))
+            vbox.addWidget(QLabel("Subtasks:"))
+            if subtasks:
+                for sub in subtasks:
+                    vbox.addWidget(QLabel(f"ID: {sub.id}, Name: {sub.title}, Deadline: {getattr(sub, 'deadline', 'N/A')}, Assigned: {getattr(sub, 'assigned_to', 'Unassigned')}"))
+            else:
+                vbox.addWidget(QLabel("No subtasks."))
+            add_subtask_btn = QPushButton("Add Subtask")
+            vbox.addWidget(add_subtask_btn)
+            def add_subtask():
+                self.show_add_subtask_dialog(task_id)
+                dlg.accept()
+            add_subtask_btn.clicked.connect(add_subtask)
+            dlg.setLayout(vbox)
+            dlg.exec_()
+
+    def add_task_inline(self):
+        title = self.title_input.text().strip()
+        deadline = self.deadline_input.text().strip()
+        dependencies = self.dependencies_input.text().strip()
+        assigned_id = self.assigned_input.currentData()
+        if not title:
+            QMessageBox.warning(self, "Validation Error", "Task name is required.")
+            return
+        if db:
+            try:
+                task = db.create_task(
+                    project_id=self.project.id,
+                    title=title,
+                    deadline=deadline,
+                    dependencies=dependencies,
+                    assigned_to=assigned_id
+                )
+            except Exception:
+                QMessageBox.warning(self, "Error", "Failed to add task (DB error).")
+                return
+            if task:
+                log_event(f"Task '{title}' added to project {self.project.id} by user. Deadline: {deadline}, Dependencies: {dependencies}, Assigned: {assigned_id}")
+                self.load_tasks()
+                self.title_input.clear()
+                self.deadline_input.clear()
+                self.dependencies_input.clear()
+                self.assigned_input.setCurrentIndex(0)
+            else:
+                QMessageBox.warning(self, "Error", "Failed to add task.")
+
+    def show_add_subtask_dialog(self, parent_task_id):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Add Subtask")
+        form = QFormLayout()
+        title_input = QLineEdit()
+        deadline_input = QLineEdit()
+        dependencies_input = QLineEdit()
+        assigned_input = QComboBox()
+        assigned_input.addItem("Unassigned", None)
+        for m in self.members:
+            assigned_input.addItem(getattr(m, "username", str(m)), getattr(m, "id", None))
+        form.addRow("Subtask Name:", title_input)
+        form.addRow("Deadline (YYYY-MM-DD):", deadline_input)
+        form.addRow("Dependencies (comma IDs):", dependencies_input)
+        form.addRow("Assign to:", assigned_input)
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        form.addRow(button_box)
+        dialog.setLayout(form)
+        def on_accept():
+            title = title_input.text().strip()
+            deadline = deadline_input.text().strip()
+            dependencies = dependencies_input.text().strip()
+            assigned_id = assigned_input.currentData()
+            if not title:
+                QMessageBox.warning(self, "Validation Error", "Subtask name is required.")
+                return
+            if db and hasattr(db, "create_subtask"):
+                try:
+                    subtask = db.create_subtask(
+                        parent_task_id=parent_task_id,
+                        title=title,
+                        deadline=deadline,
+                        dependencies=dependencies,
+                        assigned_to=assigned_id
+                    )
+                except Exception:
+                    QMessageBox.warning(self, "Error", "Failed to add subtask (DB error).")
+                    return
+                if subtask:
+                    log_event(f"Subtask '{title}' added to task {parent_task_id} by user. Deadline: {deadline}, Dependencies: {dependencies}, Assigned: {assigned_id}")
+                    self.load_tasks()
+                    dialog.accept()
+                else:
+                    QMessageBox.warning(self, "Error", "Failed to add subtask.")
+        button_box.accepted.connect(on_accept)
+        button_box.rejected.connect(dialog.reject)
+        dialog.exec_()
 
     def go_back(self):
         # Find main window and return to dashboard
