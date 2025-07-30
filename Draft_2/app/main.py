@@ -187,35 +187,12 @@ class LoginScreen(QWidget):
         self.setLayout(layout)
 
 class DashboardView(QWidget):
-    def __init__(self, parent=None, user=None):
-        super().__init__(parent)
-        self.user = user
-        self.layout = QVBoxLayout()
-        self.stats_label = QLabel("Dashboard")
-        self.layout.addWidget(self.stats_label)
-        self.setLayout(self.layout)
-        self.refresh_dashboard()
-
-    def refresh_dashboard(self):
-        if db and self.user:
-            projects, total = db.get_user_projects(self.user.id)
-            stats = []
-            for project in projects:
-                project_id = getattr(project, "id", None)
-                if project_id is not None:
-                    stat = db.get_project_statistics(int(project_id), self.user.id)
-                    if stat:
-                        stats.append(f"Project: {project.name} | Tasks: {stat['total_tasks']} | Members: {stat['member_count']}")
-            self.stats_label.setText("Dashboard\n" + "\n".join(stats))
-        else:
-            self.stats_label.setText("Dashboard\nNo data available.")
-
-class ProjectTaskManagement(QWidget):
     def __init__(self, parent=None, user=None, main_window=None):
         super().__init__(parent)
         self.user = user
         self.main_window = main_window
         self.layout = QVBoxLayout()
+        # --- Begin Project/Task Management widgets ---
         self.project_list = QListWidget()
         self.layout.addWidget(QLabel("Projects"))
         self.layout.addWidget(self.project_list)
@@ -228,14 +205,18 @@ class ProjectTaskManagement(QWidget):
         self.layout.addWidget(self.task_list)
         self.add_task_btn = QPushButton("Add Task")
         self.layout.addWidget(self.add_task_btn)
-        self.setLayout(self.layout)
+        # --- End Project/Task Management widgets ---
 
+        self.setLayout(self.layout)
         self.refresh_projects_btn.clicked.connect(self.load_projects)
         self.add_project_btn.clicked.connect(self.navigate_to_project_creation)
         self.project_list.itemClicked.connect(self.load_tasks)
         self.add_task_btn.clicked.connect(self.add_task)
         self.load_projects()
 
+    # Dashboard summary removed per UI simplification instructions.
+
+    # --- Begin Project/Task Management logic (from ProjectTaskManagement) ---
     def load_projects(self):
         self.project_list.clear()
         if db and self.user:
@@ -272,6 +253,9 @@ class ProjectTaskManagement(QWidget):
                 if task:
                     log_event(f"Task '{title}' created in project {project_id} by user {self.user.username}")
                     self.load_tasks(current_project)
+    # --- End Project/Task Management logic ---
+
+# ProjectTaskManagement class removed; logic and widgets merged into DashboardView.
 
 class UserFileManagement(QWidget):
     def __init__(self, parent=None, user=None):
@@ -350,7 +334,6 @@ class MainWindow(QMainWindow):
         self.nav_list = QListWidget()
         self.nav_list.addItems([
             "Dashboard",
-            "Project/Task Management",
             "User/File Management",
             "Event Log",
             "Logout"
@@ -359,14 +342,12 @@ class MainWindow(QMainWindow):
 
         # Stacked widget for views
         self.stack = QStackedWidget()
-        self.dashboard = DashboardView()
+        self.dashboard = DashboardView(main_window=self)
         self.current_user = None  # Track current authenticated user
         self.project_creation_page = ProjectCreationPage(current_user=self.current_user)
-        self.project_task = ProjectTaskManagement(main_window=self)
         self.user_file = UserFileManagement()
         self.event_log = EventLogView()
         self.stack.addWidget(self.dashboard)
-        self.stack.addWidget(self.project_task)
         self.stack.addWidget(self.user_file)
         self.stack.addWidget(self.event_log)
         self.stack.addWidget(self.project_creation_page)
@@ -375,8 +356,8 @@ class MainWindow(QMainWindow):
         self.nav_list.currentRowChanged.connect(self.display_view)
         self.nav_list.setCurrentRow(0)
 
-        # Connect save button on project creation page to return to project/task management
-        self.project_creation_page.save_btn.clicked.connect(self.return_to_project_task)
+        # Connect save button on project creation page to return to dashboard
+        self.project_creation_page.save_btn.clicked.connect(self.return_to_dashboard)
 
         log_event("Application started")
 
@@ -385,15 +366,12 @@ class MainWindow(QMainWindow):
             self.stack.setCurrentWidget(self.dashboard)
             log_event("Navigated to Dashboard")
         elif idx == 1:
-            self.stack.setCurrentWidget(self.project_task)
-            log_event("Navigated to Project/Task Management")
-        elif idx == 2:
             self.stack.setCurrentWidget(self.user_file)
             log_event("Navigated to User/File Management")
-        elif idx == 3:
+        elif idx == 2:
             self.stack.setCurrentWidget(self.event_log)
             log_event("Viewed Event Log")
-        elif idx == 4:
+        elif idx == 3:
             self.logout()
 
     def show_project_creation_page(self):
@@ -402,9 +380,9 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentWidget(self.project_creation_page)
         log_event("Navigated to Project Creation Page")
 
-    def return_to_project_task(self):
-        self.stack.setCurrentWidget(self.project_task)
-        log_event("Returned to Project/Task Management from Project Creation Page")
+    def return_to_dashboard(self):
+        self.stack.setCurrentWidget(self.dashboard)
+        log_event("Returned to Dashboard from Project Creation Page")
 
     def logout(self):
         log_event("User logged out")
@@ -442,16 +420,16 @@ class App(QApplication):
                 self.current_user = user
                 self.main.current_user = user
                 # Re-instantiate views with user context
-                self.main.dashboard = DashboardView(user=user)
-                self.main.project_task = ProjectTaskManagement(user=user, main_window=self.main)
+                self.main.dashboard = DashboardView(user=user, main_window=self.main)
                 self.main.user_file = UserFileManagement(user=user)
-                self.main.project_creation_page.current_user = user
-                self.main.stack.removeWidget(self.main.stack.widget(0))
-                self.main.stack.removeWidget(self.main.stack.widget(0))
-                self.main.stack.removeWidget(self.main.stack.widget(0))
+                self.main.project_creation_page = ProjectCreationPage(current_user=user)
+                # Remove all widgets from the stack
+                while self.main.stack.count() > 0:
+                    self.main.stack.removeWidget(self.main.stack.widget(0))
                 self.main.stack.insertWidget(0, self.main.dashboard)
-                self.main.stack.insertWidget(1, self.main.project_task)
-                self.main.stack.insertWidget(2, self.main.user_file)
+                self.main.stack.insertWidget(1, self.main.user_file)
+                self.main.stack.insertWidget(2, self.main.event_log)
+                self.main.stack.insertWidget(3, self.main.project_creation_page)
                 self.main.show()
             else:
                 log_event(f"Failed login attempt for user '{username}'")
