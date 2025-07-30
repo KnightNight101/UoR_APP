@@ -89,3 +89,13 @@ Application started
 User 'user' logged in
 Viewed details for project 'Trial 2'
 Returned to Dashboard from Project Detail Page
+User logged out
+Navigated to Dashboard
+Application started
+User 'user' logged in
+Viewed details for project 'One more time'
+Returned to Dashboard from Project Detail Page
+Viewed details for project 'Trial 1'
+Project 'Trial 1' (ID 1) deleted.
+Viewed details for project 'Trial 2'
+Project 'Trial 2' (ID 2) deleted.
