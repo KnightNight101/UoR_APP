@@ -904,4 +904,15 @@ def init_roles_and_permissions():
 if __name__ == "__main__":
     print("Initializing database...")
     init_db()
+if __name__ == "__main__":
+    # Create a user for each role in the database with password "password"
+    with SessionLocal() as session:
+        roles = session.query(Role).all()
+        for role in roles:
+            username = role.name
+            # Avoid duplicate users
+            existing_user = session.query(User).filter(User.username == username).first()
+            if not existing_user:
+                register_user(username, "password", role.name)
+        print("Created users for roles:", [role.name for role in roles])
     print("Database initialization completed!")
