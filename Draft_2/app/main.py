@@ -352,11 +352,15 @@ class ProjectDetailPage(QWidget):
         leaders = [m for m in members if getattr(m, "role", "") == "leader"] if members else []
         leader_names = ", ".join([getattr(m, "username", str(m)) for m in leaders]) if leaders else "N/A"
         layout.addWidget(QLabel(f"Leaders: {leader_names}"))
+        # Delete Project button
+        self.delete_btn = QPushButton("Delete Project")
+        layout.addWidget(self.delete_btn)
         # Back button
         self.back_btn = QPushButton("Back to Dashboard")
         layout.addWidget(self.back_btn)
         self.setLayout(layout)
         self.back_btn.clicked.connect(self.go_back)
+        self.delete_btn.clicked.connect(self.confirm_delete_project)
 
     def go_back(self):
         # Find main window and return to dashboard
@@ -366,6 +370,51 @@ class ProjectDetailPage(QWidget):
         if mw:
             mw.stack.setCurrentWidget(mw.dashboard)
             log_event("Returned to Dashboard from Project Detail Page")
+
+    def confirm_delete_project(self):
+        reply = QMessageBox.question(
+            self,
+            "Delete Project",
+            f"Are you sure you want to delete the project '{getattr(self.project, 'name', '')}'? This action cannot be undone.",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+        if reply == QMessageBox.Yes:
+            self.delete_project()
+
+    def delete_project(self):
+        # Delete the project from the database
+        if db and hasattr(self.project, "id"):
+            project_id = getattr(self.project, "id")
+            project_name = getattr(self.project, "name", "")
+            try:
+                # Pass user_id if required by db.delete_project
+                user_id = None
+                mw = self.parent()
+                while mw and not isinstance(mw, MainWindow):
+                    mw = mw.parent()
+                if mw and hasattr(mw, "current_user") and mw.current_user:
+                    user_id = getattr(mw.current_user, "id", None)
+                if user_id is not None:
+                    result = db.delete_project(project_id, user_id)
+                else:
+                    result = db.delete_project(project_id)
+                if result:
+                    log_event(f"Project '{project_name}' (ID {project_id}) deleted.")
+                    QMessageBox.information(self, "Project Deleted", f"Project '{project_name}' has been deleted.")
+                    # Return to dashboard
+                    mw = self.parent()
+                    while mw and not isinstance(mw, MainWindow):
+                        mw = mw.parent()
+                    if mw:
+                        mw.dashboard.load_projects()
+                        mw.stack.setCurrentWidget(mw.dashboard)
+                else:
+                    QMessageBox.warning(self, "Error", "Failed to delete project from database.")
+            except Exception as e:
+                QMessageBox.warning(self, "Error", f"An error occurred while deleting the project: {e}")
+        else:
+            QMessageBox.warning(self, "Error", "Database not available or project ID missing.")
 
 class MainWindow(QMainWindow):
     def __init__(self):
