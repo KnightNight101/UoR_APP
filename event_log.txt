@@ -80,3 +80,12 @@ User logged out
 Navigated to Dashboard
 Application started
 User 'user' logged in
+User logged out
+Navigated to Dashboard
+Application started
+User 'user' logged in
+Navigated to Dashboard
+Application started
+User 'user' logged in
+Viewed details for project 'Trial 2'
+Returned to Dashboard from Project Detail Page

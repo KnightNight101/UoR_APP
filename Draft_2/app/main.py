@@ -210,9 +210,23 @@ class DashboardView(QWidget):
         self.setLayout(self.layout)
         self.refresh_projects_btn.clicked.connect(self.load_projects)
         self.add_project_btn.clicked.connect(self.navigate_to_project_creation)
-        self.project_list.itemClicked.connect(self.load_tasks)
+        self.project_list.itemClicked.connect(self.handle_project_click)
         self.add_task_btn.clicked.connect(self.add_task)
         self.load_projects()
+
+    def handle_project_click(self, item):
+        # Get project details and navigate to detail page
+        if db and self.user:
+            # Try to get project by name (since only name is shown in list)
+            project_name = item.text()
+            projects, _ = db.get_user_projects(self.user.id)
+            selected_project = None
+            for project in projects:
+                if getattr(project, "name", "") == project_name:
+                    selected_project = project
+                    break
+            if selected_project and self.main_window:
+                self.main_window.show_project_detail_page(selected_project)
 
     # Dashboard summary removed per UI simplification instructions.
 
@@ -222,7 +236,7 @@ class DashboardView(QWidget):
         if db and self.user:
             projects, _ = db.get_user_projects(self.user.id)
             for project in projects:
-                self.project_list.addItem(f"{project.id}: {project.name}")
+                self.project_list.addItem(f"{project.name}")
 
     def navigate_to_project_creation(self):
         if self.main_window:
@@ -320,6 +334,39 @@ class EventLogView(QWidget):
         except FileNotFoundError:
             self.log_text.setPlainText("No log entries yet.")
 
+class ProjectDetailPage(QWidget):
+    def __init__(self, project, parent=None):
+        super().__init__(parent)
+        self.project = project
+        layout = QVBoxLayout()
+        layout.addWidget(QLabel("<b>Project Details</b>"))
+        layout.addWidget(QLabel(f"Name: {getattr(project, 'name', '')}"))
+        layout.addWidget(QLabel(f"Description: {getattr(project, 'description', '')}"))
+        layout.addWidget(QLabel(f"Start Date: {getattr(project, 'start_date', '')}"))
+        layout.addWidget(QLabel(f"End Date: {getattr(project, 'end_date', '')}"))
+        # Team members
+        members = getattr(project, "members", [])
+        member_names = ", ".join([getattr(m, "username", str(m)) for m in members]) if members else "N/A"
+        layout.addWidget(QLabel(f"Team Members: {member_names}"))
+        # Leaders (if available)
+        leaders = [m for m in members if getattr(m, "role", "") == "leader"] if members else []
+        leader_names = ", ".join([getattr(m, "username", str(m)) for m in leaders]) if leaders else "N/A"
+        layout.addWidget(QLabel(f"Leaders: {leader_names}"))
+        # Back button
+        self.back_btn = QPushButton("Back to Dashboard")
+        layout.addWidget(self.back_btn)
+        self.setLayout(layout)
+        self.back_btn.clicked.connect(self.go_back)
+
+    def go_back(self):
+        # Find main window and return to dashboard
+        mw = self.parent()
+        while mw and not isinstance(mw, MainWindow):
+            mw = mw.parent()
+        if mw:
+            mw.stack.setCurrentWidget(mw.dashboard)
+            log_event("Returned to Dashboard from Project Detail Page")
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -347,6 +394,7 @@ class MainWindow(QMainWindow):
         self.project_creation_page = ProjectCreationPage(current_user=self.current_user)
         self.user_file = UserFileManagement()
         self.event_log = EventLogView()
+        self.project_detail_page = None  # Will be set dynamically
         self.stack.addWidget(self.dashboard)
         self.stack.addWidget(self.user_file)
         self.stack.addWidget(self.event_log)
@@ -379,6 +427,15 @@ class MainWindow(QMainWindow):
         self.project_creation_page.current_user = self.current_user
         self.stack.setCurrentWidget(self.project_creation_page)
         log_event("Navigated to Project Creation Page")
+
+    def show_project_detail_page(self, project):
+        # Remove previous detail page if exists
+        if self.project_detail_page:
+            self.stack.removeWidget(self.project_detail_page)
+        self.project_detail_page = ProjectDetailPage(project, parent=self)
+        self.stack.addWidget(self.project_detail_page)
+        self.stack.setCurrentWidget(self.project_detail_page)
+        log_event(f"Viewed details for project '{getattr(project, 'name', '')}'")
 
     def return_to_dashboard(self):
         self.stack.setCurrentWidget(self.dashboard)
