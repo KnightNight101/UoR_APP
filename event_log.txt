@@ -122,3 +122,13 @@ User 'user' logged in
 Navigated to User/File Management
 Viewed Event Log
 User logged out
+Navigated to Dashboard
+Application started
+User 'user' logged in
+Viewed details for project 'One more time'
+Returned to Dashboard from Project Detail Page
+User logged out
+Navigated to Dashboard
+Application started
+User 'user' logged in
+Viewed details for project 'One more time'
