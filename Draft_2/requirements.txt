@@ -1,6 +1,4 @@
-Flask==3.0.0
 SQLAlchemy==2.0.23
 paramiko==3.4.0
 bcrypt==4.1.2
 PyJWT==2.8.0
-Flask-JWT-Extended==4.6.0
