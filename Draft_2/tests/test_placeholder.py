@@ -5,20 +5,20 @@ import requests
 
 def test_api_health():
     """Test backend API health endpoint."""
-    response = requests.get("http://localhost:8000/health")
+    response = requests.get("http://localhost:5000/health")
     assert response.status_code == 200
     assert response.json().get("status") == "ok"
 
 def test_authentication():
     """Test backend authentication logic."""
     payload = {"username": "admin", "password": "admin123"}
-    response = requests.post("http://localhost:8000/login", json=payload)
+    response = requests.post("http://localhost:5000/api/auth/login", json=payload)
     assert response.status_code == 200
     assert "token" in response.json()
 
 def test_database_connection():
     """Test backend DB connection via API."""
-    response = requests.get("http://localhost:8000/db_status")
+    response = requests.get("http://localhost:5000/db_status")
     assert response.status_code == 200
     assert response.json().get("db_connected") is True
 

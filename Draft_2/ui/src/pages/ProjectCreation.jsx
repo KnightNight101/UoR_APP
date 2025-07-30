@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField, Typography, Paper, IconButton } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -6,6 +7,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const ProjectCreation = () => {
+  const navigate = useNavigate();
   const [projectName, setProjectName] = useState('');
   const [projectDeadline, setProjectDeadline] = useState(null);
   const [tasks, setTasks] = useState([]);
@@ -55,7 +57,7 @@ const ProjectCreation = () => {
       } else {
         setError("Failed to create project");
       }
-    } catch (err) {
+    } catch {
       setCreating(false);
       setError("Network error");
     }

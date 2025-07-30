@@ -25,7 +25,7 @@ function FileManagement() {
         method: "POST",
         body: formData,
       });
-    } catch (err) {
+    } catch {
       // handle error
     }
     setUploading(false);
