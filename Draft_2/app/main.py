@@ -72,35 +72,85 @@ class ProjectCreationPage(QWidget):
 
     def ensure_creator_is_leader(self):
         # Ensure creator is in members and leaders
-        if self.current_user:
-            creator_id = self.current_user.id
-            # Add creator to members if not present
-            found = False
-            for i in range(self.member_list.count()):
-                member_item = self.member_list.item(i)
-                if member_item and str(creator_id) in member_item.text():
-                    member_item.setSelected(True)
-                    found = True
-            if not found:
-                # Add creator to member list if not present
-                item = QListWidgetItem(f"{creator_id}: {self.current_user.username}")
-                item.setData(32, creator_id)
-                self.member_list.addItem(item)
-                item.setSelected(True)
-            # Add creator to leaders if not present
-            found_leader = False
-            for i in range(self.leader_list.count()):
-                leader_item = self.leader_list.item(i)
-                if leader_item and str(creator_id) in leader_item.text():
-                    leader_item.setSelected(True)
-                    found_leader = True
-            if not found_leader:
-                leader_item = QListWidgetItem(f"{creator_id}: {self.current_user.username}")
-                leader_item.setData(32, creator_id)
-                self.leader_list.addItem(leader_item)
-                leader_item.setSelected(True)
-        # Continue with save logic (placeholder)
-        QMessageBox.information(self, "Project Saved", "Project creation logic not implemented.")
+        if not self.current_user:
+            QMessageBox.warning(self, "Error", "No current user context.")
+            return
+
+        creator_id = self.current_user.id
+        creator_username = self.current_user.username
+
+        # Ensure creator is in members and leaders
+        member_ids = set()
+        for i in range(self.member_list.count()):
+            item = self.member_list.item(i)
+            if item and item.isSelected():
+                member_ids.add(item.data(32))
+        if creator_id not in member_ids:
+            # Add creator to member list if not present/selected
+            item = QListWidgetItem(f"{creator_id}: {creator_username}")
+            item.setData(32, creator_id)
+            self.member_list.addItem(item)
+            item.setSelected(True)
+            member_ids.add(creator_id)
+
+        # Update leader list to only include selected members
+        self.update_leader_list()
+        leader_ids = set()
+        for i in range(self.leader_list.count()):
+            item = self.leader_list.item(i)
+            if item and item.isSelected():
+                leader_ids.add(item.data(32))
+        if creator_id not in leader_ids:
+            # Add creator to leader list if not present/selected
+            leader_item = QListWidgetItem(f"{creator_id}: {creator_username}")
+            leader_item.setData(32, creator_id)
+            self.leader_list.addItem(leader_item)
+            leader_item.setSelected(True)
+            leader_ids.add(creator_id)
+
+        # Collect form data
+        name = self.name_input.text().strip()
+        description = self.desc_input.text().strip()
+        start_date = self.start_date_input.text().strip()
+        end_date = self.end_date_input.text().strip()
+
+        # Validate required fields
+        if not name:
+            QMessageBox.warning(self, "Validation Error", "Project name is required.")
+            return
+
+        # Prepare members list for db.create_project
+        members = []
+        for i in range(self.member_list.count()):
+            item = self.member_list.item(i)
+            if item and item.isSelected():
+                uid = item.data(32)
+                role = 'leader' if uid in leader_ids else 'member'
+                members.append({'user_id': uid, 'role': role})
+
+        # Use db.create_project
+        if db:
+            project = db.create_project(
+                name=name,
+                description=description,
+                owner_id=creator_id,
+                members=members
+            )
+            if project:
+                # Optionally set start/end date if supported (not in schema, so log only)
+                log_event(f"Project '{name}' created by {creator_username} (ID {creator_id}). Start: {start_date}, End: {end_date}. Members: {members}")
+                QMessageBox.information(self, "Project Saved", f"Project '{name}' created successfully.")
+                # Optionally clear form
+                self.name_input.clear()
+                self.desc_input.clear()
+                self.start_date_input.clear()
+                self.end_date_input.clear()
+                self.member_list.clearSelection()
+                self.leader_list.clearSelection()
+            else:
+                QMessageBox.warning(self, "Error", "Failed to create project in database.")
+        else:
+            QMessageBox.warning(self, "Error", "Database not available.")
 
 
 # Placeholder import for database models/utilities
@@ -310,7 +360,8 @@ class MainWindow(QMainWindow):
         # Stacked widget for views
         self.stack = QStackedWidget()
         self.dashboard = DashboardView()
-        self.project_creation_page = ProjectCreationPage()
+        self.current_user = None  # Track current authenticated user
+        self.project_creation_page = ProjectCreationPage(current_user=self.current_user)
         self.project_task = ProjectTaskManagement(main_window=self)
         self.user_file = UserFileManagement()
         self.event_log = EventLogView()
@@ -346,6 +397,8 @@ class MainWindow(QMainWindow):
             self.logout()
 
     def show_project_creation_page(self):
+        # Always update ProjectCreationPage with current user before showing
+        self.project_creation_page.current_user = self.current_user
         self.stack.setCurrentWidget(self.project_creation_page)
         log_event("Navigated to Project Creation Page")
 
@@ -365,6 +418,7 @@ class App(QApplication):
         self.main = MainWindow()
         self.login.login_btn.clicked.connect(self.authenticate)
         self.login.show()
+        self.current_user = None  # Store authenticated user globally
 
     def authenticate(self):
         username = self.login.username.text()
@@ -384,10 +438,14 @@ class App(QApplication):
             if user:
                 log_event(f"User '{username}' logged in")
                 self.login.close()
+                # Set user context globally and in main window
+                self.current_user = user
+                self.main.current_user = user
                 # Re-instantiate views with user context
                 self.main.dashboard = DashboardView(user=user)
                 self.main.project_task = ProjectTaskManagement(user=user, main_window=self.main)
                 self.main.user_file = UserFileManagement(user=user)
+                self.main.project_creation_page.current_user = user
                 self.main.stack.removeWidget(self.main.stack.widget(0))
                 self.main.stack.removeWidget(self.main.stack.widget(0))
                 self.main.stack.removeWidget(self.main.stack.widget(0))
