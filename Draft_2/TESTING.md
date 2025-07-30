@@ -1,151 +1,226 @@
-# TESTING.md
+# Testing Plan for Project Management Platform
 
-This document outlines test cases, performance thresholds, and rationales for each major featureset of the software project.
-
----
-
-## 1. Authentication
-
-**Test Cases:**
-- Valid login with correct credentials
-- Invalid login with wrong password
-- Invalid login with non-existent user
-- Password reset flow
-- Session timeout and renewal
-- Multi-factor authentication (if supported)
-- Rate limiting on login attempts
-
-**Performance Thresholds:**
-- Login response time < 500ms
-- Password reset email sent within 2s
-
-**Rationale:**  
-Authentication is critical for security and user experience. Tests ensure only authorized access, prevent brute-force attacks, and verify recovery mechanisms.
+This document outlines comprehensive tests for all backend and frontend features of the platform. Each feature includes test case descriptions, rationale, and clear passing criteria.
 
 ---
 
-## 2. Project/Task Management
+## 1. User Authentication & Authorization
 
-**Test Cases:**
-- Create, update, delete project
-- Create, update, delete task/subtask
-- Assign tasks to users
-- Change task status (e.g., To Do, In Progress, Done)
-- Task deadline enforcement
-- Bulk task operations
+### Test Cases
 
-**Performance Thresholds:**
-- Task creation/update < 300ms
-- Bulk operations (100 tasks) < 2s
+- **User Registration**
+  - *Description*: Register a new user with valid and invalid data.
+  - *Rationale*: Ensures only valid users are created and validation works.
+  - *Pass Criteria*: Valid users are created; invalid data is rejected with clear errors.
 
-**Rationale:**  
-Project/task management is core functionality. Tests validate CRUD operations, assignment logic, and performance under load.
+- **Login/Logout**
+  - *Description*: Login with correct/incorrect credentials; logout invalidates session.
+  - *Rationale*: Verifies authentication and session management.
+  - *Pass Criteria*: Correct credentials grant access; incorrect are rejected; logout disables token.
 
----
+- **Role-Based Access**
+  - *Description*: Attempt admin-only actions as user and admin.
+  - *Rationale*: Confirms permissions are enforced.
+  - *Pass Criteria*: Only admins can access admin endpoints.
 
-## 3. User/File Management
-
-**Test Cases:**
-- Add, update, delete user
-- Assign roles/permissions
-- Upload/download files
-- File type validation
-- File size limits
-- Access control for files
-
-**Performance Thresholds:**
-- File upload/download < 1s for files <10MB
-- User CRUD < 300ms
-
-**Rationale:**  
-Ensures robust user administration and secure, efficient file handling. Validates permission boundaries and data integrity.
+- **Password Security**
+  - *Description*: Inspect database for password storage.
+  - *Rationale*: Ensures passwords are hashed.
+  - *Pass Criteria*: No plaintext passwords in database.
 
 ---
 
-## 4. Dashboard
+## 2. Project Management
 
-**Test Cases:**
-- Load dashboard with user-specific data
-- Display project/task summaries
-- Real-time updates (if supported)
-- Widget rendering and refresh
+### Test Cases
 
-**Performance Thresholds:**
-- Dashboard load < 1s
-- Widget refresh < 500ms
+- **Project Creation**
+  - *Description*: Create projects with valid/invalid names, deadlines, and members.
+  - *Rationale*: Validates form and backend constraints.
+  - *Pass Criteria*: Valid projects are created; invalid input is rejected.
 
-**Rationale:**  
-Dashboards provide key insights. Tests confirm accurate, timely data presentation and responsiveness.
+- **Project Listing & Details**
+  - *Description*: List projects for a user; fetch project details.
+  - *Rationale*: Ensures correct data retrieval and permissions.
+  - *Pass Criteria*: Only accessible projects are listed; details match database.
 
----
-
-## 5. Collaboration
-
-**Test Cases:**
-- Real-time chat/message delivery
-- Comment on tasks/projects
-- Notification delivery
-- Shared editing (if supported)
-- Access control for collaborative features
-
-**Performance Thresholds:**
-- Message delivery < 300ms
-- Notification delivery < 500ms
-
-**Rationale:**  
-Collaboration features drive productivity. Tests ensure reliability, speed, and correct access.
+- **Project Update/Delete**
+  - *Description*: Update and delete projects as owner and non-owner.
+  - *Rationale*: Confirms ownership checks.
+  - *Pass Criteria*: Only owners can update/delete; others are denied.
 
 ---
 
-## 6. Security
+## 3. Task & Subtask Management
 
-**Test Cases:**
-- SQL injection prevention
-- XSS/CSRF protection
-- Role-based access control
-- Data encryption at rest and in transit
-- Audit logging
+### Test Cases
 
-**Performance Thresholds:**
-- Security checks on all endpoints
-- Encryption/decryption < 100ms overhead
+- **Task Creation & Listing**
+  - *Description*: Add tasks/subtasks; list them in UI and via API.
+  - *Rationale*: Ensures CRUD operations and UI sync.
+  - *Pass Criteria*: Tasks/subtasks appear correctly after creation.
 
-**Rationale:**  
-Security tests protect user data and system integrity. They validate defenses against common threats.
+- **Task Status Change**
+  - *Description*: Change task status (pending, in-progress, completed).
+  - *Rationale*: Verifies workflow and state transitions.
+  - *Pass Criteria*: Status updates persist and reflect in UI.
 
----
+- **Drag-and-Drop (Frontend)**
+  - *Description*: Move tasks between Eisenhower Matrix quadrants.
+  - *Rationale*: Tests interactive UI logic.
+  - *Pass Criteria*: Tasks move visually and state updates accordingly.
 
-## 7. Analytics
-
-**Test Cases:**
-- Data aggregation accuracy
-- Report generation
-- Export analytics data
-- Filter/sort analytics views
-
-**Performance Thresholds:**
-- Report generation < 2s
-- Data export < 5s for large datasets
-
-**Rationale:**  
-Analytics drive decision-making. Tests ensure correctness, completeness, and performance.
+- **Task Assignment**
+  - *Description*: Assign/reassign tasks to users.
+  - *Rationale*: Ensures correct assignment logic.
+  - *Pass Criteria*: Assigned user is updated and visible.
 
 ---
 
-## 8. Enterprise Features
+## 4. User Management
 
-**Test Cases:**
-- SSO integration
-- API rate limiting
-- Custom branding
-- Advanced permission schemes
-- Scalability under high load
+### Test Cases
 
-**Performance Thresholds:**
-- SSO login < 700ms
-- System stable under 1000 concurrent users
+- **User Onboarding**
+  - *Description*: Add new users with all required fields.
+  - *Rationale*: Validates onboarding workflow.
+  - *Pass Criteria*: New users appear in user list with correct roles.
 
-**Rationale:**  
-Enterprise features support large-scale deployments. Tests validate integration, customization, and scalability.
+- **User Listing & Filtering**
+  - *Description*: List users; filter by role/project.
+  - *Rationale*: Ensures data grid and filtering work.
+  - *Pass Criteria*: Filtering returns correct results.
+
+- **Username Generation**
+  - *Description*: Check auto-generated usernames for uniqueness.
+  - *Rationale*: Prevents collisions.
+  - *Pass Criteria*: No duplicate usernames.
 
 ---
+
+## 5. File Management
+
+### Test Cases
+
+- **File Upload (API & UI)**
+  - *Description*: Upload valid/invalid file types and sizes.
+  - *Rationale*: Ensures file validation and security.
+  - *Pass Criteria*: Only allowed files are uploaded; errors for invalid files.
+
+- **File Listing & Download**
+  - *Description*: List and download files for a project/task.
+  - *Rationale*: Confirms access and retrieval.
+  - *Pass Criteria*: Files are listed and downloadable by authorized users.
+
+- **File Permissions**
+  - *Description*: Access files as owner, team member, and outsider.
+  - *Rationale*: Tests access control.
+  - *Pass Criteria*: Only permitted users can access files.
+
+- **File Encryption**
+  - *Description*: Inspect stored files for encryption.
+  - *Rationale*: Ensures data security.
+  - *Pass Criteria*: Files are not stored in plaintext.
+
+---
+
+## 6. Dashboard & Admin Features
+
+### Test Cases
+
+- **Dashboard Rendering**
+  - *Description*: Load user and admin dashboards; verify widgets and data.
+  - *Rationale*: Ensures correct role-based UI.
+  - *Pass Criteria*: Correct dashboard loads for each role.
+
+- **Quick Navigation**
+  - *Description*: Use dashboard links to access features.
+  - *Rationale*: Verifies navigation flow.
+  - *Pass Criteria*: Links route to correct pages.
+
+- **Analytics & Statistics**
+  - *Description*: Fetch and display project/user analytics.
+  - *Rationale*: Confirms backend analytics endpoints and UI.
+  - *Pass Criteria*: Data matches backend/API.
+
+---
+
+## 7. Security Features
+
+### Test Cases
+
+- **SQL Injection**
+  - *Description*: Attempt SQL injection via API inputs.
+  - *Rationale*: Ensures ORM protection.
+  - *Pass Criteria*: No injection possible; errors returned.
+
+- **JWT Expiry & Blacklisting**
+  - *Description*: Use expired/blacklisted tokens.
+  - *Rationale*: Validates token security.
+  - *Pass Criteria*: Expired/blacklisted tokens are rejected.
+
+- **Input Validation**
+  - *Description*: Submit invalid data to forms and APIs.
+  - *Rationale*: Prevents bad data and attacks.
+  - *Pass Criteria*: Invalid input is rejected with clear errors.
+
+---
+
+## 8. UI/UX & Responsiveness
+
+### Test Cases
+
+- **Responsive Layout**
+  - *Description*: Test UI on desktop, tablet, and mobile.
+  - *Rationale*: Ensures accessibility and usability.
+  - *Pass Criteria*: Layout adapts and remains usable on all devices.
+
+- **Accessibility**
+  - *Description*: Use keyboard navigation and screen readers.
+  - *Rationale*: Confirms basic accessibility.
+  - *Pass Criteria*: All features are accessible via keyboard and ARIA labels.
+
+- **Form Validation**
+  - *Description*: Submit forms with missing/invalid data.
+  - *Rationale*: Ensures user feedback and prevents errors.
+  - *Pass Criteria*: Errors are shown and submission is blocked.
+
+---
+
+## 9. Performance
+
+### Test Cases
+
+- **API Response Time**
+  - *Description*: Measure API latency under normal and high load.
+  - *Rationale*: Ensures backend performance.
+  - *Pass Criteria*: Responses within acceptable thresholds.
+
+- **Frontend Load Time**
+  - *Description*: Measure initial and subsequent page loads.
+  - *Rationale*: Confirms frontend optimization.
+  - *Pass Criteria*: Pages load quickly (<2s initial load).
+
+---
+
+## 10. Integration & End-to-End
+
+### Test Cases
+
+- **User Journey**
+  - *Description*: Register, login, create project, add tasks, upload file, logout.
+  - *Rationale*: Validates full workflow.
+  - *Pass Criteria*: All steps succeed without errors.
+
+- **Error Handling**
+  - *Description*: Simulate backend/API failures.
+  - *Rationale*: Ensures graceful error handling.
+  - *Pass Criteria*: User sees clear error messages; app remains stable.
+
+---
+
+## Notes
+
+- All tests should be automated where possible (unit, integration, e2e).
+- Manual exploratory testing is recommended for UI/UX and edge cases.
+- Tests should be updated as features evolve.
