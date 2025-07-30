@@ -43,3 +43,23 @@ Application started
 User 'user' logged in
 Navigated to Project/Task Management
 Navigated to Project Creation Page
+Returned to Project/Task Management from Project Creation Page
+User logged out
+Navigated to Dashboard
+Application started
+User 'user' logged in
+Navigated to Project/Task Management
+Navigated to Project Creation Page
+Returned to Project/Task Management from Project Creation Page
+Navigated to Project Creation Page
+Returned to Project/Task Management from Project Creation Page
+Viewed Event Log
+Navigated to User/File Management
+User logged out
+Navigated to Dashboard
+Application started
+User 'user' logged in
+Navigated to Project/Task Management
+Navigated to Project Creation Page
+Project 'One more time' created by user (ID 2). Start: 2025-07-30, End: 2025-11-30. Members: [{'user_id': 2, 'role': 'leader'}]
+Returned to Project/Task Management from Project Creation Page
