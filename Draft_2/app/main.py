@@ -5,6 +5,12 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 
+# --- Gantt Chart Imports ---
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+import matplotlib.dates as mdates
+import datetime
+
 # --- Project Creation Page ---
 class ProjectCreationPage(QWidget):
     def __init__(self, parent=None, current_user=None):
@@ -272,7 +278,12 @@ class DashboardView(QWidget):
             project_id = int(current_project.text().split(":")[0])
             title, ok = QInputDialog.getText(self, "Add Task", "Task Title:")
             if ok and title:
-                task = db.create_task(project_id=project_id, title=title)
+                from datetime import datetime
+                task = db.create_task(
+                    project_id=project_id,
+                    title=title,
+                    due_date=None  # No due_date input in this dialog, so pass None
+                )
                 if task:
                     log_event(f"Task '{title}' created in project {project_id} by user {self.user.username}")
                     self.load_tasks(current_project)
@@ -447,6 +458,96 @@ class EventLogView(QWidget):
         except FileNotFoundError:
             self.log_text.setPlainText("No log entries yet.")
 
+class GanttChartWidget(QWidget):
+    def __init__(self, project_id, parent=None):
+        super().__init__(parent)
+        self.project_id = project_id
+        self.figure = Figure(figsize=(7, 2))
+        self.canvas = FigureCanvas(self.figure)
+        vbox = QVBoxLayout()
+        vbox.addWidget(self.canvas)
+        self.setLayout(vbox)
+        self.plot_gantt()
+
+    def plot_gantt(self):
+        self.figure.clear()
+        ax = self.figure.add_subplot(111)
+        if db and hasattr(db, "get_tasks"):
+            tasks = db.get_tasks(self.project_id)
+            bars = []
+            labels = []
+            colors = []
+            yticks = []
+            yticklabels = []
+            min_date = None
+            max_date = None
+            y = 0
+            for task in tasks:
+                # Parse deadline and start date
+                start = getattr(task, "start_date", None)
+                end = getattr(task, "deadline", None)
+                if not start:
+                    start = getattr(task, "created_at", None)
+                if not start:
+                    start = getattr(task, "deadline", None)
+                if not end:
+                    end = getattr(task, "deadline", None)
+                try:
+                    start_dt = datetime.datetime.strptime(str(start), "%Y-%m-%d")
+                except Exception:
+                    start_dt = None
+                try:
+                    end_dt = datetime.datetime.strptime(str(end), "%Y-%m-%d")
+                except Exception:
+                    end_dt = None
+                if start_dt and end_dt:
+                    bars.append((mdates.date2num(start_dt), mdates.date2num(end_dt) - mdates.date2num(start_dt)))
+                    labels.append(f"Task {getattr(task, 'id', '')}: {getattr(task, 'title', '')}")
+                    yticks.append(y)
+                    yticklabels.append(labels[-1])
+                    y += 1
+                    # Subtasks
+                    if hasattr(db, "get_subtasks"):
+                        try:
+                            subs = db.get_subtasks(task.id)
+                            for sub in subs:
+                                sub_start = getattr(sub, "start_date", None)
+                                sub_end = getattr(sub, "deadline", None)
+                                if not sub_start:
+                                    sub_start = getattr(sub, "created_at", None)
+                                if not sub_start:
+                                    sub_start = getattr(sub, "deadline", None)
+                                if not sub_end:
+                                    sub_end = getattr(sub, "deadline", None)
+                                try:
+                                    sub_start_dt = datetime.datetime.strptime(str(sub_start), "%Y-%m-%d")
+                                except Exception:
+                                    sub_start_dt = None
+                                try:
+                                    sub_end_dt = datetime.datetime.strptime(str(sub_end), "%Y-%m-%d")
+                                except Exception:
+                                    sub_end_dt = None
+                                if sub_start_dt and sub_end_dt:
+                                    bars.append((mdates.date2num(sub_start_dt), mdates.date2num(sub_end_dt) - mdates.date2num(sub_start_dt)))
+                                    labels.append(f"  Subtask {getattr(sub, 'id', '')}: {getattr(sub, 'title', '')}")
+                                    yticks.append(y)
+                                    yticklabels.append(labels[-1])
+                                    y += 1
+                        except Exception:
+                            pass
+            for i, (start, duration) in enumerate(bars):
+                ax.barh(i, duration, left=start, height=0.4, align='center', color="#6baed6")
+            ax.set_yticks(range(len(labels)))
+            ax.set_yticklabels(labels)
+            ax.xaxis_date()
+            ax.set_xlabel("Date")
+            ax.set_title("Gantt Chart: Tasks & Subtasks")
+            self.figure.tight_layout()
+        self.canvas.draw()
+
+    def refresh(self):
+        self.plot_gantt()
+
 class ProjectDetailPage(QWidget):
     def __init__(self, project, parent=None):
         super().__init__(parent)
@@ -493,6 +594,10 @@ class ProjectDetailPage(QWidget):
         form_layout.addWidget(self.add_task_inline_btn)
         layout.addLayout(form_layout)
 
+        # --- Gantt Chart Section ---
+        self.gantt_chart = GanttChartWidget(getattr(self.project, "id", None))
+        layout.addWidget(self.gantt_chart)
+
         self.task_list = QListWidget()
         layout.addWidget(self.task_list)
         self.load_tasks()
@@ -518,6 +623,9 @@ class ProjectDetailPage(QWidget):
                 item = QListWidgetItem(f"{task.id}: {task.title} | Deadline: {getattr(task, 'deadline', 'N/A')} | Assigned: {getattr(task, 'assigned_to', 'Unassigned')}")
                 item.setData(32, task.id)
                 self.task_list.addItem(item)
+        # Refresh Gantt chart after loading tasks
+        if hasattr(self, "gantt_chart"):
+            self.gantt_chart.refresh()
 
     def expand_task_item(self, item):
         task_id = item.data(32)
@@ -550,27 +658,35 @@ class ProjectDetailPage(QWidget):
             dlg.exec_()
 
     def add_task_inline(self):
+        from datetime import datetime
         title = self.title_input.text().strip()
-        deadline = self.deadline_input.text().strip()
+        due_date_str = self.deadline_input.text().strip()
         dependencies = self.dependencies_input.text().strip()
         assigned_id = self.assigned_input.currentData()
         if not title:
             QMessageBox.warning(self, "Validation Error", "Task name is required.")
             return
+        due_date = None
+        if due_date_str:
+            try:
+                due_date = datetime.strptime(due_date_str, "%Y-%m-%d")
+            except Exception:
+                QMessageBox.warning(self, "Validation Error", "Deadline must be in YYYY-MM-DD format.")
+                return
         if db:
             try:
                 task = db.create_task(
                     project_id=self.project.id,
                     title=title,
-                    deadline=deadline,
-                    dependencies=dependencies,
+                    due_date=due_date,
                     assigned_to=assigned_id
+                    # dependencies ignored/stubbed
                 )
             except Exception:
                 QMessageBox.warning(self, "Error", "Failed to add task (DB error).")
                 return
             if task:
-                log_event(f"Task '{title}' added to project {self.project.id} by user. Deadline: {deadline}, Dependencies: {dependencies}, Assigned: {assigned_id}")
+                log_event(f"Task '{title}' added to project {self.project.id} by user. Due date: {due_date_str}, Dependencies: {dependencies}, Assigned: {assigned_id}")
                 self.load_tasks()
                 self.title_input.clear()
                 self.deadline_input.clear()
