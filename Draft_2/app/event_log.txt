@@ -1,0 +1,2 @@
+[2025-07-30T16:25:57.295530Z] REQUEST | GET /health | Request: {} | Action: Received API call | Result: None | Error: None | Status: None
+[2025-07-30T16:25:57.298383Z] RESPONSE | GET /health | Request: None | Action: Sent API response | Result: '{"message":"API server is healthy","status":"ok"}\n' | Error: None | Status: 200
