@@ -67,7 +67,6 @@ The Draft_2 Project Management Platform is a comprehensive, modern full-stack we
 - **Flask 3.0.0**: Python web framework for REST API development
 - **SQLAlchemy 2.0.23**: Object-relational mapping with database abstraction
 - **bcrypt 4.1.2**: Industry-standard password hashing and authentication
-- **paramiko 3.4.0**: SSH server functionality for secure connections
 - **SQLite/PostgreSQL**: Development and production database options
 
 #### Infrastructure
@@ -398,7 +397,6 @@ graph TD
 #### **Development URLs**
 - **Frontend Application**: `http://localhost:5173` (Vite development server)
 - **Backend API**: `http://localhost:5000` (Flask development server)
-- **SSH Server**: `localhost:2200` (paramiko SSH implementation)
 - **Database**: `sqlite:///app/auth.db` (local SQLite file)
 
 #### **Production URLs**
@@ -526,7 +524,6 @@ docker-compose logs -f app
 - **Access Logs**: `/var/log/nginx/access.log` (web server logs)
 
 #### **Security Files**
-- **SSH Host Key**: `config/host_key.txt` (SSH server key)
 - **SSL Certificates**: `/etc/nginx/ssl/` (TLS certificates)
 - **Environment Variables**: `.env` files (sensitive configuration)
 
