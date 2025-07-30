@@ -1,0 +1,22 @@
+Attempt login: username=user, password=password
+Login failed: Username or password not entered.
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+Login failed: Username or password not entered. username='user', password='password'
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: None
+Login failed: Username or password not entered. username='user', password='password', db=None
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+db.authenticate_user returned: <db.User object at 0x0000018440E4D8B0>
