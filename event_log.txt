@@ -1,0 +1,19 @@
+Navigated to Dashboard
+Application started
+Navigated to Dashboard
+Application started
+Navigated to Dashboard
+Application started
+Navigated to Dashboard
+Application started
+Navigated to Dashboard
+Application started
+Navigated to Dashboard
+Application started
+Navigated to Dashboard
+Application started
+User 'user' logged in
+Navigated to Project/Task Management
+Navigated to User/File Management
+Viewed Event Log
+User logged out
