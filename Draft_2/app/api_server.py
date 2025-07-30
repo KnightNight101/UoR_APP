@@ -15,6 +15,39 @@ from sqlalchemy import func
 
 app = Flask(__name__)
 
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({
+        "status": "ok",
+        "message": "API server is healthy"
+    }), 200
+
+import logging
+
+@app.route("/db_status", methods=["GET"])
+def db_status():
+    from db import engine
+    from sqlalchemy import text
+    logger = logging.getLogger("db_status")
+    if not logger.hasHandlers():
+        logging.basicConfig(level=logging.INFO)
+    try:
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+        logger.info("Database connection successful for /db_status endpoint.")
+        return jsonify({
+            "db_connected": True,
+            "status": "ok",
+            "message": "Database connection successful"
+        }), 200
+    except Exception as e:
+        logger.error(f"Database connection failed on /db_status endpoint: {repr(e)}", exc_info=True)
+        return jsonify({
+            "db_connected": False,
+            "status": "error",
+            "message": f"Database connection failed: {str(e)}"
+        }), 503
+
 # --- Security Hardening: Session Management ---
 app.config['SESSION_COOKIE_SECURE'] = True
 app.config['SESSION_COOKIE_HTTPONLY'] = True
@@ -51,8 +84,8 @@ jwt = JWTManager(app)
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 limiter = Limiter(
-    app,
     key_func=get_remote_address,
+    app=app,
     default_limits=["100 per hour", "20 per minute"]
 )
 
@@ -180,15 +213,13 @@ def login():
         roles = [role.name for role in user.roles] if user.roles else []
         
         return jsonify({
-            'data': {
-                'token': access_token,
-                'refresh_token': refresh_token_str,
-                'expires_in': 3600,  # 1 hour
-                'user': {
-                    'id': user.id,
-                    'username': user.username,
-                    'roles': roles
-                }
+            'token': access_token,
+            'refresh_token': refresh_token_str,
+            'expires_in': 3600,  # 1 hour
+            'user': {
+                'id': user.id,
+                'username': user.username,
+                'roles': roles
             },
             'message': 'Login successful',
             'status': 'success',
@@ -1831,5 +1862,5 @@ def analytics_export():
                 return send_file(pdf_output, mimetype="application/pdf", as_attachment=True, download_name="project_analytics.pdf")
             else:
                 return jsonify({"error": {"code": "VALIDATION_ERROR", "message": "Invalid export type"}, "status": "error"}), 400
-        except Exception as e:
-            return jsonify({"error": {"code": "SERVER_ERROR", "message": str(e)}, "status": "error"}), 500
+    except Exception as e:
+        return jsonify({"error": {"code": "SERVER_ERROR", "message": str(e)}, "status": "error"}), 500

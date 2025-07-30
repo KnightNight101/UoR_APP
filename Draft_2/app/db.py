@@ -169,6 +169,11 @@ class Tenant(Base):
     users = relationship("User", back_populates="tenant")
     projects = relationship("Project", back_populates="tenant")
 
+def column_exists(conn, table, column):
+    """Check if a column exists in a SQLite table."""
+    result = conn.execute(text(f"PRAGMA table_info({table})"))
+    return any(row['name'] == column for row in result.mappings())
+
 def init_db():
     """Initialize the database schema if tables do not exist."""
     try:
@@ -184,15 +189,43 @@ def init_db():
             # Execute schema SQL statements
             with engine.connect() as conn:
                 for statement in schema_sql.split(';'):
-                    if statement.strip():
-                        conn.execute(text(statement.strip()))
+                    stmt = statement.strip()
+                    if not stmt:
+                        continue
+                    # Handle ALTER TABLE ... ADD COLUMN idempotently
+                    if stmt.upper().startswith("ALTER TABLE"):
+                        import re
+                        m = re.match(
+                            r"ALTER TABLE\s+([^\s]+)\s+ADD COLUMN\s+([^\s]+)\s", stmt, re.IGNORECASE
+                        )
+                        if m:
+                            table, column = m.group(1), m.group(2)
+                            if column_exists(conn, table, column):
+                                continue  # Skip if column exists
+                    try:
+                        conn.execute(text(stmt))
+                    except Exception as e:
+                        # Log and skip duplicate column errors
+                        if "duplicate column name" in str(e) or "already exists" in str(e):
+                            continue
+                        else:
+                            raise
                 conn.commit()
         
+        # Seed roles/permissions and default admin user
+        seed_admin_and_roles()
+
         print("Database initialized successfully")
         return True
     except Exception as e:
         print(f"Error initializing database: {e}")
         return False
+
+# Ensure roles/permissions and default admin user are seeded on DB init
+def seed_admin_and_roles():
+    """Seed default roles/permissions and admin user if missing."""
+    init_roles_and_permissions()
+    register_user("admin", "admin123", "admin")
 
 # Task CRUD functions
 def create_task(project_id: int, title: str, description: str = None, assigned_to: int = None, due_date: datetime = None):
@@ -871,16 +904,4 @@ def init_roles_and_permissions():
 if __name__ == "__main__":
     print("Initializing database...")
     init_db()
-    init_roles_and_permissions()
-    
-    # Create a test admin user
-    admin_created = register_user("admin", "admin123", "admin")
-    if admin_created:
-        print("Test admin user created: admin/admin123")
-    
-    # Create a test regular user
-    user_created = register_user("testuser", "testpass123", "user")
-    if user_created:
-        print("Test user created: testuser/testpass123")
-    
     print("Database initialization completed!")

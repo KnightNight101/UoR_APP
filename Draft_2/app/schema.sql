@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS tenants (
 );
 
 -- Add tenant_id to users
+-- NOTE: This ALTER TABLE is handled idempotently in db.py and is safe to keep here.
 ALTER TABLE users ADD COLUMN tenant_id INTEGER REFERENCES tenants(id);
 
 
@@ -58,6 +59,7 @@ CREATE TABLE IF NOT EXISTS projects (
 );
 
 -- Add tenant_id to projects
+-- NOTE: This ALTER TABLE is handled idempotently in db.py and is safe to keep here.
 ALTER TABLE projects ADD COLUMN tenant_id INTEGER REFERENCES tenants(id);
 
 
