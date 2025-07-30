@@ -13,7 +13,11 @@ from db import (
 )
 from sqlalchemy import func
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder="static",
+    static_url_path="/static"
+)
 
 # --- Event Logging Utility ---
 import threading
@@ -1842,9 +1846,22 @@ def internal_server_error(error):
     }), 500
 
 if __name__ == "__main__":
-    # Initialize application on startup
+    import threading
+    import time
+
+    # Ensure all Flask setup and route registration is complete before starting any threads or the server
     initialize_application()
-    
+
+    # PyInstaller compatibility: import pywebview inside main guard
+    try:
+        import webview
+    except ImportError:
+        webview = None
+
+    def run_flask():
+        # Flask's reloader must be disabled in threads
+        app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+
     print("Starting API server on http://localhost:5000")
     print("API Base URL: http://localhost:5000/api")
     print("\nAvailable Authentication Endpoints:")
@@ -1865,8 +1882,35 @@ if __name__ == "__main__":
     print("GET  /api/projects/{id}/members - Get project members")
     print("POST /api/projects/{id}/members - Add project member")
     print("DELETE /api/projects/{id}/members/{member_id} - Remove project member")
-    
-    app.run(host="0.0.0.0", port=5000, debug=True)
+
+    # Start Flask server in a background thread (after all setup and route registration)
+    flask_thread = threading.Thread(target=run_flask, daemon=True)
+    flask_thread.start()
+
+    # Wait for the server to be up before opening the UI
+    def wait_for_server(url, timeout=15):
+        import urllib.request
+        start = time.time()
+        while time.time() - start < timeout:
+            try:
+                with urllib.request.urlopen(url) as resp:
+                    if resp.status == 200:
+                        return True
+            except Exception:
+                time.sleep(0.5)
+        return False
+
+    server_ready = wait_for_server("http://localhost:5000/health")
+
+    if webview is not None and server_ready:
+        # Launch pywebview window as desktop UI
+        webview.create_window("Project Management App", "http://localhost:5000", width=1200, height=800)
+        webview.start()
+    elif not server_ready:
+        print("Error: Flask server did not start in time.")
+    else:
+        print("pywebview is not installed. Please install it to use the desktop UI.")
+
 
 # --- Analytics Endpoints ---
 
