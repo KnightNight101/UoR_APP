@@ -15,6 +15,84 @@ from sqlalchemy import func
 
 app = Flask(__name__)
 
+# --- Event Logging Utility ---
+import threading
+import traceback
+
+LOG_FILE_PATH = os.path.join(os.path.dirname(__file__), "event_log.txt")
+_log_lock = threading.Lock()
+
+def log_event(event_type, endpoint, method, request_data=None, action=None, result=None, error=None, status_code=None):
+    timestamp = datetime.utcnow().isoformat() + 'Z'
+    log_line = (
+        f"[{timestamp}] {event_type} | {method} {endpoint} | "
+        f"Request: {repr(request_data)} | Action: {action} | "
+        f"Result: {repr(result)} | Error: {repr(error)} | Status: {status_code}\n"
+    )
+    with _log_lock:
+        with open(LOG_FILE_PATH, "a", encoding="utf-8") as f:
+            f.write(log_line)
+
+@app.before_request
+def log_request():
+    if request.path.startswith("/static"):
+        return
+    try:
+        data = None
+        if request.method in ("POST", "PUT", "PATCH"):
+            try:
+                data = request.get_json(force=False, silent=True)
+            except Exception:
+                data = None
+        log_event(
+            event_type="REQUEST",
+            endpoint=request.path,
+            method=request.method,
+            request_data=data if data is not None else dict(request.values),
+            action="Received API call"
+        )
+    except Exception as e:
+        log_event(
+            event_type="LOGGING_ERROR",
+            endpoint=request.path,
+            method=request.method,
+            error=f"Failed to log request: {repr(e)}"
+        )
+
+@app.after_request
+def log_response(response):
+    if request.path.startswith("/static"):
+        return response
+    try:
+        log_event(
+            event_type="RESPONSE",
+            endpoint=request.path,
+            method=request.method,
+            status_code=response.status_code,
+            result=response.get_data(as_text=True)[:500],  # Truncate for log size
+            action="Sent API response"
+        )
+    except Exception as e:
+        log_event(
+            event_type="LOGGING_ERROR",
+            endpoint=request.path,
+            method=request.method,
+            error=f"Failed to log response: {repr(e)}"
+        )
+    return response
+
+@app.teardown_request
+def log_teardown(exception):
+    if exception:
+        tb = traceback.format_exc()
+        log_event(
+            event_type="ERROR",
+            endpoint=request.path,
+            method=request.method,
+            error=f"{repr(exception)}\n{tb}",
+            action="Exception during request"
+        )
+
 @app.route("/health", methods=["GET"])
 def health():
     return jsonify({
@@ -227,6 +305,14 @@ def login():
         }), 200
         
     except Exception as e:
+        log_event(
+            event_type="ERROR",
+            endpoint=request.path,
+            method=request.method,
+            request_data=request.get_json(silent=True),
+            error=repr(e),
+            action="Exception in /api/auth/refresh"
+        )
         return jsonify({
             'error': {
                 'code': 'SERVER_ERROR',
@@ -309,6 +395,13 @@ def refresh():
         }), 200
         
     except Exception as e:
+        log_event(
+            event_type="ERROR",
+            endpoint=request.path,
+            method=request.method,
+            error=repr(e),
+            action="Exception in /api/auth/me"
+        )
         return jsonify({
             'error': {
                 'code': 'SERVER_ERROR',

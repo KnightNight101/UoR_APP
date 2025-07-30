@@ -10,7 +10,7 @@ This document provides comprehensive system architecture documentation for the D
 - **Backend**: Flask 3.0.0, SQLAlchemy 2.0.23
 - **Database**: SQLite (development), PostgreSQL-ready (production)
 - **Security**: bcrypt 4.1.2, Role-based access control
-- **Infrastructure**: Docker, SSH server (paramiko 3.4.0)
+- **Infrastructure**: Docker
 - **Development**: ESLint, Hot Module Replacement
 
 ---
@@ -401,7 +401,6 @@ graph TB
     end
     
     subgraph "External Integration"
-        SSH[SSH Server<br/>paramiko 3.4.0<br/>Port 2200]
         GitHub[GitHub Integration<br/>Repository Access<br/>Version Control]
     end
     
@@ -471,7 +470,6 @@ graph TB
         subgraph "Application Container"
             Python[Python 3.11-slim<br/>Base Image]
             FlaskApp[Flask Application<br/>app/api_server.py<br/>Port 5000]
-            SSHServer[SSH Server<br/>app/server.py<br/>Port 2200]
             Database[(SQLite Database<br/>auth.db)]
         end
         
@@ -494,7 +492,7 @@ graph TB
     end
     
     subgraph "File System"
-        ConfigFiles[Configuration<br/>config/host_key.txt<br/>config/ssh_config.txt]
+        ConfigFiles[Configuration]
         AppCode[Application Code<br/>app/ directory<br/>ui/ directory]
         Requirements[Dependencies<br/>requirements.txt<br/>package.json]
     end

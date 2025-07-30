@@ -13,7 +13,6 @@ This document provides comprehensive documentation for the Draft_2 Project Manag
 - **SQLAlchemy 2.0.23** - Object-relational mapping (ORM) for database operations
 - **SQLite** - Lightweight database for development (production-ready for small teams)
 - **bcrypt 4.1.2** - Secure password hashing and authentication
-- **paramiko 3.4.0** - SSH server functionality for secure connections
 
 ### Frontend Technologies
 - **React 19.1.0** - Modern JavaScript library for building user interfaces

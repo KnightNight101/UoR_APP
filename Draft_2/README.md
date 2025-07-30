@@ -95,7 +95,6 @@ python app/db.py
 **Note**: The requirements.txt file now includes all necessary dependencies:
 - Flask==3.0.0 (Web framework)
 - SQLAlchemy==2.0.23 (Database ORM)
-- paramiko==3.4.0 (SSH server functionality)
 - bcrypt==4.1.2 (Password hashing)
 
 ### Frontend Setup
@@ -152,7 +151,6 @@ npm run preview
 
 - **Frontend Application**: `http://localhost:5173` (development) / `http://localhost:4173` (preview)
 - **Backend API**: `http://localhost:5000`
-- **SSH Server** (when running [`server.py`](app/server.py:24)): `localhost:2200`
 
 ## Docker Deployment
 
@@ -187,7 +185,6 @@ CMD ["python", "app/api_server.py"]
 Draft_2/
 ├── app/                          # Backend Flask application
 │   ├── api_server.py            # Flask API server (port 5000)
-│   ├── server.py                # SSH server implementation (port 2200)
 │   ├── db.py                    # Database models and connection
 │   ├── schema.sql               # Database schema definition
 │   └── auth.db                  # SQLite database (auto-generated)
@@ -210,8 +207,6 @@ Draft_2/
 │   ├── package.json             # Frontend dependencies
 │   └── vite.config.js           # Vite configuration
 ├── config/                      # Configuration files
-│   ├── host_key.txt            # SSH host key
-│   └── ssh_config.txt          # SSH configuration
 ├── tests/                       # Test files
 │   └── test_placeholder.py     # Placeholder test file
 ├── requirements.txt             # Python dependencies

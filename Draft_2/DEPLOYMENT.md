@@ -25,7 +25,7 @@ The Draft_2 Project Management Platform is a modern full-stack web application d
 - **Frontend**: React 19.1.0 with Vite 7.0.4, Material-UI 7.2.0
 - **Backend**: Flask 3.0.0 with SQLAlchemy 2.0.23  
 - **Database**: SQLite (development), PostgreSQL-ready (production)
-- **Security**: bcrypt 4.1.2, paramiko 3.4.0
+- **Security**: bcrypt 4.1.2
 - **Containerization**: Docker with multi-stage builds
 
 ### Deployment Architecture
@@ -83,9 +83,6 @@ USER appuser
 # Expose SSH server port
 EXPOSE 2200
 
-# Start SSH server
-CMD ["python", "app/server.py"]
-```
 
 ### Container Build Process
 
@@ -153,7 +150,6 @@ CMD ["python", "app/api_server.py"]
 |------|---------|-------------|
 | 5000 | Flask API | Backend REST API server |
 | 5173 | Vite Dev Server | Frontend development server |
-| 2200 | SSH Server | Secure shell access (paramiko) |
 
 ### Volume Mounting for Persistent Data
 
@@ -193,9 +189,6 @@ FLASK_SECRET_KEY=your-secret-key-here
 FLASK_HOST=0.0.0.0
 FLASK_PORT=5000
 
-# SSH server configuration
-SSH_HOST_KEY_PATH=/home/appuser/app/config/host_key.txt
-SSH_PORT=2200
 
 # Security settings
 BCRYPT_LOG_ROUNDS=12
@@ -326,9 +319,6 @@ python app/api_server.py
 # Terminal 2 - Frontend  
 cd ui && npm run dev
 
-# Terminal 3 - SSH Server (if needed)
-python app/server.py
-```
 
 #### Option 2: Docker Development
 ```bash
@@ -600,8 +590,6 @@ spec:
   - name: http
     port: 80
     targetPort: 5000
-  - name: ssh
-    port: 2200
     targetPort: 2200
   type: LoadBalancer
 ```
@@ -629,8 +617,6 @@ FLASK_SECRET_KEY=dev-secret-key-change-in-production
 BCRYPT_LOG_ROUNDS=4  # Faster for development
 
 # SSH server settings
-SSH_PORT=2200
-SSH_HOST_KEY_PATH=config/host_key.txt
 
 # Logging
 LOG_LEVEL=DEBUG
@@ -660,8 +646,6 @@ FLASK_SECRET_KEY=your-super-secure-secret-key-here
 BCRYPT_LOG_ROUNDS=12  # Production strength
 
 # SSH server settings
-SSH_PORT=2200
-SSH_HOST_KEY_PATH=/home/appuser/app/config/host_key.txt
 
 # Session management
 SESSION_TIMEOUT=3600
