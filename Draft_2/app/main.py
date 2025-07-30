@@ -1,9 +1,107 @@
 import sys
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QStackedWidget, QVBoxLayout, QLabel,
-    QPushButton, QHBoxLayout, QListWidget, QTextEdit, QLineEdit, QFormLayout, QMessageBox, QInputDialog
+    QPushButton, QHBoxLayout, QListWidget, QListWidgetItem, QTextEdit, QLineEdit, QFormLayout, QMessageBox, QInputDialog
 )
 from PyQt5.QtCore import Qt
+
+# --- Project Creation Page ---
+class ProjectCreationPage(QWidget):
+    def __init__(self, parent=None, current_user=None):
+        super().__init__(parent)
+        from datetime import datetime
+        self.current_user = current_user
+        self.vlayout = QVBoxLayout()
+        self.vlayout.addWidget(QLabel("Create New Project"))
+
+        form = QFormLayout()
+        self.name_input = QLineEdit()
+        self.desc_input = QLineEdit()
+        self.start_date_input = QLineEdit(datetime.now().strftime("%Y-%m-%d"))
+        self.end_date_input = QLineEdit()
+        form.addRow("Project Name:", self.name_input)
+        form.addRow("Description:", self.desc_input)
+        form.addRow("Start Date (YYYY-MM-DD):", self.start_date_input)
+        form.addRow("End Date (YYYY-MM-DD):", self.end_date_input)
+
+        # Team member selection
+        self.member_list = QListWidget()
+        self.member_list.setSelectionMode(QListWidget.MultiSelection)
+        self.load_users()
+        form.addRow("Select Team Members:", self.member_list)
+
+        # Team leader selection (from selected members)
+        self.leader_list = QListWidget()
+        self.leader_list.setSelectionMode(QListWidget.MultiSelection)
+        form.addRow("Assign Team Leaders:", self.leader_list)
+
+        self.vlayout.addLayout(form)
+        self.save_btn = QPushButton("Save")
+        self.vlayout.addWidget(self.save_btn)
+        self.setLayout(self.vlayout)
+
+        # Update leader list when members change
+        self.member_list.itemSelectionChanged.connect(self.update_leader_list)
+        # Auto-assign creator as leader on save
+        self.save_btn.clicked.connect(self.ensure_creator_is_leader)
+
+    def load_users(self):
+        self.member_list.clear()
+        if db:
+            with db.SessionLocal() as session:
+                users = session.query(db.User).all()
+                for user in users:
+                    item = QListWidgetItem(f"{user.id}: {user.username}")
+                    item.setData(32, user.id)  # 32 is Qt.UserRole
+                    self.member_list.addItem(item)
+
+    def update_leader_list(self):
+        self.leader_list.clear()
+        selected_items = self.member_list.selectedItems()
+        for item in selected_items:
+            if item is not None:
+                leader_item = QListWidgetItem(item.text())
+                leader_item.setData(32, item.data(32))  # 32 is Qt.UserRole
+                self.leader_list.addItem(leader_item)
+        # Auto-select creator if present
+        if self.current_user:
+            for i in range(self.leader_list.count()):
+                leader_item = self.leader_list.item(i)
+                if leader_item and str(self.current_user.id) in leader_item.text():
+                    leader_item.setSelected(True)
+
+    def ensure_creator_is_leader(self):
+        # Ensure creator is in members and leaders
+        if self.current_user:
+            creator_id = self.current_user.id
+            # Add creator to members if not present
+            found = False
+            for i in range(self.member_list.count()):
+                member_item = self.member_list.item(i)
+                if member_item and str(creator_id) in member_item.text():
+                    member_item.setSelected(True)
+                    found = True
+            if not found:
+                # Add creator to member list if not present
+                item = QListWidgetItem(f"{creator_id}: {self.current_user.username}")
+                item.setData(32, creator_id)
+                self.member_list.addItem(item)
+                item.setSelected(True)
+            # Add creator to leaders if not present
+            found_leader = False
+            for i in range(self.leader_list.count()):
+                leader_item = self.leader_list.item(i)
+                if leader_item and str(creator_id) in leader_item.text():
+                    leader_item.setSelected(True)
+                    found_leader = True
+            if not found_leader:
+                leader_item = QListWidgetItem(f"{creator_id}: {self.current_user.username}")
+                leader_item.setData(32, creator_id)
+                self.leader_list.addItem(leader_item)
+                leader_item.setSelected(True)
+        # Continue with save logic (placeholder)
+        QMessageBox.information(self, "Project Saved", "Project creation logic not implemented.")
+
 
 # Placeholder import for database models/utilities
 import sys
@@ -63,9 +161,10 @@ class DashboardView(QWidget):
             self.stats_label.setText("Dashboard\nNo data available.")
 
 class ProjectTaskManagement(QWidget):
-    def __init__(self, parent=None, user=None):
+    def __init__(self, parent=None, user=None, main_window=None):
         super().__init__(parent)
         self.user = user
+        self.main_window = main_window
         self.layout = QVBoxLayout()
         self.project_list = QListWidget()
         self.layout.addWidget(QLabel("Projects"))
@@ -82,7 +181,7 @@ class ProjectTaskManagement(QWidget):
         self.setLayout(self.layout)
 
         self.refresh_projects_btn.clicked.connect(self.load_projects)
-        self.add_project_btn.clicked.connect(self.add_project)
+        self.add_project_btn.clicked.connect(self.navigate_to_project_creation)
         self.project_list.itemClicked.connect(self.load_tasks)
         self.add_task_btn.clicked.connect(self.add_task)
         self.load_projects()
@@ -94,14 +193,13 @@ class ProjectTaskManagement(QWidget):
             for project in projects:
                 self.project_list.addItem(f"{project.id}: {project.name}")
 
+    def navigate_to_project_creation(self):
+        if self.main_window:
+            self.main_window.show_project_creation_page()
+
     def add_project(self):
-        if db and self.user:
-            name, ok = QInputDialog.getText(self, "Add Project", "Project Name:")
-            if ok and name:
-                project = db.create_project(name=name, owner_id=self.user.id)
-                if project:
-                    log_event(f"Project '{name}' created by user {self.user.username}")
-                    self.load_projects()
+        # Old dialog-based add_project, now unused
+        pass
 
     def load_tasks(self, item):
         self.task_list.clear()
@@ -212,17 +310,22 @@ class MainWindow(QMainWindow):
         # Stacked widget for views
         self.stack = QStackedWidget()
         self.dashboard = DashboardView()
-        self.project_task = ProjectTaskManagement()
+        self.project_creation_page = ProjectCreationPage()
+        self.project_task = ProjectTaskManagement(main_window=self)
         self.user_file = UserFileManagement()
         self.event_log = EventLogView()
         self.stack.addWidget(self.dashboard)
         self.stack.addWidget(self.project_task)
         self.stack.addWidget(self.user_file)
         self.stack.addWidget(self.event_log)
+        self.stack.addWidget(self.project_creation_page)
         main_layout.addWidget(self.stack, 4)
 
         self.nav_list.currentRowChanged.connect(self.display_view)
         self.nav_list.setCurrentRow(0)
+
+        # Connect save button on project creation page to return to project/task management
+        self.project_creation_page.save_btn.clicked.connect(self.return_to_project_task)
 
         log_event("Application started")
 
@@ -241,6 +344,14 @@ class MainWindow(QMainWindow):
             log_event("Viewed Event Log")
         elif idx == 4:
             self.logout()
+
+    def show_project_creation_page(self):
+        self.stack.setCurrentWidget(self.project_creation_page)
+        log_event("Navigated to Project Creation Page")
+
+    def return_to_project_task(self):
+        self.stack.setCurrentWidget(self.project_task)
+        log_event("Returned to Project/Task Management from Project Creation Page")
 
     def logout(self):
         log_event("User logged out")
@@ -275,7 +386,7 @@ class App(QApplication):
                 self.login.close()
                 # Re-instantiate views with user context
                 self.main.dashboard = DashboardView(user=user)
-                self.main.project_task = ProjectTaskManagement(user=user)
+                self.main.project_task = ProjectTaskManagement(user=user, main_window=self.main)
                 self.main.user_file = UserFileManagement(user=user)
                 self.main.stack.removeWidget(self.main.stack.widget(0))
                 self.main.stack.removeWidget(self.main.stack.widget(0))
