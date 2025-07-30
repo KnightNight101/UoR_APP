@@ -17,3 +17,29 @@ Navigated to Project/Task Management
 Navigated to User/File Management
 Viewed Event Log
 User logged out
+Navigated to Dashboard
+Application started
+Failed login attempt for user 'admin'
+User 'user' logged in
+Navigated to Project/Task Management
+Project 'Trial 1' created by user user
+Viewed Event Log
+Navigated to Project/Task Management
+Project 'Trial 2' created by user user
+User logged out
+Navigated to Dashboard
+Application started
+User 'user' logged in
+Viewed Event Log
+Navigated to User/File Management
+Navigated to Project/Task Management
+Navigated to Project Creation Page
+Returned to Project/Task Management from Project Creation Page
+Navigated to Project Creation Page
+Returned to Project/Task Management from Project Creation Page
+User logged out
+Navigated to Dashboard
+Application started
+User 'user' logged in
+Navigated to Project/Task Management
+Navigated to Project Creation Page
