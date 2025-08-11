@@ -1,10 +1,13 @@
 import sys
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QStackedWidget, QVBoxLayout, QLabel,
-    QPushButton, QHBoxLayout, QListWidget, QListWidgetItem, QTextEdit, QLineEdit, QFormLayout, QMessageBox, QInputDialog, QComboBox, QDialog, QDialogButtonBox
+    QPushButton, QHBoxLayout, QListWidget, QListWidgetItem, QTextEdit, QLineEdit, QFormLayout, QMessageBox, QInputDialog, QComboBox, QDialog, QDialogButtonBox,
+    QTabWidget, QGroupBox, QSlider, QSpinBox
 )
 from PyQt5.QtCore import Qt, QEvent
 from PyQt5.QtGui import QFont
+import json
+import os
 
 # --- Gantt Chart Imports ---
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -180,11 +183,13 @@ from PyQt5.QtGui import QPixmap
 class LoginScreen(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self._scale_factor = 1.7  # Match MainWindow default
+        self._min_scale = 0.5
+        self._max_scale = 3.0
+        self._base_font_size = self.font().pointSize()
         layout = QVBoxLayout()
         # --- Logo Placeholder ---
         logo_label = QLabel()
-        # Stock placeholder image; replace 'logo.png' with your custom logo if desired.
-        # Place your logo image in the same directory as this script or adjust the path as needed.
         try:
             pixmap = QPixmap("logo.png")
             if not pixmap.isNull():
@@ -212,6 +217,31 @@ class LoginScreen(QWidget):
         self.login_btn = QPushButton("Login")
         layout.addWidget(self.login_btn)
         self.setLayout(layout)
+        self._apply_scale()
+
+    def _apply_scale(self):
+        def scale_widget(widget, factor):
+            font = widget.font()
+            font.setPointSizeF(self._base_font_size * factor)
+            widget.setFont(font)
+            for child in widget.findChildren(QWidget):
+                try:
+                    cfont = child.font()
+                    cfont.setPointSizeF(self._base_font_size * factor)
+                    child.setFont(cfont)
+                except Exception:
+                    pass
+        scale_widget(self, self._scale_factor)
+
+    def adjust_scale(self, delta=None, reset=False):
+        if reset:
+            self._scale_factor = 1.0
+        elif delta is not None:
+            if delta > 0:
+                self._scale_factor = min(self._scale_factor + 0.1, self._max_scale)
+            else:
+                self._scale_factor = max(self._scale_factor - 0.1, self._min_scale)
+        self._apply_scale()
 
 class DashboardView(QWidget):
     def __init__(self, parent=None, user=None, main_window=None):
@@ -821,22 +851,29 @@ class ProjectDetailPage(QWidget):
             QMessageBox.warning(self, "Error", "Database not available or project ID missing.")
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, user=None):
         super().__init__()
         self.setWindowTitle("PyQt Project Management App (Skeleton)")
         self.resize(800, 600)
 
         # --- DPI/UI scaling and zoom ---
-        self._scale_factor = 1.0
+        self._scale_factor = 1.7  # Set default UI scale factor to 170%
         self._min_scale = 0.5
         self._max_scale = 3.0
         self._base_font_size = self.font().pointSize()
         self.installEventFilter(self)
         self.setMouseTracking(True)
+        self.current_user = user
 
+        # --- Initialize stack and related widgets early ---
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
         main_layout = QHBoxLayout(self.central_widget)
+
+        # --- Settings Tab ---
+        self.tabs = QTabWidget()
+        self.main_content_widget = QWidget()
+        main_content_layout = QHBoxLayout(self.main_content_widget)
 
         # Navigation
         self.nav_list = QListWidget()
@@ -846,7 +883,7 @@ class MainWindow(QMainWindow):
             "Event Log",
             "Logout"
         ])
-        main_layout.addWidget(self.nav_list, 1)
+        main_content_layout.addWidget(self.nav_list, 1)
 
         # Stacked widget for views
         self.stack = QStackedWidget()
@@ -860,7 +897,12 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(self.user_file)
         self.stack.addWidget(self.event_log)
         self.stack.addWidget(self.project_creation_page)
-        main_layout.addWidget(self.stack, 4)
+        main_content_layout.addWidget(self.stack, 4)
+
+        self.main_content_widget.setLayout(main_content_layout)
+        self.tabs.addTab(self.main_content_widget, "Main")
+        self._init_settings_tab()
+        main_layout.addWidget(self.tabs)
 
         self.nav_list.currentRowChanged.connect(self.display_view)
         self.nav_list.setCurrentRow(0)
@@ -875,6 +917,197 @@ class MainWindow(QMainWindow):
 
         # --- Initial DPI scaling ---
         self._apply_scale()
+
+        self._load_user_display_pref()
+
+    def _load_user_display_pref(self):
+        """
+        Load the current user's display scaling/zoom preference and apply it to the UI.
+        Tries to load from DB first, then falls back to a user-specific JSON file.
+        """
+        user = getattr(self, "current_user", None)
+        if not user:
+            return
+        # Try DB first
+        if db and hasattr(db, "get_user_display_pref"):
+            try:
+                pref = db.get_user_display_pref(user.id)
+                if pref and "scale_factor" in pref:
+                    self._scale_factor = pref["scale_factor"]
+                    if hasattr(self, "scale_slider"):
+                        self.scale_slider.setValue(int(self._scale_factor * 100))
+                    if hasattr(self, "scale_spin"):
+                        self.scale_spin.setValue(int(self._scale_factor * 100))
+                    self._apply_scale()
+                    return
+            except Exception:
+                pass
+        # Fallback to file
+        path = self._user_pref_path()
+        if path and os.path.exists(path):
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    scale = data.get("scale_factor")
+                    if scale:
+                        self._scale_factor = scale
+                        if hasattr(self, "scale_slider"):
+                            self.scale_slider.setValue(int(scale * 100))
+                        if hasattr(self, "scale_spin"):
+                            self.scale_spin.setValue(int(scale * 100))
+                        self._apply_scale()
+            except Exception:
+                pass
+
+    def _user_pref_path(self):
+        """
+        Return the file path for the current user's display preferences.
+        Stores preferences as a JSON file named after the user ID in the config directory.
+        """
+        if not self.current_user:
+            return None
+        config_dir = os.path.join(os.path.dirname(__file__), "..", "..", "config")
+        os.makedirs(config_dir, exist_ok=True)
+        return os.path.join(config_dir, f"user_pref_{self.current_user.id}.json")
+
+        """
+        Load the current user's display preferences (scaling/zoom) and apply them to the UI.
+        Tries to load from DB first, then falls back to a user-specific JSON file.
+        """
+        user = getattr(self, "current_user", None)
+        if not user:
+            return
+        # Try DB first
+        if db and hasattr(db, "get_user_display_pref"):
+            try:
+                pref = db.get_user_display_pref(user.id)
+                if pref and "scale_factor" in pref:
+                    self._scale_factor = pref["scale_factor"]
+                    self.scale_slider.setValue(int(self._scale_factor * 100))
+                    self.scale_spin.setValue(int(self._scale_factor * 100))
+                    self._apply_scale()
+                    return
+            except Exception:
+                pass
+        # Fallback to file
+        path = self._user_pref_path()
+        if path and os.path.exists(path):
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    scale = data.get("scale_factor")
+                    if scale:
+                        self._scale_factor = scale
+                        self.scale_slider.setValue(int(scale * 100))
+                        self.scale_spin.setValue(int(scale * 100))
+                        self._apply_scale()
+            except Exception:
+                pass
+
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+        main_layout = QHBoxLayout(self.central_widget)
+
+        # --- Settings Tab ---
+        self.tabs = QTabWidget()
+        self.main_content_widget = QWidget()
+        main_content_layout = QHBoxLayout(self.main_content_widget)
+
+        # Navigation
+        self.nav_list = QListWidget()
+        self.nav_list.addItems([
+            "Dashboard",
+            "User/File Management",
+            "Event Log",
+            "Logout"
+        ])
+        main_content_layout.addWidget(self.nav_list, 1)
+
+        # Stacked widget for views
+        self.stack = QStackedWidget()
+        self.dashboard = DashboardView(main_window=self)
+        self.current_user = None  # Track current authenticated user
+        self.project_creation_page = ProjectCreationPage(current_user=self.current_user)
+        self.user_file = UserFileManagement()
+        self.event_log = EventLogView()
+        self.project_detail_page = None  # Will be set dynamically
+        self.stack.addWidget(self.dashboard)
+        self.stack.addWidget(self.user_file)
+        self.stack.addWidget(self.event_log)
+        self.stack.addWidget(self.project_creation_page)
+        main_content_layout.addWidget(self.stack, 4)
+
+        self.main_content_widget.setLayout(main_content_layout)
+        self.tabs.addTab(self.main_content_widget, "Main")
+        self._init_settings_tab()
+        main_layout.addWidget(self.tabs)
+
+        self.nav_list.currentRowChanged.connect(self.display_view)
+        self.nav_list.setCurrentRow(0)
+
+        # Connect save button on project creation page to return to dashboard
+        self.project_creation_page.save_btn.clicked.connect(self.return_to_dashboard)
+
+        log_event("Application started")
+
+        # --- Launch maximized (not fullscreen) ---
+        self.showMaximized()
+
+        # --- Initial DPI scaling ---
+        self._apply_scale()
+
+    def _init_settings_tab(self):
+        settings_widget = QWidget()
+        vbox = QVBoxLayout(settings_widget)
+
+        # Display Preferences Group
+        display_group = QGroupBox("Display Preferences")
+        display_layout = QVBoxLayout()
+
+        # Scaling/Zoom controls
+        scale_hbox = QHBoxLayout()
+        scale_label = QLabel("Scaling / Zoom:")
+        self.scale_slider = QSlider(Qt.Horizontal)
+        self.scale_slider.setMinimum(int(self._min_scale * 100))
+        self.scale_slider.setMaximum(int(self._max_scale * 100))
+        self.scale_slider.setValue(int(self._scale_factor * 100))
+        self.scale_slider.setTickInterval(10)
+        self.scale_slider.setTickPosition(QSlider.TicksBelow)
+        self.scale_spin = QSpinBox()
+        self.scale_spin.setMinimum(int(self._min_scale * 100))
+        self.scale_spin.setMaximum(int(self._max_scale * 100))
+        self.scale_spin.setValue(int(self._scale_factor * 100))
+        self.scale_spin.setSuffix("%")
+        scale_hbox.addWidget(scale_label)
+        scale_hbox.addWidget(self.scale_slider)
+        scale_hbox.addWidget(self.scale_spin)
+        display_layout.addLayout(scale_hbox)
+
+        display_group.setLayout(display_layout)
+        vbox.addWidget(display_group)
+        vbox.addStretch(1)
+        settings_widget.setLayout(vbox)
+        self.tabs.addTab(settings_widget, "Settings")
+
+        # Connect slider and spinbox to update scaling in real time
+        self.scale_slider.valueChanged.connect(self._on_scale_changed)
+        self.scale_spin.valueChanged.connect(self._on_scale_changed)
+        self._syncing_scale = False
+
+    def _on_scale_changed(self, value):
+        if getattr(self, "_syncing_scale", False):
+            return
+        self._syncing_scale = True
+        # Keep slider and spinbox in sync
+        sender = self.sender()
+        if sender == self.scale_slider:
+            self.scale_spin.setValue(value)
+        else:
+            self.scale_slider.setValue(value)
+        self._scale_factor = value / 100.0
+        self._apply_scale()
+        self._syncing_scale = False
+        self._save_user_display_pref()
 
     def _apply_scale(self):
         # Recursively scale fonts and widgets
@@ -958,11 +1191,73 @@ class App(QApplication):
         self.main.installEventFilter(self)
         self._logout_key = Qt.Key_Escape  # You can change this to another key if desired
 
+    def _user_pref_path(self, user):
+        if not user:
+            return None
+        return os.path.join(os.path.dirname(__file__), f"user_pref_{user.id}.json")
+
+    def load_user_display_pref(self, user):
+        # Try DB first
+        if db and hasattr(db, "get_user_display_pref"):
+            try:
+                pref = db.get_user_display_pref(user.id)
+                if pref and "scale_factor" in pref:
+                    return pref["scale_factor"]
+            except Exception:
+                pass
+        # Fallback to file
+        path = self._user_pref_path(user)
+        if path and os.path.exists(path):
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    return data.get("scale_factor")
+            except Exception:
+                pass
+        return None
+
+    def save_user_display_pref(self, user, scale_factor):
+        # Try DB first
+        if db and hasattr(db, "set_user_display_pref"):
+            try:
+                db.set_user_display_pref(user.id, {"scale_factor": scale_factor})
+                return
+            except Exception:
+                pass
+        # Fallback to file
+        path = self._user_pref_path(user)
+        if path:
+            try:
+                with open(path, "w", encoding="utf-8") as f:
+                    json.dump({"scale_factor": scale_factor}, f)
+            except Exception:
+                pass
+
     def eventFilter(self, obj, event):
         # Logout key: ESC returns to login page and logs out
         if event.type() == QEvent.KeyPress and event.key() == self._logout_key:
             self.logout()
             return True
+
+        # --- Zoom/scale logic for login page ---
+        if obj == self.login:
+            # Zoom with Ctrl+Scroll
+            if event.type() == QEvent.Wheel and (event.modifiers() & Qt.ControlModifier):
+                delta = event.angleDelta().y()
+                self.login.adjust_scale(delta)
+                return True
+            # Zoom with Ctrl + Plus/Minus/0
+            if event.type() == QEvent.KeyPress and (event.modifiers() & Qt.ControlModifier):
+                if event.key() in (Qt.Key_Plus, Qt.Key_Equal):
+                    self.login.adjust_scale(1)
+                    return True
+                elif event.key() == Qt.Key_Minus:
+                    self.login.adjust_scale(-1)
+                    return True
+                elif event.key() == Qt.Key_0:
+                    self.login.adjust_scale(reset=True)
+                    return True
+
         return super().eventFilter(obj, event)
 
     def logout(self):
@@ -997,8 +1292,8 @@ class App(QApplication):
                 self.login.hide()
                 # Set user context globally and in main window
                 self.current_user = user
-                self.main.current_user = user
-                # Re-instantiate views with user context
+                # Re-instantiate main window with user context
+                self.main = MainWindow(user=user)
                 self.main.dashboard = DashboardView(user=user, main_window=self.main)
                 self.main.user_file = UserFileManagement(user=user)
                 self.main.project_creation_page = ProjectCreationPage(current_user=user)
@@ -1009,8 +1304,16 @@ class App(QApplication):
                 self.main.stack.insertWidget(1, self.main.user_file)
                 self.main.stack.insertWidget(2, self.main.event_log)
                 self.main.stack.insertWidget(3, self.main.project_creation_page)
+                # Load and apply user display preferences
+                scale = self.load_user_display_pref(user)
+                if scale:
+                    self.main._scale_factor = scale
+                    self.main.scale_slider.setValue(int(scale * 100))
+                    self.main.scale_spin.setValue(int(scale * 100))
+                    self.main._apply_scale()
+                self.main.current_user = user
                 # Show the main window in fullscreen after login
-                self.main.showFullScreen()
+                self.main.showMaximized()
             else:
                 log_event(f"Failed login attempt for user '{username}'")
                 with open("login_debug.log", "a", encoding="utf-8") as dbg:
@@ -1024,3 +1327,30 @@ class App(QApplication):
 if __name__ == "__main__":
     app = App(sys.argv)
     sys.exit(app.exec_())
+
+# --- User display preference persistence logic for MainWindow ---
+
+def _save_user_display_pref(self):
+    user = getattr(self, "current_user", None)
+    if not user:
+        return
+    # Try DB first
+    if db and hasattr(db, "set_user_display_pref"):
+        try:
+            db.set_user_display_pref(user.id, {"scale_factor": self._scale_factor})
+            return
+        except Exception:
+            pass
+    # Fallback to file
+    path = _user_pref_path(self)
+    if path:
+        try:
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump({"scale_factor": self._scale_factor}, f)
+        except Exception:
+            pass
+
+
+# Attach methods to MainWindow
+MainWindow._save_user_display_pref = _save_user_display_pref
+MainWindow._load_user_display_pref = _load_user_display_pref
