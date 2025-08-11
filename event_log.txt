@@ -162,3 +162,8 @@ Navigated to Dashboard
 Application started
 User 'user' logged in
 User logged out
+Navigated to Dashboard
+Application started
+User 'user' logged in
+Viewed details for project 'One more time'
+User logged out

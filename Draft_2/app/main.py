@@ -3,7 +3,8 @@ from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QStackedWidget, QVBoxLayout, QLabel,
     QPushButton, QHBoxLayout, QListWidget, QListWidgetItem, QTextEdit, QLineEdit, QFormLayout, QMessageBox, QInputDialog, QComboBox, QDialog, QDialogButtonBox
 )
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QEvent
+from PyQt5.QtGui import QFont
 
 # --- Gantt Chart Imports ---
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -803,6 +804,14 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("PyQt Project Management App (Skeleton)")
         self.resize(800, 600)
 
+        # --- DPI/UI scaling and zoom ---
+        self._scale_factor = 1.0
+        self._min_scale = 0.5
+        self._max_scale = 3.0
+        self._base_font_size = self.font().pointSize()
+        self.installEventFilter(self)
+        self.setMouseTracking(True)
+
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
         main_layout = QHBoxLayout(self.central_widget)
@@ -839,54 +848,58 @@ class MainWindow(QMainWindow):
 
         log_event("Application started")
 
-    def display_view(self, idx):
-        if idx == 0:
-            self.stack.setCurrentWidget(self.dashboard)
-            log_event("Navigated to Dashboard")
-        elif idx == 1:
-            self.stack.setCurrentWidget(self.user_file)
-            log_event("Navigated to User/File Management")
-        elif idx == 2:
-            self.stack.setCurrentWidget(self.event_log)
-            log_event("Viewed Event Log")
-        elif idx == 3:
-            self.logout()
+        # --- Launch fullscreen ---
+        self.showFullScreen()
 
-    def show_project_creation_page(self):
-        # Always update ProjectCreationPage with current user before showing
-        self.project_creation_page.current_user = self.current_user
-        self.stack.setCurrentWidget(self.project_creation_page)
-        log_event("Navigated to Project Creation Page")
+        # --- Initial DPI scaling ---
+        self._apply_scale()
 
-    def show_project_detail_page(self, project):
-        # Remove previous detail page if exists
-        if self.project_detail_page:
-            self.stack.removeWidget(self.project_detail_page)
-        self.project_detail_page = ProjectDetailPage(project, parent=self)
-        self.stack.addWidget(self.project_detail_page)
-        self.stack.setCurrentWidget(self.project_detail_page)
-        log_event(f"Viewed details for project '{getattr(project, 'name', '')}'")
+    def _apply_scale(self):
+        # Recursively scale fonts and widgets
+        def scale_widget(widget, factor):
+            font = widget.font()
+            font.setPointSizeF(self._base_font_size * factor)
+            widget.setFont(font)
+            for child in widget.findChildren(QWidget):
+                try:
+                    cfont = child.font()
+                    cfont.setPointSizeF(self._base_font_size * factor)
+                    child.setFont(cfont)
+                except Exception:
+                    pass
+        scale_widget(self, self._scale_factor)
 
-    def return_to_dashboard(self):
-        self.stack.setCurrentWidget(self.dashboard)
-        log_event("Returned to Dashboard from Project Creation Page")
-
-    def logout(self):
-        log_event("User logged out")
-        QMessageBox.information(self, "Logout", "You have been logged out.")
-        # Clear user context
-        self.current_user = None
-        # Hide main window and show login screen again
-        self.hide()
-        # Find QApplication instance and show login screen
-        app = QApplication.instance()
-        if hasattr(app, "login"):
-            app.login.username.clear()
-            app.login.password.clear()
-            app.login.show()
+    def eventFilter(self, obj, event):
+        # Zoom with Ctrl+Scroll
+        if event.type() == QEvent.Wheel and (event.modifiers() & Qt.ControlModifier):
+            delta = event.angleDelta().y()
+            if delta > 0:
+                self._scale_factor = min(self._scale_factor + 0.1, self._max_scale)
+            else:
+                self._scale_factor = max(self._scale_factor - 0.1, self._min_scale)
+            self._apply_scale()
+            return True
+        # Zoom with Ctrl + Plus/Minus
+        if event.type() == QEvent.KeyPress and (event.modifiers() & Qt.ControlModifier):
+            if event.key() in (Qt.Key_Plus, Qt.Key_Equal):
+                self._scale_factor = min(self._scale_factor + 0.1, self._max_scale)
+                self._apply_scale()
+                return True
+            elif event.key() == Qt.Key_Minus:
+                self._scale_factor = max(self._scale_factor - 0.1, self._min_scale)
+                self._apply_scale()
+                return True
+            elif event.key() == Qt.Key_0:
+                self._scale_factor = 1.0
+                self._apply_scale()
+                return True
+        return super().eventFilter(obj, event)
 
 class App(QApplication):
     def __init__(self, argv):
+        # Enable DPI scaling before QApplication is created
+        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+        QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
         super().__init__(argv)
         self.login = LoginScreen()
         self.main = MainWindow()
