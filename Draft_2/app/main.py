@@ -1179,59 +1179,28 @@ class App(QApplication):
         QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
         QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
         super().__init__(argv)
-        self.login = LoginScreen()
-        self.main = MainWindow()
-        self.login.login_btn.clicked.connect(self.authenticate)
-        # Show only the login window at startup, in fullscreen
-        self.login.showFullScreen()
+        self._logout_key = Qt.Key_Escape  # You can change this to another key if desired
         self.current_user = None  # Store authenticated user globally
 
-        # --- Restore logout key functionality ---
-        self.login.installEventFilter(self)
-        self.main.installEventFilter(self)
-        self._logout_key = Qt.Key_Escape  # You can change this to another key if desired
+        # Create the main window and stack
+        self.window = QMainWindow()
+        self.window.setWindowTitle("PyQt Project Management App")
+        self.window.resize(800, 600)
+        self.stack = QStackedWidget()
+        self.login_page = LoginScreen()
+        self.main_page = MainWindow()
+        self.stack.addWidget(self.login_page)
+        self.stack.addWidget(self.main_page)
+        self.window.setCentralWidget(self.stack)
+        self.stack.setCurrentWidget(self.login_page)
+        self.window.showMaximized()
 
-    def _user_pref_path(self, user):
-        if not user:
-            return None
-        return os.path.join(os.path.dirname(__file__), f"user_pref_{user.id}.json")
+        # Connect login button
+        self.login_page.login_btn.clicked.connect(self.authenticate)
 
-    def load_user_display_pref(self, user):
-        # Try DB first
-        if db and hasattr(db, "get_user_display_pref"):
-            try:
-                pref = db.get_user_display_pref(user.id)
-                if pref and "scale_factor" in pref:
-                    return pref["scale_factor"]
-            except Exception:
-                pass
-        # Fallback to file
-        path = self._user_pref_path(user)
-        if path and os.path.exists(path):
-            try:
-                with open(path, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    return data.get("scale_factor")
-            except Exception:
-                pass
-        return None
-
-    def save_user_display_pref(self, user, scale_factor):
-        # Try DB first
-        if db and hasattr(db, "set_user_display_pref"):
-            try:
-                db.set_user_display_pref(user.id, {"scale_factor": scale_factor})
-                return
-            except Exception:
-                pass
-        # Fallback to file
-        path = self._user_pref_path(user)
-        if path:
-            try:
-                with open(path, "w", encoding="utf-8") as f:
-                    json.dump({"scale_factor": scale_factor}, f)
-            except Exception:
-                pass
+        # Install event filter for logout and scaling
+        self.window.installEventFilter(self)
+        self.login_page.installEventFilter(self)
 
     def eventFilter(self, obj, event):
         # Logout key: ESC returns to login page and logs out
@@ -1240,48 +1209,46 @@ class App(QApplication):
             return True
 
         # --- Zoom/scale logic for login page ---
-        if obj == self.login:
+        if obj == self.login_page:
             # Zoom with Ctrl+Scroll
             if event.type() == QEvent.Wheel and (event.modifiers() & Qt.ControlModifier):
                 delta = event.angleDelta().y()
-                self.login.adjust_scale(delta)
+                self.login_page.adjust_scale(delta)
                 return True
             # Zoom with Ctrl + Plus/Minus/0
             if event.type() == QEvent.KeyPress and (event.modifiers() & Qt.ControlModifier):
                 if event.key() in (Qt.Key_Plus, Qt.Key_Equal):
-                    self.login.adjust_scale(1)
+                    self.login_page.adjust_scale(1)
                     return True
                 elif event.key() == Qt.Key_Minus:
-                    self.login.adjust_scale(-1)
+                    self.login_page.adjust_scale(-1)
                     return True
                 elif event.key() == Qt.Key_0:
-                    self.login.adjust_scale(reset=True)
+                    self.login_page.adjust_scale(reset=True)
                     return True
 
         return super().eventFilter(obj, event)
 
     def logout(self):
-        # Close main window, show login, clear user context
-        self.main.hide()
-        self.login.username.clear()
-        self.login.password.clear()
-        # Show the login window in fullscreen on logout
-        self.login.showFullScreen()
+        # Switch to login page, clear user context
+        self.stack.setCurrentWidget(self.login_page)
+        self.login_page.username.clear()
+        self.login_page.password.clear()
         self.current_user = None
-        self.main.current_user = None
-        # Optionally reset dashboard and other views if needed
+        if hasattr(self.main_page, "current_user"):
+            self.main_page.current_user = None
         log_event("User logged out (logout key pressed)")
 
     def authenticate(self):
-        username = self.login.username.text()
-        password = self.login.password.text()
+        username = self.login_page.username.text()
+        password = self.login_page.password.text()
         # Extra debug logging for widget state and db import
         with open("login_debug.log", "a", encoding="utf-8") as dbg:
             dbg.write(f"Attempt login: username={username!r}, password={password!r}\n")
-            dbg.write(f"Username widget type: {type(self.login.username)}\n")
-            dbg.write(f"Password widget type: {type(self.login.password)}\n")
-            dbg.write(f"Username widget text(): {self.login.username.text()!r}\n")
-            dbg.write(f"Password widget text(): {self.login.password.text()!r}\n")
+            dbg.write(f"Username widget type: {type(self.login_page.username)}\n")
+            dbg.write(f"Password widget type: {type(self.login_page.password)}\n")
+            dbg.write(f"Username widget text(): {self.login_page.username.text()!r}\n")
+            dbg.write(f"Password widget text(): {self.login_page.password.text()!r}\n")
             dbg.write(f"db module: {db!r}\n")
         if username and password and db:
             user = db.authenticate_user(username, password)
@@ -1289,40 +1256,23 @@ class App(QApplication):
                 dbg.write(f"db.authenticate_user returned: {user}\n")
             if user:
                 log_event(f"User '{username}' logged in")
-                self.login.hide()
-                # Set user context globally and in main window
                 self.current_user = user
-                # Re-instantiate main window with user context
-                self.main = MainWindow(user=user)
-                self.main.dashboard = DashboardView(user=user, main_window=self.main)
-                self.main.user_file = UserFileManagement(user=user)
-                self.main.project_creation_page = ProjectCreationPage(current_user=user)
-                # Remove all widgets from the stack
-                while self.main.stack.count() > 0:
-                    self.main.stack.removeWidget(self.main.stack.widget(0))
-                self.main.stack.insertWidget(0, self.main.dashboard)
-                self.main.stack.insertWidget(1, self.main.user_file)
-                self.main.stack.insertWidget(2, self.main.event_log)
-                self.main.stack.insertWidget(3, self.main.project_creation_page)
-                # Load and apply user display preferences
-                scale = self.load_user_display_pref(user)
-                if scale:
-                    self.main._scale_factor = scale
-                    self.main.scale_slider.setValue(int(scale * 100))
-                    self.main.scale_spin.setValue(int(scale * 100))
-                    self.main._apply_scale()
-                self.main.current_user = user
-                # Show the main window in fullscreen after login
-                self.main.showMaximized()
+                # Re-instantiate main page with user context
+                self.main_page = MainWindow(user=user)
+                # Replace main page in stack
+                self.stack.removeWidget(self.stack.widget(1))
+                self.stack.addWidget(self.main_page)
+                self.stack.setCurrentWidget(self.main_page)
+                self.main_page.current_user = user
             else:
                 log_event(f"Failed login attempt for user '{username}'")
                 with open("login_debug.log", "a", encoding="utf-8") as dbg:
                     dbg.write("Login failed: Invalid username or password.\n")
-                QMessageBox.warning(self.login, "Login Failed", "Invalid username or password.")
+                QMessageBox.warning(self.login_page, "Login Failed", "Invalid username or password.")
         else:
             with open("login_debug.log", "a", encoding="utf-8") as dbg:
                 dbg.write(f"Login failed: Username or password not entered. username={username!r}, password={password!r}, db={db!r}\n")
-            QMessageBox.warning(self.login, "Login Failed", "Enter username and password.")
+            QMessageBox.warning(self.login_page, "Login Failed", "Enter username and password.")
 
 if __name__ == "__main__":
     app = App(sys.argv)
