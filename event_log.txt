@@ -173,3 +173,9 @@ Application started
 User 'user' logged in
 Application started
 User 'user' logged in
+Application started
+User 'user' logged in
+User logged out (logout key pressed)
+Application started
+User 'user' logged in
+User logged out (logout key pressed)

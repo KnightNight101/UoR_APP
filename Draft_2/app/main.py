@@ -925,7 +925,10 @@ class MainWindow(QMainWindow):
         elif index == 2:
             self.stack.setCurrentWidget(self.event_log)
         elif index == 3:
-            self.stack.setCurrentWidget(self.project_creation_page)
+            # Trigger logout instead of showing project creation page
+            app = QApplication.instance()
+            if hasattr(app, "logout"):
+                app.logout()
         else:
             # Default to dashboard if index is out of range
             self.stack.setCurrentWidget(self.dashboard)
@@ -946,7 +949,8 @@ class App(QApplication):
         self.login = LoginScreen()
         self.main = MainWindow()
         self.login.login_btn.clicked.connect(self.authenticate)
-        self.login.show()
+        # Show only the login window at startup, in fullscreen
+        self.login.showFullScreen()
         self.current_user = None  # Store authenticated user globally
 
         # --- Restore logout key functionality ---
@@ -966,7 +970,8 @@ class App(QApplication):
         self.main.hide()
         self.login.username.clear()
         self.login.password.clear()
-        self.login.show()
+        # Show the login window in fullscreen on logout
+        self.login.showFullScreen()
         self.current_user = None
         self.main.current_user = None
         # Optionally reset dashboard and other views if needed
@@ -989,7 +994,7 @@ class App(QApplication):
                 dbg.write(f"db.authenticate_user returned: {user}\n")
             if user:
                 log_event(f"User '{username}' logged in")
-                self.login.close()
+                self.login.hide()
                 # Set user context globally and in main window
                 self.current_user = user
                 self.main.current_user = user
@@ -1004,7 +1009,8 @@ class App(QApplication):
                 self.main.stack.insertWidget(1, self.main.user_file)
                 self.main.stack.insertWidget(2, self.main.event_log)
                 self.main.stack.insertWidget(3, self.main.project_creation_page)
-                self.main.show()
+                # Show the main window in fullscreen after login
+                self.main.showFullScreen()
             else:
                 log_event(f"Failed login attempt for user '{username}'")
                 with open("login_debug.log", "a", encoding="utf-8") as dbg:
