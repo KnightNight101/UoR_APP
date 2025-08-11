@@ -894,6 +894,26 @@ class MainWindow(QMainWindow):
                 self._apply_scale()
                 return True
         return super().eventFilter(obj, event)
+    def display_view(self, index):
+        """Switches the stacked view based on the selected navigation row."""
+        if index == 0:
+            self.stack.setCurrentWidget(self.dashboard)
+        elif index == 1:
+            self.stack.setCurrentWidget(self.user_file)
+        elif index == 2:
+            self.stack.setCurrentWidget(self.event_log)
+        elif index == 3:
+            self.stack.setCurrentWidget(self.project_creation_page)
+        else:
+            # Default to dashboard if index is out of range
+            self.stack.setCurrentWidget(self.dashboard)
+
+
+    def return_to_dashboard(self):
+        """Switch the view to the dashboard page."""
+        self.dashboard.load_projects()
+        self.stack.setCurrentWidget(self.dashboard)
+        log_event("Returned to Dashboard from Project Creation Page")
 
 class App(QApplication):
     def __init__(self, argv):
