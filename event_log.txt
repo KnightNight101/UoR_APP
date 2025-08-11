@@ -179,3 +179,18 @@ User logged out (logout key pressed)
 Application started
 User 'user' logged in
 User logged out (logout key pressed)
+User logged out (logout key pressed)
+Application started
+User 'user' logged in
+User logged out (logout key pressed)
+User 'user' logged in
+User 'user' logged in
+Application started
+Application started
+User 'user' logged in
+Application started
+User logged out (logout key pressed)
+User 'user' logged in
+Application started
+User logged out (logout key pressed)
+User logged out (logout key pressed)
