@@ -874,7 +874,16 @@ class MainWindow(QMainWindow):
     def logout(self):
         log_event("User logged out")
         QMessageBox.information(self, "Logout", "You have been logged out.")
-        self.close()
+        # Clear user context
+        self.current_user = None
+        # Hide main window and show login screen again
+        self.hide()
+        # Find QApplication instance and show login screen
+        app = QApplication.instance()
+        if hasattr(app, "login"):
+            app.login.username.clear()
+            app.login.password.clear()
+            app.login.show()
 
 class App(QApplication):
     def __init__(self, argv):

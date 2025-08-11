@@ -147,3 +147,18 @@ Returned to Dashboard from Project Detail Page
 Viewed details for project 'One more time'
 Returned to Dashboard from Project Detail Page
 User logged out
+Navigated to Dashboard
+Application started
+Failed login attempt for user 'user1'
+Failed login attempt for user 'admin'
+Failed login attempt for user 'user'
+User 'user' logged in
+Navigated to User/File Management
+Viewed Event Log
+User logged out
+Navigated to Dashboard
+Application started
+Navigated to Dashboard
+Application started
+User 'user' logged in
+User logged out
