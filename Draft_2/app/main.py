@@ -175,11 +175,33 @@ def log_event(event):
     with open(LOG_FILE, "a", encoding="utf-8") as f:
         f.write(event + "\n")
 
+from PyQt5.QtGui import QPixmap
+
 class LoginScreen(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout()
-        layout.addWidget(QLabel("Login"))
+        # --- Logo Placeholder ---
+        logo_label = QLabel()
+        # Stock placeholder image; replace 'logo.png' with your custom logo if desired.
+        # Place your logo image in the same directory as this script or adjust the path as needed.
+        try:
+            pixmap = QPixmap("logo.png")
+            if not pixmap.isNull():
+                logo_label.setPixmap(pixmap.scaledToHeight(120, Qt.SmoothTransformation))
+            else:
+                logo_label.setText("[Logo Placeholder]")
+        except Exception:
+            logo_label.setText("[Logo Placeholder]")
+        logo_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(logo_label)
+        # --- End Logo Placeholder ---
+
+        title = QLabel("Login")
+        title.setAlignment(Qt.AlignCenter)
+        title.setFont(QFont("Arial", 18, QFont.Bold))
+        layout.addWidget(title)
+
         form = QFormLayout()
         self.username = QLineEdit()
         self.password = QLineEdit()
@@ -848,8 +870,8 @@ class MainWindow(QMainWindow):
 
         log_event("Application started")
 
-        # --- Launch fullscreen ---
-        self.showFullScreen()
+        # --- Launch maximized (not fullscreen) ---
+        self.showMaximized()
 
         # --- Initial DPI scaling ---
         self._apply_scale()
@@ -926,6 +948,29 @@ class App(QApplication):
         self.login.login_btn.clicked.connect(self.authenticate)
         self.login.show()
         self.current_user = None  # Store authenticated user globally
+
+        # --- Restore logout key functionality ---
+        self.login.installEventFilter(self)
+        self.main.installEventFilter(self)
+        self._logout_key = Qt.Key_Escape  # You can change this to another key if desired
+
+    def eventFilter(self, obj, event):
+        # Logout key: ESC returns to login page and logs out
+        if event.type() == QEvent.KeyPress and event.key() == self._logout_key:
+            self.logout()
+            return True
+        return super().eventFilter(obj, event)
+
+    def logout(self):
+        # Close main window, show login, clear user context
+        self.main.hide()
+        self.login.username.clear()
+        self.login.password.clear()
+        self.login.show()
+        self.current_user = None
+        self.main.current_user = None
+        # Optionally reset dashboard and other views if needed
+        log_event("User logged out (logout key pressed)")
 
     def authenticate(self):
         username = self.login.username.text()

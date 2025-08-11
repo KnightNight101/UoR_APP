@@ -167,3 +167,9 @@ Application started
 User 'user' logged in
 Viewed details for project 'One more time'
 User logged out
+Application started
+User 'user' logged in
+Application started
+User 'user' logged in
+Application started
+User 'user' logged in
