@@ -445,7 +445,8 @@ flowchart TD
 
 ## 5. Task Management Flow
 
-Task-related workflows showing creation, assignment, drag-and-drop prioritization using Eisenhower Matrix, status updates, and subtask management.
+Task-related workflows showing creation, assignment, drag-and-drop prioritization using Eisenhower Matrix, status updates, subtask management, **task deadline support**, **task editing**, and **task deletion**.
+
 
 ```mermaid
 flowchart TD

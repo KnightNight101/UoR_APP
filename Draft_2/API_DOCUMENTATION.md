@@ -551,8 +551,8 @@ Authorization: Bearer <token>
 ## Task Management Endpoints
 
 ### GET /api/projects/{id}/tasks
-**Status**: Planned  
-**Description**: Get tasks for a specific project
+**Status**: Planned
+**Description**: Get tasks for a specific project, including deadlines
 
 #### Query Parameters
 - `status`: Filter by task status (pending, in_progress, completed)
@@ -589,8 +589,8 @@ Authorization: Bearer <token>
 ---
 
 ### POST /api/projects/{id}/tasks
-**Status**: Planned  
-**Description**: Create new task in project
+**Status**: Planned
+**Description**: Create new task in project (supports deadlines)
 
 #### Request Body
 ```json
@@ -626,8 +626,8 @@ Authorization: Bearer <token>
 ---
 
 ### GET /api/tasks/{id}
-**Status**: Planned  
-**Description**: Get task details with subtasks
+**Status**: Planned
+**Description**: Get task details with subtasks and deadline
 
 #### Response (200 OK)
 ```json
@@ -667,8 +667,8 @@ Authorization: Bearer <token>
 ---
 
 ### PUT /api/tasks/{id}
-**Status**: Planned  
-**Description**: Update task information
+**Status**: Planned
+**Description**: Update task information (edit title, description, status, priority, assigned user, deadline)
 
 #### Request Body
 ```json
@@ -694,6 +694,7 @@ Authorization: Bearer <token>
       "id": 3,
       "username": "new_assignee"
     },
+    "due_date": "2025-01-30T00:00:00Z",
     "updated_at": "2025-01-20T14:29:00Z"
   },
   "message": "Task updated successfully",
@@ -704,8 +705,8 @@ Authorization: Bearer <token>
 ---
 
 ### DELETE /api/tasks/{id}
-**Status**: Planned  
-**Description**: Delete task and all subtasks
+**Status**: Planned
+**Description**: Delete task and all subtasks (task deletion)
 
 #### Response (200 OK)
 ```json
@@ -1126,7 +1127,7 @@ All error responses follow this standardized format:
   "status": "string (pending|in_progress|completed|cancelled)",
   "priority": "string (low|medium|high|urgent)",
   "assigned_to": "integer|null",
-  "due_date": "string (ISO 8601)|null",
+  "due_date": "string (ISO 8601)|null", // Task deadline
   "created_at": "string (ISO 8601)",
   "project": "project object",
   "assignee": "user object|null",
