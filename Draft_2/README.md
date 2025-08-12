@@ -8,7 +8,7 @@ This application is a full-stack project management platform that provides:
 
 - **User Authentication & Role-Based Access Control** - Secure login system with user roles and permissions
 - **Project Management** - Create and manage projects with team assignments
-- **Task & Subtask Management** - Organize work with draggable task boards (Eisenhower Matrix)
+- **Task & Subtask Management** - Organize work with draggable task boards (Eisenhower Matrix), set deadlines, edit and delete tasks
 - **File Management** - Upload, share, and manage project files with access controls
 - **Team Collaboration** - Assign tasks, manage project members, and track progress
 - **Admin Dashboard** - Administrative tools for user management and system oversight
@@ -311,6 +311,8 @@ Error responses include error details:
 - **Authentication** (`/`) - Login and registration interface
 - **Dashboard** (`/dashboard`) - Main task management with Eisenhower Matrix
   - Drag-and-drop task organization
+  - Set, edit, and delete task deadlines
+  - Edit and delete tasks directly from the dashboard
   - Four priority categories: Urgent & Important, Urgent, Important, Others
   - Project overview panel
 - **Project Creation** (`/create-project`) - Form to create new projects
@@ -397,7 +399,7 @@ Error responses include error details:
 
 For continued development:
 
-1. **Complete API Implementation** - Implement remaining CRUD operations for projects, tasks, and files
+1. **Complete API Implementation** - Implement remaining CRUD operations for projects, tasks, and files (including task deadlines, editing, and deletion)
 2. **Authentication Integration** - Connect React frontend to Flask authentication endpoints  
 3. **File Upload System** - Implement file management features
 4. **Real-time Updates** - Add WebSocket support for collaborative features

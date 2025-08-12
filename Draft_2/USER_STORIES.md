@@ -274,27 +274,30 @@ This document provides comprehensive user stories and requirements for the Draft
 **Story Points:** 13  
 **Dependencies:** [`tasks`](app/schema.sql:58) table, Task API
 
-#### TM002: Task Creation and Editing
-**As a** user  
-**I want** to create and modify tasks  
-**So that** I can manage my work items effectively
+#### TM002: Task Creation, Editing, and Deadlines
+**As a** user
+**I want** to create, edit, and set deadlines for tasks
+**So that** I can manage my work items and schedules effectively
 
 **Acceptance Criteria:**
-- [ ] Task creation modal with title, description, due date
+- [ ] Task creation modal with title, description, due date (deadline)
 - [ ] Task priority can be set (Eisenhower Matrix category)
 - [ ] Tasks can be assigned to project members
 - [ ] Task status tracking (Pending, In Progress, Complete, Blocked)
 - [ ] Task modification preserves history
+- [ ] Task deadlines can be set, edited, or removed from both UI and backend
+- [ ] Deadline changes are reflected in task views and API responses
+- [ ] Editing task details and deadlines is available from dashboard and project views
 
-**Priority:** Must Have  
-**Status:** Planned  
-**Story Points:** 8  
+**Priority:** Must Have
+**Status:** Planned
+**Story Points:** 8
 **Dependencies:** TM001, Task API
 
-#### TM003: Subtask Management
-**As a** user  
-**I want** to break down tasks into subtasks  
-**So that** I can manage complex work in smaller pieces
+#### TM003: Subtask Management and Deletion
+**As a** user
+**I want** to break down tasks into subtasks and delete them when needed
+**So that** I can manage complex work in smaller pieces and keep my workspace organized
 
 **Acceptance Criteria:**
 - [x] Subtasks display under parent tasks in matrix
@@ -302,10 +305,13 @@ This document provides comprehensive user stories and requirements for the Draft
 - [ ] Subtask completion affects parent task progress
 - [ ] Subtasks can be assigned to different team members
 - [ ] Subtask status tracking independent of parent
+- [ ] Tasks and subtasks can be deleted from dashboard and project views
+- [ ] Deleted tasks/subtasks are removed from UI and backend; related data is cleaned up
+- [ ] Deletion actions require confirmation to prevent accidental loss
 
-**Priority:** Should Have  
-**Status:** UI Complete, Backend Pending  
-**Story Points:** 8  
+**Priority:** Should Have
+**Status:** UI Complete, Backend Pending
+**Story Points:** 8
 **Dependencies:** TM002, [`subtasks`](app/schema.sql:71) table
 
 #### TM004: Task Assignment and Collaboration
