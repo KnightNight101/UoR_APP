@@ -60,6 +60,22 @@ This document outlines comprehensive tests for all backend and frontend features
   - *Rationale*: Ensures CRUD operations and UI sync.
   - *Pass Criteria*: Tasks/subtasks appear correctly after creation.
 
+- **Task Deadline Support**
+  - *Description*: Set, edit, and remove deadlines for tasks and subtasks in UI and backend.
+  - *Rationale*: Ensures deadlines are properly handled and persisted.
+  - *Pass Criteria*: Deadlines are saved, updated, and removed as expected; reflected in UI and API.
+
+- **Task Editing**
+  - *Description*: Edit task details and deadlines from dashboard and project views.
+  - *Rationale*: Verifies editing logic and UI/backend sync.
+  - *Pass Criteria*: Edits persist and are visible in UI and API.
+
+- **Task Deletion**
+  - *Description*: Delete tasks and subtasks from dashboard and project views.
+  - *Rationale*: Ensures deletion logic and data integrity.
+  - *Pass Criteria*: Deleted tasks/subtasks are removed from UI and backend; related data is cleaned up.
+
+
 - **Task Status Change**
   - *Description*: Change task status (pending, in-progress, completed).
   - *Rationale*: Verifies workflow and state transitions.

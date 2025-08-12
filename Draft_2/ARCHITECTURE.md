@@ -57,8 +57,9 @@ All modules interact directly; there is no client-server separation or network c
 ### Project & Task Management
 
 - Projects and tasks are stored in the local database.
-- Users can create, edit, assign, and track projects and tasks via the PyQt interface.
-- All changes are logged.
+- Users can create, edit, assign, set deadlines, and delete projects and tasks via the PyQt interface.
+- Task deadlines are stored and updated in the database and UI.
+- All changes, including task edits and deletions, are logged.
 
 ### User & File Management
 

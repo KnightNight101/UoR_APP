@@ -40,6 +40,8 @@ The Draft_2 Project Management Platform is a comprehensive, modern full-stack we
 
 #### Core Features
 - **Eisenhower Matrix Dashboard**: Visual task prioritization with drag-and-drop interface
+- **Task Deadline Support**: Set, edit, and track deadlines for tasks and subtasks in UI and backend
+- **Task Editing & Deletion**: Edit and delete tasks directly from the dashboard and project views
 - **Role-Based Access Control**: Secure multi-level permission system (Admin/User/Project roles)
 - **Project Team Management**: Dynamic team formation with flexible role assignments
 - **File Sharing System**: Secure document storage with granular access controls
@@ -538,6 +540,12 @@ The Draft_2 Project Management Platform demonstrates a strong architectural foun
 ### What's Fully Implemented ✅
 
 #### **User Management System**
+
+#### **Task Deadline, Editing, and Deletion**
+- **Task Deadline Support**: UI and backend support for setting, editing, and removing deadlines on tasks and subtasks
+- **Task Editing**: Edit task details and deadlines from dashboard and project views
+- **Task Deletion**: Delete tasks and subtasks with confirmation dialogs in UI and backend
+
 - **Employee Onboarding**: Complete admin-initiated user creation workflow
   - Personal information collection (name, job role)
   - Automated username generation (initials + employee count)

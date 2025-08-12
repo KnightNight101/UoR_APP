@@ -131,9 +131,10 @@ Advanced task organization system featuring the Eisenhower Matrix methodology wi
 
 ### Current Implementation Status
 - ✅ **Frontend Implementation**: Complete Eisenhower Matrix dashboard with drag-and-drop
-- ✅ **Database Schema**: Tasks and subtasks tables with relationships
+- ✅ **Database Schema**: Tasks and subtasks tables with relationships, including deadline fields
 - ✅ **UI/UX**: Professional drag-and-drop interface with visual feedback
-- ❌ **Backend Integration**: Task CRUD operations and persistence
+- ✅ **Task Editing & Deletion**: Edit and delete tasks and deadlines from the UI
+- ❌ **Backend Integration**: Task CRUD operations and persistence (planned)
 - ❌ **Real-time Updates**: Live collaboration features
 
 ### User Interface
@@ -162,7 +163,9 @@ Advanced task organization system featuring the Eisenhower Matrix methodology wi
 - **Subtask Support**: Hierarchical task breakdown
 - **Task Status Tracking**: Pending, in-progress, completed states
 - **Assignment Management**: Task ownership and delegation
-- **Due Date Management**: Individual task and subtask deadlines
+- **Due Date Management**: Individual task and subtask deadlines (set, edit, remove)
+- **Task Editing**: Edit task details and deadlines from the dashboard
+- **Task Deletion**: Delete tasks and subtasks from the dashboard and project views
 
 ### Future Enhancements
 - Real-time collaborative editing with WebSockets
@@ -649,7 +652,7 @@ Platform performance optimization focusing on fast loading times, efficient data
 ## Current Limitations and Known Issues
 
 ### Backend Limitations
-1. **Incomplete API**: Many frontend features lack backend implementation
+1. **Incomplete API**: Many frontend features lack backend implementation (including task deadline persistence, editing, and deletion)
 2. **Authentication**: Login/logout workflow not fully connected
 3. **File Upload**: File management APIs not implemented
 4. **Real-time Features**: WebSocket support not implemented

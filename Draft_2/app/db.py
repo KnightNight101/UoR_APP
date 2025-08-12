@@ -2,9 +2,9 @@
 
 import os
 import bcrypt
+
 from datetime import datetime, timedelta
 from sqlalchemy import create_engine, text, Table
-from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship, selectinload
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, func, Boolean
 

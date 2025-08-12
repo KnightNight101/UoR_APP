@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QStackedWidget, QVBoxLayout, QLabel,
     QPushButton, QHBoxLayout, QListWidget, QListWidgetItem, QTextEdit, QLineEdit, QFormLayout, QMessageBox, QInputDialog, QComboBox, QDialog, QDialogButtonBox,
-    QTabWidget, QGroupBox, QSlider, QSpinBox
+    QTabWidget, QGroupBox, QSlider, QSpinBox, QDateEdit
 )
 from PyQt5.QtCore import Qt, QEvent
 from PyQt5.QtGui import QFont
@@ -10,7 +10,7 @@ import json
 import os
 
 # --- Gantt Chart Imports ---
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.dates as mdates
 import datetime
@@ -164,7 +164,6 @@ class ProjectCreationPage(QWidget):
 
 
 # Placeholder import for database models/utilities
-import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 try:
@@ -248,23 +247,23 @@ class DashboardView(QWidget):
         super().__init__(parent)
         self.user = user
         self.main_window = main_window
-        self.layout = QVBoxLayout()
+        layout = QVBoxLayout()  # Use a local variable, not self.layout
         # --- Begin Project/Task Management widgets ---
         self.project_list = QListWidget()
-        self.layout.addWidget(QLabel("Projects"))
-        self.layout.addWidget(self.project_list)
+        layout.addWidget(QLabel("Projects"))
+        layout.addWidget(self.project_list)
         self.refresh_projects_btn = QPushButton("Refresh Projects")
-        self.layout.addWidget(self.refresh_projects_btn)
+        layout.addWidget(self.refresh_projects_btn)
         self.add_project_btn = QPushButton("Add Project")
-        self.layout.addWidget(self.add_project_btn)
+        layout.addWidget(self.add_project_btn)
         self.task_list = QListWidget()
-        self.layout.addWidget(QLabel("Tasks & Assigned Subtasks"))
-        self.layout.addWidget(self.task_list)
+        layout.addWidget(QLabel("Tasks & Assigned Subtasks"))
+        layout.addWidget(self.task_list)
         self.add_task_btn = QPushButton("Add Task")
-        self.layout.addWidget(self.add_task_btn)
+        layout.addWidget(self.add_task_btn)
         # --- End Project/Task Management widgets ---
 
-        self.setLayout(self.layout)
+        self.setLayout(layout)
         self.refresh_projects_btn.clicked.connect(self.load_projects)
         self.add_project_btn.clicked.connect(self.navigate_to_project_creation)
         self.project_list.itemClicked.connect(self.handle_project_click)
@@ -331,14 +330,24 @@ class DashboardView(QWidget):
             project_id = int(current_project.text().split(":")[0])
             title, ok = QInputDialog.getText(self, "Add Task", "Task Title:")
             if ok and title:
-                from datetime import datetime
+                # Prompt for deadline
+                deadline, ok_deadline = QInputDialog.getText(self, "Add Task", "Deadline (YYYY-MM-DD, optional):")
+                due_date_str = deadline.strip() if ok_deadline and deadline.strip() else None
+                due_date_obj = None
+                if due_date_str:
+                    try:
+                        from datetime import datetime
+                        due_date_obj = datetime.strptime(due_date_str, "%Y-%m-%d").date()
+                    except Exception:
+                        QMessageBox.warning(self, "Validation Error", "Deadline must be in YYYY-MM-DD format.")
+                        return
                 task = db.create_task(
                     project_id=project_id,
                     title=title,
-                    due_date=None  # No due_date input in this dialog, so pass None
+                    due_date=due_date_obj
                 )
                 if task:
-                    log_event(f"Task '{title}' created in project {project_id} by user {self.user.username}")
+                    log_event(f"Task '{title}' created in project {project_id} by user {self.user.username}, Deadline: {due_date_obj}")
                     self.load_tasks(current_project)
     # --- End Project/Task Management logic ---
 
@@ -525,24 +534,21 @@ class GanttChartWidget(QWidget):
     def plot_gantt(self):
         self.figure.clear()
         ax = self.figure.add_subplot(111)
+        bars = []
+        labels = []
+        y = 0
         if db and hasattr(db, "get_tasks"):
             tasks = db.get_tasks(self.project_id)
-            bars = []
-            labels = []
-            colors = []
-            yticks = []
-            yticklabels = []
-            min_date = None
-            max_date = None
-            y = 0
             for task in tasks:
-                # Parse deadline and start date
+                # Parse start and end dates (support both deadline and due_date)
                 start = getattr(task, "start_date", None)
                 end = getattr(task, "deadline", None)
                 if not start:
                     start = getattr(task, "created_at", None)
                 if not start:
                     start = getattr(task, "deadline", None)
+                if not end:
+                    end = getattr(task, "due_date", None)
                 if not end:
                     end = getattr(task, "deadline", None)
                 try:
@@ -556,8 +562,6 @@ class GanttChartWidget(QWidget):
                 if start_dt and end_dt:
                     bars.append((mdates.date2num(start_dt), mdates.date2num(end_dt) - mdates.date2num(start_dt)))
                     labels.append(f"Task {getattr(task, 'id', '')}: {getattr(task, 'title', '')}")
-                    yticks.append(y)
-                    yticklabels.append(labels[-1])
                     y += 1
                     # Subtasks
                     if hasattr(db, "get_subtasks"):
@@ -571,6 +575,8 @@ class GanttChartWidget(QWidget):
                                 if not sub_start:
                                     sub_start = getattr(sub, "deadline", None)
                                 if not sub_end:
+                                    sub_end = getattr(sub, "due_date", None)
+                                if not sub_end:
                                     sub_end = getattr(sub, "deadline", None)
                                 try:
                                     sub_start_dt = datetime.datetime.strptime(str(sub_start), "%Y-%m-%d")
@@ -583,11 +589,10 @@ class GanttChartWidget(QWidget):
                                 if sub_start_dt and sub_end_dt:
                                     bars.append((mdates.date2num(sub_start_dt), mdates.date2num(sub_end_dt) - mdates.date2num(sub_start_dt)))
                                     labels.append(f"  Subtask {getattr(sub, 'id', '')}: {getattr(sub, 'title', '')}")
-                                    yticks.append(y)
-                                    yticklabels.append(labels[-1])
                                     y += 1
                         except Exception:
                             pass
+        if bars:
             for i, (start, duration) in enumerate(bars):
                 ax.barh(i, duration, left=start, height=0.4, align='center', color="#6baed6")
             ax.set_yticks(range(len(labels)))
@@ -596,6 +601,9 @@ class GanttChartWidget(QWidget):
             ax.set_xlabel("Date")
             ax.set_title("Gantt Chart: Tasks & Subtasks")
             self.figure.tight_layout()
+        else:
+            ax.text(0.5, 0.5, "No tasks to display", ha='center', va='center', fontsize=12, transform=ax.transAxes)
+            ax.set_axis_off()
         self.canvas.draw()
 
     def refresh(self):
@@ -631,8 +639,12 @@ class ProjectDetailPage(QWidget):
         form_layout = QHBoxLayout()
         self.title_input = QLineEdit()
         self.title_input.setPlaceholderText("Task Name")
-        self.deadline_input = QLineEdit()
-        self.deadline_input.setPlaceholderText("Deadline (YYYY-MM-DD)")
+        from PyQt5.QtCore import QDate
+        self.deadline_input = QDateEdit()
+        self.deadline_input.setCalendarPopup(True)
+        self.deadline_input.setDisplayFormat("yyyy-MM-dd")
+        self.deadline_input.setDate(QDate.currentDate())
+        self.deadline_input.setDisplayFormat("yyyy-MM-dd")
         self.dependencies_input = QLineEdit()
         self.dependencies_input.setPlaceholderText("Dependencies (comma IDs)")
         self.assigned_input = QComboBox()
@@ -711,27 +723,20 @@ class ProjectDetailPage(QWidget):
             dlg.exec_()
 
     def add_task_inline(self):
-        from datetime import datetime
         title = self.title_input.text().strip()
-        due_date_str = self.deadline_input.text().strip()
+        due_date_qdate = self.deadline_input.date()
+        due_date_obj = due_date_qdate.toPyDate()  # QDate -> Python date
         dependencies = self.dependencies_input.text().strip()
         assigned_id = self.assigned_input.currentData()
         if not title:
             QMessageBox.warning(self, "Validation Error", "Task name is required.")
             return
-        due_date = None
-        if due_date_str:
-            try:
-                due_date = datetime.strptime(due_date_str, "%Y-%m-%d")
-            except Exception:
-                QMessageBox.warning(self, "Validation Error", "Deadline must be in YYYY-MM-DD format.")
-                return
         if db:
             try:
                 task = db.create_task(
                     project_id=self.project.id,
                     title=title,
-                    due_date=due_date,
+                    due_date=due_date_obj,  # Pass as date object
                     assigned_to=assigned_id
                     # dependencies ignored/stubbed
                 )
@@ -739,7 +744,7 @@ class ProjectDetailPage(QWidget):
                 QMessageBox.warning(self, "Error", "Failed to add task (DB error).")
                 return
             if task:
-                log_event(f"Task '{title}' added to project {self.project.id} by user. Due date: {due_date_str}, Dependencies: {dependencies}, Assigned: {assigned_id}")
+                log_event(f"Task '{title}' added to project {self.project.id} by user. Due date: {due_date_obj}, Dependencies: {dependencies}, Assigned: {assigned_id}")
                 self.load_tasks()
                 self.title_input.clear()
                 self.deadline_input.clear()
@@ -753,7 +758,11 @@ class ProjectDetailPage(QWidget):
         dialog.setWindowTitle("Add Subtask")
         form = QFormLayout()
         title_input = QLineEdit()
-        deadline_input = QLineEdit()
+        from PyQt5.QtCore import QDate
+        deadline_input = QDateEdit()
+        deadline_input.setCalendarPopup(True)
+        deadline_input.setDisplayFormat("yyyy-MM-dd")
+        deadline_input.setDate(QDate.currentDate())
         dependencies_input = QLineEdit()
         assigned_input = QComboBox()
         assigned_input.addItem("Unassigned", None)
@@ -768,7 +777,7 @@ class ProjectDetailPage(QWidget):
         dialog.setLayout(form)
         def on_accept():
             title = title_input.text().strip()
-            deadline = deadline_input.text().strip()
+            deadline = deadline_input.date().toString("yyyy-MM-dd")
             dependencies = dependencies_input.text().strip()
             assigned_id = assigned_input.currentData()
             if not title:
@@ -863,7 +872,7 @@ class MainWindow(QMainWindow):
         self._base_font_size = self.font().pointSize()
         self.installEventFilter(self)
         self.setMouseTracking(True)
-        self.current_user = user
+        self.current_user = user  # Set user context immediately
 
         # --- Initialize stack and related widgets early ---
         self.central_widget = QWidget()
@@ -887,10 +896,9 @@ class MainWindow(QMainWindow):
 
         # Stacked widget for views
         self.stack = QStackedWidget()
-        self.dashboard = DashboardView(main_window=self)
-        self.current_user = None  # Track current authenticated user
+        self.dashboard = DashboardView(main_window=self, user=self.current_user)
         self.project_creation_page = ProjectCreationPage(current_user=self.current_user)
-        self.user_file = UserFileManagement()
+        self.user_file = UserFileManagement(user=self.current_user)
         self.event_log = EventLogView()
         self.project_detail_page = None  # Will be set dynamically
         self.stack.addWidget(self.dashboard)
@@ -1109,6 +1117,30 @@ class MainWindow(QMainWindow):
         self._syncing_scale = False
         self._save_user_display_pref()
 
+    def _save_user_display_pref(self):
+        """
+        Save the current user's display scaling/zoom preference to persistent storage.
+        Tries to save to DB first, then falls back to a user-specific JSON file.
+        """
+        user = getattr(self, "current_user", None)
+        if not user:
+            return
+        # Try DB first
+        if db and hasattr(db, "set_user_display_pref"):
+            try:
+                db.set_user_display_pref(user.id, {"scale_factor": self._scale_factor})
+                return
+            except Exception:
+                pass
+        # Fallback to file
+        path = self._user_pref_path()
+        if path:
+            try:
+                with open(path, "w", encoding="utf-8") as f:
+                    json.dump({"scale_factor": self._scale_factor}, f)
+            except Exception:
+                pass
+
     def _apply_scale(self):
         # Recursively scale fonts and widgets
         def scale_widget(widget, factor):
@@ -1166,6 +1198,21 @@ class MainWindow(QMainWindow):
             # Default to dashboard if index is out of range
             self.stack.setCurrentWidget(self.dashboard)
 
+    def show_project_detail_page(self, project):
+        """
+        Display the project detail page for the selected project.
+        """
+        # Remove previous detail page if exists
+        if self.project_detail_page is not None:
+            self.stack.removeWidget(self.project_detail_page)
+            self.project_detail_page.deleteLater()
+            self.project_detail_page = None
+
+        # Create new detail page and add to stack
+        self.project_detail_page = ProjectDetailPage(project)
+        self.stack.addWidget(self.project_detail_page)
+        self.stack.setCurrentWidget(self.project_detail_page)
+        log_event(f"Displayed detail page for project '{getattr(project, 'name', '')}' (ID {getattr(project, 'id', '')})")
 
     def return_to_dashboard(self):
         """Switch the view to the dashboard page."""
@@ -1277,30 +1324,3 @@ class App(QApplication):
 if __name__ == "__main__":
     app = App(sys.argv)
     sys.exit(app.exec_())
-
-# --- User display preference persistence logic for MainWindow ---
-
-def _save_user_display_pref(self):
-    user = getattr(self, "current_user", None)
-    if not user:
-        return
-    # Try DB first
-    if db and hasattr(db, "set_user_display_pref"):
-        try:
-            db.set_user_display_pref(user.id, {"scale_factor": self._scale_factor})
-            return
-        except Exception:
-            pass
-    # Fallback to file
-    path = _user_pref_path(self)
-    if path:
-        try:
-            with open(path, "w", encoding="utf-8") as f:
-                json.dump({"scale_factor": self._scale_factor}, f)
-        except Exception:
-            pass
-
-
-# Attach methods to MainWindow
-MainWindow._save_user_display_pref = _save_user_display_pref
-MainWindow._load_user_display_pref = _load_user_display_pref
