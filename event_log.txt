@@ -382,3 +382,21 @@ Returned to Dashboard from Project Creation Page
 Application started
 [ERROR] [2025-08-16T12:48:38.827369] Failed to send message.
 User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+User 'user' logged in
+Application started
+User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+User 'user' logged in
+Application started
+Project 'Another one' created by user (ID 2). Members: [{'user_id': None, 'role': 'leader'}, {'user_id': 2, 'role': 'leader'}]
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+User 'user' logged in
+Project 'Trial 2' created by user (ID 2). Members: [{'user_id': 2, 'role': 'leader'}]
+Returned to Dashboard from Project Creation Page
+Application started
+User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+User 'user' logged in
+Project 'One more time' created by user (ID 2). Members: [{'user_id': 2, 'role': 'leader'}]
+Returned to Dashboard from Project Creation Page
