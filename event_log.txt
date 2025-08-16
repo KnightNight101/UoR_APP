@@ -375,3 +375,10 @@ ModuleNotFoundError: No module named 'Draft_2'
 User 'user' logged in
 User logged out (logout key pressed)
 User 'user' logged in
+User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+User 'user' logged in
+Returned to Dashboard from Project Creation Page
+Application started
+[ERROR] [2025-08-16T12:48:38.827369] Failed to send message.
+User logged out (logout key pressed)
