@@ -262,8 +262,11 @@ def create_task(
     dependencies: Optional[List[int]] = None
 ):
     import json
+    import traceback
+    print(f"[DEBUG] create_task called (project_id={project_id}, title={title})")
     try:
         with SessionLocal() as session:
+            print("[DEBUG] create_task: Session started")
             task = Task(
                 project_id=project_id,
                 title=title,
@@ -275,6 +278,7 @@ def create_task(
             )
             session.add(task)
             session.commit()
+            print(f"[DEBUG] create_task: Task committed (id={task.id})")
             # After creating the task, create the "check progress" subtask
             # The deadline is the same as the task's due_date (since no other subtasks yet)
             if task.id is not None:
@@ -286,9 +290,11 @@ def create_task(
                 )
                 session.add(subtask)
                 session.commit()
+                print(f"[DEBUG] create_task: Subtask committed (id={subtask.id})")
             return task
     except Exception as e:
-        print(f"Error creating task: {e}")
+        print(f"[ERROR] Error creating task: {e}")
+        traceback.print_exc()
         return None
 
 def get_tasks(project_id: int):
@@ -718,12 +724,15 @@ def create_project(
 ):
     """Create a new project with optional initial members, deadline, and tasks."""
     import json
+    import traceback
+    print(f"[DEBUG] create_project called (name={name}, owner_id={owner_id})")
     if members is None:
         members = []
     if tasks is None:
         tasks = []
     try:
         with SessionLocal() as session:
+            print("[DEBUG] create_project: Session started")
             # Create the project
             project = Project(
                 name=name,
@@ -776,6 +785,7 @@ def create_project(
                 session.flush()  # Ensure project.id is assigned an integer value
                 real_project_id = getattr(project, "id", None)
                 if isinstance(real_project_id, int):
+                    print(f"[DEBUG] create_project: Calling create_task inside session (project_id={real_project_id}, title={title})")
                     create_task(
                         project_id=real_project_id,
                         title=title,
@@ -788,6 +798,7 @@ def create_project(
                     raise ValueError("Project ID was not assigned correctly.")
 
             session.commit()
+            print("[DEBUG] create_project: Session committed")
 
             # Return project with relationships loaded
             return session.query(Project).options(
@@ -796,7 +807,8 @@ def create_project(
             ).filter(Project.id == project.id).first()
 
     except Exception as e:
-        print(f"Error creating project: {e}")
+        print(f"[ERROR] Error creating project: {e}")
+        traceback.print_exc()
         return None
 
 def get_user_projects(user_id: int, page: int = 1, limit: int = 20, search: Optional[str] = None):
