@@ -1,0 +1,70 @@
+# Home Page
+
+- The home page should have 3 main columns in the centre of the screen
+- The first column will be the list of projects that the user is in
+- Below this first column will be a button that takes the user to the project creation page
+
+- The second column should have a list of subtasks that the user has to do
+- The column should have 4 "category" rows: "Important and Urgent", "Urgent", "Important", "Other" but they should all be in one column (i.e. on top of each other)
+- The user should be able to drag and drop the tasks into the different categories. 
+- Both when the task was moved and to (and from) which category should be recorded
+- The subtasks should show the deadline, the project it's attached to, a progress bar (where possible) and a "when it was last updated/done" date
+
+- The third column should be a list of messages to the user from other users
+
+- The top right corner of the home page should be an icon (called user.jpg in the images directory)
+- This should open a side menu with a few options: "My Performance", "Archived Projects", "Settings", "Log Out"
+
+- There shouldn't be a side menu down the side (currently it says: Dashboard, User/file management, event log, logout).
+- There shouldn't be a settings tab. instead, the settings should be accessible in the side menu that opens when the user clicks on the icon on the top right
+
+# Project Creation Page
+
+- The project creation page should have the following input fields. 
+- The db should be updated to include all this information. Not all of the fields are mandatory for the project to be created
+    - Project Title (mandatory)
+    - Team members (optional)
+    - Deadline (optional)
+    - Tasks (Optional)
+
+# Project Details Page
+
+- The user can enter this page when clicking on a project from the list from the homepage
+- This should have the project title and deadline at the top
+
+- Team Members tab
+    - Beneath this should be a list of team members and next to them their roles 
+    - Next to the list of team members should be a button to add a team member to the project.
+    - The user can select only from a list of users from the database. (i.e. they can't create a person on the spot.)
+    - To fascilitate this, there should be a drop down list of user in the db with a space for the user to type in a name
+    - When users are added as team members, their roles can optionally be declared. This is simply their role within that particular project
+    - If no specific role is declared for a team member, their "role" field should just be their role within the company, a value that should be declared during the onboarding process
+    - The user that created the project is automatically set as the team leader for the project 
+    - Any user can manually change who the team leader is.
+    - When a user hovers their mouse over any of the team members in this list, this page should only show information to do with that user, i.e. only tasks and subtasks assigned to them, the gantt chart should show only their tasks and subtasks, etc.
+    
+- Tasks tab
+    - Any team members should be able to add a Task to the project.
+    - These tasks should have a deadline that needs to be declared
+    - These tasks need to have a user who's assigned to this task. 
+    - If one isn't manually assigned, the task should automatically be assigned to the person creating the task
+    - A subtask should be created immediately when a task is created and be assigned to the same team member who's assigned to that task. This should be called "check progress" 
+    - The check progress subtask should have 1 deadline which is the deadline of the earliest subtask of that task
+    - As other subtasks are added, this deadline should update to be the same as the earliest deadline 
+    - When a subtask is marked as completed, this deadline should update to be the next earilest subtask deadline.
+    - Each Task should have sub tasks that are the steps or stages for completing the tasks
+    - Each Subtask should be assigned to a user. 
+    - If a user isn't manually assigned to a team member, then it should automatically be assigned to the user who created the subtasks
+    - All subtasks assigned to a user should show up in the home page of that user in their list of subtasks. 
+    - Next to each task or subtask should be a field that says "dependent on" with a drop down next to it.
+    - In this drop down, the team members can choose all of the various tasks or subtasks that this is dependent on.
+    - There should also be a field called "hours" next to a task. This should be user filled to represent the number of hours associated with this subtask/task. 
+    - This information should be reflected in the gantt chart
+
+- gantt chart tab
+    - There should be a gantt chart that should show all of the sub tasks and tasks and their dependencies
+    - It should be clear what the dependencies are
+
+- Calendar tab
+    - There should be a tab that shows the calendar view with all of the deadlines, tasks, subtasks as well as any public holidays and personal time off that any team member has declared (from another page)
+    

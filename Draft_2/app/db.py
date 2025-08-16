@@ -2,6 +2,16 @@
 
 import os
 import bcrypt
+# Local error logging to avoid circular import
+def log_error(error_msg):
+    """Append error messages to the event log and print to stderr."""
+    import datetime, traceback, sys
+    LOG_FILE = os.path.join(os.path.dirname(__file__), "event_log.txt")
+    timestamp = datetime.datetime.now().isoformat()
+    full_msg = f"[ERROR] [{timestamp}] {error_msg}"
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(full_msg + "\n")
+    print(full_msg, file=sys.stderr)
 
 from datetime import datetime, timedelta
 from sqlalchemy import create_engine, text, Table
@@ -252,7 +262,7 @@ def init_db():
         print("Database initialized successfully")
         return True
     except Exception as e:
-        print(f"Error initializing database: {e}")
+        log_error(f"Error initializing database: {e}")
         return False
 
 # Ensure roles/permissions and default admin user are seeded on DB init
@@ -305,8 +315,8 @@ def create_task(
                 print(f"[DEBUG] create_task: Subtask committed (id={subtask.id})")
             return task
     except Exception as e:
-        print(f"[ERROR] Error creating task: {e}")
-        traceback.print_exc()
+        import traceback
+        log_error(f"Error creating task: {e}\n{traceback.format_exc()}")
         return None
 
 def get_tasks(project_id: int):
@@ -314,7 +324,7 @@ def get_tasks(project_id: int):
         with SessionLocal() as session:
             return session.query(Task).filter(Task.project_id == project_id).all()
     except Exception as e:
-        print(f"Error getting tasks: {e}")
+        log_error(f"Error getting tasks: {e}")
         return []
 
 def get_task_by_id(task_id: int):
@@ -322,7 +332,7 @@ def get_task_by_id(task_id: int):
         with SessionLocal() as session:
             return session.query(Task).filter(Task.id == task_id).first()
     except Exception as e:
-        print(f"Error getting task: {e}")
+        log_error(f"Error getting task: {e}")
         return None
 
 def update_task(
@@ -358,7 +368,7 @@ def update_task(
             session.commit()
             return task
     except Exception as e:
-        print(f"Error updating task: {e}")
+        log_error(f"Error updating task: {e}")
         return None
 
 def delete_task(task_id: int):
@@ -371,7 +381,7 @@ def delete_task(task_id: int):
             session.commit()
             return True
     except Exception as e:
-        print(f"Error deleting task: {e}")
+        log_error(f"Error deleting task: {e}")
         return False
 
 # Subtask CRUD functions
@@ -422,7 +432,7 @@ def create_subtask(
                     session.commit()
             return subtask
     except Exception as e:
-        print(f"Error creating subtask: {e}")
+        log_error(f"Error creating subtask: {e}")
         return None
 
 def get_subtasks(task_id: int):
@@ -430,7 +440,7 @@ def get_subtasks(task_id: int):
         with SessionLocal() as session:
             return session.query(Subtask).filter(Subtask.task_id == task_id).all()
     except Exception as e:
-        print(f"Error getting subtasks: {e}")
+        log_error(f"Error getting subtasks: {e}")
         return []
 
 def update_subtask(
@@ -466,7 +476,7 @@ def update_subtask(
             session.commit()
             return subtask
     except Exception as e:
-        print(f"Error updating subtask: {e}")
+        log_error(f"Error updating subtask: {e}")
         return None
 
 def delete_subtask(subtask_id: int):
@@ -479,7 +489,7 @@ def delete_subtask(subtask_id: int):
             session.commit()
             return True
     except Exception as e:
-        print(f"Error deleting subtask: {e}")
+        log_error(f"Error deleting subtask: {e}")
         return False
 
 def update_subtask_category(subtask_id: int, category: str):
@@ -493,7 +503,7 @@ def update_subtask_category(subtask_id: int, category: str):
             session.commit()
             return subtask
     except Exception as e:
-        print(f"Error updating subtask category: {e}")
+        log_error(f"Error updating subtask category: {e}")
         return None
 
 # Message CRUD functions
@@ -509,7 +519,7 @@ def create_message(sender_id: int, recipient_id: int, content: str):
             session.commit()
             return msg
     except Exception as e:
-        print(f"Error creating message: {e}")
+        log_error(f"Error creating message: {e}")
         return None
 
 def get_user_messages(user_id: int):
@@ -520,7 +530,7 @@ def get_user_messages(user_id: int):
             ).order_by(Message.timestamp.desc()).all()
             return messages
     except Exception as e:
-        print(f"Error getting user messages: {e}")
+        log_error(f"Error getting user messages: {e}")
         return []
 
 def mark_message_read(message_id: int):
@@ -533,7 +543,7 @@ def mark_message_read(message_id: int):
             session.commit()
             return True
     except Exception as e:
-        print(f"Error marking message as read: {e}")
+        log_error(f"Error marking message as read: {e}")
         return False
 
 def delete_message(message_id: int):
@@ -546,7 +556,7 @@ def delete_message(message_id: int):
             session.commit()
             return True
     except Exception as e:
-        print(f"Error deleting message: {e}")
+        log_error(f"Error deleting message: {e}")
         return False
 
 # File CRUD functions
@@ -565,7 +575,7 @@ def create_file(project_id: int, filename: str, filepath: str, uploaded_by: int,
             session.commit()
             return file
     except Exception as e:
-        print(f"Error creating file: {e}")
+        log_error(f"Error creating file: {e}")
         return None
 
 def get_files(project_id: int, task_id: Optional[int] = None):
@@ -576,7 +586,7 @@ def get_files(project_id: int, task_id: Optional[int] = None):
                 query = query.filter(File.task_id == task_id)
             return query.all()
     except Exception as e:
-        print(f"Error getting files: {e}")
+        log_error(f"Error getting files: {e}")
         return []
 
 def get_file_by_id(file_id: int):
@@ -584,7 +594,7 @@ def get_file_by_id(file_id: int):
         with SessionLocal() as session:
             return session.query(File).filter(File.id == file_id).first()
     except Exception as e:
-        print(f"Error getting file: {e}")
+        log_error(f"Error getting file: {e}")
         return None
 
 def update_file(file_id: int, filename: Optional[str] = None, description: Optional[str] = None):
@@ -600,7 +610,7 @@ def update_file(file_id: int, filename: Optional[str] = None, description: Optio
             session.commit()
             return file
     except Exception as e:
-        print(f"Error updating file: {e}")
+        log_error(f"Error updating file: {e}")
         return None
 
 def delete_file(file_id: int):
@@ -613,7 +623,7 @@ def delete_file(file_id: int):
             session.commit()
             return True
     except Exception as e:
-        print(f"Error deleting file: {e}")
+        log_error(f"Error deleting file: {e}")
         return False
 
 def hash_password(password: str) -> str:
@@ -632,7 +642,7 @@ def register_user(username: str, password: str, role: str = "user") -> bool:
             # Check if user already exists
             existing_user = session.query(User).filter(User.username == username).first()
             if existing_user:
-                print(f"User {username} already exists")
+                log_error(f"User {username} already exists")
                 return False
             
             # Create new user
@@ -655,11 +665,11 @@ def register_user(username: str, password: str, role: str = "user") -> bool:
             new_user.roles.append(role_obj)
             
             session.commit()
-            print(f"User {username} created successfully with role {role}")
+            # Optionally log user creation as event, not error
             return True
             
     except Exception as e:
-        print(f"Error registering user: {e}")
+        log_error(f"Error registering user: {e}")
         return False
 
 def authenticate_user(username: str, password: str):
@@ -670,16 +680,29 @@ def authenticate_user(username: str, password: str):
                 User.username == username,
                 User.is_active == True
             ).first()
-            
-            if user and isinstance(user.password_hash, str) and verify_password(password, user.password_hash):
-                # Load roles for the user
-                user_with_roles = session.query(User).options(
-                    selectinload(User.roles)
-                ).filter(User.id == user.id).first()
-                return user_with_roles
+            with open("login_debug.log", "a", encoding="utf-8") as dbg:
+                dbg.write(f"[DEBUG] authenticate_user: username={username!r}, user_found={user is not None}\n")
+                if user:
+                    dbg.write(f"[DEBUG] authenticate_user: user.id={user.id}, user.username={user.username}, user.password_hash={user.password_hash!r}\n")
+            if user and isinstance(user.password_hash, str):
+                password_check = verify_password(password, user.password_hash)
+                with open("login_debug.log", "a", encoding="utf-8") as dbg:
+                    dbg.write(f"[DEBUG] authenticate_user: verify_password result={password_check}\n")
+                if password_check:
+                    # Load roles for the user
+                    user_with_roles = session.query(User).options(
+                        selectinload(User.roles)
+                    ).filter(User.id == user.id).first()
+                    with open("login_debug.log", "a", encoding="utf-8") as dbg:
+                        dbg.write(f"[DEBUG] authenticate_user: returning user_with_roles={user_with_roles is not None}\n")
+                    return user_with_roles
             return None
     except Exception as e:
-        print(f"Error authenticating user: {e}")
+        with open("login_debug.log", "a", encoding="utf-8") as dbg:
+            dbg.write("[DEBUG] Exception in authenticate_user, about to call log_error\n")
+        log_error(f"Error authenticating user: {e}")
+        with open("login_debug.log", "a", encoding="utf-8") as dbg:
+            dbg.write("[DEBUG] Finished calling log_error in authenticate_user\n")
         return None
 
 def get_user_by_username(username: str):
@@ -690,7 +713,7 @@ def get_user_by_username(username: str):
                 selectinload(User.roles)
             ).filter(User.username == username).first()
     except Exception as e:
-        print(f"Error getting user: {e}")
+        log_error(f"Error getting user: {e}")
         return None
 
 def get_user_by_id(user_id: int):
@@ -701,7 +724,7 @@ def get_user_by_id(user_id: int):
                 selectinload(User.roles)
             ).filter(User.id == user_id).first()
     except Exception as e:
-        print(f"Error getting user by ID: {e}")
+        log_error(f"Error getting user by ID: {e}")
         return None
 
 def store_refresh_token(user_id: int, token: str, expires_at: datetime) -> bool:
@@ -717,7 +740,7 @@ def store_refresh_token(user_id: int, token: str, expires_at: datetime) -> bool:
             session.commit()
             return True
     except Exception as e:
-        print(f"Error storing refresh token: {e}")
+        log_error(f"Error storing refresh token: {e}")
         return False
 
 def validate_refresh_token(token: str):
@@ -736,7 +759,7 @@ def validate_refresh_token(token: str):
                 return None
             return None
     except Exception as e:
-        print(f"Error validating refresh token: {e}")
+        log_error(f"Error validating refresh token: {e}")
         return None
 
 def blacklist_refresh_token(token: str) -> bool:
@@ -756,7 +779,7 @@ def blacklist_refresh_token(token: str) -> bool:
                 return True
             return False
     except Exception as e:
-        print(f"Error blacklisting refresh token: {e}")
+        log_error(f"Error blacklisting refresh token: {e}")
         return False
 
 def cleanup_expired_tokens():
@@ -772,7 +795,7 @@ def cleanup_expired_tokens():
             print(f"Cleaned up {count} expired tokens")
             return True
     except Exception as e:
-        print(f"Error cleaning up expired tokens: {e}")
+        log_error(f"Error cleaning up expired tokens: {e}")
         return False
 
 # Project Management Functions
@@ -872,8 +895,8 @@ def create_project(
             ).filter(Project.id == project.id).first()
 
     except Exception as e:
-        print(f"[ERROR] Error creating project: {e}")
-        traceback.print_exc()
+        import traceback
+        log_error(f"Error creating project: {e}\n{traceback.format_exc()}")
         return None
 
 def get_user_projects(user_id: int, page: int = 1, limit: int = 20, search: Optional[str] = None):
@@ -902,7 +925,7 @@ def get_user_projects(user_id: int, page: int = 1, limit: int = 20, search: Opti
             return projects, total
             
     except Exception as e:
-        print(f"Error getting user projects: {e}")
+        log_error(f"Error getting user projects: {e}")
         return [], 0
 
 def get_project_by_id(project_id: int, user_id: Optional[int] = None):
@@ -931,7 +954,7 @@ def get_project_by_id(project_id: int, user_id: Optional[int] = None):
             return project
             
     except Exception as e:
-        print(f"Error getting project: {e}")
+        log_error(f"Error getting project: {e}")
         return None
 
 def update_project(project_id: int, user_id: int, name: Optional[str] = None, description: Optional[str] = None):
@@ -967,7 +990,7 @@ def update_project(project_id: int, user_id: int, name: Optional[str] = None, de
             ).filter(Project.id == project_id).first(), None
             
     except Exception as e:
-        print(f"Error updating project: {e}")
+        log_error(f"Error updating project: {e}")
         return None, str(e)
 
 def delete_project(project_id: int, user_id: int):
@@ -988,7 +1011,7 @@ def delete_project(project_id: int, user_id: int):
             return True, None
             
     except Exception as e:
-        print(f"Error deleting project: {e}")
+        log_error(f"Error deleting project: {e}")
         return False, str(e)
 
 def get_project_members(project_id: int, user_id: Optional[int] = None):
@@ -1012,7 +1035,7 @@ def get_project_members(project_id: int, user_id: Optional[int] = None):
             return members
             
     except Exception as e:
-        print(f"Error getting project members: {e}")
+        log_error(f"Error getting project members: {e}")
         return []
 
 def add_project_member(project_id: int, user_id: int, new_member_id: int, role: str = 'member'):
@@ -1061,7 +1084,7 @@ def add_project_member(project_id: int, user_id: int, new_member_id: int, role: 
             ).first(), None
             
     except Exception as e:
-        print(f"Error adding project member: {e}")
+        log_error(f"Error adding project member: {e}")
         return None, str(e)
 
 def remove_project_member(project_id: int, user_id: int, member_id: int):
@@ -1119,7 +1142,7 @@ def remove_project_member(project_id: int, user_id: int, member_id: int):
             return True, None
             
     except Exception as e:
-        print(f"Error removing project member: {e}")
+        log_error(f"Error removing project member: {e}")
         return False, str(e)
 
 def get_project_statistics(project_id: int, user_id: Optional[int] = None):
@@ -1161,7 +1184,7 @@ def get_project_statistics(project_id: int, user_id: Optional[int] = None):
             return stats
 
     except Exception as e:
-        print(f"Error getting project statistics: {e}")
+        log_error(f"Error getting project statistics: {e}")
         return {}
 
 def init_roles_and_permissions():
@@ -1227,7 +1250,7 @@ def init_roles_and_permissions():
             print("Default roles and permissions initialized")
             return True
     except Exception as e:
-        print(f"Error initializing roles and permissions: {e}")
+        log_error(f"Error initializing roles and permissions: {e}")
         return False
 
 # Initialize database on module import

@@ -359,3 +359,19 @@ Application started
 User 'user' logged in
 User 'user' logged in
 Returned to Dashboard from Project Creation Page
+User logged out (logout key pressed)
+User 'user' logged in
+Application started
+User logged out (logout key pressed)
+[ERROR] Failed to import db module: No module named 'Draft_2'
+Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 362, in <module>
+    import db
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\db.py", line 5, in <module>
+    from Draft_2.app.main import log_error
+ModuleNotFoundError: No module named 'Draft_2'
+
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+User 'user' logged in
+User logged out (logout key pressed)
+User 'user' logged in
