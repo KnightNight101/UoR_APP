@@ -334,6 +334,8 @@ class ProjectCreationPage(QWidget):
                 self.task_entries.clear()
                 self.member_list.clearSelection()
                 self.leader_list.clearSelection()
+                # Navigate back to dashboard after successful creation
+                self.go_back_to_dashboard()
             else:
                 error_msg = "Failed to create project in database."
                 log_error(error_msg)
@@ -352,7 +354,16 @@ class ProjectCreationPage(QWidget):
         while mw and not isinstance(mw, QMainWindow):
             mw = mw.parent()
         if mw and hasattr(mw, "stack") and hasattr(mw, "dashboard"):
-            mw.stack.setCurrentWidget(mw.dashboard)
+            try:
+                # Check if dashboard widget is deleted
+                if mw.dashboard is None or not isinstance(mw.dashboard, QWidget) or mw.dashboard.parent() is None:
+                    raise RuntimeError("Dashboard widget deleted")
+                mw.stack.setCurrentWidget(mw.dashboard)
+            except Exception:
+                # Recreate dashboard if deleted
+                mw.dashboard = DashboardView(main_window=mw, user=mw.current_user)
+                mw.stack.addWidget(mw.dashboard)
+                mw.stack.setCurrentWidget(mw.dashboard)
             log_event("Returned to Dashboard from Project Creation Page")
 
 # Placeholder import for database models/utilities
@@ -1849,7 +1860,14 @@ class ProjectDetailPage(QWidget):
         while mw and not isinstance(mw, MainWindow):
             mw = mw.parent()
         if mw:
-            mw.stack.setCurrentWidget(mw.dashboard)
+            try:
+                if mw.dashboard is None or not isinstance(mw.dashboard, QWidget) or mw.dashboard.parent() is None:
+                    raise RuntimeError("Dashboard widget deleted")
+                mw.stack.setCurrentWidget(mw.dashboard)
+            except Exception:
+                mw.dashboard = DashboardView(main_window=mw, user=mw.current_user)
+                mw.stack.addWidget(mw.dashboard)
+                mw.stack.setCurrentWidget(mw.dashboard)
             log_event("Returned to Dashboard from Project Detail Page")
 
     def confirm_delete_project(self):
@@ -1891,8 +1909,15 @@ class ProjectDetailPage(QWidget):
                     while mw and not isinstance(mw, MainWindow):
                         mw = mw.parent()
                     if mw:
-                        mw.dashboard.load_projects()
-                        mw.stack.setCurrentWidget(mw.dashboard)
+                        try:
+                            if mw.dashboard is None or not isinstance(mw.dashboard, QWidget) or mw.dashboard.parent() is None:
+                                raise RuntimeError("Dashboard widget deleted")
+                            mw.dashboard.load_projects()
+                            mw.stack.setCurrentWidget(mw.dashboard)
+                        except Exception:
+                            mw.dashboard = DashboardView(main_window=mw, user=mw.current_user)
+                            mw.stack.addWidget(mw.dashboard)
+                            mw.stack.setCurrentWidget(mw.dashboard)
                 else:
                     error_msg = "Failed to delete project from database."
                     log_error(error_msg)
