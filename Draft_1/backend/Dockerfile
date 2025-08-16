@@ -1,8 +1,6 @@
 # Base image for Node.js
 FROM node:16
 
-# Debugging: Log current directory contents
-RUN ls -la /app
 # Set working directory
 WORKDIR /app
 

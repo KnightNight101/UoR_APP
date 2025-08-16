@@ -1388,7 +1388,7 @@ function RootApp() {
   };
 
   const handleCancelCreate = () => {
-    setCreatingProject(false);
+    window.location.href = "/";
   };
   const handleViewProject = idx => setCurrentProjectIdx(idx);
   const handleBack = () => setCurrentProjectIdx(null);

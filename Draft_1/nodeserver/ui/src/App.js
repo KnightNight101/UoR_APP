@@ -122,9 +122,50 @@ function App() {
       {/* Column 2: Projects */}
       <div style={{ flex: 1, borderRight: "1px solid #ddd", padding: 24, overflowY: "auto" }}>
         <h2>Projects</h2>
+        <form
+          onSubmit={async e => {
+            e.preventDefault();
+            const name = e.target.elements.projectName.value;
+            if (!name) return;
+            const headers = { Authorization: "Bearer " + auth, "Content-Type": "application/json" };
+            const res = await fetch("/projects", {
+              method: "POST",
+              headers,
+              body: JSON.stringify({ name })
+            });
+            if (res.ok) {
+              const data = await res.json();
+              setProjects(projects => [...projects, data]);
+              // Navigate to project detail page using returned id
+              if (data.id) {
+                window.location = `/project/${data.id}`;
+              }
+            } else {
+              alert("Failed to create project");
+            }
+          }}
+          style={{ marginBottom: 16 }}
+        >
+          <input
+            name="projectName"
+            type="text"
+            placeholder="New project name"
+            style={{ marginRight: 8, padding: 6 }}
+          />
+          <button type="submit" style={{ padding: 6 }}>Create Project</button>
+        </form>
         <ul>
           {projects.map(p => (
-            <li key={p.id || p.name}>{p.name}</li>
+            <li
+              key={p.id || p.name}
+              style={{ cursor: "pointer", color: "#007bff", textDecoration: "underline" }}
+              onClick={() => { if (p.id) window.location = `/project/${p.id}`; }}
+              tabIndex={0}
+              onKeyPress={e => { if (e.key === "Enter" && p.id) window.location = `/project/${p.id}`; }}
+              aria-label={`View project ${p.name}`}
+            >
+              {p.name}
+            </li>
           ))}
         </ul>
       </div>
