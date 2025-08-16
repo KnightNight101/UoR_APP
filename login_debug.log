@@ -672,3 +672,52 @@ Username widget text(): 'user'
 Password widget text(): 'password'
 db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
 db.authenticate_user returned: <db.User object at 0x0000020B81716FF0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+db.authenticate_user returned: <db.User object at 0x000002408AA6FD70>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+db.authenticate_user returned: <db.User object at 0x0000022C98873E00>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+db.authenticate_user returned: <db.User object at 0x0000022CAA743D10>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+db.authenticate_user returned: <db.User object at 0x000001B4817243E0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+db.authenticate_user returned: <db.User object at 0x0000025FCD6D43E0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+db.authenticate_user returned: <db.User object at 0x0000026811BB8F80>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+db.authenticate_user returned: <db.User object at 0x000001F25BE89160>

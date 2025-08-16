@@ -183,6 +183,18 @@ class File(Base):
     task = relationship("Task", backref="files")
     uploader = relationship("User", backref="uploaded_files")
 
+class Message(Base):
+    __tablename__ = "messages"
+    id = Column(Integer, primary_key=True)
+    sender_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    recipient_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    content = Column(Text, nullable=False)
+    timestamp = Column(DateTime, server_default=func.current_timestamp())
+    read = Column(Boolean, default=False)
+    # Relationships
+    sender = relationship("User", foreign_keys=[sender_id], backref="sent_messages")
+    recipient = relationship("User", foreign_keys=[recipient_id], backref="received_messages")
+
 class Tenant(Base):
     __tablename__ = "tenants"
     id = Column(Integer, primary_key=True)
@@ -483,6 +495,59 @@ def update_subtask_category(subtask_id: int, category: str):
     except Exception as e:
         print(f"Error updating subtask category: {e}")
         return None
+
+# Message CRUD functions
+def create_message(sender_id: int, recipient_id: int, content: str):
+    try:
+        with SessionLocal() as session:
+            msg = Message(
+                sender_id=sender_id,
+                recipient_id=recipient_id,
+                content=content
+            )
+            session.add(msg)
+            session.commit()
+            return msg
+    except Exception as e:
+        print(f"Error creating message: {e}")
+        return None
+
+def get_user_messages(user_id: int):
+    try:
+        with SessionLocal() as session:
+            messages = session.query(Message).filter(
+                Message.recipient_id == user_id
+            ).order_by(Message.timestamp.desc()).all()
+            return messages
+    except Exception as e:
+        print(f"Error getting user messages: {e}")
+        return []
+
+def mark_message_read(message_id: int):
+    try:
+        with SessionLocal() as session:
+            msg = session.query(Message).filter(Message.id == message_id).first()
+            if not msg:
+                return False
+            msg.read = True
+            session.commit()
+            return True
+    except Exception as e:
+        print(f"Error marking message as read: {e}")
+        return False
+
+def delete_message(message_id: int):
+    try:
+        with SessionLocal() as session:
+            msg = session.query(Message).filter(Message.id == message_id).first()
+            if not msg:
+                return False
+            session.delete(msg)
+            session.commit()
+            return True
+    except Exception as e:
+        print(f"Error deleting message: {e}")
+        return False
 
 # File CRUD functions
 def create_file(project_id: int, filename: str, filepath: str, uploaded_by: int, description: Optional[str] = None, task_id: Optional[int] = None):
