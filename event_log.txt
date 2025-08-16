@@ -325,3 +325,16 @@ User 'user' logged in
 User logged out (logout key pressed)
 User 'user' logged in
 User logged out (logout key pressed)
+Failed login attempt for user 'User'
+User 'user' logged in
+User 'user' logged in
+User logged out (logout key pressed)
+User 'user' logged in
+User 'user' logged in
+Application started
+Project 'Trial' created by user (ID 2). Members: [{'user_id': None, 'role': 'leader'}, {'user_id': 2, 'role': 'leader'}]
+User 'user' logged in
+Application started
+User logged out (logout key pressed)
+User 'user' logged in
+Application started
