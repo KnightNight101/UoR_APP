@@ -229,7 +229,9 @@ class ProjectCreationPage(QWidget):
     def ensure_creator_is_leader(self):
         # Ensure creator is in members and leaders
         if not self.current_user:
-            QMessageBox.warning(self, "Error", "No current user context.")
+            error_msg = "No current user context."
+            log_error(error_msg)
+            QMessageBox.warning(self, "Error", error_msg)
             return
 
         creator_id = self.current_user.id
@@ -289,7 +291,9 @@ class ProjectCreationPage(QWidget):
 
         # Validate required fields
         if not name:
-            QMessageBox.warning(self, "Validation Error", "Project name is required.")
+            error_msg = "Project name is required."
+            log_error(error_msg)
+            QMessageBox.warning(self, "Validation Error", error_msg)
             return
 
         # Prepare members list for db.create_project
@@ -331,9 +335,13 @@ class ProjectCreationPage(QWidget):
                 self.member_list.clearSelection()
                 self.leader_list.clearSelection()
             else:
-                QMessageBox.warning(self, "Error", "Failed to create project in database.")
+                error_msg = "Failed to create project in database."
+                log_error(error_msg)
+                QMessageBox.warning(self, "Error", error_msg)
         else:
-            QMessageBox.warning(self, "Error", "Database not available.")
+            error_msg = "Database not available."
+            log_error(error_msg)
+            QMessageBox.warning(self, "Error", error_msg)
 
 
     def go_back_to_dashboard(self):
@@ -352,14 +360,40 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 try:
     import db
-except ImportError:
+    # Debug logging: log value and type of db after import
+    import sys
+    db_type = type(db)
+    db_repr = repr(db)
+    debug_msg = f"[DEBUG] db module imported: value={db_repr}, type={db_type}"
+    print(debug_msg, file=sys.stderr)
+    with open("event_log.txt", "a", encoding="utf-8") as f:
+        f.write(debug_msg + "\n")
+except ImportError as e:
+    import sys
+    import traceback
     db = None
+    error_msg = f"[ERROR] Failed to import db module: {e}"
+    tb_str = traceback.format_exc()
+    print(error_msg, file=sys.stderr)
+    print(tb_str, file=sys.stderr)
+    with open("event_log.txt", "a", encoding="utf-8") as f:
+        f.write(error_msg + "\n")
+        f.write(tb_str + "\n")
 
 LOG_FILE = "event_log.txt"
 
 def log_event(event):
     with open(LOG_FILE, "a", encoding="utf-8") as f:
         f.write(event + "\n")
+
+def log_error(error_msg):
+    """Append error messages to the event log and print to stderr."""
+    import datetime, traceback, sys
+    timestamp = datetime.datetime.now().isoformat()
+    full_msg = f"[ERROR] [{timestamp}] {error_msg}"
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(full_msg + "\n")
+    print(full_msg, file=sys.stderr)
 
 class UserSideMenu(QDialog):
     def __init__(self, parent=None):
@@ -526,6 +560,9 @@ class LoginScreen(QWidget):
         self.login_btn = QPushButton("Login")
         self.login_btn.setMinimumHeight(36)
         box_layout.addWidget(self.login_btn)
+
+        # --- Register Button ---
+        # Registration button and dialog removed (broken and not supported)
 
         login_box.setLayout(box_layout)
 
@@ -695,10 +732,12 @@ class DashboardView(QWidget):
         self.user = user
         self.main_window = main_window
 
-        # --- Tabs for Dashboard and Calendar ---
+        # --- Tabs for Dashboard, Calendar, Members, and Event Log ---
         self.tabs = QTabWidget()
         self.dashboard_tab = QWidget()
         self.calendar_tab = CalendarTabWidget(user=self.user)
+        self.members_tab = QWidget()
+        self.event_log_tab = EventLogView()
 
         # --- Main layout: 3 columns, visually centered ---
         main_layout = QHBoxLayout(self.dashboard_tab)
@@ -786,6 +825,40 @@ class DashboardView(QWidget):
         # Add tabs
         self.tabs.addTab(self.dashboard_tab, "Dashboard")
         self.tabs.addTab(self.calendar_tab, "Calendar")
+        self.tabs.addTab(self.members_tab, "Members & Users")
+        self.tabs.addTab(self.event_log_tab, "Event Log")
+
+        # --- Setup Members Tab ---
+        members_layout = QVBoxLayout()
+        members_layout.addWidget(QLabel("<b>Members</b>"))
+        self.members_list = QListWidget()
+        members_layout.addWidget(self.members_list)
+        members_layout.addWidget(QLabel("<b>Registered Users</b>"))
+        self.users_list = QListWidget()
+        members_layout.addWidget(self.users_list)
+        self.members_tab.setLayout(members_layout)
+        self.load_members_and_users()
+
+    def load_members_and_users(self):
+        self.members_list.clear()
+        self.users_list.clear()
+        if db:
+            # Members: users who are part of any project
+            member_ids = set()
+            with db.SessionLocal() as session:
+                if hasattr(db, "Project") and hasattr(db, "User"):
+                    projects = session.query(db.Project).all()
+                    for project in projects:
+                        if hasattr(project, "members"):
+                            for m in project.members:
+                                member_ids.add(getattr(m, "id", None))
+                    members = session.query(db.User).filter(db.User.id.in_(member_ids)).all() if member_ids else []
+                    for m in members:
+                        self.members_list.addItem(f"{m.username} ({getattr(m, 'role', '')})")
+                    # Registered users: all users
+                    users = session.query(db.User).all()
+                    for u in users:
+                        self.users_list.addItem(f"{u.username} ({getattr(u, 'role', '')})")
 
         # --- User side menu ---
         self.user_icon_btn.clicked.connect(self.show_user_side_menu)
@@ -943,10 +1016,14 @@ class DashboardView(QWidget):
             content = msg_edit.toPlainText().strip()
             sender_id = getattr(self.user, "id", None)
             if sender_id is None:
-                QMessageBox.warning(dialog, "Error", "User ID is missing.")
+                error_msg = "User ID is missing."
+                log_error(error_msg)
+                QMessageBox.warning(dialog, "Error", error_msg)
                 return
             if not recipient_id or not content:
-                QMessageBox.warning(dialog, "Validation Error", "Recipient and message are required.")
+                error_msg = "Recipient and message are required."
+                log_error(error_msg)
+                QMessageBox.warning(dialog, "Validation Error", error_msg)
                 return
             result = db.create_message(sender_id, recipient_id, content)
             if result:
@@ -954,7 +1031,9 @@ class DashboardView(QWidget):
                 self.load_messages()
                 dialog.accept()
             else:
-                QMessageBox.warning(dialog, "Error", "Failed to send message.")
+                error_msg = "Failed to send message."
+                log_error(error_msg)
+                QMessageBox.warning(dialog, "Error", error_msg)
         button_box.accepted.connect(send)
         button_box.rejected.connect(dialog.reject)
         dialog.setLayout(layout)
@@ -1096,13 +1175,17 @@ class UserFileManagement(QWidget):
                     new_password = password_input.text().strip()
                     new_role = role_input.text().strip()
                     if not new_username or not new_role:
-                        QMessageBox.warning(self, "Validation Error", "Username and role are required.")
+                        error_msg = "Username and role are required."
+                        log_error(error_msg)
+                        QMessageBox.warning(self, "Validation Error", error_msg)
                         return
                     # Check for username conflict
                     if new_username != user.username:
                         existing = session.query(db.User).filter_by(username=new_username).first()
                         if existing:
-                            QMessageBox.warning(self, "Error", "Username already exists.")
+                            error_msg = "Username already exists."
+                            log_error(error_msg)
+                            QMessageBox.warning(self, "Error", error_msg)
                             return
                     # If using SQLAlchemy hybrid properties, assign to user.username directly if possible
                     try:
@@ -1396,7 +1479,9 @@ class ProjectDetailPage(QWidget):
         def on_accept():
             new_leader_id = combo.currentData()
             if new_leader_id is None:
-                QMessageBox.warning(self, "Error", "Please select a team member.")
+                error_msg = "Please select a team member."
+                log_error(error_msg)
+                QMessageBox.warning(self, "Error", error_msg)
                 return
             # Call backend to update leader
             if db and hasattr(db, "update_project_leader"):
@@ -1406,7 +1491,9 @@ class ProjectDetailPage(QWidget):
                     else:
                         result = None
                 except Exception as e:
-                    QMessageBox.warning(self, "Error", f"Failed to update leader: {e}")
+                    error_msg = f"Failed to update leader: {e}"
+                    log_error(error_msg)
+                    QMessageBox.warning(self, "Error", error_msg)
                     return
             else:
                 # Fallback: update member roles directly if possible
@@ -1417,7 +1504,9 @@ class ProjectDetailPage(QWidget):
                     else:
                         project = None
                         if not project:
-                            QMessageBox.warning(self, "Error", "Project not found.")
+                            error_msg = "Project not found."
+                            log_error(error_msg)
+                            QMessageBox.warning(self, "Error", error_msg)
                             return
                         # Remove 'leader' from all, set to 'member'
                         for m in project.members:
@@ -1429,7 +1518,9 @@ class ProjectDetailPage(QWidget):
                                 m.role = "leader"
                         session.commit()
                 except Exception as e:
-                    QMessageBox.warning(self, "Error", f"Failed to update leader: {e}")
+                    error_msg = f"Failed to update leader: {e}"
+                    log_error(error_msg)
+                    QMessageBox.warning(self, "Error", error_msg)
                     return
             # Refresh UI
             self.refresh_leader_label(new_leader_id)
@@ -1588,7 +1679,9 @@ class ProjectDetailPage(QWidget):
         assigned_id = self.assigned_input.currentData()
         hours = self.hours_input.value()
         if not title:
-            QMessageBox.warning(self, "Validation Error", "Task name is required.")
+            error_msg = "Task name is required."
+            log_error(error_msg)
+            QMessageBox.warning(self, "Validation Error", error_msg)
             return
         if db:
             try:
@@ -1606,7 +1699,9 @@ class ProjectDetailPage(QWidget):
                     hours=hours
                 )
             except Exception:
-                QMessageBox.warning(self, "Error", "Failed to add task (DB error).")
+                error_msg = "Failed to add task (DB error)."
+                log_error(error_msg)
+                QMessageBox.warning(self, "Error", error_msg)
                 return
             if task:
                 log_event(f"Task '{title}' added to project {self.project.id} by user. Due date: {due_date_obj}, Dependencies: {dependencies}, Assigned: {assigned_id}, Hours: {hours}")
@@ -1624,7 +1719,9 @@ class ProjectDetailPage(QWidget):
                 self.assigned_input.setCurrentIndex(0)
                 self.hours_input.setValue(0)
             else:
-                QMessageBox.warning(self, "Error", "Failed to add task.")
+                error_msg = "Failed to add task."
+                log_error(error_msg)
+                QMessageBox.warning(self, "Error", error_msg)
 
     def show_add_subtask_dialog(self, parent_task_id):
         dialog = QDialog(self)
@@ -1709,7 +1806,9 @@ class ProjectDetailPage(QWidget):
             assigned_id = assigned_input.currentData()
             hours = hours_input.value()
             if not title:
-                QMessageBox.warning(self, "Validation Error", "Subtask name is required.")
+                error_msg = "Subtask name is required."
+                log_error(error_msg)
+                QMessageBox.warning(self, "Validation Error", error_msg)
                 return
             if db and hasattr(db, "create_subtask"):
                 try:
@@ -1724,7 +1823,9 @@ class ProjectDetailPage(QWidget):
                         hours=hours
                     )
                 except Exception:
-                    QMessageBox.warning(self, "Error", "Failed to add subtask (DB error).")
+                    error_msg = "Failed to add subtask (DB error)."
+                    log_error(error_msg)
+                    QMessageBox.warning(self, "Error", error_msg)
                     return
                 if subtask:
                     log_event(f"Subtask '{title}' added to task {parent_task_id} by user. Deadline: {deadline}, Dependencies: {dependencies}, Assigned: {assigned_id}, Hours: {hours}")
@@ -1733,7 +1834,9 @@ class ProjectDetailPage(QWidget):
                     self.expand_task_item(self.task_list.currentItem() if hasattr(self, "task_list") else None)
                     dialog.accept()
                 else:
-                    QMessageBox.warning(self, "Error", "Failed to add subtask.")
+                    error_msg = "Failed to add subtask."
+                    log_error(error_msg)
+                    QMessageBox.warning(self, "Error", error_msg)
         button_box.accepted.connect(on_accept)
         button_box.rejected.connect(dialog.reject)
         dialog.exec_()
@@ -1791,11 +1894,17 @@ class ProjectDetailPage(QWidget):
                         mw.dashboard.load_projects()
                         mw.stack.setCurrentWidget(mw.dashboard)
                 else:
-                    QMessageBox.warning(self, "Error", "Failed to delete project from database.")
+                    error_msg = "Failed to delete project from database."
+                    log_error(error_msg)
+                    QMessageBox.warning(self, "Error", error_msg)
             except Exception as e:
-                QMessageBox.warning(self, "Error", f"An error occurred while deleting the project: {e}")
+                error_msg = f"An error occurred while deleting the project: {e}"
+                log_error(error_msg)
+                QMessageBox.warning(self, "Error", error_msg)
         else:
-            QMessageBox.warning(self, "Error", "Database not available or project ID missing.")
+            error_msg = "Database not available or project ID missing."
+            log_error(error_msg)
+            QMessageBox.warning(self, "Error", error_msg)
 
 class SettingsDialog(QDialog):
     def __init__(self, main_window):
@@ -2176,8 +2285,8 @@ class App(QApplication):
         log_event("User logged out (logout key pressed)")
 
     def authenticate(self):
-        username = self.login_page.username.text()
-        password = self.login_page.password.text()
+        username = self.login_page.username.text().strip()
+        password = self.login_page.password.text().strip()
         # Extra debug logging for widget state and db import
         with open("login_debug.log", "a", encoding="utf-8") as dbg:
             dbg.write(f"Attempt login: username={username!r}, password={password!r}\n")
@@ -2186,6 +2295,9 @@ class App(QApplication):
             dbg.write(f"Username widget text(): {self.login_page.username.text()!r}\n")
             dbg.write(f"Password widget text(): {self.login_page.password.text()!r}\n")
             dbg.write(f"db module: {db!r}\n")
+        # Log after stripping
+        with open("login_debug.log", "a", encoding="utf-8") as dbg:
+            dbg.write(f"After strip: username={username!r}, password={password!r}\n")
         if username and password and db:
             user = db.authenticate_user(username, password)
             with open("login_debug.log", "a", encoding="utf-8") as dbg:
