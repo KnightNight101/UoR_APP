@@ -343,3 +343,19 @@ User 'user' logged in
 Application started
 Project 'Trial 2' created by user (ID 2). Members: [{'user_id': None, 'role': 'leader'}, {'user_id': None, 'role': 'leader'}, {'user_id': 2, 'role': 'leader'}]
 Project 'testing' created by user (ID 2). Members: [{'user_id': 2, 'role': 'leader'}]
+User 'user' logged in
+Application started
+User logged out (logout key pressed)
+User 'user' logged in
+Application started
+User 'user' logged in
+Application started
+User logged out (logout key pressed)
+User 'user' logged in
+Application started
+User logged out (logout key pressed)
+User 'user' logged in
+Application started
+User 'user' logged in
+User 'user' logged in
+Returned to Dashboard from Project Creation Page
