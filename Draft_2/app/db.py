@@ -6,7 +6,7 @@ import bcrypt
 from datetime import datetime, timedelta
 from sqlalchemy import create_engine, text, Table
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship, selectinload
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, func, Boolean
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, func, Boolean, Float
 
 # --- Security Hardening: Data/File Encryption ---
 from cryptography.fernet import Fernet
@@ -110,6 +110,8 @@ class Project(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     description = Column(Text)
+    deadline = Column(String, nullable=True)  # New: deadline as string (YYYY-MM-DD)
+    tasks = Column(Text, nullable=True)       # New: JSON-encoded tasks (optional)
     created_at = Column(DateTime, server_default=func.current_timestamp())
     owner_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     tenant_id = Column(Integer, ForeignKey('tenants.id'), nullable=True)
@@ -140,11 +142,30 @@ class Task(Base):
     status = Column(String, default='pending')
     assigned_to = Column(Integer, ForeignKey('users.id'))
     due_date = Column(DateTime)
+    hours = Column(Float)  # Use Float for hours
+    dependencies = Column(String)  # Use String for JSON-encoded dependencies
     created_at = Column(DateTime, server_default=func.current_timestamp())
     
     # Relationships
     project = relationship("Project", back_populates="tasks")
     assignee = relationship("User", backref="assigned_tasks")
+
+class Subtask(Base):
+    __tablename__ = "subtasks"
+    id = Column(Integer, primary_key=True)
+    task_id = Column(Integer, ForeignKey('tasks.id'), nullable=False)
+    title = Column(String, nullable=False)
+    description = Column(Text)
+    status = Column(String, default='pending')
+    assigned_to = Column(Integer, ForeignKey('users.id'))
+    due_date = Column(DateTime)
+    hours = Column(Float)  # Use Float for hours
+    dependencies = Column(String)  # Use String for JSON-encoded dependencies
+    created_at = Column(DateTime, server_default=func.current_timestamp())
+
+    # Relationships
+    task = relationship("Task", backref="subtasks")
+    assignee = relationship("User", backref="assigned_subtasks")
 
 class File(Base):
     __tablename__ = "files"
@@ -228,7 +249,18 @@ def seed_admin_and_roles():
     register_user("admin", "admin123", "admin")
 
 # Task CRUD functions
-def create_task(project_id: int, title: str, description: str = None, assigned_to: int = None, due_date: datetime = None):
+from typing import Optional, List
+
+def create_task(
+    project_id: int,
+    title: str,
+    description: Optional[str] = None,
+    assigned_to: Optional[int] = None,
+    due_date: Optional[datetime] = None,
+    hours: Optional[float] = None,
+    dependencies: Optional[List[int]] = None
+):
+    import json
     try:
         with SessionLocal() as session:
             task = Task(
@@ -236,10 +268,23 @@ def create_task(project_id: int, title: str, description: str = None, assigned_t
                 title=title,
                 description=description,
                 assigned_to=assigned_to,
-                due_date=due_date
+                due_date=due_date,
+                hours=hours,
+                dependencies=json.dumps(dependencies) if dependencies is not None else None
             )
             session.add(task)
             session.commit()
+            # After creating the task, create the "check progress" subtask
+            # The deadline is the same as the task's due_date (since no other subtasks yet)
+            if task.id:
+                subtask = Subtask(
+                    task_id=task.id,
+                    title="check progress",
+                    assigned_to=assigned_to,
+                    due_date=due_date
+                )
+                session.add(subtask)
+                session.commit()
             return task
     except Exception as e:
         print(f"Error creating task: {e}")
@@ -261,22 +306,36 @@ def get_task_by_id(task_id: int):
         print(f"Error getting task: {e}")
         return None
 
-def update_task(task_id: int, title: str = None, description: str = None, status: str = None, assigned_to: int = None, due_date: datetime = None):
+def update_task(
+    task_id: int,
+    title: Optional[str] = None,
+    description: Optional[str] = None,
+    status: Optional[str] = None,
+    assigned_to: Optional[int] = None,
+    due_date: Optional[datetime] = None,
+    hours: Optional[float] = None,
+    dependencies: Optional[List[int]] = None
+):
+    import json
     try:
         with SessionLocal() as session:
             task = session.query(Task).filter(Task.id == task_id).first()
             if not task:
                 return None
-            if title:
+            if title is not None:
                 task.title = title
             if description is not None:
                 task.description = description
-            if status:
+            if status is not None:
                 task.status = status
-            if assigned_to:
+            if assigned_to is not None:
                 task.assigned_to = assigned_to
-            if due_date:
+            if due_date is not None:
                 task.due_date = due_date
+            if hours is not None:
+                task.hours = hours
+            if dependencies is not None:
+                task.dependencies = json.dumps(dependencies)
             session.commit()
             return task
     except Exception as e:
@@ -294,6 +353,114 @@ def delete_task(task_id: int):
             return True
     except Exception as e:
         print(f"Error deleting task: {e}")
+        return False
+
+# Subtask CRUD functions
+
+def create_subtask(
+    task_id: int,
+    title: str,
+    description: Optional[str] = None,
+    assigned_to: Optional[int] = None,
+    due_date: Optional[datetime] = None,
+    hours: Optional[float] = None,
+    dependencies: Optional[List[int]] = None
+):
+    import json
+    try:
+        with SessionLocal() as session:
+            subtask = Subtask(
+                task_id=task_id,
+                title=title,
+                description=description,
+                assigned_to=assigned_to,
+                due_date=due_date,
+                hours=hours,
+                dependencies=json.dumps(dependencies) if dependencies is not None else None
+            )
+            session.add(subtask)
+            session.commit()
+            # After adding a subtask, update "check progress" subtask deadline if it exists
+            # Find all subtasks for this task except "check progress"
+            other_subtasks = session.query(Subtask).filter(
+                Subtask.task_id == task_id,
+                Subtask.title != "check progress"
+            ).all()
+            # Find the "check progress" subtask
+            check_progress_subtask = session.query(Subtask).filter(
+                Subtask.task_id == task_id,
+                Subtask.title == "check progress"
+            ).first()
+            if check_progress_subtask:
+                # Find the earliest deadline among other subtasks (if any)
+                earliest = None
+                for s in other_subtasks:
+                    if s.due_date:
+                        if earliest is None or s.due_date < earliest:
+                            earliest = s.due_date
+                if earliest:
+                    check_progress_subtask.due_date = earliest
+                    session.commit()
+            return subtask
+    except Exception as e:
+        print(f"Error creating subtask: {e}")
+        return None
+
+def get_subtasks(task_id: int):
+    try:
+        with SessionLocal() as session:
+            return session.query(Subtask).filter(Subtask.task_id == task_id).all()
+    except Exception as e:
+        print(f"Error getting subtasks: {e}")
+        return []
+
+def update_subtask(
+    subtask_id: int,
+    title: Optional[str] = None,
+    description: Optional[str] = None,
+    status: Optional[str] = None,
+    assigned_to: Optional[int] = None,
+    due_date: Optional[datetime] = None,
+    hours: Optional[float] = None,
+    dependencies: Optional[List[int]] = None
+):
+    import json
+    try:
+        with SessionLocal() as session:
+            subtask = session.query(Subtask).filter(Subtask.id == subtask_id).first()
+            if not subtask:
+                return None
+            if title is not None:
+                subtask.title = title
+            if description is not None:
+                subtask.description = description
+            if status is not None:
+                subtask.status = status
+            if assigned_to is not None:
+                subtask.assigned_to = assigned_to
+            if due_date is not None:
+                subtask.due_date = due_date
+            if hours is not None:
+                subtask.hours = hours
+            if dependencies is not None:
+                subtask.dependencies = json.dumps(dependencies)
+            session.commit()
+            return subtask
+    except Exception as e:
+        print(f"Error updating subtask: {e}")
+        return None
+
+def delete_subtask(subtask_id: int):
+    try:
+        with SessionLocal() as session:
+            subtask = session.query(Subtask).filter(Subtask.id == subtask_id).first()
+            if not subtask:
+                return False
+            session.delete(subtask)
+            session.commit()
+            return True
+    except Exception as e:
+        print(f"Error deleting subtask: {e}")
         return False
 
 # File CRUD functions
@@ -522,19 +689,35 @@ def cleanup_expired_tokens():
 
 # Project Management Functions
 
-def create_project(name: str, description: str = None, owner_id: int = None, members: list = None):
-    """Create a new project with optional initial members."""
+from typing import Optional
+
+def create_project(
+    name: Optional[str],
+    description: Optional[str] = None,
+    owner_id: Optional[int] = None,
+    members: Optional[list] = None,
+    deadline: Optional[str] = None,
+    tasks: Optional[list] = None
+):
+    """Create a new project with optional initial members, deadline, and tasks."""
+    import json
+    if members is None:
+        members = []
+    if tasks is None:
+        tasks = []
     try:
         with SessionLocal() as session:
             # Create the project
             project = Project(
                 name=name,
                 description=description,
-                owner_id=owner_id
+                owner_id=owner_id,
+                deadline=deadline,
+                tasks=json.dumps(tasks) if tasks is not None else json.dumps([])
             )
             session.add(project)
             session.flush()  # Get project ID
-            
+
             # Add owner as a member with 'owner' role
             if owner_id:
                 owner_membership = ProjectMember(
@@ -543,7 +726,7 @@ def create_project(name: str, description: str = None, owner_id: int = None, mem
                     role='owner'
                 )
                 session.add(owner_membership)
-            
+
             # Add initial members if provided
             if members:
                 for member_data in members:
@@ -556,15 +739,40 @@ def create_project(name: str, description: str = None, owner_id: int = None, mem
                             role=role
                         )
                         session.add(member)
-            
+
+            # --- Create real Task rows for each task in tasks ---
+            from datetime import datetime as dt
+            for task in tasks:
+                title = task.get("title")
+                deadline_val = task.get("deadline")
+                assigned = task.get("assigned")
+                dependencies = task.get("dependencies", [])
+                hours = task.get("hours", 0)
+                # Parse deadline string to datetime.date if possible
+                due_date = None
+                if deadline_val:
+                    try:
+                        due_date = dt.strptime(deadline_val, "%Y-%m-%d")
+                    except Exception:
+                        due_date = None
+                # Use create_task to ensure subtasks etc. are created
+                create_task(
+                    project_id=project.id,
+                    title=title,
+                    assigned_to=assigned,
+                    due_date=due_date,
+                    hours=hours,
+                    dependencies=dependencies
+                )
+
             session.commit()
-            
+
             # Return project with relationships loaded
             return session.query(Project).options(
                 selectinload(Project.owner),
                 selectinload(Project.members)
             ).filter(Project.id == project.id).first()
-            
+
     except Exception as e:
         print(f"Error creating project: {e}")
         return None
@@ -758,7 +966,9 @@ def add_project_member(project_id: int, user_id: int, new_member_id: int, role: 
         return None, str(e)
 
 def remove_project_member(project_id: int, user_id: int, member_id: int):
-    """Remove member from project (owner or admin only, cannot remove owner)."""
+    """Remove member from project (owner or admin only, cannot remove owner).
+    Implements fallback logic for key roles (e.g., leader/admin): if a key role is vacated, it is reassigned to the next most senior member.
+    """
     try:
         with SessionLocal() as session:
             # Check if user has permission to remove members
@@ -784,8 +994,25 @@ def remove_project_member(project_id: int, user_id: int, member_id: int):
             if member_to_remove.role == 'owner':
                 return False, "Cannot remove project owner"
             
+            key_roles = ['leader', 'admin']
+            removed_role = member_to_remove.role if member_to_remove.role in key_roles else None
+
             session.delete(member_to_remove)
             session.commit()
+
+            # Fallback logic: if a key role is vacated, assign it to the next most senior member
+            if removed_role:
+                # Find all remaining members except owner, ordered by joined_at
+                remaining_members = session.query(ProjectMember).filter(
+                    ProjectMember.project_id == project_id,
+                    ProjectMember.role != 'owner'
+                ).order_by(ProjectMember.joined_at.asc()).all()
+                if remaining_members:
+                    # Prefer next admin if available, else next by seniority
+                    next_admin = next((m for m in remaining_members if m.role == 'admin'), None)
+                    fallback_member = next_admin if next_admin else remaining_members[0]
+                    fallback_member.role = removed_role
+                    session.commit()
             return True, None
             
     except Exception as e:
