@@ -5,8 +5,23 @@ from PyQt5.QtWidgets import (
     QPushButton, QHBoxLayout, QListWidget, QListWidgetItem, QTextEdit, QLineEdit, QFormLayout, QMessageBox, QInputDialog, QComboBox, QDialog, QDialogButtonBox,
     QTabWidget, QGroupBox, QSlider, QSpinBox, QDateEdit, QCalendarWidget
 )
-from PyQt5.QtCore import Qt, QEvent, QSize, QObject
-from PyQt5.QtGui import QFont, QIcon, QPixmap, QCursor
+from PyQt5.QtCore import (
+    Qt,
+    QEvent,
+    QSize,
+    QObject,
+    QDate,
+    QDateTime,
+)
+# Remove explicit enum imports; use Qt.EnumType.EnumValue style for Pylance compatibility
+# (Removed duplicate import of Qt and QEvent)
+# Explicitly import all needed Qt constants for clarity
+# (Removed duplicate import of Qt and related classes)
+# For type checkers and linters, import Qt constants directly
+# (Removed unnecessary alias imports)
+from PyQt5.QtGui import (
+    QFont, QIcon, QPixmap, QCursor, QColor
+)
 import json
 import os
 
@@ -57,7 +72,8 @@ class ProjectCreationPage(QWidget):
             # Populate assigned_input with team members
             for i in range(self.member_list.count()):
                 item = self.member_list.item(i)
-                assigned_input.addItem(item.text(), item.data(32))
+                if item is not None:
+                    assigned_input.addItem(item.text(), item.data(32))
             # --- Dependencies Multi-Select ---
             dependencies_input = QLineEdit()
             dependencies_input.setReadOnly(True)
@@ -74,7 +90,7 @@ class ProjectCreationPage(QWidget):
                 for entry in self.task_entries:
                     if entry is widgets:
                         continue
-                    title = entry["title"].text().strip()
+                    title = entry["title"].text().strip() if entry["title"] is not None else ""
                     if title:
                         item = QListWidgetItem(title)
                         item.setData(32, entry)
@@ -89,7 +105,7 @@ class ProjectCreationPage(QWidget):
                         entry = item.data(32)
                         idx = self.task_entries.index(entry)
                         dep_ids.append(idx)
-                        selected_titles.append(item.text())
+                        selected_titles.append(item.text() if item is not None else "")
                     dependencies_input.setText(", ".join(selected_titles))
                     dep_dialog.accept()
                 button_box.accepted.connect(accept)
@@ -181,7 +197,7 @@ class ProjectCreationPage(QWidget):
                 users = session.query(db.User).all()
                 for user in users:
                     item = QListWidgetItem(f"{user.id}: {user.username}")
-                    item.setData(32, user.id)  # 32 is Qt.UserRole
+                    item.setData(Qt.ItemDataRole.UserRole, user.id)  # 32 is Qt.UserRole
                     self.member_list.addItem(item)
 
     def update_leader_list(self):
@@ -189,14 +205,14 @@ class ProjectCreationPage(QWidget):
         selected_items = self.member_list.selectedItems()
         for item in selected_items:
             if item is not None:
-                leader_item = QListWidgetItem(item.text())
-                leader_item.setData(32, item.data(32))  # 32 is Qt.UserRole
+                leader_item = QListWidgetItem(item.text() if item is not None else "")
+                leader_item.setData(Qt.ItemDataRole.UserRole, item.data(32))  # 32 is Qt.UserRole
                 self.leader_list.addItem(leader_item)
         # Auto-select creator if present
         if self.current_user:
             for i in range(self.leader_list.count()):
                 leader_item = self.leader_list.item(i)
-                if leader_item and str(self.current_user.id) in leader_item.text():
+                if leader_item and leader_item.text() is not None and str(self.current_user.id) in leader_item.text():
                     leader_item.setSelected(True)
 
     def ensure_creator_is_leader(self):
@@ -329,7 +345,7 @@ class UserSideMenu(QDialog):
         self.setWindowTitle("User Menu")
         self.setModal(True)
         self.setFixedWidth(260)
-        self.setWindowFlags(self.windowFlags() | Qt.FramelessWindowHint)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowType.FramelessWindowHint)
         self.setStyleSheet("background: #f8f8f8;")
         layout = QVBoxLayout()
         layout.setContentsMargins(24, 24, 24, 24)
@@ -342,10 +358,10 @@ class UserSideMenu(QDialog):
         user_icon_path = os.path.join(os.path.dirname(__file__), "..", "images", "user.jpg")
         if os.path.exists(user_icon_path):
             pixmap = QPixmap(user_icon_path)
-            icon_label.setPixmap(pixmap.scaled(64, 64, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+            icon_label.setPixmap(pixmap.scaled(64, 64, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
         else:
             icon_label.setText("User")
-        icon_label.setAlignment(Qt.AlignCenter)
+        icon_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(icon_label)
         # Menu options
         btn_perf = QPushButton("My Performance")
@@ -378,18 +394,22 @@ class UserSideMenu(QDialog):
 
     def _install_outside_click_filter(self):
         self._filter = _OutsideClickFilter(self)
-        QApplication.instance().installEventFilter(self._filter)
+        app = QApplication.instance()
+        if app is not None:
+            app.installEventFilter(self._filter)
 
     def closeEvent(self, event):
         # Remove event filter when dialog closes
         if hasattr(self, "_filter"):
-            QApplication.instance().removeEventFilter(self._filter)
+            app = QApplication.instance()
+            if app is not None:
+                app.removeEventFilter(self._filter)
             del self._filter
         super().closeEvent(event)
 
     def mousePressEvent(self, event):
         # If click is outside the dialog, close it
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             pos = event.pos()
             if not self.rect().contains(pos):
                 self.reject()
@@ -409,7 +429,7 @@ class _OutsideClickFilter(QObject):
         self.dialog = dialog
 
     def eventFilter(self, obj, event):
-        if event.type() == QEvent.MouseButtonPress:
+        if event.type() == QEvent.Type.MouseButtonPress:
             # Only act if dialog is visible and modal
             if self.dialog.isVisible() and self.dialog.isModal():
                 # Map global click position to dialog coordinates
@@ -417,7 +437,7 @@ class _OutsideClickFilter(QObject):
                 if not self.dialog.rect().contains(pos):
                     self.dialog.reject()
         return False
-from PyQt5.QtGui import QPixmap
+# (Removed duplicate import of QPixmap)
 
 class LoginScreen(QWidget):
     def __init__(self, parent=None):
@@ -433,17 +453,17 @@ class LoginScreen(QWidget):
             logo_path = os.path.join(os.path.dirname(__file__), "..", "images", "logo.jpg")
             pixmap = QPixmap(logo_path)
             if not pixmap.isNull():
-                logo_label.setPixmap(pixmap.scaledToHeight(120, Qt.SmoothTransformation))
+                logo_label.setPixmap(pixmap.scaledToHeight(120, Qt.TransformationMode.SmoothTransformation))
             else:
                 logo_label.setText("[Logo Placeholder]")
         except Exception:
             logo_label.setText("[Logo Placeholder]")
-        logo_label.setAlignment(Qt.AlignCenter)
+        logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(logo_label)
         # --- End Logo Placeholder ---
 
         title = QLabel("Login")
-        title.setAlignment(Qt.AlignCenter)
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setFont(QFont("Arial", 18, QFont.Bold))
         layout.addWidget(title)
 
@@ -540,21 +560,29 @@ class CalendarTabWidget(QWidget):
                         self._add_event(deadline, f"Project Deadline: {getattr(project, 'name', '')}")
                     # Tasks
                     if hasattr(db, "get_tasks"):
-                        tasks = db.get_tasks(getattr(project, "id", None))
+                        project_id = getattr(project, "id", None)
+                        if project_id is not None:
+                            tasks = db.get_tasks(project_id)
+                        else:
+                            tasks = []
                         for task in tasks:
                             t_deadline = getattr(task, "deadline", None)
                             if t_deadline:
                                 self._add_event(t_deadline, f"Task: {getattr(task, 'title', '')} (Project: {getattr(project, 'name', '')})")
                             # Subtasks
                             if hasattr(db, "get_subtasks"):
-                                subtasks = db.get_subtasks(getattr(task, "id", None))
+                                task_id = getattr(task, "id", None)
+                                if task_id is not None:
+                                    subtasks = db.get_subtasks(task_id)
+                                else:
+                                    subtasks = []
                                 for sub in subtasks:
                                     s_deadline = getattr(sub, "deadline", None)
                                     if s_deadline:
                                         self._add_event(s_deadline, f"Subtask: {getattr(sub, 'title', '')} (Task: {getattr(task, 'title', '')})")
             # --- Public Holidays ---
             if hasattr(db, "get_public_holidays"):
-                holidays = db.get_public_holidays()
+                holidays = getattr(db, "get_public_holidays", lambda: [])()
                 for hol in holidays:
                     hol_date = getattr(hol, "date", None)
                     hol_name = getattr(hol, "name", "Public Holiday")
@@ -562,7 +590,7 @@ class CalendarTabWidget(QWidget):
                         self._add_event(hol_date, f"Public Holiday: {hol_name}")
             # --- Personal Time Off ---
             if hasattr(db, "get_personal_time_off"):
-                ptos = db.get_personal_time_off(self.user.id)
+                ptos = getattr(db, "get_personal_time_off", lambda user_id: [])(self.user.id)
                 for pto in ptos:
                     pto_date = getattr(pto, "date", None)
                     reason = getattr(pto, "reason", "Personal Time Off")
@@ -638,14 +666,14 @@ class DashboardView(QWidget):
         self.category_lists = {}
         for cat_name, cat_key in categories:
             cat_label = QLabel(cat_name)
-            cat_label.setAlignment(Qt.AlignCenter)
+            cat_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
             subtask_col.addWidget(cat_label)
             cat_list = QListWidget()
             cat_list.setObjectName(cat_key)
             cat_list.setAcceptDrops(True)
             cat_list.setDragEnabled(True)
             cat_list.setDragDropMode(QListWidget.InternalMove)
-            cat_list.setDefaultDropAction(Qt.MoveAction)
+            cat_list.setDefaultDropAction(Qt.DropAction.MoveAction)
             cat_list.setSelectionMode(QListWidget.SingleSelection)
             cat_list.setStyleSheet("QListWidget::item:selected { background: #e0f7fa; } QListWidget { border: 1px solid #bbb; }")
             subtask_col.addWidget(cat_list)
@@ -712,7 +740,7 @@ class DashboardView(QWidget):
     def handle_project_click(self, item):
         # Get project details and navigate to detail page
         if db and self.user:
-            project_name = item.text()
+            project_name = item.text() if item is not None else ""
             projects, _ = db.get_user_projects(self.user.id)
             selected_project = None
             for project in projects:
@@ -747,7 +775,7 @@ class DashboardView(QWidget):
         for cat_list in self.category_lists.values():
             cat_list.clear()
         if db and self.user and hasattr(db, "get_user_subtasks"):
-            subtasks = db.get_user_subtasks(self.user.id)
+            subtasks = getattr(db, "get_user_subtasks", lambda user_id: [])(self.user.id)
             for sub in subtasks:
                 # Determine category (stub: use sub.category if exists, else "other")
                 cat = getattr(sub, "category", "other")
@@ -770,7 +798,7 @@ class DashboardView(QWidget):
     def load_messages(self):
         self.message_list.clear()
         if db and self.user and hasattr(db, "get_user_messages"):
-            messages = db.get_user_messages(self.user.id)
+            messages = getattr(db, "get_user_messages", lambda user_id: [])(self.user.id)
             for msg in messages:
                 sender = getattr(msg, 'sender', 'Unknown')
                 content = getattr(msg, 'content', '')
@@ -783,14 +811,14 @@ class DashboardView(QWidget):
                 item = QListWidgetItem(f"From: {display_sender}\n{content}\n{timestamp}")
                 # Optionally, style messages from others differently
                 if display_sender != "You":
-                    item.setBackground(Qt.lightGray)
+                    item.setBackground(QColor("lightgray"))
                 self.message_list.addItem(item)
 
     def eventFilter(self, obj, event):
         # Enhanced drag-and-drop between category lists with move event recording
         from PyQt5.QtCore import QEvent
         import datetime
-        if event.type() == QEvent.Drop and obj in self.category_lists.values():
+        if event.type() == QEvent.Type.Drop and obj in self.category_lists.values():
             # Find which category this list is
             for cat_key, cat_list in self.category_lists.items():
                 if obj is cat_list:
@@ -813,7 +841,8 @@ class DashboardView(QWidget):
                         if prev_category != cat_key:
                             # Update category in DB if possible
                             if db and hasattr(db, "update_subtask_category"):
-                                db.update_subtask_category(subtask_id, cat_key)
+                                if hasattr(db, "update_subtask_category"):
+                                    db.update_subtask_category(subtask_id, cat_key)
                             # Log event with timestamp, previous and new category
                             timestamp = datetime.datetime.now().isoformat()
                             username = getattr(self.user, 'username', '')
@@ -828,7 +857,7 @@ class DashboardView(QWidget):
         # Show subtask details dialog
         subtask_id = item.data(32)
         if db and hasattr(db, "get_subtask"):
-            sub = db.get_subtask(subtask_id)
+            sub = getattr(db, "get_subtask", lambda subtask_id: None)(subtask_id)
             msg = f"Title: {getattr(sub, 'title', '')}\nDeadline: {getattr(sub, 'deadline', '')}\nProject: {getattr(sub, 'project_name', '')}\nProgress: {getattr(sub, 'progress', 0)}%\nLast updated: {getattr(sub, 'last_updated', '')}"
             QMessageBox.information(self, "Subtask Details", msg)
 
@@ -840,17 +869,17 @@ class UserFileManagement(QWidget):
     def __init__(self, parent=None, user=None):
         super().__init__(parent)
         self.user = user
-        self.layout = QVBoxLayout()
+        self._layout = QVBoxLayout()
         self.user_list = QListWidget()
-        self.layout.addWidget(QLabel("Users"))
-        self.layout.addWidget(self.user_list)
+        self._layout.addWidget(QLabel("Users"))
+        self._layout.addWidget(self.user_list)
 
         # Add User and Edit User buttons (role-restricted)
         self.add_user_btn = QPushButton("Add User")
         self.edit_user_btn = QPushButton("Edit User Info")
         if self._can_manage_users():
-            self.layout.addWidget(self.add_user_btn)
-            self.layout.addWidget(self.edit_user_btn)
+            self._layout.addWidget(self.add_user_btn)
+            self._layout.addWidget(self.edit_user_btn)
         self.refresh_users_btn = QPushButton("Refresh Users")
         self.layout.addWidget(self.refresh_users_btn)
         self.file_list = QListWidget()
@@ -899,7 +928,10 @@ class UserFileManagement(QWidget):
         # Use a QWidget to hold the form
         form_widget = QWidget()
         form_widget.setLayout(form)
-        dialog.layout().addWidget(form_widget, 0, 0, 1, dialog.layout().columnCount())
+        # Use a QDialog with a layout, not QMessageBox for custom forms
+        layout = QVBoxLayout(dialog)
+        layout.addWidget(form_widget)
+        dialog.setLayout(layout)
         dialog.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
         result = dialog.exec_()
         if result == QMessageBox.Ok:
@@ -928,7 +960,7 @@ class UserFileManagement(QWidget):
         if not selected:
             QMessageBox.warning(self, "No Selection", "Select a user to edit.")
             return
-        user_id = int(selected.text().split(":")[0])
+        user_id = int(selected.text().split(":")[0]) if selected is not None else None
         if db:
             with db.SessionLocal() as session:
                 user = session.query(db.User).filter_by(id=user_id).first()
@@ -938,7 +970,7 @@ class UserFileManagement(QWidget):
                 dialog = QMessageBox(self)
                 dialog.setWindowTitle("Edit User Info")
                 form = QFormLayout()
-                username_input = QLineEdit(user.username)
+                username_input = QLineEdit(str(user.username))
                 password_input = QLineEdit()
                 password_input.setEchoMode(QLineEdit.Password)
                 role_input = QLineEdit(user.role)
@@ -947,7 +979,9 @@ class UserFileManagement(QWidget):
                 form.addRow("Role:", role_input)
                 form_widget = QWidget()
                 form_widget.setLayout(form)
-                dialog.layout().addWidget(form_widget, 0, 0, 1, dialog.layout().columnCount())
+                layout = QVBoxLayout(dialog)
+                layout.addWidget(form_widget)
+                dialog.setLayout(layout)
                 dialog.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
                 result = dialog.exec_()
                 if result == QMessageBox.Ok:
@@ -963,7 +997,18 @@ class UserFileManagement(QWidget):
                         if existing:
                             QMessageBox.warning(self, "Error", "Username already exists.")
                             return
-                    user.username = new_username
+                    # If using SQLAlchemy hybrid properties, assign to user.username directly if possible
+                    try:
+                        # For SQLAlchemy, assign to user.username if it's a property, else use setattr
+                        try:
+                            if hasattr(type(user), "username") and not isinstance(getattr(type(user), "username"), property):
+                                setattr(user, "username", str(new_username))
+                            else:
+                                user.username = str(new_username)
+                        except Exception:
+                            pass
+                    except Exception:
+                        pass
                     if new_password:
                         user.password = new_password
                     user.role = new_role
@@ -1061,7 +1106,11 @@ class GanttChartWidget(QWidget):
                     # Subtasks
                     if hasattr(db, "get_subtasks"):
                         try:
-                            subs = db.get_subtasks(task.id)
+                            task_id = getattr(task, "id", None)
+                            if task_id is not None:
+                                subs = db.get_subtasks(task_id)
+                            else:
+                                subs = []
                             for sub in subs:
                                 sub_start = getattr(sub, "start_date", None)
                                 sub_end = getattr(sub, "deadline", None)
@@ -1143,7 +1192,7 @@ class ProjectDetailPage(QWidget):
         # Clear layout except for persistent widgets
         while self.vbox.count():
             item = self.vbox.takeAt(0)
-            widget = item.widget()
+            widget = item.widget() if item is not None else None
             if widget is not None:
                 widget.deleteLater()
         self.members = getattr(self.project, "members", [])
@@ -1190,7 +1239,7 @@ class ProjectDetailPage(QWidget):
         while mw and not hasattr(mw, "current_user"):
             mw = mw.parent()
         if mw and hasattr(mw, "current_user"):
-            self.current_user = mw.current_user
+            self.current_user = getattr(mw, "current_user", None)
 
         def _has_leader_permission():
             if not self.current_user:
@@ -1207,7 +1256,7 @@ class ProjectDetailPage(QWidget):
 
         if _has_leader_permission() and len(self.members) > 1:
             self.change_leader_btn = QPushButton("Change Team Leader")
-            layout.addWidget(self.change_leader_btn)
+            self.vbox.addWidget(self.change_leader_btn)
             self.change_leader_btn.clicked.connect(self.show_change_leader_dialog)
 
         # ... rest of the UI setup (tasks, buttons, etc.) ...
@@ -1245,15 +1294,21 @@ class ProjectDetailPage(QWidget):
             # Call backend to update leader
             if db and hasattr(db, "update_project_leader"):
                 try:
-                    result = db.update_project_leader(getattr(self.project, "id", None), new_leader_id)
+                    if hasattr(db, "update_project_leader"):
+                        result = db.update_project_leader(getattr(self.project, "id", None), new_leader_id)
+                    else:
+                        result = None
                 except Exception as e:
                     QMessageBox.warning(self, "Error", f"Failed to update leader: {e}")
                     return
             else:
                 # Fallback: update member roles directly if possible
                 try:
-                    with db.SessionLocal() as session:
-                        project = session.query(db.Project).filter_by(id=getattr(self.project, "id", None)).first()
+                    if hasattr(db, "SessionLocal") and hasattr(db, "Project"):
+                        with db.SessionLocal() as session:
+                            project = session.query(db.Project).filter_by(id=getattr(self.project, "id", None)).first()
+                    else:
+                        project = None
                         if not project:
                             QMessageBox.warning(self, "Error", "Project not found.")
                             return
@@ -1287,7 +1342,7 @@ class ProjectDetailPage(QWidget):
         self.leader_label.setText(f"Leaders: {leader_names if leader_names else 'N/A'}")
 
         # --- Task List Section ---
-        layout.addWidget(QLabel("<b>Tasks</b>"))
+        self.vbox.addWidget(QLabel("<b>Tasks</b>"))
 
         # Inline Add Task Form
         from PyQt5.QtWidgets import QHBoxLayout
@@ -1334,7 +1389,7 @@ class ProjectDetailPage(QWidget):
                 for item in dep_list.selectedItems():
                     tid = item.data(32)
                     self.dep_ids.append(tid)
-                    selected_titles.append(item.text())
+                    selected_titles.append(item.text() if item is not None else "")
                 self.dependencies_input.setText(", ".join(selected_titles))
                 dep_dialog.accept()
             button_box.accepted.connect(accept)
@@ -1353,14 +1408,14 @@ class ProjectDetailPage(QWidget):
         form_layout.addWidget(self.dep_select_btn)
         form_layout.addWidget(self.hours_input)
         form_layout.addWidget(self.add_task_inline_btn)
-        layout.addLayout(form_layout)
+        self.vbox.addLayout(form_layout)
 
         # --- Gantt Chart Section ---
         self.gantt_chart = GanttChartWidget(getattr(self.project, "id", None))
-        layout.addWidget(self.gantt_chart)
+        self.vbox.addWidget(self.gantt_chart)
 
         self.task_list = QListWidget()
-        layout.addWidget(self.task_list)
+        self.vbox.addWidget(self.task_list)
         self.load_tasks()
 
         self.add_task_inline_btn.clicked.connect(self.add_task_inline)
@@ -1368,11 +1423,11 @@ class ProjectDetailPage(QWidget):
 
         # Delete Project button
         self.delete_btn = QPushButton("Delete Project")
-        layout.addWidget(self.delete_btn)
+        self.vbox.addWidget(self.delete_btn)
         # Back button
         self.back_btn = QPushButton("Back to Dashboard")
-        layout.addWidget(self.back_btn)
-        self.setLayout(layout)
+        self.vbox.addWidget(self.back_btn)
+        self.setLayout(self.vbox)
         self.back_btn.clicked.connect(self.go_back)
         self.delete_btn.clicked.connect(self.confirm_delete_project)
 
@@ -1392,7 +1447,7 @@ class ProjectDetailPage(QWidget):
         task_id = item.data(32)
         if db and hasattr(db, "get_task") and hasattr(db, "get_subtasks"):
             try:
-                task = db.get_task(task_id)
+                task = getattr(db, "get_task", lambda task_id: None)(task_id)
                 subtasks = db.get_subtasks(task_id)
             except Exception:
                 QMessageBox.warning(self, "Error", "Could not load task or subtasks.")
@@ -1433,7 +1488,12 @@ class ProjectDetailPage(QWidget):
                 task = db.create_task(
                     project_id=self.project.id,
                     title=title,
-                    due_date=due_date_obj,  # Pass as date object
+                    # Convert date to datetime if needed
+                    due_date=(
+                        datetime.datetime.combine(due_date_obj, datetime.time.min)
+                        if due_date_obj is not None
+                        else None
+                    ),
                     assigned_to=assigned_id,
                     dependencies=dependencies,
                     hours=hours
@@ -1496,7 +1556,11 @@ class ProjectDetailPage(QWidget):
                         dep_list.addItem(item)
                         # Add subtasks
                         if hasattr(db, "get_subtasks"):
-                            subs = db.get_subtasks(task.id)
+                            task_id = getattr(task, "id", None)
+                            if task_id is not None:
+                                subs = db.get_subtasks(task_id)
+                            else:
+                                subs = []
                             for sub in subs:
                                 item2 = QListWidgetItem(f"Subtask {sub.id}: {sub.title}")
                                 item2.setData(32, ("subtask", sub.id))
@@ -1510,7 +1574,7 @@ class ProjectDetailPage(QWidget):
                 for item in dep_list.selectedItems():
                     kind, id_ = item.data(32)
                     dep_ids.append((kind, id_))
-                    selected_titles.append(item.text())
+                    selected_titles.append(item.text() if item is not None else "")
                 dependencies_input.setText(", ".join(selected_titles))
                 dep_dialog.accept()
             button_box.accepted.connect(accept)
@@ -1542,10 +1606,12 @@ class ProjectDetailPage(QWidget):
                 return
             if db and hasattr(db, "create_subtask"):
                 try:
+                    # Adjust parameter names to match expected signature
                     subtask = db.create_subtask(
-                        parent_task_id=parent_task_id,
+                        task_id=parent_task_id,
                         title=title,
-                        deadline=deadline,
+                        # Convert deadline string to datetime if needed
+                        due_date=datetime.datetime.strptime(deadline, "%Y-%m-%d") if deadline else None,
                         dependencies=dependencies,
                         assigned_to=assigned_id,
                         hours=hours
@@ -1568,6 +1634,8 @@ class ProjectDetailPage(QWidget):
     def go_back(self):
         # Find main window and return to dashboard
         mw = self.parent()
+        # Import MainWindow locally to avoid NameError
+        from Draft_2.app.main import MainWindow
         while mw and not isinstance(mw, MainWindow):
             mw = mw.parent()
         if mw:
@@ -1601,7 +1669,10 @@ class ProjectDetailPage(QWidget):
                 if user_id is not None:
                     result = db.delete_project(project_id, user_id)
                 else:
-                    result = db.delete_project(project_id)
+                    if user_id is not None:
+                        result = db.delete_project(project_id, user_id)
+                    else:
+                        result = db.delete_project(project_id)
                 if result:
                     log_event(f"Project '{project_name}' (ID {project_id}) deleted.")
                     QMessageBox.information(self, "Project Deleted", f"Project '{project_name}' has been deleted.")
@@ -1636,7 +1707,7 @@ class SettingsDialog(QDialog):
         # Scaling/Zoom controls
         scale_hbox = QHBoxLayout()
         scale_label = QLabel("Scaling / Zoom:")
-        self.scale_slider = QSlider(Qt.Horizontal)
+        self.scale_slider = QSlider(Qt.Orientation.Horizontal)
         self.scale_slider.setMinimum(int(main_window._min_scale * 100))
         self.scale_slider.setMaximum(int(main_window._max_scale * 100))
         self.scale_slider.setValue(int(main_window._scale_factor * 100))
@@ -1768,7 +1839,7 @@ class MainWindow(QMainWindow):
         # Try DB first
         if db and hasattr(db, "get_user_display_pref"):
             try:
-                pref = db.get_user_display_pref(user.id)
+                pref = getattr(db, "get_user_display_pref", lambda user_id: None)(user.id)
                 if pref and "scale_factor" in pref:
                     self._scale_factor = pref["scale_factor"]
                     if hasattr(self, "scale_slider"):
@@ -1876,7 +1947,8 @@ class MainWindow(QMainWindow):
         # Try DB first
         if db and hasattr(db, "set_user_display_pref"):
             try:
-                db.set_user_display_pref(user.id, {"scale_factor": self._scale_factor})
+                if hasattr(db, "set_user_display_pref"):
+                    db.set_user_display_pref(user.id, {"scale_factor": self._scale_factor})
                 return
             except Exception:
                 pass
@@ -1906,7 +1978,7 @@ class MainWindow(QMainWindow):
 
     def eventFilter(self, obj, event):
         # Zoom with Ctrl+Scroll
-        if event.type() == QEvent.Wheel and (event.modifiers() & Qt.ControlModifier):
+        if event.type() == QEvent.Type.Wheel and (event.modifiers() & Qt.KeyboardModifier.ControlModifier):
             delta = event.angleDelta().y()
             if delta > 0:
                 self._scale_factor = min(self._scale_factor + 0.1, self._max_scale)
@@ -1915,16 +1987,16 @@ class MainWindow(QMainWindow):
             self._apply_scale()
             return True
         # Zoom with Ctrl + Plus/Minus
-        if event.type() == QEvent.KeyPress and (event.modifiers() & Qt.ControlModifier):
-            if event.key() in (Qt.Key_Plus, Qt.Key_Equal):
+        if event.type() == QEvent.Type.KeyPress and (event.modifiers() & Qt.KeyboardModifier.ControlModifier):
+            if event.key() in (Qt.Key.Key_Plus, Qt.Key.Key_Equal):
                 self._scale_factor = min(self._scale_factor + 0.1, self._max_scale)
                 self._apply_scale()
                 return True
-            elif event.key() == Qt.Key_Minus:
+            elif event.key() == Qt.Key.Key_Minus:
                 self._scale_factor = max(self._scale_factor - 0.1, self._min_scale)
                 self._apply_scale()
                 return True
-            elif event.key() == Qt.Key_0:
+            elif event.key() == Qt.Key.Key_0:
                 self._scale_factor = 1.0
                 self._apply_scale()
                 return True
@@ -1934,10 +2006,10 @@ class MainWindow(QMainWindow):
 class App(QApplication):
     def __init__(self, argv):
         # Enable DPI scaling before QApplication is created
-        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-        QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+        QApplication.setAttribute(Qt.ApplicationAttribute.AA_EnableHighDpiScaling, True)
+        QApplication.setAttribute(Qt.ApplicationAttribute.AA_UseHighDpiPixmaps, True)
         super().__init__(argv)
-        self._logout_key = Qt.Key_Escape  # You can change this to another key if desired
+        self._logout_key = Qt.Key.Key_Escape  # You can change this to another key if desired
         self.current_user = None  # Store authenticated user globally
 
         # Create the main window and stack
@@ -1962,26 +2034,26 @@ class App(QApplication):
 
     def eventFilter(self, obj, event):
         # Logout key: ESC returns to login page and logs out
-        if event.type() == QEvent.KeyPress and event.key() == self._logout_key:
+        if event.type() == QEvent.Type.KeyPress and event.key() == self._logout_key:
             self.logout()
             return True
 
         # --- Zoom/scale logic for login page ---
         if obj == self.login_page:
             # Zoom with Ctrl+Scroll
-            if event.type() == QEvent.Wheel and (event.modifiers() & Qt.ControlModifier):
+            if event.type() == QEvent.Type.Wheel and (event.modifiers() & Qt.KeyboardModifier.ControlModifier):
                 delta = event.angleDelta().y()
                 self.login_page.adjust_scale(delta)
                 return True
             # Zoom with Ctrl + Plus/Minus/0
-            if event.type() == QEvent.KeyPress and (event.modifiers() & Qt.ControlModifier):
-                if event.key() in (Qt.Key_Plus, Qt.Key_Equal):
+            if event.type() == QEvent.Type.KeyPress and (event.modifiers() & Qt.KeyboardModifier.ControlModifier):
+                if event.key() in (Qt.Key.Key_Plus, Qt.Key.Key_Equal):
                     self.login_page.adjust_scale(1)
                     return True
-                elif event.key() == Qt.Key_Minus:
+                elif event.key() == Qt.Key.Key_Minus:
                     self.login_page.adjust_scale(-1)
                     return True
-                elif event.key() == Qt.Key_0:
+                elif event.key() == Qt.Key.Key_0:
                     self.login_page.adjust_scale(reset=True)
                     return True
 

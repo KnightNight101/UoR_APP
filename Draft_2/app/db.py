@@ -111,7 +111,7 @@ class Project(Base):
     name = Column(String, nullable=False)
     description = Column(Text)
     deadline = Column(String, nullable=True)  # New: deadline as string (YYYY-MM-DD)
-    tasks = Column(Text, nullable=True)       # New: JSON-encoded tasks (optional)
+    tasks_json = Column(Text, nullable=True)       # Renamed from 'tasks' to avoid conflict
     created_at = Column(DateTime, server_default=func.current_timestamp())
     owner_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     tenant_id = Column(Integer, ForeignKey('tenants.id'), nullable=True)
@@ -161,6 +161,7 @@ class Subtask(Base):
     due_date = Column(DateTime)
     hours = Column(Float)  # Use Float for hours
     dependencies = Column(String)  # Use String for JSON-encoded dependencies
+    category = Column(String, default='other')  # Added category column
     created_at = Column(DateTime, server_default=func.current_timestamp())
 
     # Relationships
@@ -276,7 +277,7 @@ def create_task(
             session.commit()
             # After creating the task, create the "check progress" subtask
             # The deadline is the same as the task's due_date (since no other subtasks yet)
-            if task.id:
+            if task.id is not None:
                 subtask = Subtask(
                     task_id=task.id,
                     title="check progress",
@@ -323,19 +324,19 @@ def update_task(
             if not task:
                 return None
             if title is not None:
-                task.title = title
+                task.title = title  # type: ignore
             if description is not None:
-                task.description = description
+                task.description = description  # type: ignore
             if status is not None:
-                task.status = status
+                task.status = status  # type: ignore
             if assigned_to is not None:
-                task.assigned_to = assigned_to
+                task.assigned_to = assigned_to  # type: ignore
             if due_date is not None:
-                task.due_date = due_date
+                task.due_date = due_date  # type: ignore
             if hours is not None:
-                task.hours = hours
+                task.hours = hours  # type: ignore
             if dependencies is not None:
-                task.dependencies = json.dumps(dependencies)
+                task.dependencies = json.dumps(dependencies)  # type: ignore
             session.commit()
             return task
     except Exception as e:
@@ -395,10 +396,10 @@ def create_subtask(
                 # Find the earliest deadline among other subtasks (if any)
                 earliest = None
                 for s in other_subtasks:
-                    if s.due_date:
-                        if earliest is None or s.due_date < earliest:
+                    if s.due_date is not None and not isinstance(s.due_date, Column):
+                        if earliest is None or (earliest is not None and s.due_date < earliest):
                             earliest = s.due_date
-                if earliest:
+                if earliest is not None:
                     check_progress_subtask.due_date = earliest
                     session.commit()
             return subtask
@@ -431,19 +432,19 @@ def update_subtask(
             if not subtask:
                 return None
             if title is not None:
-                subtask.title = title
+                subtask.title = title  # type: ignore
             if description is not None:
-                subtask.description = description
+                subtask.description = description  # type: ignore
             if status is not None:
-                subtask.status = status
+                subtask.status = status  # type: ignore
             if assigned_to is not None:
-                subtask.assigned_to = assigned_to
+                subtask.assigned_to = assigned_to  # type: ignore
             if due_date is not None:
-                subtask.due_date = due_date
+                subtask.due_date = due_date  # type: ignore
             if hours is not None:
-                subtask.hours = hours
+                subtask.hours = hours  # type: ignore
             if dependencies is not None:
-                subtask.dependencies = json.dumps(dependencies)
+                subtask.dependencies = json.dumps(dependencies)  # type: ignore
             session.commit()
             return subtask
     except Exception as e:
@@ -463,8 +464,22 @@ def delete_subtask(subtask_id: int):
         print(f"Error deleting subtask: {e}")
         return False
 
+def update_subtask_category(subtask_id: int, category: str):
+    """Update the category of a subtask."""
+    try:
+        with SessionLocal() as session:
+            subtask = session.query(Subtask).filter(Subtask.id == subtask_id).first()
+            if not subtask:
+                return None
+            subtask.category = category  # type: ignore
+            session.commit()
+            return subtask
+    except Exception as e:
+        print(f"Error updating subtask category: {e}")
+        return None
+
 # File CRUD functions
-def create_file(project_id: int, filename: str, filepath: str, uploaded_by: int, description: str = None, task_id: int = None):
+def create_file(project_id: int, filename: str, filepath: str, uploaded_by: int, description: Optional[str] = None, task_id: Optional[int] = None):
     try:
         with SessionLocal() as session:
             file = File(
@@ -482,7 +497,7 @@ def create_file(project_id: int, filename: str, filepath: str, uploaded_by: int,
         print(f"Error creating file: {e}")
         return None
 
-def get_files(project_id: int, task_id: int = None):
+def get_files(project_id: int, task_id: Optional[int] = None):
     try:
         with SessionLocal() as session:
             query = session.query(File).filter(File.project_id == project_id)
@@ -501,16 +516,16 @@ def get_file_by_id(file_id: int):
         print(f"Error getting file: {e}")
         return None
 
-def update_file(file_id: int, filename: str = None, description: str = None):
+def update_file(file_id: int, filename: Optional[str] = None, description: Optional[str] = None):
     try:
         with SessionLocal() as session:
             file = session.query(File).filter(File.id == file_id).first()
             if not file:
                 return None
             if filename:
-                file.filename = filename
+                file.filename = filename  # type: ignore
             if description is not None:
-                file.description = description
+                file.description = description  # type: ignore
             session.commit()
             return file
     except Exception as e:
@@ -585,7 +600,7 @@ def authenticate_user(username: str, password: str):
                 User.is_active == True
             ).first()
             
-            if user and verify_password(password, user.password_hash):
+            if user and isinstance(user.password_hash, str) and verify_password(password, user.password_hash):
                 # Load roles for the user
                 user_with_roles = session.query(User).options(
                     selectinload(User.roles)
@@ -645,7 +660,9 @@ def validate_refresh_token(token: str):
             ).first()
             
             if refresh_token:
-                return get_user_by_id(refresh_token.user_id)
+                if isinstance(refresh_token.user_id, int):
+                    return get_user_by_id(refresh_token.user_id)
+                return None
             return None
     except Exception as e:
         print(f"Error validating refresh token: {e}")
@@ -713,7 +730,7 @@ def create_project(
                 description=description,
                 owner_id=owner_id,
                 deadline=deadline,
-                tasks=json.dumps(tasks) if tasks is not None else json.dumps([])
+                tasks_json=json.dumps(tasks) if tasks is not None else json.dumps([])
             )
             session.add(project)
             session.flush()  # Get project ID
@@ -721,7 +738,7 @@ def create_project(
             # Add owner as a member with 'owner' role
             if owner_id:
                 owner_membership = ProjectMember(
-                    project_id=project.id,
+                    project_id=project.id if not isinstance(project.id, Column) else project.id.default,
                     user_id=owner_id,
                     role='owner'
                 )
@@ -756,14 +773,19 @@ def create_project(
                     except Exception:
                         due_date = None
                 # Use create_task to ensure subtasks etc. are created
-                create_task(
-                    project_id=project.id,
-                    title=title,
-                    assigned_to=assigned,
-                    due_date=due_date,
-                    hours=hours,
-                    dependencies=dependencies
-                )
+                session.flush()  # Ensure project.id is assigned an integer value
+                real_project_id = getattr(project, "id", None)
+                if isinstance(real_project_id, int):
+                    create_task(
+                        project_id=real_project_id,
+                        title=title,
+                        assigned_to=assigned,
+                        due_date=due_date,
+                        hours=hours,
+                        dependencies=dependencies
+                    )
+                else:
+                    raise ValueError("Project ID was not assigned correctly.")
 
             session.commit()
 
@@ -777,7 +799,7 @@ def create_project(
         print(f"Error creating project: {e}")
         return None
 
-def get_user_projects(user_id: int, page: int = 1, limit: int = 20, search: str = None):
+def get_user_projects(user_id: int, page: int = 1, limit: int = 20, search: Optional[str] = None):
     """Get projects accessible to a user (owned or member of)."""
     try:
         with SessionLocal() as session:
@@ -806,7 +828,7 @@ def get_user_projects(user_id: int, page: int = 1, limit: int = 20, search: str 
         print(f"Error getting user projects: {e}")
         return [], 0
 
-def get_project_by_id(project_id: int, user_id: int = None):
+def get_project_by_id(project_id: int, user_id: Optional[int] = None):
     """Get project by ID with permission checking."""
     try:
         with SessionLocal() as session:
@@ -835,7 +857,7 @@ def get_project_by_id(project_id: int, user_id: int = None):
         print(f"Error getting project: {e}")
         return None
 
-def update_project(project_id: int, user_id: int, name: str = None, description: str = None):
+def update_project(project_id: int, user_id: int, name: Optional[str] = None, description: Optional[str] = None):
     """Update project details (owner or admin only)."""
     try:
         with SessionLocal() as session:
@@ -855,9 +877,9 @@ def update_project(project_id: int, user_id: int, name: str = None, description:
                 return None, "Project not found"
             
             if name:
-                project.name = name
+                project.name = name  # type: ignore
             if description is not None:
-                project.description = description
+                project.description = description  # type: ignore
             
             session.commit()
             
@@ -892,7 +914,7 @@ def delete_project(project_id: int, user_id: int):
         print(f"Error deleting project: {e}")
         return False, str(e)
 
-def get_project_members(project_id: int, user_id: int = None):
+def get_project_members(project_id: int, user_id: Optional[int] = None):
     """Get project members."""
     try:
         with SessionLocal() as session:
@@ -991,7 +1013,7 @@ def remove_project_member(project_id: int, user_id: int, member_id: int):
                 return False, "Member not found"
             
             # Cannot remove project owner
-            if member_to_remove.role == 'owner':
+            if getattr(member_to_remove, "role", None) == 'owner':
                 return False, "Cannot remove project owner"
             
             key_roles = ['leader', 'admin']
@@ -1001,7 +1023,7 @@ def remove_project_member(project_id: int, user_id: int, member_id: int):
             session.commit()
 
             # Fallback logic: if a key role is vacated, assign it to the next most senior member
-            if removed_role:
+            if removed_role is not None:
                 # Find all remaining members except owner, ordered by joined_at
                 remaining_members = session.query(ProjectMember).filter(
                     ProjectMember.project_id == project_id,
@@ -1009,7 +1031,11 @@ def remove_project_member(project_id: int, user_id: int, member_id: int):
                 ).order_by(ProjectMember.joined_at.asc()).all()
                 if remaining_members:
                     # Prefer next admin if available, else next by seniority
-                    next_admin = next((m for m in remaining_members if m.role == 'admin'), None)
+                    next_admin = None
+                    for m in remaining_members:
+                        if getattr(m, "role", None) == 'admin':
+                            next_admin = m
+                            break
                     fallback_member = next_admin if next_admin else remaining_members[0]
                     fallback_member.role = removed_role
                     session.commit()
@@ -1019,47 +1045,47 @@ def remove_project_member(project_id: int, user_id: int, member_id: int):
         print(f"Error removing project member: {e}")
         return False, str(e)
 
-def get_project_statistics(project_id: int, user_id: int = None):
+def get_project_statistics(project_id: int, user_id: Optional[int] = None):
     """Get project statistics."""
     try:
         with SessionLocal() as session:
             # Check access if user_id provided
-            if user_id:
+            if user_id is not None:
                 has_access = session.query(ProjectMember).filter(
                     ProjectMember.project_id == project_id,
                     ProjectMember.user_id == user_id
                 ).first() is not None
-                
+
                 if not has_access:
-                    return None
-            
+                    return {}
+
             # Count tasks by status
             task_stats = session.query(
                 Task.status,
                 func.count(Task.id).label('count')
             ).filter(Task.project_id == project_id).group_by(Task.status).all()
-            
+
             # Count members
             member_count = session.query(func.count(ProjectMember.user_id)).filter(
                 ProjectMember.project_id == project_id
-            ).scalar()
-            
+            ).scalar() or 0
+
             # Build statistics
             stats = {
                 'total_tasks': sum(getattr(stat, 'count', 0) for stat in task_stats),
                 'member_count': member_count,
                 'task_status_breakdown': {stat.status: stat.count for stat in task_stats}
             }
-            
+
             # Handle edge case for project_id == 0 (invalid)
             if project_id == 0:
-                return None
-        
+                return {}
+
             return stats
-            
+
     except Exception as e:
         print(f"Error getting project statistics: {e}")
-        return None
+        return {}
 
 def init_roles_and_permissions():
     """Initialize default roles and permissions."""
@@ -1140,6 +1166,6 @@ if __name__ == "__main__":
             # Avoid duplicate users
             existing_user = session.query(User).filter(User.username == username).first()
             if not existing_user:
-                register_user(username, "password", role.name)
+                register_user(str(username), "password", str(role.name))
         print("Created users for roles:", [role.name for role in roles])
     print("Database initialization completed!")
