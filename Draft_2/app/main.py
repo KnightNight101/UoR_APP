@@ -2224,7 +2224,7 @@ class App(QApplication):
         QApplication.setAttribute(Qt.ApplicationAttribute.AA_EnableHighDpiScaling, True)
         QApplication.setAttribute(Qt.ApplicationAttribute.AA_UseHighDpiPixmaps, True)
         super().__init__(argv)
-        self._logout_key = Qt.Key.Key_Escape  # You can change this to another key if desired
+        # self._logout_key = Qt.Key.Key_Escape  # Escape key no longer triggers logout
         self.current_user = None  # Store authenticated user globally
 
         # Create the main window and stack
@@ -2243,15 +2243,15 @@ class App(QApplication):
         # Connect login button
         self.login_page.login_btn.clicked.connect(self.authenticate)
 
-        # Install event filter for logout and scaling
+        # Install event filter for scaling only (logout on Esc disabled)
         self.window.installEventFilter(self)
         self.login_page.installEventFilter(self)
 
     def eventFilter(self, obj, event):
-        # Logout key: ESC returns to login page and logs out
-        if event.type() == QEvent.Type.KeyPress and event.key() == self._logout_key:
-            self.logout()
-            return True
+        # Escape key no longer triggers logout or navigation to login page
+        # if event.type() == QEvent.Type.KeyPress and event.key() == self._logout_key:
+        #     self.logout()
+        #     return True
 
         # --- Zoom/scale logic for login page ---
         if obj == self.login_page:
