@@ -50,16 +50,47 @@ function App() {
 
   if (!auth) {
     return (
-      <div style={{ display: "flex", height: "100vh", alignItems: "center", justifyContent: "center" }}>
-        <form onSubmit={handleAuth} style={{ minWidth: 320, padding: 32, border: "1px solid #ddd", borderRadius: 8, background: "#fff" }}>
-          <h2 style={{ marginBottom: 16 }}>Login</h2>
-          <div style={{ marginBottom: 12 }}>
+      <div
+        style={{
+          display: "flex",
+          height: "100vh",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)"
+        }}
+      >
+        <form
+          onSubmit={handleAuth}
+          style={{
+            minWidth: 320,
+            maxWidth: 400,
+            width: "100%",
+            padding: "2.5rem 2rem",
+            border: "1px solid #e0e0e0",
+            borderRadius: 16,
+            background: "#fff",
+            boxShadow: "0 4px 24px rgba(60, 72, 88, 0.12)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center"
+          }}
+        >
+          <h2 style={{ marginBottom: 20, color: "#2d3748", fontWeight: 700, letterSpacing: 1 }}>Login</h2>
+          <div style={{ width: "100%", marginBottom: 18 }}>
             <input
               type="text"
               placeholder="Username"
               value={username}
               onChange={e => setUsername(e.target.value)}
-              style={{ width: "100%", padding: 8, marginBottom: 8 }}
+              style={{
+                width: "100%",
+                padding: "10px 12px",
+                marginBottom: 12,
+                border: "1px solid #ccc",
+                borderRadius: 6,
+                fontSize: 16,
+                background: "#f9f9fb"
+              }}
               autoFocus
             />
             <input
@@ -67,20 +98,55 @@ function App() {
               placeholder="Password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              style={{ width: "100%", padding: 8 }}
+              style={{
+                width: "100%",
+                padding: "10px 12px",
+                border: "1px solid #ccc",
+                borderRadius: 6,
+                fontSize: 16,
+                background: "#f9f9fb"
+              }}
             />
           </div>
-          {error && <div style={{ color: "red", marginBottom: 8 }}>{error}</div>}
-          <button type="submit" style={{ width: "100%", padding: 10, marginBottom: 8 }}>
+          {error && (
+            <div style={{ color: "#e53e3e", marginBottom: 10, width: "100%", textAlign: "center" }}>
+              {error}
+            </div>
+          )}
+          <button
+            type="submit"
+            style={{
+              width: "100%",
+              padding: "12px 0",
+              marginBottom: 10,
+              background: "linear-gradient(90deg, #667eea 0%, #5a67d8 100%)",
+              color: "#fff",
+              border: "none",
+              borderRadius: 6,
+              fontWeight: 600,
+              fontSize: 16,
+              cursor: "pointer",
+              boxShadow: "0 2px 8px rgba(90,103,216,0.08)"
+            }}
+          >
             Login
           </button>
-          <div style={{ textAlign: "center", color: "#888", marginTop: 8 }}>
+          <div style={{ textAlign: "center", color: "#888", marginTop: 8, fontSize: 14 }}>
             Account creation is managed by your administrator.
           </div>
-          <div style={{ textAlign: "center", marginTop: 8 }}>
+          <div style={{ textAlign: "center", marginTop: 12, width: "100%" }}>
             <button
               type="button"
-              style={{ width: "100%", background: "#eee", color: "#333", border: "1px solid #bbb", borderRadius: 4, padding: 8, cursor: "pointer" }}
+              style={{
+                width: "100%",
+                background: "#f1f5f9",
+                color: "#333",
+                border: "1px solid #bbb",
+                borderRadius: 4,
+                padding: 10,
+                cursor: "pointer",
+                fontWeight: 500
+              }}
               onClick={devBypass}
             >
               [DEV ONLY] Bypass Login

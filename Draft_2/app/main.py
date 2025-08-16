@@ -181,14 +181,25 @@ class ProjectCreationPage(QWidget):
 
         self.vlayout.addLayout(form)
         self.vlayout.addWidget(self.tasks_group)
+        # --- Save and Cancel Buttons ---
         self.save_btn = QPushButton("Save")
-        self.vlayout.addWidget(self.save_btn)
+        self.cancel_btn = QPushButton("Cancel")
+        self.save_btn.setMinimumWidth(100)
+        self.cancel_btn.setMinimumWidth(100)
+        self.save_btn.setStyleSheet("font-weight: bold;")
+        self.cancel_btn.setStyleSheet("font-weight: bold;")
+        btn_layout = QHBoxLayout()
+        btn_layout.addStretch(1)
+        btn_layout.addWidget(self.save_btn)
+        btn_layout.addWidget(self.cancel_btn)
+        self.vlayout.addLayout(btn_layout)
         self.setLayout(self.vlayout)
 
         # Update leader list when members change
         self.member_list.itemSelectionChanged.connect(self.update_leader_list)
         # Auto-assign creator as leader on save
         self.save_btn.clicked.connect(self.ensure_creator_is_leader)
+        self.cancel_btn.clicked.connect(self.go_back_to_dashboard)
 
     def load_users(self):
         self.member_list.clear()
@@ -324,6 +335,17 @@ class ProjectCreationPage(QWidget):
         else:
             QMessageBox.warning(self, "Error", "Database not available.")
 
+
+    def go_back_to_dashboard(self):
+        # Find main window and return to dashboard
+        mw = self.parent()
+        # Use QMainWindow type check to avoid circular import
+        from PyQt5.QtWidgets import QMainWindow
+        while mw and not isinstance(mw, QMainWindow):
+            mw = mw.parent()
+        if mw and hasattr(mw, "stack") and hasattr(mw, "dashboard"):
+            mw.stack.setCurrentWidget(mw.dashboard)
+            log_event("Returned to Dashboard from Project Creation Page")
 
 # Placeholder import for database models/utilities
 import os
@@ -481,7 +503,6 @@ class LoginScreen(QWidget):
                 min-width: 260px;
                 padding: 32px 28px 28px 28px;
                 margin: 0 auto;
-                box-shadow: 0 4px 24px rgba(0,0,0,0.10);
             }
         """)
 
@@ -728,6 +749,8 @@ class DashboardView(QWidget):
         message_col.addWidget(self.message_list)
         self.refresh_messages_btn = QPushButton("Refresh Messages")
         message_col.addWidget(self.refresh_messages_btn)
+        self.send_message_btn = QPushButton("Send Message")
+        message_col.addWidget(self.send_message_btn)
         message_col.addStretch(1)
 
         # --- Assemble columns ---
@@ -776,6 +799,7 @@ class DashboardView(QWidget):
         self.load_subtasks()
         self.load_messages()
         self.refresh_messages_btn.clicked.connect(self.load_messages)
+        self.send_message_btn.clicked.connect(self.show_send_message_dialog)
 
     def handle_project_click(self, item):
         # Get project details and navigate to detail page
@@ -892,6 +916,49 @@ class DashboardView(QWidget):
                     break
             self.load_subtasks()
         return super().eventFilter(obj, event)
+
+    def show_send_message_dialog(self):
+        if not db or not self.user:
+            QMessageBox.warning(self, "Error", "Database or user context not available.")
+            return
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Send Message")
+        layout = QVBoxLayout(dialog)
+        user_combo = QComboBox()
+        # Populate with all users except self
+        with db.SessionLocal() as session:
+            users = session.query(db.User).all()
+            for u in users:
+                if getattr(u, "id", None) != getattr(self.user, "id", None):
+                    user_combo.addItem(getattr(u, "username", str(u)), getattr(u, "id", None))
+        layout.addWidget(QLabel("Recipient:"))
+        layout.addWidget(user_combo)
+        msg_edit = QTextEdit()
+        layout.addWidget(QLabel("Message:"))
+        layout.addWidget(msg_edit)
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        layout.addWidget(button_box)
+        def send():
+            recipient_id = user_combo.currentData()
+            content = msg_edit.toPlainText().strip()
+            sender_id = getattr(self.user, "id", None)
+            if sender_id is None:
+                QMessageBox.warning(dialog, "Error", "User ID is missing.")
+                return
+            if not recipient_id or not content:
+                QMessageBox.warning(dialog, "Validation Error", "Recipient and message are required.")
+                return
+            result = db.create_message(sender_id, recipient_id, content)
+            if result:
+                QMessageBox.information(dialog, "Success", "Message sent.")
+                self.load_messages()
+                dialog.accept()
+            else:
+                QMessageBox.warning(dialog, "Error", "Failed to send message.")
+        button_box.accepted.connect(send)
+        button_box.rejected.connect(dialog.reject)
+        dialog.setLayout(layout)
+        dialog.exec_()
 
     def show_subtask_details(self, item):
         # Show subtask details dialog
@@ -1831,12 +1898,11 @@ class MainWindow(QMainWindow):
                 and self.project_detail_page is not None
                 and self.project_detail_page in [self.stack.widget(i) for i in range(self.stack.count())]
             ):
-                # normal logic here
-                pass
+                self.stack.removeWidget(self.project_detail_page)
+                self.project_detail_page.deleteLater()
         except RuntimeError:
             # Widget has been deleted, handle gracefully (e.g., ignore or recreate stack)
             return
-            self.stack.removeWidget(self.project_detail_page)
         self.project_detail_page = ProjectDetailPage(project, parent=self)
         self.stack.addWidget(self.project_detail_page)
         self.stack.setCurrentWidget(self.project_detail_page)
