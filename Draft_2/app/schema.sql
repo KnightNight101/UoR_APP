@@ -53,14 +53,26 @@ CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
+    deadline TEXT, -- New: deadline for the project
+    tasks TEXT,    -- New: JSON-encoded list of tasks (optional)
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     owner_id INTEGER NOT NULL,
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
+-- Migration: Add deadline column to projects if not present
+ALTER TABLE projects ADD COLUMN deadline TEXT;
 
 -- Add tenant_id to projects
 -- NOTE: This ALTER TABLE is handled idempotently in db.py and is safe to keep here.
 ALTER TABLE projects ADD COLUMN tenant_id INTEGER REFERENCES tenants(id);
+
+-- Migration: Add hours and dependencies to tasks if not present
+ALTER TABLE tasks ADD COLUMN hours REAL;
+ALTER TABLE tasks ADD COLUMN dependencies TEXT;
+
+-- Migration: Add hours and dependencies to subtasks if not present
+ALTER TABLE subtasks ADD COLUMN hours REAL;
+ALTER TABLE subtasks ADD COLUMN dependencies TEXT;
 
 
 CREATE TABLE IF NOT EXISTS project_members (
@@ -80,6 +92,8 @@ CREATE TABLE IF NOT EXISTS tasks (
     status TEXT DEFAULT 'pending',
     assigned_to INTEGER,
     due_date TIMESTAMP,
+    hours REAL, -- New: estimated/actual hours for the task
+    dependencies TEXT, -- New: JSON-encoded list of task/subtask IDs this task depends on
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
     FOREIGN KEY (assigned_to) REFERENCES users(id) ON DELETE SET NULL
@@ -93,6 +107,8 @@ CREATE TABLE IF NOT EXISTS subtasks (
     status TEXT DEFAULT 'pending',
     assigned_to INTEGER,
     due_date TIMESTAMP,
+    hours REAL, -- New: estimated/actual hours for the subtask
+    dependencies TEXT, -- New: JSON-encoded list of task/subtask IDs this subtask depends on
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE,
     FOREIGN KEY (assigned_to) REFERENCES users(id) ON DELETE SET NULL
