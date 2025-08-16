@@ -446,7 +446,11 @@ class LoginScreen(QWidget):
         self._min_scale = 0.5
         self._max_scale = 3.0
         self._base_font_size = self.font().pointSize()
-        layout = QVBoxLayout()
+
+        # Outer layout to center the login box
+        outer_layout = QVBoxLayout()
+        outer_layout.addStretch(1)
+
         # --- Logo Placeholder ---
         logo_label = QLabel()
         try:
@@ -459,13 +463,36 @@ class LoginScreen(QWidget):
         except Exception:
             logo_label.setText("[Logo Placeholder]")
         logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        layout.addWidget(logo_label)
+        outer_layout.addWidget(logo_label)
         # --- End Logo Placeholder ---
+
+        # Login box frame
+        from PyQt5.QtWidgets import QFrame
+        login_box = QFrame()
+        login_box.setObjectName("loginBox")
+        login_box.setFrameShape(QFrame.StyledPanel)
+        login_box.setFrameShadow(QFrame.Raised)
+        login_box.setStyleSheet("""
+            QFrame#loginBox {
+                background: rgba(255,255,255,0.92);
+                border-radius: 16px;
+                border: 2px solid #4a90e2;
+                max-width: 340px;
+                min-width: 260px;
+                padding: 32px 28px 28px 28px;
+                margin: 0 auto;
+                box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+            }
+        """)
+
+        box_layout = QVBoxLayout(login_box)
+        box_layout.setSpacing(18)
+        box_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         title = QLabel("Login")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setFont(QFont("Arial", 18, QFont.Bold))
-        layout.addWidget(title)
+        box_layout.addWidget(title)
 
         form = QFormLayout()
         self.username = QLineEdit()
@@ -473,10 +500,23 @@ class LoginScreen(QWidget):
         self.password.setEchoMode(QLineEdit.Password)
         form.addRow("Username:", self.username)
         form.addRow("Password:", self.password)
-        layout.addLayout(form)
+        box_layout.addLayout(form)
+
         self.login_btn = QPushButton("Login")
-        layout.addWidget(self.login_btn)
-        self.setLayout(layout)
+        self.login_btn.setMinimumHeight(36)
+        box_layout.addWidget(self.login_btn)
+
+        login_box.setLayout(box_layout)
+
+        # Center the login box
+        box_container = QHBoxLayout()
+        box_container.addStretch(1)
+        box_container.addWidget(login_box, alignment=Qt.AlignmentFlag.AlignCenter)
+        box_container.addStretch(1)
+        outer_layout.addLayout(box_container)
+        outer_layout.addStretch(2)
+
+        self.setLayout(outer_layout)
         self._apply_scale()
 
     def _apply_scale(self):
