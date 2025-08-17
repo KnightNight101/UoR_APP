@@ -982,61 +982,68 @@ class DashboardView(QWidget):
 
     def load_subtasks(self):
         """
-        Populate the dashboard's subtask/task columns for the current user.
-        - Subtasks: Use get_user_subtasks.
-        - Tasks: Use get_user_tasks. Add all tasks assigned to this user to the "Important and Urgent" category, even if they have subtasks.
+        Populate the dashboard's subtask columns for the current user.
+        Only subtasks are shown. Clicking a subtask opens an inline dropdown to set status.
         """
         # Clear all categories
         for cat_list in self.category_lists.values():
             cat_list.clear()
         # Subtasks assigned to the user
-        subtask_ids = set()
         if db and self.user and hasattr(db, "get_user_subtasks"):
             subtasks = db.get_user_subtasks(self.user.id)
             for sub in subtasks:
                 cat = getattr(sub, "category", "other")
                 if cat not in self.category_lists:
                     cat = "other"
-                widget = SubtaskWidget(
-                    title=getattr(sub, "title", ""),
-                    deadline=getattr(sub, "due_date", getattr(sub, "deadline", "N/A")),
-                    project_name=getattr(sub, "project_name", "N/A"),
-                    progress=getattr(sub, "progress", 0),
-                    last_updated=getattr(sub, "last_updated", "N/A")
-                )
                 item = QListWidgetItem()
-                item.setSizeHint(widget.sizeHint())
                 item.setData(32, f"subtask:{sub.id}")
-                subtask_ids.add(sub.id)
+                item.setData(33, sub)
+                # Default all subtasks to "Not Yet Started" if no status
+                status = getattr(sub, "status", None)
+                if not status:
+                    status = "Not Yet Started"
+                    if hasattr(db, "update_subtask_status"):
+                        try:
+                            db.update_subtask_status(sub.id, status)
+                        except Exception:
+                            pass
+                item.setData(34, status)
+                item.setText(f"{getattr(sub, 'title', '')} | Status: {status}")
                 self.category_lists[cat].addItem(item)
-                self.category_lists[cat].setItemWidget(item, widget)
-        # Tasks assigned to the user (add to "Important and Urgent" even if they have subtasks)
-        if db and self.user and hasattr(db, "get_user_tasks"):
-            tasks = db.get_user_tasks(self.user.id)
-            for task in tasks:
-                # Avoid duplication: skip if already present as a subtask
-                already_listed = False
-                for cat_list in self.category_lists.values():
-                    for i in range(cat_list.count()):
-                        item = cat_list.item(i)
-                        if item and item.data(32) == task.id:
-                            already_listed = True
-                            break
-                    if already_listed:
-                        break
-                if not already_listed:
-                    widget = SubtaskWidget(
-                        title=getattr(task, "title", ""),
-                        deadline=getattr(task, "due_date", getattr(task, "deadline", "N/A")),
-                        project_name=getattr(task, "project_name", "N/A"),
-                        progress=getattr(task, "progress", 0),
-                        last_updated=getattr(task, "last_updated", "N/A")
-                    )
-                    item = QListWidgetItem()
-                    item.setSizeHint(widget.sizeHint())
-                    item.setData(32, task.id)
-                    self.category_lists["important_urgent"].addItem(item)
-                    self.category_lists["important_urgent"].setItemWidget(item, widget)
+        # Remove all task display from dashboard (only subtasks shown)
+        # Connect double click to inline status editor
+        for cat_list in self.category_lists.values():
+            try:
+                cat_list.itemDoubleClicked.disconnect()
+            except Exception:
+                pass
+            cat_list.itemDoubleClicked.connect(self.inline_edit_subtask_status)
+
+    def inline_edit_subtask_status(self, item):
+        """Show inline dropdown to edit subtask status."""
+        from PyQt5.QtWidgets import QComboBox
+        sub = item.data(33)
+        if not sub:
+            return
+        parent_list = item.listWidget()
+        combo = QComboBox(parent_list)
+        combo.addItems(["Not Yet Started", "In Progress", "Completed"])
+        current_status = item.data(34) or "Not Yet Started"
+        combo.setCurrentText(current_status)
+        combo.setFocus()
+        combo.setMinimumWidth(160)
+        def on_status_changed(idx):
+            new_status = combo.currentText()
+            item.setData(34, new_status)
+            item.setText(f"{getattr(sub, 'title', '')} | Status: {new_status}")
+            if hasattr(db, "update_subtask_status"):
+                try:
+                    db.update_subtask_status(sub.id, new_status)
+                except Exception:
+                    pass
+            parent_list.setItemWidget(item, None)
+        combo.activated.connect(on_status_changed)
+        parent_list.setItemWidget(item, combo)
 
     def load_messages(self):
         self.message_list.clear()
@@ -3062,6 +3069,13 @@ class MainWindow(QMainWindow):
                 return True
         return super().eventFilter(obj, event)
     # Removed navigation and tab logic; only dashboard is shown.
+
+    def closeEvent(self, event):
+        """Automatically log out the user when the main window is closed."""
+        if hasattr(self, "current_user") and self.current_user:
+            self.current_user = None
+            log_event("User automatically logged out on program close")
+        super().closeEvent(event)
 
 class App(QApplication):
     def __init__(self, argv):
