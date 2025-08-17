@@ -675,9 +675,16 @@ class CalendarTabWidget(QWidget):
         self.load_events()
 
     def load_events(self):
+        """
+        Populate the calendar with all deadlines relevant to the user:
+        - Project deadlines (always)
+        - All tasks assigned to the user (even if they have subtasks)
+        - All subtasks assigned to the user
+        - Public holidays and personal time off
+        """
         self.events_by_date = {}
         if db and self.user:
-            # --- Deadlines, Tasks, Subtasks ---
+            # --- Projects the user is a member of ---
             if hasattr(db, "get_user_projects"):
                 projects, _ = db.get_user_projects(self.user.id)
                 for project in projects:
@@ -685,28 +692,28 @@ class CalendarTabWidget(QWidget):
                     deadline = getattr(project, "deadline", None)
                     if deadline:
                         self._add_event(deadline, f"Project Deadline: {getattr(project, 'name', '')}")
-                    # Tasks
-                    if hasattr(db, "get_tasks"):
-                        project_id = getattr(project, "id", None)
-                        if project_id is not None:
-                            tasks = db.get_tasks(project_id)
-                        else:
-                            tasks = []
-                        for task in tasks:
-                            t_deadline = getattr(task, "deadline", None)
-                            if t_deadline:
-                                self._add_event(t_deadline, f"Task: {getattr(task, 'title', '')} (Project: {getattr(project, 'name', '')})")
-                            # Subtasks
-                            if hasattr(db, "get_subtasks"):
-                                task_id = getattr(task, "id", None)
-                                if task_id is not None:
-                                    subtasks = db.get_subtasks(task_id)
-                                else:
-                                    subtasks = []
-                                for sub in subtasks:
-                                    s_deadline = getattr(sub, "deadline", None)
-                                    if s_deadline:
-                                        self._add_event(s_deadline, f"Subtask: {getattr(sub, 'title', '')} (Task: {getattr(task, 'title', '')})")
+            # --- Tasks assigned to the user ---
+            if hasattr(db, "get_user_tasks"):
+                tasks = db.get_user_tasks(self.user.id)
+                for task in tasks:
+                    t_deadline = getattr(task, "deadline", getattr(task, "due_date", None))
+                    pname = getattr(task, "project_name", "")
+                    if t_deadline:
+                        self._add_event(t_deadline, f"Task: {getattr(task, 'title', '')} (Project: {pname})")
+            # --- Subtasks assigned to the user ---
+            if hasattr(db, "get_user_subtasks"):
+                subtasks = db.get_user_subtasks(self.user.id)
+                for sub in subtasks:
+                    s_deadline = getattr(sub, "due_date", getattr(sub, "deadline", None))
+                    pname = getattr(sub, "project_name", "")
+                    tname = getattr(sub, "parent_task_title", "")
+                    label = f"Subtask: {getattr(sub, 'title', '')}"
+                    if tname:
+                        label += f" (Task: {tname})"
+                    if pname:
+                        label += f" (Project: {pname})"
+                    if s_deadline:
+                        self._add_event(s_deadline, label)
             # --- Public Holidays ---
             if hasattr(db, "get_public_holidays"):
                 holidays = getattr(db, "get_public_holidays", lambda: [])()
@@ -974,17 +981,22 @@ class DashboardView(QWidget):
             self.main_window.show_project_creation_page()
 
     def load_subtasks(self):
+        """
+        Populate the dashboard's subtask/task columns for the current user.
+        - Subtasks: Use get_user_subtasks.
+        - Tasks: Use get_user_tasks. Add all tasks assigned to this user to the "Important and Urgent" category, even if they have subtasks.
+        """
         # Clear all categories
         for cat_list in self.category_lists.values():
             cat_list.clear()
+        # Subtasks assigned to the user
+        subtask_ids = set()
         if db and self.user and hasattr(db, "get_user_subtasks"):
-            subtasks = getattr(db, "get_user_subtasks", lambda user_id: [])(self.user.id)
+            subtasks = db.get_user_subtasks(self.user.id)
             for sub in subtasks:
-                # Determine category (stub: use sub.category if exists, else "other")
                 cat = getattr(sub, "category", "other")
                 if cat not in self.category_lists:
                     cat = "other"
-                # Create custom widget for subtask
                 widget = SubtaskWidget(
                     title=getattr(sub, "title", ""),
                     deadline=getattr(sub, "due_date", getattr(sub, "deadline", "N/A")),
@@ -994,9 +1006,37 @@ class DashboardView(QWidget):
                 )
                 item = QListWidgetItem()
                 item.setSizeHint(widget.sizeHint())
-                item.setData(32, sub.id)
+                item.setData(32, f"subtask:{sub.id}")
+                subtask_ids.add(sub.id)
                 self.category_lists[cat].addItem(item)
                 self.category_lists[cat].setItemWidget(item, widget)
+        # Tasks assigned to the user (add to "Important and Urgent" even if they have subtasks)
+        if db and self.user and hasattr(db, "get_user_tasks"):
+            tasks = db.get_user_tasks(self.user.id)
+            for task in tasks:
+                # Avoid duplication: skip if already present as a subtask
+                already_listed = False
+                for cat_list in self.category_lists.values():
+                    for i in range(cat_list.count()):
+                        item = cat_list.item(i)
+                        if item and item.data(32) == task.id:
+                            already_listed = True
+                            break
+                    if already_listed:
+                        break
+                if not already_listed:
+                    widget = SubtaskWidget(
+                        title=getattr(task, "title", ""),
+                        deadline=getattr(task, "due_date", getattr(task, "deadline", "N/A")),
+                        project_name=getattr(task, "project_name", "N/A"),
+                        progress=getattr(task, "progress", 0),
+                        last_updated=getattr(task, "last_updated", "N/A")
+                    )
+                    item = QListWidgetItem()
+                    item.setSizeHint(widget.sizeHint())
+                    item.setData(32, task.id)
+                    self.category_lists["important_urgent"].addItem(item)
+                    self.category_lists["important_urgent"].setItemWidget(item, widget)
 
     def load_messages(self):
         self.message_list.clear()
