@@ -39,3 +39,5 @@
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
 [2025-08-17T16:43:04.594098] Task added: 'Task 1' | Project: 'NewTrial' | Deadline: 2025-08-18 00:00:00 | Hours: 9 | Assigned to: Unassigned
 [2025-08-17T17:11:12.921870] Task added: 'New Task' | Project: 'NewTrial' | Deadline: 2025-08-17 00:00:00 | Hours: 0 | Assigned to: Unassigned
+[2025-08-17T17:12:34.078781] Task added: 'final check' | Project: 'NewTrial' | Deadline: 2025-08-17 00:00:00 | Hours: 0 | Assigned to: Unassigned
+[2025-08-17T17:39:58.334627] Task added: 'Second Task' | Project: 'NewTrial' | Deadline: 2025-08-30 00:00:00 | Hours: 4 | Assigned to: Unassigned
