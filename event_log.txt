@@ -1802,3 +1802,57 @@ User logged out (logout key pressed)
 [2025-08-17T17:39:39.547228] Navigated to Project Detail Page
 [2025-08-17T17:39:58.344854] Task added: 'Second Task' | Project: 'NewTrial' | Deadline: 2025-08-30 | Hours: 4 | Assigned to: None
 [2025-08-17T17:40:19.040465] Subtask added: 'Final Check' | Parent Task: 15 | Project: 'NewTrial' | Deadline: 2025-08-17 | Hours: 0
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T17:51:00.051293] User 'user' logged in
+[2025-08-17T17:51:01.832536] User selected project from dashboard: id=10, name=NewTrial
+[2025-08-17T17:51:01.832536] DEBUG: main_window=<__main__.MainWindow object at 0x00000207D802A0F0>, project_obj=<db.Project object at 0x00000207D96DD940>
+[2025-08-17T17:51:01.832536] DEBUG: Calling show_project_detail_page
+[2025-08-17T17:51:01.965092] Navigated to Project Detail Page
+[2025-08-17T17:51:23.901552] Task added: 'Third Task?' | Project: 'NewTrial' | Deadline: 2025-08-29 | Hours: 6 | Assigned to: None
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T17:56:55.392789] User 'user' logged in
+[2025-08-17T17:56:57.484322] User selected project from dashboard: id=10, name=NewTrial
+[2025-08-17T17:56:57.485323] DEBUG: main_window=<__main__.MainWindow object at 0x000001A1997DA180>, project_obj=<db.Project object at 0x000001A19AE82930>
+[2025-08-17T17:56:57.485323] DEBUG: Calling show_project_detail_page
+[2025-08-17T17:56:57.559650] Navigated to Project Detail Page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T17:58:16.825663] User 'user' logged in
+[2025-08-17T17:58:18.708142] User selected project from dashboard: id=10, name=NewTrial
+[2025-08-17T17:58:18.708648] DEBUG: main_window=<__main__.MainWindow object at 0x0000017F8A5720F0>, project_obj=<db.Project object at 0x0000017F8BC134A0>
+[2025-08-17T17:58:18.708648] DEBUG: Calling show_project_detail_page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T17:59:18.579366] User 'user' logged in
+[2025-08-17T17:59:19.919937] User selected project from dashboard: id=10, name=NewTrial
+[2025-08-17T17:59:19.920937] DEBUG: main_window=<__main__.MainWindow object at 0x00000148AE75A180>, project_obj=<db.Project object at 0x00000148AFE0E390>
+[2025-08-17T17:59:19.920937] DEBUG: Calling show_project_detail_page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T18:52:14.546182] User 'user' logged in
+[2025-08-17T18:52:31.395797] User selected project from dashboard: id=10, name=NewTrial
+[2025-08-17T18:52:31.396520] DEBUG: main_window=<__main__.MainWindow object at 0x0000025E21D820F0>, project_obj=<db.Project object at 0x0000025E234396D0>
+[2025-08-17T18:52:31.396520] DEBUG: Calling show_project_detail_page
+[2025-08-17T18:52:31.543022] Navigated to Project Detail Page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T18:54:51.639983] User 'user' logged in
+[2025-08-17T18:54:53.497267] User selected project from dashboard: id=10, name=NewTrial
+[2025-08-17T18:54:53.497774] DEBUG: main_window=<__main__.MainWindow object at 0x00000248860B20F0>, project_obj=<db.Project object at 0x0000024887756CF0>
+[2025-08-17T18:54:53.498378] DEBUG: Calling show_project_detail_page
+[2025-08-17T18:54:53.632681] Navigated to Project Detail Page
+[2025-08-17T18:54:59.289915] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T18:54:59.291912] Returned to Dashboard from Project Detail Page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T19:06:39.373385] User 'user' logged in
+[2025-08-17T19:06:41.108355] User selected project from dashboard: id=10, name=NewTrial
+[2025-08-17T19:06:41.108939] DEBUG: main_window=<__main__.MainWindow object at 0x000001D2E7AF1FD0>, project_obj=<db.Project object at 0x000001D2E9187AD0>
+[2025-08-17T19:06:41.109451] DEBUG: Calling show_project_detail_page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T19:07:46.698552] User 'user' logged in
+[2025-08-17T19:07:48.221693] User selected project from dashboard: id=9, name=One more time
+[2025-08-17T19:07:48.222218] DEBUG: main_window=<__main__.MainWindow object at 0x000001C99BFC1FD0>, project_obj=<db.Project object at 0x000001C99D653AD0>
+[2025-08-17T19:07:48.222743] DEBUG: Calling show_project_detail_page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T19:08:42.597173] User 'user' logged in
+[2025-08-17T19:08:43.978968] User selected project from dashboard: id=10, name=NewTrial
+[2025-08-17T19:08:43.979473] DEBUG: main_window=<__main__.MainWindow object at 0x0000020FA1451FD0>, project_obj=<db.Project object at 0x0000020FA2B02000>
+[2025-08-17T19:08:43.979473] DEBUG: Calling show_project_detail_page
+[2025-08-17T19:08:44.081437] Navigated to Project Detail Page
+[2025-08-17T19:08:46.502298] Project 'NewTrial' (ID 10) deleted.
