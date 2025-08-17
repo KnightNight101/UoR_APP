@@ -54,3 +54,7 @@
 [SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
 [parameters: [(None, 30), (None, 32), (None, 33), (None, 34), (None, 35), (None, 36)]]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
+[ERROR] [2025-08-17T19:10:32.796601] Error deleting project: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 30), (None, 32), (None, 33), (None, 34), (None, 35), (None, 36)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
