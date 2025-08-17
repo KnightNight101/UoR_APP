@@ -348,6 +348,7 @@ class ProjectCreationPage(QWidget):
 
     def go_back_to_dashboard(self):
         # Find main window and return to dashboard
+        log_event("User navigated back to dashboard (ProjectCreationPage)")
         mw = self.parent()
         # Use QMainWindow type check to avoid circular import
         from PyQt5.QtWidgets import QMainWindow
@@ -394,8 +395,10 @@ except ImportError as e:
 LOG_FILE = "event_log.txt"
 
 def log_event(event):
+    import datetime
+    timestamp = datetime.datetime.now().isoformat()
     with open(LOG_FILE, "a", encoding="utf-8") as f:
-        f.write(event + "\n")
+        f.write(f"[{timestamp}] {event}\n")
 
 def log_error(error_msg):
     """Append error messages to the event log and print to stderr."""
@@ -741,7 +744,15 @@ class DashboardView(QWidget):
         from PyQt5.QtCore import QDateTime
 
         self.user = user
-        self.main_window = main_window
+        # Ensure main_window is set, fallback to parent chain if not provided
+        if main_window is not None:
+            self.main_window = main_window
+        else:
+            mw = self.parent()
+            from PyQt5.QtWidgets import QMainWindow
+            while mw and not isinstance(mw, QMainWindow):
+                mw = mw.parent()
+            self.main_window = mw
 
         # --- Tabs for Dashboard, Calendar, Members, and Event Log ---
         self.tabs = QTabWidget()
@@ -875,28 +886,54 @@ class DashboardView(QWidget):
         self.user_icon_btn.clicked.connect(self.show_user_side_menu)
 
         # --- Connect signals and load data ---
-        self.add_project_btn.clicked.connect(self.navigate_to_project_creation)
-        self.project_list.itemClicked.connect(self.handle_project_click)
+        self.add_project_btn.clicked.connect(self.log_and_navigate_to_project_creation)
+        self.project_list.itemClicked.connect(self.log_and_handle_project_click)
         for cat_list in self.category_lists.values():
-            cat_list.itemDoubleClicked.connect(self.show_subtask_details)
+            cat_list.itemDoubleClicked.connect(self.log_and_show_subtask_details)
         self.load_projects()
         self.load_subtasks()
         self.load_messages()
-        self.refresh_messages_btn.clicked.connect(self.load_messages)
-        self.send_message_btn.clicked.connect(self.show_send_message_dialog)
+        self.refresh_messages_btn.clicked.connect(self.log_and_refresh_messages)
+        self.send_message_btn.clicked.connect(self.log_and_show_send_message_dialog)
+
+    def log_and_navigate_to_project_creation(self):
+        log_event("User clicked 'Create Project' button")
+        self.navigate_to_project_creation()
+    # Removed navigate_to_project_detail to fix recursion error
+    def log_and_handle_project_click(self, item):
+        project_id = item.data(Qt.ItemDataRole.UserRole) if item is not None else None
+        project_obj = item.data(Qt.ItemDataRole.UserRole + 1) if item is not None else None
+        log_event(f"User selected project from dashboard: id={project_id}, name={item.text() if item else ''}")
+        # Debug: log main_window and project_obj before navigation
+        log_event(f"DEBUG: main_window={self.main_window}, project_obj={project_obj}")
+        # Navigate to project detail page directly using the stored project object
+        if db and self.user and project_id is not None and self.main_window and project_obj is not None:
+            log_event("DEBUG: Calling show_project_detail_page")
+            self.main_window.show_project_detail_page(project_obj)
+        else:
+            log_event(f"DEBUG: Navigation not performed. db={db}, user={self.user}, project_id={project_id}, main_window={self.main_window}, project_obj={project_obj}")
+
+    def log_and_show_subtask_details(self, item):
+        log_event(f"User opened subtask details: item={item.text() if item else ''}")
+        self.show_subtask_details(item)
+
+    def log_and_refresh_messages(self):
+        log_event("User clicked 'Refresh Messages'")
+        self.load_messages()
+
+    def log_and_show_send_message_dialog(self):
+        log_event("User clicked 'Send Message'")
+        self.show_send_message_dialog()
 
     def handle_project_click(self, item):
         # Get project details and navigate to detail page
         if db and self.user:
-            project_name = item.text() if item is not None else ""
-            projects, _ = db.get_user_projects(self.user.id)
-            selected_project = None
-            for project in projects:
-                if getattr(project, "name", "") == project_name:
-                    selected_project = project
-                    break
-            if selected_project and self.main_window:
-                self.main_window.show_project_detail_page(selected_project)
+            project_id = item.data(Qt.ItemDataRole.UserRole) if item is not None else None
+            if project_id is not None:
+                projects, _ = db.get_user_projects(self.user.id)
+                selected_project = next((p for p in projects if getattr(p, "id", None) == project_id), None)
+                if selected_project and self.main_window:
+                    self.main_window.show_project_detail_page(selected_project)
 
     def show_user_side_menu(self):
         # Show the custom side menu dialog at the right edge, below the icon
@@ -912,7 +949,10 @@ class DashboardView(QWidget):
         if db and self.user:
             projects, _ = db.get_user_projects(self.user.id)
             for project in projects:
-                self.project_list.addItem(f"{project.name}")
+                item = QListWidgetItem(f"{project.name}")
+                item.setData(Qt.ItemDataRole.UserRole, getattr(project, "id", None))
+                item.setData(Qt.ItemDataRole.UserRole + 1, project)  # Store the full project object
+                self.project_list.addItem(item)
 
     def navigate_to_project_creation(self):
         if self.main_window:
@@ -1385,9 +1425,399 @@ class ProjectDetailPage(QWidget):
         self.members = getattr(project, "members", [])
         self.member_usernames = [getattr(m, "username", str(m)) for m in self.members]
         self.member_ids = [getattr(m, "id", None) for m in self.members]
-        self.vbox = QVBoxLayout()
-        self.setLayout(self.vbox)
-        self.refresh_members()
+        self.current_user = None
+        mw = self.parent()
+        while mw and not hasattr(mw, "current_user"):
+            mw = mw.parent()
+        if mw and hasattr(mw, "current_user"):
+            self.current_user = getattr(mw, "current_user", None)
+
+        self.tabs = QTabWidget()
+        self.init_team_members_tab()
+        self.init_tasks_tab()
+        self.init_gantt_tab()
+        self.init_calendar_tab()
+
+        vbox = QVBoxLayout()
+        vbox.addWidget(QLabel(f"<b>{getattr(self.project, 'name', '')}</b>"))
+        vbox.addWidget(QLabel(f"Deadline: {getattr(self.project, 'deadline', 'N/A')}"))
+        vbox.addWidget(self.tabs)
+        # Back button
+        self.back_btn = QPushButton("Back to Dashboard")
+        self.back_btn.clicked.connect(self.log_and_go_back)
+        vbox.addWidget(self.back_btn)
+        self.setLayout(vbox)
+
+    def init_team_members_tab(self):
+        tab = QWidget()
+        layout = QVBoxLayout()
+        # Member list with roles
+        self.member_list = QListWidget()
+        self.member_list.setSelectionMode(QListWidget.SingleSelection)
+        self.refresh_member_list()
+        layout.addWidget(QLabel("Team Members:"))
+        layout.addWidget(self.member_list)
+        # Add member controls
+        add_layout = QHBoxLayout()
+        self.add_member_combo = QComboBox()
+        self.add_member_combo.setEditable(True)
+        self.populate_add_member_combo()
+        add_layout.addWidget(QLabel("Add Member:"))
+        add_layout.addWidget(self.add_member_combo)
+        self.role_input = QLineEdit()
+        self.role_input.setPlaceholderText("Role (optional)")
+        add_layout.addWidget(self.role_input)
+        self.add_member_btn = QPushButton("Add")
+        self.add_member_btn.clicked.connect(self.add_member_to_project)
+        add_layout.addWidget(self.add_member_btn)
+        layout.addLayout(add_layout)
+        # Change leader button
+        self.change_leader_btn = QPushButton("Change Team Leader")
+        self.change_leader_btn.clicked.connect(self.show_change_leader_dialog)
+        layout.addWidget(self.change_leader_btn)
+        # Info label
+        self.member_info_label = QLabel("Hover over a member to filter tasks and Gantt chart.")
+        layout.addWidget(self.member_info_label)
+        self.member_list.itemEntered.connect(self.filter_by_member)
+        self.member_list.setMouseTracking(True)
+        tab.setLayout(layout)
+        self.tabs.addTab(tab, "Team Members")
+
+    def refresh_member_list(self):
+        self.member_list.clear()
+        for m in self.members:
+            username = getattr(m, "username", str(m))
+            project_role = getattr(m, "role", None)
+            company_role = getattr(m, "company_role", None)
+            display_role = project_role if project_role else (company_role if company_role else "member")
+            item = QListWidgetItem(f"{username} ({display_role})")
+            item.setData(Qt.ItemDataRole.UserRole, getattr(m, "id", None))
+            self.member_list.addItem(item)
+
+    def populate_add_member_combo(self):
+        self.add_member_combo.clear()
+        if db:
+            with db.SessionLocal() as session:
+                users = session.query(db.User).all()
+                for user in users:
+                    self.add_member_combo.addItem(user.username, user.id)
+
+    def add_member_to_project(self):
+        user_id = self.add_member_combo.currentData()
+        role = self.role_input.text().strip()
+        if user_id and db and hasattr(self.project, "id"):
+            if hasattr(db, "add_project_member"):
+                db.add_project_member(self.project.id, user_id, role)
+            self.refresh_members_from_db()
+            self.refresh_member_list()
+            self.populate_add_member_combo()
+
+    def refresh_members_from_db(self):
+        if db and hasattr(self.project, "id"):
+            with db.SessionLocal() as session:
+                proj = session.query(db.Project).filter_by(id=self.project.id).first()
+                self.members = getattr(proj, "members", [])
+                self.member_usernames = [getattr(m, "username", str(m)) for m in self.members]
+                self.member_ids = [getattr(m, "id", None) for m in self.members]
+
+    def filter_by_member(self, item):
+        member_id = item.data(Qt.ItemDataRole.UserRole)
+        # TODO: Filter tasks and Gantt chart by member_id
+
+    def show_change_leader_dialog(self):
+        dlg = QDialog(self)
+        dlg.setWindowTitle("Change Team Leader")
+        vbox = QVBoxLayout()
+        vbox.addWidget(QLabel("Select new team leader:"))
+        combo = QComboBox()
+        for m in self.members:
+            username = getattr(m, "username", str(m))
+            uid = getattr(m, "id", None)
+            combo.addItem(username, uid)
+        vbox.addWidget(combo)
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        vbox.addWidget(button_box)
+        dlg.setLayout(vbox)
+        def on_accept():
+            new_leader_id = combo.currentData()
+            if new_leader_id and db and hasattr(db, "update_project_leader"):
+                db.update_project_leader(getattr(self.project, "id", None), new_leader_id)
+                self.refresh_members_from_db()
+                self.refresh_member_list()
+            dlg.accept()
+        button_box.accepted.connect(on_accept)
+        button_box.rejected.connect(dlg.reject)
+        dlg.exec_()
+
+    def init_tasks_tab(self):
+        tab = QWidget()
+        layout = QVBoxLayout()
+        # Add Task Form
+        form_layout = QHBoxLayout()
+        self.task_title_input = QLineEdit()
+        self.task_title_input.setPlaceholderText("Task Name")
+        self.task_deadline_input = QDateEdit()
+        self.task_deadline_input.setCalendarPopup(True)
+        self.task_deadline_input.setDisplayFormat("yyyy-MM-dd")
+        self.task_deadline_input.setDate(QDate.currentDate())
+        self.task_assigned_combo = QComboBox()
+        self.task_assigned_combo.addItem("Unassigned", None)
+        for m in self.members:
+            self.task_assigned_combo.addItem(getattr(m, "username", str(m)), getattr(m, "id", None))
+        self.task_hours_input = QSpinBox()
+        self.task_hours_input.setMinimum(0)
+        self.task_hours_input.setMaximum(1000)
+        self.task_hours_input.setPrefix("Hours: ")
+        self.task_dep_input = QLineEdit()
+        self.task_dep_input.setReadOnly(True)
+        self.task_dep_btn = QPushButton("Select Dependencies")
+        self.task_dep_btn.clicked.connect(self.select_task_dependencies)
+        self.task_dep_ids = []
+        form_layout.addWidget(self.task_title_input)
+        form_layout.addWidget(self.task_deadline_input)
+        form_layout.addWidget(self.task_assigned_combo)
+        form_layout.addWidget(self.task_hours_input)
+        form_layout.addWidget(self.task_dep_input)
+        form_layout.addWidget(self.task_dep_btn)
+        self.add_task_btn = QPushButton("Add Task")
+        self.add_task_btn.clicked.connect(self.add_task)
+        form_layout.addWidget(self.add_task_btn)
+        layout.addLayout(form_layout)
+        # Task List
+        self.task_list = QListWidget()
+        self.task_list.itemClicked.connect(self.expand_task_item)
+        layout.addWidget(self.task_list)
+        tab.setLayout(layout)
+        self.tabs.addTab(tab, "Tasks")
+        self.load_tasks()
+
+    def select_task_dependencies(self):
+        dep_dialog = QDialog(self)
+        dep_dialog.setWindowTitle("Select Dependencies")
+        vbox = QVBoxLayout(dep_dialog)
+        dep_list = QListWidget()
+        dep_list.setSelectionMode(QListWidget.MultiSelection)
+        if db and hasattr(self.project, "id"):
+            tasks = db.get_tasks(self.project.id)
+            for task in tasks:
+                if hasattr(task, "id") and hasattr(task, "title"):
+                    item = QListWidgetItem(f"{task.id}: {task.title}")
+                    item.setData(32, task.id)
+                    dep_list.addItem(item)
+        vbox.addWidget(dep_list)
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        vbox.addWidget(button_box)
+        def accept():
+            self.task_dep_ids.clear()
+            selected_titles = []
+            for item in dep_list.selectedItems():
+                tid = item.data(32)
+                self.task_dep_ids.append(tid)
+                selected_titles.append(item.text() if item is not None else "")
+            self.task_dep_input.setText(", ".join(selected_titles))
+            dep_dialog.accept()
+        button_box.accepted.connect(accept)
+        button_box.rejected.connect(dep_dialog.reject)
+        dep_dialog.exec_()
+
+    def add_task(self):
+        title = self.task_title_input.text().strip()
+        due_date_qdate = self.task_deadline_input.date()
+        due_date_obj = due_date_qdate.toPyDate()
+        assigned_id = self.task_assigned_combo.currentData()
+        hours = self.task_hours_input.value()
+        dependencies = self.task_dep_ids
+        if not title or not db or not hasattr(self.project, "id"):
+            return
+        task = db.create_task(
+            project_id=self.project.id,
+            title=title,
+            due_date=datetime.datetime.combine(due_date_obj, datetime.time.min) if due_date_obj else None,
+            assigned_to=assigned_id,
+            dependencies=dependencies,
+            hours=hours
+        )
+        if task:
+            # Create "check progress" subtask
+            db.create_subtask(
+                task_id=task.id,
+                title="check progress",
+                due_date=due_date_obj,
+                assigned_to=assigned_id,
+                dependencies=[],
+                hours=0
+            )
+            self.load_tasks()
+            self.task_title_input.clear()
+            self.task_deadline_input.setDate(QDate.currentDate())
+            self.task_assigned_combo.setCurrentIndex(0)
+            self.task_hours_input.setValue(0)
+            self.task_dep_input.clear()
+            self.task_dep_ids.clear()
+
+    def load_tasks(self):
+        self.task_list.clear()
+        if db and hasattr(self.project, "id"):
+            tasks = db.get_tasks(self.project.id)
+            for task in tasks:
+                item = QListWidgetItem(f"{task.id}: {task.title} | Deadline: {getattr(task, 'deadline', 'N/A')} | Assigned: {getattr(task, 'assigned_to', 'Unassigned')}")
+                item.setData(32, task.id)
+                self.task_list.addItem(item)
+
+    def expand_task_item(self, item):
+        task_id = item.data(32)
+        if db and hasattr(db, "get_task") and hasattr(db, "get_subtasks"):
+            try:
+                task = getattr(db, "get_task", lambda task_id: None)(task_id)
+                subtasks = db.get_subtasks(task_id)
+            except Exception:
+                QMessageBox.warning(self, "Error", "Could not load task or subtasks.")
+                return
+            dlg = QDialog(self)
+            dlg.setWindowTitle(f"Task Details: {getattr(task, 'title', '')}")
+            vbox = QVBoxLayout()
+            vbox.addWidget(QLabel(f"Task: {getattr(task, 'title', '')}"))
+            vbox.addWidget(QLabel(f"Deadline: {getattr(task, 'deadline', 'N/A')}"))
+            vbox.addWidget(QLabel(f"Assigned: {getattr(task, 'assigned_to', 'Unassigned')}"))
+            vbox.addWidget(QLabel("Subtasks:"))
+            if subtasks:
+                for sub in subtasks:
+                    vbox.addWidget(QLabel(f"ID: {sub.id}, Name: {sub.title}, Deadline: {getattr(sub, 'deadline', 'N/A')}, Assigned: {getattr(sub, 'assigned_to', 'Unassigned')}"))
+            else:
+                vbox.addWidget(QLabel("No subtasks."))
+            add_subtask_btn = QPushButton("Add Subtask")
+            vbox.addWidget(add_subtask_btn)
+            def add_subtask():
+                self.show_add_subtask_dialog(task_id)
+                dlg.accept()
+            add_subtask_btn.clicked.connect(add_subtask)
+            dlg.setLayout(vbox)
+            dlg.exec_()
+
+    def show_add_subtask_dialog(self, parent_task_id):
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Add Subtask")
+        form = QFormLayout()
+        title_input = QLineEdit()
+        deadline_input = QDateEdit()
+        deadline_input.setCalendarPopup(True)
+        deadline_input.setDisplayFormat("yyyy-MM-dd")
+        deadline_input.setDate(QDate.currentDate())
+        dependencies_input = QLineEdit()
+        dependencies_input.setReadOnly(True)
+        dep_select_btn = QPushButton("Select Dependencies")
+        dep_ids = []
+        hours_input = QSpinBox()
+        hours_input.setMinimum(0)
+        hours_input.setMaximum(1000)
+        hours_input.setPrefix("Hours: ")
+        assigned_input = QComboBox()
+        assigned_input.addItem("Unassigned", None)
+        for m in self.members:
+            assigned_input.addItem(getattr(m, "username", str(m)), getattr(m, "id", None))
+        def open_dep_dialog():
+            dep_dialog = QDialog(dialog)
+            dep_dialog.setWindowTitle("Select Dependencies")
+            vbox = QVBoxLayout(dep_dialog)
+            dep_list = QListWidget()
+            dep_list.setSelectionMode(QListWidget.MultiSelection)
+            if db and hasattr(self.project, "id"):
+                tasks = db.get_tasks(self.project.id)
+                for task in tasks:
+                    if hasattr(task, "id") and hasattr(task, "title"):
+                        item = QListWidgetItem(f"Task {task.id}: {task.title}")
+                        item.setData(32, ("task", task.id))
+                        dep_list.addItem(item)
+                        if hasattr(db, "get_subtasks"):
+                            task_id = getattr(task, "id", None)
+                            if task_id is not None:
+                                subs = db.get_subtasks(task_id)
+                            else:
+                                subs = []
+                            for sub in subs:
+                                item2 = QListWidgetItem(f"Subtask {sub.id}: {sub.title}")
+                                item2.setData(32, ("subtask", sub.id))
+                                dep_list.addItem(item2)
+            vbox.addWidget(dep_list)
+            button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+            vbox.addWidget(button_box)
+            def accept():
+                dep_ids.clear()
+                selected_titles = []
+                for item in dep_list.selectedItems():
+                    kind, id_ = item.data(32)
+                    dep_ids.append((kind, id_))
+                    selected_titles.append(item.text() if item is not None else "")
+                dependencies_input.setText(", ".join(selected_titles))
+                dep_dialog.accept()
+            button_box.accepted.connect(accept)
+            button_box.rejected.connect(dep_dialog.reject)
+            dep_dialog.exec_()
+        dep_select_btn.clicked.connect(open_dep_dialog)
+        form.addRow("Subtask Name:", title_input)
+        form.addRow("Deadline (YYYY-MM-DD):", deadline_input)
+        form.addRow("Dependencies:", dependencies_input)
+        form.addRow("", dep_select_btn)
+        form.addRow("Assign to:", assigned_input)
+        form.addRow("Hours:", hours_input)
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        form.addRow(button_box)
+        dialog.setLayout(form)
+        def on_accept():
+            title = title_input.text().strip()
+            deadline = deadline_input.date().toString("yyyy-MM-dd")
+            dependencies = [id_ for kind, id_ in dep_ids]
+            assigned_id = assigned_input.currentData()
+            hours = hours_input.value()
+            if not title:
+                QMessageBox.warning(self, "Validation Error", "Subtask name is required.")
+                return
+            if db and hasattr(db, "create_subtask"):
+                db.create_subtask(
+                    task_id=parent_task_id,
+                    title=title,
+                    due_date=datetime.datetime.strptime(deadline, "%Y-%m-%d") if deadline else None,
+                    dependencies=dependencies,
+                    assigned_to=assigned_id,
+                    hours=hours
+                )
+                self.load_tasks()
+                dialog.accept()
+        button_box.accepted.connect(on_accept)
+        button_box.rejected.connect(dialog.reject)
+        dialog.exec_()
+
+    def init_gantt_tab(self):
+        tab = QWidget()
+        layout = QVBoxLayout()
+        self.gantt_chart = GanttChartWidget(getattr(self.project, "id", None))
+        layout.addWidget(self.gantt_chart)
+        tab.setLayout(layout)
+        self.tabs.addTab(tab, "Gantt Chart")
+
+    def init_calendar_tab(self):
+        tab = CalendarTabWidget(user=self.current_user)
+        self.tabs.addTab(tab, "Calendar")
+
+    def log_and_go_back(self):
+        log_event("User clicked 'Back to Dashboard' on Project Detail Page")
+        self.go_back()
+
+    def go_back(self):
+        mw = self.parent()
+        from Draft_2.app.main import MainWindow
+        while mw and not isinstance(mw, MainWindow):
+            mw = mw.parent()
+        if mw:
+            try:
+                if mw.dashboard is None or not isinstance(mw.dashboard, QWidget) or mw.dashboard.parent() is None:
+                    raise RuntimeError("Dashboard widget deleted")
+                mw.stack.setCurrentWidget(mw.dashboard)
+            except Exception:
+                mw.dashboard = DashboardView(main_window=mw, user=mw.current_user)
+                mw.stack.addWidget(mw.dashboard)
+                mw.stack.setCurrentWidget(mw.dashboard)
+            log_event("Returned to Dashboard from Project Detail Page")
 
     def refresh_members(self):
         # Clear layout except for persistent widgets
@@ -1637,8 +2067,16 @@ class ProjectDetailPage(QWidget):
         self.back_btn = QPushButton("Back to Dashboard")
         self.vbox.addWidget(self.back_btn)
         self.setLayout(self.vbox)
-        self.back_btn.clicked.connect(self.go_back)
-        self.delete_btn.clicked.connect(self.confirm_delete_project)
+        self.back_btn.clicked.connect(self.log_and_go_back)
+        self.delete_btn.clicked.connect(self.log_and_confirm_delete_project)
+
+    def log_and_go_back(self):
+        log_event("User clicked 'Back to Dashboard' on Project Detail Page")
+        self.go_back()
+
+    def log_and_confirm_delete_project(self):
+        log_event("User clicked 'Delete Project' on Project Detail Page")
+        self.confirm_delete_project()
 
     def load_tasks(self):
         self.task_list.clear()
@@ -2040,33 +2478,8 @@ class MainWindow(QMainWindow):
         self.project_detail_page = ProjectDetailPage(project, parent=self)
         self.stack.addWidget(self.project_detail_page)
         self.stack.setCurrentWidget(self.project_detail_page)
-
-        # --- DPI/UI scaling and zoom ---
-        self._scale_factor = 1.7  # Set default UI scale factor to 170%
-        self._min_scale = 0.5
-        self._max_scale = 3.0
-        self._base_font_size = self.font().pointSize()
-        self.installEventFilter(self)
-        self.setMouseTracking(True)
-        # self.current_user = user  # Removed: 'user' is not defined in this scope
-
-        # --- Only show the main dashboard ---
-        self.central_widget = QWidget()
-        self.setCentralWidget(self.central_widget)
-        main_layout = QHBoxLayout(self.central_widget)
-
-        self.dashboard = DashboardView(main_window=self, user=self.current_user)
-        main_layout.addWidget(self.dashboard)
-
-        log_event("Application started")
-
-        # --- Launch maximized (not fullscreen) ---
-        self.showMaximized()
-
-        # --- Initial DPI scaling ---
-        self._apply_scale()
-
-        self._load_user_display_pref()
+        log_event("Navigated to Project Detail Page")
+        # Do not reset central widget or dashboard here; just update the stack.
 
     def _load_user_display_pref(self):
         """
