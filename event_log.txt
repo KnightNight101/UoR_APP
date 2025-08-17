@@ -1908,3 +1908,21 @@ User logged out (logout key pressed)
 [2025-08-17T19:11:58.774743] Navigated to Project Detail Page
 [2025-08-17T19:11:59.794624] Project 'Another one' (ID 7) deleted.
 [2025-08-17T19:15:57.986914] User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T19:48:40.029988] Failed login attempt for user 'user'
+[2025-08-17T19:48:47.734376] User 'user' logged in
+[2025-08-17T19:48:50.054998] User clicked 'Create Project' button
+[2025-08-17T19:49:14.615896] Project 'Master's Dissertation' created by user (ID 2). Members: [{'user_id': None, 'role': 'leader'}, {'user_id': 2, 'role': 'leader'}]
+[2025-08-17T19:49:16.293105] User navigated back to dashboard (ProjectCreationPage)
+[2025-08-17T19:49:16.294151] Returned to Dashboard from Project Creation Page
+[2025-08-17T19:49:20.090904] User clicked 'Refresh Messages'
+[2025-08-17T19:49:22.586452] User logged out (logout key pressed)
+[2025-08-17T19:49:28.290467] User 'user' logged in
+[2025-08-17T19:49:29.731972] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-17T19:49:29.732525] DEBUG: main_window=<__main__.MainWindow object at 0x000002CAA6DF99A0>, project_obj=<db.Project object at 0x000002CAA6E80D70>
+[2025-08-17T19:49:29.733062] DEBUG: Calling show_project_detail_page
+[2025-08-17T19:49:29.800699] Navigated to Project Detail Page
+[2025-08-17T19:50:21.794838] Task added: 'Literature Review' | Project: 'Master's Dissertation' | Deadline: 2025-08-17 | Hours: 8 | Assigned to: None
+[2025-08-17T19:51:07.758058] Subtask added: 'Agile / Project Management Framework Section' | Parent Task: 1 | Project: 'Master's Dissertation' | Deadline: 2025-08-17 | Hours: 0
+[2025-08-17T19:51:36.603578] Project 'Master's Dissertation' (ID 1) deleted.
+[2025-08-17T19:52:06.387882] User logged out (logout key pressed)
