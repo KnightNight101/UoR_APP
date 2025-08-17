@@ -4,3 +4,28 @@
 [SQL: INSERT INTO messages (sender_id, recipient_id, content, read) VALUES (?, ?, ?, ?) RETURNING id, timestamp]
 [parameters: (2, 1, 'Testing', 0)]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
+[2025-08-17T13:02:56.897026] Task added: 'Task 1' | Project: 'Trial 2' | Deadline: 2025-09-08 00:00:00 | Hours: 8 | Assigned to: Unassigned
+[2025-08-17T13:03:31.858292] Task added: 'Task 2' | Project: 'Trial 2' | Deadline: 2025-08-29 00:00:00 | Hours: 8 | Assigned to: Unassigned
+[2025-08-17T13:11:19.365284] Task added: 'Don't know what number we're on' | Project: 'Trial' | Deadline: 2025-08-31 00:00:00 | Hours: 8 | Assigned to: Unassigned
+[2025-08-17T13:24:52.348211] Task added: 'kjsdfhad' | Project: 'Trial' | Deadline: 2025-08-26 00:00:00 | Hours: 8 | Assigned to: Unassigned
+[2025-08-17T16:13:33.529701] Task added: 'New Task 1' | Project: 'NewTrial' | Deadline: 2025-08-18 00:00:00 | Hours: 5 | Assigned to: Unassigned
+[2025-08-17T16:15:13.928875] Task added: 'New Task' | Project: 'NewTrial' | Deadline: 2025-08-18 00:00:00 | Hours: 5 | Assigned to: Unassigned
+[2025-08-17T16:17:08.391714] Task added: 'New Task' | Project: 'NewTrial' | Deadline: 2025-08-20 00:00:00 | Hours: 5 | Assigned to: Unassigned
+[2025-08-17T16:18:21.070010] Task added: 'New Task' | Project: 'NewTrial' | Deadline: 2025-08-26 00:00:00 | Hours: 4 | Assigned to: Unassigned
+[2025-08-17T16:20:42.963205] Task added: 'Task 1' | Project: 'NewTrial' | Deadline: 2025-08-28 00:00:00 | Hours: 5 | Assigned to: Unassigned
+[ERROR] [2025-08-17T16:21:18.711076] Error deleting task: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 18), (None, 19)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[ERROR] [2025-08-17T16:21:20.949979] Error deleting task: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 18), (None, 19)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[ERROR] [2025-08-17T16:21:23.660975] Error deleting task: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 20), (None, 21)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[ERROR] [2025-08-17T16:21:25.759957] Error deleting task: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 22), (None, 23)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)

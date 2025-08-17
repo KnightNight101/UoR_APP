@@ -3,6 +3,14 @@
 import os
 import bcrypt
 # Local error logging to avoid circular import
+def log_event(event):
+    """Append event messages to the event log."""
+    import datetime
+    LOG_FILE = os.path.join(os.path.dirname(__file__), "event_log.txt")
+    timestamp = datetime.datetime.now().isoformat()
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(f"[{timestamp}] {event}\n")
+
 def log_error(error_msg):
     """Append error messages to the event log and print to stderr."""
     import datetime, traceback, sys
@@ -301,6 +309,20 @@ def create_task(
             session.add(task)
             session.commit()
             print(f"[DEBUG] create_task: Task committed (id={task.id})")
+            # Log event for task creation
+            try:
+                project = session.query(Project).filter(Project.id == project_id).first()
+                project_name = getattr(project, "name", str(project_id)) if project else str(project_id)
+                assigned_user = "Unassigned"
+                if assigned_to:
+                    user_obj = session.query(User).filter(User.id == assigned_to).first()
+                    if user_obj:
+                        assigned_user = getattr(user_obj, "username", str(assigned_to))
+                log_event(
+                    f"Task added: '{title}' | Project: '{project_name}' | Deadline: {due_date} | Hours: {hours} | Assigned to: {assigned_user}"
+                )
+            except Exception as e:
+                log_error(f"Failed to log task creation event: {e}")
             # After creating the task, create the "check progress" subtask
             # The deadline is the same as the task's due_date (since no other subtasks yet)
             if task.id is not None:
