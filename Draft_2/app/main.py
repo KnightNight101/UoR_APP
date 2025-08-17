@@ -649,6 +649,11 @@ class CalendarTabWidget(QWidget):
         super().__init__(parent)
         self.user = user
         layout = QVBoxLayout()
+        # Add "week" heading above the calendar's week numbers
+        week_heading = QLabel("week")
+        week_heading.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        week_heading.setStyleSheet("font-weight: bold; margin-left: 32px;")
+        layout.addWidget(week_heading)
         self.calendar = QCalendarWidget()
         self.event_list = QListWidget()
         layout.addWidget(self.calendar)
