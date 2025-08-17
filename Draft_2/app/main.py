@@ -1645,7 +1645,7 @@ class ProjectDetailPage(QWidget):
         if task:
             # Create "check progress" subtask
             db.create_subtask(
-                task_id=task.id,
+                task_id=task["id"] if isinstance(task["id"], int) else int(str(getattr(task["id"], "default", 0))),
                 title="check progress",
                 due_date=due_date_obj,
                 assigned_to=assigned_id,
