@@ -277,6 +277,14 @@ class ProjectCreationPage(QWidget):
             title = widgets["title"].text().strip()
             deadline_val = widgets["deadline"].date().toString("yyyy-MM-dd") if widgets["deadline"].date().isValid() else ""
             assigned = widgets["assigned"].currentData()
+            # Validate assigned user ID: must be int and in selected members
+            try:
+                assigned = int(assigned) if assigned is not None else None
+            except Exception:
+                assigned = None
+            member_ids = [self.member_list.item(i).data(32) for i in range(self.member_list.count()) if self.member_list.item(i).isSelected()]
+            if assigned not in member_ids:
+                assigned = None
             # Use dep_ids for dependencies as list of indices (simulate IDs for new tasks)
             dependencies = widgets.get("dep_ids", [])
             hours = widgets["hours"].value()
@@ -1434,6 +1442,53 @@ class GanttChartWidget(QWidget):
         self.plot_gantt()
 
 class ProjectDetailPage(QWidget):
+    def expand_task_item(self, item):
+        # Remove any existing editor
+        self._remove_task_editor()
+        if not item:
+            return
+        task_id = item.data(32)
+        if not db or not hasattr(self.project, "id"):
+            return
+        # Find the task object
+        tasks = db.get_tasks(self.project.id)
+        task = next((t for t in tasks if getattr(t, "id", None) == task_id), None)
+        if not task:
+            return
+
+        def save_callback(task_obj, title, deadline, assigned_to, hours, dependencies):
+            if db and hasattr(db, "update_task"):
+                db.update_task(
+                    task_obj.id,
+                    title=title,
+                    due_date=deadline,
+                    assigned_to=assigned_to,
+                    dependencies=dependencies,
+                    hours=hours
+                )
+                self.load_tasks()
+
+        def delete_callback(task_obj):
+            if db and hasattr(db, "delete_task"):
+                db.delete_task(task_obj.id)
+                self.load_tasks()
+
+        editor = TaskEditWidget(task, self.members, save_callback, delete_callback, parent=self.task_list)
+        self.task_list.setItemWidget(item, editor)
+        self._current_task_editor_item = item
+
+    def _remove_task_editor(self):
+        # Remove the editor widget from the current item if present
+        if hasattr(self, "_current_task_editor_item") and self._current_task_editor_item:
+            # Only try to remove if the item still exists in the list
+            try:
+                idx = self.task_list.row(self._current_task_editor_item)
+                if idx != -1:
+                    self.task_list.setItemWidget(self._current_task_editor_item, None)
+            except RuntimeError:
+                pass  # Item was already deleted
+            self._current_task_editor_item = None
+
     def __init__(self, project, parent=None):
         super().__init__(parent)
         self.project = project
@@ -1453,6 +1508,7 @@ class ProjectDetailPage(QWidget):
         self.init_gantt_tab()
         self.init_calendar_tab()
 
+        # Main layout for the project details page
         vbox = QVBoxLayout()
         vbox.addWidget(QLabel(f"<b>{getattr(self.project, 'name', '')}</b>"))
         vbox.addWidget(QLabel(f"Deadline: {getattr(self.project, 'deadline', 'N/A')}"))
@@ -1462,6 +1518,21 @@ class ProjectDetailPage(QWidget):
         self.back_btn.clicked.connect(self.log_and_go_back)
         vbox.addWidget(self.back_btn)
         self.setLayout(vbox)
+    def init_gantt_tab(self):
+        gantt_tab = QWidget()
+        layout = QVBoxLayout()
+        gantt_chart = GanttChartWidget(getattr(self.project, "id", None))
+        layout.addWidget(gantt_chart)
+        gantt_tab.setLayout(layout)
+        self.tabs.addTab(gantt_tab, "Gantt Chart")
+
+    def init_calendar_tab(self):
+        tab = CalendarTabWidget(user=self.current_user)
+        self.tabs.addTab(tab, "Calendar")
+    def log_and_go_back(self):
+        log_event("User clicked 'Back to Dashboard' on Project Detail Page")
+        self.go_back()
+        self.tabs.addTab(tab, "Gantt Chart")
 
     def init_team_members_tab(self):
         tab = QWidget()
@@ -1501,12 +1572,20 @@ class ProjectDetailPage(QWidget):
     def refresh_member_list(self):
         self.member_list.clear()
         for m in self.members:
-            username = getattr(m, "username", str(m))
+            # Avoid DetachedInstanceError: fetch user info by user_id using a new session
+            user_id = getattr(m, "user_id", None)
             project_role = getattr(m, "role", None)
-            company_role = getattr(m, "company_role", None)
+            username = str(user_id)
+            company_role = None
+            if db and user_id is not None:
+                with db.SessionLocal() as session:
+                    user_obj = session.query(db.User).filter_by(id=user_id).first()
+                    if user_obj:
+                        username = getattr(user_obj, "username", str(user_id))
+                        company_role = getattr(user_obj, "role", None)
             display_role = project_role if project_role else (company_role if company_role else "member")
             item = QListWidgetItem(f"{username} ({display_role})")
-            item.setData(Qt.ItemDataRole.UserRole, getattr(m, "id", None))
+            item.setData(Qt.ItemDataRole.UserRole, user_id)
             self.member_list.addItem(item)
 
     def populate_add_member_combo(self):
@@ -1522,10 +1601,30 @@ class ProjectDetailPage(QWidget):
         role = self.role_input.text().strip()
         if user_id and db and hasattr(self.project, "id"):
             if hasattr(db, "add_project_member"):
-                db.add_project_member(self.project.id, user_id, role)
+                # user_id is the current user (for permission), new_member_id is the selected user
+                current_user_id = None
+                mw = self.parent()
+                while mw and not hasattr(mw, "current_user"):
+                    mw = mw.parent()
+                if mw and hasattr(mw, "current_user"):
+                    current_user_id = getattr(mw, "current_user", None)
+                    if hasattr(current_user_id, "id"):
+                        current_user_id = current_user_id.id
+                db.add_project_member(self.project.id, current_user_id, user_id, role)
             self.refresh_members_from_db()
             self.refresh_member_list()
             self.populate_add_member_combo()
+            # Also reload task assignment combos if present
+            if hasattr(self, "task_assigned_combo"):
+                self.task_assigned_combo.clear()
+                self.task_assigned_combo.addItem("Unassigned", None)
+                for m in self.members:
+                    self.task_assigned_combo.addItem(getattr(m, "username", str(m)), getattr(m, "id", None))
+            if hasattr(self, "assigned_input"):
+                self.assigned_input.clear()
+                self.assigned_input.addItem("Unassigned", None)
+                for m in self.members:
+                    self.assigned_input.addItem(getattr(m, "username", str(m)), getattr(m, "id", None))
 
     def refresh_members_from_db(self):
         if db and hasattr(self.project, "id"):
@@ -1604,7 +1703,27 @@ class ProjectDetailPage(QWidget):
         layout.addWidget(self.task_list)
         tab.setLayout(layout)
         self.tabs.addTab(tab, "Tasks")
-        self.load_tasks()
+    def load_tasks(self):
+        self.task_list.clear()
+        if db and hasattr(self.project, "id"):
+            tasks = db.get_tasks(self.project.id)
+            for task in tasks:
+                item = QListWidgetItem(f"{task.id}: {task.title} | Deadline: {getattr(task, 'deadline', 'N/A')} | Assigned: {getattr(task, 'assigned_to', 'Unassigned')}")
+                item.setData(32, task.id)
+                self.task_list.addItem(item)
+        # Refresh Gantt chart after loading tasks
+        # Safely refresh the Gantt chart if the tab and widget exist
+        gantt_chart = None
+        for i in range(self.tabs.count()):
+            if self.tabs.tabText(i) == "Gantt Chart":
+                tab = self.tabs.widget(i)
+                # Find GanttChartWidget in tab's children
+                for child in tab.findChildren(GanttChartWidget):
+                    gantt_chart = child
+                    break
+        if gantt_chart:
+            gantt_chart.refresh()
+        # (Removed recursive call to self.load_tasks() to prevent infinite recursion)
 
     def select_task_dependencies(self):
         dep_dialog = QDialog(self)
@@ -1662,6 +1781,16 @@ class ProjectDetailPage(QWidget):
                 dependencies=[],
                 hours=0
             )
+            # Log event with task details
+            project_name = getattr(self.project, "name", "N/A")
+            assigned_user = "Unassigned"
+            if assigned_id and hasattr(db, "get_user_by_id"):
+                user_obj = db.get_user_by_id(assigned_id)
+                if user_obj:
+                    assigned_user = getattr(user_obj, "username", str(assigned_id))
+            log_event(
+                f"Task added: '{title}' | Project: '{project_name}' | Deadline: {due_date_obj} | Hours: {hours} | Assigned to: {assigned_user}"
+            )
             self.load_tasks()
             self.task_title_input.clear()
             self.task_deadline_input.setDate(QDate.currentDate())
@@ -1670,56 +1799,127 @@ class ProjectDetailPage(QWidget):
             self.task_dep_input.clear()
             self.task_dep_ids.clear()
 
-    def load_tasks(self):
-        self.task_list.clear()
-        if db and hasattr(self.project, "id"):
-            tasks = db.get_tasks(self.project.id)
-            for task in tasks:
-                # Show deadline and assigned user correctly
-                deadline = getattr(task, "due_date", None)
-                if not deadline:
-                    deadline = getattr(task, "deadline", "N/A")
-                else:
-                    deadline = deadline.strftime("%Y-%m-%d") if hasattr(deadline, "strftime") else str(deadline)
-                assigned = getattr(task, "assigned_to", None)
-                if assigned and hasattr(db, "get_user_by_id"):
-                    user_obj = db.get_user_by_id(assigned)
-                    assigned_display = getattr(user_obj, "username", str(assigned)) if user_obj else str(assigned)
-                else:
-                    assigned_display = "Unassigned"
-                item = QListWidgetItem(f"{task.id}: {task.title} | Deadline: {deadline} | Assigned: {assigned_display}")
-                item.setData(32, task.id)
-                self.task_list.addItem(item)
+class TaskEditWidget(QWidget):
+    def __init__(self, task, members, save_callback, delete_callback, parent=None):
+        super().__init__(parent)
+        from PyQt5.QtWidgets import QHBoxLayout, QLineEdit, QDateEdit, QComboBox, QSpinBox, QPushButton
+        from PyQt5.QtCore import QDate
+        import json
 
-    def expand_task_item(self, item):
-        task_id = item.data(32)
-        if db and hasattr(db, "get_task") and hasattr(db, "get_subtasks"):
+        self.task = task
+        self.save_callback = save_callback
+        self.delete_callback = delete_callback
+
+        layout = QHBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        self.title_input = QLineEdit(getattr(task, "title", ""))
+        layout.addWidget(self.title_input)
+
+        self.deadline_input = QDateEdit()
+        self.deadline_input.setCalendarPopup(True)
+        deadline_val = getattr(task, "due_date", None)
+        if not deadline_val:
+            deadline_val = getattr(task, "deadline", None)
+        if deadline_val:
             try:
-                task = getattr(db, "get_task", lambda task_id: None)(task_id)
-                subtasks = db.get_subtasks(task_id)
+                if hasattr(deadline_val, "strftime"):
+                    self.deadline_input.setDate(QDate(deadline_val.year, deadline_val.month, deadline_val.day))
+                else:
+                    y, m, d = map(int, str(deadline_val).split("-"))
+                    self.deadline_input.setDate(QDate(y, m, d))
             except Exception:
-                QMessageBox.warning(self, "Error", "Could not load task or subtasks.")
-                return
-            dlg = QDialog(self)
-            dlg.setWindowTitle(f"Task Details: {getattr(task, 'title', '')}")
-            vbox = QVBoxLayout()
-            vbox.addWidget(QLabel(f"Task: {getattr(task, 'title', '')}"))
-            vbox.addWidget(QLabel(f"Deadline: {getattr(task, 'deadline', 'N/A')}"))
-            vbox.addWidget(QLabel(f"Assigned: {getattr(task, 'assigned_to', 'Unassigned')}"))
-            vbox.addWidget(QLabel("Subtasks:"))
-            if subtasks:
-                for sub in subtasks:
-                    vbox.addWidget(QLabel(f"ID: {sub.id}, Name: {sub.title}, Deadline: {getattr(sub, 'deadline', 'N/A')}, Assigned: {getattr(sub, 'assigned_to', 'Unassigned')}"))
-            else:
-                vbox.addWidget(QLabel("No subtasks."))
-            add_subtask_btn = QPushButton("Add Subtask")
-            vbox.addWidget(add_subtask_btn)
-            def add_subtask():
-                self.show_add_subtask_dialog(task_id)
-                dlg.accept()
-            add_subtask_btn.clicked.connect(add_subtask)
-            dlg.setLayout(vbox)
-            dlg.exec_()
+                self.deadline_input.setDate(QDate.currentDate())
+        else:
+            self.deadline_input.setDate(QDate.currentDate())
+        layout.addWidget(self.deadline_input)
+
+        self.assigned_input = QComboBox()
+        self.assigned_input.addItem("Unassigned", None)
+        for m in members:
+            user_obj = getattr(m, "user", None)
+            username = getattr(user_obj, "username", str(user_obj)) if user_obj else str(m)
+            uid = getattr(user_obj, "id", None) if user_obj else getattr(m, "user_id", None)
+            self.assigned_input.addItem(username, uid)
+        assigned_id = getattr(task, "assigned_to", None)
+        if assigned_id:
+            idx = self.assigned_input.findData(assigned_id)
+            if idx >= 0:
+                self.assigned_input.setCurrentIndex(idx)
+        layout.addWidget(self.assigned_input)
+
+        self.hours_input = QSpinBox()
+        self.hours_input.setMinimum(0)
+        self.hours_input.setMaximum(1000)
+        hours_val = getattr(task, "hours", 0) or 0
+        self.hours_input.setValue(int(hours_val))
+        layout.addWidget(self.hours_input)
+
+        self.dep_btn = QPushButton("Deps")
+        self.dep_ids = []
+        try:
+            self.dep_ids = json.loads(getattr(task, "dependencies", "[]") or "[]")
+        except Exception:
+            self.dep_ids = []
+        self.dep_btn.clicked.connect(self.open_dep_dialog)
+        layout.addWidget(self.dep_btn)
+
+        self.save_btn = QPushButton("Save")
+        self.save_btn.clicked.connect(self.save)
+        layout.addWidget(self.save_btn)
+
+        self.delete_btn = QPushButton("Delete")
+        self.delete_btn.clicked.connect(self.delete)
+        layout.addWidget(self.delete_btn)
+
+        self.setLayout(layout)
+
+    def open_dep_dialog(self):
+        from PyQt5.QtWidgets import QDialog, QVBoxLayout, QListWidget, QDialogButtonBox, QListWidgetItem
+        dep_dialog = QDialog(self)
+        dep_dialog.setWindowTitle("Select Dependencies")
+        vbox = QVBoxLayout(dep_dialog)
+        dep_list = QListWidget()
+        dep_list.setSelectionMode(QListWidget.MultiSelection)
+        if hasattr(self.parent(), "project") and hasattr(self.parent().project, "id"):
+            db = __import__("Draft_2.app.db", fromlist=["get_tasks"])
+            tasks = db.get_tasks(self.parent().project.id)
+            for t in tasks:
+                if hasattr(t, "id") and hasattr(t, "title"):
+                    item = QListWidgetItem(f"{t.id}: {t.title}")
+                    item.setData(32, t.id)
+                    dep_list.addItem(item)
+        for i in range(dep_list.count()):
+            item = dep_list.item(i)
+            if item and item.data(32) in self.dep_ids:
+                item.setSelected(True)
+        vbox.addWidget(dep_list)
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        vbox.addWidget(button_box)
+        def accept():
+            self.dep_ids.clear()
+            for item in dep_list.selectedItems():
+                tid = item.data(32)
+                self.dep_ids.append(tid)
+            dep_dialog.accept()
+        button_box.accepted.connect(accept)
+        button_box.rejected.connect(dep_dialog.reject)
+        dep_dialog.exec_()
+
+    def save(self):
+        self.save_callback(
+            self.task,
+            self.title_input.text().strip(),
+            self.deadline_input.date().toPyDate(),
+            self.assigned_input.currentData(),
+            self.hours_input.value(),
+            self.dep_ids
+        )
+
+    def delete(self):
+        self.delete_callback(self.task)
+
+    # Removed duplicate/legacy expand_task_item to avoid method conflict.
 
     def show_add_subtask_dialog(self, parent_task_id):
         dialog = QDialog(self)
@@ -2087,6 +2287,16 @@ class ProjectDetailPage(QWidget):
         self.add_task_inline_btn.clicked.connect(self.add_task_inline)
         self.task_list.itemClicked.connect(self.expand_task_item)
 
+
+    def _remove_task_editor(self):
+        # Remove the editor widget from the current item if present
+        if hasattr(self, "_current_task_editor_item") and self._current_task_editor_item:
+            self.task_list.setItemWidget(self._current_task_editor_item, None)
+            self._current_task_editor_item = None
+    # Removed duplicate expand_task_item (should only exist once in ProjectDetailPage)
+
+    # Removed duplicate _remove_task_editor (should only exist once in ProjectDetailPage)
+
         # Delete Project button
         self.delete_btn = QPushButton("Delete Project")
         self.vbox.addWidget(self.delete_btn)
@@ -2097,55 +2307,15 @@ class ProjectDetailPage(QWidget):
         self.back_btn.clicked.connect(self.log_and_go_back)
         self.delete_btn.clicked.connect(self.log_and_confirm_delete_project)
 
-    def log_and_go_back(self):
-        log_event("User clicked 'Back to Dashboard' on Project Detail Page")
-        self.go_back()
 
     def log_and_confirm_delete_project(self):
         log_event("User clicked 'Delete Project' on Project Detail Page")
         self.confirm_delete_project()
 
-    def load_tasks(self):
-        self.task_list.clear()
-        if db and hasattr(self.project, "id"):
-            tasks = db.get_tasks(self.project.id)
-            for task in tasks:
-                item = QListWidgetItem(f"{task.id}: {task.title} | Deadline: {getattr(task, 'deadline', 'N/A')} | Assigned: {getattr(task, 'assigned_to', 'Unassigned')}")
-                item.setData(32, task.id)
-                self.task_list.addItem(item)
-        # Refresh Gantt chart after loading tasks
-        if hasattr(self, "gantt_chart"):
-            self.gantt_chart.refresh()
 
-    def expand_task_item(self, item):
-        task_id = item.data(32)
-        if db and hasattr(db, "get_task") and hasattr(db, "get_subtasks"):
-            try:
-                task = getattr(db, "get_task", lambda task_id: None)(task_id)
-                subtasks = db.get_subtasks(task_id)
-            except Exception:
-                QMessageBox.warning(self, "Error", "Could not load task or subtasks.")
-                return
-            dlg = QDialog(self)
-            dlg.setWindowTitle(f"Task Details: {getattr(task, 'title', '')}")
-            vbox = QVBoxLayout()
-            vbox.addWidget(QLabel(f"Task: {getattr(task, 'title', '')}"))
-            vbox.addWidget(QLabel(f"Deadline: {getattr(task, 'deadline', 'N/A')}"))
-            vbox.addWidget(QLabel(f"Assigned: {getattr(task, 'assigned_to', 'Unassigned')}"))
-            vbox.addWidget(QLabel("Subtasks:"))
-            if subtasks:
-                for sub in subtasks:
-                    vbox.addWidget(QLabel(f"ID: {sub.id}, Name: {sub.title}, Deadline: {getattr(sub, 'deadline', 'N/A')}, Assigned: {getattr(sub, 'assigned_to', 'Unassigned')}"))
-            else:
-                vbox.addWidget(QLabel("No subtasks."))
-            add_subtask_btn = QPushButton("Add Subtask")
-            vbox.addWidget(add_subtask_btn)
-            def add_subtask():
-                self.show_add_subtask_dialog(task_id)
-                dlg.accept()
-            add_subtask_btn.clicked.connect(add_subtask)
-            dlg.setLayout(vbox)
-            dlg.exec_()
+    # Removed duplicate expand_task_item (should only exist once in ProjectDetailPage)
+
+    # Removed duplicate _remove_task_editor (should only exist once in ProjectDetailPage)
 
     def add_task_inline(self):
         title = self.title_input.text().strip()
@@ -2180,7 +2350,15 @@ class ProjectDetailPage(QWidget):
                 QMessageBox.warning(self, "Error", error_msg)
                 return
             if task:
-                log_event(f"Task '{title}' added to project {self.project.id} by user. Due date: {due_date_obj}, Dependencies: {dependencies}, Assigned: {assigned_id}, Hours: {hours}")
+                project_name = getattr(self.project, "name", "N/A")
+                assigned_user = "Unassigned"
+                if assigned_id and hasattr(db, "get_user_by_id"):
+                    user_obj = db.get_user_by_id(assigned_id)
+                    if user_obj:
+                        assigned_user = getattr(user_obj, "username", str(assigned_id))
+                log_event(
+                    f"Task added: '{title}' | Project: '{project_name}' | Deadline: {due_date_obj} | Hours: {hours} | Assigned to: {assigned_user}"
+                )
                 self.load_tasks()
                 # Also reload subtasks for all tasks to reflect new "check progress" subtask
                 if hasattr(self, "task_list"):
@@ -2199,140 +2377,7 @@ class ProjectDetailPage(QWidget):
                 log_error(error_msg)
                 QMessageBox.warning(self, "Error", error_msg)
 
-    def show_add_subtask_dialog(self, parent_task_id):
-        dialog = QDialog(self)
-        dialog.setWindowTitle("Add Subtask")
-        form = QFormLayout()
-        title_input = QLineEdit()
-        from PyQt5.QtCore import QDate
-        deadline_input = QDateEdit()
-        deadline_input.setCalendarPopup(True)
-        deadline_input.setDisplayFormat("yyyy-MM-dd")
-        deadline_input.setDate(QDate.currentDate())
-        dependencies_input = QLineEdit()
-        dependencies_input.setReadOnly(True)
-        dep_select_btn = QPushButton("Select Dependencies")
-        dep_ids = []
-        
-        # --- Hours input for subtasks ---
-        hours_input = QSpinBox()
-        hours_input.setMinimum(0)
-        hours_input.setMaximum(1000)
-        hours_input.setPrefix("Hours: ")
-        
-        def open_dep_dialog():
-            dep_dialog = QDialog(dialog)
-            dep_dialog.setWindowTitle("Select Dependencies")
-            vbox = QVBoxLayout(dep_dialog)
-            dep_list = QListWidget()
-            dep_list.setSelectionMode(QListWidget.MultiSelection)
-            # Populate with all other tasks and subtasks in the project
-            if db and hasattr(self.project, "id"):
-                tasks = db.get_tasks(self.project.id)
-                for task in tasks:
-                    if hasattr(task, "id") and hasattr(task, "title"):
-                        item = QListWidgetItem(f"Task {task.id}: {task.title}")
-                        item.setData(32, ("task", task.id))
-                        dep_list.addItem(item)
-                        # Add subtasks
-                        if hasattr(db, "get_subtasks"):
-                            task_id = getattr(task, "id", None)
-                            if task_id is not None:
-                                subs = db.get_subtasks(task_id)
-                            else:
-                                subs = []
-                            for sub in subs:
-                                item2 = QListWidgetItem(f"Subtask {sub.id}: {sub.title}")
-                                item2.setData(32, ("subtask", sub.id))
-                                dep_list.addItem(item2)
-            vbox.addWidget(dep_list)
-            button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-            vbox.addWidget(button_box)
-            def accept():
-                dep_ids.clear()
-                selected_titles = []
-                for item in dep_list.selectedItems():
-                    kind, id_ = item.data(32)
-                    dep_ids.append((kind, id_))
-                    selected_titles.append(item.text() if item is not None else "")
-                dependencies_input.setText(", ".join(selected_titles))
-                dep_dialog.accept()
-            button_box.accepted.connect(accept)
-            button_box.rejected.connect(dep_dialog.reject)
-            dep_dialog.exec_()
-        dep_select_btn.clicked.connect(open_dep_dialog)
-        
-        assigned_input = QComboBox()
-        assigned_input.addItem("Unassigned", None)
-        for m in self.members:
-            assigned_input.addItem(getattr(m, "username", str(m)), getattr(m, "id", None))
-        form.addRow("Subtask Name:", title_input)
-        form.addRow("Deadline (YYYY-MM-DD):", deadline_input)
-        form.addRow("Dependencies:", dependencies_input)
-        form.addRow("", dep_select_btn)
-        form.addRow("Assign to:", assigned_input)
-        form.addRow("Hours:", hours_input)
-        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        form.addRow(button_box)
-        dialog.setLayout(form)
-        def on_accept():
-            title = title_input.text().strip()
-            deadline = deadline_input.date().toString("yyyy-MM-dd")
-            dependencies = [id_ for kind, id_ in dep_ids]
-            assigned_id = assigned_input.currentData()
-            hours = hours_input.value()
-            if not title:
-                error_msg = "Subtask name is required."
-                log_error(error_msg)
-                QMessageBox.warning(self, "Validation Error", error_msg)
-                return
-            if db and hasattr(db, "create_subtask"):
-                try:
-                    # Adjust parameter names to match expected signature
-                    subtask = db.create_subtask(
-                        task_id=parent_task_id,
-                        title=title,
-                        # Convert deadline string to datetime if needed
-                        due_date=datetime.datetime.strptime(deadline, "%Y-%m-%d") if deadline else None,
-                        dependencies=dependencies,
-                        assigned_to=assigned_id,
-                        hours=hours
-                    )
-                except Exception:
-                    error_msg = "Failed to add subtask (DB error)."
-                    log_error(error_msg)
-                    QMessageBox.warning(self, "Error", error_msg)
-                    return
-                if subtask:
-                    log_event(f"Subtask '{title}' added to task {parent_task_id} by user. Deadline: {deadline}, Dependencies: {dependencies}, Assigned: {assigned_id}, Hours: {hours}")
-                    self.load_tasks()
-                    # Also reload subtasks for this task to reflect "check progress" deadline update
-                    self.expand_task_item(self.task_list.currentItem() if hasattr(self, "task_list") else None)
-                    dialog.accept()
-                else:
-                    error_msg = "Failed to add subtask."
-                    log_error(error_msg)
-                    QMessageBox.warning(self, "Error", error_msg)
-        button_box.accepted.connect(on_accept)
-        button_box.rejected.connect(dialog.reject)
-        dialog.exec_()
 
-    def go_back(self):
-        # Find main window and return to dashboard
-        mw = self.parent()
-        # Robustly find MainWindow by attribute presence
-        while mw and not (hasattr(mw, "dashboard") and hasattr(mw, "stack") and hasattr(mw, "current_user")):
-            mw = mw.parent()
-        if mw:
-            try:
-                if mw.dashboard is None or not isinstance(mw.dashboard, QWidget) or mw.dashboard.parent() is None:
-                    raise RuntimeError("Dashboard widget deleted")
-                mw.stack.setCurrentWidget(mw.dashboard)
-            except Exception:
-                mw.dashboard = DashboardView(main_window=mw, user=mw.current_user)
-                mw.stack.addWidget(mw.dashboard)
-                mw.stack.setCurrentWidget(mw.dashboard)
-            log_event("Returned to Dashboard from Project Detail Page")
 
     def confirm_delete_project(self):
         reply = QMessageBox.question(
