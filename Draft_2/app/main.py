@@ -1625,6 +1625,17 @@ class ProjectDetailPage(QWidget):
                     mw = mw.parent()
                 if mw and hasattr(mw, "current_user") and mw.current_user:
                     user_id = getattr(mw.current_user, "id", None)
+                # --- Delete all subtasks for all tasks in this project before deleting the project ---
+                if db and hasattr(db, "get_tasks") and hasattr(db, "get_subtasks") and hasattr(db, "delete_subtask"):
+                    tasks = db.get_tasks(project_id)
+                    for task in tasks:
+                        task_id = getattr(task, "id", None)
+                        if task_id is not None:
+                            subtasks = db.get_subtasks(task_id)
+                            for sub in subtasks:
+                                sub_id = getattr(sub, "id", None)
+                                if sub_id is not None:
+                                    db.delete_subtask(sub_id)
                 if user_id is not None:
                     result = db.delete_project(project_id, user_id)
                 else:
@@ -1647,6 +1658,9 @@ class ProjectDetailPage(QWidget):
                             mw.dashboard = DashboardView(main_window=mw, user=mw.current_user)
                             mw.stack.addWidget(mw.dashboard)
                             mw.stack.setCurrentWidget(mw.dashboard)
+                        # Always refresh project list after navigation
+                        if hasattr(mw.dashboard, "load_projects"):
+                            mw.dashboard.load_projects()
                 else:
                     error_msg = "Failed to delete project from database."
                     log_error(error_msg)
