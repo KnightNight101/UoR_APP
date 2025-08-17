@@ -1876,6 +1876,7 @@ class ProjectDetailPage(QWidget):
                     f"Subtask added: '{title}' | Parent Task: {parent_task_id} | Project: '{getattr(self.project, 'name', 'N/A')}' | Deadline: {due_date_obj} | Hours: {hours}"
                 )
                 self.load_tasks()
+                self.refresh_task_dropdowns()
                 self.task_title_input.clear()
                 self.task_deadline_input.setDate(QDate.currentDate())
                 self.task_assigned_combo.setCurrentIndex(0)
@@ -1899,6 +1900,7 @@ class ProjectDetailPage(QWidget):
             f"Task added: '{title}' | Project: '{getattr(self.project, 'name', 'N/A')}' | Deadline: {due_date_obj} | Hours: {hours} | Assigned to: {assigned_id}"
         )
         self.load_tasks()
+        self.refresh_task_dropdowns()
         self.task_title_input.clear()
         self.task_deadline_input.setDate(QDate.currentDate())
         self.task_assigned_combo.setCurrentIndex(0)
