@@ -313,7 +313,8 @@ def create_task(
                 session.add(subtask)
                 session.commit()
                 print(f"[DEBUG] create_task: Subtask committed (id={subtask.id})")
-            return task
+            # Return a plain dict with the task id as an int to avoid DetachedInstanceError
+            return {"id": int(task.id) if hasattr(task, "id") and not isinstance(task.id, Column) else task.id}
     except Exception as e:
         import traceback
         log_error(f"Error creating task: {e}\n{traceback.format_exc()}")
