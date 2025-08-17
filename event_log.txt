@@ -1791,3 +1791,14 @@ User logged out (logout key pressed)
 [2025-08-17T17:11:01.238744] DEBUG: Calling show_project_detail_page
 [2025-08-17T17:11:01.319900] Navigated to Project Detail Page
 [2025-08-17T17:11:12.951510] Task added: 'New Task' | Project: 'NewTrial' | Deadline: 2025-08-17 | Hours: 0 | Assigned to: Unassigned
+[2025-08-17T17:12:34.102145] Task added: 'final check' | Project: 'NewTrial' | Deadline: 2025-08-17 | Hours: 0 | Assigned to: Unassigned
+[2025-08-17T17:39:22.789541] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T17:39:22.791188] Returned to Dashboard from Project Detail Page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T17:39:37.849830] User 'user' logged in
+[2025-08-17T17:39:39.471362] User selected project from dashboard: id=10, name=NewTrial
+[2025-08-17T17:39:39.471892] DEBUG: main_window=<__main__.MainWindow object at 0x00000172E7F2A0F0>, project_obj=<db.Project object at 0x00000172E95D9AF0>
+[2025-08-17T17:39:39.472483] DEBUG: Calling show_project_detail_page
+[2025-08-17T17:39:39.547228] Navigated to Project Detail Page
+[2025-08-17T17:39:58.344854] Task added: 'Second Task' | Project: 'NewTrial' | Deadline: 2025-08-30 | Hours: 4 | Assigned to: None
+[2025-08-17T17:40:19.040465] Subtask added: 'Final Check' | Parent Task: 15 | Project: 'NewTrial' | Deadline: 2025-08-17 | Hours: 0

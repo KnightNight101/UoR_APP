@@ -1858,12 +1858,12 @@ class ProjectDetailPage(QWidget):
         if not title or not db or not hasattr(self.project, "id"):
             return
 
-        # Subtask logic
+        import datetime as dt
+
+        # If "Make as sub task" is checked and a parent is selected, create subtask
         if hasattr(self, "make_subtask_checkbox") and self.make_subtask_checkbox.isChecked():
             parent_task_id = self.parent_task_dropdown.currentData()
             if parent_task_id:
-                # Create as Subtask
-                import datetime as dt
                 db.create_subtask(
                     task_id=parent_task_id,
                     title=title,
@@ -1885,44 +1885,28 @@ class ProjectDetailPage(QWidget):
                 self.make_subtask_checkbox.setChecked(False)
                 self.parent_task_dropdown.setCurrentIndex(0)
                 return
+
         # Otherwise, create as Task
-        task = db.create_task(
+        db.create_task(
             project_id=self.project.id,
             title=title,
-            due_date=datetime.datetime.combine(due_date_obj, datetime.time.min) if due_date_obj else None,
+            due_date=dt.datetime.combine(due_date_obj, dt.time.min) if due_date_obj else None,
             assigned_to=assigned_id,
             dependencies=dependencies,
             hours=hours
         )
-        if task:
-            # Create "check progress" subtask
-            db.create_subtask(
-                task_id=task["id"] if isinstance(task["id"], int) else int(str(getattr(task["id"], "default", 0))),
-                title="check progress",
-                due_date=datetime.datetime.combine(due_date_obj, datetime.time.min) if due_date_obj else None,
-                assigned_to=assigned_id,
-                dependencies=[],
-                hours=0
-            )
-            # Log event with task details
-            project_name = getattr(self.project, "name", "N/A")
-            assigned_user = "Unassigned"
-            if assigned_id and hasattr(db, "get_user_by_id"):
-                user_obj = db.get_user_by_id(assigned_id)
-                if user_obj:
-                    assigned_user = getattr(user_obj, "username", str(assigned_id))
-            log_event(
-                f"Task added: '{title}' | Project: '{project_name}' | Deadline: {due_date_obj} | Hours: {hours} | Assigned to: {assigned_user}"
-            )
-            self.load_tasks()
-            self.task_title_input.clear()
-            self.task_deadline_input.setDate(QDate.currentDate())
-            self.task_assigned_combo.setCurrentIndex(0)
-            self.task_hours_input.setValue(0)
-            self.task_dep_input.clear()
-            self.task_dep_ids.clear()
-            self.make_subtask_checkbox.setChecked(False)
-            self.parent_task_dropdown.setCurrentIndex(0)
+        log_event(
+            f"Task added: '{title}' | Project: '{getattr(self.project, 'name', 'N/A')}' | Deadline: {due_date_obj} | Hours: {hours} | Assigned to: {assigned_id}"
+        )
+        self.load_tasks()
+        self.task_title_input.clear()
+        self.task_deadline_input.setDate(QDate.currentDate())
+        self.task_assigned_combo.setCurrentIndex(0)
+        self.task_hours_input.setValue(0)
+        self.task_dep_input.clear()
+        self.task_dep_ids.clear()
+        self.make_subtask_checkbox.setChecked(False)
+        self.parent_task_dropdown.setCurrentIndex(0)
 
 class TaskEditWidget(QWidget):
     def __init__(self, task, members, save_callback, delete_callback, parent=None):
@@ -2064,15 +2048,14 @@ class TaskEditWidget(QWidget):
         make_subtask = self.make_subtask_checkbox.isChecked()
         parent_task_id = self.parent_task_dropdown.currentData() if make_subtask else None
 
-        # If converting Task to Subtask
+        # Convert Task to Subtask
         if not is_subtask and make_subtask and parent_task_id:
             if db and hasattr(self.task, "id") and hasattr(db, "get_subtasks"):
                 subtasks = db.get_subtasks(self.task.id)
                 if subtasks:
                     QMessageBox.warning(self, "Conversion Not Allowed", "Cannot convert a task with subtasks into a subtask.")
                     return
-                if hasattr(db, "delete_task"):
-                    db.delete_task(self.task.id)
+                db.delete_task(self.task.id)
                 db.create_subtask(
                     task_id=parent_task_id,
                     title=self.title_input.text().strip(),
@@ -2085,11 +2068,11 @@ class TaskEditWidget(QWidget):
                     self.parent().load_tasks()
                 return
 
-        # If converting Subtask to Task
+        # Convert Subtask to Task
         if is_subtask and not make_subtask:
-            if db and hasattr(self.task, "id") and hasattr(db, "delete_subtask"):
+            if db and hasattr(self.task, "id"):
                 db.delete_subtask(self.task.id)
-            if db and hasattr(self.parent(), "project") and hasattr(db, "create_task"):
+            if db and hasattr(self.parent(), "project"):
                 db.create_task(
                     project_id=self.parent().project.id,
                     title=self.title_input.text().strip(),
@@ -2102,7 +2085,7 @@ class TaskEditWidget(QWidget):
                 self.parent().load_tasks()
             return
 
-        # Otherwise, normal save
+        # Normal save (edit task or subtask)
         self.save_callback(
             self.task,
             self.title_input.text().strip(),
