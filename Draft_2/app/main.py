@@ -1469,8 +1469,14 @@ class ProjectDetailPage(QWidget):
                 self.load_tasks()
 
         def delete_callback(task_obj):
-            if db and hasattr(db, "delete_task"):
-                db.delete_task(task_obj.id)
+            if db:
+                # Delete all subtasks before deleting the task
+                if hasattr(db, "get_subtasks") and hasattr(db, "delete_subtask"):
+                    subtasks = db.get_subtasks(task_obj.id)
+                    for sub in subtasks:
+                        db.delete_subtask(getattr(sub, "id", None))
+                if hasattr(db, "delete_task"):
+                    db.delete_task(task_obj.id)
                 self.load_tasks()
 
         editor = TaskEditWidget(task, self.members, save_callback, delete_callback, parent=self.task_list)
@@ -1518,6 +1524,8 @@ class ProjectDetailPage(QWidget):
         self.back_btn.clicked.connect(self.log_and_go_back)
         vbox.addWidget(self.back_btn)
         self.setLayout(vbox)
+        # Ensure tasks are loaded and displayed on page load
+        self.load_tasks()
     def init_gantt_tab(self):
         gantt_tab = QWidget()
         layout = QVBoxLayout()
@@ -1531,6 +1539,21 @@ class ProjectDetailPage(QWidget):
         self.tabs.addTab(tab, "Calendar")
     def log_and_go_back(self):
         log_event("User clicked 'Back to Dashboard' on Project Detail Page")
+    def go_back(self):
+        mw = self.parent()
+        # Robustly find MainWindow by attribute presence
+        while mw and not (hasattr(mw, "dashboard") and hasattr(mw, "stack") and hasattr(mw, "current_user")):
+            mw = mw.parent()
+        if mw:
+            try:
+                if mw.dashboard is None or not isinstance(mw.dashboard, QWidget) or mw.dashboard.parent() is None:
+                    raise RuntimeError("Dashboard widget deleted")
+                mw.stack.setCurrentWidget(mw.dashboard)
+            except Exception:
+                mw.dashboard = DashboardView(main_window=mw, user=mw.current_user)
+                mw.stack.addWidget(mw.dashboard)
+                mw.stack.setCurrentWidget(mw.dashboard)
+            log_event("Returned to Dashboard from Project Detail Page")
         self.go_back()
         self.tabs.addTab(tab, "Gantt Chart")
 
@@ -1667,6 +1690,7 @@ class ProjectDetailPage(QWidget):
         tab = QWidget()
         layout = QVBoxLayout()
         # Add Task Form
+        from PyQt5.QtWidgets import QCheckBox
         form_layout = QHBoxLayout()
         self.task_title_input = QLineEdit()
         self.task_title_input.setPlaceholderText("Task Name")
@@ -1687,12 +1711,28 @@ class ProjectDetailPage(QWidget):
         self.task_dep_btn = QPushButton("Select Dependencies")
         self.task_dep_btn.clicked.connect(self.select_task_dependencies)
         self.task_dep_ids = []
+
+        # --- Subtask UI ---
+        self.make_subtask_checkbox = QCheckBox("Make as sub task")
+        self.parent_task_dropdown = QComboBox()
+        self.parent_task_dropdown.setVisible(False)
+        self.parent_task_dropdown.addItem("Select parent task", None)
+        if db and hasattr(self.project, "id"):
+            tasks = db.get_tasks(self.project.id)
+            for t in tasks:
+                self.parent_task_dropdown.addItem(f"{t.id}: {t.title}", t.id)
+        def on_subtask_checkbox_changed(state):
+            self.parent_task_dropdown.setVisible(self.make_subtask_checkbox.isChecked())
+        self.make_subtask_checkbox.stateChanged.connect(on_subtask_checkbox_changed)
+
         form_layout.addWidget(self.task_title_input)
         form_layout.addWidget(self.task_deadline_input)
         form_layout.addWidget(self.task_assigned_combo)
         form_layout.addWidget(self.task_hours_input)
         form_layout.addWidget(self.task_dep_input)
         form_layout.addWidget(self.task_dep_btn)
+        form_layout.addWidget(self.make_subtask_checkbox)
+        form_layout.addWidget(self.parent_task_dropdown)
         self.add_task_btn = QPushButton("Add Task")
         self.add_task_btn.clicked.connect(self.add_task)
         form_layout.addWidget(self.add_task_btn)
@@ -1708,16 +1748,25 @@ class ProjectDetailPage(QWidget):
         if db and hasattr(self.project, "id"):
             tasks = db.get_tasks(self.project.id)
             for task in tasks:
+                # Add main task item
                 item = QListWidgetItem(f"{task.id}: {task.title} | Deadline: {getattr(task, 'deadline', 'N/A')} | Assigned: {getattr(task, 'assigned_to', 'Unassigned')}")
                 item.setData(32, task.id)
                 self.task_list.addItem(item)
+                # Add subtasks indented under the task
+                if hasattr(db, "get_subtasks"):
+                    subtasks = db.get_subtasks(task.id)
+                    for sub in subtasks:
+                        sub_item = QListWidgetItem(f"    ↳ {sub.id}: {sub.title} | Deadline: {getattr(sub, 'due_date', 'N/A')} | Assigned: {getattr(sub, 'assigned_to', 'Unassigned')}")
+                        sub_item.setData(32, f"subtask:{sub.id}")
+                        font = sub_item.font()
+                        font.setItalic(True)
+                        sub_item.setFont(font)
+                        self.task_list.addItem(sub_item)
         # Refresh Gantt chart after loading tasks
-        # Safely refresh the Gantt chart if the tab and widget exist
         gantt_chart = None
         for i in range(self.tabs.count()):
             if self.tabs.tabText(i) == "Gantt Chart":
                 tab = self.tabs.widget(i)
-                # Find GanttChartWidget in tab's children
                 for child in tab.findChildren(GanttChartWidget):
                     gantt_chart = child
                     break
@@ -1763,6 +1812,35 @@ class ProjectDetailPage(QWidget):
         dependencies = self.task_dep_ids
         if not title or not db or not hasattr(self.project, "id"):
             return
+
+        # Subtask logic
+        if hasattr(self, "make_subtask_checkbox") and self.make_subtask_checkbox.isChecked():
+            parent_task_id = self.parent_task_dropdown.currentData()
+            if parent_task_id:
+                # Create as Subtask
+                import datetime as dt
+                db.create_subtask(
+                    task_id=parent_task_id,
+                    title=title,
+                    due_date=dt.datetime.combine(due_date_obj, dt.time.min) if due_date_obj else None,
+                    assigned_to=assigned_id,
+                    dependencies=dependencies,
+                    hours=hours
+                )
+                log_event(
+                    f"Subtask added: '{title}' | Parent Task: {parent_task_id} | Project: '{getattr(self.project, 'name', 'N/A')}' | Deadline: {due_date_obj} | Hours: {hours}"
+                )
+                self.load_tasks()
+                self.task_title_input.clear()
+                self.task_deadline_input.setDate(QDate.currentDate())
+                self.task_assigned_combo.setCurrentIndex(0)
+                self.task_hours_input.setValue(0)
+                self.task_dep_input.clear()
+                self.task_dep_ids.clear()
+                self.make_subtask_checkbox.setChecked(False)
+                self.parent_task_dropdown.setCurrentIndex(0)
+                return
+        # Otherwise, create as Task
         task = db.create_task(
             project_id=self.project.id,
             title=title,
@@ -1776,7 +1854,7 @@ class ProjectDetailPage(QWidget):
             db.create_subtask(
                 task_id=task["id"] if isinstance(task["id"], int) else int(str(getattr(task["id"], "default", 0))),
                 title="check progress",
-                due_date=due_date_obj,
+                due_date=datetime.datetime.combine(due_date_obj, datetime.time.min) if due_date_obj else None,
                 assigned_to=assigned_id,
                 dependencies=[],
                 hours=0
@@ -1798,11 +1876,13 @@ class ProjectDetailPage(QWidget):
             self.task_hours_input.setValue(0)
             self.task_dep_input.clear()
             self.task_dep_ids.clear()
+            self.make_subtask_checkbox.setChecked(False)
+            self.parent_task_dropdown.setCurrentIndex(0)
 
 class TaskEditWidget(QWidget):
     def __init__(self, task, members, save_callback, delete_callback, parent=None):
         super().__init__(parent)
-        from PyQt5.QtWidgets import QHBoxLayout, QLineEdit, QDateEdit, QComboBox, QSpinBox, QPushButton
+        from PyQt5.QtWidgets import QHBoxLayout, QLineEdit, QDateEdit, QComboBox, QSpinBox, QPushButton, QCheckBox
         from PyQt5.QtCore import QDate
         import json
 
@@ -1864,6 +1944,33 @@ class TaskEditWidget(QWidget):
         self.dep_btn.clicked.connect(self.open_dep_dialog)
         layout.addWidget(self.dep_btn)
 
+        # --- Subtask conversion UI ---
+        self.make_subtask_checkbox = QCheckBox("Make as sub task")
+        self.parent_task_dropdown = QComboBox()
+        self.parent_task_dropdown.setVisible(False)
+        self.parent_task_dropdown.addItem("Select parent task", None)
+        # Only show parent tasks that are not this task and not subtasks
+        parent_project_id = None
+        if hasattr(parent, "project") and db and hasattr(parent.project, "id"):
+            parent_project_id = parent.project.id
+        if parent_project_id:
+            tasks = db.get_tasks(parent_project_id)
+            for t in tasks:
+                if getattr(t, "id", None) != getattr(task, "id", None):
+                    self.parent_task_dropdown.addItem(f"{t.id}: {t.title}", t.id)
+        def on_subtask_checkbox_changed(state):
+            self.parent_task_dropdown.setVisible(self.make_subtask_checkbox.isChecked())
+        self.make_subtask_checkbox.stateChanged.connect(on_subtask_checkbox_changed)
+        layout.addWidget(self.make_subtask_checkbox)
+        layout.addWidget(self.parent_task_dropdown)
+
+        # If this is a subtask, pre-check and select parent
+        if hasattr(task, "task_id"):
+            self.make_subtask_checkbox.setChecked(True)
+            idx = self.parent_task_dropdown.findData(getattr(task, "task_id", None))
+            if idx >= 0:
+                self.parent_task_dropdown.setCurrentIndex(idx)
+
         self.save_btn = QPushButton("Save")
         self.save_btn.clicked.connect(self.save)
         layout.addWidget(self.save_btn)
@@ -1907,6 +2014,50 @@ class TaskEditWidget(QWidget):
         dep_dialog.exec_()
 
     def save(self):
+        import datetime as dt
+        is_subtask = hasattr(self.task, "task_id")
+        make_subtask = self.make_subtask_checkbox.isChecked()
+        parent_task_id = self.parent_task_dropdown.currentData() if make_subtask else None
+
+        # If converting Task to Subtask
+        if not is_subtask and make_subtask and parent_task_id:
+            if db and hasattr(self.task, "id") and hasattr(db, "get_subtasks"):
+                subtasks = db.get_subtasks(self.task.id)
+                if subtasks:
+                    QMessageBox.warning(self, "Conversion Not Allowed", "Cannot convert a task with subtasks into a subtask.")
+                    return
+                if hasattr(db, "delete_task"):
+                    db.delete_task(self.task.id)
+                db.create_subtask(
+                    task_id=parent_task_id,
+                    title=self.title_input.text().strip(),
+                    due_date=dt.datetime.combine(self.deadline_input.date().toPyDate(), dt.time.min),
+                    assigned_to=self.assigned_input.currentData(),
+                    dependencies=self.dep_ids,
+                    hours=self.hours_input.value()
+                )
+                if hasattr(self.parent(), "load_tasks"):
+                    self.parent().load_tasks()
+                return
+
+        # If converting Subtask to Task
+        if is_subtask and not make_subtask:
+            if db and hasattr(self.task, "id") and hasattr(db, "delete_subtask"):
+                db.delete_subtask(self.task.id)
+            if db and hasattr(self.parent(), "project") and hasattr(db, "create_task"):
+                db.create_task(
+                    project_id=self.parent().project.id,
+                    title=self.title_input.text().strip(),
+                    due_date=dt.datetime.combine(self.deadline_input.date().toPyDate(), dt.time.min),
+                    assigned_to=self.assigned_input.currentData(),
+                    dependencies=self.dep_ids,
+                    hours=self.hours_input.value()
+                )
+            if hasattr(self.parent(), "load_tasks"):
+                self.parent().load_tasks()
+            return
+
+        # Otherwise, normal save
         self.save_callback(
             self.task,
             self.title_input.text().strip(),
