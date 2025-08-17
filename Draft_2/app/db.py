@@ -373,6 +373,21 @@ def get_user_subtasks(user_id: int):
         log_error(f"Error getting user subtasks: {e}")
         return []
 
+def update_subtask_status(subtask_id: int, status: str):
+    """
+    Update the status of a subtask (Not Yet Started, In Progress, Completed).
+    """
+    try:
+        with SessionLocal() as session:
+            subtask = session.query(Subtask).filter(Subtask.id == subtask_id).first()
+            if subtask:
+                subtask.status = status
+                session.commit()
+                return True
+    except Exception as e:
+        log_error(f"Error updating subtask status: {e}")
+    return False
+
 def get_task_by_id(task_id: int):
     try:
         with SessionLocal() as session:
