@@ -1805,8 +1805,8 @@ class ProjectDetailPage(QWidget):
 
     def go_back(self):
         mw = self.parent()
-        from Draft_2.app.main import MainWindow
-        while mw and not isinstance(mw, MainWindow):
+        # Robustly find MainWindow by attribute presence
+        while mw and not (hasattr(mw, "dashboard") and hasattr(mw, "stack") and hasattr(mw, "current_user")):
             mw = mw.parent()
         if mw:
             try:
@@ -2293,9 +2293,8 @@ class ProjectDetailPage(QWidget):
     def go_back(self):
         # Find main window and return to dashboard
         mw = self.parent()
-        # Import MainWindow locally to avoid NameError
-        from Draft_2.app.main import MainWindow
-        while mw and not isinstance(mw, MainWindow):
+        # Robustly find MainWindow by attribute presence
+        while mw and not (hasattr(mw, "dashboard") and hasattr(mw, "stack") and hasattr(mw, "current_user")):
             mw = mw.parent()
         if mw:
             try:
