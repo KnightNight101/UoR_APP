@@ -351,6 +351,28 @@ def get_tasks(project_id: int):
         log_error(f"Error getting tasks: {e}")
         return []
 
+def get_user_tasks(user_id: int):
+    """
+    Return all Task objects assigned to the given user across all projects.
+    """
+    try:
+        with SessionLocal() as session:
+            return session.query(Task).filter(Task.assigned_to == user_id).all()
+    except Exception as e:
+        log_error(f"Error getting user tasks: {e}")
+        return []
+
+def get_user_subtasks(user_id: int):
+    """
+    Return all Subtask objects assigned to the given user across all projects.
+    """
+    try:
+        with SessionLocal() as session:
+            return session.query(Subtask).filter(Subtask.assigned_to == user_id).all()
+    except Exception as e:
+        log_error(f"Error getting user subtasks: {e}")
+        return []
+
 def get_task_by_id(task_id: int):
     try:
         with SessionLocal() as session:

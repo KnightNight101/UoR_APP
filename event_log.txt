@@ -1952,3 +1952,34 @@ User logged out (logout key pressed)
 [2025-08-17T21:06:48.442199] User clicked 'Back to Dashboard' on Project Detail Page
 [2025-08-17T21:06:48.443845] Returned to Dashboard from Project Detail Page
 [2025-08-17T21:06:51.680498] User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T21:34:31.092897] User 'user' logged in
+[2025-08-17T21:34:42.401082] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-17T21:34:42.402090] DEBUG: main_window=<__main__.MainWindow object at 0x0000019129B260F0>, project_obj=<db.Project object at 0x000001912CAC82F0>
+[2025-08-17T21:34:42.402090] DEBUG: Calling show_project_detail_page
+[2025-08-17T21:34:42.500436] Navigated to Project Detail Page
+[2025-08-17T21:35:17.844064] Subtask added: 'Python Vs Web Development' | Parent Task: 1 | Project: 'Master's Dissertation' | Deadline: 2025-08-17 | Hours: 3
+[2025-08-17T21:35:49.190911] Subtask added: 'LLM Integration' | Parent Task: 1 | Project: 'Master's Dissertation' | Deadline: 2025-08-17 | Hours: 2
+[2025-08-17T21:36:00.550509] Task added: 'Methodology' | Project: 'Master's Dissertation' | Deadline: 2025-08-17 | Hours: 0 | Assigned to: None
+[2025-08-17T21:36:08.618046] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T21:36:08.620599] Returned to Dashboard from Project Detail Page
+[2025-08-17T21:38:47.038101] User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T21:38:58.715515] User 'user' logged in
+[2025-08-17T21:39:00.727103] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-17T21:39:00.728111] DEBUG: main_window=<__main__.MainWindow object at 0x000001A99A20A0F0>, project_obj=<db.Project object at 0x000001A99CE3A0C0>
+[2025-08-17T21:39:00.728111] DEBUG: Calling show_project_detail_page
+[2025-08-17T21:39:00.793517] Navigated to Project Detail Page
+[2025-08-17T21:39:14.736165] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T21:39:14.738174] Returned to Dashboard from Project Detail Page
+[2025-08-17T21:39:27.267161] User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T21:43:43.161033] User 'user' logged in
+[2025-08-17T21:43:51.900351] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-17T21:43:51.900351] DEBUG: main_window=<__main__.MainWindow object at 0x000001A16945A180>, project_obj=<db.Project object at 0x000001A1699A1820>
+[2025-08-17T21:43:51.900351] DEBUG: Calling show_project_detail_page
+[2025-08-17T21:43:51.995744] Navigated to Project Detail Page
+[2025-08-17T21:44:22.828026] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T21:44:22.829027] Returned to Dashboard from Project Detail Page
+[2025-08-17T21:44:26.730992] User logged out (logout key pressed)
+[2025-08-17T21:44:33.122278] User 'user' logged in
