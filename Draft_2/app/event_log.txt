@@ -58,3 +58,4 @@
 [SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
 [parameters: [(None, 30), (None, 32), (None, 33), (None, 34), (None, 35), (None, 36)]]
 (Background on this error at: https://sqlalche.me/e/20/gkpj)
+[2025-08-17T19:50:21.782402] Task added: 'Literature Review' | Project: 'Master's Dissertation' | Deadline: 2025-08-17 00:00:00 | Hours: 8 | Assigned to: Unassigned

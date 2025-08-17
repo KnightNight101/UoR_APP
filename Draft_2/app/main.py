@@ -1618,6 +1618,16 @@ class ProjectDetailPage(QWidget):
         if db and hasattr(self.project, "id"):
             project_id = getattr(self.project, "id")
             project_name = getattr(self.project, "name", "")
+            # --- Confirmation popup before deletion ---
+            confirm = QMessageBox.question(
+                self,
+                "Confirm Project Deletion",
+                f"Are you sure you want to delete the project '{project_name}'?\n\nThis action cannot be undone.",
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No
+            )
+            if confirm != QMessageBox.Yes:
+                return
             try:
                 user_id = None
                 mw = self.parent()
