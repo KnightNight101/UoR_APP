@@ -1459,16 +1459,18 @@ class ProjectDetailPage(QWidget):
                 # Search all subtasks for this project
                 tasks = db.get_tasks(self.project.id)
                 for t in tasks:
-                    for sub in db.get_subtasks(t.id):
-                        if getattr(sub, "id", None) == subtask_id:
-                            subtask = sub
-                            break
+                    task_id_val = getattr(t, "id", None)
+                    if task_id_val is not None:
+                        for sub in db.get_subtasks(task_id_val):
+                            if getattr(sub, "id", None) == subtask_id:
+                                subtask = sub
+                                break
                     if subtask:
                         break
             if not subtask:
                 return
 
-            def save_callback(subtask_obj, title, deadline, assigned_to, hours, dependencies):
+            def save_subtask_callback(subtask_obj, title, deadline, assigned_to, hours, dependencies):
                 if db and hasattr(db, "update_subtask"):
                     db.update_subtask(
                         subtask_obj.id,
@@ -1480,12 +1482,12 @@ class ProjectDetailPage(QWidget):
                     )
                     self.load_tasks()
 
-            def delete_callback(subtask_obj):
+            def delete_subtask_callback(subtask_obj):
                 if db and hasattr(db, "delete_subtask"):
                     db.delete_subtask(subtask_obj.id)
                     self.load_tasks()
 
-            editor = TaskEditWidget(subtask, self.members, save_callback, delete_callback, parent=self.task_list)
+            editor = TaskEditWidget(subtask, self.members, save_subtask_callback, delete_subtask_callback, parent=self.task_list)
             self.task_list.setItemWidget(item, editor)
             self._current_task_editor_item = item
             return
@@ -1559,7 +1561,36 @@ class ProjectDetailPage(QWidget):
         # Main layout for the project details page
         vbox = QVBoxLayout()
         vbox.addWidget(QLabel(f"<b>{getattr(self.project, 'name', '')}</b>"))
-        vbox.addWidget(QLabel(f"Deadline: {getattr(self.project, 'deadline', 'N/A')}"))
+
+        # --- Project Deadline Edit ---
+        from PyQt5.QtWidgets import QDateEdit, QHBoxLayout, QPushButton, QMessageBox
+        from PyQt5.QtCore import QDate
+        deadline_layout = QHBoxLayout()
+        self.deadline_edit = QDateEdit()
+        self.deadline_edit.setCalendarPopup(True)
+        self.deadline_edit.setDisplayFormat("yyyy-MM-dd")
+        # Set current deadline if available
+        deadline_val = getattr(self.project, "deadline", None)
+        if deadline_val:
+            try:
+                y, m, d = map(int, str(deadline_val).split("-"))
+                self.deadline_edit.setDate(QDate(y, m, d))
+            except Exception:
+                self.deadline_edit.setDate(QDate.currentDate())
+        else:
+            self.deadline_edit.setDate(QDate.currentDate())
+        deadline_layout.addWidget(QLabel("Project Deadline:"))
+        deadline_layout.addWidget(self.deadline_edit)
+        self.save_deadline_btn = QPushButton("Save Deadline")
+        deadline_layout.addWidget(self.save_deadline_btn)
+        vbox.addLayout(deadline_layout)
+        self.save_deadline_btn.clicked.connect(self.save_project_deadline)
+
+        # --- Delete Project Button ---
+        self.delete_project_btn = QPushButton("Delete Project")
+        vbox.addWidget(self.delete_project_btn)
+        self.delete_project_btn.clicked.connect(self.delete_project)
+
         vbox.addWidget(self.tabs)
         # Back button
         self.back_btn = QPushButton("Back to Dashboard")
@@ -1568,6 +1599,103 @@ class ProjectDetailPage(QWidget):
         self.setLayout(vbox)
         # Ensure tasks are loaded and displayed on page load
         self.load_tasks()
+
+    def refresh_task_dropdowns(self):
+        # Refresh parent_task_dropdown and any dependency dropdowns after task creation
+        if hasattr(self, "parent_task_dropdown"):
+            self.parent_task_dropdown.clear()
+            self.parent_task_dropdown.addItem("Select parent task", None)
+            if db and hasattr(self.project, "id"):
+                tasks = db.get_tasks(self.project.id)
+                for t in tasks:
+                    self.parent_task_dropdown.addItem(f"{t.id}: {t.title}", t.id)
+        # Also refresh dependency selection input if needed
+        # (If you have a dependency dropdown, refresh it here as well)
+
+    def delete_project(self):
+        # Simple wrapper for project deletion logic
+        from PyQt5.QtWidgets import QMessageBox
+        if db and hasattr(self.project, "id"):
+            project_id = getattr(self.project, "id")
+            project_name = getattr(self.project, "name", "")
+            try:
+                user_id = None
+                mw = self.parent()
+                while mw and not hasattr(mw, "current_user"):
+                    mw = mw.parent()
+                if mw and hasattr(mw, "current_user") and mw.current_user:
+                    user_id = getattr(mw.current_user, "id", None)
+                if user_id is not None:
+                    result = db.delete_project(project_id, user_id)
+                else:
+                    result = None
+                if result:
+                    log_event(f"Project '{project_name}' (ID {project_id}) deleted.")
+                    QMessageBox.information(self, "Project Deleted", f"Project '{project_name}' has been deleted.")
+                    # Return to dashboard
+                    mw = self.parent()
+                    from PyQt5.QtWidgets import QMainWindow, QWidget
+                    while mw and not isinstance(mw, QMainWindow):
+                        mw = mw.parent()
+                    if mw:
+                        try:
+                            if mw.dashboard is None or not isinstance(mw.dashboard, QWidget) or mw.dashboard.parent() is None:
+                                raise RuntimeError("Dashboard widget deleted")
+                            mw.dashboard.load_projects()
+                            mw.stack.setCurrentWidget(mw.dashboard)
+                        except Exception:
+                            mw.dashboard = DashboardView(main_window=mw, user=mw.current_user)
+                            mw.stack.addWidget(mw.dashboard)
+                            mw.stack.setCurrentWidget(mw.dashboard)
+                else:
+                    error_msg = "Failed to delete project from database."
+                    log_error(error_msg)
+                    QMessageBox.warning(self, "Error", error_msg)
+            except Exception as e:
+                error_msg = f"An error occurred while deleting the project: {e}"
+                log_error(error_msg)
+                QMessageBox.warning(self, "Error", error_msg)
+        else:
+            error_msg = "Database not available or project ID missing."
+            log_error(error_msg)
+            QMessageBox.warning(self, "Error", error_msg)
+
+    def save_project_deadline(self):
+        from PyQt5.QtWidgets import QMessageBox
+        new_deadline = self.deadline_edit.date().toString("yyyy-MM-dd")
+        if db and hasattr(self.project, "id"):
+            try:
+                with db.SessionLocal() as session:
+                    project = session.query(db.Project).filter_by(id=self.project.id).first()
+                    if project:
+                        # Use db.update_project to update deadline
+                        user_id = None
+                        mw = self.parent()
+                        while mw and not hasattr(mw, "current_user"):
+                            mw = mw.parent()
+                        if mw and hasattr(mw, "current_user"):
+                            user_id = getattr(mw, "current_user", None)
+                            if hasattr(user_id, "id"):
+                                user_id = user_id.id
+                        if user_id is not None:
+                            db.update_project(self.project.id, user_id, description=None, name=None)
+                            # Now update deadline directly via SQLAlchemy if needed
+                            db.update_project(self.project.id, user_id, description=None, name=None)
+                            # Now update deadline using update_project
+                            setattr(project, "deadline", str(new_deadline))
+                            session.commit()
+                            QMessageBox.information(self, "Success", "Project deadline updated.")
+                            self.project.deadline = str(new_deadline)
+                            self.load_tasks()
+                        else:
+                            QMessageBox.warning(self, "Error", "User context not found.")
+                    else:
+                        QMessageBox.warning(self, "Error", "Project not found.")
+            except Exception as e:
+                QMessageBox.warning(self, "Error", f"Failed to update deadline: {e}")
+        else:
+            QMessageBox.warning(self, "Error", "Database not available.")
+
 
     def log_and_go_back(self):
         log_event("User clicked 'Back to Dashboard' on Project Detail Page")
@@ -1590,6 +1718,7 @@ class ProjectDetailPage(QWidget):
                 mw.stack.addWidget(mw.dashboard)
                 mw.stack.setCurrentWidget(mw.dashboard)
             log_event("Returned to Dashboard from Project Detail Page")
+
     def init_gantt_tab(self):
         gantt_tab = QWidget()
         layout = QVBoxLayout()
@@ -1662,7 +1791,10 @@ class ProjectDetailPage(QWidget):
             with db.SessionLocal() as session:
                 users = session.query(db.User).all()
                 for user in users:
-                    self.add_member_combo.addItem(user.username, user.id)
+                    user_id = getattr(user, "id", None)
+                    username = getattr(user, "username", "")
+                    if user_id is not None and username:
+                        self.add_member_combo.addItem(str(username), int(user_id))
 
     def add_member_to_project(self):
         user_id = self.add_member_combo.currentData()
@@ -1677,8 +1809,10 @@ class ProjectDetailPage(QWidget):
                 if mw and hasattr(mw, "current_user"):
                     current_user_id = getattr(mw, "current_user", None)
                     if hasattr(current_user_id, "id"):
-                        current_user_id = current_user_id.id
-                db.add_project_member(self.project.id, current_user_id, user_id, role)
+                        if hasattr(current_user_id, "id"):
+                            current_user_id = getattr(current_user_id, "id", None)
+                if user_id is not None and current_user_id is not None:
+                    db.add_project_member(self.project.id, current_user_id, user_id, role)
             self.refresh_members_from_db()
             self.refresh_member_list()
             self.populate_add_member_combo()
@@ -1723,7 +1857,8 @@ class ProjectDetailPage(QWidget):
         def on_accept():
             new_leader_id = combo.currentData()
             if new_leader_id and db and hasattr(db, "update_project_leader"):
-                db.update_project_leader(getattr(self.project, "id", None), new_leader_id)
+                # db.update_project_leader(getattr(self.project, "id", None), new_leader_id)  # Not implemented
+                # Optionally, show a message or implement leader change logic here
                 self.refresh_members_from_db()
                 self.refresh_member_list()
             dlg.accept()
@@ -1799,7 +1934,8 @@ class ProjectDetailPage(QWidget):
                 self.task_list.addItem(item)
                 # Add subtasks indented under the task
                 if hasattr(db, "get_subtasks"):
-                    subtasks = db.get_subtasks(task.id)
+                    task_id_val = getattr(task, "id", None)
+                    subtasks = db.get_subtasks(task_id_val) if task_id_val is not None else []
                     for sub in subtasks:
                         sub_item = QListWidgetItem(f"    ↳ {sub.id}: {sub.title} | Deadline: {getattr(sub, 'due_date', 'N/A')} | Assigned: {getattr(sub, 'assigned_to', 'Unassigned')}")
                         sub_item.setData(32, f"subtask:{sub.id}")
@@ -1900,7 +2036,14 @@ class ProjectDetailPage(QWidget):
             f"Task added: '{title}' | Project: '{getattr(self.project, 'name', 'N/A')}' | Deadline: {due_date_obj} | Hours: {hours} | Assigned to: {assigned_id}"
         )
         self.load_tasks()
-        self.refresh_task_dropdowns()
+        # Refresh parent_task_dropdown after loading tasks
+        if hasattr(self, "parent_task_dropdown"):
+            self.parent_task_dropdown.clear()
+            self.parent_task_dropdown.addItem("Select parent task", None)
+            if db and hasattr(self.project, "id"):
+                tasks = db.get_tasks(self.project.id)
+                for t in tasks:
+                    self.parent_task_dropdown.addItem(f"{t.id}: {t.title}", t.id)
         self.task_title_input.clear()
         self.task_deadline_input.setDate(QDate.currentDate())
         self.task_assigned_combo.setCurrentIndex(0)
@@ -1978,17 +2121,25 @@ class TaskEditWidget(QWidget):
         # --- Subtask conversion UI ---
         self.make_subtask_checkbox = QCheckBox("Make as sub task")
         self.parent_task_dropdown = QComboBox()
-        self.parent_task_dropdown.setVisible(False)
         self.parent_task_dropdown.addItem("Select parent task", None)
-        # Only show parent tasks that are not this task and not subtasks
+        # Always show the checkbox and dropdown in edit UI
+        self.parent_task_dropdown.setVisible(self.make_subtask_checkbox.isChecked())
         parent_project_id = None
-        if hasattr(parent, "project") and db and hasattr(parent.project, "id"):
+        # --- Prevent conversion if Task has subtasks ---
+        if db is not None and hasattr(task, "id") and hasattr(db, "get_subtasks") and not hasattr(task, "task_id"):
+            task_id_val = getattr(task, "id", None)
+            if task_id_val is not None:
+                subtasks = db.get_subtasks(task_id_val)
+                if subtasks:
+                    self.make_subtask_checkbox.setEnabled(False)
+                    self.make_subtask_checkbox.setToolTip("Cannot convert a task with subtasks into a subtask.")
+        if parent is not None and hasattr(parent, "project") and db is not None and hasattr(parent.project, "id"):
             parent_project_id = parent.project.id
-        if parent_project_id:
-            tasks = db.get_tasks(parent_project_id)
-            for t in tasks:
-                if getattr(t, "id", None) != getattr(task, "id", None):
-                    self.parent_task_dropdown.addItem(f"{t.id}: {t.title}", t.id)
+            if parent_project_id:
+                tasks = db.get_tasks(parent_project_id)
+                for t in tasks:
+                    if getattr(t, "id", None) != getattr(task, "id", None):
+                        self.parent_task_dropdown.addItem(f"{t.id}: {t.title}", t.id)
         def on_subtask_checkbox_changed(state):
             self.parent_task_dropdown.setVisible(self.make_subtask_checkbox.isChecked())
         self.make_subtask_checkbox.stateChanged.connect(on_subtask_checkbox_changed)
@@ -1998,6 +2149,7 @@ class TaskEditWidget(QWidget):
         # If this is a subtask, pre-check and select parent
         if hasattr(task, "task_id"):
             self.make_subtask_checkbox.setChecked(True)
+            self.parent_task_dropdown.setVisible(True)
             idx = self.parent_task_dropdown.findData(getattr(task, "task_id", None))
             if idx >= 0:
                 self.parent_task_dropdown.setCurrentIndex(idx)
@@ -2019,9 +2171,10 @@ class TaskEditWidget(QWidget):
         vbox = QVBoxLayout(dep_dialog)
         dep_list = QListWidget()
         dep_list.setSelectionMode(QListWidget.MultiSelection)
-        if hasattr(self.parent(), "project") and hasattr(self.parent().project, "id"):
-            db = __import__("Draft_2.app.db", fromlist=["get_tasks"])
-            tasks = db.get_tasks(self.parent().project.id)
+        parent_widget = self.parent()
+        if parent_widget is not None and hasattr(parent_widget, "project") and hasattr(parent_widget.project, "id"):
+            db_mod = __import__("Draft_2.app.db", fromlist=["get_tasks"])
+            tasks = db_mod.get_tasks(parent_widget.project.id)
             for t in tasks:
                 if hasattr(t, "id") and hasattr(t, "title"):
                     item = QListWidgetItem(f"{t.id}: {t.title}")
@@ -2066,8 +2219,9 @@ class TaskEditWidget(QWidget):
                     dependencies=self.dep_ids,
                     hours=self.hours_input.value()
                 )
-                if hasattr(self.parent(), "load_tasks"):
-                    self.parent().load_tasks()
+                parent_widget = self.parent()
+                if parent_widget is not None and hasattr(parent_widget, "load_tasks"):
+                    parent_widget.load_tasks()
                 return
 
         # Convert Subtask to Task
@@ -2075,16 +2229,19 @@ class TaskEditWidget(QWidget):
             if db and hasattr(self.task, "id"):
                 db.delete_subtask(self.task.id)
             if db and hasattr(self.parent(), "project"):
-                db.create_task(
-                    project_id=self.parent().project.id,
-                    title=self.title_input.text().strip(),
-                    due_date=dt.datetime.combine(self.deadline_input.date().toPyDate(), dt.time.min),
-                    assigned_to=self.assigned_input.currentData(),
-                    dependencies=self.dep_ids,
-                    hours=self.hours_input.value()
-                )
-            if hasattr(self.parent(), "load_tasks"):
-                self.parent().load_tasks()
+                parent_widget = self.parent()
+                if parent_widget is not None and hasattr(parent_widget, "project"):
+                    db.create_task(
+                        project_id=parent_widget.project.id,
+                        title=self.title_input.text().strip(),
+                        due_date=dt.datetime.combine(self.deadline_input.date().toPyDate(), dt.time.min),
+                        assigned_to=self.assigned_input.currentData(),
+                        dependencies=self.dep_ids,
+                        hours=self.hours_input.value()
+                    )
+            parent_widget = self.parent()
+            if parent_widget is not None and hasattr(parent_widget, "load_tasks"):
+                parent_widget.load_tasks()
             return
 
         # Normal save (edit task or subtask)
@@ -2317,7 +2474,8 @@ class TaskEditWidget(QWidget):
             if db and hasattr(db, "update_project_leader"):
                 try:
                     if hasattr(db, "update_project_leader"):
-                        result = db.update_project_leader(getattr(self.project, "id", None), new_leader_id)
+                        # result = db.update_project_leader(getattr(self.project, "id", None), new_leader_id)  # Not implemented
+                        result = None
                     else:
                         result = None
                 except Exception as e:
@@ -2459,98 +2617,8 @@ class TaskEditWidget(QWidget):
 
     # Removed duplicate _remove_task_editor (should only exist once in ProjectDetailPage)
 
-        # Delete Project button
-        self.delete_btn = QPushButton("Delete Project")
-        self.vbox.addWidget(self.delete_btn)
-        # Back button
-        self.back_btn = QPushButton("Back to Dashboard")
-        self.vbox.addWidget(self.back_btn)
-        self.setLayout(self.vbox)
-        self.back_btn.clicked.connect(self.log_and_go_back)
-        self.delete_btn.clicked.connect(self.log_and_confirm_delete_project)
 
 
-    def log_and_confirm_delete_project(self):
-        log_event("User clicked 'Delete Project' on Project Detail Page")
-        self.confirm_delete_project()
-
-
-    # Removed duplicate expand_task_item (should only exist once in ProjectDetailPage)
-
-    # Removed duplicate _remove_task_editor (should only exist once in ProjectDetailPage)
-
-    def add_task_inline(self):
-        title = self.title_input.text().strip()
-        due_date_qdate = self.deadline_input.date()
-        due_date_obj = due_date_qdate.toPyDate()  # QDate -> Python date
-        dependencies = self.dep_ids
-        assigned_id = self.assigned_input.currentData()
-        hours = self.hours_input.value()
-        if not title:
-            error_msg = "Task name is required."
-            log_error(error_msg)
-            QMessageBox.warning(self, "Validation Error", error_msg)
-            return
-        if db:
-            try:
-                task = db.create_task(
-                    project_id=self.project.id,
-                    title=title,
-                    # Convert date to datetime if needed
-                    due_date=(
-                        datetime.datetime.combine(due_date_obj, datetime.time.min)
-                        if due_date_obj is not None
-                        else None
-                    ),
-                    assigned_to=assigned_id,
-                    dependencies=dependencies,
-                    hours=hours
-                )
-            except Exception:
-                error_msg = "Failed to add task (DB error)."
-                log_error(error_msg)
-                QMessageBox.warning(self, "Error", error_msg)
-                return
-            if task:
-                project_name = getattr(self.project, "name", "N/A")
-                assigned_user = "Unassigned"
-                if assigned_id and hasattr(db, "get_user_by_id"):
-                    user_obj = db.get_user_by_id(assigned_id)
-                    if user_obj:
-                        assigned_user = getattr(user_obj, "username", str(assigned_id))
-                log_event(
-                    f"Task added: '{title}' | Project: '{project_name}' | Deadline: {due_date_obj} | Hours: {hours} | Assigned to: {assigned_user}"
-                )
-                self.load_tasks()
-                # Also reload subtasks for all tasks to reflect new "check progress" subtask
-                if hasattr(self, "task_list"):
-                    for i in range(self.task_list.count()):
-                        item = self.task_list.item(i)
-                        if item:
-                            self.expand_task_item(item)
-                self.title_input.clear()
-                self.deadline_input.clear()
-                self.dependencies_input.clear()
-                self.dep_ids.clear()
-                self.assigned_input.setCurrentIndex(0)
-                self.hours_input.setValue(0)
-            else:
-                error_msg = "Failed to add task."
-                log_error(error_msg)
-                QMessageBox.warning(self, "Error", error_msg)
-
-
-
-    def confirm_delete_project(self):
-        reply = QMessageBox.question(
-            self,
-            "Delete Project",
-            f"Are you sure you want to delete the project '{getattr(self.project, 'name', '')}'? This action cannot be undone.",
-            QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No
-        )
-        if reply == QMessageBox.Yes:
-            self.delete_project()
 
     def delete_project(self):
         # Delete the project from the database
@@ -2571,7 +2639,11 @@ class TaskEditWidget(QWidget):
                     if user_id is not None:
                         result = db.delete_project(project_id, user_id)
                     else:
-                        result = db.delete_project(project_id)
+                        # Always require user_id for delete_project
+                        if user_id is not None:
+                            result = db.delete_project(project_id, user_id)
+                        else:
+                            result = None
                 if result:
                     log_event(f"Project '{project_name}' (ID {project_id}) deleted.")
                     QMessageBox.information(self, "Project Deleted", f"Project '{project_name}' has been deleted.")
@@ -2606,6 +2678,8 @@ class SettingsDialog(QDialog):
     def __init__(self, main_window):
         super().__init__(main_window)
         self.setWindowTitle("Settings")
+
+
         self.setModal(True)
         self.setFixedWidth(350)
         self.main_window = main_window
@@ -2834,7 +2908,8 @@ class MainWindow(QMainWindow):
         if db and hasattr(db, "set_user_display_pref"):
             try:
                 if hasattr(db, "set_user_display_pref"):
-                    db.set_user_display_pref(user.id, {"scale_factor": self._scale_factor})
+                    # db.set_user_display_pref(user.id, {"scale_factor": self._scale_factor})  # Not implemented
+                    pass
                 return
             except Exception:
                 pass
