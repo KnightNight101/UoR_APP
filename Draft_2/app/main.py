@@ -977,7 +977,7 @@ class DashboardView(QWidget):
                 # Create custom widget for subtask
                 widget = SubtaskWidget(
                     title=getattr(sub, "title", ""),
-                    deadline=getattr(sub, "deadline", "N/A"),
+                    deadline=getattr(sub, "due_date", getattr(sub, "deadline", "N/A")),
                     project_name=getattr(sub, "project_name", "N/A"),
                     progress=getattr(sub, "progress", 0),
                     last_updated=getattr(sub, "last_updated", "N/A")
@@ -1281,16 +1281,26 @@ class EventLogView(QWidget):
         self.log_text = QTextEdit()
         self.log_text.setReadOnly(True)
         layout.addWidget(self.log_text)
+        btn_layout = QHBoxLayout()
         self.refresh_btn = QPushButton("Refresh Log")
-        layout.addWidget(self.refresh_btn)
+        self.top_btn = QPushButton("Back to Top")
+        btn_layout.addWidget(self.refresh_btn)
+        btn_layout.addWidget(self.top_btn)
+        layout.addLayout(btn_layout)
         self.setLayout(layout)
         self.refresh_btn.clicked.connect(self.load_log)
+        self.top_btn.clicked.connect(self.scroll_to_top)
         self.load_log()
+
+    def scroll_to_top(self):
+        self.log_text.moveCursor(self.log_text.textCursor().Start)
 
     def load_log(self):
         try:
             with open(LOG_FILE, "r", encoding="utf-8") as f:
-                self.log_text.setPlainText(f.read())
+                lines = f.readlines()
+                lines.reverse()
+                self.log_text.setPlainText("".join(lines))
         except FileNotFoundError:
             self.log_text.setPlainText("No log entries yet.")
 
@@ -1665,7 +1675,19 @@ class ProjectDetailPage(QWidget):
         if db and hasattr(self.project, "id"):
             tasks = db.get_tasks(self.project.id)
             for task in tasks:
-                item = QListWidgetItem(f"{task.id}: {task.title} | Deadline: {getattr(task, 'deadline', 'N/A')} | Assigned: {getattr(task, 'assigned_to', 'Unassigned')}")
+                # Show deadline and assigned user correctly
+                deadline = getattr(task, "due_date", None)
+                if not deadline:
+                    deadline = getattr(task, "deadline", "N/A")
+                else:
+                    deadline = deadline.strftime("%Y-%m-%d") if hasattr(deadline, "strftime") else str(deadline)
+                assigned = getattr(task, "assigned_to", None)
+                if assigned and hasattr(db, "get_user_by_id"):
+                    user_obj = db.get_user_by_id(assigned)
+                    assigned_display = getattr(user_obj, "username", str(assigned)) if user_obj else str(assigned)
+                else:
+                    assigned_display = "Unassigned"
+                item = QListWidgetItem(f"{task.id}: {task.title} | Deadline: {deadline} | Assigned: {assigned_display}")
                 item.setData(32, task.id)
                 self.task_list.addItem(item)
 

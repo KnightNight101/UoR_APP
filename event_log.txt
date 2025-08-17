@@ -1514,3 +1514,17 @@ User logged out (logout key pressed)
 [2025-08-17T10:40:04.197240] DEBUG: main_window=<__main__.MainWindow object at 0x00000286C3661FD0>, project_obj=<db.Project object at 0x00000286C4D154F0>
 [2025-08-17T10:40:04.197240] DEBUG: Calling show_project_detail_page
 [2025-08-17T10:40:04.233651] Navigated to Project Detail Page
+[2025-08-17T12:16:55.300038] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T12:16:55.307118] Returned to Dashboard from Project Detail Page
+[2025-08-17T12:16:58.784187] User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T12:17:12.291251] User 'user' logged in
+[2025-08-17T12:17:14.470844] User selected project from dashboard: id=4, name=Trial
+[2025-08-17T12:17:14.470844] DEBUG: main_window=<__main__.MainWindow object at 0x000001A6058CDF40>, project_obj=<db.Project object at 0x000001A606F79E80>
+[2025-08-17T12:17:14.471849] DEBUG: Calling show_project_detail_page
+[2025-08-17T12:17:14.529764] Navigated to Project Detail Page
+[2025-08-17T12:18:07.928336] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T12:18:07.931324] Returned to Dashboard from Project Detail Page
+[2025-08-17T12:19:29.831277] User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T12:19:51.900581] User 'user' logged in
