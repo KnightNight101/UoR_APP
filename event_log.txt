@@ -1755,3 +1755,13 @@ User logged out (logout key pressed)
 [2025-08-17T16:39:17.895824] DEBUG: main_window=<__main__.MainWindow object at 0x0000023C5D3BA180>, project_obj=<db.Project object at 0x0000023C5EA6A120>
 [2025-08-17T16:39:17.896826] DEBUG: Calling show_project_detail_page
 [2025-08-17T16:39:18.004127] Navigated to Project Detail Page
+[2025-08-17T16:41:34.626929] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T16:41:36.507029] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T16:41:36.650075] User clicked 'Back to Dashboard' on Project Detail Page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T16:41:52.291710] User 'user' logged in
+[2025-08-17T16:41:53.716203] User selected project from dashboard: id=10, name=NewTrial
+[2025-08-17T16:41:53.716203] DEBUG: main_window=<__main__.MainWindow object at 0x0000015DB605E210>, project_obj=<db.Project object at 0x0000015DB76FF5F0>
+[2025-08-17T16:41:53.716203] DEBUG: Calling show_project_detail_page
+[2025-08-17T16:41:53.779823] Navigated to Project Detail Page
+[2025-08-17T16:42:17.432717] User clicked 'Back to Dashboard' on Project Detail Page

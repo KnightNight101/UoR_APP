@@ -1447,9 +1447,51 @@ class ProjectDetailPage(QWidget):
         self._remove_task_editor()
         if not item:
             return
-        task_id = item.data(32)
+        raw_id = item.data(32)
         if not db or not hasattr(self.project, "id"):
             return
+
+        # Detect if this is a subtask or task
+        if isinstance(raw_id, str) and raw_id.startswith("subtask:"):
+            subtask_id = int(raw_id.split(":", 1)[1])
+            subtask = None
+            if hasattr(db, "get_subtasks"):
+                # Search all subtasks for this project
+                tasks = db.get_tasks(self.project.id)
+                for t in tasks:
+                    for sub in db.get_subtasks(t.id):
+                        if getattr(sub, "id", None) == subtask_id:
+                            subtask = sub
+                            break
+                    if subtask:
+                        break
+            if not subtask:
+                return
+
+            def save_callback(subtask_obj, title, deadline, assigned_to, hours, dependencies):
+                if db and hasattr(db, "update_subtask"):
+                    db.update_subtask(
+                        subtask_obj.id,
+                        title=title,
+                        due_date=deadline,
+                        assigned_to=assigned_to,
+                        dependencies=dependencies,
+                        hours=hours
+                    )
+                    self.load_tasks()
+
+            def delete_callback(subtask_obj):
+                if db and hasattr(db, "delete_subtask"):
+                    db.delete_subtask(subtask_obj.id)
+                    self.load_tasks()
+
+            editor = TaskEditWidget(subtask, self.members, save_callback, delete_callback, parent=self.task_list)
+            self.task_list.setItemWidget(item, editor)
+            self._current_task_editor_item = item
+            return
+
+        # Otherwise, treat as Task
+        task_id = raw_id
         # Find the task object
         tasks = db.get_tasks(self.project.id)
         task = next((t for t in tasks if getattr(t, "id", None) == task_id), None)
