@@ -1765,3 +1765,29 @@ User logged out (logout key pressed)
 [2025-08-17T16:41:53.716203] DEBUG: Calling show_project_detail_page
 [2025-08-17T16:41:53.779823] Navigated to Project Detail Page
 [2025-08-17T16:42:17.432717] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T16:43:04.641615] Task added: 'Task 1' | Project: 'NewTrial' | Deadline: 2025-08-18 | Hours: 9 | Assigned to: Unassigned
+[2025-08-17T16:43:38.905137] User clicked 'Back to Dashboard' on Project Detail Page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T17:08:48.546282] User 'user' logged in
+[2025-08-17T17:08:50.361177] User selected project from dashboard: id=10, name=NewTrial
+[2025-08-17T17:08:50.361680] DEBUG: main_window=<__main__.MainWindow object at 0x00000260CFBBE210>, project_obj=<db.Project object at 0x00000260D12746B0>
+[2025-08-17T17:08:50.362225] DEBUG: Calling show_project_detail_page
+[2025-08-17T17:08:50.434904] Navigated to Project Detail Page
+[2025-08-17T17:09:04.292480] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T17:09:06.140891] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T17:09:06.316047] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T17:09:06.493306] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T17:09:06.636233] User clicked 'Back to Dashboard' on Project Detail Page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-17T17:10:54.096773] User 'user' logged in
+[2025-08-17T17:10:56.564175] User selected project from dashboard: id=10, name=NewTrial
+[2025-08-17T17:10:56.564681] DEBUG: main_window=<__main__.MainWindow object at 0x0000016744D1A180>, project_obj=<db.Project object at 0x00000167463C2660>
+[2025-08-17T17:10:56.565211] DEBUG: Calling show_project_detail_page
+[2025-08-17T17:10:56.654670] Navigated to Project Detail Page
+[2025-08-17T17:10:59.878439] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-17T17:10:59.880760] Returned to Dashboard from Project Detail Page
+[2025-08-17T17:11:01.237742] User selected project from dashboard: id=10, name=NewTrial
+[2025-08-17T17:11:01.237742] DEBUG: main_window=<__main__.MainWindow object at 0x0000016744D1A180>, project_obj=<db.Project object at 0x00000167463C2660>
+[2025-08-17T17:11:01.238744] DEBUG: Calling show_project_detail_page
+[2025-08-17T17:11:01.319900] Navigated to Project Detail Page
+[2025-08-17T17:11:12.951510] Task added: 'New Task' | Project: 'NewTrial' | Deadline: 2025-08-17 | Hours: 0 | Assigned to: Unassigned
