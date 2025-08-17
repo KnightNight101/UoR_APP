@@ -308,7 +308,8 @@ def create_task(
                     task_id=task.id,
                     title="check progress",
                     assigned_to=assigned_to,
-                    due_date=due_date
+                    due_date=due_date,
+                    category="important_urgent"
                 )
                 session.add(subtask)
                 session.commit()
@@ -406,7 +407,8 @@ def create_subtask(
                 assigned_to=assigned_to,
                 due_date=due_date,
                 hours=hours,
-                dependencies=json.dumps(dependencies) if dependencies is not None else None
+                dependencies=json.dumps(dependencies) if dependencies is not None else None,
+                category="important_urgent" if title == "check progress" else "other"
             )
             session.add(subtask)
             session.commit()
