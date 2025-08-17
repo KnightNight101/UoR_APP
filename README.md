@@ -1,172 +1,84 @@
-# UoR_APP
+# PyQt Project Management App
 
-## Project Overview
-
-UoR_APP is an LLM-powered, offline-first agile project management platform. It features a React client and Node.js/Express backend, designed for secure, modular, and extensible project/task management. The system supports advanced workflows, role-based access, and is built for both local and enterprise deployment.
+A cross-platform project management application built with Python and PyQt5, supporting projects, tasks, subtasks, dependencies, team management, and Gantt chart visualization.
 
 ---
 
-## High-Level Features
+## Features
 
-- Modular LLM/ML-powered workflows (planned)
-- Secure authentication (username, password, 2FA)
-- Project, task, and subtask management
-- Team member management and permissions
-- Sprint planning, prioritization, and daily planning
-- Embedded tools (LibreOffice, VSCode integration) (planned)
-- Version control and analytics (planned)
-- Offline-first, no external API dependencies
-- Dockerized deployment
-
-For the full featureset, advanced/optional features, and architecture diagrams, see [`documentation/FEATURES.md`](documentation/FEATURES.md:1).
+- User authentication and role-based access
+- Project creation, editing, and deletion
+- Task and subtask management with dependencies
+- Team member assignment and roles
+- Gantt chart visualization for project timelines
+- Messaging between users
+- File uploads per project/task
+- Calendar and event tracking
 
 ---
 
-## Getting Started
+## Setup Instructions
 
-### Local Demo
+### 1. Clone the Repository
 
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/your-org/UoR_APP.git
-   cd UoR_APP
-   ```
-2. **Install dependencies:**
-   ```sh
-   cd backend && npm install
-   cd ../frontend && npm install
-   ```
-3. **Start the backend:**
-   ```sh
-   cd backend
-   npm start
-   ```
-4. **Start the frontend:**
-   ```sh
-   cd ../frontend
-   npm start
-   ```
-5. **Access the app:**
-   Open [http://localhost:3002](http://localhost:3002) in your browser.
+```sh
+git clone https://github.com/yourusername/your-repo.git
+cd your-repo/Draft_2/app
+```
 
-### Docker Compose
+### 2. Install Python Dependencies
 
-- To run both frontend and backend in containers:
-  ```sh
-  docker-compose up --build
-  ```
+It is recommended to use a virtual environment:
 
----
+```sh
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r ../requirements.txt
+```
 
-## Documentation
+### 3. Initialize the Database
 
-- **Full Featureset & Architecture:** [`documentation/FEATURES.md`](documentation/FEATURES.md:1)
-- **Project Brief:** [`documentation/PROJECT_BRIEF.md`](documentation/PROJECT_BRIEF.md:1)
+The database will auto-initialize on first run. To manually initialize or reset:
+
+```sh
+python db.py
+```
+
+### 4. Run the Application
+
+```sh
+python main.py
+```
+
+The app will launch in a maximized window.
 
 ---
 
-## Tech Stack
+## Usage Notes
 
-- React (frontend)
-- Node.js/Express (backend)
-- Docker (deployment)
-- Local-first storage
-
-
-## Contributing
-
-Contributions are welcome! Please see [`documentation/FEATURES.md`](documentation/FEATURES.md:1) for the roadmap and open issues.
-
-## Backend API Documentation
-
-### Projects
-
-- `GET /api/projects`  
-  List all projects.
-
-- `POST /api/projects`  
-  Create a new project.  
-  **Body:**  
-  ```json
-  { "name": "Project Name", "deadline": "YYYY-MM-DD", "team": [...], "tasks": [...] }
-  ```
-
-- `GET /api/projects/:id`  
-  Get project details.
-
-- `PUT /api/projects/:id`  
-  Update project details.
-
-- `DELETE /api/projects/:id`  
-  Delete a project.
-
-### Tasks
-
-- `GET /api/projects/:projectId/tasks`  
-  List all tasks for a project.
-
-- `POST /api/projects/:projectId/tasks`  
-  Add a new task.
-
-- `PUT /api/projects/:projectId/tasks/:taskId`  
-  Update a task.
-
-- `DELETE /api/projects/:projectId/tasks/:taskId`  
-  Delete a task.
-
-### Team Members
-
-- `GET /api/projects/:projectId/team`  
-  List team members.
-
-- `POST /api/projects/:projectId/team`  
-  Add a team member.
-
-- `DELETE /api/projects/:projectId/team/:memberId`  
-  Remove a team member.
-
-**All endpoints return JSON.**  
-**Error Handling:** Standard HTTP status codes with error messages.
-
----
-
-## Advanced Usage
-
-- **Local-first Storage:** All data is stored on the user's machine for privacy and speed.
-- **Docker Deployment:** Use Dockerfiles and `docker-compose.yml` for easy multi-container setup.
-- **Version Control Integration:** Automatic commit summaries and documentation checkpoints.
-- **Customizing:** Extend backend endpoints or frontend UI as needed.
+- Default admin user: `admin` / `admin123`
+- All data is stored in `auth.db` in the `Draft_2/app` directory.
+- To reset the database, delete `auth.db` and rerun the app.
+- For development, edit code in `Draft_2/app/main.py` and `Draft_2/app/db.py`.
 
 ---
 
 ## Troubleshooting
 
-- **npm install errors:** Ensure Node.js and npm are installed and up to date.
-- **Port conflicts:** Default frontend port is 3002; backend is configurable.
-- **Docker issues:** Check Docker daemon is running; use `docker-compose up --build`.
-- **Data not saving:** Verify local storage permissions and browser settings.
-- **API errors:** Check backend logs for stack traces.
-- **ERR_OSSL_EVP_UNSUPPORTED error:**
-  This error occurs with Node.js v17+ and Webpack/react-scripts due to OpenSSL changes.
-  **Solutions:**
-  - Use Node.js v16 (LTS) for best compatibility.
-  - Or set the environment variable before running:
-    - On Windows: `set NODE_OPTIONS=--openssl-legacy-provider`
-    - On macOS/Linux: `export NODE_OPTIONS=--openssl-legacy-provider`
-  - Consider upgrading Webpack and react-scripts if possible.
----
-
-## Screenshots & UI Wireframes
-
-> _Add screenshots of the homepage, project page, and login page here._
-
-```mermaid
-graph TD
-    A[Homepage] -->|View Project| B[Project Page]
-    A -->|Create Project| C[Create Project Page]
-    A -->|Login| D[Login Page]
-    B -->|Back/Home/Delete| A
-    C -->|Cancel/Create| A
-```
+- If you encounter missing dependencies, ensure you have Python 3.8+ and run `pip install -r requirements.txt`.
+- For database errors, delete `auth.db` and restart.
+- For UI issues, ensure PyQt5 is installed and your Python environment is activated.
 
 ---
+
+## Contributing
+
+1. Fork the repository and create a feature branch.
+2. Make your changes with clear comments.
+3. Submit a pull request with a description of your changes.
+
+---
+
+## License
+
+MIT License

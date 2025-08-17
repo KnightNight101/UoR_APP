@@ -1,29 +1,44 @@
-# sip import removed; handle deleted widget with try/except
 import sys
+import os
+import json
+
+# PyQt5 core widgets and utilities
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QStackedWidget, QVBoxLayout, QLabel,
     QPushButton, QHBoxLayout, QListWidget, QListWidgetItem, QTextEdit, QLineEdit, QFormLayout, QMessageBox, QInputDialog, QComboBox, QDialog, QDialogButtonBox,
     QTabWidget, QGroupBox, QSlider, QSpinBox, QDateEdit, QCalendarWidget
 )
 from PyQt5.QtCore import (
-    Qt,
-    QEvent,
-    QSize,
-    QObject,
-    QDate,
-    QDateTime,
+    Qt, QEvent, QSize, QObject, QDate, QDateTime
 )
-# Remove explicit enum imports; use Qt.EnumType.EnumValue style for Pylance compatibility
-# (Removed duplicate import of Qt and QEvent)
-# Explicitly import all needed Qt constants for clarity
-# (Removed duplicate import of Qt and related classes)
-# For type checkers and linters, import Qt constants directly
-# (Removed unnecessary alias imports)
 from PyQt5.QtGui import (
     QFont, QIcon, QPixmap, QCursor, QColor
 )
-import json
-import os
+
+# Matplotlib for Gantt chart visualization
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+import matplotlib.dates as mdates
+import datetime
+
+# --- Utility: Logging ---
+def log_event(event):
+    """Append event messages to the event log."""
+    import datetime
+    LOG_FILE = "event_log.txt"
+    timestamp = datetime.datetime.now().isoformat()
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(f"[{timestamp}] {event}\n")
+
+def log_error(error_msg):
+    """Append error messages to the event log and print to stderr."""
+    import datetime, traceback, sys
+    LOG_FILE = "event_log.txt"
+    timestamp = datetime.datetime.now().isoformat()
+    full_msg = f"[ERROR] [{timestamp}] {error_msg}"
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(full_msg + "\n")
+    print(full_msg, file=sys.stderr)
 
 # --- Gantt Chart Imports ---
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
@@ -402,20 +417,7 @@ except ImportError as e:
 
 LOG_FILE = "event_log.txt"
 
-def log_event(event):
-    import datetime
-    timestamp = datetime.datetime.now().isoformat()
-    with open(LOG_FILE, "a", encoding="utf-8") as f:
-        f.write(f"[{timestamp}] {event}\n")
-
-def log_error(error_msg):
-    """Append error messages to the event log and print to stderr."""
-    import datetime, traceback, sys
-    timestamp = datetime.datetime.now().isoformat()
-    full_msg = f"[ERROR] [{timestamp}] {error_msg}"
-    with open(LOG_FILE, "a", encoding="utf-8") as f:
-        f.write(full_msg + "\n")
-    print(full_msg, file=sys.stderr)
+# (Removed duplicate log_event and log_error definitions; see top of file)
 
 class UserSideMenu(QDialog):
     def __init__(self, parent=None):
