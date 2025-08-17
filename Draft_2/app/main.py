@@ -1989,9 +1989,23 @@ class ProjectDetailPage(QWidget):
             tasks = db.get_tasks(self.project.id)
             for task in tasks:
                 if hasattr(task, "id") and hasattr(task, "title"):
-                    item = QListWidgetItem(f"{task.id}: {task.title}")
-                    item.setData(32, task.id)
+                    item = QListWidgetItem(f"Task {task.id}: {task.title}")
+                    item.setData(32, ("task", task.id))
                     dep_list.addItem(item)
+                    # Add subtasks for this task
+                    if hasattr(db, "get_subtasks"):
+                        subs = db.get_subtasks(task.id)
+                        for sub in subs:
+                            sub_item = QListWidgetItem(f"Subtask {sub.id}: {sub.title}")
+                            sub_item.setData(32, ("subtask", sub.id))
+                            dep_list.addItem(sub_item)
+        # Pre-select existing dependencies
+        for i in range(dep_list.count()):
+            item = dep_list.item(i)
+            if item and item.data(32) in [(("task", tid) if isinstance(tid, int) else tid) for tid in self.task_dep_ids]:
+                item.setSelected(True)
+            elif item and isinstance(item.data(32), tuple) and item.data(32)[1] in self.task_dep_ids:
+                item.setSelected(True)
         vbox.addWidget(dep_list)
         button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         vbox.addWidget(button_box)
@@ -1999,8 +2013,11 @@ class ProjectDetailPage(QWidget):
             self.task_dep_ids.clear()
             selected_titles = []
             for item in dep_list.selectedItems():
-                tid = item.data(32)
-                self.task_dep_ids.append(tid)
+                dep_val = item.data(32)
+                if isinstance(dep_val, tuple):
+                    self.task_dep_ids.append(dep_val)
+                else:
+                    self.task_dep_ids.append(dep_val)
                 selected_titles.append(item.text() if item is not None else "")
             self.task_dep_input.setText(", ".join(selected_titles))
             dep_dialog.accept()
@@ -2197,16 +2214,28 @@ class TaskEditWidget(QWidget):
         dep_list.setSelectionMode(QListWidget.MultiSelection)
         parent_widget = self.parent()
         if parent_widget is not None and hasattr(parent_widget, "project") and hasattr(parent_widget.project, "id"):
-            db_mod = __import__("Draft_2.app.db", fromlist=["get_tasks"])
-            tasks = db_mod.get_tasks(parent_widget.project.id)
+            db_mod = __import__("Draft_2.app.db", fromlist=["get_tasks", "get_subtasks"])
+            project_id = parent_widget.project.id
+            tasks = db_mod.get_tasks(project_id)
             for t in tasks:
                 if hasattr(t, "id") and hasattr(t, "title"):
-                    item = QListWidgetItem(f"{t.id}: {t.title}")
-                    item.setData(32, t.id)
+                    item = QListWidgetItem(f"Task {t.id}: {t.title}")
+                    item.setData(32, ("task", t.id))
                     dep_list.addItem(item)
+                    # Add subtasks for this task
+                    if hasattr(db_mod, "get_subtasks"):
+                        subs = db_mod.get_subtasks(t.id)
+                        for sub in subs:
+                            sub_item = QListWidgetItem(f"Subtask {sub.id}: {sub.title}")
+                            sub_item.setData(32, ("subtask", sub.id))
+                            dep_list.addItem(sub_item)
+        # Pre-select existing dependencies
         for i in range(dep_list.count()):
             item = dep_list.item(i)
-            if item and item.data(32) in self.dep_ids:
+            if item and item.data(32) in [(("task", tid) if isinstance(tid, int) else tid) for tid in self.dep_ids]:
+                item.setSelected(True)
+            # Also support legacy int-only dep_ids for backward compatibility
+            elif item and isinstance(item.data(32), tuple) and item.data(32)[1] in self.dep_ids:
                 item.setSelected(True)
         vbox.addWidget(dep_list)
         button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
@@ -2214,8 +2243,12 @@ class TaskEditWidget(QWidget):
         def accept():
             self.dep_ids.clear()
             for item in dep_list.selectedItems():
-                tid = item.data(32)
-                self.dep_ids.append(tid)
+                dep_val = item.data(32)
+                # Store as (kind, id) tuple if possible, else just id
+                if isinstance(dep_val, tuple):
+                    self.dep_ids.append(dep_val)
+                else:
+                    self.dep_ids.append(dep_val)
             dep_dialog.accept()
         button_box.accepted.connect(accept)
         button_box.rejected.connect(dep_dialog.reject)
