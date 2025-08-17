@@ -1568,6 +1568,28 @@ class ProjectDetailPage(QWidget):
         self.setLayout(vbox)
         # Ensure tasks are loaded and displayed on page load
         self.load_tasks()
+
+    def log_and_go_back(self):
+        log_event("User clicked 'Back to Dashboard' on Project Detail Page")
+        self.go_back()
+
+    def go_back(self):
+        # Robustly find MainWindow and show dashboard
+        mw = self.parent()
+        from PyQt5.QtWidgets import QMainWindow
+        while mw and not isinstance(mw, QMainWindow):
+            mw = mw.parent()
+        if mw and hasattr(mw, "stack") and hasattr(mw, "dashboard"):
+            try:
+                if mw.dashboard is None or not isinstance(mw.dashboard, QWidget) or mw.dashboard.parent() is None:
+                    raise RuntimeError("Dashboard widget deleted")
+                mw.stack.setCurrentWidget(mw.dashboard)
+            except Exception:
+                from Draft_2.app.main import DashboardView
+                mw.dashboard = DashboardView(main_window=mw, user=getattr(mw, "current_user", None))
+                mw.stack.addWidget(mw.dashboard)
+                mw.stack.setCurrentWidget(mw.dashboard)
+            log_event("Returned to Dashboard from Project Detail Page")
     def init_gantt_tab(self):
         gantt_tab = QWidget()
         layout = QVBoxLayout()
@@ -1579,25 +1601,6 @@ class ProjectDetailPage(QWidget):
     def init_calendar_tab(self):
         tab = CalendarTabWidget(user=self.current_user)
         self.tabs.addTab(tab, "Calendar")
-    def log_and_go_back(self):
-        log_event("User clicked 'Back to Dashboard' on Project Detail Page")
-    def go_back(self):
-        mw = self.parent()
-        # Robustly find MainWindow by attribute presence
-        while mw and not (hasattr(mw, "dashboard") and hasattr(mw, "stack") and hasattr(mw, "current_user")):
-            mw = mw.parent()
-        if mw:
-            try:
-                if mw.dashboard is None or not isinstance(mw.dashboard, QWidget) or mw.dashboard.parent() is None:
-                    raise RuntimeError("Dashboard widget deleted")
-                mw.stack.setCurrentWidget(mw.dashboard)
-            except Exception:
-                mw.dashboard = DashboardView(main_window=mw, user=mw.current_user)
-                mw.stack.addWidget(mw.dashboard)
-                mw.stack.setCurrentWidget(mw.dashboard)
-            log_event("Returned to Dashboard from Project Detail Page")
-        self.go_back()
-        self.tabs.addTab(tab, "Gantt Chart")
 
     def init_team_members_tab(self):
         tab = QWidget()
@@ -2219,25 +2222,6 @@ class TaskEditWidget(QWidget):
         tab = CalendarTabWidget(user=self.current_user)
         self.tabs.addTab(tab, "Calendar")
 
-    def log_and_go_back(self):
-        log_event("User clicked 'Back to Dashboard' on Project Detail Page")
-        self.go_back()
-
-    def go_back(self):
-        mw = self.parent()
-        # Robustly find MainWindow by attribute presence
-        while mw and not (hasattr(mw, "dashboard") and hasattr(mw, "stack") and hasattr(mw, "current_user")):
-            mw = mw.parent()
-        if mw:
-            try:
-                if mw.dashboard is None or not isinstance(mw.dashboard, QWidget) or mw.dashboard.parent() is None:
-                    raise RuntimeError("Dashboard widget deleted")
-                mw.stack.setCurrentWidget(mw.dashboard)
-            except Exception:
-                mw.dashboard = DashboardView(main_window=mw, user=mw.current_user)
-                mw.stack.addWidget(mw.dashboard)
-                mw.stack.setCurrentWidget(mw.dashboard)
-            log_event("Returned to Dashboard from Project Detail Page")
 
     def refresh_members(self):
         # Clear layout except for persistent widgets
