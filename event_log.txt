@@ -2087,3 +2087,137 @@ User logged out (logout key pressed)
 [2025-08-18T12:04:12.995773] Gantt DEBUG: Task ID=1, Title='Literature Review', Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
 [2025-08-18T12:04:12.997454] Gantt DEBUG: Task ID=2, Title='Methodology', Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
 [2025-08-18T12:04:13.095005] Navigated to Project Detail Page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T12:08:23.286704] User 'user' logged in
+[2025-08-18T12:08:25.030731] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-18T12:08:25.031482] DEBUG: main_window=<__main__.MainWindow object at 0x0000020EDA172450>, project_obj=<db.Project object at 0x0000020EDCE0CD70>
+[2025-08-18T12:08:25.031482] DEBUG: Calling show_project_detail_page
+[2025-08-18T12:08:25.060997] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:08:25.067978] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:08:25.223245] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:08:25.227229] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:08:25.359769] Navigated to Project Detail Page
+[2025-08-18T12:08:26.929717] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:08:26.935581] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:08:27.195028] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:08:27.199104] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:08:27.438061] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:08:27.441999] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:08:28.252062] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:08:28.255095] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:08:28.984030] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:08:28.987031] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:08:30.246942] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:08:30.249489] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:08:30.556645] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:08:30.559040] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:08:32.096860] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:08:32.098921] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:09:16.966487] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:09:16.971265] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:09:17.172924] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:09:17.176932] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:09:17.575535] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:09:17.580197] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T12:12:24.303121] User 'user' logged in
+[2025-08-18T12:12:25.721959] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-18T12:12:25.722596] DEBUG: main_window=<__main__.MainWindow object at 0x000001FF11B063C0>, project_obj=<db.Project object at 0x000001FF147560F0>
+[2025-08-18T12:12:25.723291] DEBUG: Calling show_project_detail_page
+[2025-08-18T12:12:25.744990] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:12:25.752059] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:12:25.876907] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:12:25.879507] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:12:25.990353] Navigated to Project Detail Page
+[2025-08-18T12:12:27.491621] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:12:27.495532] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:12:27.732235] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:12:27.735042] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:12:28.335268] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:12:28.337495] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:12:28.981934] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:12:28.984618] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:12:29.302261] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:12:29.304434] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T12:15:31.968285] User 'user' logged in
+[2025-08-18T12:15:34.704105] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-18T12:15:34.704105] DEBUG: main_window=<__main__.MainWindow object at 0x0000021A7FCD63C0>, project_obj=<db.Project object at 0x0000021A02BB2B70>
+[2025-08-18T12:15:34.705703] DEBUG: Calling show_project_detail_page
+[2025-08-18T12:15:34.733092] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:34.738452] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:34.910554] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:34.916147] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:35.066954] Navigated to Project Detail Page
+[2025-08-18T12:15:36.703729] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:36.707353] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:36.906301] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:36.908836] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:37.046079] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:37.050737] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:37.963298] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:37.966054] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:38.437929] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:38.440773] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:38.696334] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:38.700286] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:38.914264] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:38.920936] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:39.145743] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:39.152379] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:39.398915] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:39.403191] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:40.438587] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:40.442350] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:41.046357] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:41.049956] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:41.508751] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:41.510397] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:42.014896] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:42.017182] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:42.254645] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:42.258631] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:42.504228] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:42.508164] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:42.789252] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:42.792261] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:43.000495] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:43.006230] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:43.391375] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:43.394572] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:44.036771] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:44.040188] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:44.310745] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:44.313855] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:44.482071] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:44.484262] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:44.650284] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:44.654227] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:45.228745] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:45.231270] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:45.501780] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:45.504934] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:47.525500] User clicked 'Back to Dashboard' on Project Detail Page
+[2025-08-18T12:15:47.527508] Returned to Dashboard from Project Detail Page
+[2025-08-18T12:15:48.875134] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-18T12:15:48.875656] DEBUG: main_window=<__main__.MainWindow object at 0x0000021A7FCD63C0>, project_obj=<db.Project object at 0x0000021A02BB2B70>
+[2025-08-18T12:15:48.876213] DEBUG: Calling show_project_detail_page
+[2025-08-18T12:15:48.900817] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:48.904057] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:49.058173] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:49.061891] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:49.188690] Navigated to Project Detail Page
+[2025-08-18T12:15:52.734667] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:52.736180] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:53.478838] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:53.480840] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:54.206421] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:54.208772] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:54.362315] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:54.366522] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:54.801857] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:54.804855] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:55.438235] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:55.443768] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:15:55.800327] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:15:55.805868] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
