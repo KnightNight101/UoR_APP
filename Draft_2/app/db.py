@@ -191,6 +191,7 @@ class File(Base):
     id = Column(Integer, primary_key=True)
     project_id = Column(Integer, ForeignKey('projects.id'), nullable=False)
     task_id = Column(Integer, ForeignKey('tasks.id'), nullable=True)
+    subtask_id = Column(Integer, ForeignKey('subtasks.id'), nullable=True)  # NEW: Link to subtask
     filename = Column(String, nullable=False)
     filepath = Column(String, nullable=False)
     uploaded_by = Column(Integer, ForeignKey('users.id'), nullable=False)
@@ -199,6 +200,7 @@ class File(Base):
     # Relationships
     project = relationship("Project", backref="files")
     task = relationship("Task", backref="files")
+    subtask = relationship("Subtask", backref="files")  # NEW: Relationship to subtask
     uploader = relationship("User", backref="uploaded_files")
 
 class Message(Base):
@@ -633,7 +635,7 @@ def delete_message(message_id: int):
         return False
 
 # File CRUD functions
-def create_file(project_id: int, filename: str, filepath: str, uploaded_by: int, description: Optional[str] = None, task_id: Optional[int] = None):
+def create_file(project_id: int, filename: str, filepath: str, uploaded_by: int, description: Optional[str] = None, task_id: Optional[int] = None, subtask_id: Optional[int] = None):
     try:
         with SessionLocal() as session:
             file = File(
@@ -642,7 +644,8 @@ def create_file(project_id: int, filename: str, filepath: str, uploaded_by: int,
                 filepath=filepath,
                 uploaded_by=uploaded_by,
                 description=description,
-                task_id=task_id
+                task_id=task_id,
+                subtask_id=subtask_id
             )
             session.add(file)
             session.commit()
@@ -651,12 +654,14 @@ def create_file(project_id: int, filename: str, filepath: str, uploaded_by: int,
         log_error(f"Error creating file: {e}")
         return None
 
-def get_files(project_id: int, task_id: Optional[int] = None):
+def get_files(project_id: int, task_id: Optional[int] = None, subtask_id: Optional[int] = None):
     try:
         with SessionLocal() as session:
             query = session.query(File).filter(File.project_id == project_id)
             if task_id:
                 query = query.filter(File.task_id == task_id)
+            if subtask_id:
+                query = query.filter(File.subtask_id == subtask_id)
             return query.all()
     except Exception as e:
         log_error(f"Error getting files: {e}")
