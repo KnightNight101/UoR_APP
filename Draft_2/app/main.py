@@ -1476,17 +1476,121 @@ class DashboardView(QWidget):
 class SubtaskDetailPage(QWidget):
     def __init__(self, subtask_name, assigned_names, project_name, parent_task_name, deadline, parent=None):
         super().__init__(parent)
-        from PyQt5.QtWidgets import QVBoxLayout, QLabel, QPushButton
+        from PyQt5.QtWidgets import (
+            QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QWidget, QSizePolicy,
+            QFileDialog, QListWidget, QListWidgetItem, QMessageBox, QDialog, QDialogButtonBox
+        )
+        import shutil
+        import re
+        import uuid
+        import platform
+        import subprocess
+
+        # --- DB import for file association ---
+        # Use global db module (already imported at top)
+
+        self._subtask_name = subtask_name
+        self._assigned_names = assigned_names
+        self._project_name = project_name
+        self._parent_task_name = parent_task_name
+        self._deadline = deadline
+        self._parent = parent
+
+        # --- Subtask context: get subtask, task, project IDs ---
+        self._subtask_id = None
+        self._task_id = None
+        self._project_id = None
+        self._current_user_id = None
+
+        # Get current user ID from parent if available
+        if parent and hasattr(parent, "main_window") and hasattr(parent.main_window, "current_user"):
+            user = getattr(parent.main_window, "current_user", None)
+            if user and hasattr(user, "id"):
+                self._current_user_id = user.id
+
+        # Get subtask, task, project IDs from db using subtask_name and parent_task_name/project_name
+        if db and hasattr(db, "SessionLocal"):
+            with db.SessionLocal() as session:
+                subtask = None
+                if subtask_name and parent_task_name and project_name:
+                    project = getattr(db, "Project", None)
+                    task_model = getattr(db, "Task", None)
+                    subtask_model = getattr(db, "Subtask", None)
+                    if project and task_model and subtask_model:
+                        project_obj = session.query(project).filter(project.name == project_name).first()
+                        if project_obj:
+                            self._project_id = project_obj.id
+                            task_obj = session.query(task_model).filter(
+                                task_model.title == parent_task_name,
+                                task_model.project_id == project_obj.id
+                            ).first()
+                            if task_obj:
+                                self._task_id = task_obj.id
+                                subtask_obj = session.query(subtask_model).filter(
+                                    subtask_model.title == subtask_name,
+                                    subtask_model.task_id == task_obj.id
+                                ).first()
+                                if subtask_obj:
+                                    self._subtask_id = subtask_obj.id
+
         layout = QVBoxLayout()
-        layout.addWidget(QLabel(f"<b>Subtask Details</b>"))
-        layout.addWidget(QLabel(f"Name: {subtask_name}"))
-        layout.addWidget(QLabel(f"Assigned to: {assigned_names}"))
-        layout.addWidget(QLabel(f"Project: {project_name}"))
-        layout.addWidget(QLabel(f"Parent Task: {parent_task_name}"))
-        layout.addWidget(QLabel(f"Deadline: {deadline}"))
+        # Top row: header left, back button right
+        top_row = QHBoxLayout()
+        header = QLabel(f"<h2>{subtask_name}</h2>")
+        header.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        top_row.addWidget(header)
         back_btn = QPushButton("Back")
-        layout.addWidget(back_btn)
+        back_btn.setFixedSize(60, 28)
+        back_btn.setStyleSheet("font-size:10pt; padding:2px 8px;")
+        top_row.addStretch(1)
+        top_row.addWidget(back_btn)
+        layout.addLayout(top_row)
+        # Row of details
+        row = QHBoxLayout()
+        row.addWidget(QLabel(f"<b>Assigned:</b> {assigned_names}"))
+        row.addWidget(QLabel(f"<b>Project:</b> {project_name}"))
+        row.addWidget(QLabel(f"<b>Parent Task:</b> {parent_task_name}"))
+        row.addWidget(QLabel(f"<b>Deadline:</b> {deadline}"))
+        row_widget = QWidget()
+        row_widget.setLayout(row)
+        layout.addWidget(row_widget)
+
+        # --- LibreOffice Integration UI ---
+        file_btn_row = QHBoxLayout()
+        self.create_odt_btn = QPushButton("New Writer (.odt)")
+        self.create_ods_btn = QPushButton("New Calc (.ods)")
+        self.create_odp_btn = QPushButton("New Impress (.odp)")
+        self.upload_btn = QPushButton("Upload LibreOffice File")
+        file_btn_row.addWidget(self.create_odt_btn)
+        file_btn_row.addWidget(self.create_ods_btn)
+        file_btn_row.addWidget(self.create_odp_btn)
+        file_btn_row.addWidget(self.upload_btn)
+        layout.addLayout(file_btn_row)
+
+        # File list
+        self.file_list = QListWidget()
+        layout.addWidget(QLabel("LibreOffice Files:"))
+        layout.addWidget(self.file_list)
+
+        # Spacer for blank area below
+        layout.addStretch(1)
         self.setLayout(layout)
+
+        # --- File logic state ---
+        self._file_dir = None  # Will be set by backend logic
+
+        # --- Connect buttons ---
+        self.create_odt_btn.clicked.connect(lambda: self._handle_create_libreoffice_file("odt"))
+        self.create_ods_btn.clicked.connect(lambda: self._handle_create_libreoffice_file("ods"))
+        self.create_odp_btn.clicked.connect(lambda: self._handle_create_libreoffice_file("odp"))
+        self.upload_btn.clicked.connect(self._handle_upload_libreoffice_file)
+        self.file_list.itemDoubleClicked.connect(self._handle_open_libreoffice_file)
+        self.file_list.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.file_list.customContextMenuRequested.connect(self._show_file_context_menu)
+
+        # --- Load file list on init ---
+        self._refresh_file_list()
+
         def go_back():
             mw = self.parent()
             from PyQt5.QtWidgets import QMainWindow
@@ -1495,6 +1599,179 @@ class SubtaskDetailPage(QWidget):
             if mw and hasattr(mw, "stack") and mw.stack.count() > 1:
                 mw.stack.setCurrentIndex(0)
         back_btn.clicked.connect(go_back)
+
+    # --- LibreOffice Integration Methods ---
+
+    def _get_file_dir(self):
+        import os
+        base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "files"))
+        dir_path = os.path.join(
+            base_dir,
+            str(self._project_id) if self._project_id else "unknown_project",
+            str(self._task_id) if self._task_id else "unknown_task",
+            str(self._subtask_id) if self._subtask_id else "unknown_subtask"
+        )
+        os.makedirs(dir_path, exist_ok=True)
+        self._file_dir = dir_path
+        return dir_path
+
+    def _sanitize_filename(self, filename):
+        import re
+        filename = re.sub(r"[^a-zA-Z0-9_\-\.]", "_", filename)
+        return filename
+
+    def _unique_filename(self, filename):
+        import os
+        dir_path = self._get_file_dir()
+        base, ext = os.path.splitext(filename)
+        candidate = filename
+        i = 1
+        while os.path.exists(os.path.join(dir_path, candidate)):
+            candidate = f"{base}_{i}{ext}"
+            i += 1
+        return candidate
+
+    def _validate_libreoffice_filetype(self, filename):
+        allowed = [".odt", ".ods", ".odp"]
+        ext = os.path.splitext(filename)[1].lower()
+        return ext in allowed
+
+    def _refresh_file_list(self):
+        # List all LibreOffice files for this subtask from DB
+        self._get_file_dir()
+        self.file_list.clear()
+        if not self._project_id or not self._subtask_id:
+            return
+        files = db.get_files(self._project_id, subtask_id=self._subtask_id)
+        for f in files:
+            if self._validate_libreoffice_filetype(f.filename):
+                item = QListWidgetItem(f.filename)
+                item.setData(32, f.id)
+                self.file_list.addItem(item)
+
+    def _handle_create_libreoffice_file(self, ext):
+        import os
+        import datetime
+        self._get_file_dir()
+        name_map = {"odt": "NewDocument.odt", "ods": "NewSpreadsheet.ods", "odp": "NewPresentation.odp"}
+        filename = self._unique_filename(name_map[ext])
+        file_path = os.path.join(self._file_dir, filename)
+        # Create empty file
+        with open(file_path, "wb") as f:
+            f.write(b"")
+        # Register in DB
+        if self._project_id and self._subtask_id and self._current_user_id:
+            db.create_file(
+                project_id=self._project_id,
+                filename=filename,
+                filepath=file_path,
+                uploaded_by=self._current_user_id,
+                description=None,
+                task_id=self._task_id,
+                subtask_id=self._subtask_id
+            )
+        self._launch_libreoffice(file_path)
+        self._refresh_file_list()
+
+    def _handle_upload_libreoffice_file(self):
+        import os
+        import shutil
+        self._get_file_dir()
+        from PyQt5.QtWidgets import QFileDialog, QMessageBox
+        dlg = QFileDialog(self)
+        dlg.setFileMode(QFileDialog.ExistingFile)
+        dlg.setNameFilters(["LibreOffice Files (*.odt *.ods *.odp)"])
+        if dlg.exec_():
+            selected = dlg.selectedFiles()
+            if not selected:
+                return
+            src = selected[0]
+            fname = os.path.basename(src)
+            fname = self._sanitize_filename(fname)
+            if not self._validate_libreoffice_filetype(fname):
+                QMessageBox.warning(self, "Invalid File", "Only .odt, .ods, .odp files are allowed.")
+                return
+            fname = self._unique_filename(fname)
+            dst = os.path.join(self._file_dir, fname)
+            if os.path.exists(dst):
+                QMessageBox.warning(self, "File Exists", "A file with this name already exists.")
+                return
+            try:
+                shutil.copy2(src, dst)
+            except Exception as e:
+                QMessageBox.warning(self, "Error", f"Failed to upload file: {e}")
+                return
+            # Register in DB
+            if self._project_id and self._subtask_id and self._current_user_id:
+                db.create_file(
+                    project_id=self._project_id,
+                    filename=fname,
+                    filepath=dst,
+                    uploaded_by=self._current_user_id,
+                    description=None,
+                    task_id=self._task_id,
+                    subtask_id=self._subtask_id
+                )
+            self._refresh_file_list()
+
+    def _handle_open_libreoffice_file(self, item):
+        import os
+        file_id = item.data(32)
+        file_path = None
+        if file_id:
+            f = db.get_file_by_id(file_id)
+            if f:
+                file_path = f.filepath
+        if not file_path:
+            file_path = os.path.join(self._file_dir, item.text())
+        self._launch_libreoffice(file_path)
+
+    def _launch_libreoffice(self, file_path):
+        import platform
+        import subprocess
+        from PyQt5.QtWidgets import QMessageBox
+        try:
+            if platform.system() == "Windows":
+                subprocess.Popen(["soffice.exe", file_path], shell=True)
+            else:
+                subprocess.Popen(["libreoffice", file_path])
+        except Exception as e:
+            QMessageBox.warning(self, "Error", f"Could not launch LibreOffice: {e}")
+
+    def _show_file_context_menu(self, pos):
+        from PyQt5.QtWidgets import QMenu
+        item = self.file_list.itemAt(pos)
+        if not item:
+            return
+        menu = QMenu(self)
+        open_action = menu.addAction("Open")
+        delete_action = menu.addAction("Delete")
+        action = menu.exec_(self.file_list.mapToGlobal(pos))
+        if action == open_action:
+            self._handle_open_libreoffice_file(item)
+        elif action == delete_action:
+            self._handle_delete_libreoffice_file(item)
+
+    def _handle_delete_libreoffice_file(self, item):
+        import os
+        from PyQt5.QtWidgets import QMessageBox
+        file_id = item.data(32)
+        file_path = None
+        if file_id:
+            f = db.get_file_by_id(file_id)
+            if f:
+                file_path = f.filepath
+        if not file_path:
+            file_path = os.path.join(self._file_dir, item.text())
+        try:
+            os.remove(file_path)
+        except Exception as e:
+            QMessageBox.warning(self, "Error", f"Could not delete file: {e}")
+            return
+        # Remove from DB
+        if file_id:
+            db.delete_file(file_id)
+        self._refresh_file_list()
 
     # Dashboard summary removed per UI simplification instructions.
 
