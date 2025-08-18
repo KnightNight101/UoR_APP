@@ -625,34 +625,47 @@ class LoginScreen(QWidget):
                 self._scale_factor = max(self._scale_factor - 0.1, self._min_scale)
         self._apply_scale()
 
-class SubtaskWidget(QWidget):
-    def __init__(self, title, deadline, project_name, progress, last_updated, parent=None):
+class DashboardSubtaskWidget(QWidget):
+    """Dashboard subtask row: shows name, deadline, project, and status with inline dropdown on double-click."""
+    def __init__(self, subtask, status, parent=None):
         super().__init__(parent)
-        from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QProgressBar
-        layout = QVBoxLayout()
-        title_label = QLabel(f"<b>{title}</b>")
-        project_label = QLabel(f"Project: {project_name}")
-        deadline_label = QLabel(f"Deadline: {deadline}")
-        last_updated_label = QLabel(f"Last updated: {last_updated}")
-        progress_bar = QProgressBar()
-        try:
-            progress_val = int(progress)
-        except Exception:
-            progress_val = 0
-        progress_bar.setValue(progress_val)
-        progress_bar.setFormat(f"Progress: {progress_val}%")
-        progress_bar.setTextVisible(True)
-        progress_bar.setMinimum(0)
-        progress_bar.setMaximum(100)
-        # Layout arrangement
-        layout.addWidget(title_label)
-        info_layout = QHBoxLayout()
-        info_layout.addWidget(project_label)
-        info_layout.addWidget(deadline_label)
-        info_layout.addWidget(last_updated_label)
-        layout.addLayout(info_layout)
-        layout.addWidget(progress_bar)
-        self.setLayout(layout)
+        from PyQt5.QtWidgets import QHBoxLayout, QLabel, QComboBox
+        self.subtask = subtask
+        self.status = status
+        self.layout = QHBoxLayout()
+        self.layout.setContentsMargins(4, 2, 4, 2)
+        self.title_label = QLabel(f"<b>{getattr(subtask, 'title', '')}</b>")
+        self.project_label = QLabel(f"Project: {getattr(subtask, 'project_name', 'N/A')}")
+        self.deadline_label = QLabel(f"Deadline: {getattr(subtask, 'due_date', getattr(subtask, 'deadline', 'N/A'))}")
+        self.status_label = QLabel(f"Status: {status}")
+        self.status_combo = None
+        self.layout.addWidget(self.title_label)
+        self.layout.addWidget(self.project_label)
+        self.layout.addWidget(self.deadline_label)
+        self.layout.addWidget(self.status_label)
+        self.setLayout(self.layout)
+
+    def show_status_dropdown(self, on_status_changed):
+        from PyQt5.QtWidgets import QComboBox
+        if self.status_combo is not None:
+            return
+        self.status_combo = QComboBox(self)
+        self.status_combo.addItems(["Not Yet Started", "In Progress", "Completed"])
+        self.status_combo.setCurrentText(self.status)
+        self.status_combo.setMinimumWidth(140)
+        self.layout.replaceWidget(self.status_label, self.status_combo)
+        self.status_label.hide()
+        self.status_combo.show()
+        def handle_change(idx):
+            new_status = self.status_combo.currentText()
+            self.status = new_status
+            self.status_label.setText(f"Status: {new_status}")
+            self.status_label.show()
+            self.layout.replaceWidget(self.status_combo, self.status_label)
+            self.status_combo.deleteLater()
+            self.status_combo = None
+            on_status_changed(new_status)
+        self.status_combo.activated.connect(handle_change)
 
 class CalendarTabWidget(QWidget):
     def __init__(self, user=None, parent=None):
@@ -998,18 +1011,19 @@ class DashboardView(QWidget):
                 item = QListWidgetItem()
                 item.setData(32, f"subtask:{sub.id}")
                 item.setData(33, sub)
-                # Default all subtasks to "Not Yet Started" if no status
-                status = getattr(sub, "status", None)
-                if not status:
-                    status = "Not Yet Started"
-                    if hasattr(db, "update_subtask_status"):
-                        try:
-                            db.update_subtask_status(sub.id, status)
-                        except Exception:
-                            pass
-                item.setData(34, status)
-                item.setText(f"{getattr(sub, 'title', '')} | Status: {status}")
+                db_status = getattr(sub, "status", None)
+                if db_status in (None, "", "pending", "not yet started"):
+                    ui_status = "Not Yet Started"
+                elif db_status == "in_progress":
+                    ui_status = "In Progress"
+                elif db_status == "completed":
+                    ui_status = "Completed"
+                else:
+                    ui_status = str(db_status)
+                item.setData(34, ui_status)
+                widget = DashboardSubtaskWidget(sub, ui_status)
                 self.category_lists[cat].addItem(item)
+                self.category_lists[cat].setItemWidget(item, widget)
         # Remove all task display from dashboard (only subtasks shown)
         # Connect double click to inline status editor
         for cat_list in self.category_lists.values():
@@ -1020,30 +1034,31 @@ class DashboardView(QWidget):
             cat_list.itemDoubleClicked.connect(self.inline_edit_subtask_status)
 
     def inline_edit_subtask_status(self, item):
-        """Show inline dropdown to edit subtask status."""
-        from PyQt5.QtWidgets import QComboBox
+        """Show inline dropdown to edit subtask status next to status label."""
         sub = item.data(33)
         if not sub:
             return
         parent_list = item.listWidget()
-        combo = QComboBox(parent_list)
-        combo.addItems(["Not Yet Started", "In Progress", "Completed"])
-        current_status = item.data(34) or "Not Yet Started"
-        combo.setCurrentText(current_status)
-        combo.setFocus()
-        combo.setMinimumWidth(160)
-        def on_status_changed(idx):
-            new_status = combo.currentText()
+        widget = parent_list.itemWidget(item)
+        if not widget or not hasattr(widget, "show_status_dropdown"):
+            return
+        def on_status_changed(new_status):
             item.setData(34, new_status)
-            item.setText(f"{getattr(sub, 'title', '')} | Status: {new_status}")
+            # Map UI status to DB status
+            if new_status == "Not Yet Started":
+                db_status = "not yet started"
+            elif new_status == "In Progress":
+                db_status = "in_progress"
+            elif new_status == "Completed":
+                db_status = "completed"
+            else:
+                db_status = new_status
             if hasattr(db, "update_subtask_status"):
                 try:
-                    db.update_subtask_status(sub.id, new_status)
+                    db.update_subtask_status(sub.id, db_status)
                 except Exception:
                     pass
-            parent_list.setItemWidget(item, None)
-        combo.activated.connect(on_status_changed)
-        parent_list.setItemWidget(item, combo)
+        widget.show_status_dropdown(on_status_changed)
 
     def load_messages(self):
         self.message_list.clear()

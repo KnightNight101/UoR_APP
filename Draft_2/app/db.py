@@ -174,7 +174,7 @@ class Subtask(Base):
     task_id = Column(Integer, ForeignKey('tasks.id'), nullable=False)
     title = Column(String, nullable=False)
     description = Column(Text)
-    status = Column(String, default='pending')
+    status = Column(String, default='not yet started')
     assigned_to = Column(Integer, ForeignKey('users.id'))
     due_date = Column(DateTime)
     hours = Column(Float)  # Use Float for hours
@@ -331,7 +331,8 @@ def create_task(
                     title="check progress",
                     assigned_to=assigned_to,
                     due_date=due_date,
-                    category="important_urgent"
+                    category="important_urgent",
+                    status="not yet started"
                 )
                 session.add(subtask)
                 session.commit()
@@ -467,7 +468,8 @@ def create_subtask(
                 due_date=due_date,
                 hours=hours,
                 dependencies=json.dumps(dependencies) if dependencies is not None else None,
-                category="important_urgent" if title == "check progress" else "other"
+                category="important_urgent" if title == "check progress" else "other",
+                status="not yet started"
             )
             session.add(subtask)
             session.commit()
