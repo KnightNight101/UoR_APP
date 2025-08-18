@@ -2042,3 +2042,48 @@ User logged out (logout key pressed)
 [2025-08-18T11:50:27.877356] Subtask 41 ('Python Vs Web Development') moved from 'Urgent' to 'Important and Urgent' by user 'user'
 [2025-08-18T11:50:29.555943] Subtask 42 ('LLM Integration') moved from 'Important' to 'Important and Urgent' by user 'user'
 [2025-08-18T11:50:31.572905] Subtask 43 ('check progress') moved from 'Other' to 'Important and Urgent' by user 'user'
+[2025-08-18T11:50:46.183114] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-18T11:50:46.184308] DEBUG: main_window=<__main__.MainWindow object at 0x000002B1A256E330>, project_obj=<db.Project object at 0x000002B1A51A69C0>
+[2025-08-18T11:50:46.185179] DEBUG: Calling show_project_detail_page
+[2025-08-18T11:50:46.298582] Navigated to Project Detail Page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T11:52:51.488593] User 'user' logged in
+[2025-08-18T11:52:53.246979] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-18T11:52:53.247488] DEBUG: main_window=<__main__.MainWindow object at 0x000001E885AEE2A0>, project_obj=<db.Project object at 0x000001E88684E060>
+[2025-08-18T11:52:53.248029] DEBUG: Calling show_project_detail_page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T11:54:17.394962] User 'user' logged in
+[2025-08-18T11:54:20.155353] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-18T11:54:20.156351] DEBUG: main_window=<__main__.MainWindow object at 0x0000022A60F7E3C0>, project_obj=<db.Project object at 0x0000022A63BCE090>
+[2025-08-18T11:54:20.156351] DEBUG: Calling show_project_detail_page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T11:55:52.082678] User 'user' logged in
+[2025-08-18T11:55:54.111107] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-18T11:55:54.111660] DEBUG: main_window=<__main__.MainWindow object at 0x000002157ACBE3C0>, project_obj=<db.Project object at 0x000002150CFDE000>
+[2025-08-18T11:55:54.112194] DEBUG: Calling show_project_detail_page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T11:57:05.158262] User 'user' logged in
+[2025-08-18T11:57:06.847953] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-18T11:57:06.848615] DEBUG: main_window=<__main__.MainWindow object at 0x00000159D83FE450>, project_obj=<db.Project object at 0x00000159DB055F10>
+[2025-08-18T11:57:06.849209] DEBUG: Calling show_project_detail_page
+[2025-08-18T11:57:06.966871] Navigated to Project Detail Page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T12:02:10.705848] User 'user' logged in
+[2025-08-18T12:02:12.252515] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-18T12:02:12.253022] DEBUG: main_window=<__main__.MainWindow object at 0x000002204762E450>, project_obj=<db.Project object at 0x000002204A27EA20>
+[2025-08-18T12:02:12.253551] DEBUG: Calling show_project_detail_page
+[2025-08-18T12:02:12.286524] Gantt DEBUG: Task ID=1, Title='Literature Review', Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:02:12.291401] Gantt DEBUG: Task ID=2, Title='Methodology', Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:02:12.328775] Gantt DEBUG: Task ID=1, Title='Literature Review', Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:02:12.329281] Gantt DEBUG: Task ID=2, Title='Methodology', Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:02:12.357943] Navigated to Project Detail Page
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T12:04:10.982738] User 'user' logged in
+[2025-08-18T12:04:12.800369] User selected project from dashboard: id=1, name=Master's Dissertation
+[2025-08-18T12:04:12.800955] DEBUG: main_window=<__main__.MainWindow object at 0x0000021F1CAE2450>, project_obj=<db.Project object at 0x0000021F1F722D50>
+[2025-08-18T12:04:12.801489] DEBUG: Calling show_project_detail_page
+[2025-08-18T12:04:12.836208] Gantt DEBUG: Task ID=1, Title='Literature Review', Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:04:12.846215] Gantt DEBUG: Task ID=2, Title='Methodology', Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:04:12.995773] Gantt DEBUG: Task ID=1, Title='Literature Review', Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
+[2025-08-18T12:04:12.997454] Gantt DEBUG: Task ID=2, Title='Methodology', Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[2025-08-18T12:04:13.095005] Navigated to Project Detail Page

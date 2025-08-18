@@ -1583,119 +1583,137 @@ class GanttChartWidget(QWidget):
         self.plot_gantt()
 
     def plot_gantt(self):
-        self.figure.clear()
-        ax = self.figure.add_subplot(111)
-        bars = []
-        labels = []
-        y = 0
-        # For dependency arrows
-        bar_positions = {}  # id -> (y, start, end)
-        dep_links = []      # (from_id, to_id, from_type, to_type)
-        if db and hasattr(db, "get_tasks"):
-            tasks = db.get_tasks(self.project_id)
-            for task in tasks:
-                # Parse start and end dates (support both deadline and due_date)
-                start = getattr(task, "start_date", None)
-                end = getattr(task, "deadline", None)
-                if not start:
-                    start = getattr(task, "created_at", None)
-                if not start:
-                    start = getattr(task, "deadline", None)
-                if not end:
-                    end = getattr(task, "due_date", None)
-                if not end:
+        try:
+            self.figure.clear()
+            ax = self.figure.add_subplot(111)
+            bars = []
+            labels = []
+            y = 0
+            # For dependency arrows
+            bar_positions = {}  # id -> (y, start, end)
+            dep_links = []      # (from_id, to_id, from_type, to_type)
+            if db and hasattr(db, "get_tasks"):
+                tasks = db.get_tasks(self.project_id)
+                for task in tasks:
+                    # Debug log for each task's dates
+                    try:
+                        log_event(
+                            f"Gantt DEBUG: Task ID={getattr(task, 'id', None)}, Title='{getattr(task, 'title', '')}', "
+                            f"Start={getattr(task, 'start_date', None)}, Created={getattr(task, 'created_at', None)}, "
+                            f"Deadline={getattr(task, 'deadline', None)}, Due={getattr(task, 'due_date', None)}"
+                        )
+                    except Exception as e:
+                        log_event(f"Gantt DEBUG: Failed to log task info: {e}")
+                    # Parse start and end dates (support both deadline and due_date)
+                    start = getattr(task, "start_date", None)
                     end = getattr(task, "deadline", None)
-                try:
-                    start_dt = datetime.datetime.strptime(str(start), "%Y-%m-%d")
-                except Exception:
-                    start_dt = None
-                try:
-                    end_dt = datetime.datetime.strptime(str(end), "%Y-%m-%d")
-                except Exception:
-                    end_dt = None
-                hours = getattr(task, "hours", None)
-                task_id = getattr(task, "id", None)
-                if start_dt and end_dt:
-                    bars.append((mdates.date2num(start_dt), mdates.date2num(end_dt) - mdates.date2num(start_dt)))
-                    label_hours = f" | Hours: {hours}" if hours is not None else ""
-                    labels.append(f"Task {task_id}: {getattr(task, 'title', '')}{label_hours}")
-                    bar_positions[("task", task_id)] = (y, mdates.date2num(start_dt), mdates.date2num(end_dt))
-                    # Collect dependencies for this task
-                    dependencies = getattr(task, "dependencies", [])
-                    if dependencies:
-                        for dep_id in dependencies:
-                            dep_links.append((("task", dep_id), ("task", task_id)))
-                    y += 1
-                    # Subtasks
-                    if hasattr(db, "get_subtasks"):
+                    if not start:
+                        start = getattr(task, "created_at", None)
+                    if not start:
+                        start = getattr(task, "deadline", None)
+                    if not end:
+                        end = getattr(task, "due_date", None)
+                    if not end:
+                        end = getattr(task, "deadline", None)
+                    try:
                         try:
-                            task_id = getattr(task, "id", None)
-                            if task_id is not None:
-                                subs = db.get_subtasks(task_id)
-                            else:
-                                subs = []
-                            for sub in subs:
-                                sub_start = getattr(sub, "start_date", None)
-                                sub_end = getattr(sub, "deadline", None)
-                                if not sub_start:
-                                    sub_start = getattr(sub, "created_at", None)
-                                if not sub_start:
-                                    sub_start = getattr(sub, "deadline", None)
-                                if not sub_end:
-                                    sub_end = getattr(sub, "due_date", None)
-                                if not sub_end:
-                                    sub_end = getattr(sub, "deadline", None)
-                                try:
-                                    sub_start_dt = datetime.datetime.strptime(str(sub_start), "%Y-%m-%d")
-                                except Exception:
-                                    sub_start_dt = None
-                                try:
-                                    sub_end_dt = datetime.datetime.strptime(str(sub_end), "%Y-%m-%d")
-                                except Exception:
-                                    sub_end_dt = None
-                                sub_hours = getattr(sub, "hours", None)
-                                sub_id = getattr(sub, "id", None)
-                                if sub_start_dt and sub_end_dt:
-                                    bars.append((mdates.date2num(sub_start_dt), mdates.date2num(sub_end_dt) - mdates.date2num(sub_start_dt)))
-                                    label_sub_hours = f" | Hours: {sub_hours}" if sub_hours is not None else ""
-                                    labels.append(f"  Subtask {sub_id}: {getattr(sub, 'title', '')}{label_sub_hours}")
-                                    bar_positions[("subtask", sub_id)] = (y, mdates.date2num(sub_start_dt), mdates.date2num(sub_end_dt))
-                                    # Collect dependencies for this subtask
-                                    sub_dependencies = getattr(sub, "dependencies", [])
-                                    if sub_dependencies:
-                                        for dep_id in sub_dependencies:
-                                            # Try to infer if dep_id is a subtask or task (assume subtask if present in bar_positions)
-                                            dep_key = ("subtask", dep_id) if ("subtask", dep_id) in bar_positions else ("task", dep_id)
-                                            dep_links.append((dep_key, ("subtask", sub_id)))
-                                    y += 1
+                            start_dt = datetime.datetime.strptime(str(start), "%Y-%m-%d")
                         except Exception:
-                            pass
-        if bars:
-            for i, (start, duration) in enumerate(bars):
-                ax.barh(i, duration, left=start, height=0.4, align='center', color="#6baed6")
-            ax.set_yticks(range(len(labels)))
-            ax.set_yticklabels(labels)
-            ax.xaxis_date()
-            ax.set_xlabel("Date")
-            ax.set_title("Gantt Chart: Tasks & Subtasks")
-            # Draw dependency arrows
-            for from_key, to_key in dep_links:
-                if from_key in bar_positions and to_key in bar_positions:
-                    from_y, _, from_end = bar_positions[from_key]
-                    to_y, to_start, _ = bar_positions[to_key]
-                    # Draw arrow from end of dependency to start of dependent
-                    ax.annotate(
-                        '',
-                        xy=(to_start, to_y),
-                        xytext=(from_end, from_y),
-                        arrowprops=dict(arrowstyle="->", color="red", lw=1.5, shrinkA=5, shrinkB=5),
-                        annotation_clip=False
-                    )
-            self.figure.tight_layout()
-        else:
-            ax.text(0.5, 0.5, "No tasks to display", ha='center', va='center', fontsize=12, transform=ax.transAxes)
-            ax.set_axis_off()
-        self.canvas.draw()
+                            start_dt = datetime.datetime.strptime(str(start), "%Y-%m-%d %H:%M:%S")
+                    except Exception:
+                        start_dt = None
+                    try:
+                        try:
+                            end_dt = datetime.datetime.strptime(str(end), "%Y-%m-%d")
+                        except Exception:
+                            end_dt = datetime.datetime.strptime(str(end), "%Y-%m-%d %H:%M:%S")
+                    except Exception:
+                        end_dt = None
+                    hours = getattr(task, "hours", None)
+                    task_id = getattr(task, "id", None)
+                    if start_dt and end_dt:
+                        bars.append((mdates.date2num(start_dt), mdates.date2num(end_dt) - mdates.date2num(start_dt)))
+                        label_hours = f" | Hours: {hours}" if hours is not None else ""
+                        labels.append(f"Task {task_id}: {getattr(task, 'title', '')}{label_hours}")
+                        bar_positions[("task", task_id)] = (y, mdates.date2num(start_dt), mdates.date2num(end_dt))
+                        # Collect dependencies for this task
+                        dependencies = getattr(task, "dependencies", [])
+                        if dependencies:
+                            for dep_id in dependencies:
+                                dep_links.append((("task", dep_id), ("task", task_id)))
+                        y += 1
+                        # Subtasks
+                        if hasattr(db, "get_subtasks"):
+                            try:
+                                task_id = getattr(task, "id", None)
+                                if task_id is not None:
+                                    subs = db.get_subtasks(task_id)
+                                else:
+                                    subs = []
+                                for sub in subs:
+                                    sub_start = getattr(sub, "start_date", None)
+                                    sub_end = getattr(sub, "deadline", None)
+                                    if not sub_start:
+                                        sub_start = getattr(sub, "created_at", None)
+                                    if not sub_start:
+                                        sub_start = getattr(sub, "deadline", None)
+                                    if not sub_end:
+                                        sub_end = getattr(sub, "due_date", None)
+                                    if not sub_end:
+                                        sub_end = getattr(sub, "deadline", None)
+                                    try:
+                                        sub_start_dt = datetime.datetime.strptime(str(sub_start), "%Y-%m-%d")
+                                    except Exception:
+                                        sub_start_dt = None
+                                    try:
+                                        sub_end_dt = datetime.datetime.strptime(str(sub_end), "%Y-%m-%d")
+                                    except Exception:
+                                        sub_end_dt = None
+                                    sub_hours = getattr(sub, "hours", None)
+                                    sub_id = getattr(sub, "id", None)
+                                    if sub_start_dt and sub_end_dt:
+                                        bars.append((mdates.date2num(sub_start_dt), mdates.date2num(sub_end_dt) - mdates.date2num(sub_start_dt)))
+                                        label_sub_hours = f" | Hours: {sub_hours}" if sub_hours is not None else ""
+                                        labels.append(f"  Subtask {sub_id}: {getattr(sub, 'title', '')}{label_sub_hours}")
+                                        bar_positions[("subtask", sub_id)] = (y, mdates.date2num(sub_start_dt), mdates.date2num(sub_end_dt))
+                                        # Collect dependencies for this subtask
+                                        sub_dependencies = getattr(sub, "dependencies", [])
+                                        if sub_dependencies:
+                                            for dep_id in sub_dependencies:
+                                                # Try to infer if dep_id is a subtask or task (assume subtask if present in bar_positions)
+                                                dep_key = ("subtask", dep_id) if ("subtask", dep_id) in bar_positions else ("task", dep_id)
+                                                dep_links.append((dep_key, ("subtask", sub_id)))
+                                        y += 1
+                            except Exception as e:
+                                log_error(f"Gantt subtask error: {e}")
+            if bars:
+                for i, (start, duration) in enumerate(bars):
+                    ax.barh(i, duration, left=start, height=0.4, align='center', color="#6baed6")
+                ax.set_yticks(range(len(labels)))
+                ax.set_yticklabels(labels)
+                ax.xaxis_date()
+                ax.set_xlabel("Date")
+                ax.set_title("Gantt Chart: Tasks & Subtasks")
+                # Draw dependency arrows
+                for from_key, to_key in dep_links:
+                    if from_key in bar_positions and to_key in bar_positions:
+                        from_y, _, from_end = bar_positions[from_key]
+                        to_y, to_start, _ = bar_positions[to_key]
+                        # Draw arrow from end of dependency to start of dependent
+                        ax.annotate(
+                            '',
+                            xy=(to_start, to_y),
+                            xytext=(from_end, from_y),
+                            arrowprops=dict(arrowstyle="->", color="red", lw=1.5, shrinkA=5, shrinkB=5),
+                            annotation_clip=False
+                        )
+                self.figure.tight_layout()
+            else:
+                ax.text(0.5, 0.5, "No tasks to display", ha='center', va='center', fontsize=12, transform=ax.transAxes)
+                ax.set_axis_off()
+            self.canvas.draw()
+        except Exception as e:
+            log_error(f"Gantt plot_gantt error: {e}")
 
     def refresh(self):
         self.plot_gantt()
@@ -1816,6 +1834,15 @@ class ProjectDetailPage(QWidget):
         self.init_tasks_tab()
         self.init_gantt_tab()
         self.init_calendar_tab()
+
+    def init_gantt_tab(self):
+        """Add the Gantt chart tab to the project detail page and assign to self.gantt_chart for refresh."""
+        tab = QWidget()
+        layout = QVBoxLayout()
+        self.gantt_chart = GanttChartWidget(getattr(self.project, "id", None))
+        layout.addWidget(self.gantt_chart)
+        tab.setLayout(layout)
+        self.tabs.addTab(tab, "Gantt Chart")
 
         # Main layout for the project details page
         vbox = QVBoxLayout()
@@ -2002,13 +2029,7 @@ class ProjectDetailPage(QWidget):
                 mw.stack.setCurrentWidget(mw.dashboard)
             log_event("Returned to Dashboard from Project Detail Page")
 
-    def init_gantt_tab(self):
-        gantt_tab = QWidget()
-        layout = QVBoxLayout()
-        gantt_chart = GanttChartWidget(getattr(self.project, "id", None))
-        layout.addWidget(gantt_chart)
-        gantt_tab.setLayout(layout)
-        self.tabs.addTab(gantt_tab, "Gantt Chart")
+    # Removed duplicate/legacy init_gantt_tab to avoid confusion and ensure correct Gantt chart refresh.
 
     def init_calendar_tab(self):
         tab = CalendarTabWidget(user=self.current_user)
@@ -2227,15 +2248,8 @@ class ProjectDetailPage(QWidget):
                         sub_item.setFont(font)
                         self.task_list.addItem(sub_item)
         # Refresh Gantt chart after loading tasks
-        gantt_chart = None
-        for i in range(self.tabs.count()):
-            if self.tabs.tabText(i) == "Gantt Chart":
-                tab = self.tabs.widget(i)
-                for child in tab.findChildren(GanttChartWidget):
-                    gantt_chart = child
-                    break
-        if gantt_chart:
-            gantt_chart.refresh()
+        if hasattr(self, "gantt_chart") and self.gantt_chart is not None:
+            self.gantt_chart.refresh()
         # (Removed recursive call to self.load_tasks() to prevent infinite recursion)
 
     def select_task_dependencies(self):
@@ -2668,13 +2682,8 @@ class TaskEditWidget(QWidget):
         button_box.rejected.connect(dialog.reject)
         dialog.exec_()
 
-    def init_gantt_tab(self):
-        tab = QWidget()
-        layout = QVBoxLayout()
-        self.gantt_chart = GanttChartWidget(getattr(self.project, "id", None))
-        layout.addWidget(self.gantt_chart)
-        tab.setLayout(layout)
-        self.tabs.addTab(tab, "Gantt Chart")
+# Moved and properly indented inside ProjectDetailPage class:
+# Remove stray global definition of init_gantt_tab (if present)
 
     def init_calendar_tab(self):
         tab = CalendarTabWidget(user=self.current_user)
