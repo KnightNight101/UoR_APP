@@ -68,3 +68,12 @@
 - Calendar tab
     - There should be a tab that shows the calendar view with all of the deadlines, tasks, subtasks as well as any public holidays and personal time off that any team member has declared (from another page)
     
+# LibreOffice Document Versioning Features
+
+- All LibreOffice documents (ODT, ODS, etc.) are versioned using a Git-based backend.
+- Each upload or edit creates a new version (commit) in a dedicated Git repository.
+- Users can view the full version history of each document from the file management UI.
+- Semantic diffs between document versions are provided using ODFDiff.
+- Users can compare any two versions and restore previous versions directly from the UI.
+- Collaboration is supported: all changes are attributed to the editing user and tracked in the version history.
+- Versioning and diff features are fully integrated into the file management workflow and require no manual Git operations.

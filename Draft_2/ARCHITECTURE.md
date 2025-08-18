@@ -11,7 +11,7 @@ This document describes the architecture of the fully local, offline PyQt-based 
 The platform is implemented as a standalone PyQt application. The main modules and their responsibilities are:
 
 - **[`main.py`](app/main.py:1)**: Entry point for the PyQt application. Initializes the main window, loads UI components, and manages application state.
-- **[`db.py`](app/db.py:1)**: Handles all database operations using SQLite. Manages schema creation, user/project/task/file CRUD, and queries.
+- **[`db.py`](app/db.py:1)**: Handles all database operations using SQLite. Manages schema creation, user/project/task/file CRUD, queries, and Git-based document version control for LibreOffice files (using GitPython and ODFDiff).
 - **Event Log (`event_log.txt`)**: Plaintext log file for recording significant application events, user actions, and errors for audit and debugging purposes.
 
 All modules interact directly; there is no client-server separation or network communication.
@@ -65,12 +65,14 @@ All modules interact directly; there is no client-server separation or network c
 
 - User management (creation, update, deletion) is handled locally.
 - Files are stored on the local filesystem; metadata and access rights are managed in the database.
-- File operations (add, remove, update) are logged.
+- LibreOffice documents (ODT, ODS, etc.) are versioned using a local Git repository per file or project. Each edit/upload creates a Git commit, tracked in the database (`file_versions` table).
+- File operations (add, remove, update, version, restore) are logged.
 
 ### Dashboard
 
 - The dashboard provides an overview of projects, tasks, and recent activity.
 - All data is loaded from the local database; no remote data sources.
+- The dashboard and file management UI now include document versioning features: version history, diff viewing, and restore options for LibreOffice documents.
 
 ### Event Logging
 
@@ -78,6 +80,15 @@ All modules interact directly; there is no client-server separation or network c
 - The log is local and never transmitted externally.
 
 ---
+
+## 3.1. Document Version Control Workflow
+
+- When a LibreOffice document is uploaded or edited, the application uses GitPython to commit the new version to a local Git repository.
+- The `file_versions` table records each commit, including commit hash, author, and timestamp.
+- ODFDiff is used to provide semantic diffs between document versions, accessible from the UI.
+- The file management UI allows users to view version history, compare versions, and restore previous versions.
+- All versioning operations are local and offline, with no external dependencies.
+
 
 ## 4. Security and Offline Operation
 
