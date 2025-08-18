@@ -2013,3 +2013,32 @@ User logged out (logout key pressed)
 [DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
 [2025-08-18T11:30:44.512669] User 'user' logged in
 [2025-08-18T11:30:47.127149] Subtask 39 ('check progress') moved from 'Important and Urgent' to 'Urgent' by user 'user'
+[2025-08-18T11:33:48.853241] Subtask 43 ('check progress') moved from 'Important and Urgent' to 'Urgent' by user 'user'
+[2025-08-18T11:33:50.650478] Subtask 39 ('check progress') moved from 'Urgent' to 'Important and Urgent' by user 'user'
+[2025-08-18T11:33:52.275040] Subtask 43 ('check progress') moved from 'Urgent' to 'Important and Urgent' by user 'user'
+[2025-08-18T11:33:54.546354] Subtask 40 ('Project Management Framework Section') moved from 'Other' to 'Important' by user 'user'
+[2025-08-18T11:33:56.835361] Subtask 40 ('Project Management Framework Section') moved from 'Important' to 'Important and Urgent' by user 'user'
+[2025-08-18T11:34:14.925307] Subtask 41 ('Python Vs Web Development') moved from 'Other' to 'Important' by user 'user'
+[2025-08-18T11:34:16.372897] Subtask 41 ('Python Vs Web Development') moved from 'Important' to 'Urgent' by user 'user'
+[2025-08-18T11:34:17.845508] Subtask 41 ('Python Vs Web Development') moved from 'Urgent' to 'Important and Urgent' by user 'user'
+[2025-08-18T11:34:21.828598] Subtask 42 ('LLM Integration') moved from 'Other' to 'Important and Urgent' by user 'user'
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T11:47:49.619689] User 'user' logged in
+[2025-08-18T11:47:52.368235] Subtask 43 ('check progress') moved from 'Important and Urgent' to 'Urgent' by user 'user'
+[2025-08-18T11:47:55.603559] Subtask 42 ('LLM Integration') moved from 'Important and Urgent' to 'Important' by user 'user'
+[2025-08-18T11:47:58.114021] Subtask 40 ('Project Management Framework Section') moved from 'Important and Urgent' to 'Other' by user 'user'
+[2025-08-18T11:47:59.762713] Subtask 39 ('check progress') moved from 'Important and Urgent' to 'Urgent' by user 'user'
+[2025-08-18T11:48:01.554647] Subtask 39 ('check progress') moved from 'Urgent' to 'Important and Urgent' by user 'user'
+[2025-08-18T11:48:03.137605] Subtask 42 ('LLM Integration') moved from 'Important' to 'Urgent' by user 'user'
+[2025-08-18T11:48:09.708166] Subtask 40 ('Project Management Framework Section') moved from 'Other' to 'Important' by user 'user'
+[2025-08-18T11:48:18.828732] Subtask 40 ('Project Management Framework Section') moved from 'Important' to 'Other' by user 'user'
+[2025-08-18T11:48:20.012206] Subtask 40 ('Project Management Framework Section') moved from 'Other' to 'Important' by user 'user'
+[2025-08-18T11:48:22.109986] Subtask 43 ('check progress') moved from 'Urgent' to 'Other' by user 'user'
+[2025-08-18T11:48:24.212377] Subtask 41 ('Python Vs Web Development') moved from 'Important and Urgent' to 'Urgent' by user 'user'
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T11:50:13.762784] User 'user' logged in
+[2025-08-18T11:50:24.872220] Subtask 42 ('LLM Integration') moved from 'Urgent' to 'Important' by user 'user'
+[2025-08-18T11:50:26.517132] Subtask 40 ('Project Management Framework Section') moved from 'Important' to 'Important and Urgent' by user 'user'
+[2025-08-18T11:50:27.877356] Subtask 41 ('Python Vs Web Development') moved from 'Urgent' to 'Important and Urgent' by user 'user'
+[2025-08-18T11:50:29.555943] Subtask 42 ('LLM Integration') moved from 'Important' to 'Important and Urgent' by user 'user'
+[2025-08-18T11:50:31.572905] Subtask 43 ('check progress') moved from 'Other' to 'Important and Urgent' by user 'user'
