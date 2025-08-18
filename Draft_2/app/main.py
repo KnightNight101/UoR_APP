@@ -436,8 +436,8 @@ class UserSideMenu(QDialog):
         # User icon
         icon_label = QLabel()
         user_icon_path = os.path.join(os.path.dirname(__file__), "..", "images", "user.jpg")
-        if os.path.exists(user_icon_path):
-            pixmap = QPixmap(user_icon_path)
+        pixmap = QPixmap(user_icon_path)
+        if not pixmap.isNull():
             icon_label.setPixmap(pixmap.scaled(64, 64, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
         else:
             icon_label.setText("User")
@@ -533,14 +533,11 @@ class LoginScreen(QWidget):
 
         # --- Logo Placeholder ---
         logo_label = QLabel()
-        try:
-            logo_path = os.path.join(os.path.dirname(__file__), "..", "images", "logo.jpg")
-            pixmap = QPixmap(logo_path)
-            if not pixmap.isNull():
-                logo_label.setPixmap(pixmap.scaledToHeight(120, Qt.TransformationMode.SmoothTransformation))
-            else:
-                logo_label.setText("[Logo Placeholder]")
-        except Exception:
+        logo_path = os.path.join(os.path.dirname(__file__), "..", "images", "logo.jpg")
+        pixmap = QPixmap(logo_path)
+        if not pixmap.isNull():
+            logo_label.setPixmap(pixmap.scaledToHeight(120, Qt.TransformationMode.SmoothTransformation))
+        else:
             logo_label.setText("[Logo Placeholder]")
         logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         outer_layout.addWidget(logo_label)
@@ -637,15 +634,25 @@ class DashboardCategoryListWidget(QListWidget):
         self.setDefaultDropAction(Qt.DropAction.MoveAction)
         self.setSelectionMode(QListWidget.SingleSelection)
 
-    def startDrag(self, supportedActions):
-        item = self.currentItem()
-        if not item:
+    def mousePressEvent(self, event):
+        self._drag_start_pos = event.pos()
+        super().mousePressEvent(event)
+
+    def mouseMoveEvent(self, event):
+        if not (event.buttons() & Qt.MouseButton.LeftButton):
             return
-        mime = self.model().mimeData([self.indexFromItem(item)])
-        mime.setData("application/x-subtask-id", str(item.data(32)).encode())
-        drag = QDrag(self)
-        drag.setMimeData(mime)
-        drag.exec_(Qt.MoveAction)
+        if hasattr(self, "_drag_start_pos"):
+            distance = (event.pos() - self._drag_start_pos).manhattanLength()
+            if distance >= QApplication.startDragDistance():
+                item = self.itemAt(self._drag_start_pos)
+                if item:
+                    mime = self.model().mimeData([self.indexFromItem(item)])
+                    mime.setData("application/x-subtask-id", str(item.data(32)).encode())
+                    drag = QDrag(self)
+                    drag.setMimeData(mime)
+                    drag.exec_(Qt.MoveAction)
+                    return
+        super().mouseMoveEvent(event)
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasFormat("application/x-subtask-id"):
@@ -973,9 +980,11 @@ class DashboardView(QWidget):
         user_icon_layout.addStretch(1)
         self.user_icon_btn = QPushButton()
         icon_pixmap = QPixmap("Draft_2/images/user.jpg")
-        self.user_icon_btn.setIcon(QIcon(icon_pixmap))
+        if not icon_pixmap.isNull():
+            self.user_icon_btn.setIcon(QIcon(icon_pixmap))
+        else:
+            self.user_icon_btn.setText("User")
         self.user_icon_btn.setIconSize(QSize(32, 32))
-        self.user_icon_btn.setText("")
         self.user_icon_btn.setFixedSize(48, 48)
         self.user_icon_btn.setStyleSheet("border: none;")
         self.user_icon_btn.setToolTip("Open user menu")
@@ -998,6 +1007,12 @@ class DashboardView(QWidget):
 
         # --- Setup Members Tab ---
         members_layout = QVBoxLayout()
+
+        # Refresh event log tab on tab change
+        def refresh_event_log_on_tab(idx):
+            if self.tabs.tabText(idx) == "Event Log":
+                self.event_log_tab.load_log()
+        self.tabs.currentChanged.connect(refresh_event_log_on_tab)
         members_layout.addWidget(QLabel("<b>Members</b>"))
         self.members_list = QListWidget()
         members_layout.addWidget(self.members_list)
