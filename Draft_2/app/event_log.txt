@@ -61,3 +61,15 @@
 [2025-08-17T19:50:21.782402] Task added: 'Literature Review' | Project: 'Master's Dissertation' | Deadline: 2025-08-17 00:00:00 | Hours: 8 | Assigned to: Unassigned
 [2025-08-17T20:00:47.256668] Task added: 'Literature Review' | Project: 'Master's Dissertation' | Deadline: 2025-08-18 00:00:00 | Hours: 8 | Assigned to: Unassigned
 [2025-08-17T21:36:00.539082] Task added: 'Methodology' | Project: 'Master's Dissertation' | Deadline: 2025-08-17 00:00:00 | Hours: 0 | Assigned to: Unassigned
+[ERROR] [2025-08-18T17:23:58.206849] Error getting files: (sqlite3.OperationalError) no such column: files.subtask_id
+[SQL: SELECT files.id AS files_id, files.project_id AS files_project_id, files.task_id AS files_task_id, files.subtask_id AS files_subtask_id, files.filename AS files_filename, files.filepath AS files_filepath, files.uploaded_by AS files_uploaded_by, files.uploaded_at AS files_uploaded_at, files.description AS files_description 
+FROM files 
+WHERE files.project_id = ? AND files.subtask_id = ?]
+[parameters: (1, 39)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[ERROR] [2025-08-18T17:24:05.021861] Error getting files: (sqlite3.OperationalError) no such column: files.subtask_id
+[SQL: SELECT files.id AS files_id, files.project_id AS files_project_id, files.task_id AS files_task_id, files.subtask_id AS files_subtask_id, files.filename AS files_filename, files.filepath AS files_filepath, files.uploaded_by AS files_uploaded_by, files.uploaded_at AS files_uploaded_at, files.description AS files_description 
+FROM files 
+WHERE files.project_id = ? AND files.subtask_id = ?]
+[parameters: (1, 39)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)

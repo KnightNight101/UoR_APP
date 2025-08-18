@@ -2561,3 +2561,187 @@ ImportError: attempted relative import with no known parent package
 [2025-08-18T16:56:36.899701] DEBUG: PRE-NAVIGATION BLOCK
 [2025-08-18T16:56:36.899701] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x00000270F8832330>, type=<class '__main__.MainWindow'>
 [2025-08-18T16:56:36.900703] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x00000270F88323C0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T16:58:51.234197] User 'user' logged in
+[2025-08-18T16:58:57.673701] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T16:58:57.673701] DEBUG: ENTER show_subtask_details
+[2025-08-18T16:58:57.673701] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T16:58:57.675277] DEBUG: Parsed subtask_id=39
+[2025-08-18T16:58:57.676215] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x00000255089CD4C0>
+[2025-08-18T16:58:57.682844] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T16:58:57.682844] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x00000255072123C0>, type=<class '__main__.MainWindow'>
+[2025-08-18T16:58:57.682844] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x0000025507212450>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T16:59:46.814918] User opened subtask details: item=<b>Python Vs Web Development</b>
+[2025-08-18T16:59:46.814918] DEBUG: ENTER show_subtask_details
+[2025-08-18T16:59:46.814918] DEBUG: show_subtask_details called with item.data(32)=subtask:41
+[2025-08-18T16:59:46.815913] DEBUG: Parsed subtask_id=41
+[2025-08-18T16:59:46.818214] DEBUG: get_subtask_by_id(41) returned: <db.Subtask object at 0x00000255089CDC10>
+[2025-08-18T16:59:46.836997] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T16:59:46.838933] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x00000255072123C0>, type=<class '__main__.MainWindow'>
+[2025-08-18T16:59:46.840944] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x0000025507212450>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T17:00:01.907403] Subtask 43 ('check progress') moved from 'Important and Urgent' to 'Important' by user 'user'
+[2025-08-18T17:00:05.631926] User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T17:00:41.749194] User 'user' logged in
+[2025-08-18T17:00:44.428211] DEBUG: ENTER show_subtask_details
+[2025-08-18T17:00:44.428211] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T17:00:44.429220] DEBUG: Parsed subtask_id=39
+[2025-08-18T17:00:44.434225] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x0000019981730830>
+[2025-08-18T17:00:44.443276] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T17:00:44.444279] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x00000199EC9E2330>, type=<class '__main__.MainWindow'>
+[2025-08-18T17:00:44.444279] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x00000199EC9E23C0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T17:00:50.224557] User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T17:18:13.422241] User 'user' logged in
+[2025-08-18T17:18:15.437189] DEBUG: ENTER show_subtask_details
+[2025-08-18T17:18:15.437189] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T17:18:15.438185] DEBUG: Parsed subtask_id=39
+[2025-08-18T17:18:15.439744] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000001FDD2A68320>
+[2025-08-18T17:18:15.444734] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T17:18:15.444734] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000001FDD2852960>, type=<class '__main__.MainWindow'>
+[2025-08-18T17:18:15.445694] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000001FDD28529F0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T17:18:15.446699] DEBUG: Exception in show_subtask_details: No module named 'Draft_2'
+[2025-08-18T17:18:15.450081] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1443, in show_subtask_details
+    mw.stack.addWidget(SubtaskDetailPage(
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1490, in __init__
+    import Draft_2.app.db as db
+ModuleNotFoundError: No module named 'Draft_2'
+
+[2025-08-18T17:18:15.468121] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T17:18:15.469098] DEBUG: ENTER show_subtask_details
+[2025-08-18T17:18:15.469098] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T17:18:15.469098] DEBUG: Parsed subtask_id=39
+[2025-08-18T17:18:15.470603] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000001FDD2A59E50>
+[2025-08-18T17:18:15.474615] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T17:18:15.474615] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000001FDD2852960>, type=<class '__main__.MainWindow'>
+[2025-08-18T17:18:15.475614] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000001FDD28529F0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T17:18:15.476615] DEBUG: Exception in show_subtask_details: No module named 'Draft_2'
+[2025-08-18T17:18:15.476615] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1443, in show_subtask_details
+    mw.stack.addWidget(SubtaskDetailPage(
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1490, in __init__
+    import Draft_2.app.db as db
+ModuleNotFoundError: No module named 'Draft_2'
+
+[2025-08-18T17:18:18.381972] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T17:18:18.382972] DEBUG: ENTER show_subtask_details
+[2025-08-18T17:18:18.382972] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T17:18:18.384973] DEBUG: Parsed subtask_id=39
+[2025-08-18T17:18:18.385971] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000001FDD2A5B020>
+[2025-08-18T17:18:18.390531] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T17:18:18.390531] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000001FDD2852960>, type=<class '__main__.MainWindow'>
+[2025-08-18T17:18:18.391537] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000001FDD28529F0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T17:18:18.392563] DEBUG: Exception in show_subtask_details: No module named 'Draft_2'
+[2025-08-18T17:18:18.393537] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1443, in show_subtask_details
+    mw.stack.addWidget(SubtaskDetailPage(
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1490, in __init__
+    import Draft_2.app.db as db
+ModuleNotFoundError: No module named 'Draft_2'
+
+[2025-08-18T17:18:42.354395] User logged out (logout key pressed)
+[2025-08-18T17:18:53.009931] User 'user' logged in
+[2025-08-18T17:18:57.138882] DEBUG: ENTER show_subtask_details
+[2025-08-18T17:18:57.139881] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T17:18:57.139881] DEBUG: Parsed subtask_id=39
+[2025-08-18T17:18:57.141032] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000001FDD41FB500>
+[2025-08-18T17:18:57.146042] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T17:18:57.146042] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000001FDD4214440>, type=<class '__main__.MainWindow'>
+[2025-08-18T17:18:57.147040] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000001FDD42143B0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T17:18:57.148038] DEBUG: Exception in show_subtask_details: No module named 'Draft_2'
+[2025-08-18T17:18:57.148038] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1443, in show_subtask_details
+    mw.stack.addWidget(SubtaskDetailPage(
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1490, in __init__
+    import Draft_2.app.db as db
+ModuleNotFoundError: No module named 'Draft_2'
+
+[2025-08-18T17:18:57.594947] DEBUG: ENTER show_subtask_details
+[2025-08-18T17:18:57.594947] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T17:18:57.595946] DEBUG: Parsed subtask_id=39
+[2025-08-18T17:18:57.596945] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000001FDD41FB3B0>
+[2025-08-18T17:18:57.601457] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T17:18:57.601457] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000001FDD4214440>, type=<class '__main__.MainWindow'>
+[2025-08-18T17:18:57.601457] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000001FDD42143B0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T17:18:57.602458] DEBUG: Exception in show_subtask_details: No module named 'Draft_2'
+[2025-08-18T17:18:57.603457] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1443, in show_subtask_details
+    mw.stack.addWidget(SubtaskDetailPage(
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1490, in __init__
+    import Draft_2.app.db as db
+ModuleNotFoundError: No module named 'Draft_2'
+
+[2025-08-18T17:22:15.387969] User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T17:22:29.095355] User 'user' logged in
+[2025-08-18T17:22:30.966787] DEBUG: ENTER show_subtask_details
+[2025-08-18T17:22:30.966787] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T17:22:30.967833] DEBUG: Parsed subtask_id=39
+[2025-08-18T17:22:30.972026] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x00000295895AD9D0>
+[2025-08-18T17:22:30.977034] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T17:22:30.978034] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x00000295F99B2A80>, type=<class '__main__.MainWindow'>
+[2025-08-18T17:22:30.978034] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x00000295F99B2B10>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T17:22:30.989299] DEBUG: Exception in show_subtask_details: No module named 'Draft_2'
+[2025-08-18T17:22:30.992490] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1443, in show_subtask_details
+    mw.stack.addWidget(SubtaskDetailPage(
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1592, in __init__
+    self._refresh_file_list()
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1641, in _refresh_file_list
+    import Draft_2.app.db as db
+ModuleNotFoundError: No module named 'Draft_2'
+
+[2025-08-18T17:22:32.389181] DEBUG: ENTER show_subtask_details
+[2025-08-18T17:22:32.390406] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T17:22:32.390406] DEBUG: Parsed subtask_id=39
+[2025-08-18T17:22:32.391403] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x00000295895BD1F0>
+[2025-08-18T17:22:32.396432] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T17:22:32.396432] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x00000295F99B2A80>, type=<class '__main__.MainWindow'>
+[2025-08-18T17:22:32.397405] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x00000295F99B2B10>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T17:22:32.401952] DEBUG: Exception in show_subtask_details: No module named 'Draft_2'
+[2025-08-18T17:22:32.402918] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1443, in show_subtask_details
+    mw.stack.addWidget(SubtaskDetailPage(
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1592, in __init__
+    self._refresh_file_list()
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1641, in _refresh_file_list
+    import Draft_2.app.db as db
+ModuleNotFoundError: No module named 'Draft_2'
+
+[2025-08-18T17:22:32.476364] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T17:22:32.476364] DEBUG: ENTER show_subtask_details
+[2025-08-18T17:22:32.477375] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T17:22:32.477375] DEBUG: Parsed subtask_id=39
+[2025-08-18T17:22:32.478881] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x00000295895BD6A0>
+[2025-08-18T17:22:32.483895] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T17:22:32.483895] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x00000295F99B2A80>, type=<class '__main__.MainWindow'>
+[2025-08-18T17:22:32.484894] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x00000295F99B2B10>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T17:22:32.489399] DEBUG: Exception in show_subtask_details: No module named 'Draft_2'
+[2025-08-18T17:22:32.490406] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1443, in show_subtask_details
+    mw.stack.addWidget(SubtaskDetailPage(
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1592, in __init__
+    self._refresh_file_list()
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1641, in _refresh_file_list
+    import Draft_2.app.db as db
+ModuleNotFoundError: No module named 'Draft_2'
+
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T17:23:56.633038] User 'user' logged in
+[2025-08-18T17:23:58.189292] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T17:23:58.189292] DEBUG: ENTER show_subtask_details
+[2025-08-18T17:23:58.190298] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T17:23:58.190298] DEBUG: Parsed subtask_id=39
+[2025-08-18T17:23:58.193300] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000002BD1150AE70>
+[2025-08-18T17:23:58.198842] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T17:23:58.198842] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000002BD112F2960>, type=<class '__main__.MainWindow'>
+[2025-08-18T17:23:58.198842] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000002BD112F29F0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
