@@ -505,6 +505,15 @@ def get_subtasks(task_id: int):
             return session.query(Subtask).filter(Subtask.task_id == task_id).all()
     except Exception as e:
         log_error(f"Error getting subtasks: {e}")
+def get_subtask_by_id(subtask_id: int):
+    """Return a Subtask object by its ID."""
+    try:
+        with SessionLocal() as session:
+            return session.query(Subtask).filter(Subtask.id == subtask_id).first()
+    except Exception as e:
+        log_error(f"Error getting subtask by id: {e}")
+        return None
+
         return []
 
 def update_subtask(

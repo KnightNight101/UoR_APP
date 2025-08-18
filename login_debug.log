@@ -2146,3 +2146,207 @@ After strip: username='user', password='password'
 [DEBUG] authenticate_user: verify_password result=True
 [DEBUG] authenticate_user: returning user_with_roles=True
 db.authenticate_user returned: <db.User object at 0x0000023D8C655D00>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x000002343B0DD9D0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x0000025CED161DC0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x0000022A564C9FA0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x0000025241A960F0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x000001FA33F3A1E0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x0000028413359CA0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x00000215643EDD60>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x0000026288E59F10>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x00000196195428D0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x0000023542542CC0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x000001338FAEEDE0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x000002198D052AB0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x000001ABC35D2AE0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x000001FD15C1BA10>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x00000210F5FFBEF0>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x00000192DDEFB950>
+Attempt login: username='user', password='password'
+Username widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Password widget type: <class 'PyQt5.QtWidgets.QLineEdit'>
+Username widget text(): 'user'
+Password widget text(): 'password'
+db module: <module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>
+After strip: username='user', password='password'
+[DEBUG] authenticate_user: username='user', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+db.authenticate_user returned: <db.User object at 0x00000270F8893AA0>
