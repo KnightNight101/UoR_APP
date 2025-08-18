@@ -1,3 +1,5 @@
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtCore import Qt, QCoreApplication
 import sys
 import os
 import json
@@ -1572,9 +1574,37 @@ class SubtaskDetailPage(QWidget):
         layout.addWidget(QLabel("LibreOffice Files:"))
         layout.addWidget(self.file_list)
 
-        # Spacer for blank area below
-        layout.addStretch(1)
-        self.setLayout(layout)
+        # --- VCS Panel ---
+        vcs_panel = QVBoxLayout()
+        self.vcs_group = QGroupBox("Version Control")
+        vcs_panel_layout = QVBoxLayout()
+        self.vcs_status_label = QLabel("Status: -")
+        vcs_panel_layout.addWidget(self.vcs_status_label)
+        self.vcs_history_list = QListWidget()
+        vcs_panel_layout.addWidget(QLabel("History:"))
+        vcs_panel_layout.addWidget(self.vcs_history_list)
+        self.vcs_diff_btn = QPushButton("Show Diff")
+        self.vcs_revert_btn = QPushButton("Revert to Selected")
+        self.vcs_commit_btn = QPushButton("Commit Changes")
+        self.vcs_edit_btn = QPushButton("Edit in App")
+        # self.vcs_open_btn = QPushButton("Open in LibreOffice")  # Disabled external editing
+        vcs_panel_layout.addWidget(self.vcs_diff_btn)
+        vcs_panel_layout.addWidget(self.vcs_revert_btn)
+        vcs_panel_layout.addWidget(self.vcs_commit_btn)
+        vcs_panel_layout.addWidget(self.vcs_edit_btn)
+        # vcs_panel_layout.addWidget(self.vcs_open_btn)  # Disabled external editing
+        self.vcs_diff_output = QTextEdit()
+        self.vcs_diff_output.setReadOnly(True)
+        vcs_panel_layout.addWidget(QLabel("Diff Output:"))
+        vcs_panel_layout.addWidget(self.vcs_diff_output)
+        self.vcs_group.setLayout(vcs_panel_layout)
+        vcs_panel.addWidget(self.vcs_group)
+
+        # Add VCS panel to the main layout (right side)
+        main_hbox = QHBoxLayout()
+        main_hbox.addLayout(layout, 3)
+        main_hbox.addLayout(vcs_panel, 2)
+        self.setLayout(main_hbox)
 
         # --- File logic state ---
         self._file_dir = None  # Will be set by backend logic
@@ -1586,7 +1616,14 @@ class SubtaskDetailPage(QWidget):
         self.upload_btn.clicked.connect(self._handle_upload_libreoffice_file)
         self.file_list.itemDoubleClicked.connect(self._handle_open_libreoffice_file)
         self.file_list.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.vcs_edit_btn.clicked.connect(self._handle_edit_in_app)
         self.file_list.customContextMenuRequested.connect(self._show_file_context_menu)
+        self.file_list.currentItemChanged.connect(self._on_file_selected)
+
+        self.vcs_diff_btn.clicked.connect(self._on_vcs_diff)
+        self.vcs_revert_btn.clicked.connect(self._on_vcs_revert)
+        self.vcs_commit_btn.clicked.connect(self._on_vcs_commit)
+        # self.vcs_open_btn.clicked.connect(self._on_vcs_open)  # Disabled external editing
 
         # --- Load file list on init ---
         self._refresh_file_list()
@@ -1599,6 +1636,125 @@ class SubtaskDetailPage(QWidget):
             if mw and hasattr(mw, "stack") and mw.stack.count() > 1:
                 mw.stack.setCurrentIndex(0)
         back_btn.clicked.connect(go_back)
+
+    # --- VCS UI Methods ---
+
+    def _on_file_selected(self, current, previous):
+        if not current:
+            self._current_file_path = None
+            self.vcs_status_label.setText("Status: -")
+            self.vcs_history_list.clear()
+            self.vcs_diff_output.clear()
+            return
+        import os
+        fname = current.text()
+        self._current_file_path = os.path.join(self._file_dir, fname)
+        self._update_vcs_status_and_history()
+
+    def _handle_edit_in_app(self):
+        """Open the selected ODF file in the ODFEditorWidget."""
+        from odf_editor_widget import ODFEditorWidget
+        from PyQt5.QtWidgets import QMessageBox
+
+        item = self.file_list.currentItem()
+        if not item:
+            QMessageBox.warning(self, "No File Selected", "Please select a file to edit.")
+            return
+
+        import os
+        fname = item.text()
+        file_path = os.path.join(self._file_dir, fname)
+        if not os.path.exists(file_path):
+            QMessageBox.warning(self, "File Not Found", f"File does not exist:\n{file_path}")
+            return
+
+        # Launch the ODF editor as a dialog
+        editor = ODFEditorWidget(odf_path=file_path, parent=self)
+        editor.setWindowTitle(f"Editing: {fname}")
+        editor.setMinimumSize(800, 600)
+        editor.show()
+
+    def _update_vcs_status_and_history(self):
+        from vcs import VCS
+        import os
+        self.vcs_status_label.setText("Status: ...")
+        self.vcs_history_list.clear()
+        self.vcs_diff_output.clear()
+        if not self._current_file_path or not os.path.exists(self._current_file_path):
+            self.vcs_status_label.setText("Status: File not found")
+            return
+        try:
+            vcs = VCS(self._file_dir)
+            # Status: check if file is latest/modified/uncommitted
+            rel_path = os.path.relpath(self._current_file_path, self._file_dir)
+            git_status = vcs.repo.git.status("--porcelain", rel_path)
+            if not git_status:
+                self.vcs_status_label.setText("Status: Latest (Committed)")
+            elif git_status.startswith(" M"):
+                self.vcs_status_label.setText("Status: Modified (Uncommitted)")
+            else:
+                self.vcs_status_label.setText(f"Status: {git_status.strip()}")
+            # History
+            history = vcs.get_history(self._current_file_path)
+            self._vcs_history = history
+            for h in history:
+                item = QListWidgetItem(f"{h['timestamp']} | {h['author']} | {h['message']}")
+                item.setData(32, h["commit_hash"])
+                self.vcs_history_list.addItem(item)
+        except Exception as e:
+            self.vcs_status_label.setText(f"Status: Error: {e}")
+
+    def _on_vcs_diff(self):
+        # Show diff between two selected commits
+        selected = self.vcs_history_list.selectedItems()
+        if len(selected) != 2:
+            self.vcs_diff_output.setPlainText("Select two commits to diff.")
+            return
+        commit1 = selected[0].data(32)
+        commit2 = selected[1].data(32)
+        from vcs import VCS
+        try:
+            vcs = VCS(self._file_dir)
+            diff = vcs.get_diff(self._current_file_path, commit1, commit2)
+            self.vcs_diff_output.setPlainText(diff)
+        except Exception as e:
+            self.vcs_diff_output.setPlainText(f"Diff error: {e}")
+
+    def _on_vcs_revert(self):
+        # Revert file to selected commit
+        selected = self.vcs_history_list.selectedItems()
+        if len(selected) != 1:
+            self.vcs_diff_output.setPlainText("Select one commit to revert to.")
+            return
+        commit = selected[0].data(32)
+        from vcs import VCS
+        try:
+            vcs = VCS(self._file_dir)
+            vcs.revert_file(self._current_file_path, commit)
+            self._update_vcs_status_and_history()
+            self.vcs_diff_output.setPlainText(f"Reverted to {commit}.")
+        except Exception as e:
+            self.vcs_diff_output.setPlainText(f"Revert error: {e}")
+
+    def _on_vcs_commit(self):
+        # Commit current file changes
+        from vcs import VCS
+        from PyQt5.QtWidgets import QInputDialog
+        try:
+            vcs = VCS(self._file_dir)
+            author = str(self._current_user_id)
+            msg, ok = QInputDialog.getText(self, "Commit Message", "Enter commit message:")
+            if not ok or not msg.strip():
+                return
+            vcs.add_and_commit(self._current_file_path, author, msg.strip())
+            self._update_vcs_status_and_history()
+            self.vcs_diff_output.setPlainText("Committed changes.")
+        except Exception as e:
+            self.vcs_diff_output.setPlainText(f"Commit error: {e}")
+
+    # def _on_vcs_open(self):
+    #     # Disabled: external editing not allowed.
+    #     pass
 
     # --- LibreOffice Integration Methods ---
 
@@ -1670,7 +1826,21 @@ class SubtaskDetailPage(QWidget):
                 task_id=self._task_id,
                 subtask_id=self._subtask_id
             )
-        self._launch_libreoffice(file_path)
+            # --- VCS Integration ---
+            try:
+                from vcs import VCS
+                project_dir = self._get_file_dir()
+                vcs = VCS(project_dir)
+                author = str(self._current_user_id)
+                vcs.add_and_commit(file_path, author, f"Initial commit for {filename}")
+            except Exception as e:
+                log_error(f"VCS error (create): {e}")
+        # Open the new file in the in-app ODF editor
+        from odf_editor_widget import ODFEditorWidget
+        editor = ODFEditorWidget(odf_path=file_path, parent=self)
+        editor.setWindowTitle(f"Editing: {filename}")
+        editor.setMinimumSize(800, 600)
+        editor.show()
         self._refresh_file_list()
 
     def _handle_upload_libreoffice_file(self):
@@ -1712,9 +1882,21 @@ class SubtaskDetailPage(QWidget):
                     task_id=self._task_id,
                     subtask_id=self._subtask_id
                 )
+            # --- VCS Integration ---
+            try:
+                from vcs import VCS
+                project_dir = self._get_file_dir()
+                vcs = VCS(project_dir)
+                author = str(self._current_user_id)
+                vcs.add_and_commit(dst, author, f"Upload {fname}")
+            except Exception as e:
+                log_error(f"VCS error (upload): {e}")
             self._refresh_file_list()
 
     def _handle_open_libreoffice_file(self, item):
+        # Disabled: external editing not allowed. Use in-app editor instead.
+        from odf_editor_widget import ODFEditorWidget
+        from PyQt5.QtWidgets import QMessageBox
         import os
         file_id = item.data(32)
         file_path = None
@@ -1724,19 +1906,17 @@ class SubtaskDetailPage(QWidget):
                 file_path = f.filepath
         if not file_path:
             file_path = os.path.join(self._file_dir, item.text())
-        self._launch_libreoffice(file_path)
+        if not os.path.exists(file_path):
+            QMessageBox.warning(self, "File Not Found", f"File does not exist:\n{file_path}")
+            return
+        editor = ODFEditorWidget(odf_path=file_path, parent=self)
+        editor.setWindowTitle(f"Editing: {os.path.basename(file_path)}")
+        editor.setMinimumSize(800, 600)
+        editor.show()
 
-    def _launch_libreoffice(self, file_path):
-        import platform
-        import subprocess
-        from PyQt5.QtWidgets import QMessageBox
-        try:
-            if platform.system() == "Windows":
-                subprocess.Popen(["soffice.exe", file_path], shell=True)
-            else:
-                subprocess.Popen(["libreoffice", file_path])
-        except Exception as e:
-            QMessageBox.warning(self, "Error", f"Could not launch LibreOffice: {e}")
+    # def _launch_libreoffice(self, file_path):
+    #     # Disabled: external editing not allowed.
+    #     pass
 
     def _show_file_context_menu(self, pos):
         from PyQt5.QtWidgets import QMenu
@@ -1744,12 +1924,12 @@ class SubtaskDetailPage(QWidget):
         if not item:
             return
         menu = QMenu(self)
-        open_action = menu.addAction("Open")
+        # open_action = menu.addAction("Open")  # Disabled external editing
         delete_action = menu.addAction("Delete")
         action = menu.exec_(self.file_list.mapToGlobal(pos))
-        if action == open_action:
-            self._handle_open_libreoffice_file(item)
-        elif action == delete_action:
+        # if action == open_action:
+        #     self._handle_open_libreoffice_file(item)
+        if action == delete_action:
             self._handle_delete_libreoffice_file(item)
 
     def _handle_delete_libreoffice_file(self, item):
@@ -3930,10 +4110,12 @@ class App(QApplication):
             QMessageBox.warning(self.login_page, "Login Failed", "Enter username and password.")
 
 if __name__ == "__main__":
+    QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts, True)
     app = App(sys.argv)
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
+    QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts, True)
     import sys
     from PyQt5.QtWidgets import QApplication
     app = QApplication(sys.argv)

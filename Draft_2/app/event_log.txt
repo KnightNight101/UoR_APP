@@ -73,3 +73,27 @@ FROM files
 WHERE files.project_id = ? AND files.subtask_id = ?]
 [parameters: (1, 39)]
 (Background on this error at: https://sqlalche.me/e/20/e3q8)
+[ERROR] [2025-08-18T17:34:10.642594] Error getting files: (sqlite3.OperationalError) no such column: files.subtask_id
+[SQL: SELECT files.id AS files_id, files.project_id AS files_project_id, files.task_id AS files_task_id, files.subtask_id AS files_subtask_id, files.filename AS files_filename, files.filepath AS files_filepath, files.uploaded_by AS files_uploaded_by, files.uploaded_at AS files_uploaded_at, files.description AS files_description 
+FROM files 
+WHERE files.project_id = ? AND files.subtask_id = ?]
+[parameters: (1, 39)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[ERROR] [2025-08-18T17:34:12.127724] Error getting files: (sqlite3.OperationalError) no such column: files.subtask_id
+[SQL: SELECT files.id AS files_id, files.project_id AS files_project_id, files.task_id AS files_task_id, files.subtask_id AS files_subtask_id, files.filename AS files_filename, files.filepath AS files_filepath, files.uploaded_by AS files_uploaded_by, files.uploaded_at AS files_uploaded_at, files.description AS files_description 
+FROM files 
+WHERE files.project_id = ? AND files.subtask_id = ?]
+[parameters: (1, 39)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[ERROR] [2025-08-18T17:34:12.810181] Error getting files: (sqlite3.OperationalError) no such column: files.subtask_id
+[SQL: SELECT files.id AS files_id, files.project_id AS files_project_id, files.task_id AS files_task_id, files.subtask_id AS files_subtask_id, files.filename AS files_filename, files.filepath AS files_filepath, files.uploaded_by AS files_uploaded_by, files.uploaded_at AS files_uploaded_at, files.description AS files_description 
+FROM files 
+WHERE files.project_id = ? AND files.subtask_id = ?]
+[parameters: (1, 39)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[ERROR] [2025-08-18T17:34:12.981864] Error getting files: (sqlite3.OperationalError) no such column: files.subtask_id
+[SQL: SELECT files.id AS files_id, files.project_id AS files_project_id, files.task_id AS files_task_id, files.subtask_id AS files_subtask_id, files.filename AS files_filename, files.filepath AS files_filepath, files.uploaded_by AS files_uploaded_by, files.uploaded_at AS files_uploaded_at, files.description AS files_description 
+FROM files 
+WHERE files.project_id = ? AND files.subtask_id = ?]
+[parameters: (1, 39)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)

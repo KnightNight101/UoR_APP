@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ODF Editor</title>
+    <script src="qwebchannel.js"></script>
+    <script src="webodf.js"></script>
+    <style>
+        html, body { height: 100%; margin: 0; }
+        #odfCanvas { width: 100%; height: 90vh; border: 1px solid #ccc; }
+        #toolbar { padding: 8px; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <div id="toolbar">
+        <button onclick="saveODF()">Save</button>
+        <span id="status"></span>
+    </div>
+    <div id="odfCanvas"></div>
+    <script>
+        let odfCanvas, odfDoc, bridge;
+
+        function loadODFfromBase64(base64) {
+            const binary = atob(base64);
+            const array = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) array[i] = binary.charCodeAt(i);
+            odfCanvas.load(array.buffer);
+            // Enable editing after document is loaded
+            odfCanvas.addListener("statereadychange", function() {
+                if (odfCanvas.isReady()) {
+                    if (!window.odfEditable) {
+                        window.odfEditable = new odf.OdfEditable(odfCanvas);
+                        window.odfEditable.setEditMode(true);
+                    }
+                }
+            });
+        }
+
+        function saveODF() {
+            odfDoc.save(function(blob) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    const base64 = btoa(reader.result);
+                    bridge.saveODF(base64);
+                    document.getElementById('status').textContent = "Saved!";
+                };
+                reader.readAsBinaryString(blob);
+            });
+        }
+
+        function setupWebChannel() {
+            new QWebChannel(qt.webChannelTransport, function(channel) {
+                bridge = channel.objects.ODFEditorBridge;
+                // Optionally, expose loadODFfromBase64 to Python
+            });
+        }
+
+        window.onload = function() {
+            odfCanvas = new odf.OdfCanvas(document.getElementById("odfCanvas"));
+            odfDoc = odfCanvas.odfContainer();
+            if (typeof qt !== "undefined") setupWebChannel();
+        };
+    </script>
+</body>
+</html>
