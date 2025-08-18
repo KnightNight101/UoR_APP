@@ -12,7 +12,7 @@ from PyQt5.QtCore import (
     Qt, QEvent, QSize, QObject, QDate, QDateTime
 )
 from PyQt5.QtGui import (
-    QFont, QIcon, QPixmap, QCursor, QColor
+    QFont, QIcon, QPixmap, QCursor, QColor, QDrag
 )
 
 # Matplotlib for Gantt chart visualization
@@ -625,9 +625,108 @@ class LoginScreen(QWidget):
                 self._scale_factor = max(self._scale_factor - 0.1, self._min_scale)
         self._apply_scale()
 
+class DashboardCategoryListWidget(QListWidget):
+    """Custom QListWidget to support drag-and-drop of subtasks with custom widgets."""
+    def __init__(self, category_key, dashboard_view, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.category_key = category_key
+        self.dashboard_view = dashboard_view
+        self.setAcceptDrops(True)
+        self.setDragEnabled(True)
+        self.setDragDropMode(QListWidget.DragDrop)
+        self.setDefaultDropAction(Qt.DropAction.MoveAction)
+        self.setSelectionMode(QListWidget.SingleSelection)
+
+    def startDrag(self, supportedActions):
+        item = self.currentItem()
+        if not item:
+            return
+        mime = self.model().mimeData([self.indexFromItem(item)])
+        mime.setData("application/x-subtask-id", str(item.data(32)).encode())
+        drag = QDrag(self)
+        drag.setMimeData(mime)
+        drag.exec_(Qt.MoveAction)
+
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasFormat("application/x-subtask-id"):
+            event.acceptProposedAction()
+        else:
+            super().dragEnterEvent(event)
+
+    def dragMoveEvent(self, event):
+        if event.mimeData().hasFormat("application/x-subtask-id"):
+            event.acceptProposedAction()
+        else:
+            super().dragMoveEvent(event)
+
+    def dropEvent(self, event):
+        if event.mimeData().hasFormat("application/x-subtask-id"):
+            subtask_id_str = event.mimeData().data("application/x-subtask-id").data().decode()
+            subtask_id = None
+            if subtask_id_str.startswith("subtask:"):
+                try:
+                    subtask_id = int(subtask_id_str.split(":", 1)[1])
+                except Exception:
+                    subtask_id = None
+            else:
+                try:
+                    subtask_id = int(subtask_id_str)
+                except Exception:
+                    subtask_id = None
+            if subtask_id is not None:
+                # Find previous category
+                prev_category = None
+                for cat_key, cat_list in self.dashboard_view.category_lists.items():
+                    for i in range(cat_list.count()):
+                        item = cat_list.item(i)
+                        if item and item.data(32) == f"subtask:{subtask_id}":
+                            prev_category = cat_key
+                            break
+                    if prev_category:
+                        break
+                # Update backend and log
+                if prev_category != self.category_key:
+                    if hasattr(self.dashboard_view, "user"):
+                        username = getattr(self.dashboard_view.user, "username", "")
+                    else:
+                        username = ""
+                    sub_obj = None
+                    for i in range(self.count()):
+                        item = self.item(i)
+                        if item and item.data(32) == f"subtask:{subtask_id}":
+                            sub_obj = item.data(33)
+                            break
+                    if not sub_obj:
+                        # Try to get from previous list
+                        prev_list = self.dashboard_view.category_lists.get(prev_category)
+                        if prev_list:
+                            for i in range(prev_list.count()):
+                                item = prev_list.item(i)
+                                if item and item.data(32) == f"subtask:{subtask_id}":
+                                    sub_obj = item.data(33)
+                                    break
+                    sub_title = getattr(sub_obj, "title", "") if sub_obj else ""
+                    cat_names = {
+                        "important_urgent": "Important and Urgent",
+                        "urgent": "Urgent",
+                        "important": "Important",
+                        "other": "Other"
+                    }
+                    prev_cat_name = cat_names.get(prev_category, prev_category)
+                    new_cat_name = cat_names.get(self.category_key, self.category_key)
+                    # Update DB
+                    if db and hasattr(db, "update_subtask_category"):
+                        db.update_subtask_category(subtask_id, self.category_key)
+                    log_event(
+                        f"Subtask {subtask_id} ('{sub_title}') moved from '{prev_cat_name}' to '{new_cat_name}' by user '{username}'"
+                    )
+                    self.dashboard_view.load_subtasks()
+            event.acceptProposedAction()
+        else:
+            super().dropEvent(event)
 class DashboardSubtaskWidget(QWidget):
     """Dashboard subtask row: shows name, deadline, project, and status with inline dropdown on double-click."""
-    def __init__(self, subtask, status, parent=None):
+    def __init__(self, subtask, status, parent=None, project_name="N/A"):
         super().__init__(parent)
         from PyQt5.QtWidgets import QHBoxLayout, QLabel, QComboBox
         self.subtask = subtask
@@ -635,8 +734,24 @@ class DashboardSubtaskWidget(QWidget):
         self.layout = QHBoxLayout()
         self.layout.setContentsMargins(4, 2, 4, 2)
         self.title_label = QLabel(f"<b>{getattr(subtask, 'title', '')}</b>")
-        self.project_label = QLabel(f"Project: {getattr(subtask, 'project_name', 'N/A')}")
-        self.deadline_label = QLabel(f"Deadline: {getattr(subtask, 'due_date', getattr(subtask, 'deadline', 'N/A'))}")
+        self.project_label = QLabel(f"Project: {project_name}")
+        # Show only the date part of the deadline
+        deadline_val = getattr(subtask, 'due_date', getattr(subtask, 'deadline', 'N/A'))
+        deadline_str = "N/A"
+        if deadline_val and deadline_val != "N/A":
+            try:
+                # If it's a datetime object, get .date()
+                from datetime import datetime, date
+                if isinstance(deadline_val, datetime):
+                    deadline_str = deadline_val.date().isoformat()
+                elif isinstance(deadline_val, date):
+                    deadline_str = deadline_val.isoformat()
+                else:
+                    # If it's a string, try to split date and time
+                    deadline_str = str(deadline_val).split()[0]
+            except Exception:
+                deadline_str = str(deadline_val)
+        self.deadline_label = QLabel(f"Deadline: {deadline_str}")
         self.status_label = QLabel(f"Status: {status}")
         self.status_combo = None
         self.layout.addWidget(self.title_label)
@@ -774,6 +889,8 @@ class CalendarTabWidget(QWidget):
 class DashboardView(QWidget):
     def __init__(self, parent=None, user=None, main_window=None):
         super().__init__(parent)
+        # Ensure eventFilter is installed on self so drop events are caught
+        self.installEventFilter(self)
         from PyQt5.QtWidgets import QGridLayout, QFrame, QMenu, QAction
         from PyQt5.QtGui import QIcon, QPixmap, QCursor
         from PyQt5.QtCore import QDateTime
@@ -825,17 +942,11 @@ class DashboardView(QWidget):
             cat_label = QLabel(cat_name)
             cat_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
             subtask_col.addWidget(cat_label)
-            cat_list = QListWidget()
+            cat_list = DashboardCategoryListWidget(cat_key, self)
             cat_list.setObjectName(cat_key)
-            cat_list.setAcceptDrops(True)
-            cat_list.setDragEnabled(True)
-            cat_list.setDragDropMode(QListWidget.InternalMove)
-            cat_list.setDefaultDropAction(Qt.DropAction.MoveAction)
-            cat_list.setSelectionMode(QListWidget.SingleSelection)
             cat_list.setStyleSheet("QListWidget::item:selected { background: #e0f7fa; } QListWidget { border: 1px solid #bbb; }")
             subtask_col.addWidget(cat_list)
             self.category_lists[cat_key] = cat_list
-            cat_list.installEventFilter(self)
         subtask_col.addStretch(1)
 
         # --- Column 3: Messages ---
@@ -1008,9 +1119,52 @@ class DashboardView(QWidget):
                 cat = getattr(sub, "category", "other")
                 if cat not in self.category_lists:
                     cat = "other"
+                # Fetch project name for this subtask
+                project_name = "N/A"
+                try:
+                    # Get task_id as int
+                    task_id = getattr(sub, "task_id", None)
+                    # Remove .value, just use the attribute directly
+                    # Try to get task_id as int
+                    if not isinstance(task_id, int):
+                        if task_id is not None:
+                            if hasattr(task_id, "id"):
+                                task_id = task_id.id
+                            else:
+                                try:
+                                    task_id = int(task_id)
+                                except Exception:
+                                    task_id = None
+                        else:
+                            task_id = None
+                    if isinstance(task_id, int) and hasattr(db, "get_task_by_id"):
+                        parent_task = db.get_task_by_id(task_id)
+                        if parent_task and hasattr(parent_task, "project_id") and hasattr(db, "get_project_by_id"):
+                            project_id = getattr(parent_task, "project_id", None)
+                            if not isinstance(project_id, int):
+                                if project_id is not None:
+                                    if hasattr(project_id, "id"):
+                                        project_id = project_id.id
+                                    else:
+                                        try:
+                                            project_id = int(project_id)
+                                        except Exception:
+                                            project_id = None
+                                else:
+                                    project_id = None
+                            if isinstance(project_id, int):
+                                project = db.get_project_by_id(project_id)
+                                if project and hasattr(project, "name"):
+                                    pname = getattr(project, "name", None)
+                                    if pname is not None:
+                                        project_name = str(pname)
+                except Exception:
+                    pass
                 item = QListWidgetItem()
                 item.setData(32, f"subtask:{sub.id}")
                 item.setData(33, sub)
+                # Ensure drag and drop enabled for this item
+                item.setFlags(item.flags() | Qt.ItemFlag.ItemIsDragEnabled | Qt.ItemFlag.ItemIsDropEnabled | Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable)
                 db_status = getattr(sub, "status", None)
                 if db_status in (None, "", "pending", "not yet started"):
                     ui_status = "Not Yet Started"
@@ -1021,7 +1175,8 @@ class DashboardView(QWidget):
                 else:
                     ui_status = str(db_status)
                 item.setData(34, ui_status)
-                widget = DashboardSubtaskWidget(sub, ui_status)
+                # Pass project_name to widget
+                widget = DashboardSubtaskWidget(sub, ui_status, project_name=str(project_name) if project_name else "N/A")
                 self.category_lists[cat].addItem(item)
                 self.category_lists[cat].setItemWidget(item, widget)
         # Remove all task display from dashboard (only subtasks shown)
@@ -1090,14 +1245,24 @@ class DashboardView(QWidget):
                     # Get dropped item
                     item = cat_list.currentItem()
                     if item:
-                        subtask_id = item.data(32)
+                        subtask_id_raw = item.data(32)
+                        # Extract numeric subtask ID if in "subtask:123" format
+                        subtask_id = None
+                        if isinstance(subtask_id_raw, str) and subtask_id_raw.startswith("subtask:"):
+                            try:
+                                subtask_id = int(subtask_id_raw.split(":", 1)[1])
+                            except Exception:
+                                subtask_id = subtask_id_raw
+                        else:
+                            subtask_id = subtask_id_raw
                         # Find previous category
                         prev_category = None
                         for prev_key, prev_list in self.category_lists.items():
                             if prev_key != cat_key:
                                 for i in range(prev_list.count()):
                                     prev_item = prev_list.item(i)
-                                    if prev_item and prev_item.data(32) == subtask_id:
+                                    prev_id = prev_item.data(32) if prev_item else None
+                                    if prev_id == subtask_id_raw:
                                         prev_category = prev_key
                                         break
                                 if prev_category:
@@ -1106,15 +1271,30 @@ class DashboardView(QWidget):
                         if prev_category != cat_key:
                             # Update category in DB if possible
                             if db and hasattr(db, "update_subtask_category"):
-                                if hasattr(db, "update_subtask_category"):
+                                # Only call if subtask_id is int
+                                if isinstance(subtask_id, int):
                                     db.update_subtask_category(subtask_id, cat_key)
-                            # Log event with timestamp, previous and new category
+                            # Log event with timestamp, previous and new category, and subtask title
                             timestamp = datetime.datetime.now().isoformat()
                             username = getattr(self.user, 'username', '')
+                            sub_obj = item.data(33)
+                            sub_title = getattr(sub_obj, "title", "")
                             log_event(
-                                f"[{timestamp}] Subtask {subtask_id} moved from '{prev_category}' to '{cat_key}' by user '{username}'"
+                                f"[{timestamp}] Subtask {subtask_id} ('{sub_title}') moved from '{prev_category}' to '{cat_key}' by user '{username}'"
                             )
                     break
+            # Log event before reload, using readable category names
+            cat_names = {
+                "important_urgent": "Important and Urgent",
+                "urgent": "Urgent",
+                "important": "Important",
+                "other": "Other"
+            }
+            prev_cat_name = cat_names.get(prev_category, prev_category)
+            new_cat_name = cat_names.get(cat_key, cat_key)
+            log_event(
+                f"Subtask {subtask_id} ('{sub_title}') moved from '{prev_cat_name}' to '{new_cat_name}' by user '{username}'"
+            )
             self.load_subtasks()
         return super().eventFilter(obj, event)
 
@@ -3198,4 +3378,13 @@ class App(QApplication):
 
 if __name__ == "__main__":
     app = App(sys.argv)
+    sys.exit(app.exec_())
+
+if __name__ == "__main__":
+    import sys
+    from PyQt5.QtWidgets import QApplication
+    app = QApplication(sys.argv)
+    # Use direct reference if MainWindow is defined in this file
+    window = MainWindow()
+    window.show()
     sys.exit(app.exec_())
