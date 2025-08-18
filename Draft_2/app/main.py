@@ -1572,14 +1572,85 @@ class EventLogView(QWidget):
             self.log_text.setPlainText("No log entries yet.")
 
 class GanttChartWidget(QWidget):
-    def __init__(self, project_id, parent=None):
+    def __init__(self, project_id, members=None, parent=None):
         super().__init__(parent)
         self.project_id = project_id
+        self.members = members or []
+        self.selected_member_id = None
+
+        from PyQt5.QtWidgets import QHBoxLayout, QListWidget, QListWidgetItem, QVBoxLayout
         self.figure = Figure(figsize=(7, 2))
         self.canvas = FigureCanvas(self.figure)
+
+        # Member list on the left
+        hbox = QHBoxLayout()
+        self.member_list = QListWidget()
+        self.member_list.setMaximumWidth(180)
+        self.member_list.addItem("All Members")
+        self.member_id_map = {0: None}
+        for m in self.members:
+            # Try to get username as a plain string, avoiding SQLAlchemy columns
+            username = None
+            # If m is a ProjectMember, try m.user.username, else m.username, else fallback
+            if hasattr(m, "user") and hasattr(m.user, "username"):
+                username = getattr(m.user, "username", None)
+            if not username and hasattr(m, "username"):
+                val = getattr(m, "username")
+                # If it's a SQLAlchemy column, skip
+                if isinstance(val, str):
+                    username = val
+            if not username and hasattr(m, "user_id"):
+                # Try to fetch from db if possible
+                try:
+                    if db and hasattr(db, "User") and hasattr(db, "SessionLocal"):
+                        with db.SessionLocal() as session:
+                            user_obj = session.query(db.User).filter_by(id=getattr(m, "user_id", None)).first()
+                            if user_obj and hasattr(user_obj, "username"):
+                                db_username = getattr(user_obj, "username")
+                                if isinstance(db_username, str):
+                                    username = db_username
+                except Exception:
+                    pass
+            if not username or not isinstance(username, str):
+                username = str(getattr(m, "user_id", getattr(m, "id", "Unknown")))
+            uid = getattr(m, "user_id", getattr(m, "id", None))
+            item = QListWidgetItem(str(username))
+            item.setData(32, uid)
+            self.member_list.addItem(item)
+            self.member_id_map[self.member_list.count() - 1] = uid
+
+        self.member_list.setCurrentRow(0)
+        self.member_list.setMouseTracking(True)
+        self.member_list.itemEntered.connect(self.on_member_hover)
+        self.member_list.itemClicked.connect(self.on_member_click)
+        self.member_list.viewport().installEventFilter(self)
+
+        hbox.addWidget(self.member_list)
         vbox = QVBoxLayout()
         vbox.addWidget(self.canvas)
-        self.setLayout(vbox)
+        hbox.addLayout(vbox)
+        self.setLayout(hbox)
+        self.plot_gantt()
+
+        self._hover_member_id = None
+        self._clicked_member_id = None
+
+    def eventFilter(self, obj, event):
+        from PyQt5.QtCore import QEvent
+        if obj == self.member_list.viewport():
+            if event.type() == QEvent.Leave:
+                self._hover_member_id = None
+                self.plot_gantt()
+        return super().eventFilter(obj, event)
+
+    def on_member_hover(self, item):
+        uid = item.data(32)
+        self._hover_member_id = uid
+        self.plot_gantt()
+
+    def on_member_click(self, item):
+        uid = item.data(32)
+        self._clicked_member_id = uid
         self.plot_gantt()
 
     def plot_gantt(self):
@@ -1589,22 +1660,25 @@ class GanttChartWidget(QWidget):
             bars = []
             labels = []
             y = 0
-            # For dependency arrows
-            bar_positions = {}  # id -> (y, start, end)
-            dep_links = []      # (from_id, to_id, from_type, to_type)
+            bar_positions = {}
+            dep_links = []
+            filter_uid = self.selected_member_id
+
             if db and hasattr(db, "get_tasks"):
                 tasks = db.get_tasks(self.project_id)
                 for task in tasks:
-                    # Debug log for each task's dates
+                    # Only show tasks assigned to selected member (or all if None)
+                    assigned_to = getattr(task, "assigned_to", None)
+                    if filter_uid and assigned_to != filter_uid:
+                        continue
                     try:
                         log_event(
                             f"Gantt DEBUG: Task ID={getattr(task, 'id', None)}, Title='{getattr(task, 'title', '')}', "
-                            f"Start={getattr(task, 'start_date', None)}, Created={getattr(task, 'created_at', None)}, "
+                            f"Assigned={assigned_to}, Start={getattr(task, 'start_date', None)}, Created={getattr(task, 'created_at', None)}, "
                             f"Deadline={getattr(task, 'deadline', None)}, Due={getattr(task, 'due_date', None)}"
                         )
                     except Exception as e:
                         log_event(f"Gantt DEBUG: Failed to log task info: {e}")
-                    # Parse start and end dates (support both deadline and due_date)
                     start = getattr(task, "start_date", None)
                     end = getattr(task, "deadline", None)
                     if not start:
@@ -1636,7 +1710,6 @@ class GanttChartWidget(QWidget):
                         label_hours = f" | Hours: {hours}" if hours is not None else ""
                         labels.append(f"Task {task_id}: {getattr(task, 'title', '')}{label_hours}")
                         bar_positions[("task", task_id)] = (y, mdates.date2num(start_dt), mdates.date2num(end_dt))
-                        # Collect dependencies for this task
                         dependencies = getattr(task, "dependencies", [])
                         if dependencies:
                             for dep_id in dependencies:
@@ -1651,6 +1724,9 @@ class GanttChartWidget(QWidget):
                                 else:
                                     subs = []
                                 for sub in subs:
+                                    sub_assigned = getattr(sub, "assigned_to", None)
+                                    if filter_uid and sub_assigned != filter_uid:
+                                        continue
                                     sub_start = getattr(sub, "start_date", None)
                                     sub_end = getattr(sub, "deadline", None)
                                     if not sub_start:
@@ -1664,11 +1740,17 @@ class GanttChartWidget(QWidget):
                                     try:
                                         sub_start_dt = datetime.datetime.strptime(str(sub_start), "%Y-%m-%d")
                                     except Exception:
-                                        sub_start_dt = None
+                                        try:
+                                            sub_start_dt = datetime.datetime.strptime(str(sub_start), "%Y-%m-%d %H:%M:%S")
+                                        except Exception:
+                                            sub_start_dt = None
                                     try:
                                         sub_end_dt = datetime.datetime.strptime(str(sub_end), "%Y-%m-%d")
                                     except Exception:
-                                        sub_end_dt = None
+                                        try:
+                                            sub_end_dt = datetime.datetime.strptime(str(sub_end), "%Y-%m-%d %H:%M:%S")
+                                        except Exception:
+                                            sub_end_dt = None
                                     sub_hours = getattr(sub, "hours", None)
                                     sub_id = getattr(sub, "id", None)
                                     if sub_start_dt and sub_end_dt:
@@ -1676,11 +1758,9 @@ class GanttChartWidget(QWidget):
                                         label_sub_hours = f" | Hours: {sub_hours}" if sub_hours is not None else ""
                                         labels.append(f"  Subtask {sub_id}: {getattr(sub, 'title', '')}{label_sub_hours}")
                                         bar_positions[("subtask", sub_id)] = (y, mdates.date2num(sub_start_dt), mdates.date2num(sub_end_dt))
-                                        # Collect dependencies for this subtask
                                         sub_dependencies = getattr(sub, "dependencies", [])
                                         if sub_dependencies:
                                             for dep_id in sub_dependencies:
-                                                # Try to infer if dep_id is a subtask or task (assume subtask if present in bar_positions)
                                                 dep_key = ("subtask", dep_id) if ("subtask", dep_id) in bar_positions else ("task", dep_id)
                                                 dep_links.append((dep_key, ("subtask", sub_id)))
                                         y += 1
@@ -1694,12 +1774,10 @@ class GanttChartWidget(QWidget):
                 ax.xaxis_date()
                 ax.set_xlabel("Date")
                 ax.set_title("Gantt Chart: Tasks & Subtasks")
-                # Draw dependency arrows
                 for from_key, to_key in dep_links:
                     if from_key in bar_positions and to_key in bar_positions:
                         from_y, _, from_end = bar_positions[from_key]
                         to_y, to_start, _ = bar_positions[to_key]
-                        # Draw arrow from end of dependency to start of dependent
                         ax.annotate(
                             '',
                             xy=(to_start, to_y),
@@ -1839,7 +1917,7 @@ class ProjectDetailPage(QWidget):
         """Add the Gantt chart tab to the project detail page and assign to self.gantt_chart for refresh."""
         tab = QWidget()
         layout = QVBoxLayout()
-        self.gantt_chart = GanttChartWidget(getattr(self.project, "id", None))
+        self.gantt_chart = GanttChartWidget(getattr(self.project, "id", None), members=self.members)
         layout.addWidget(self.gantt_chart)
         tab.setLayout(layout)
         self.tabs.addTab(tab, "Gantt Chart")
