@@ -732,62 +732,48 @@ class DashboardCategoryListWidget(QListWidget):
         else:
             super().dropEvent(event)
 class DashboardSubtaskWidget(QWidget):
-    """Dashboard subtask row: shows name, deadline, project, and status with inline dropdown on double-click."""
-    def __init__(self, subtask, status, parent=None, project_name="N/A"):
+    """Dashboard subtask row: always shows status dropdown, click opens details."""
+    def __init__(self, subtask, status, parent=None, project_name="N/A", on_status_changed=None):
         super().__init__(parent)
         from PyQt5.QtWidgets import QHBoxLayout, QLabel, QComboBox
         self.subtask = subtask
         self.status = status
+        self.on_status_changed = on_status_changed
         self.layout = QHBoxLayout()
         self.layout.setContentsMargins(4, 2, 4, 2)
         self.title_label = QLabel(f"<b>{getattr(subtask, 'title', '')}</b>")
         self.project_label = QLabel(f"Project: {project_name}")
-        # Show only the date part of the deadline
         deadline_val = getattr(subtask, 'due_date', getattr(subtask, 'deadline', 'N/A'))
         deadline_str = "N/A"
         if deadline_val and deadline_val != "N/A":
             try:
-                # If it's a datetime object, get .date()
                 from datetime import datetime, date
                 if isinstance(deadline_val, datetime):
                     deadline_str = deadline_val.date().isoformat()
                 elif isinstance(deadline_val, date):
                     deadline_str = deadline_val.isoformat()
                 else:
-                    # If it's a string, try to split date and time
                     deadline_str = str(deadline_val).split()[0]
             except Exception:
                 deadline_str = str(deadline_val)
         self.deadline_label = QLabel(f"Deadline: {deadline_str}")
-        self.status_label = QLabel(f"Status: {status}")
-        self.status_combo = None
-        self.layout.addWidget(self.title_label)
-        self.layout.addWidget(self.project_label)
-        self.layout.addWidget(self.deadline_label)
-        self.layout.addWidget(self.status_label)
-        self.setLayout(self.layout)
-
-    def show_status_dropdown(self, on_status_changed):
-        from PyQt5.QtWidgets import QComboBox
-        if self.status_combo is not None:
-            return
         self.status_combo = QComboBox(self)
         self.status_combo.addItems(["Not Yet Started", "In Progress", "Completed"])
         self.status_combo.setCurrentText(self.status)
         self.status_combo.setMinimumWidth(140)
-        self.layout.replaceWidget(self.status_label, self.status_combo)
-        self.status_label.hide()
-        self.status_combo.show()
-        def handle_change(idx):
-            new_status = self.status_combo.currentText()
-            self.status = new_status
-            self.status_label.setText(f"Status: {new_status}")
-            self.status_label.show()
-            self.layout.replaceWidget(self.status_combo, self.status_label)
-            self.status_combo.deleteLater()
-            self.status_combo = None
-            on_status_changed(new_status)
-        self.status_combo.activated.connect(handle_change)
+        self.layout.addWidget(self.title_label)
+        self.layout.addWidget(self.project_label)
+        self.layout.addWidget(self.deadline_label)
+        self.layout.addWidget(self.status_combo)
+        self.setLayout(self.layout)
+        self.status_combo.activated.connect(self.handle_status_change)
+        self.setCursor(Qt.PointingHandCursor)
+
+    def handle_status_change(self, idx):
+        new_status = self.status_combo.currentText()
+        self.status = new_status
+        if self.on_status_changed:
+            self.on_status_changed(new_status)
 
 class CalendarTabWidget(QWidget):
     def __init__(self, user=None, parent=None):
@@ -1075,7 +1061,17 @@ class DashboardView(QWidget):
             log_event(f"DEBUG: Navigation not performed. db={db}, user={self.user}, project_id={project_id}, main_window={self.main_window}, project_obj={project_obj}")
 
     def log_and_show_subtask_details(self, item):
-        log_event(f"User opened subtask details: item={item.text() if item else ''}")
+        # Try to get subtask title from the custom widget if item.text() is empty
+        title = ""
+        if item:
+            title = item.text()
+            if not title:
+                parent_list = item.listWidget() if hasattr(item, "listWidget") else None
+                if parent_list:
+                    widget = parent_list.itemWidget(item)
+                    if widget and hasattr(widget, "title_label"):
+                        title = widget.title_label.text()
+        log_event(f"User opened subtask details: item={title}")
         self.show_subtask_details(item)
 
     def log_and_refresh_messages(self):
@@ -1122,7 +1118,7 @@ class DashboardView(QWidget):
     def load_subtasks(self):
         """
         Populate the dashboard's subtask columns for the current user.
-        Only subtasks are shown. Clicking a subtask opens an inline dropdown to set status.
+        Each subtask always shows a status dropdown. Clicking opens details.
         """
         # Clear all categories
         for cat_list in self.category_lists.values():
@@ -1137,10 +1133,7 @@ class DashboardView(QWidget):
                 # Fetch project name for this subtask
                 project_name = "N/A"
                 try:
-                    # Get task_id as int
                     task_id = getattr(sub, "task_id", None)
-                    # Remove .value, just use the attribute directly
-                    # Try to get task_id as int
                     if not isinstance(task_id, int):
                         if task_id is not None:
                             if hasattr(task_id, "id"):
@@ -1175,10 +1168,10 @@ class DashboardView(QWidget):
                                         project_name = str(pname)
                 except Exception:
                     pass
-                item = QListWidgetItem()
+                # Use empty string for item text to avoid overlay, rely on custom widget for display
+                item = QListWidgetItem("")
                 item.setData(32, f"subtask:{sub.id}")
                 item.setData(33, sub)
-                # Ensure drag and drop enabled for this item
                 item.setFlags(item.flags() | Qt.ItemFlag.ItemIsDragEnabled | Qt.ItemFlag.ItemIsDropEnabled | Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable)
                 db_status = getattr(sub, "status", None)
                 if db_status in (None, "", "pending", "not yet started"):
@@ -1190,45 +1183,62 @@ class DashboardView(QWidget):
                 else:
                     ui_status = str(db_status)
                 item.setData(34, ui_status)
-                # Pass project_name to widget
-                widget = DashboardSubtaskWidget(sub, ui_status, project_name=str(project_name) if project_name else "N/A")
+                # Always show status dropdown, and connect click to details
+                def make_status_changed(item_ref, sub_ref):
+                    def on_status_changed(new_status):
+                        item_ref.setData(34, new_status)
+                        # Map UI status to DB status
+                        if new_status == "Not Yet Started":
+                            db_status_val = "not yet started"
+                        elif new_status == "In Progress":
+                            db_status_val = "in_progress"
+                        elif new_status == "Completed":
+                            db_status_val = "completed"
+                        else:
+                            db_status_val = new_status
+                        if hasattr(db, "update_subtask_status"):
+                            try:
+                                db.update_subtask_status(sub_ref.id, db_status_val)
+                            except Exception:
+                                pass
+                        log_event(f"Subtask {sub_ref.id} status changed to '{db_status_val}'")
+                        # Refresh event log and dashboard
+                        if hasattr(self, "event_log_tab"):
+                            self.event_log_tab.load_log()
+                        self.load_subtasks()
+                        if hasattr(self, "main_window") and hasattr(self.main_window, "project_detail_page") and self.main_window.project_detail_page:
+                            self.main_window.project_detail_page.load_tasks()
+                    return on_status_changed
+                def make_on_click(item_ref):
+                    def on_click():
+                        self.show_subtask_details(item_ref)
+                    return on_click
+                widget = DashboardSubtaskWidget(
+                    sub, ui_status, project_name=str(project_name) if project_name else "N/A",
+                    on_status_changed=make_status_changed(item, sub)
+                )
                 self.category_lists[cat].addItem(item)
                 self.category_lists[cat].setItemWidget(item, widget)
         # Remove all task display from dashboard (only subtasks shown)
-        # Connect double click to inline status editor
+        # Connect single click to open details
         for cat_list in self.category_lists.values():
             try:
-                cat_list.itemDoubleClicked.disconnect()
+                cat_list.itemClicked.disconnect()
             except Exception:
                 pass
-            cat_list.itemDoubleClicked.connect(self.inline_edit_subtask_status)
+            def make_item_clicked_handler(cat_list_ref):
+                def handler(item):
+                    # Only handle if item is a subtask (data(32) starts with "subtask:")
+                    if item is None or not item.data(32):
+                        return
+                    subtask_id_str = item.data(32)
+                    if isinstance(subtask_id_str, str) and subtask_id_str.startswith("subtask:"):
+                        cat_list_ref.setCurrentItem(item)
+                        self.show_subtask_details(item)
+                return handler
+            cat_list.itemClicked.connect(make_item_clicked_handler(cat_list))
 
-    def inline_edit_subtask_status(self, item):
-        """Show inline dropdown to edit subtask status next to status label."""
-        sub = item.data(33)
-        if not sub:
-            return
-        parent_list = item.listWidget()
-        widget = parent_list.itemWidget(item)
-        if not widget or not hasattr(widget, "show_status_dropdown"):
-            return
-        def on_status_changed(new_status):
-            item.setData(34, new_status)
-            # Map UI status to DB status
-            if new_status == "Not Yet Started":
-                db_status = "not yet started"
-            elif new_status == "In Progress":
-                db_status = "in_progress"
-            elif new_status == "Completed":
-                db_status = "completed"
-            else:
-                db_status = new_status
-            if hasattr(db, "update_subtask_status"):
-                try:
-                    db.update_subtask_status(sub.id, db_status)
-                except Exception:
-                    pass
-        widget.show_status_dropdown(on_status_changed)
+    # inline_edit_subtask_status is now obsolete and not used
 
     def load_messages(self):
         self.message_list.clear()
@@ -1363,12 +1373,128 @@ class DashboardView(QWidget):
         dialog.exec_()
 
     def show_subtask_details(self, item):
-        # Show subtask details dialog
-        subtask_id = item.data(32)
-        if db and hasattr(db, "get_subtask"):
-            sub = getattr(db, "get_subtask", lambda subtask_id: None)(subtask_id)
-            msg = f"Title: {getattr(sub, 'title', '')}\nDeadline: {getattr(sub, 'deadline', '')}\nProject: {getattr(sub, 'project_name', '')}\nProgress: {getattr(sub, 'progress', 0)}%\nLast updated: {getattr(sub, 'last_updated', '')}"
-            QMessageBox.information(self, "Subtask Details", msg)
+        # Show subtask details page in main window stack
+        log_event("DEBUG: ENTER show_subtask_details")
+        try:
+            subtask_id = item.data(32)
+            log_event(f"DEBUG: show_subtask_details called with item.data(32)={subtask_id}")
+            if isinstance(subtask_id, str) and subtask_id.startswith("subtask:"):
+                try:
+                    subtask_id_int = int(subtask_id.split(":", 1)[1])
+                except Exception as e:
+                    log_event(f"DEBUG: Failed to parse subtask_id from {subtask_id}: {e}")
+                    from PyQt5.QtWidgets import QMessageBox
+                    QMessageBox.warning(self, "Error", "Invalid subtask ID.")
+                    return
+                subtask_id = subtask_id_int
+            log_event(f"DEBUG: Parsed subtask_id={subtask_id}")
+            sub = db.get_subtask_by_id(subtask_id)
+            log_event(f"DEBUG: get_subtask_by_id({subtask_id}) returned: {sub}")
+            if not sub:
+                from PyQt5.QtWidgets import QMessageBox
+                QMessageBox.warning(self, "Error", "Subtask not found.")
+                return
+            # Find parent task and project
+            parent_task = None
+            project = None
+            task_id = getattr(sub, "task_id", None)
+            if task_id and hasattr(db, "get_task_by_id"):
+                parent_task = db.get_task_by_id(task_id)
+                if parent_task and hasattr(parent_task, "project_id") and hasattr(db, "get_project_by_id"):
+                    project = db.get_project_by_id(getattr(parent_task, "project_id", None))
+                # Assigned users
+                assigned_to = getattr(sub, "assigned_to", None)
+                assigned_names = ""
+                if assigned_to:
+                    if isinstance(assigned_to, (list, tuple)):
+                        names = []
+                        for uid in assigned_to:
+                            if db and hasattr(db, "User") and hasattr(db, "SessionLocal"):
+                                with db.SessionLocal() as session:
+                                    user = session.query(db.User).filter_by(id=uid).first()
+                                    if user:
+                                        names.append(getattr(user, "username", str(uid)))
+                        assigned_names = ", ".join(names)
+                    else:
+                        if db and hasattr(db, "User") and hasattr(db, "SessionLocal"):
+                            with db.SessionLocal() as session:
+                                user = session.query(db.User).filter_by(id=assigned_to).first()
+                                if user:
+                                    assigned_names = getattr(user, "username", str(assigned_to))
+                                else:
+                                    assigned_names = str(assigned_to)
+                else:
+                    assigned_names = "Unassigned"
+                # Deadline
+                deadline = getattr(sub, "due_date", getattr(sub, "deadline", "N/A"))
+                # Subtask name
+                subtask_name = getattr(sub, "title", "")
+                # Project name
+                project_name = getattr(project, "name", "N/A") if project else "N/A"
+                # Parent task name
+                parent_task_name = getattr(parent_task, "title", "N/A") if parent_task else "N/A"
+                log_event("DEBUG: PRE-NAVIGATION BLOCK")
+                # Show details page
+                mw = getattr(self, "main_window", None)
+                from PyQt5.QtWidgets import QMainWindow, QMessageBox
+                log_event(f"DEBUG: show_subtask_details direct main_window={mw}, type={type(mw)}")
+                if mw and hasattr(mw, "stack"):
+                    log_event(f"DEBUG: mw.stack={getattr(mw, 'stack', None)}, type={type(getattr(mw, 'stack', None))}")
+                    mw.stack.addWidget(SubtaskDetailPage(
+                        subtask_name=subtask_name,
+                        assigned_names=assigned_names,
+                        project_name=project_name,
+                        parent_task_name=parent_task_name,
+                        deadline=deadline,
+                        parent=mw
+                    ))
+                    mw.stack.setCurrentIndex(mw.stack.count() - 1)
+                else:
+                    # Fallback: try parent traversal
+                    parent = self.parent() if hasattr(self, "parent") else None
+                    while parent and not isinstance(parent, QMainWindow):
+                        parent = parent.parent()
+                    log_event(f"DEBUG: show_subtask_details fallback parent={parent}, type={type(parent)}")
+                    if parent and hasattr(parent, "stack"):
+                        parent.stack.addWidget(SubtaskDetailPage(
+                            subtask_name=subtask_name,
+                            assigned_names=assigned_names,
+                            project_name=project_name,
+                            parent_task_name=parent_task_name,
+                            deadline=deadline,
+                            parent=parent
+                        ))
+                        parent.stack.setCurrentIndex(parent.stack.count() - 1)
+                    else:
+                        log_event(f"DEBUG: MainWindow or stack not found in fallback, parent={parent}, has_stack={hasattr(parent, 'stack')}")
+                        QMessageBox.warning(self, "Navigation Error", "Could not find main window or stack for navigation.")
+        except Exception as e:
+            log_event(f"DEBUG: Exception in show_subtask_details: {e}")
+            import traceback
+            log_event(traceback.format_exc())
+
+class SubtaskDetailPage(QWidget):
+    def __init__(self, subtask_name, assigned_names, project_name, parent_task_name, deadline, parent=None):
+        super().__init__(parent)
+        from PyQt5.QtWidgets import QVBoxLayout, QLabel, QPushButton
+        layout = QVBoxLayout()
+        layout.addWidget(QLabel(f"<b>Subtask Details</b>"))
+        layout.addWidget(QLabel(f"Name: {subtask_name}"))
+        layout.addWidget(QLabel(f"Assigned to: {assigned_names}"))
+        layout.addWidget(QLabel(f"Project: {project_name}"))
+        layout.addWidget(QLabel(f"Parent Task: {parent_task_name}"))
+        layout.addWidget(QLabel(f"Deadline: {deadline}"))
+        back_btn = QPushButton("Back")
+        layout.addWidget(back_btn)
+        self.setLayout(layout)
+        def go_back():
+            mw = self.parent()
+            from PyQt5.QtWidgets import QMainWindow
+            while mw and not isinstance(mw, QMainWindow):
+                mw = mw.parent()
+            if mw and hasattr(mw, "stack") and mw.stack.count() > 1:
+                mw.stack.setCurrentIndex(0)
+        back_btn.clicked.connect(go_back)
 
     # Dashboard summary removed per UI simplification instructions.
 
