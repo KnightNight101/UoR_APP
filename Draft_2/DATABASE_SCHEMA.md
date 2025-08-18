@@ -2,6 +2,14 @@
 
 ## Database Overview
 
+### Document Version Control (Git-based for LibreOffice Documents)
+
+- All LibreOffice documents (ODT, ODS, etc.) are versioned using Git repositories managed by GitPython.
+- Each document edit/upload creates a new commit in the corresponding repository.
+- The `file_versions` table tracks every version, linking files to Git commits and repositories.
+- ODFDiff is used for semantic diffing between document versions.
+- Users can view, compare, and restore previous versions via the application UI.
+
 ### Database Engine
 - **Primary Database**: SQLite (for development and local deployment)
 - **Production Migration Path**: PostgreSQL (recommended for scalability)
@@ -346,21 +354,22 @@ erDiagram
 - One-to-Many with [`file_versions`](app/schema.sql:119)
 
 #### file_versions
-**Purpose**: File version tracking with GitHub commit integration
+**Purpose**: File version tracking for LibreOffice documents using Git-based version control
 
 | Column | Type | Constraints | Description |
 |--------|------|-------------|-------------|
 | [`id`](app/schema.sql:120) | INTEGER | PRIMARY KEY, AUTOINCREMENT | Unique version identifier |
 | [`file_id`](app/schema.sql:121) | INTEGER | NOT NULL, FOREIGN KEY → files.id | File reference |
-| [`repo_id`](app/schema.sql:122) | INTEGER | NOT NULL, FOREIGN KEY → github_repos.id | Repository reference |
-| [`commit_hash`](app/schema.sql:123) | TEXT | NOT NULL | Git commit hash |
-| [`version`](app/schema.sql:124) | INTEGER | NOT NULL | Version number |
+| [`repo_id`](app/schema.sql:122) | INTEGER | NOT NULL, FOREIGN KEY → github_repos.id | Repository reference (local Git repo for document) |
+| [`commit_hash`](app/schema.sql:123) | TEXT | NOT NULL | Git commit hash for this version |
+| [`version`](app/schema.sql:124) | INTEGER | NOT NULL | Sequential version number for the file |
 | [`committed_at`](app/schema.sql:125) | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Commit timestamp |
-| [`author`](app/schema.sql:126) | TEXT | | Commit author |
+| [`author`](app/schema.sql:126) | TEXT | | Commit author (user who made the change) |
 
 **Relationships**:
-- Many-to-One with [`files`](app/schema.sql:86)
-- Many-to-One with [`github_repos`](app/schema.sql:110)
+- Many-to-One with [`files`](app/schema.sql:86) (each file can have multiple versions)
+- Many-to-One with [`github_repos`](app/schema.sql:110) (each version is linked to a Git repository)
+- Enables full version history, diff, and rollback for LibreOffice documents
 
 ---
 
@@ -383,10 +392,13 @@ erDiagram
 - **Access Control**: Three-level access (private/project/public) and edit permissions
 - **Version Control**: Files can have multiple versions tracked via GitHub integration
 
-### GitHub Integration for Version Control
-- **Repository Linking**: Projects can connect to GitHub repositories
-- **Version Tracking**: File changes tracked via commit hashes
-- **Author Attribution**: Commit authors preserved in version history
+### Git-based Document Version Control
+
+- **Repository Linking**: Each project or file has a dedicated Git repository for LibreOffice documents.
+- **Version Tracking**: Every document change is tracked as a Git commit, referenced in the `file_versions` table.
+- **Semantic Diff**: ODFDiff is used to provide meaningful diffs between document versions.
+- **Author Attribution**: Commit authors are preserved in version history and shown in the UI.
+- **Restore & Compare**: Users can browse, compare, and restore previous document versions.
 
 ---
 
@@ -597,4 +609,4 @@ Flask API endpoints using database models
 ---
 
 *Generated from Draft_2 project management platform schema*
-*Last Updated: 2025-07-20*
+*Last Updated: 2025-08-18*

@@ -223,6 +223,16 @@ class Tenant(Base):
     users = relationship("User", back_populates="tenant")
     projects = relationship("Project", back_populates="tenant")
 
+class FileVersion(Base):
+    __tablename__ = "file_versions"
+    id = Column(Integer, primary_key=True)
+    file_id = Column(Integer, ForeignKey('files.id'), nullable=False)
+    repo_id = Column(Integer, ForeignKey('github_repos.id'), nullable=False)
+    commit_hash = Column(String, nullable=False)
+    version = Column(Integer, nullable=False)
+    committed_at = Column(DateTime, server_default=func.current_timestamp())
+    author = Column(String)
+
 def column_exists(conn, table, column):
     """Check if a column exists in a SQLite table."""
     result = conn.execute(text(f"PRAGMA table_info({table})"))
@@ -635,6 +645,27 @@ def delete_message(message_id: int):
         return False
 
 # File CRUD functions
+
+def log_file_version(file_id: int, repo_id: int, commit_hash: str, version: int, committed_at, author: str):
+    """
+    Log a new file version in the file_versions table.
+    """
+    try:
+        with SessionLocal() as session:
+            fv = FileVersion(
+                file_id=file_id,
+                repo_id=repo_id,
+                commit_hash=commit_hash,
+                version=version,
+                committed_at=committed_at,
+                author=author
+            )
+            session.add(fv)
+            session.commit()
+            return fv
+    except Exception as e:
+        log_error(f"Error logging file version: {e}")
+        return None
 def create_file(project_id: int, filename: str, filepath: str, uploaded_by: int, description: Optional[str] = None, task_id: Optional[int] = None, subtask_id: Optional[int] = None):
     try:
         with SessionLocal() as session:

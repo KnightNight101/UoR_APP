@@ -23,8 +23,9 @@ The Draft_2 Project Management Platform is a modern full-stack web application d
 
 ### Technology Stack
 - **Frontend**: React 19.1.0 with Vite 7.0.4, Material-UI 7.2.0
-- **Backend**: Flask 3.0.0 with SQLAlchemy 2.0.23  
+- **Backend**: Flask 3.0.0 with SQLAlchemy 2.0.23
 - **Database**: SQLite (development), PostgreSQL-ready (production)
+- **Document Version Control**: GitPython for Git-based versioning of LibreOffice documents (ODT, ODS, etc.), ODFDiff for semantic diffing
 - **Security**: bcrypt 4.1.2
 - **Containerization**: Docker with multi-stage builds
 
@@ -161,6 +162,7 @@ docker run -d \
   -v $(pwd)/app:/home/appuser/app/app \
   -v $(pwd)/ui:/home/appuser/app/ui \
   -v draft2-db:/home/appuser/app/data \
+  -v $(pwd)/files:/home/appuser/app/files \  # Persistent storage for LibreOffice document Git repositories
   draft2-project-mgmt
 ```
 
@@ -172,6 +174,7 @@ docker run -d \
   -v draft2-data:/home/appuser/app/data \
   -v draft2-config:/home/appuser/app/config \
   -v draft2-logs:/home/appuser/app/logs \
+  -v draft2-files:/home/appuser/app/files \  # Persistent storage for document Git repositories
   --restart unless-stopped \
   draft2-project-mgmt:v1.0.0
 ```
@@ -209,6 +212,9 @@ LOG_FILE=/home/appuser/app/logs/app.log
 ```bash
 # Install Python 3.11+
 python --version  # Verify Python 3.11+
+# LibreOffice document versioning dependencies are included in requirements.txt:
+# - GitPython (for Git integration)
+# - ODFDiff (for semantic diffing of ODT/ODS files)
 
 # Create virtual environment
 python -m venv venv
@@ -243,6 +249,13 @@ docker run hello-world
 ```
 
 ### Backend Setup (Flask Server)
+
+#### Document Version Control Setup
+
+LibreOffice documents (ODT, ODS, etc.) are versioned using GitPython and stored in per-project or per-file Git repositories under the `files/` directory. ODFDiff is used for semantic diffing.
+
+- No manual setup is required; repositories are initialized automatically on first document upload.
+- Ensure the `files/` directory is writable and persistent (see Docker volumes above).
 
 #### Database Initialization
 ```bash
@@ -331,6 +344,15 @@ docker run -it --rm \
   -v $(pwd):/home/appuser/app \
   draft2-dev
 ```
+
+---
+
+## 3.1. LibreOffice Document Versioning Workflow
+
+- Every time a LibreOffice document is uploaded or edited, a Git commit is created in the corresponding repository.
+- Users can view document history, compare versions (ODFDiff), and restore previous versions via the UI.
+- All Git operations are handled by GitPython; no manual Git commands are required.
+- For troubleshooting, check file permissions and ensure the `files/` directory is mounted and writable.
 
 ---
 

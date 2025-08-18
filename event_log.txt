@@ -2745,3 +2745,187 @@ ModuleNotFoundError: No module named 'Draft_2'
 [2025-08-18T17:23:58.198842] DEBUG: PRE-NAVIGATION BLOCK
 [2025-08-18T17:23:58.198842] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000002BD112F2960>, type=<class '__main__.MainWindow'>
 [2025-08-18T17:23:58.198842] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000002BD112F29F0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T17:25:56.961674] User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T17:34:07.849462] User 'user' logged in
+[2025-08-18T17:34:10.621515] DEBUG: ENTER show_subtask_details
+[2025-08-18T17:34:10.622514] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T17:34:10.622514] DEBUG: Parsed subtask_id=39
+[2025-08-18T17:34:10.625517] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x0000017D354C6A50>
+[2025-08-18T17:34:10.632106] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T17:34:10.632106] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x0000017D352B2960>, type=<class '__main__.MainWindow'>
+[2025-08-18T17:34:10.633069] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x0000017D352B29F0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T17:35:35.460164] User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T17:44:08.291293] User 'user' logged in
+[2025-08-18T17:44:09.959456] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T17:44:09.960038] DEBUG: ENTER show_subtask_details
+[2025-08-18T17:44:09.960546] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T17:44:09.960546] DEBUG: Parsed subtask_id=39
+[2025-08-18T17:44:09.962806] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x0000026CEA4C7830>
+[2025-08-18T17:44:09.967974] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T17:44:09.967974] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x0000026CEA2B2960>, type=<class '__main__.MainWindow'>
+[2025-08-18T17:44:09.968560] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x0000026CEA2B29F0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T18:33:30.327601] User 'user' logged in
+[2025-08-18T18:33:32.904813] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T18:33:32.906789] DEBUG: ENTER show_subtask_details
+[2025-08-18T18:33:32.907812] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T18:33:32.908780] DEBUG: Parsed subtask_id=39
+[2025-08-18T18:33:32.913777] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x0000022B1BC17A40>
+[2025-08-18T18:33:32.929777] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T18:33:32.929777] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x0000022B1BA02960>, type=<class '__main__.MainWindow'>
+[2025-08-18T18:33:32.930781] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x0000022B1BA029F0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T19:01:43.916102] User 'user' logged in
+[2025-08-18T19:01:46.160836] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T19:01:46.160836] DEBUG: ENTER show_subtask_details
+[2025-08-18T19:01:46.160836] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T19:01:46.160836] DEBUG: Parsed subtask_id=39
+[2025-08-18T19:01:46.168921] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x0000026587103830>
+[2025-08-18T19:01:46.189351] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T19:01:46.189351] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x00000265F7802960>, type=<class '__main__.MainWindow'>
+[2025-08-18T19:01:46.193371] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x00000265F78029F0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T19:42:25.882530] User 'user' logged in
+[2025-08-18T19:42:27.987782] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T19:42:27.987782] DEBUG: ENTER show_subtask_details
+[2025-08-18T19:42:27.988782] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T19:42:27.988782] DEBUG: Parsed subtask_id=39
+[2025-08-18T19:42:27.992312] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x0000027413059580>
+[2025-08-18T19:42:27.999320] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T19:42:27.999320] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x00000274122236E0>, type=<class '__main__.MainWindow'>
+[2025-08-18T19:42:28.000321] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x0000027412223770>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T20:13:11.652069] User 'user' logged in
+[2025-08-18T20:13:13.623808] DEBUG: ENTER show_subtask_details
+[2025-08-18T20:13:13.623808] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T20:13:13.623808] DEBUG: Parsed subtask_id=39
+[2025-08-18T20:13:13.626351] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000002560019A3C0>
+[2025-08-18T20:13:13.632406] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T20:13:13.633399] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000002566FCF3800>, type=<class '__main__.MainWindow'>
+[2025-08-18T20:13:13.633399] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000002566FCF3890>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T20:13:13.641874] DEBUG: Exception in show_subtask_details: 'SubtaskDetailPage' object has no attribute '_handle_edit_in_app'
+[2025-08-18T20:13:13.653905] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1443, in show_subtask_details
+    mw.stack.addWidget(SubtaskDetailPage(
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1615, in __init__
+    self.vcs_edit_btn.clicked.connect(self._handle_edit_in_app)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SubtaskDetailPage' object has no attribute '_handle_edit_in_app'
+
+[2025-08-18T20:13:13.654906] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T20:13:13.654906] DEBUG: ENTER show_subtask_details
+[2025-08-18T20:13:13.656411] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T20:13:13.656411] DEBUG: Parsed subtask_id=39
+[2025-08-18T20:13:13.658417] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x00000256001DD0D0>
+[2025-08-18T20:13:13.663469] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T20:13:13.664418] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000002566FCF3800>, type=<class '__main__.MainWindow'>
+[2025-08-18T20:13:13.664418] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000002566FCF3890>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T20:13:13.672042] DEBUG: Exception in show_subtask_details: 'SubtaskDetailPage' object has no attribute '_handle_edit_in_app'
+[2025-08-18T20:13:13.682606] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1443, in show_subtask_details
+    mw.stack.addWidget(SubtaskDetailPage(
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1615, in __init__
+    self.vcs_edit_btn.clicked.connect(self._handle_edit_in_app)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SubtaskDetailPage' object has no attribute '_handle_edit_in_app'
+
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T20:15:22.218729] User 'user' logged in
+[2025-08-18T20:15:23.868158] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T20:15:23.868158] DEBUG: ENTER show_subtask_details
+[2025-08-18T20:15:23.869157] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T20:15:23.869157] DEBUG: Parsed subtask_id=39
+[2025-08-18T20:15:23.871156] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000001DE9C4818B0>
+[2025-08-18T20:15:23.879818] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T20:15:23.879818] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000001DE9BA3F890>, type=<class '__main__.MainWindow'>
+[2025-08-18T20:15:23.880763] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000001DE9BA3F920>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-18T20:15:23.889276] DEBUG: Exception in show_subtask_details: 'SubtaskDetailPage' object has no attribute 'vcs_open_btn'
+[2025-08-18T20:15:23.901787] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1443, in show_subtask_details
+    mw.stack.addWidget(SubtaskDetailPage(
+                       ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1622, in __init__
+    self.vcs_open_btn.clicked.connect(self._on_vcs_open)
+    ^^^^^^^^^^^^^^^^^
+AttributeError: 'SubtaskDetailPage' object has no attribute 'vcs_open_btn'. Did you mean: 'vcs_diff_btn'?
+
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T20:17:17.597820] User 'user' logged in
+[2025-08-18T20:17:19.717562] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T20:17:19.717562] DEBUG: ENTER show_subtask_details
+[2025-08-18T20:17:19.718520] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T20:17:19.719519] DEBUG: Parsed subtask_id=39
+[2025-08-18T20:17:19.722517] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000002003E5359A0>
+[2025-08-18T20:17:19.732090] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T20:17:19.732090] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000002003DAF3890>, type=<class '__main__.MainWindow'>
+[2025-08-18T20:17:19.733051] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000002003DAF3920>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T20:20:41.437217] User 'user' logged in
+[2025-08-18T20:20:42.933303] DEBUG: ENTER show_subtask_details
+[2025-08-18T20:20:42.933303] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T20:20:42.934298] DEBUG: Parsed subtask_id=39
+[2025-08-18T20:20:42.936295] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x0000020695086180>
+[2025-08-18T20:20:42.940809] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T20:20:42.941814] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x0000020694643920>, type=<class '__main__.MainWindow'>
+[2025-08-18T20:20:42.941814] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x00000206946439B0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T20:23:02.317337] User 'user' logged in
+[2025-08-18T20:23:04.296919] DEBUG: ENTER show_subtask_details
+[2025-08-18T20:23:04.298483] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T20:23:04.299508] DEBUG: Parsed subtask_id=39
+[2025-08-18T20:23:04.304508] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000001EFD5C995B0>
+[2025-08-18T20:23:04.318617] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T20:23:04.319123] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000001EFD5253800>, type=<class '__main__.MainWindow'>
+[2025-08-18T20:23:04.320134] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000001EFD5253890>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T20:24:56.136732] User 'user' logged in
+[2025-08-18T20:24:57.866202] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T20:24:57.867210] DEBUG: ENTER show_subtask_details
+[2025-08-18T20:24:57.868202] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T20:24:57.868710] DEBUG: Parsed subtask_id=39
+[2025-08-18T20:24:57.871742] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000001FE861195B0>
+[2025-08-18T20:24:57.881373] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T20:24:57.881373] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000001FEF44F3800>, type=<class '__main__.MainWindow'>
+[2025-08-18T20:24:57.882336] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000001FEF44F3890>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T20:44:26.220537] User 'user' logged in
+[2025-08-18T20:44:28.949395] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T20:44:28.950368] DEBUG: ENTER show_subtask_details
+[2025-08-18T20:44:28.950368] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T20:44:28.951368] DEBUG: Parsed subtask_id=39
+[2025-08-18T20:44:28.952368] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000001D4C21F97C0>
+[2025-08-18T20:44:28.957368] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T20:44:28.958367] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000001D4C17B3800>, type=<class '__main__.MainWindow'>
+[2025-08-18T20:44:28.958367] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000001D4C17B3890>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T20:46:24.988782] User 'user' logged in
+[2025-08-18T20:46:27.026702] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T20:46:27.026702] DEBUG: ENTER show_subtask_details
+[2025-08-18T20:46:27.028214] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T20:46:27.028214] DEBUG: Parsed subtask_id=39
+[2025-08-18T20:46:27.032267] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x0000013741486ED0>
+[2025-08-18T20:46:27.048292] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T20:46:27.048906] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000001373A7BBB60>, type=<class '__main__.MainWindow'>
+[2025-08-18T20:46:27.049464] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000001373A7BBBF0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T20:48:18.375428] User 'user' logged in
+[2025-08-18T20:48:46.120572] DEBUG: ENTER show_subtask_details
+[2025-08-18T20:48:46.122414] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T20:48:46.122414] DEBUG: Parsed subtask_id=39
+[2025-08-18T20:48:46.125827] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x0000010A64202AB0>
+[2025-08-18T20:48:46.138458] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T20:48:46.138458] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x0000010A5D537B60>, type=<class '__main__.MainWindow'>
+[2025-08-18T20:48:46.139592] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x0000010A5D537BF0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T20:50:46.898544] User 'user' logged in
+[2025-08-18T20:50:49.005206] DEBUG: ENTER show_subtask_details
+[2025-08-18T20:50:49.005206] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T20:50:49.005794] DEBUG: Parsed subtask_id=39
+[2025-08-18T20:50:49.009816] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000001EC2DDB5B80>
+[2025-08-18T20:50:49.018818] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T20:50:49.018818] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000001EC2713BB60>, type=<class '__main__.MainWindow'>
+[2025-08-18T20:50:49.018818] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000001EC2713BBF0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>

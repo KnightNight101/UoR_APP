@@ -10,6 +10,7 @@ This application is a full-stack project management platform that provides:
 - **Project Management** - Create and manage projects with team assignments
 - **Task & Subtask Management** - Organize work with draggable task boards (Eisenhower Matrix), set deadlines, edit and delete tasks
 - **File Management** - Upload, share, and manage project files with access controls
+- **Document Version Control** - Git-based versioning for LibreOffice documents (ODT, ODS, etc.) with full history and diff support
 - **Team Collaboration** - Assign tasks, manage project members, and track progress
 - **Admin Dashboard** - Administrative tools for user management and system oversight
 
@@ -21,7 +22,9 @@ Before running this application, ensure you have the following installed:
 - **Node.js 16+** - Frontend runtime and package management
 - **npm or yarn** - Package manager for React dependencies
 - **Docker** (optional) - For containerized deployment
-- **Git** - Version control (for cloning and development)
+- **Git** - Version control (for cloning, development, and document versioning)
+- **GitPython** - Python library for Git integration (installed via requirements.txt)
+- **ODFDiff** - For LibreOffice document diffing (installed via requirements.txt)
 
 ## Quick Start Guide
 
@@ -66,6 +69,16 @@ docker build -t draft2-app .
 docker run -p 2200:2200 draft2-app
 ```
 
+## Document Version Control
+
+The platform integrates Git-based version control for LibreOffice documents (ODT, ODS, etc.):
+
+- **Automatic Versioning**: Every upload or edit of a LibreOffice document is committed to a dedicated Git repository.
+- **History & Rollback**: Users can view the full version history, compare changes (using ODFDiff), and restore previous versions.
+- **Collaboration**: Multiple users can work on documents with tracked changes and merge support.
+- **UI Integration**: The file management UI provides version history, diff viewing, and restore options for each document.
+- **Dependencies**: Uses GitPython for repository operations and ODFDiff for semantic document comparison.
+
 ## Development Setup
 
 ### Backend Setup
@@ -96,6 +109,8 @@ python app/db.py
 - Flask==3.0.0 (Web framework)
 - SQLAlchemy==2.0.23 (Database ORM)
 - bcrypt==4.1.2 (Password hashing)
+- GitPython==3.1.40 (Git integration for document versioning)
+- ODFDiff==2.3.0 (LibreOffice document diffing)
 
 ### Frontend Setup
 
@@ -235,6 +250,8 @@ The application uses SQLite with the database path configurable via `AUTH_DB_PAT
 - **Tasks**: [`tasks`](app/schema.sql:58), [`subtasks`](app/schema.sql:71)
 - **Files**: [`files`](app/schema.sql:86), [`project_files`](app/schema.sql:99)
 - **Version Control**: [`github_repos`](app/schema.sql:110), [`file_versions`](app/schema.sql:119)
+    - [`file_versions`](app/schema.sql:119): Tracks every version of each document, including commit hash, author, timestamp, and links to the Git repository.
+    - Relationships: Each file can have multiple versions; each version is linked to a Git commit and repository.
 
 ## Database Setup
 
@@ -326,6 +343,7 @@ Error responses include error details:
 - **Drag & Drop** - Task organization with `@hello-pangea/dnd`
 - **React Router** - Client-side navigation
 - **Responsive Design** - Works on desktop and mobile devices
+- **Document Versioning UI** - File management screens now include version history, diff viewing (with ODFDiff), and restore options for LibreOffice documents. Users can browse, compare, and revert document versions directly from the UI.
 
 ## Troubleshooting
 
