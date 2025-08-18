@@ -1581,6 +1581,9 @@ class GanttChartWidget(QWidget):
         from PyQt5.QtWidgets import QHBoxLayout, QListWidget, QListWidgetItem, QVBoxLayout
         self.figure = Figure(figsize=(7, 2))
         self.canvas = FigureCanvas(self.figure)
+        # --- Allow the canvas to expand and fill available space ---
+        self.canvas.setSizePolicy(self.canvas.sizePolicy().Expanding, self.canvas.sizePolicy().Expanding)
+        # Remove fixed size constraints to let the chart auto-scale
 
         # Member list on the left
         hbox = QHBoxLayout()
@@ -1627,13 +1630,14 @@ class GanttChartWidget(QWidget):
 
         hbox.addWidget(self.member_list)
         vbox = QVBoxLayout()
-        vbox.addWidget(self.canvas)
+        vbox.addWidget(self.canvas, 1)
         hbox.addLayout(vbox)
         self.setLayout(hbox)
-        self.plot_gantt()
 
         self._hover_member_id = None
         self._clicked_member_id = None
+
+        self.plot_gantt()
 
     def eventFilter(self, obj, event):
         from PyQt5.QtCore import QEvent
@@ -1654,6 +1658,10 @@ class GanttChartWidget(QWidget):
         self.plot_gantt()
 
     def plot_gantt(self):
+        """
+        Plot the Gantt chart with consistent scaling and vertical centering.
+        Handles cases with few bars, identical start/end dates, and always sets axis limits.
+        """
         try:
             self.figure.clear()
             ax = self.figure.add_subplot(111)
@@ -1662,14 +1670,16 @@ class GanttChartWidget(QWidget):
             y = 0
             bar_positions = {}
             dep_links = []
-            filter_uid = self.selected_member_id
+
+            # Determine which member filter is active: hover (temporary) or click (locked)
+            filter_uid = self._hover_member_id if self._hover_member_id is not None else self._clicked_member_id
 
             if db and hasattr(db, "get_tasks"):
                 tasks = db.get_tasks(self.project_id)
                 for task in tasks:
-                    # Only show tasks assigned to selected member (or all if None)
                     assigned_to = getattr(task, "assigned_to", None)
-                    if filter_uid and assigned_to != filter_uid:
+                    # Only filter if a member is actually selected/hovered
+                    if filter_uid is not None and assigned_to != filter_uid:
                         continue
                     try:
                         log_event(
@@ -1703,11 +1713,30 @@ class GanttChartWidget(QWidget):
                             end_dt = datetime.datetime.strptime(str(end), "%Y-%m-%d %H:%M:%S")
                     except Exception:
                         end_dt = None
-                    hours = getattr(task, "hours", None)
+                    hours = getattr(task, "hours", 0) or 0
                     task_id = getattr(task, "id", None)
+                    # --- Calculate total hours for this task (own + all subtasks) ---
+                    total_sub_hours = 0
+                    subtask_info = []
+                    if hasattr(db, "get_subtasks"):
+                        try:
+                            task_id_val = getattr(task, "id", None)
+                            subs = db.get_subtasks(task_id_val) if task_id_val is not None else []
+                            for sub in subs:
+                                sub_assigned = getattr(sub, "assigned_to", None)
+                                if filter_uid is not None and sub_assigned != filter_uid:
+                                    continue
+                                sub_hours = getattr(sub, "hours", 0) or 0
+                                total_sub_hours += sub_hours
+                                subtask_info.append(sub)
+                        except Exception as e:
+                            log_error(f"Gantt subtask error: {e}")
+                    total_hours = hours + total_sub_hours
                     if start_dt and end_dt:
                         bars.append((mdates.date2num(start_dt), mdates.date2num(end_dt) - mdates.date2num(start_dt)))
-                        label_hours = f" | Hours: {hours}" if hours is not None else ""
+                        label_hours = f" | Hours: {hours}"
+                        if total_sub_hours > 0:
+                            label_hours += f" (+{total_sub_hours} subtask{'s' if len(subtask_info) != 1 else ''}) = {total_hours}"
                         labels.append(f"Task {task_id}: {getattr(task, 'title', '')}{label_hours}")
                         bar_positions[("task", task_id)] = (y, mdates.date2num(start_dt), mdates.date2num(end_dt))
                         dependencies = getattr(task, "dependencies", [])
@@ -1715,57 +1744,53 @@ class GanttChartWidget(QWidget):
                             for dep_id in dependencies:
                                 dep_links.append((("task", dep_id), ("task", task_id)))
                         y += 1
-                        # Subtasks
-                        if hasattr(db, "get_subtasks"):
-                            try:
-                                task_id = getattr(task, "id", None)
-                                if task_id is not None:
-                                    subs = db.get_subtasks(task_id)
-                                else:
-                                    subs = []
-                                for sub in subs:
-                                    sub_assigned = getattr(sub, "assigned_to", None)
-                                    if filter_uid and sub_assigned != filter_uid:
-                                        continue
-                                    sub_start = getattr(sub, "start_date", None)
+                    # --- Now add subtasks as bars and labels ---
+                    if hasattr(db, "get_subtasks"):
+                        try:
+                            for sub in subtask_info:
+                                sub_assigned = getattr(sub, "assigned_to", None)
+                                if filter_uid is not None and sub_assigned != filter_uid:
+                                    continue
+                                sub_start = getattr(sub, "start_date", None)
+                                sub_end = getattr(sub, "deadline", None)
+                                if not sub_start:
+                                    sub_start = getattr(sub, "created_at", None)
+                                if not sub_start:
+                                    sub_start = getattr(sub, "deadline", None)
+                                if not sub_end:
+                                    sub_end = getattr(sub, "due_date", None)
+                                if not sub_end:
                                     sub_end = getattr(sub, "deadline", None)
-                                    if not sub_start:
-                                        sub_start = getattr(sub, "created_at", None)
-                                    if not sub_start:
-                                        sub_start = getattr(sub, "deadline", None)
-                                    if not sub_end:
-                                        sub_end = getattr(sub, "due_date", None)
-                                    if not sub_end:
-                                        sub_end = getattr(sub, "deadline", None)
+                                try:
+                                    sub_start_dt = datetime.datetime.strptime(str(sub_start), "%Y-%m-%d")
+                                except Exception:
                                     try:
-                                        sub_start_dt = datetime.datetime.strptime(str(sub_start), "%Y-%m-%d")
+                                        sub_start_dt = datetime.datetime.strptime(str(sub_start), "%Y-%m-%d %H:%M:%S")
                                     except Exception:
-                                        try:
-                                            sub_start_dt = datetime.datetime.strptime(str(sub_start), "%Y-%m-%d %H:%M:%S")
-                                        except Exception:
-                                            sub_start_dt = None
+                                        sub_start_dt = None
+                                try:
+                                    sub_end_dt = datetime.datetime.strptime(str(sub_end), "%Y-%m-%d")
+                                except Exception:
                                     try:
-                                        sub_end_dt = datetime.datetime.strptime(str(sub_end), "%Y-%m-%d")
+                                        sub_end_dt = datetime.datetime.strptime(str(sub_end), "%Y-%m-%d %H:%M:%S")
                                     except Exception:
-                                        try:
-                                            sub_end_dt = datetime.datetime.strptime(str(sub_end), "%Y-%m-%d %H:%M:%S")
-                                        except Exception:
-                                            sub_end_dt = None
-                                    sub_hours = getattr(sub, "hours", None)
-                                    sub_id = getattr(sub, "id", None)
-                                    if sub_start_dt and sub_end_dt:
-                                        bars.append((mdates.date2num(sub_start_dt), mdates.date2num(sub_end_dt) - mdates.date2num(sub_start_dt)))
-                                        label_sub_hours = f" | Hours: {sub_hours}" if sub_hours is not None else ""
-                                        labels.append(f"  Subtask {sub_id}: {getattr(sub, 'title', '')}{label_sub_hours}")
-                                        bar_positions[("subtask", sub_id)] = (y, mdates.date2num(sub_start_dt), mdates.date2num(sub_end_dt))
-                                        sub_dependencies = getattr(sub, "dependencies", [])
-                                        if sub_dependencies:
-                                            for dep_id in sub_dependencies:
-                                                dep_key = ("subtask", dep_id) if ("subtask", dep_id) in bar_positions else ("task", dep_id)
-                                                dep_links.append((dep_key, ("subtask", sub_id)))
-                                        y += 1
-                            except Exception as e:
-                                log_error(f"Gantt subtask error: {e}")
+                                        sub_end_dt = None
+                                sub_hours = getattr(sub, "hours", 0) or 0
+                                sub_id = getattr(sub, "id", None)
+                                if sub_start_dt and sub_end_dt:
+                                    bars.append((mdates.date2num(sub_start_dt), mdates.date2num(sub_end_dt) - mdates.date2num(sub_start_dt)))
+                                    label_sub_hours = f" | Hours: {sub_hours}"
+                                    labels.append(f"  Subtask {sub_id}: {getattr(sub, 'title', '')}{label_sub_hours}")
+                                    bar_positions[("subtask", sub_id)] = (y, mdates.date2num(sub_start_dt), mdates.date2num(sub_end_dt))
+                                    sub_dependencies = getattr(sub, "dependencies", [])
+                                    if sub_dependencies:
+                                        for dep_id in sub_dependencies:
+                                            dep_key = ("subtask", dep_id) if ("subtask", dep_id) in bar_positions else ("task", dep_id)
+                                            dep_links.append((dep_key, ("subtask", sub_id)))
+                                    y += 1
+                        except Exception as e:
+                            log_error(f"Gantt subtask error: {e}")
+
             if bars:
                 for i, (start, duration) in enumerate(bars):
                     ax.barh(i, duration, left=start, height=0.4, align='center', color="#6baed6")
@@ -1785,10 +1810,28 @@ class GanttChartWidget(QWidget):
                             arrowprops=dict(arrowstyle="->", color="red", lw=1.5, shrinkA=5, shrinkB=5),
                             annotation_clip=False
                         )
-                self.figure.tight_layout()
+                # --- Consistent axis scaling and vertical centering ---
+                starts = [start for start, duration in bars]
+                ends = [start + duration for start, duration in bars]
+                min_start = min(starts)
+                max_end = max(ends)
+                # Ensure minimum padding for identical dates
+                pad = max((max_end - min_start) * 0.05, 1 if max_end == min_start else 0.5)
+                ax.set_xlim(min_start - pad, max_end + pad)
+                # Vertically center if few bars
+                n_bars = len(labels)
+                if n_bars < 5:
+                    center_offset = (5 - n_bars) / 2
+                    ax.set_ylim(-0.5 + center_offset, n_bars - 0.5 + center_offset)
+                else:
+                    ax.set_ylim(-0.5, n_bars - 0.5)
             else:
                 ax.text(0.5, 0.5, "No tasks to display", ha='center', va='center', fontsize=12, transform=ax.transAxes)
                 ax.set_axis_off()
+            # --- Always use fixed ylim for consistent plot size (5 bars) ---
+            ax.set_ylim(-0.5, 4.5)
+            # Use tight_layout to optimize margins and fill space
+            self.figure.tight_layout()
             self.canvas.draw()
         except Exception as e:
             log_error(f"Gantt plot_gantt error: {e}")
@@ -1921,6 +1964,11 @@ class ProjectDetailPage(QWidget):
         layout.addWidget(self.gantt_chart)
         tab.setLayout(layout)
         self.tabs.addTab(tab, "Gantt Chart")
+        # Refresh Gantt chart when the tab is selected
+        def on_tab_changed(idx):
+            if self.tabs.tabText(idx) == "Gantt Chart" and hasattr(self, "gantt_chart"):
+                self.gantt_chart.refresh()
+        self.tabs.currentChanged.connect(on_tab_changed)
 
         # Main layout for the project details page
         vbox = QVBoxLayout()
