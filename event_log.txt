@@ -2385,3 +2385,179 @@ User logged out (logout key pressed)
 [2025-08-18T14:01:28.325053] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
 [2025-08-18T14:01:37.488812] Gantt DEBUG: Task ID=1, Title='Literature Review', Assigned=2, Start=None, Created=2025-08-17 19:00:47, Deadline=None, Due=2025-08-18 00:00:00
 [2025-08-18T14:01:37.490801] Gantt DEBUG: Task ID=2, Title='Methodology', Assigned=2, Start=None, Created=2025-08-17 20:36:00, Deadline=None, Due=2025-08-17 00:00:00
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T14:08:15.390151] User 'user' logged in
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T14:12:38.565002] User 'user' logged in
+[2025-08-18T14:12:44.886959] Subtask 39 status changed to 'in_progress'
+[2025-08-18T14:12:49.822179] User opened subtask details: item=
+[2025-08-18T14:12:53.349053] User opened subtask details: item=
+[2025-08-18T14:13:39.346055] User logged out (logout key pressed)
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T14:14:35.533603] User 'user' logged in
+[2025-08-18T14:14:40.207582] User opened subtask details: item=
+[2025-08-18T14:14:41.128058] User opened subtask details: item=
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T14:16:35.634887] User 'user' logged in
+[2025-08-18T14:16:39.928052] User opened subtask details: item=
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T14:19:10.347192] User 'user' logged in
+[2025-08-18T14:19:16.240986] User opened subtask details: item=Python Vs Web Development
+[2025-08-18T14:19:16.927761] User opened subtask details: item=Project Management Framework Section
+[2025-08-18T14:19:17.448148] User opened subtask details: item=check progress
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T14:21:32.366739] User 'user' logged in
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T14:23:10.189475] User 'user' logged in
+[2025-08-18T14:23:13.475505] User opened subtask details: item=
+[2025-08-18T14:23:14.795271] User opened subtask details: item=
+[2025-08-18T14:23:18.826993] User opened subtask details: item=
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T14:26:14.809877] User 'user' logged in
+[2025-08-18T14:26:17.129948] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T14:26:18.034743] User opened subtask details: item=<b>Project Management Framework Section</b>
+[2025-08-18T14:26:18.593647] User opened subtask details: item=<b>Python Vs Web Development</b>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T14:28:27.277173] User 'user' logged in
+[2025-08-18T14:28:29.707000] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T14:28:29.708987] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T14:28:29.709989] DEBUG: Parsed subtask_id=39
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T14:30:41.480766] User 'user' logged in
+[2025-08-18T14:30:44.060530] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T14:30:44.061489] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T14:30:44.061489] DEBUG: Parsed subtask_id=39
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T14:31:48.951977] User 'user' logged in
+[2025-08-18T14:31:51.482124] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T14:31:51.482124] DEBUG: Parsed subtask_id=39
+[2025-08-18T14:31:52.058951] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T14:31:52.059952] DEBUG: Parsed subtask_id=39
+[2025-08-18T14:31:52.152570] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T14:31:52.152570] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T14:31:52.153588] DEBUG: Parsed subtask_id=39
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T14:33:33.286215] User 'user' logged in
+[2025-08-18T14:33:35.207479] DEBUG: show_subtask_details called with item.data(32)=subtask:40
+[2025-08-18T14:33:35.208479] DEBUG: Parsed subtask_id=40
+[2025-08-18T14:33:35.791790] DEBUG: show_subtask_details called with item.data(32)=subtask:40
+[2025-08-18T14:33:35.791790] DEBUG: Parsed subtask_id=40
+[2025-08-18T14:33:35.871015] User opened subtask details: item=<b>Project Management Framework Section</b>
+[2025-08-18T14:33:35.871015] DEBUG: show_subtask_details called with item.data(32)=subtask:40
+[2025-08-18T14:33:35.871015] DEBUG: Parsed subtask_id=40
+[2025-08-18T14:33:37.518200] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T14:33:37.518733] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T14:33:37.519115] DEBUG: Parsed subtask_id=39
+[2025-08-18T14:33:45.420775] Subtask 40 ('Project Management Framework Section') moved from 'Important and Urgent' to 'Urgent' by user 'user'
+[2025-08-18T14:33:46.232841] User opened subtask details: item=<b>Project Management Framework Section</b>
+[2025-08-18T14:33:46.232841] DEBUG: show_subtask_details called with item.data(32)=subtask:40
+[2025-08-18T14:33:46.233940] DEBUG: Parsed subtask_id=40
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T15:08:12.761938] User 'user' logged in
+[2025-08-18T15:08:16.610049] User opened subtask details: item=<b>Project Management Framework Section</b>
+[2025-08-18T15:08:16.610049] DEBUG: show_subtask_details called with item.data(32)=subtask:40
+[2025-08-18T15:08:16.611050] DEBUG: Parsed subtask_id=40
+[2025-08-18T15:08:16.961798] User opened subtask details: item=<b>Project Management Framework Section</b>
+[2025-08-18T15:08:16.961798] DEBUG: show_subtask_details called with item.data(32)=subtask:40
+[2025-08-18T15:08:16.961798] DEBUG: Parsed subtask_id=40
+[2025-08-18T15:16:31.168134] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T15:16:31.170766] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T15:16:31.171707] DEBUG: Parsed subtask_id=39
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T15:18:38.639364] User 'user' logged in
+[2025-08-18T15:18:41.170814] User opened subtask details: item=<b>Project Management Framework Section</b>
+[2025-08-18T15:18:41.171807] DEBUG: ENTER show_subtask_details
+[2025-08-18T15:18:41.171807] DEBUG: show_subtask_details called with item.data(32)=subtask:40
+[2025-08-18T15:18:41.172804] DEBUG: Parsed subtask_id=40
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T15:20:34.301128] User 'user' logged in
+[2025-08-18T15:20:40.745280] DEBUG: ENTER show_subtask_details
+[2025-08-18T15:20:40.745280] DEBUG: show_subtask_details called with item.data(32)=subtask:40
+[2025-08-18T15:20:40.745280] DEBUG: Parsed subtask_id=40
+[2025-08-18T15:20:40.745280] DEBUG: About to check db and get_subtask: db=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, has_get_subtask=False
+[2025-08-18T15:20:40.824045] User opened subtask details: item=<b>Project Management Framework Section</b>
+[2025-08-18T15:20:40.825046] DEBUG: ENTER show_subtask_details
+[2025-08-18T15:20:40.825046] DEBUG: show_subtask_details called with item.data(32)=subtask:40
+[2025-08-18T15:20:40.825046] DEBUG: Parsed subtask_id=40
+[2025-08-18T15:20:40.826055] DEBUG: About to check db and get_subtask: db=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, has_get_subtask=False
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T15:47:11.494522] User 'user' logged in
+[2025-08-18T15:47:13.393590] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T15:47:13.394589] DEBUG: ENTER show_subtask_details
+[2025-08-18T15:47:13.396590] DEBUG: Exception in show_subtask_details: attempted relative import with no known parent package
+[2025-08-18T15:47:13.398587] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1379, in show_subtask_details
+    from .db import get_subtask_by_id
+ImportError: attempted relative import with no known parent package
+
+[2025-08-18T15:47:14.291241] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T15:47:14.291241] DEBUG: ENTER show_subtask_details
+[2025-08-18T15:47:14.292246] DEBUG: Exception in show_subtask_details: attempted relative import with no known parent package
+[2025-08-18T15:47:14.293239] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1379, in show_subtask_details
+    from .db import get_subtask_by_id
+ImportError: attempted relative import with no known parent package
+
+[2025-08-18T15:47:14.874277] DEBUG: ENTER show_subtask_details
+[2025-08-18T15:47:14.875283] DEBUG: Exception in show_subtask_details: attempted relative import with no known parent package
+[2025-08-18T15:47:14.875283] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1379, in show_subtask_details
+    from .db import get_subtask_by_id
+ImportError: attempted relative import with no known parent package
+
+[2025-08-18T15:47:14.962884] User opened subtask details: item=<b>Python Vs Web Development</b>
+[2025-08-18T15:47:14.962884] DEBUG: ENTER show_subtask_details
+[2025-08-18T15:47:14.963898] DEBUG: Exception in show_subtask_details: attempted relative import with no known parent package
+[2025-08-18T15:47:14.963898] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1379, in show_subtask_details
+    from .db import get_subtask_by_id
+ImportError: attempted relative import with no known parent package
+
+[2025-08-18T15:47:15.546509] User opened subtask details: item=<b>LLM Integration</b>
+[2025-08-18T15:47:15.546509] DEBUG: ENTER show_subtask_details
+[2025-08-18T15:47:15.547508] DEBUG: Exception in show_subtask_details: attempted relative import with no known parent package
+[2025-08-18T15:47:15.547508] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1379, in show_subtask_details
+    from .db import get_subtask_by_id
+ImportError: attempted relative import with no known parent package
+
+[2025-08-18T15:47:16.010515] DEBUG: ENTER show_subtask_details
+[2025-08-18T15:47:16.010515] DEBUG: Exception in show_subtask_details: attempted relative import with no known parent package
+[2025-08-18T15:47:16.011326] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1379, in show_subtask_details
+    from .db import get_subtask_by_id
+ImportError: attempted relative import with no known parent package
+
+[2025-08-18T15:47:16.147987] User opened subtask details: item=<b>LLM Integration</b>
+[2025-08-18T15:47:16.147987] DEBUG: ENTER show_subtask_details
+[2025-08-18T15:47:16.148996] DEBUG: Exception in show_subtask_details: attempted relative import with no known parent package
+[2025-08-18T15:47:16.149983] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1379, in show_subtask_details
+    from .db import get_subtask_by_id
+ImportError: attempted relative import with no known parent package
+
+[2025-08-18T15:47:16.706620] DEBUG: ENTER show_subtask_details
+[2025-08-18T15:47:16.707620] DEBUG: Exception in show_subtask_details: attempted relative import with no known parent package
+[2025-08-18T15:47:16.707620] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1379, in show_subtask_details
+    from .db import get_subtask_by_id
+ImportError: attempted relative import with no known parent package
+
+[2025-08-18T15:47:16.793923] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T15:47:16.794914] DEBUG: ENTER show_subtask_details
+[2025-08-18T15:47:16.794914] DEBUG: Exception in show_subtask_details: attempted relative import with no known parent package
+[2025-08-18T15:47:16.795911] Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 1379, in show_subtask_details
+    from .db import get_subtask_by_id
+ImportError: attempted relative import with no known parent package
+
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T16:56:34.501210] User 'user' logged in
+[2025-08-18T16:56:36.891696] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T16:56:36.891696] DEBUG: ENTER show_subtask_details
+[2025-08-18T16:56:36.891696] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T16:56:36.892695] DEBUG: Parsed subtask_id=39
+[2025-08-18T16:56:36.893702] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000002708AB61670>
+[2025-08-18T16:56:36.899701] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T16:56:36.899701] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x00000270F8832330>, type=<class '__main__.MainWindow'>
+[2025-08-18T16:56:36.900703] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x00000270F88323C0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
