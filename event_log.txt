@@ -2929,3 +2929,42 @@ AttributeError: 'SubtaskDetailPage' object has no attribute 'vcs_open_btn'. Did 
 [2025-08-18T20:50:49.018818] DEBUG: PRE-NAVIGATION BLOCK
 [2025-08-18T20:50:49.018818] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000001EC2713BB60>, type=<class '__main__.MainWindow'>
 [2025-08-18T20:50:49.018818] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000001EC2713BBF0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T20:54:35.161974] User 'user' logged in
+[2025-08-18T20:54:36.897779] DEBUG: ENTER show_subtask_details
+[2025-08-18T20:54:36.897779] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T20:54:36.898779] DEBUG: Parsed subtask_id=39
+[2025-08-18T20:54:36.900780] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x000001714C6A33B0>
+[2025-08-18T20:54:36.908384] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T20:54:36.908384] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x00000171459D7B60>, type=<class '__main__.MainWindow'>
+[2025-08-18T20:54:36.908384] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x00000171459D7BF0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T21:01:28.623885] User 'user' logged in
+[2025-08-18T21:01:30.144366] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T21:01:30.145237] DEBUG: ENTER show_subtask_details
+[2025-08-18T21:01:30.145237] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T21:01:30.146237] DEBUG: Parsed subtask_id=39
+[2025-08-18T21:01:30.148238] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x00000200A0211A00>
+[2025-08-18T21:01:30.156757] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T21:01:30.157759] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x000002009954BB60>, type=<class '__main__.MainWindow'>
+[2025-08-18T21:01:30.157759] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x000002009954BBF0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T21:04:43.770122] User 'user' logged in
+[2025-08-18T21:04:45.277358] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T21:04:45.277358] DEBUG: ENTER show_subtask_details
+[2025-08-18T21:04:45.278356] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T21:04:45.278356] DEBUG: Parsed subtask_id=39
+[2025-08-18T21:04:45.280819] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x0000021B026D29F0>
+[2025-08-18T21:04:45.291438] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T21:04:45.291438] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x0000021B7D0B7B60>, type=<class '__main__.MainWindow'>
+[2025-08-18T21:04:45.292399] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x0000021B7D0B7BF0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[DEBUG] db module imported: value=<module 'db' from 'C:\\Users\\KnightNight101\\UoR_APP\\Draft_2\\app\\db.py'>, type=<class 'module'>
+[2025-08-18T21:23:05.806133] User 'user' logged in
+[2025-08-18T21:23:07.591167] User opened subtask details: item=<b>check progress</b>
+[2025-08-18T21:23:07.592143] DEBUG: ENTER show_subtask_details
+[2025-08-18T21:23:07.593218] DEBUG: show_subtask_details called with item.data(32)=subtask:39
+[2025-08-18T21:23:07.593218] DEBUG: Parsed subtask_id=39
+[2025-08-18T21:23:07.595168] DEBUG: get_subtask_by_id(39) returned: <db.Subtask object at 0x0000019F3B4AA810>
+[2025-08-18T21:23:07.600204] DEBUG: PRE-NAVIGATION BLOCK
+[2025-08-18T21:23:07.600204] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x0000019F34827B60>, type=<class '__main__.MainWindow'>
+[2025-08-18T21:23:07.601207] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x0000019F34827BF0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
