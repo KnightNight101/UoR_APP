@@ -65,6 +65,7 @@ ApplicationWindow {
                         loginError = ""
                         // Load projects and tasks for the user before navigating
                         if (AuthManager.user && AuthManager.user.id) {
+                            console.log("DEBUG: After login, AuthManager.user =", AuthManager.user, "id =", AuthManager.user ? AuthManager.user.id : "undefined")
                             DashboardManager.loadProjects(AuthManager.user.id)
                             DashboardManager.loadTasks(AuthManager.user.id)
                             DashboardManager.loadMessages(AuthManager.user.id)
@@ -100,6 +101,9 @@ ApplicationWindow {
                     var tabNames = ["Dashboard", "Calendar", "Members", "Event Log"]
                     var tabName = tabNames[currentIndex] !== undefined ? tabNames[currentIndex] : "Unknown"
                     DashboardManager.logTabSwitch(tabName)
+                    if (tabName === "Event Log") {
+                        DashboardManager.loadEventLog(AuthManager.user ? AuthManager.user.id : 0)
+                    }
                 }
                 TabButton { text: "Dashboard" }
                 TabButton { text: "Calendar" }
@@ -107,32 +111,38 @@ ApplicationWindow {
                 TabButton { text: "Event Log" }
             }
 
-            ColumnLayout {
-                anchors.top: mainTabBar.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                spacing: 0
-
-                Loader {
-                    id: dashboardTabLoader
-                    active: currentTab === 0
-                    sourceComponent: dashboardTabContent
-                }
-                Loader {
-                    id: calendarTabLoader
-                    active: currentTab === 1
-                    sourceComponent: calendarTabContent
-                }
-                Loader {
-                    id: membersTabLoader
-                    active: currentTab === 2
-                    sourceComponent: membersTabContent
-                }
-                Loader {
-                    id: eventLogTabLoader
-                    active: currentTab === 3
-                    sourceComponent: eventLogTabContent
+            Item {
+                anchors.fill: parent
+                // Use an inner Item to center the dashboard content responsively
+                Item {
+                    id: dashboardCenter
+                    anchors.centerIn: parent
+                    width: Math.min(parent.width * 0.95, 1200)
+                    height: Math.min(parent.height * 0.95, 800)
+                    Loader {
+                        id: dashboardTabLoader
+                        anchors.fill: parent
+                        active: currentTab === 0
+                        sourceComponent: dashboardTabContent
+                    }
+                    Loader {
+                        id: calendarTabLoader
+                        anchors.fill: parent
+                        active: currentTab === 1
+                        sourceComponent: calendarTabContent
+                    }
+                    Loader {
+                        id: membersTabLoader
+                        anchors.fill: parent
+                        active: currentTab === 2
+                        sourceComponent: membersTabContent
+                    }
+                    Loader {
+                        id: eventLogTabLoader
+                        anchors.fill: parent
+                        active: currentTab === 3
+                        sourceComponent: eventLogTabContent
+                    }
                 }
             }
         }
@@ -161,6 +171,16 @@ ApplicationWindow {
                         Layout.alignment: Qt.AlignHCenter
                     }
                     Button {
+                        text: "Refresh Projects & Tasks"
+                        Layout.alignment: Qt.AlignHCenter
+                        onClicked: {
+                            if (AuthManager.user && AuthManager.user.id) {
+                                DashboardManager.loadProjects(AuthManager.user.id)
+                                DashboardManager.loadTasks(AuthManager.user.id)
+                            }
+                        }
+                    }
+                    Button {
                         text: "Add Project"
                         Layout.alignment: Qt.AlignHCenter
                         onClicked: stack.push(projectCreationPage)
@@ -170,25 +190,15 @@ ApplicationWindow {
                         width: parent.width / 3 * 0.9
                         height: 160
                         model: DashboardManager && DashboardManager.projects ? DashboardManager.projects : []
-                        delegate: Rectangle {
+                        delegate: Text {
+                            text: model.name
+                            font.pixelSize: 18
+                            font.bold: true
+                            color: "#333"
+                            horizontalAlignment: Text.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
                             width: projectListView.width
-                            height: 40
-                            color: "#f5f5f5"
-                            border.color: "#cccccc"
-                            radius: 4
-                            Row {
-                                anchors.verticalCenter: parent.verticalCenter
-                                spacing: 10
-                                Text { text: model.name; font.bold: true }
-                                Text { text: " | " + model.status }
-                                Button {
-                                    text: "Open"
-                                    onClicked: {
-                                        ProjectManager.loadProject(model.id)
-                                        stack.push(projectDetailPage)
-                                    }
-                                }
-                            }
+                            height: 32
                         }
                         Component.onCompleted: {
                             console.log("DashboardManager.projects:", DashboardManager.projects, typeof DashboardManager.projects)
@@ -237,8 +247,8 @@ ApplicationWindow {
                                         Button {
                                             text: "Details"
                                             onClicked: {
-                                                ProjectManager.loadTask(model.id)
-                                                stack.push(subtaskDetailPage)
+                                                ProjectManager.loadTaskDetail(model.id)
+                                                stack.push(taskDetailPage)
                                             }
                                         }
                                     }
@@ -290,7 +300,7 @@ ApplicationWindow {
                             Row {
                                 anchors.verticalCenter: parent.verticalCenter
                                 spacing: 10
-                                Text { text: model.sender + ": " + model.content }
+                                Text { text: (model.sender ? model.sender + ": " : "") + model.content }
                             }
                         }
                         Component.onCompleted: {
@@ -310,6 +320,7 @@ ApplicationWindow {
             property string createStatus: ""
             ColumnLayout {
                 anchors.centerIn: parent
+                anchors.margins: 32
                 spacing: 16
 
                 Label { text: "Create Project"; font.pixelSize: 22; Layout.alignment: Qt.AlignHCenter }
@@ -320,11 +331,12 @@ ApplicationWindow {
                     text: "Create"
                     Layout.fillWidth: true
                     onClicked: {
+                        console.log("DEBUG: Creating project with AuthManager.user =", AuthManager.user, "id =", AuthManager.userId)
                         ProjectManager.createProject(
                             projName.text,
                             projDesc.text,
                             projDeadline.text,
-                            AuthManager.user ? AuthManager.user.id : 0
+                            AuthManager.userId
                         )
                     }
                 }
@@ -361,6 +373,7 @@ ApplicationWindow {
 
             ColumnLayout {
                 anchors.centerIn: parent
+                anchors.margins: 32
                 spacing: 16
 
                 Label {
@@ -406,6 +419,7 @@ ApplicationWindow {
 
             ColumnLayout {
                 anchors.centerIn: parent
+                anchors.margins: 32
                 spacing: 16
 
                 Label {
@@ -473,6 +487,51 @@ ApplicationWindow {
         }
     }
 
+    // --- Task/Subtask Detail Page ---
+    Component {
+        id: taskDetailPage
+        Item {
+            id: taskDetailRoot
+            property var taskData: null
+            ColumnLayout {
+                anchors.centerIn: parent
+                anchors.margins: 32
+                spacing: 16
+                Label {
+                    text: taskData ? taskData.title : "Loading..."
+                    font.pixelSize: 22
+                    Layout.alignment: Qt.AlignHCenter
+                }
+                Label {
+                    text: taskData ? "Status: " + taskData.status : ""
+                    visible: taskData !== null
+                }
+                Label {
+                    text: taskData ? "Due: " + taskData.due_date : ""
+                    visible: taskData !== null && !!taskData.due_date
+                }
+                Label {
+                    text: taskData ? "Assigned to: " + taskData.assigned_to : ""
+                    visible: taskData !== null && !!taskData.assigned_to
+                }
+                Label {
+                    text: taskData ? taskData.description : ""
+                    visible: taskData !== null && !!taskData.description
+                }
+                Button {
+                    text: "Back"
+                    onClicked: stack.pop()
+                }
+            }
+            Connections {
+                target: ProjectManager
+                function onTaskDetailLoaded(detail) {
+                    taskDetailRoot.taskData = detail
+                }
+            }
+        }
+    }
+
     // --- Project Detail Page ---
     Component {
         id: projectDetailPage
@@ -482,6 +541,7 @@ ApplicationWindow {
 
             ColumnLayout {
                 anchors.centerIn: parent
+                anchors.margins: 32
                 spacing: 16
 
                 Label {
@@ -571,6 +631,7 @@ ApplicationWindow {
             Label {
                 text: "Calendar (placeholder)"
                 anchors.centerIn: parent
+                anchors.margins: 32
             }
         }
     }
@@ -583,6 +644,7 @@ ApplicationWindow {
             Label {
                 text: "Members & Users (placeholder)"
                 anchors.centerIn: parent
+                anchors.margins: 32
             }
         }
     }
@@ -593,7 +655,8 @@ ApplicationWindow {
         Item {
             anchors.fill: parent
             ColumnLayout {
-                anchors.fill: parent
+                anchors.centerIn: parent
+                anchors.margins: 32
                 spacing: 8
                 Label {
                     text: "Event Log"
