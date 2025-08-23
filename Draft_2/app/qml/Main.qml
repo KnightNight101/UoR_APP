@@ -22,6 +22,11 @@ ApplicationWindow {
 
     // Set solid white background for the window
     color: "white"
+    // Navigation state
+    property string currentPage: "dashboard" // "dashboard" or "eventlog"
+
+    // Reference to backend event log bridge
+    property var eventLogBridge: null
 
     // --- Login Flow Logic ---
     property bool loggedIn: false      // Tracks login state
@@ -135,7 +140,57 @@ ApplicationWindow {
     // --- Dashboard Page (visible when logged in) ---
     Item {
         anchors.fill: parent
-        visible: root.loggedIn
+        visible: root.loggedIn && root.currentPage === "dashboard"
+// Spherical user icon button in top right corner (dashboard only)
+Rectangle {
+    id: userIconButton
+    width: 48
+    height: 48
+    radius: 24
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.topMargin: 24
+    anchors.rightMargin: 32
+    color: "#ffffff"
+    border.color: "#2255aa"
+    border.width: 2
+    z: 10
+
+    // Spherical cropped image
+    Image {
+        id: userIconImg
+        source: "../../images/user.jpg"
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+        smooth: true
+        clip: true
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+        onClicked: userMenu.open()
+    }
+
+    // Popup menu
+    Menu {
+        id: userMenu
+        y: userIconButton.height + 8
+        x: -userMenu.width + userIconButton.width
+        MenuItem { text: "Profile" }
+        MenuItem { text: "Calendar" }
+        MenuItem { text: "File Manager" }
+        MenuItem {
+            text: "Event Log"
+            onTriggered: {
+                root.currentPage = "eventlog"
+                if (root.eventLogBridge) root.eventLogBridge.load_log()
+            }
+        }
+        MenuItem { text: "Settings" }
+        MenuItem { text: "Logout" }
+    }
+}
 
         // Center the dashboard group
         RowLayout {
@@ -155,29 +210,32 @@ ApplicationWindow {
                 height: dashboardRow.height
                 radius: 24
                 color: "#ffffff"
-                border.color: "#4488cc"
-                border.width: 2
-
-                // Subtle shadow
-                Rectangle {
+                border.color: "#2255aa"
+                border.width: 4
+                z: 1
+            
+                // Heading in top 10% area
+                Item {
                     width: parent.width
-                    height: parent.height
-                    radius: 24
-                    color: "#22000044"
-                    anchors.centerIn: parent
-                    anchors.verticalCenterOffset: 6
-                    z: parent.z - 1
-                }
-
-                // Heading
-                Text {
-                    text: "Projects"
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    height: parent.height * 0.1
                     anchors.top: parent.top
-                    anchors.topMargin: 32
-                    font.pixelSize: 22
-                    font.bold: true
-                    color: "#4488cc"
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "transparent"
+                        border.width: 0
+                    }
+                    Text {
+                        text: "Projects"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.top: parent.top
+                        anchors.topMargin: 8
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignTop
+                        font.pixelSize: 22
+                        font.bold: true
+                        color: "#2255aa"
+                        padding: 8
+                    }
                 }
             }
 
@@ -187,27 +245,31 @@ ApplicationWindow {
                 height: dashboardRow.height
                 radius: 24
                 color: "#ffffff"
-                border.color: "#4488cc"
-                border.width: 2
-
-                Rectangle {
+                border.color: "#2255aa"
+                border.width: 4
+                z: 1
+            
+                Item {
                     width: parent.width
-                    height: parent.height
-                    radius: 24
-                    color: "#22000044"
-                    anchors.centerIn: parent
-                    anchors.verticalCenterOffset: 6
-                    z: parent.z - 1
-                }
-
-                Text {
-                    text: "Today's TODO"
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    height: parent.height * 0.1
                     anchors.top: parent.top
-                    anchors.topMargin: 32
-                    font.pixelSize: 22
-                    font.bold: true
-                    color: "#4488cc"
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "transparent"
+                        border.width: 0
+                    }
+                    Text {
+                        text: "Today's TODO"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.top: parent.top
+                        anchors.topMargin: 8
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignTop
+                        font.pixelSize: 22
+                        font.bold: true
+                        color: "#2255aa"
+                        padding: 8
+                    }
                 }
             }
 
@@ -217,33 +279,132 @@ ApplicationWindow {
                 height: dashboardRow.height
                 radius: 24
                 color: "#ffffff"
-                border.color: "#4488cc"
-                border.width: 2
-
-                Rectangle {
+                border.color: "#2255aa"
+                border.width: 4
+                z: 1
+            
+                Item {
                     width: parent.width
-                    height: parent.height
-                    radius: 24
-                    color: "#22000044"
-                    anchors.centerIn: parent
-                    anchors.verticalCenterOffset: 6
-                    z: parent.z - 1
-                }
-
-                Text {
-                    text: "Messages"
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    height: parent.height * 0.1
                     anchors.top: parent.top
-                    anchors.topMargin: 32
-                    font.pixelSize: 22
-                    font.bold: true
-                    color: "#4488cc"
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "transparent"
+                        border.width: 0
+                    }
+                    Text {
+                        text: "Messages"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.top: parent.top
+                        anchors.topMargin: 8
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignTop
+                        font.pixelSize: 22
+                        font.bold: true
+                        color: "#2255aa"
+                        padding: 8
+                    }
                 }
             }
         }
     }
-    // --- All other code remains commented out below ---
-}
+        // --- Event Log Page (visible when logged in and currentPage is "eventlog") ---
+        Item {
+            anchors.fill: parent
+            visible: root.loggedIn && root.currentPage === "eventlog"
+    
+            Rectangle {
+                anchors.fill: parent
+                color: "#f5f7fa"
+            }
+    
+            Column {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                anchors.topMargin: 40
+                width: Math.min(parent.width * 0.8, 600)
+                spacing: 16
+    
+                // Heading
+                Text {
+                    text: "Event Log"
+                    font.pixelSize: 28
+                    font.bold: true
+                    color: "#2255aa"
+                    horizontalAlignment: Text.AlignHCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+    
+                // Scrollable event list
+                Flickable {
+                    id: eventLogFlick
+                    width: parent.width
+                    height: parent.height * 0.7
+                    contentHeight: eventLogRepeater.height
+                    clip: true
+    
+                    Rectangle {
+                        width: parent.width
+                        height: eventLogRepeater.height
+                        color: "transparent"
+    
+                        Column {
+                            id: eventLogRepeater
+                            width: parent.width
+                            Repeater {
+                                model: root.eventLogBridge ? root.eventLogBridge.eventLog : []
+                                delegate: Rectangle {
+                                    width: parent.width
+                                    height: 40
+                                    color: index % 2 === 0 ? "#ffffff" : "#e9eef6"
+                                    Row {
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        spacing: 12
+                                        Text {
+                                            text: model.timestamp
+                                            font.pixelSize: 14
+                                            color: "#888"
+                                            width: 160
+                                            elide: Text.ElideRight
+                                        }
+                                        Text {
+                                            text: model.description
+                                            font.pixelSize: 16
+                                            color: "#222"
+                                            elide: Text.ElideRight
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    
+            // Bottom right buttons
+            Row {
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.rightMargin: 32
+                anchors.bottomMargin: 32
+                spacing: 16
+    
+                Button {
+                    text: "Refresh"
+                    onClicked: {
+                        if (root.eventLogBridge) root.eventLogBridge.load_log()
+                    }
+                }
+                Button {
+                    text: "Top"
+                    onClicked: {
+                        eventLogFlick.contentY = 0
+                    }
+                }
+            }
+        }
+        // --- All other code remains commented out below ---
+    }
  
     // --- All other code remains commented out below ---
     /*

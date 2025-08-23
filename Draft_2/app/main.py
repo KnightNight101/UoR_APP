@@ -27,6 +27,38 @@
 import sys
 from PySide6.QtWidgets import QApplication
 from PySide6.QtQml import QQmlApplicationEngine
+from PySide6.QtCore import QObject, Signal, Slot, Property
+
+class EventLogBridge(QObject):
+    eventLogChanged = Signal()
+
+    def __init__(self):
+        super().__init__()
+        self._event_log = []
+        self.load_log()
+
+    @Slot()
+    def load_log(self):
+        try:
+            with open("event_log.txt", "r", encoding="utf-8") as f:
+                lines = f.readlines()
+            # Parse lines into dicts with timestamp and description
+            parsed = []
+            for line in lines:
+                if line.startswith("[") and "]" in line:
+                    ts_end = line.find("]")
+                    timestamp = line[1:ts_end]
+                    description = line[ts_end+2:].strip()
+                    parsed.append({"timestamp": timestamp, "description": description})
+            self._event_log = list(reversed(parsed[-200:]))  # Most recent at top
+            self.eventLogChanged.emit()
+        except Exception:
+            self._event_log = []
+            self.eventLogChanged.emit()
+
+    @Property(list, notify=eventLogChanged)
+    def eventLog(self):
+        return self._event_log
 from PySide6.QtCore import QUrl
 # 
 # sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
