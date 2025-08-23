@@ -3036,3 +3036,244 @@ AttributeError: 'SubtaskDetailPage' object has no attribute 'vcs_open_btn'. Did 
 [2025-08-23T18:27:26.335980] Project 'helloworld' created by user_id=2
 [2025-08-23T18:29:39.135432] User 'user' logged in
 [2025-08-23T18:31:22.036958] User 'user' logged in
+[2025-08-23T18:34:32.108769] User 'user' logged in
+[2025-08-23T18:34:33.838423] Project 'Demo Project' created by user_id=2
+[2025-08-23T18:34:38.415678] Project 'Demo Project' created by user_id=2
+[2025-08-23T18:34:38.566879] Project 'Demo Project' created by user_id=2
+[2025-08-23T18:34:38.744253] Project 'Demo Project' created by user_id=2
+[2025-08-23T18:37:02.026368] User 'user' logged in
+[2025-08-23T18:37:04.379934] Project 'Demo Project' created by user_id=2
+[2025-08-23T18:37:09.370823] Project 'Demo Project' created by user_id=2
+[2025-08-23T18:38:24.294059] User 'user' logged in
+[2025-08-23T18:38:26.719607] Project 'Demo Project' created by user_id=2
+[2025-08-23T18:39:37.557383] User 'user' logged in
+[2025-08-23T18:39:38.678171] Project 'Demo Project' created by user_id=2
+[2025-08-23T18:39:54.574528] Switched to tab: Calendar
+[2025-08-23T18:39:55.607120] Switched to tab: Dashboard
+[2025-08-23T18:39:56.183670] Switched to tab: Members
+[2025-08-23T18:39:57.307671] Switched to tab: Event Log
+[2025-08-23T18:42:16.051398] User 'user' logged in
+[2025-08-23T18:42:17.585057] Switched to tab: Event Log
+[2025-08-23T18:46:36.864675] User 'user' logged in
+[2025-08-23T18:46:36.878790] Navigated to page: Dashboard
+[2025-08-23T18:46:38.798639] Project 'Demo Project' created by user_id=2
+[2025-08-23T18:48:40.012758] User 'user' logged in
+[2025-08-23T18:48:40.030787] Navigated to page: Dashboard
+[2025-08-23T18:48:42.238713] Project 'Demo Project' created by user_id=2
+[2025-08-23T18:48:46.376154] Navigated to page: Messaging
+[2025-08-23T18:48:47.676496] Navigated to page: Dashboard
+[2025-08-23T18:48:49.636883] Switched to tab: Calendar
+[2025-08-23T18:48:50.717062] Switched to tab: Members
+[2025-08-23T18:48:51.736500] Switched to tab: Event Log
+[2025-08-23T18:48:52.864136] Switched to tab: Dashboard
+[2025-08-23T18:53:03.340096] User 'user' logged in
+[2025-08-23T18:53:03.357171] Navigated to page: Dashboard
+[2025-08-23T18:53:05.235147] Project 'Demo Project' created by user_id=2
+[2025-08-23T18:53:09.135040] Switched to tab: Calendar
+[2025-08-23T18:53:13.992432] Switched to tab: Members
+[2025-08-23T18:53:14.794790] Switched to tab: Event Log
+[2025-08-23T18:58:15.710323] User 'user' logged in
+[2025-08-23T18:58:15.729365] Navigated to page: Dashboard
+[2025-08-23T19:09:59.602163] User 'user' logged in
+[2025-08-23T19:09:59.621177] Navigated to page: Dashboard
+[2025-08-23T19:10:00.671534] Project 'Demo Project' created by user_id=2
+[2025-08-23T19:11:58.024599] User 'user' logged in
+[2025-08-23T19:11:58.039697] Navigated to page: Dashboard
+[2025-08-23T19:11:59.477874] Project 'Demo Project' created by user_id=2
+[2025-08-23T19:13:20.428341] User 'user' logged in
+[2025-08-23T19:13:20.446937] Navigated to page: Dashboard
+[2025-08-23T19:13:22.595029] Project 'Demo Project' created by user_id=2
+[2025-08-23T19:16:24.403458] User 'user' logged in
+[2025-08-23T19:16:24.423670] Navigated to page: Dashboard
+[2025-08-23T19:17:52.708756] User 'user' logged in
+[2025-08-23T19:17:52.725341] Navigated to page: Dashboard
+[2025-08-23T19:18:00.231358] Project 'Demo Project' created by user_id=2
+[2025-08-23T19:18:58.482748] User 'user' logged in
+[2025-08-23T19:18:58.499747] Navigated to page: Dashboard
+[2025-08-23T19:19:00.318047] Loaded projects for user_id=2, count=20
+[2025-08-23T19:19:05.573298] Navigated to page: Project Detail
+[2025-08-23T19:20:45.445423] User 'user' logged in
+[2025-08-23T19:20:45.462474] Navigated to page: Dashboard
+[2025-08-23T19:20:46.857857] Loaded projects for user_id=2, count=20
+[2025-08-23T19:20:48.933647] Navigated to page: Project Detail
+[2025-08-23T19:22:03.583340] User 'user' logged in
+[2025-08-23T19:22:03.615656] Navigated to page: Dashboard
+[2025-08-23T19:22:06.130621] Project 'Demo Project' created by user_id=2
+[2025-08-23T19:22:09.310678] Loaded projects for user_id=2, count=20
+[2025-08-23T19:22:09.332481] Navigated to page: Project Detail
+[2025-08-23T19:24:42.811335] User 'user' logged in
+[2025-08-23T19:24:42.826898] Navigated to page: Dashboard
+[ERROR] [2025-08-23T19:24:44.352203] Error loading projects for user_id=2: 'ProjectMember' object has no attribute 'username'
+Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 102, in loadProjects
+    self._projects = [self._project_to_dict(p) for p in projects]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 196, in _project_to_dict
+    "members": [ {"username": m.username} for m in getattr(p, "members", []) ] if hasattr(p, "members") and p.members else [],
+                              ^^^^^^^^^^
+AttributeError: 'ProjectMember' object has no attribute 'username'
+
+[2025-08-23T19:27:30.915085] User 'user' logged in
+[2025-08-23T19:27:30.928818] Navigated to page: Dashboard
+[ERROR] [2025-08-23T19:27:34.317923] Error loading projects for user_id=2: Parent instance <Project at 0x2b11bb4e4b0> is not bound to a Session; lazy load operation of attribute 'tasks' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 102, in loadProjects
+    self._projects = [self._project_to_dict(p) for p in projects]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 205, in _project_to_dict
+    } for t in getattr(p, "tasks", []) ] if hasattr(p, "tasks") and p.tasks else []
+                                            ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 566, in __get__
+    return self.impl.get(state, dict_)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 1086, in get
+    value = self._fire_loader_callables(state, key, passive)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 1121, in _fire_loader_callables
+    return self.callable_(state, passive)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\strategies.py", line 918, in _load_for_state
+    raise orm_exc.DetachedInstanceError(
+sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <Project at 0x2b11bb4e4b0> is not bound to a Session; lazy load operation of attribute 'tasks' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+
+[2025-08-23T19:29:08.901222] User 'user' logged in
+[2025-08-23T19:29:08.915353] Navigated to page: Dashboard
+[ERROR] [2025-08-23T19:29:12.478051] Error loading projects for user_id=2: Parent instance <Task at 0x2467ff40170> is not bound to a Session; lazy load operation of attribute 'subtasks' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 102, in loadProjects
+    self._projects = [self._project_to_dict(p) for p in projects]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 204, in _project_to_dict
+    "subtasks": [ {"title": st.title} for st in getattr(t, "subtasks", []) ] if hasattr(t, "subtasks") and t.subtasks else []
+                                                                                ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 566, in __get__
+    return self.impl.get(state, dict_)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 1086, in get
+    value = self._fire_loader_callables(state, key, passive)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 1121, in _fire_loader_callables
+    return self.callable_(state, passive)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\strategies.py", line 918, in _load_for_state
+    raise orm_exc.DetachedInstanceError(
+sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <Task at 0x2467ff40170> is not bound to a Session; lazy load operation of attribute 'subtasks' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+
+[2025-08-23T19:35:12.336196] User 'user' logged in
+[ERROR] [2025-08-23T19:35:12.379835] Error loading projects for user_id=2: Parent instance <Task at 0x1a63fe4b2f0> is not bound to a Session; lazy load operation of attribute 'subtasks' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 102, in loadProjects
+    self._projects = [self._project_to_dict(p) for p in projects]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 204, in _project_to_dict
+    "subtasks": [ {"title": st.title} for st in getattr(t, "subtasks", []) ] if hasattr(t, "subtasks") and t.subtasks else []
+                                                                                ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 566, in __get__
+    return self.impl.get(state, dict_)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 1086, in get
+    value = self._fire_loader_callables(state, key, passive)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 1121, in _fire_loader_callables
+    return self.callable_(state, passive)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\strategies.py", line 918, in _load_for_state
+    raise orm_exc.DetachedInstanceError(
+sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <Task at 0x1a63fe4b2f0> is not bound to a Session; lazy load operation of attribute 'subtasks' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+
+[2025-08-23T19:35:12.381851] Navigated to page: Dashboard
+[ERROR] [2025-08-23T19:35:15.397017] Error loading projects for user_id=2: Parent instance <Task at 0x1a640f85400> is not bound to a Session; lazy load operation of attribute 'subtasks' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 102, in loadProjects
+    self._projects = [self._project_to_dict(p) for p in projects]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 204, in _project_to_dict
+    "subtasks": [ {"title": st.title} for st in getattr(t, "subtasks", []) ] if hasattr(t, "subtasks") and t.subtasks else []
+                                                                                ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 566, in __get__
+    return self.impl.get(state, dict_)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 1086, in get
+    value = self._fire_loader_callables(state, key, passive)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 1121, in _fire_loader_callables
+    return self.callable_(state, passive)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\strategies.py", line 918, in _load_for_state
+    raise orm_exc.DetachedInstanceError(
+sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <Task at 0x1a640f85400> is not bound to a Session; lazy load operation of attribute 'subtasks' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+
+[2025-08-23T19:35:18.114914] Project 'Demo Project' created by user_id=2
+[ERROR] [2025-08-23T19:35:20.112425] Error loading projects for user_id=2: Parent instance <Task at 0x1a640fb51c0> is not bound to a Session; lazy load operation of attribute 'subtasks' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 102, in loadProjects
+    self._projects = [self._project_to_dict(p) for p in projects]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\main.py", line 204, in _project_to_dict
+    "subtasks": [ {"title": st.title} for st in getattr(t, "subtasks", []) ] if hasattr(t, "subtasks") and t.subtasks else []
+                                                                                ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 566, in __get__
+    return self.impl.get(state, dict_)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 1086, in get
+    value = self._fire_loader_callables(state, key, passive)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\attributes.py", line 1121, in _fire_loader_callables
+    return self.callable_(state, passive)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\strategies.py", line 918, in _load_for_state
+    raise orm_exc.DetachedInstanceError(
+sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <Task at 0x1a640fb51c0> is not bound to a Session; lazy load operation of attribute 'subtasks' cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+
+[2025-08-23T19:36:44.926020] User 'user' logged in
+[2025-08-23T19:36:44.962238] Loaded projects for user_id=2, count=20
+[2025-08-23T19:36:44.985394] Navigated to page: Project Detail
+[2025-08-23T19:36:44.987429] Navigated to page: Dashboard
+[2025-08-23T19:39:36.910666] User 'user' logged in
+[2025-08-23T19:39:36.953039] Loaded projects for user_id=2, count=20
+[2025-08-23T19:39:36.957039] Navigated to page: Dashboard
+[2025-08-23T19:40:28.131103] Navigated to page: Project Detail
+[2025-08-23T19:46:00.258100] User 'user' logged in
+[2025-08-23T19:46:00.310253] Loaded projects for user_id=2, count=20
+[2025-08-23T19:46:00.321860] Navigated to page: Dashboard
+[2025-08-23T19:46:01.605874] [DEBUG] ProjectManager.loadProjectDetail called with project_id=1, user_id=0
+[2025-08-23T19:46:01.613405] [DEBUG] ProjectManager.loadProjectDetail emitting detail: {'id': 1, 'name': "Master's Dissertation", 'description': '', 'deadline': '2025-09-05', 'owner': 'user', 'tasks': [{'id': 1, 'title': 'Literature Review', 'status': 'pending', 'due_date': '2025-08-18 00:00:00', 'description': None}, {'id': 2, 'title': 'Methodology', 'status': 'pending', 'due_date': '2025-08-17 00:00:00', 'description': None}]}
+[2025-08-23T19:46:01.620907] Navigated to page: Project Detail
+[2025-08-23T20:57:01.877185] User 'user' logged in
+[2025-08-23T20:57:02.199869] Loaded projects for user_id=2, count=20
+[2025-08-23T20:57:02.212527] Navigated to page: Dashboard
+[2025-08-23T20:57:10.130773] [DEBUG] ProjectManager.loadProjectDetail called with project_id=1, user_id=0
+[2025-08-23T20:57:10.137289] [DEBUG] ProjectManager.loadProjectDetail emitting detail: {'id': 1, 'name': "Master's Dissertation", 'description': '', 'deadline': '2025-09-05', 'owner': 'user', 'tasks': [{'id': 1, 'title': 'Literature Review', 'status': 'pending', 'due_date': '2025-08-18 00:00:00', 'description': None}, {'id': 2, 'title': 'Methodology', 'status': 'pending', 'due_date': '2025-08-17 00:00:00', 'description': None}]}
+[2025-08-23T20:57:10.141857] Navigated to page: Project Detail
+[2025-08-23T21:02:57.273417] Navigated to page: Dashboard
+[2025-08-23T21:02:59.079636] Switched to tab: Calendar
+[2025-08-23T21:03:01.779301] Switched to tab: Dashboard
+[2025-08-23T21:04:48.128901] [DEBUG] ProjectManager.createProject called with name=Demo Project, owner_id=2
+[2025-08-23T21:04:48.151902] Project 'Demo Project' created by user_id=2
+[2025-08-23T21:05:20.784725] Switched to tab: Calendar
+[2025-08-23T21:05:21.406650] Switched to tab: Dashboard
+[2025-08-23T21:07:44.636321] User 'user' logged in
+[2025-08-23T21:07:44.929557] Loaded projects for user_id=2, count=20
+[2025-08-23T21:07:44.937226] Navigated to page: Dashboard
+[2025-08-23T21:08:21.911316] Switched to tab: Event Log
+[2025-08-23T21:08:24.948058] Switched to tab: Dashboard
+[2025-08-23T21:12:34.212236] User 'user' logged in
+[2025-08-23T21:12:34.493473] Loaded projects for user_id=2, count=20
+[2025-08-23T21:12:34.499511] Navigated to page: Dashboard
+[2025-08-23T21:12:35.846570] Switched to tab: Calendar
+[2025-08-23T21:12:36.506825] Switched to tab: Dashboard
+[2025-08-23T21:15:06.435989] User 'user' logged in
+[2025-08-23T21:15:06.706814] Loaded projects for user_id=2, count=20
+[2025-08-23T21:15:06.714816] Navigated to page: Dashboard
+[2025-08-23T21:15:16.515102] Switched to tab: Calendar
+[2025-08-23T21:15:17.258117] Switched to tab: Dashboard
+[2025-08-23T21:18:22.297722] User 'user' logged in
+[2025-08-23T21:18:22.633541] Loaded projects for user_id=2, count=20
+[2025-08-23T21:18:22.644797] Navigated to page: Dashboard
+[2025-08-23T21:18:26.049026] Switched to tab: Calendar
+[2025-08-23T21:18:27.276853] Switched to tab: Dashboard
+[2025-08-23T21:20:08.992424] User 'user' logged in
+[2025-08-23T21:20:09.270649] Loaded projects for user_id=2, count=20
+[2025-08-23T21:20:09.279652] Navigated to page: Dashboard
+[2025-08-23T21:20:12.240141] Switched to tab: Calendar
+[2025-08-23T21:20:13.288227] Switched to tab: Dashboard

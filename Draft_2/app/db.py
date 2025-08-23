@@ -1026,7 +1026,8 @@ def get_user_projects(user_id: int, page: int = 1, limit: int = 20, search: Opti
             offset = (page - 1) * limit
             projects = query.options(
                 selectinload(Project.owner),
-                selectinload(Project.members).selectinload(ProjectMember.user)
+                selectinload(Project.members).selectinload(ProjectMember.user),
+                selectinload(Project.tasks).selectinload(Task.subtasks)
             ).offset(offset).limit(limit).all()
             
             # Get total count for pagination
@@ -1296,6 +1297,37 @@ def get_project_statistics(project_id: int, user_id: Optional[int] = None):
     except Exception as e:
         log_error(f"Error getting project statistics: {e}")
         return {}
+
+def update_project_leader(project_id: int, new_leader_id: int):
+    """
+    Assign/change the leader for a project.
+    Sets all other members' roles to 'member' except the owner.
+    """
+    try:
+        with SessionLocal() as session:
+            # Get all members except owner
+            members = session.query(ProjectMember).filter(
+                ProjectMember.project_id == project_id,
+                ProjectMember.role != 'owner'
+            ).all()
+            # Set all to 'member'
+            for m in members:
+                m.role = 'member'
+            # Set new leader
+            new_leader = session.query(ProjectMember).filter(
+                ProjectMember.project_id == project_id,
+                ProjectMember.user_id == new_leader_id
+            ).first()
+            if new_leader:
+                new_leader.role = 'leader'
+                session.commit()
+                log_event(f"Changed leader to user {new_leader_id} for project {project_id}")
+                return True
+            else:
+                return False
+    except Exception as e:
+        log_error(f"Error updating project leader: {e}")
+        return False
 
 def init_roles_and_permissions():
     """Initialize default roles and permissions."""
