@@ -1,3 +1,22 @@
+import datetime
+import traceback
+
+def log_event(event):
+    """Append event messages to the event log with timestamp."""
+    LOG_FILE = "event_log.txt"
+    timestamp = datetime.datetime.now().isoformat()
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(f"[{timestamp}] {event}\n")
+
+def log_error(error_msg):
+    """Append error messages to the event log and print to stderr."""
+    LOG_FILE = "event_log.txt"
+    timestamp = datetime.datetime.now().isoformat()
+    full_msg = f"[ERROR] [{timestamp}] {error_msg}"
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(full_msg + "\n")
+    print(full_msg)
+
 from PySide6.QtCore import QObject, Signal, Property
 
 class DashboardManager(QObject):
@@ -67,8 +86,10 @@ class AuthManager(QObject):
         user = authenticate_user(username, password)
         if user:
             self._user = user
+            log_event(f"User '{username}' logged in")
             self.loginResult.emit(True, "Login successful")
         else:
+            log_event(f"Failed login attempt for user '{username}'")
             self.loginResult.emit(False, "Invalid username or password")
 
     @Property(object)
@@ -90,26 +111,39 @@ class DashboardManager(QObject):
 
     @Slot(int)
     def loadProjects(self, user_id):
-        projects, _ = get_user_projects(user_id)
-        self._projects = [self._project_to_dict(p) for p in projects]
-        self.projectsChanged.emit()
+        try:
+            projects, _ = get_user_projects(user_id)
+            self._projects = [self._project_to_dict(p) for p in projects]
+            log_event(f"Loaded projects for user_id={user_id}")
+            self.projectsChanged.emit()
+        except Exception as e:
+            log_error(f"Error loading projects for user_id={user_id}: {e}\n{traceback.format_exc()}")
 
     @Slot(int)
     def loadTasks(self, user_id):
         tasks = get_user_tasks(user_id)
-        self._tasks = [self._task_to_dict(t) for t in tasks]
-        self.tasksChanged.emit()
+        try:
+            self._tasks = [self._task_to_dict(t) for t in tasks]
+            log_event(f"Loaded tasks for user_id={user_id}")
+            self.tasksChanged.emit()
+        except Exception as e:
+            log_error(f"Error loading tasks for user_id={user_id}: {e}\n{traceback.format_exc()}")
 
     @Slot(int)
     def loadMessages(self, user_id):
         messages = get_user_messages(user_id)
-        self._messages = [self._message_to_dict(m) for m in messages]
-        self.messagesChanged.emit()
+        try:
+            self._messages = [self._message_to_dict(m) for m in messages]
+            log_event(f"Loaded messages for user_id={user_id}")
+            self.messagesChanged.emit()
+        except Exception as e:
+            log_error(f"Error loading messages for user_id={user_id}: {e}\n{traceback.format_exc()}")
 
     @Slot(int, int, str)
     def sendMessage(self, sender_id, recipient_id, content):
         from db import create_message
         result = create_message(sender_id, recipient_id, content)
+        log_event(f"User {sender_id} sent message to {recipient_id}: '{content}'")
         # Optionally reload messages for sender after sending
         self.loadMessages(sender_id)
 
@@ -161,8 +195,10 @@ class ProjectManager(QObject):
         from db import create_project
         result = create_project(name, description, owner_id, [], deadline)
         if result:
+            log_event(f"Project '{name}' created by user_id={owner_id}")
             self.projectCreated.emit(True, "Project created successfully")
         else:
+            log_event(f"Failed to create project '{name}' by user_id={owner_id}")
             self.projectCreated.emit(False, "Failed to create project")
 
     @Slot(int)

@@ -24,7 +24,11 @@ ApplicationWindow {
             ColumnLayout {
                 anchors.centerIn: parent
                 spacing: 20
-
+                scale: loginScale
+            
+                // Logo at the top
+                // Logo removed
+            
                 Label {
                     text: qsTr("Login")
                     font.pixelSize: 28
@@ -49,7 +53,10 @@ ApplicationWindow {
                         AuthManager.login(username.text, password.text)
                     }
                 }
+                // Scaling/zoom controls for accessibility
+                // Zoom controls removed; now only available in the settings page
             }
+            property real loginScale: 1.0
             property string loginError: ""
             Connections {
                 target: AuthManager
@@ -81,20 +88,26 @@ ApplicationWindow {
         id: dashboardPage
         Item {
             property int currentTab: 0
-            ColumnLayout {
-                anchors.fill: parent
-                spacing: 0
+            // Move TabBar to the top of the dashboard page
+            TabBar {
+                id: mainTabBar
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+                currentIndex: parent.currentTab
+                onCurrentIndexChanged: parent.currentTab = currentIndex
+                TabButton { text: "Dashboard" }
+                TabButton { text: "Calendar" }
+                TabButton { text: "Members" }
+                TabButton { text: "Event Log" }
+            }
 
-                TabBar {
-                    id: mainTabBar
-                    Layout.fillWidth: true
-                    currentIndex: parent.currentTab
-                    onCurrentIndexChanged: parent.currentTab = currentIndex
-                    TabButton { text: "Dashboard" }
-                    TabButton { text: "Calendar" }
-                    TabButton { text: "Members" }
-                    TabButton { text: "Event Log" }
-                }
+            ColumnLayout {
+                anchors.top: mainTabBar.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                spacing: 0
 
                 Loader {
                     id: dashboardTabLoader
@@ -124,17 +137,28 @@ ApplicationWindow {
     Component {
         id: dashboardTabContent
         Item {
+            anchors.fill: parent
+            width: parent.width
+            height: parent.height
+            // Use RowLayout directly for 3 columns
             RowLayout {
                 anchors.fill: parent
                 spacing: 32
 
                 // Column 1: Projects
                 ColumnLayout {
-                    Layout.preferredWidth: parent.width / 3
+                    Layout.fillWidth: true
+                    spacing: 8
                     Label {
                         text: "Projects"
-                        font.pixelSize: 18
+                        font.pixelSize: 20
+                        font.bold: true
                         Layout.alignment: Qt.AlignHCenter
+                    }
+                    Button {
+                        text: "Add Project"
+                        Layout.alignment: Qt.AlignHCenter
+                        onClicked: stack.push(projectCreationPage)
                     }
                     ListView {
                         id: projectListView
@@ -165,22 +189,18 @@ ApplicationWindow {
                             console.log("DashboardManager.projects:", DashboardManager.projects, typeof DashboardManager.projects)
                         }
                     }
-                    Button {
-                        text: "Create Project"
-                        Layout.alignment: Qt.AlignHCenter
-                        onClicked: stack.push(projectCreationPage)
-                    }
                 }
 
-                // Column 2: Subtasks (4 categories, 4 rows)
+                // Column 2: Subtasks (4 categories, drag-and-drop)
                 ColumnLayout {
-                    Layout.preferredWidth: parent.width / 3
+                    Layout.fillWidth: true
                     Label {
                         text: "My Subtasks"
-                        font.pixelSize: 18
+                        font.pixelSize: 20
+                        font.bold: true
                         Layout.alignment: Qt.AlignHCenter
                     }
-                    // Four categories
+                    // Four categories, drag-and-drop support (placeholder for now)
                     Repeater {
                         model: [
                             { label: "Important and Urgent", key: "important_urgent" },
@@ -193,8 +213,10 @@ ApplicationWindow {
                             ListView {
                                 width: parent.width * 0.9
                                 height: 36
-                                model: DashboardManager.tasks ? DashboardManager.tasks : []
-                                // TODO: Filtering by category must be handled in Python or with a QML ListModel
+                                model: DashboardManager.tasks ? DashboardManager.tasks.filter(function(t) { return t.category === modelData.key }) : []
+                                interactive: true
+                                /* dragDropMode removed: not supported in QML ListView */
+                                /* Drag-and-drop handled by DropArea below */
                                 delegate: Rectangle {
                                     width: parent.width
                                     height: 32
@@ -217,17 +239,37 @@ ApplicationWindow {
                                     }
                                 }
                             }
+                            DropArea {
+                                anchors.fill: parent
+                                onDropped: {
+                                    if (drop && drop.source && drop.source.model && drop.source.model.id !== undefined) {
+                                        ProjectManager.updateSubtaskCategory(drop.source.model.id, modelData.key)
+                                        DashboardManager.loadTasks(AuthManager.user ? AuthManager.user.id : 0)
+                                    }
+                                }
+                            }
                         }
+                    }
+                    Button {
+                        text: "Add Subtask"
+                        Layout.alignment: Qt.AlignHCenter
+                        onClicked: stack.push(subtaskDetailPage)
                     }
                 }
 
                 // Column 3: Messages
                 ColumnLayout {
-                    Layout.preferredWidth: parent.width / 3
+                    Layout.fillWidth: true
                     Label {
                         text: "Messages"
-                        font.pixelSize: 18
+                        font.pixelSize: 20
+                        font.bold: true
                         Layout.alignment: Qt.AlignHCenter
+                    }
+                    Button {
+                        text: "Send Message"
+                        Layout.alignment: Qt.AlignHCenter
+                        onClicked: stack.push(messagingPage)
                     }
                     ListView {
                         id: messageListView
@@ -249,16 +291,6 @@ ApplicationWindow {
                         Component.onCompleted: {
                             console.log("DashboardManager.messages:", DashboardManager.messages, typeof DashboardManager.messages)
                         }
-                    }
-                    Button {
-                        text: "Send Message"
-                        Layout.alignment: Qt.AlignHCenter
-                        onClicked: stack.push(messagingPage)
-                    }
-                    Button {
-                        text: "Refresh"
-                        Layout.alignment: Qt.AlignHCenter
-                        onClicked: DashboardManager.loadMessages(AuthManager.user ? AuthManager.user.id : 0)
                     }
                 }
             }
@@ -552,9 +584,38 @@ ApplicationWindow {
         id: eventLogTabContent
         Item {
             anchors.fill: parent
-            Label {
-                text: "Event Log (placeholder)"
-                anchors.centerIn: parent
+            ColumnLayout {
+                anchors.fill: parent
+                spacing: 8
+                Label {
+                    text: "Event Log"
+                    font.pixelSize: 20
+                    font.bold: true
+                    Layout.alignment: Qt.AlignHCenter
+                }
+                ListView {
+                    width: parent.width * 0.95
+                    height: parent.height * 0.8
+                    model: DashboardManager.eventLog ? DashboardManager.eventLog : []
+                    delegate: Rectangle {
+                        width: parent.width
+                        height: 32
+                        color: "#f3e5f5"
+                        border.color: "#ab47bc"
+                        radius: 4
+                        Row {
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: 10
+                            Text { text: model.timestamp }
+                            Text { text: model.description }
+                        }
+                    }
+                }
+                Button {
+                    text: "Refresh"
+                    Layout.alignment: Qt.AlignHCenter
+                    onClicked: DashboardManager.loadEventLog(AuthManager.user ? AuthManager.user.id : 0)
+                }
             }
         }
     }
