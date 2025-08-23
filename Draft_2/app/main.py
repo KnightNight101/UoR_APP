@@ -19,47 +19,6 @@ def log_error(error_msg):
 
 from PySide6.QtCore import QObject, Signal, Property
 
-class DashboardManager(QObject):
-    projectsChanged = Signal()
-    tasksChanged = Signal()
-    messagesChanged = Signal()
-
-    def __init__(self):
-        super().__init__()
-        self._projects = []
-        self._tasks = []
-        self._messages = []
-
-    def getProjects(self):
-        return self._projects
-
-    def setProjects(self, value):
-        if value is None:
-            value = []
-        self._projects = value
-        self.projectsChanged.emit()
-
-    def getTasks(self):
-        return self._tasks
-
-    def setTasks(self, value):
-        if value is None:
-            value = []
-        self._tasks = value
-        self.tasksChanged.emit()
-
-    def getMessages(self):
-        return self._messages
-
-    def setMessages(self, value):
-        if value is None:
-            value = []
-        self._messages = value
-        self.messagesChanged.emit()
-
-    projects = Property(list, getProjects, setProjects, notify=projectsChanged)
-    tasks = Property(list, getTasks, setTasks, notify=tasksChanged)
-    messages = Property(list, getMessages, setMessages, notify=messagesChanged)
 # main.py - PySide6 QML migration entry point
 # -------------------------------------------
 # QML frontend, Python backend integration
@@ -151,17 +110,30 @@ class DashboardManager(QObject):
     def logTabSwitch(self, tab_name):
         log_event(f"Switched to tab: {tab_name}")
 
-    @Property(object, notify=projectsChanged)
+    @Property(list, notify=projectsChanged)
     def projects(self):
-        return self._projects
+        return self._projects if self._projects else []
 
-    @Property(object, notify=tasksChanged)
+    @Property(list, notify=tasksChanged)
     def tasks(self):
-        return self._tasks
+        return self._tasks if self._tasks else []
 
-    @Property(object, notify=messagesChanged)
+    @Property(list, notify=messagesChanged)
     def messages(self):
-        return self._messages
+        return self._messages if self._messages else []
+
+    def _tasksByCategory_notify(self):
+        self.tasksChanged.emit()
+
+    @Property(list, notify=tasksChanged)
+    def tasksByCategory(self):
+        # Returns a list of dicts: [{key: category_key, tasks: [tasks]}]
+        categories = ["important_urgent", "urgent", "important", "other"]
+        result = []
+        for key in categories:
+            filtered = [t for t in self._tasks if t.get("category", "other") == key]
+            result.append({"key": key, "tasks": filtered})
+        return result
 
     def _project_to_dict(self, p):
         return {
@@ -177,6 +149,8 @@ class DashboardManager(QObject):
             "title": t.title,
             "status": t.status,
             "due_date": str(t.due_date) if t.due_date else "",
+            "category": getattr(t, "category", "other"),
+            "projectName": getattr(t, "projectName", ""),
         }
 
     def _message_to_dict(self, m):

@@ -94,9 +94,9 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.right: parent.right
-                currentIndex: parent.currentTab
+                currentIndex: currentTab
                 onCurrentIndexChanged: {
-                    parent.currentTab = currentIndex
+                    currentTab = currentIndex
                     var tabNames = ["Dashboard", "Calendar", "Members", "Event Log"]
                     var tabName = tabNames[currentIndex] !== undefined ? tabNames[currentIndex] : "Unknown"
                     DashboardManager.logTabSwitch(tabName)
@@ -116,22 +116,22 @@ ApplicationWindow {
 
                 Loader {
                     id: dashboardTabLoader
-                    active: parent.currentTab === 0
+                    active: currentTab === 0
                     sourceComponent: dashboardTabContent
                 }
                 Loader {
                     id: calendarTabLoader
-                    active: parent.currentTab === 1
+                    active: currentTab === 1
                     sourceComponent: calendarTabContent
                 }
                 Loader {
                     id: membersTabLoader
-                    active: parent.currentTab === 2
+                    active: currentTab === 2
                     sourceComponent: membersTabContent
                 }
                 Loader {
                     id: eventLogTabLoader
-                    active: parent.currentTab === 3
+                    active: currentTab === 3
                     sourceComponent: eventLogTabContent
                 }
             }
@@ -169,7 +169,7 @@ ApplicationWindow {
                         id: projectListView
                         width: parent.width / 3 * 0.9
                         height: 160
-                        model: DashboardManager.projects ? DashboardManager.projects : []
+                        model: DashboardManager && DashboardManager.projects ? DashboardManager.projects : []
                         delegate: Rectangle {
                             width: projectListView.width
                             height: 40
@@ -218,7 +218,7 @@ ApplicationWindow {
                             ListView {
                                 width: parent.width * 0.9
                                 height: 36
-                                model: DashboardManager.tasks ? DashboardManager.tasks.filter(function(t) { return t.category === modelData.key }) : []
+                                model: DashboardManager && DashboardManager.tasksByCategory ? DashboardManager.tasksByCategory[modelData.key] || [] : []
                                 interactive: true
                                 /* dragDropMode removed: not supported in QML ListView */
                                 /* Drag-and-drop handled by DropArea below */
@@ -245,7 +245,7 @@ ApplicationWindow {
                                 }
                             }
                             DropArea {
-                                anchors.fill: parent
+                                Layout.alignment: Qt.AlignTop
                                 onDropped: {
                                     if (drop && drop.source && drop.source.model && drop.source.model.id !== undefined) {
                                         ProjectManager.updateSubtaskCategory(drop.source.model.id, modelData.key)
@@ -280,7 +280,7 @@ ApplicationWindow {
                         id: messageListView
                         width: parent.width / 3 * 0.9
                         height: 160
-                        model: DashboardManager.messages ? DashboardManager.messages : []
+                        model: DashboardManager && DashboardManager.messages ? DashboardManager.messages : []
                         delegate: Rectangle {
                             width: messageListView.width
                             height: 32
@@ -307,6 +307,7 @@ ApplicationWindow {
         id: projectCreationPage
         Item {
             anchors.fill: parent
+            property string createStatus: ""
             ColumnLayout {
                 anchors.centerIn: parent
                 spacing: 16
@@ -327,7 +328,6 @@ ApplicationWindow {
                         )
                     }
                 }
-                property string createStatus: ""
                 Connections {
                     target: ProjectManager
                     function onProjectCreated(success, message) {
@@ -336,7 +336,10 @@ ApplicationWindow {
                             projName.text = ""
                             projDesc.text = ""
                             projDeadline.text = ""
-                            // Optionally, navigate back to dashboard or refresh project list
+                            if (AuthManager.user && AuthManager.user.id) {
+                                DashboardManager.loadProjects(AuthManager.user.id)
+                            }
+                            stack.pop()
                         }
                     }
                 }
