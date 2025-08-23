@@ -95,7 +95,12 @@ ApplicationWindow {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 currentIndex: parent.currentTab
-                onCurrentIndexChanged: parent.currentTab = currentIndex
+                onCurrentIndexChanged: {
+                    parent.currentTab = currentIndex
+                    var tabNames = ["Dashboard", "Calendar", "Members", "Event Log"]
+                    var tabName = tabNames[currentIndex] !== undefined ? tabNames[currentIndex] : "Unknown"
+                    DashboardManager.logTabSwitch(tabName)
+                }
                 TabButton { text: "Dashboard" }
                 TabButton { text: "Calendar" }
                 TabButton { text: "Members" }

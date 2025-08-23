@@ -147,6 +147,10 @@ class DashboardManager(QObject):
         # Optionally reload messages for sender after sending
         self.loadMessages(sender_id)
 
+    @Slot(str)
+    def logTabSwitch(self, tab_name):
+        log_event(f"Switched to tab: {tab_name}")
+
     @Property(object, notify=projectsChanged)
     def projects(self):
         return self._projects
