@@ -55,25 +55,45 @@ class AuthManager(QObject):
     def user(self):
         return self._user
 
+    @Property(int)
+    def userId(self):
+        if self._user and hasattr(self._user, "id"):
+            # If self._user is a SQLAlchemy model instance, id is a value; if it's a class, it's a Column
+            user_id = getattr(self._user, "id", 0)
+            if hasattr(user_id, "__call__"):
+                # Defensive: if id is a callable (Column), return 0
+                return 0
+            try:
+                return int(user_id)
+            except Exception:
+                return 0
+        return 0
+
 # get_user_projects, get_user_tasks, get_user_messages are now imported above
 
 class DashboardManager(QObject):
     projectsChanged = Signal()
     tasksChanged = Signal()
     messagesChanged = Signal()
+    eventLogChanged = Signal()
 
     def __init__(self):
         super().__init__()
         self._projects = []
         self._tasks = []
         self._messages = []
+        self._event_log = []
 
     @Slot(int)
     def loadProjects(self, user_id):
         try:
             projects, _ = get_user_projects(user_id)
+            print(f"[DEBUG] loadProjects: user_id={user_id}, projects_found={len(projects)}")
+            for p in projects:
+                print(f"[DEBUG] Project loaded: id={p.id}, name={p.name}, owner_id={p.owner_id}")
             self._projects = [self._project_to_dict(p) for p in projects]
-            log_event(f"Loaded projects for user_id={user_id}")
+            print(f"[DEBUG] self._projects after load: {self._projects}")
+            log_event(f"Loaded projects for user_id={user_id}, count={len(projects)}")
             self.projectsChanged.emit()
         except Exception as e:
             log_error(f"Error loading projects for user_id={user_id}: {e}\n{traceback.format_exc()}")
@@ -110,6 +130,26 @@ class DashboardManager(QObject):
     def logTabSwitch(self, tab_name):
         log_event(f"Switched to tab: {tab_name}")
 
+    @Slot(int)
+    def loadEventLog(self, user_id):
+        try:
+            with open("event_log.txt", "r", encoding="utf-8") as f:
+                lines = f.readlines()
+            # Parse lines into dicts with timestamp and description
+            parsed = []
+            for line in lines:
+                if line.startswith("[") and "]" in line:
+                    ts_end = line.find("]")
+                    timestamp = line[1:ts_end]
+                    description = line[ts_end+2:].strip()
+                    parsed.append({"timestamp": timestamp, "description": description})
+            self._event_log = parsed[-200:]  # Show last 200 events
+            self.eventLogChanged.emit()
+        except Exception as e:
+            log_error(f"Error loading event log: {e}")
+            self._event_log = []
+            self.eventLogChanged.emit()
+
     @Property(list, notify=projectsChanged)
     def projects(self):
         return self._projects if self._projects else []
@@ -135,6 +175,10 @@ class DashboardManager(QObject):
             result.append({"key": key, "tasks": filtered})
         return result
 
+    @Property(list, notify=eventLogChanged)
+    def eventLog(self):
+        return self._event_log if self._event_log else []
+
     def _project_to_dict(self, p):
         return {
             "id": p.id,
@@ -159,6 +203,7 @@ class DashboardManager(QObject):
             "content": m.content,
             "timestamp": str(m.timestamp),
             "read": m.read,
+            "sender": getattr(m, "sender", ""),
         }
 
 class ProjectManager(QObject):
@@ -167,6 +212,26 @@ class ProjectManager(QObject):
     subtaskDetailLoaded = Signal(object)
     ganttDataLoaded = Signal(object)
     calendarDataLoaded = Signal(object)
+    taskDetailLoaded = Signal(object)
+
+    @Slot(int)
+    def loadTaskDetail(self, task_id):
+        from db import get_task_by_id
+        task = get_task_by_id(task_id)
+        if task:
+            detail = {
+                "id": task.id,
+                "title": task.title,
+                "status": task.status,
+                "due_date": str(task.due_date) if getattr(task, "due_date", None) not in (None, "") else "",
+                "description": task.description,
+                "assigned_to": getattr(task, "assigned_to", ""),
+                "category": getattr(task, "category", "other"),
+                "project_id": getattr(task, "project_id", None),
+            }
+            self.taskDetailLoaded.emit(detail)
+        else:
+            self.taskDetailLoaded.emit(None)
 
     @Slot(str, str, str, int)
     def createProject(self, name, description, deadline, owner_id):
@@ -257,7 +322,7 @@ class ProjectManager(QObject):
                 "title": subtask.title,
                 "description": subtask.description,
                 "status": subtask.status,
-                "due_date": str(subtask.due_date) if subtask.due_date else "",
+                "due_date": str(subtask.due_date) if getattr(subtask, "due_date", None) not in (None, "") else "",
                 "assigned_to": getattr(subtask.assignee, "username", ""),
                 "category": subtask.category,
             }

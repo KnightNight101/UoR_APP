@@ -942,7 +942,8 @@ def create_project(
             session.flush()  # Get project ID
 
             # Add owner as a member with 'owner' role
-            if owner_id:
+            # Always add owner as a member, even if owner_id is 0
+            if owner_id is not None:
                 owner_membership = ProjectMember(
                     project_id=project.id if not isinstance(project.id, Column) else project.id.default,
                     user_id=owner_id,
