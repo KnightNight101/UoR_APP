@@ -2976,3 +2976,24 @@ AttributeError: 'SubtaskDetailPage' object has no attribute 'vcs_open_btn'. Did 
 [2025-08-23T15:56:21.457261] Switched to tab: Members
 [2025-08-23T15:56:22.191992] Switched to tab: Event Log
 [2025-08-23T15:56:22.986699] Switched to tab: Dashboard
+[2025-08-23T16:01:36.266304] User 'user' logged in
+[2025-08-23T16:02:44.268057] User 'user' logged in
+[2025-08-23T16:04:26.185499] User 'user' logged in
+[2025-08-23T16:04:29.795743] Switched to tab: Calendar
+[2025-08-23T16:04:30.789448] Switched to tab: Dashboard
+[2025-08-23T16:04:37.753710] Project '' created by user_id=0
+[2025-08-23T16:04:46.722695] Project 'Trial 1' created by user_id=0
+[2025-08-23T16:04:55.589072] Project 'Trial 1' created by user_id=0
+[2025-08-23T16:32:47.751383] User 'user' logged in
+[2025-08-23T16:33:16.338629] Project 'Phase 1' created by user_id=0
+[2025-08-23T16:34:49.852599] User 'user' logged in
+[2025-08-23T16:35:04.108194] Project 'Ohase 2' created by user_id=0
+[2025-08-23T16:35:45.421738] Switched to tab: Calendar
+[2025-08-23T16:35:47.061174] Switched to tab: Members
+[2025-08-23T16:35:48.046800] Switched to tab: Event Log
+[2025-08-23T16:35:53.556604] Switched to tab: Dashboard
+[2025-08-23T16:36:22.557719] User 'user' logged in
+[2025-08-23T16:36:26.610380] Switched to tab: Calendar
+[2025-08-23T16:36:27.530797] Switched to tab: Dashboard
+[2025-08-23T17:32:57.302891] User 'user' logged in
+[2025-08-23T17:33:20.583270] Project 'New Project' created by user_id=0
