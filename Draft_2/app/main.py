@@ -1652,27 +1652,10 @@ class SubtaskDetailPage(QWidget):
         self._update_vcs_status_and_history()
 
     def _handle_edit_in_app(self):
-        """Open the selected ODF file in the ODFEditorWidget."""
-        from odf_editor_widget import ODFEditorWidget
+        """ODF editing in-app is no longer supported."""
         from PyQt5.QtWidgets import QMessageBox
-
-        item = self.file_list.currentItem()
-        if not item:
-            QMessageBox.warning(self, "No File Selected", "Please select a file to edit.")
-            return
-
-        import os
-        fname = item.text()
-        file_path = os.path.join(self._file_dir, fname)
-        if not os.path.exists(file_path):
-            QMessageBox.warning(self, "File Not Found", f"File does not exist:\n{file_path}")
-            return
-
-        # Launch the ODF editor as a dialog
-        editor = ODFEditorWidget(odf_path=file_path, parent=self)
-        editor.setWindowTitle(f"Editing: {fname}")
-        editor.setMinimumSize(800, 600)
-        editor.show()
+        QMessageBox.warning(self, "Feature Removed", "In-app ODF editing is no longer supported.")
+        return
 
     def _update_vcs_status_and_history(self):
         from vcs import VCS
@@ -1835,12 +1818,7 @@ class SubtaskDetailPage(QWidget):
                 vcs.add_and_commit(file_path, author, f"Initial commit for {filename}")
             except Exception as e:
                 log_error(f"VCS error (create): {e}")
-        # Open the new file in the in-app ODF editor
-        from odf_editor_widget import ODFEditorWidget
-        editor = ODFEditorWidget(odf_path=file_path, parent=self)
-        editor.setWindowTitle(f"Editing: {filename}")
-        editor.setMinimumSize(800, 600)
-        editor.show()
+        # In-app ODF editing is no longer supported.
         self._refresh_file_list()
 
     def _handle_upload_libreoffice_file(self):
@@ -1894,25 +1872,10 @@ class SubtaskDetailPage(QWidget):
             self._refresh_file_list()
 
     def _handle_open_libreoffice_file(self, item):
-        # Disabled: external editing not allowed. Use in-app editor instead.
-        from odf_editor_widget import ODFEditorWidget
+        # In-app ODF editing is no longer supported.
         from PyQt5.QtWidgets import QMessageBox
-        import os
-        file_id = item.data(32)
-        file_path = None
-        if file_id:
-            f = db.get_file_by_id(file_id)
-            if f:
-                file_path = f.filepath
-        if not file_path:
-            file_path = os.path.join(self._file_dir, item.text())
-        if not os.path.exists(file_path):
-            QMessageBox.warning(self, "File Not Found", f"File does not exist:\n{file_path}")
-            return
-        editor = ODFEditorWidget(odf_path=file_path, parent=self)
-        editor.setWindowTitle(f"Editing: {os.path.basename(file_path)}")
-        editor.setMinimumSize(800, 600)
-        editor.show()
+        QMessageBox.warning(self, "Feature Removed", "In-app ODF editing is no longer supported.")
+        return
 
     # def _launch_libreoffice(self, file_path):
     #     # Disabled: external editing not allowed.
