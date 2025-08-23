@@ -2968,3 +2968,4 @@ AttributeError: 'SubtaskDetailPage' object has no attribute 'vcs_open_btn'. Did 
 [2025-08-18T21:23:07.600204] DEBUG: PRE-NAVIGATION BLOCK
 [2025-08-18T21:23:07.600204] DEBUG: show_subtask_details direct main_window=<__main__.MainWindow object at 0x0000019F34827B60>, type=<class '__main__.MainWindow'>
 [2025-08-18T21:23:07.601207] DEBUG: mw.stack=<PyQt5.QtWidgets.QStackedWidget object at 0x0000019F34827BF0>, type=<class 'PyQt5.QtWidgets.QStackedWidget'>
+[2025-08-23T15:49:42.927316] User 'user' logged in
