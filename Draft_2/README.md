@@ -230,6 +230,29 @@ Draft_2/
 └── README.md                   # This file
 ```
 
+## QML Login Page UI
+
+The QML-based login page (`app/qml/Main.qml`) provides a simple, user-friendly authentication interface for the desktop client. Its structure and design rationale are as follows:
+
+- **ApplicationWindow**: Sets up the main window with a fixed size and a white background for a clean, modern look.
+- **Login State Properties**: Tracks login status, username, password, and error messages using QML properties.
+- **Login Page Layout**:
+  - The login form is centered using an `Item` and a rounded `Rectangle` with a blue border for visual focus.
+  - An optional shadow can be enabled for depth.
+  - The upper two-thirds of the login box displays the application logo, reinforcing branding.
+  - The lower third contains a vertical stack (`ColumnLayout`) of:
+    - Username and password fields (with password masking)
+    - A login button
+    - An error message area for invalid credentials
+- **Login Logic**: The login button checks for a non-empty username and a password of "password" (for demonstration). On success, the dashboard is shown; otherwise, an error message is displayed.
+- **Design Rationale**:
+  - The layout is responsive, with maximum width/height constraints for usability on various screen sizes.
+  - Visual hierarchy is established by separating branding (logo) from interaction (inputs).
+  - The use of QML's property bindings ensures real-time UI updates and a smooth user experience.
+  - All UI elements are styled for clarity and accessibility.
+
+For further customization or integration, see the detailed comments in [`Main.qml`](app/qml/Main.qml:1).
+
 ## Configuration
 
 ### Environment Variables
