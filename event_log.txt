@@ -2997,3 +2997,42 @@ AttributeError: 'SubtaskDetailPage' object has no attribute 'vcs_open_btn'. Did 
 [2025-08-23T16:36:27.530797] Switched to tab: Dashboard
 [2025-08-23T17:32:57.302891] User 'user' logged in
 [2025-08-23T17:33:20.583270] Project 'New Project' created by user_id=0
+[2025-08-23T17:35:59.370104] User 'user' logged in
+[2025-08-23T17:38:14.166817] User 'user' logged in
+[2025-08-23T17:38:30.115890] Project 'Another one, perhaps' created by user_id=0
+[2025-08-23T17:38:34.023196] Switched to tab: Calendar
+[2025-08-23T17:38:34.968476] Switched to tab: Dashboard
+[2025-08-23T17:44:19.750578] User 'user' logged in
+[2025-08-23T17:48:06.204041] User 'user' logged in
+[2025-08-23T17:52:48.794694] User 'user' logged in
+[2025-08-23T18:04:10.927762] User 'user' logged in
+[2025-08-23T18:04:40.977318] Project 'N13' created by user_id=2
+[2025-08-23T18:06:19.557212] User 'user' logged in
+[2025-08-23T18:06:38.495247] Project 'Hm' created by user_id=2
+[2025-08-23T18:06:40.672775] Switched to tab: Calendar
+[2025-08-23T18:06:42.028811] Switched to tab: Dashboard
+[2025-08-23T18:09:30.909461] User 'user' logged in
+[2025-08-23T18:09:34.779686] Project '' created by user_id=2
+[2025-08-23T18:09:41.461057] Switched to tab: Calendar
+[2025-08-23T18:09:41.790293] Switched to tab: Members
+[2025-08-23T18:09:42.166472] Switched to tab: Event Log
+[2025-08-23T18:13:34.218640] User 'user' logged in
+[2025-08-23T18:13:39.625220] Switched to tab: Calendar
+[2025-08-23T18:13:40.616455] Switched to tab: Members
+[2025-08-23T18:13:41.722103] Switched to tab: Event Log
+[2025-08-23T18:13:44.755512] Switched to tab: Dashboard
+[2025-08-23T18:15:18.557214] User 'user' logged in
+[2025-08-23T18:15:24.067039] Switched to tab: Calendar
+[2025-08-23T18:15:24.521467] Switched to tab: Dashboard
+[2025-08-23T18:15:25.429224] Switched to tab: Calendar
+[2025-08-23T18:15:25.932349] Switched to tab: Members
+[2025-08-23T18:15:26.481978] Switched to tab: Dashboard
+[2025-08-23T18:27:02.003122] User 'user' logged in
+[2025-08-23T18:27:06.065755] Switched to tab: Members
+[2025-08-23T18:27:07.011023] Switched to tab: Event Log
+[2025-08-23T18:27:08.258483] Switched to tab: Calendar
+[2025-08-23T18:27:09.559826] Switched to tab: Event Log
+[2025-08-23T18:27:11.010099] Switched to tab: Dashboard
+[2025-08-23T18:27:26.335980] Project 'helloworld' created by user_id=2
+[2025-08-23T18:29:39.135432] User 'user' logged in
+[2025-08-23T18:31:22.036958] User 'user' logged in
