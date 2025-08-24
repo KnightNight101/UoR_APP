@@ -157,13 +157,14 @@ ApplicationWindow {
             anchors.topMargin: 24
             anchors.rightMargin: 32
             z: 100
+            clip: true
 
             Image {
                 id: userImg
                 source: "../../images/user.jpg"
                 anchors.fill: parent
-                anchors.margins: 6
-                fillMode: Image.PreserveAspectFit
+                anchors.margins: 0
+                fillMode: Image.PreserveAspectCrop
                 smooth: true
             }
 
@@ -188,23 +189,122 @@ ApplicationWindow {
             }
         }
 
-        // Centered dashboard box (max 1500x900, 5:3 aspect ratio)
-        // Custom shadow using Rectangle, no QtGraphicalEffects
+        // Dashboard layout matching latest CSS coordinates and sizes
         Item {
-            anchors.centerIn: parent
+            width: 1500
+            height: 900
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
 
-
-            // Main dashboard box (visually distinct, empty)
+            // Sidebar (ProjectsBox)
             Rectangle {
-                id: dashboardBox
-                width: Math.min(parent.width, 1500)
-                height: Math.min(parent.height, 900)
-                anchors.centerIn: parent
-                color: "transparent"
-                border.color: "#2255aa"
-                border.width: 6
-                radius: 24
-                z: 1
+                id: sidebar
+                x: 0
+                y: 0
+                width: 444.44
+                height: 900
+                color: "#f8f9fa"
+                border.color: "#000"
+                border.width: 1
+                radius: 25
+
+                // Sidebar heading "Projects"
+                Text {
+                    text: "Projects"
+                    x: 0
+                    y: 35
+                    width: 223
+                    height: 70
+                    font.pixelSize: 58
+                    color: "#000"
+                    font.family: "Inter"
+                    font.bold: false
+                }
+            }
+
+            // Main area (ToDoListBox)
+            Rectangle {
+                id: mainContent
+                x: 500
+                y: 0
+                width: 1000
+                height: 900
+                color: "#fff"
+                border.color: "#000"
+                border.width: 1
+                radius: 25
+
+                // Main heading "To Do Today"
+                Text {
+                    text: "To Do Today"
+                    x: 328
+                    y: 35
+                    width: 344
+                    height: 70
+                    font.pixelSize: 58
+                    color: "#000"
+                    font.family: "Inter"
+                    font.bold: false
+                }
+
+                // Quadrant rectangles
+                Rectangle { // Important and Urgent
+                    x: 264
+                    y: 215
+                    width: 450
+                    height: 325
+                    color: "#f5f5f5"
+                    border.color: "#bbb"
+                    border.width: 1
+                    radius: 12
+                }
+                Rectangle { // Important
+                    x: 714
+                    y: 215
+                    width: 450
+                    height: 325
+                    color: "#f5f5f5"
+                    border.color: "#bbb"
+                    border.width: 1
+                    radius: 12
+                }
+                Rectangle { // Urgent
+                    x: 264
+                    y: 540
+                    width: 450
+                    height: 325
+                    color: "#f5f5f5"
+                    border.color: "#bbb"
+                    border.width: 1
+                    radius: 12
+                }
+                Rectangle { // Other
+                    x: 714
+                    y: 540
+                    width: 450
+                    height: 325
+                    color: "#f5f5f5"
+                    border.color: "#bbb"
+                    border.width: 1
+                    radius: 12
+                }
+
+                // Vertical divider (Divider 2)
+                Rectangle {
+                    x: 575
+                    y: 0
+                    width: 5
+                    height: 650
+                    color: "#000"
+                }
+                // Horizontal divider (Divider 1)
+                Rectangle {
+                    x: 250
+                    y: 325
+                    width: 650
+                    height: 5
+                    color: "#000"
+                }
             }
         }
     }
