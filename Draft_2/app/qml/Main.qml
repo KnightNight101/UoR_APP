@@ -273,15 +273,32 @@ Connections {
                     spacing: 0
 
                     // Sidebar heading "Projects"
-                    Text {
-                        text: "Projects"
-                        width: 223
+                    Row {
+                        spacing: 8
                         height: 70
-                        font.pixelSize: 58
-                        color: "#000"
-                        font.family: "Inter"
-                        font.bold: false
                         anchors.horizontalCenter: parent.horizontalCenter
+                        // Projects heading and blue "+" link
+                        Text {
+                            text: "Projects"
+                            font.pixelSize: 58
+                            color: "#000"
+                            font.family: "Inter"
+                            font.bold: false
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                        Text {
+                            text: "+"
+                            font.pixelSize: 58
+                            color: "#2255aa"
+                            font.family: "Inter"
+                            font.bold: true
+                            verticalAlignment: Text.AlignVCenter
+                            MouseArea {
+                                anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: root.currentPage = "createProject"
+                            }
+                        }
                     }
 
                     // Project list below heading (dynamic, selectable)
@@ -453,6 +470,88 @@ Connections {
                 anchors.leftMargin: 32
                 onClicked: root.currentPage = "dashboard"
                 z: 100
+            }
+
+            // Delete Project Button (top left, next to Dashboard)
+            Button {
+                id: deleteProjectBtn
+                text: "Delete Project"
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.topMargin: 24
+                anchors.leftMargin: 180
+                z: 100
+                onClicked: deleteProjectDialog.open()
+            }
+
+            // Delete Confirmation Dialog
+            Dialog {
+                id: deleteProjectDialog
+                modal: true
+                x: (parent.width - width) / 2
+                y: (parent.height - height) / 2
+                standardButtons: Dialog.NoButton
+                width: 340
+                height: 180
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: "#fff"
+                    radius: 12
+                    border.color: "#2255aa"
+                    border.width: 2
+
+                    Column {
+                        anchors.centerIn: parent
+                        spacing: 24
+
+                        Text {
+                            text: "Are you sure you want to delete this project?"
+                            font.pixelSize: 18
+                            color: "#222"
+                            horizontalAlignment: Text.AlignHCenter
+                            wrapMode: Text.WordWrap
+                            width: 300
+                        }
+
+                        Row {
+                            spacing: 24
+                            anchors.horizontalCenter: parent.horizontalCenter
+
+                            Button {
+                                text: "Cancel"
+                                onClicked: deleteProjectDialog.close()
+                            }
+                            Button {
+                                text: "Delete"
+                                onClicked: {
+                                    projectManager.deleteProject(root.selectedProjectId, AuthManager.userId)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    
+            // Listen for projectDeleted signal to handle UI after deletion
+            Connections {
+                target: projectManager
+                function onProjectDeleted(success, message) {
+                    if (success) {
+                        deleteProjectDialog.close()
+                        root.currentPage = "dashboard"
+                        dashboardManager.loadProjects(AuthManager.userId)
+                        if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                            log_event.log_event(message)
+                        }
+                    } else {
+                        // Optionally show error to user
+                        deleteProjectDialog.close()
+                        if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                            log_event.log_event("Project deletion failed: " + message)
+                        }
+                    }
+                }
             }
 
             // Project Title Heading
