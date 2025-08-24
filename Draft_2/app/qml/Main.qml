@@ -259,27 +259,102 @@ Rectangle {
                 border.color: "#2255aa"
                 border.width: 4
                 z: 1
-            
-                Item {
-                    width: parent.width
-                    height: parent.height * 0.1
-                    anchors.top: parent.top
-                    Rectangle {
-                        anchors.fill: parent
-                        color: "transparent"
-                        border.width: 0
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    spacing: 0
+
+                    // Heading
+                    Item {
+                        Layout.preferredHeight: parent.height * 0.1
+                        width: parent.width
+                        Rectangle {
+                            anchors.fill: parent
+                            color: "transparent"
+                            border.width: 0
+                        }
+                        Text {
+                            text: "Today's TODO"
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.top: parent.top
+                            anchors.topMargin: 8
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignTop
+                            font.pixelSize: 22
+                            font.bold: true
+                            color: "#2255aa"
+                            padding: 8
+                        }
                     }
-                    Text {
-                        text: "Today's TODO"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.top: parent.top
-                        anchors.topMargin: 8
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignTop
-                        font.pixelSize: 22
-                        font.bold: true
-                        color: "#2255aa"
-                        padding: 8
+
+                    // Four equally spaced sections
+                    Item {
+                        Layout.preferredHeight: parent.height * 0.225
+                        width: parent.width
+                        Column {
+                            anchors.fill: parent
+                            anchors.margins: 8
+                            spacing: 4
+                            Text {
+                                text: "important and urgent"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "#333"
+                                horizontalAlignment: Text.AlignHCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+                        }
+                    }
+                    Item {
+                        Layout.preferredHeight: parent.height * 0.225
+                        width: parent.width
+                        Column {
+                            anchors.fill: parent
+                            anchors.margins: 8
+                            spacing: 4
+                            Text {
+                                text: "important"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "#333"
+                                horizontalAlignment: Text.AlignHCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+                        }
+                    }
+                    Item {
+                        Layout.preferredHeight: parent.height * 0.225
+                        width: parent.width
+                        Column {
+                            anchors.fill: parent
+                            anchors.margins: 8
+                            spacing: 4
+                            Text {
+                                text: "urgent"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "#333"
+                                horizontalAlignment: Text.AlignHCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+                        }
+                    }
+                    Item {
+                        Layout.preferredHeight: parent.height * 0.225
+                        width: parent.width
+                        Column {
+                            anchors.fill: parent
+                            anchors.margins: 8
+                            spacing: 4
+                            Text {
+                                text: "other"
+                                font.pixelSize: 16
+                                font.bold: true
+                                color: "#333"
+                                horizontalAlignment: Text.AlignHCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+                        }
                     }
                 }
             }

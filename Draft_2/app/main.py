@@ -33,18 +33,33 @@ from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtCore import QObject, Signal, Slot, Property
 
 class EventLogEntry(QObject):
+    timestampChanged = Signal()
+    descriptionChanged = Signal()
+
     def __init__(self, timestamp, description):
         super().__init__()
         self._timestamp = timestamp
         self._description = description
 
-    @Property(str)
+    @Property(str, notify=timestampChanged)
     def timestamp(self):
         return self._timestamp
 
-    @Property(str)
+    @timestamp.setter
+    def timestamp(self, value):
+        if self._timestamp != value:
+            self._timestamp = value
+            self.timestampChanged.emit()
+
+    @Property(str, notify=descriptionChanged)
     def description(self):
         return self._description
+
+    @description.setter
+    def description(self, value):
+        if self._description != value:
+            self._description = value
+            self.descriptionChanged.emit()
 
 class EventLogBridge(QObject):
     eventLogChanged = Signal()
