@@ -142,255 +142,69 @@ ApplicationWindow {
     Item {
         anchors.fill: parent
         visible: root.loggedIn && root.currentPage === "dashboard"
-// Spherical user icon button in top right corner (dashboard only)
-Rectangle {
-    id: userIconButton
-    width: 48
-    height: 48
-    radius: 24
-    anchors.top: parent.top
-    anchors.right: parent.right
-    anchors.topMargin: 24
-    anchors.rightMargin: 32
-    color: "#ffffff"
-    border.color: "#2255aa"
-    border.width: 2
-    z: 10
 
-    // Spherical cropped image
-    Image {
-        id: userIconImg
-        source: "../../images/user.jpg"
-        anchors.fill: parent
-        fillMode: Image.PreserveAspectCrop
-        smooth: true
-        clip: true
-    }
+        // --- User Icon and Menu (top right) ---
+        Rectangle {
+            id: userIcon
+            width: 48
+            height: 48
+            radius: 24
+            color: "#e9eef6"
+            border.color: "#2255aa"
+            border.width: 2
+            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.topMargin: 24
+            anchors.rightMargin: 32
+            z: 100
 
-    MouseArea {
-        anchors.fill: parent
-        cursorShape: Qt.PointingHandCursor
-        onClicked: userMenu.open()
-    }
+            Image {
+                id: userImg
+                source: "../../images/user.jpg"
+                anchors.fill: parent
+                anchors.margins: 6
+                fillMode: Image.PreserveAspectFit
+                smooth: true
+            }
 
-    // Popup menu
-    Menu {
-        id: userMenu
-        y: userIconButton.height + 8
-        x: -userMenu.width + userIconButton.width
-        MenuItem { text: "Profile" }
-        MenuItem { text: "Calendar" }
-        MenuItem { text: "File Manager" }
-        MenuItem {
-            text: "Event Log"
-            onTriggered: {
-                if (typeof log_event.log_event === "function") log_event.log_event("Navigated to Event Log page")
-                root.currentPage = "eventlog"
-                if (root.eventLogBridge) root.eventLogBridge.load_log()
+            MouseArea {
+                id: userMouseArea
+                anchors.fill: parent
+                onClicked: userMenu.open()
+                cursorShape: Qt.PointingHandCursor
+            }
+
+            Menu {
+                id: userMenu
+                x: userIcon.width - width
+                y: userIcon.height
+                MenuItem { text: "Profile"; onTriggered: {/* TODO: Implement profile navigation */} }
+                MenuItem { text: "Calendar"; onTriggered: {/* TODO: Implement calendar navigation */} }
+                MenuItem { text: "File Manager"; onTriggered: {/* TODO: Implement file manager navigation */} }
+                MenuItem { text: "Event Log"; onTriggered: root.currentPage = "eventlog" }
+                MenuItem { text: "Settings"; onTriggered: {/* TODO: Implement settings navigation */} }
+                MenuSeparator { }
+                MenuItem { text: "Logout"; onTriggered: { root.loggedIn = false; root.loginUser = ""; root.loginPass = ""; root.currentPage = "dashboard"; } }
             }
         }
-        MenuItem { text: "Settings" }
-        MenuItem {
-            text: "Logout"
-            onTriggered: {
-                if (typeof log_event.log_event === "function") log_event.log_event("User '" + root.loginUser + "' logged out")
-                root.loggedIn = false
-                root.loginUser = ""
-                root.loginPass = ""
-                root.currentPage = "dashboard"
-            }
-        }
-    }
-}
 
-        // Center the dashboard group
-        RowLayout {
-            id: dashboardRow
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            width: implicitWidth
-            height: parent.height * 0.6
-            spacing: 32
+        // Centered dashboard box (max 1500x900, 5:3 aspect ratio)
+        // Custom shadow using Rectangle, no QtGraphicalEffects
+        Item {
+            anchors.centerIn: parent
 
-            // Dashboard Box Style
-            property int dashBoxWidth: 180
 
-            // Projects Box
+            // Main dashboard box (visually distinct, empty)
             Rectangle {
-                width: dashboardRow.dashBoxWidth
-                height: dashboardRow.height
-                radius: 24
-                color: "#ffffff"
+                id: dashboardBox
+                width: Math.min(parent.width, 1500)
+                height: Math.min(parent.height, 900)
+                anchors.centerIn: parent
+                color: "transparent"
                 border.color: "#2255aa"
-                border.width: 4
-                z: 1
-            
-                // Heading in top 10% area
-                Item {
-                    width: parent.width
-                    height: parent.height * 0.1
-                    anchors.top: parent.top
-                    Rectangle {
-                        anchors.fill: parent
-                        color: "transparent"
-                        border.width: 0
-                    }
-                    Text {
-                        text: "Projects"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.top: parent.top
-                        anchors.topMargin: 8
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignTop
-                        font.pixelSize: 22
-                        font.bold: true
-                        color: "#2255aa"
-                        padding: 8
-                    }
-                }
-            }
-
-            // TODO Box
-            Rectangle {
-                width: dashboardRow.dashBoxWidth
-                height: dashboardRow.height
+                border.width: 6
                 radius: 24
-                color: "#ffffff"
-                border.color: "#2255aa"
-                border.width: 4
                 z: 1
-
-                ColumnLayout {
-                    anchors.fill: parent
-                    spacing: 0
-
-                    // Heading
-                    Item {
-                        Layout.preferredHeight: parent.height * 0.1
-                        width: parent.width
-                        Rectangle {
-                            anchors.fill: parent
-                            color: "transparent"
-                            border.width: 0
-                        }
-                        Text {
-                            text: "Today's TODO"
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.top: parent.top
-                            anchors.topMargin: 8
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignTop
-                            font.pixelSize: 22
-                            font.bold: true
-                            color: "#2255aa"
-                            padding: 8
-                        }
-                    }
-
-                    // Four equally spaced sections
-                    Item {
-                        Layout.preferredHeight: parent.height * 0.225
-                        width: parent.width
-                        Column {
-                            anchors.fill: parent
-                            anchors.margins: 8
-                            spacing: 4
-                            Text {
-                                text: "important and urgent"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "#333"
-                                horizontalAlignment: Text.AlignHCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
-                        }
-                    }
-                    Item {
-                        Layout.preferredHeight: parent.height * 0.225
-                        width: parent.width
-                        Column {
-                            anchors.fill: parent
-                            anchors.margins: 8
-                            spacing: 4
-                            Text {
-                                text: "important"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "#333"
-                                horizontalAlignment: Text.AlignHCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
-                        }
-                    }
-                    Item {
-                        Layout.preferredHeight: parent.height * 0.225
-                        width: parent.width
-                        Column {
-                            anchors.fill: parent
-                            anchors.margins: 8
-                            spacing: 4
-                            Text {
-                                text: "urgent"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "#333"
-                                horizontalAlignment: Text.AlignHCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
-                        }
-                    }
-                    Item {
-                        Layout.preferredHeight: parent.height * 0.225
-                        width: parent.width
-                        Column {
-                            anchors.fill: parent
-                            anchors.margins: 8
-                            spacing: 4
-                            Text {
-                                text: "other"
-                                font.pixelSize: 16
-                                font.bold: true
-                                color: "#333"
-                                horizontalAlignment: Text.AlignHCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Messages Box
-            Rectangle {
-                width: dashboardRow.dashBoxWidth
-                height: dashboardRow.height
-                radius: 24
-                color: "#ffffff"
-                border.color: "#2255aa"
-                border.width: 4
-                z: 1
-            
-                Item {
-                    width: parent.width
-                    height: parent.height * 0.1
-                    anchors.top: parent.top
-                    Rectangle {
-                        anchors.fill: parent
-                        color: "transparent"
-                        border.width: 0
-                    }
-                    Text {
-                        text: "Messages"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.top: parent.top
-                        anchors.topMargin: 8
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignTop
-                        font.pixelSize: 22
-                        font.bold: true
-                        color: "#2255aa"
-                        padding: 8
-                    }
-                }
             }
         }
     }
