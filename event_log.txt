@@ -3440,3 +3440,50 @@ sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <Task at 0x1a640fb51c0
 [2025-08-24T18:08:20.948755] Opened project details: (Untitled Project)
 [2025-08-24T18:08:26.316787] User 'Nithin' logged in
 [2025-08-24T18:08:26.335939] User 'Nithin' logged in
+[2025-08-24T18:09:37.941380] User logged out (window closed)
+[2025-08-24T18:09:41.464352] Opened project details: (Untitled Project)
+[2025-08-24T18:09:48.981984] User 'Nithin' logged in
+[2025-08-24T18:09:49.004581] User 'Nithin' logged in
+[2025-08-24T18:09:50.510412] Navigated to page: createProject
+[2025-08-24T18:09:53.663720] Navigated to page: dashboard
+[2025-08-24T18:10:36.602032] Navigated to project details: Master's Dissertation
+[2025-08-24T18:10:36.652082] Navigated to page: projectDetails
+[2025-08-24T18:10:37.743289] Navigated to page: dashboard
+[2025-08-24T18:10:40.210515] User logged out (window closed)
+[2025-08-24T18:11:02.889478] Opened project details: (Untitled Project)
+[2025-08-24T18:11:07.888108] User 'Nithin' logged in
+[2025-08-24T18:11:07.913712] User 'Nithin' logged in
+[2025-08-24T18:11:09.746453] Navigated to page: createProject
+[2025-08-24T18:11:11.099053] Navigated to page: dashboard
+[2025-08-24T18:11:16.820782] Navigated to project details: Master's Dissertation
+[2025-08-24T18:11:16.873955] Navigated to page: projectDetails
+[2025-08-24T18:15:59.766765] Navigated to page: dashboard
+[2025-08-24T18:16:53.524413] Navigated to page: createProject
+[2025-08-24T18:16:55.084636] Navigated to page: dashboard
+[2025-08-24T18:20:07.671348] Navigated to project details: Master's Dissertation
+[2025-08-24T18:20:07.730384] Navigated to page: projectDetails
+[2025-08-24T18:23:21.035280] User logged out (window closed)
+[2025-08-24T18:23:21.098274] Navigated to page: dashboard
+[2025-08-24T18:23:25.258730] Opened project details: (Untitled Project)
+[2025-08-24T18:23:30.831906] User 'Nithin' logged in
+[2025-08-24T18:23:30.852961] User 'Nithin' logged in
+[2025-08-24T18:23:32.699937] Navigated to project details: Master's Dissertation
+[2025-08-24T18:23:32.759603] Navigated to page: projectDetails
+[2025-08-24T18:23:34.988271] Navigated to page: dashboard
+[2025-08-24T18:23:36.981213] Navigated to project details: (Untitled Project)
+[2025-08-24T18:23:37.042508] Navigated to page: projectDetails
+[2025-08-24T18:23:41.292029] Navigated to page: dashboard
+[2025-08-24T18:23:43.213084] Navigated to project details: (Untitled Project)
+[2025-08-24T18:23:43.275218] Navigated to page: projectDetails
+[2025-08-24T18:23:46.301943] Navigated to page: dashboard
+[2025-08-24T18:23:48.524826] Navigated to page: eventlog
+[2025-08-24T18:23:50.693101] Navigated to page: dashboard
+[2025-08-24T18:26:10.961452] User logged out (window closed)
+[2025-08-24T18:26:15.793519] Opened project details: (Untitled Project)
+[2025-08-24T18:26:20.494519] User 'Nithin' logged in
+[2025-08-24T18:26:20.521776] User 'Nithin' logged in
+[2025-08-24T18:26:22.958136] Navigated to project details: (Untitled Project)
+[2025-08-24T18:26:23.019826] Navigated to page: projectDetails
+[2025-08-24T18:26:25.295249] Project deleted: '' by user 'Nithin'
+[2025-08-24T18:26:25.296766] Navigated to page: dashboard
+[2025-08-24T18:26:25.397281] Project '' deleted.
