@@ -117,28 +117,15 @@ top: 540px;
 
 
 
-/* ToDoListBox */
-
-box-sizing: border-box;
-
-position: absolute;
-width: 1000px;
-height: 900px;
-left: 710px;
-top: 90px;
-
-border: 1px solid #000000;
-border-radius: 25px;
-
-
-/* Group 2 */
+/* Divider 1 */
 
 position: absolute;
 width: 650px;
-height: 650px;
+height: 0px;
 left: 885px;
-top: 215px;
+top: 540px;
 
+border: 5px solid #000000;
 
 
 /* Divider 2 */
@@ -153,15 +140,18 @@ border: 5px solid #000000;
 transform: rotate(90deg);
 
 
-/* Divider 1 */
+/* ToDoListBox */
+
+box-sizing: border-box;
 
 position: absolute;
-width: 650px;
-height: 0px;
-left: 885px;
-top: 540px;
+width: 1000px;
+height: 900px;
+left: 710px;
+top: 90px;
 
-border: 5px solid #000000;
+border: 1px solid #000000;
+border-radius: 25px;
 
 
 /* Ellipse 1 */
@@ -175,3 +165,4 @@ left: 1780px;
 top: 30px;
 
 border: 1px solid #000000;
+border-radius: 45px;
