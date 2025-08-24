@@ -119,6 +119,7 @@ ApplicationWindow {
                                     root.loggedIn = true
                                     root.loginError = ""
                                     root.visibility = "Maximized"
+                                    if (typeof log_event.log_event === "function") log_event.log_event("User '" + root.loginUser + "' logged in")
                                 } else {
                                     root.loginError = "Invalid credentials"
                                 }
@@ -183,12 +184,22 @@ Rectangle {
         MenuItem {
             text: "Event Log"
             onTriggered: {
+                if (typeof log_event.log_event === "function") log_event.log_event("Navigated to Event Log page")
                 root.currentPage = "eventlog"
                 if (root.eventLogBridge) root.eventLogBridge.load_log()
             }
         }
         MenuItem { text: "Settings" }
-        MenuItem { text: "Logout" }
+        MenuItem {
+            text: "Logout"
+            onTriggered: {
+                if (typeof log_event.log_event === "function") log_event.log_event("User '" + root.loginUser + "' logged out")
+                root.loggedIn = false
+                root.loginUser = ""
+                root.loginPass = ""
+                root.currentPage = "dashboard"
+            }
+        }
     }
 }
 
@@ -312,93 +323,107 @@ Rectangle {
         Item {
             anchors.fill: parent
             visible: root.loggedIn && root.currentPage === "eventlog"
-    
-            Rectangle {
-                anchors.fill: parent
-                color: "#f5f7fa"
-            }
-    
-            Column {
-                anchors.horizontalCenter: parent.horizontalCenter
+
+            // Top left back-to-dashboard button (visible on event log page)
+            Button {
+                text: "\u25C0 Dashboard"
                 anchors.top: parent.top
-                anchors.topMargin: 40
+                anchors.left: parent.left
+                anchors.topMargin: 24
+                anchors.leftMargin: 32
+                onClicked: root.currentPage = "dashboard"
+                z: 100
+            }
+
+            Rectangle {
+                id: eventLogBox
                 width: Math.min(parent.width * 0.8, 600)
-                spacing: 16
-    
-                // Heading
-                Text {
-                    text: "Event Log"
-                    font.pixelSize: 28
-                    font.bold: true
-                    color: "#2255aa"
-                    horizontalAlignment: Text.AlignHCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-    
-                // Scrollable event list
-                Flickable {
-                    id: eventLogFlick
-                    width: parent.width
-                    height: parent.height * 0.7
-                    contentHeight: eventLogRepeater.height
-                    clip: true
-    
-                    Rectangle {
+                height: Math.min(parent.height * 0.8, 500)
+                color: "#ffffff"
+                border.color: "#2255aa"
+                border.width: 3
+                radius: 24
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                z: 10
+
+                Column {
+                    anchors.fill: parent
+                    anchors.margins: 24
+                    spacing: 16
+
+                    // Heading
+                    Text {
+                        text: "Event Log"
+                        font.pixelSize: 28
+                        font.bold: true
+                        color: "#2255aa"
+                        horizontalAlignment: Text.AlignHCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
+                    // Scrollable event list
+                    Flickable {
+                        id: eventLogFlick
                         width: parent.width
-                        height: eventLogRepeater.height
-                        color: "transparent"
-    
-                        Column {
-                            id: eventLogRepeater
+                        height: parent.height - 80
+                        contentHeight: eventLogRepeater.height
+                        clip: true
+
+                        Rectangle {
                             width: parent.width
-                            Repeater {
-                                model: root.eventLogBridge ? root.eventLogBridge.eventLog : []
-                                delegate: Rectangle {
-                                    width: parent.width
-                                    height: 40
-                                    color: index % 2 === 0 ? "#ffffff" : "#e9eef6"
-                                    Row {
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        spacing: 12
-                                        Text {
-                                            text: model.timestamp
-                                            font.pixelSize: 14
-                                            color: "#888"
-                                            width: 160
-                                            elide: Text.ElideRight
-                                        }
-                                        Text {
-                                            text: model.description
-                                            font.pixelSize: 16
-                                            color: "#222"
-                                            elide: Text.ElideRight
+                            height: eventLogRepeater.height
+                            color: "transparent"
+
+                            Column {
+                                id: eventLogRepeater
+                                width: parent.width
+                                Repeater {
+                                    model: log_event ? log_event.eventLog : []
+                                    delegate: Rectangle {
+                                        width: parent.width
+                                        height: 40
+                                        color: index % 2 === 0 ? "#ffffff" : "#e9eef6"
+                                        Row {
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            spacing: 12
+                                            Text {
+                                                text: modelData.timestamp
+                                                font.pixelSize: 14
+                                                color: "#888"
+                                                width: 160
+                                                elide: Text.ElideRight
+                                            }
+                                            Text {
+                                                text: modelData.description
+                                                font.pixelSize: 16
+                                                color: "#222"
+                                                elide: Text.ElideRight
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                }
-            }
-    
-            // Bottom right buttons
-            Row {
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                anchors.rightMargin: 32
-                anchors.bottomMargin: 32
-                spacing: 16
-    
-                Button {
-                    text: "Refresh"
-                    onClicked: {
-                        if (root.eventLogBridge) root.eventLogBridge.load_log()
-                    }
-                }
-                Button {
-                    text: "Top"
-                    onClicked: {
-                        eventLogFlick.contentY = 0
+
+                    // Bottom row buttons
+                    Row {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        spacing: 16
+
+                        Button {
+                            text: "Refresh"
+                            onClicked: {
+                                if (log_event) log_event.load_log()
+                            }
+                        }
+                        Button {
+                            text: "Top"
+                            onClicked: {
+                                eventLogFlick.contentY = 0
+                            }
+                        }
                     }
                 }
             }

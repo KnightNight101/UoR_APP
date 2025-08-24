@@ -1,21 +1,24 @@
 # import datetime
 # import traceback
 # 
-# def log_event(event):
-#     """Append event messages to the event log with timestamp."""
-#     LOG_FILE = "event_log.txt"
-#     timestamp = datetime.datetime.now().isoformat()
-#     with open(LOG_FILE, "a", encoding="utf-8") as f:
-#         f.write(f"[{timestamp}] {event}\n")
-# 
-# def log_error(error_msg):
-#     """Append error messages to the event log and print to stderr."""
-#     LOG_FILE = "event_log.txt"
-#     timestamp = datetime.datetime.now().isoformat()
-#     full_msg = f"[ERROR] [{timestamp}] {error_msg}"
-#     with open(LOG_FILE, "a", encoding="utf-8") as f:
-#         f.write(full_msg + "\n")
-#     print(full_msg)
+import datetime
+
+def log_event(event):
+    """Append event messages to the event log with timestamp and print to terminal."""
+    LOG_FILE = "event_log.txt"
+    timestamp = datetime.datetime.now().isoformat()
+    print(f"[{timestamp}] {event}")
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(f"[{timestamp}] {event}\n")
+
+def log_error(error_msg):
+    """Append error messages to the event log and print to stderr."""
+    LOG_FILE = "event_log.txt"
+    timestamp = datetime.datetime.now().isoformat()
+    full_msg = f"[ERROR] [{timestamp}] {error_msg}"
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(full_msg + "\n")
+    print(full_msg)
 # 
 # from PySide6.QtCore import QObject, Signal, Property
 # 
@@ -28,6 +31,20 @@ import sys
 from PySide6.QtWidgets import QApplication
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtCore import QObject, Signal, Slot, Property
+
+class EventLogEntry(QObject):
+    def __init__(self, timestamp, description):
+        super().__init__()
+        self._timestamp = timestamp
+        self._description = description
+
+    @Property(str)
+    def timestamp(self):
+        return self._timestamp
+
+    @Property(str)
+    def description(self):
+        return self._description
 
 class EventLogBridge(QObject):
     eventLogChanged = Signal()
@@ -42,14 +59,13 @@ class EventLogBridge(QObject):
         try:
             with open("event_log.txt", "r", encoding="utf-8") as f:
                 lines = f.readlines()
-            # Parse lines into dicts with timestamp and description
             parsed = []
             for line in lines:
                 if line.startswith("[") and "]" in line:
                     ts_end = line.find("]")
                     timestamp = line[1:ts_end]
                     description = line[ts_end+2:].strip()
-                    parsed.append({"timestamp": timestamp, "description": description})
+                    parsed.append(EventLogEntry(timestamp, description))
             self._event_log = list(reversed(parsed[-200:]))  # Most recent at top
             self.eventLogChanged.emit()
         except Exception:
@@ -59,49 +75,73 @@ class EventLogBridge(QObject):
     @Property(list, notify=eventLogChanged)
     def eventLog(self):
         return self._event_log
+class LogEventBridge(QObject):
+    eventLogChanged = Signal()
+
+    def __init__(self, event_log_bridge):
+        super().__init__()
+        self._event_log_bridge = event_log_bridge
+        # Connect the underlying bridge's signal to this one
+        self._event_log_bridge.eventLogChanged.connect(self.eventLogChanged)
+
+    @Slot(str)
+    def log_event(self, event):
+        log_event(event)
+        # Reload the log and emit eventLogChanged so QML updates immediately
+        if hasattr(self._event_log_bridge, "load_log"):
+            self._event_log_bridge.load_log()
+
+    @Slot()
+    def load_log(self):
+        if hasattr(self._event_log_bridge, "load_log"):
+            self._event_log_bridge.load_log()
+
+    @Property(list, notify=eventLogChanged)
+    def eventLog(self):
+        return self._event_log_bridge.eventLog
 from PySide6.QtCore import QUrl
 # 
 # sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
-# from db import authenticate_user, get_user_projects, get_user_tasks, get_user_messages
+from db import authenticate_user, get_user_projects, get_user_tasks, get_user_messages
 # 
-# class AuthManager(QObject):
-#     loginResult = Signal(bool, str)  # success, message
-# 
-#     def __init__(self):
-#         super().__init__()
-#         self._user = None
-# 
-#     @Slot(str, str)
-#     def login(self, username, password):
-#         user = authenticate_user(username, password)
-#         if user:
-#             self._user = user
-#             self.userIdChanged.emit()
-#             log_event(f"User '{username}' logged in")
-#             self.loginResult.emit(True, "Login successful")
-#         else:
-#             log_event(f"Failed login attempt for user '{username}'")
-#             self.loginResult.emit(False, "Invalid username or password")
-# 
-#     @Property(object)
-#     def user(self):
-#         return self._user
-# 
-#     userIdChanged = Signal()
-# 
-#     @Property(int, notify=userIdChanged)
-#     def userId(self):
-#         if self._user and hasattr(self._user, "id"):
-#             # If self._user is a SQLAlchemy model instance, id is a value; if it's a class, it's a Column
-#             user_id = getattr(self._user, "id", 0)
-#             if hasattr(user_id, "__call__"):
-#                 # Defensive: if id is a callable (Column), return 0
-#                 return 0
-#             try:
-#                 return int(user_id)
-#             except Exception:
-#                 return 0
-#         return 0
+class AuthManager(QObject):
+    loginResult = Signal(bool, str)  # success, message
+
+    def __init__(self):
+        super().__init__()
+        self._user = None
+
+    @Slot(str, str)
+    def login(self, username, password):
+        user = authenticate_user(username, password)
+        if user:
+            self._user = user
+            self.userIdChanged.emit()
+            log_event(f"User '{username}' logged in")
+            self.loginResult.emit(True, "Login successful")
+        else:
+            log_event(f"Failed login attempt for user '{username}'")
+            self.loginResult.emit(False, "Invalid username or password")
+
+    @Property(object)
+    def user(self):
+        return self._user
+
+    userIdChanged = Signal()
+
+    @Property(int, notify=userIdChanged)
+    def userId(self):
+        if self._user and hasattr(self._user, "id"):
+            # If self._user is a SQLAlchemy model instance, id is a value; if it's a class, it's a Column
+            user_id = getattr(self._user, "id", 0)
+            if hasattr(user_id, "__call__"):
+                # Defensive: if id is a callable (Column), return 0
+                return 0
+            try:
+                return int(user_id)
+            except Exception:
+                return 0
+        return 0
 # 
 # # get_user_projects, get_user_tasks, get_user_messages are now imported above
 # 
@@ -113,7 +153,6 @@ from PySide6.QtCore import QUrl
 # 
 #     @Slot(str)
 #     def logNavigation(self, page_name):
-#         log_event(f"Navigated to page: {page_name}")
 # 
 #     def __init__(self):
 #         super().__init__()
@@ -132,43 +171,35 @@ from PySide6.QtCore import QUrl
 #                 print(f"[DEBUG] Project loaded: id={p.id}, name={p.name}, owner_id={p.owner_id}")
 #             self._projects = [self._project_to_dict(p) for p in projects]
 #             print(f"[DEBUG] self._projects after load: {self._projects}")
-#             log_event(f"Loaded projects for user_id={user_id}, count={len(projects)}")
 #             print("[DEBUG] Python: Emitting projectsChanged signal")
 #             self.projectsChanged.emit()
 #         except Exception as e:
-#             log_error(f"Error loading projects for user_id={user_id}: {e}\n{traceback.format_exc()}")
 # 
 #     @Slot(int)
 #     def loadTasks(self, user_id):
 #         tasks = get_user_tasks(user_id)
 #         try:
 #             self._tasks = [self._task_to_dict(t) for t in tasks]
-#             log_event(f"Loaded tasks for user_id={user_id}")
 #             self.tasksChanged.emit()
 #         except Exception as e:
-#             log_error(f"Error loading tasks for user_id={user_id}: {e}\n{traceback.format_exc()}")
 # 
 #     @Slot(int)
 #     def loadMessages(self, user_id):
 #         messages = get_user_messages(user_id)
 #         try:
 #             self._messages = [self._message_to_dict(m) for m in messages]
-#             log_event(f"Loaded messages for user_id={user_id}")
 #             self.messagesChanged.emit()
 #         except Exception as e:
-#             log_error(f"Error loading messages for user_id={user_id}: {e}\n{traceback.format_exc()}")
 # 
 #     @Slot(int, int, str)
 #     def sendMessage(self, sender_id, recipient_id, content):
 #         from db import create_message
 #         result = create_message(sender_id, recipient_id, content)
-#         log_event(f"User {sender_id} sent message to {recipient_id}: '{content}'")
 #         # Optionally reload messages for sender after sending
 #         self.loadMessages(sender_id)
 # 
 #     @Slot(str)
 #     def logTabSwitch(self, tab_name):
-#         log_event(f"Switched to tab: {tab_name}")
 # 
 #     @Slot(int)
 #     def loadEventLog(self, user_id):
@@ -186,7 +217,6 @@ from PySide6.QtCore import QUrl
 #             self._event_log = parsed[-200:]  # Show last 200 events
 #             self.eventLogChanged.emit()
 #         except Exception as e:
-#             log_error(f"Error loading event log: {e}")
 #             self._event_log = []
 #             self.eventLogChanged.emit()
 # 
@@ -311,10 +341,8 @@ from PySide6.QtCore import QUrl
 #         try:
 #             from db import get_project_members
 #             self._members = get_project_members(project_id)
-#             log_event(f"Loaded members for project_id={project_id}")
 #             self.membersChanged.emit()
 #         except Exception as e:
-#             log_error(f"Error loading members for project_id={project_id}: {e}")
 # 
 #     @Property(list, notify=membersChanged)
 #     def members(self):
@@ -333,10 +361,8 @@ from PySide6.QtCore import QUrl
 #         try:
 #             from db import add_project_member
 #             add_project_member(project_id, acting_user_id, new_member_id, role)
-#             log_event(f"Added user {new_member_id} as '{role}' to project {project_id} by user {acting_user_id}")
 #             self.loadProjectMembers(project_id)
 #         except Exception as e:
-#             log_error(f"Error adding member {new_member_id} to project {project_id}: {e}")
 # 
 #     @Slot(int, int)
 #     def assignProjectLeader(self, project_id, user_id):
@@ -344,17 +370,14 @@ from PySide6.QtCore import QUrl
 #         try:
 #             from db import update_project_leader
 #             update_project_leader(project_id, user_id)
-#             log_event(f"Changed leader to user {user_id} for project {project_id}")
 #             self.leaderChanged.emit()
 #             self.loadProjectMembers(project_id)
 #         except Exception as e:
-#             log_error(f"Error changing leader for project {project_id}: {e}")
 # 
 #     @Slot(int)
 #     def filterInfoByMember(self, user_id):
 #         """Emit signal to filter all info by member (for QML hover)."""
 #         self.filterByMember.emit(user_id)
-#         log_event(f"Filtered project info by member {user_id}")
 # 
 #     @Slot(int, str, str)
 #     def updateSubtaskCategory(self, subtask_id, from_category, to_category):
@@ -364,13 +387,10 @@ from PySide6.QtCore import QUrl
 #         try:
 #             from db import update_subtask_category
 #             update_subtask_category(subtask_id, to_category)
-#             log_event(f"Subtask {subtask_id} moved from '{from_category}' to '{to_category}'")
 #         except Exception as e:
-#             log_error(f"Failed to update subtask {subtask_id} category: {e}")
 # 
 #     @Slot(int)
 #     def loadTaskDetail(self, task_id):
-#         log_event(f"[DEBUG] ProjectManager.loadTaskDetail called with task_id={task_id}")
 #         from db import get_task_by_id
 #         task = get_task_by_id(task_id)
 #         if task:
@@ -384,22 +404,17 @@ from PySide6.QtCore import QUrl
 #                 "category": getattr(task, "category", "other"),
 #                 "project_id": getattr(task, "project_id", None),
 #             }
-#             log_event(f"[DEBUG] ProjectManager.loadTaskDetail emitting detail: {detail}")
 #             self.taskDetailLoaded.emit(detail)
 #         else:
-#             log_event(f"[DEBUG] ProjectManager.loadTaskDetail: No task found for id={task_id}")
 #             self.taskDetailLoaded.emit(None)
 # 
 #     @Slot(str, str, str, int)
 #     def createProject(self, name, description, deadline, owner_id):
-#         log_event(f"[DEBUG] ProjectManager.createProject called with name={name}, owner_id={owner_id}")
 #         from db import create_project
 #         result = create_project(name, description, owner_id, [], deadline)
 #         if result:
-#             log_event(f"Project '{name}' created by user_id={owner_id}")
 #             self.projectCreated.emit(True, "Project created successfully")
 #         else:
-#             log_event(f"Failed to create project '{name}' by user_id={owner_id}")
 #             self.projectCreated.emit(False, "Failed to create project")
 # 
 #     @Slot(int, int)
@@ -408,7 +423,6 @@ from PySide6.QtCore import QUrl
 #         Loads all tasks and subtasks for the project, including dependencies, durations, and assigned_to.
 #         If filter_user_id >= 0, only include tasks/subtasks assigned to that user.
 #         """
-#         log_event(f"[DEBUG] ProjectManager.loadGanttData called with project_id={project_id}, filter_user_id={filter_user_id}")
 #         from db import get_project_by_id, get_subtasks
 #         import json
 #         project = get_project_by_id(project_id)
@@ -468,10 +482,8 @@ from PySide6.QtCore import QUrl
 #                         "dependencies": st_deps,
 #                         "parent_task_id": st.task_id,
 #                     })
-#             log_event(f"[DEBUG] ProjectManager.loadGanttData emitting {len(items)} items")
 #             self.ganttDataLoaded.emit(items)
 #         else:
-#             log_event(f"[DEBUG] ProjectManager.loadGanttData: No project found for id={project_id}")
 #             self.ganttDataLoaded.emit([])
 # 
 #     @Slot(int, int)
@@ -480,7 +492,6 @@ from PySide6.QtCore import QUrl
 #         Loads all deadlines, tasks, subtasks, public holidays, and personal time off for all team members.
 #         If filter_user_id >= 0, only include items for that user.
 #         """
-#         log_event(f"[DEBUG] ProjectManager.loadCalendarData called with project_id={project_id}, filter_user_id={filter_user_id}")
 #         from db import get_project_by_id
 #         import json
 #         project = get_project_by_id(project_id)
@@ -525,15 +536,12 @@ from PySide6.QtCore import QUrl
 #                 events.extend([pto for pto in personal_time_off if pto["user_id"] == filter_user_id])
 #             else:
 #                 events.extend(personal_time_off)
-#             log_event(f"[DEBUG] ProjectManager.loadCalendarData emitting {len(events)} events")
 #             self.calendarDataLoaded.emit(events)
 #         else:
-#             log_event(f"[DEBUG] ProjectManager.loadCalendarData: No project found for id={project_id}")
 #             self.calendarDataLoaded.emit([])
 # 
 #     @Slot(int, int)
 #     def loadProjectDetail(self, project_id, user_id):
-#         log_event(f"[DEBUG] ProjectManager.loadProjectDetail called with project_id={project_id}, user_id={user_id}")
 #         from db import get_project_by_id
 #         project = get_project_by_id(project_id, user_id)
 #         if project:
@@ -555,10 +563,8 @@ from PySide6.QtCore import QUrl
 #                 "owner": getattr(project.owner, "username", ""),
 #                 "tasks": tasks,
 #             }
-#             log_event(f"[DEBUG] ProjectManager.loadProjectDetail emitting detail: {detail}")
 #             self.projectDetailLoaded.emit(detail)
 #         else:
-#             log_event(f"[DEBUG] ProjectManager.loadProjectDetail: No project found for id={project_id}")
 #             self.projectDetailLoaded.emit(None)
 # 
 #     @Slot(int)
@@ -597,10 +603,8 @@ from PySide6.QtCore import QUrl
 #                 hours=hours,
 #                 dependencies=dep_list
 #             )
-#             log_event(f"Task '{title}' added to project {project_id} by user {assigned_to}")
 #             self.loadProjectDetail(project_id, assigned_to)
 #         except Exception as e:
-#             log_error(f"Error adding task to project {project_id}: {e}")
 # 
 #     @Slot(int, int, str, str, int, float, object)
 #     def editTask(self, task_id, project_id, title, description, assigned_to, hours, dependencies):
@@ -617,10 +621,8 @@ from PySide6.QtCore import QUrl
 #                 hours=hours,
 #                 dependencies=dep_list
 #             )
-#             log_event(f"Task {task_id} updated in project {project_id}")
 #             self.loadProjectDetail(project_id, assigned_to)
 #         except Exception as e:
-#             log_error(f"Error editing task {task_id}: {e}")
 # 
 #     @Slot(int, int)
 #     def deleteTask(self, task_id, project_id):
@@ -628,10 +630,8 @@ from PySide6.QtCore import QUrl
 #         try:
 #             from db import delete_task
 #             delete_task(task_id)
-#             log_event(f"Task {task_id} deleted from project {project_id}")
 #             self.loadProjectDetail(project_id, self._get_current_user_id())
 #         except Exception as e:
-#             log_error(f"Error deleting task {task_id}: {e}")
 # 
 #     @Slot(int, int, str, str, int, float, object)
 #     def addSubtask(self, task_id, project_id, title, description, assigned_to, hours, dependencies):
@@ -650,10 +650,8 @@ from PySide6.QtCore import QUrl
 #                 hours=hours,
 #                 dependencies=dep_list
 #             )
-#             log_event(f"Subtask '{title}' added to task {task_id} in project {project_id} by user {assigned_to}")
 #             self.loadProjectDetail(project_id, assigned_to)
 #         except Exception as e:
-#             log_error(f"Error adding subtask to task {task_id}: {e}")
 # 
 #     @Slot(int, int)
 #     def deleteSubtask(self, subtask_id, project_id):
@@ -661,10 +659,8 @@ from PySide6.QtCore import QUrl
 #         try:
 #             from db import delete_subtask
 #             delete_subtask(subtask_id)
-#             log_event(f"Subtask {subtask_id} deleted from project {project_id}")
 #             self.loadProjectDetail(project_id, self._get_current_user_id())
 #         except Exception as e:
-#             log_error(f"Error deleting subtask {subtask_id}: {e}")
 # 
 #     def _get_current_user_id(self):
 #         try:
@@ -686,6 +682,11 @@ if __name__ == "__main__":
     engine = QQmlApplicationEngine()
 
     # Load the main QML file
+    # Expose log_event to QML
+    event_log_bridge = EventLogBridge()
+    log_event_bridge = LogEventBridge(event_log_bridge)
+    engine.rootContext().setContextProperty("log_event", log_event_bridge)
+     
     qml_file = QUrl.fromLocalFile("Draft_2/app/qml/Main.qml")
     engine.load(qml_file)
 

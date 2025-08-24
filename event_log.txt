@@ -3277,3 +3277,24 @@ sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <Task at 0x1a640fb51c0
 [2025-08-23T21:20:09.279652] Navigated to page: Dashboard
 [2025-08-23T21:20:12.240141] Switched to tab: Calendar
 [2025-08-23T21:20:13.288227] Switched to tab: Dashboard
+[2025-08-24T01:16:20.580051] User 'Nithin' logged in
+[2025-08-24T01:16:27.514628] Navigated to Event Log page
+[2025-08-24T01:16:36.851632] User 'Nithin' logged out
+[2025-08-24T01:19:34.476706] User 'Nithin' logged in
+[2025-08-24T01:19:37.144814] Navigated to Event Log page
+[2025-08-24T01:23:07.671584] User 'Nithin' logged in
+[2025-08-24T01:23:10.027491] Navigated to Event Log page
+[2025-08-24T01:25:49.771458] User 'Nithin' logged in
+[2025-08-24T01:25:52.556254] Navigated to Event Log page
+[2025-08-24T01:28:01.681080] User 'Nithin' logged in
+[2025-08-24T01:28:11.140840] Navigated to Event Log page
+[2025-08-24T01:29:59.867422] User 'Nithin' logged in
+[2025-08-24T01:30:02.024185] Navigated to Event Log page
+[2025-08-24T01:31:49.462295] User 'Nithin' logged out
+[2025-08-24T01:32:52.646078] User 'Nithin' logged in
+[2025-08-24T01:32:54.697954] Navigated to Event Log page
+[2025-08-24T01:37:14.135461] User 'Nithin' logged in
+[2025-08-24T01:37:17.380248] Navigated to Event Log page
+[2025-08-24T01:37:25.434837] User 'Nithin' logged out
+[2025-08-24T01:38:43.109925] User 'Nithin' logged in
+[2025-08-24T01:38:47.753534] Navigated to Event Log page
