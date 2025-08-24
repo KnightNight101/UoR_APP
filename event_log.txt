@@ -3685,3 +3685,9 @@ sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <Task at 0x1a640fb51c0
 [2025-08-24T21:42:56.311851] User 'Nithin' logged in
 [2025-08-24T21:42:56.325854] User 'Nithin' logged in
 [2025-08-24T21:43:02.930747] Navigated to page: calendar
+[2025-08-24T21:44:02.596167] User logged out (window closed)
+[2025-08-24T21:44:02.665702] Navigated to page: dashboard
+[2025-08-24T21:44:16.272763] Opened project details: (Untitled Project)
+[2025-08-24T21:44:24.399613] User 'Nithin' logged in
+[2025-08-24T21:44:24.414123] User 'Nithin' logged in
+[2025-08-24T21:44:28.492457] Navigated to page: calendar
