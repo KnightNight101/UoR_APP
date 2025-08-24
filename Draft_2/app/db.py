@@ -835,6 +835,14 @@ def get_user_by_id(user_id: int):
     except Exception as e:
         log_error(f"Error getting user by ID: {e}")
         return None
+def get_all_users():
+    """Return all User objects."""
+    try:
+        with SessionLocal() as session:
+            return session.query(User).all()
+    except Exception as e:
+        log_error(f"Error getting all users: {e}")
+        return []
 
 def store_refresh_token(user_id: int, token: str, expires_at: datetime) -> bool:
     """Store a refresh token for a user."""

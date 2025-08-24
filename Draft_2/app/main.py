@@ -2,6 +2,7 @@
 # import traceback
 # 
 import datetime
+from PySide6.QtCore import QObject, Signal, Slot, Property
 
 def log_event(event):
     """Append event messages to the event log with timestamp and print to terminal."""
@@ -30,6 +31,33 @@ def log_error(error_msg):
 import sys
 from PySide6.QtWidgets import QApplication
 from PySide6.QtQml import QQmlApplicationEngine
+class UserManager(QObject):
+    usersChanged = Signal()
+
+    def __init__(self):
+        super().__init__()
+        self._users = []
+        self.loadUsers()
+
+    @Slot()
+    def loadUsers(self):
+        try:
+            from db import get_all_users
+            self._users = [self._user_to_dict(u) for u in get_all_users()]
+            self.usersChanged.emit()
+        except Exception:
+            self._users = []
+            self.usersChanged.emit()
+
+    @Property(list, notify=usersChanged)
+    def users(self):
+        return self._users
+
+    def _user_to_dict(self, u):
+        return {
+            "id": getattr(u, "id", 0),
+            "username": getattr(u, "username", ""),
+        }
 from PySide6.QtCore import QObject, Signal, Slot, Property
 
 class EventLogEntry(QObject):
@@ -157,6 +185,53 @@ class AuthManager(QObject):
             except Exception:
                 return 0
         return 0
+class DashboardManager(QObject):
+    projectsChanged = Signal()
+
+    def __init__(self):
+        super().__init__()
+        self._projects = []
+
+    @Slot(int)
+    def loadProjects(self, user_id):
+        try:
+            projects, _ = get_user_projects(user_id)
+            print(f"[DEBUG] loadProjects: user_id={user_id}, projects_found={len(projects)}")
+            for p in projects:
+                print(f"[DEBUG] Project loaded: id={getattr(p, 'id', None)}, name={getattr(p, 'name', None)}")
+            self._projects = [self._project_to_dict(p) for p in projects]
+            self.projectsChanged.emit()
+        except Exception as e:
+            print(f"[DEBUG] loadProjects exception: {e}")
+            self._projects = []
+            self.projectsChanged.emit()
+
+    def _projectsChanged(self):
+        pass
+
+    @Property(list, notify=projectsChanged)
+    def projects(self):
+        import copy
+        fresh = [copy.deepcopy(p) for p in self._projects] if self._projects else []
+        return fresh
+
+    def _project_to_dict(self, p):
+        def safe_str(val):
+            try:
+                return str(val)
+            except Exception:
+                return ""
+        def safe_int(val):
+            try:
+                return int(val)
+            except Exception:
+                return 0
+        return {
+            "id": safe_int(getattr(p, "id", 0)),
+            "name": safe_str(getattr(p, "name", "")),
+            "description": safe_str(getattr(p, "description", "")),
+            "deadline": safe_str(getattr(p, "deadline", "")),
+        }
 # 
 # # get_user_projects, get_user_tasks, get_user_messages are now imported above
 # 
@@ -334,359 +409,369 @@ class AuthManager(QObject):
 #             "sender": getattr(m, "sender", ""),
 #         }
 # 
-# class ProjectManager(QObject):
-#     projectCreated = Signal(bool, str)
-#     projectDetailLoaded = Signal(object)
-#     subtaskDetailLoaded = Signal(object)
-#     ganttDataLoaded = Signal(object)
-#     calendarDataLoaded = Signal(object)
-#     taskDetailLoaded = Signal(object)
-#     membersChanged = Signal()
-#     leaderChanged = Signal()
-#     filterByMember = Signal(int)
-# 
-#     def __init__(self):
-#         super().__init__()
-#         self._members = []
-#         self._leader_id = None
-# 
-#     @Slot(int)
-#     def loadProjectMembers(self, project_id):
-#         """Load members for a project and emit membersChanged."""
-#         try:
-#             from db import get_project_members
-#             self._members = get_project_members(project_id)
-#             self.membersChanged.emit()
-#         except Exception as e:
-# 
-#     @Property(list, notify=membersChanged)
-#     def members(self):
-#         return [
-#             {
-#                 "user_id": getattr(m, "user_id", None),
-#                 "username": getattr(getattr(m, "user", None), "username", ""),
-#                 "role": getattr(m, "role", ""),
-#             }
-#             for m in self._members
-#         ] if self._members else []
-# 
-#     @Slot(int, int, int, str)
-#     def addProjectMember(self, project_id, acting_user_id, new_member_id, role):
-#         """Add a member to a project (acting_user_id is the user performing the action)."""
-#         try:
-#             from db import add_project_member
-#             add_project_member(project_id, acting_user_id, new_member_id, role)
-#             self.loadProjectMembers(project_id)
-#         except Exception as e:
-# 
-#     @Slot(int, int)
-#     def assignProjectLeader(self, project_id, user_id):
-#         """Assign/change the leader for a project."""
-#         try:
-#             from db import update_project_leader
-#             update_project_leader(project_id, user_id)
-#             self.leaderChanged.emit()
-#             self.loadProjectMembers(project_id)
-#         except Exception as e:
-# 
-#     @Slot(int)
-#     def filterInfoByMember(self, user_id):
-#         """Emit signal to filter all info by member (for QML hover)."""
-#         self.filterByMember.emit(user_id)
-# 
-#     @Slot(int, str, str)
-#     def updateSubtaskCategory(self, subtask_id, from_category, to_category):
-#         """
-#         Update the category of a subtask and log the move event.
-#         """
-#         try:
-#             from db import update_subtask_category
-#             update_subtask_category(subtask_id, to_category)
-#         except Exception as e:
-# 
-#     @Slot(int)
-#     def loadTaskDetail(self, task_id):
-#         from db import get_task_by_id
-#         task = get_task_by_id(task_id)
-#         if task:
-#             detail = {
-#                 "id": task.id,
-#                 "title": task.title,
-#                 "status": task.status,
-#                 "due_date": str(task.due_date) if getattr(task, "due_date", None) not in (None, "") else "",
-#                 "description": task.description,
-#                 "assigned_to": getattr(task, "assigned_to", ""),
-#                 "category": getattr(task, "category", "other"),
-#                 "project_id": getattr(task, "project_id", None),
-#             }
-#             self.taskDetailLoaded.emit(detail)
-#         else:
-#             self.taskDetailLoaded.emit(None)
-# 
-#     @Slot(str, str, str, int)
-#     def createProject(self, name, description, deadline, owner_id):
-#         from db import create_project
-#         result = create_project(name, description, owner_id, [], deadline)
-#         if result:
-#             self.projectCreated.emit(True, "Project created successfully")
-#         else:
-#             self.projectCreated.emit(False, "Failed to create project")
-# 
-#     @Slot(int, int)
-#     def loadGanttData(self, project_id, filter_user_id=-1):
-#         """
-#         Loads all tasks and subtasks for the project, including dependencies, durations, and assigned_to.
-#         If filter_user_id >= 0, only include tasks/subtasks assigned to that user.
-#         """
-#         from db import get_project_by_id, get_subtasks
-#         import json
-#         project = get_project_by_id(project_id)
-#         if project:
-#             items = []
-#             # Tasks
-#             for t in getattr(project, "tasks", []):
-#                 if filter_user_id >= 0 and getattr(t, "assigned_to", None) != filter_user_id:
-#                     continue
-#                 end = t.due_date
-#                 duration = t.hours if hasattr(t, "hours") and t.hours else 1
-#                 start = None
-#                 if end and duration:
-#                     from datetime import timedelta
-#                     start = end - timedelta(hours=duration)
-#                 # Parse dependencies
-#                 deps = []
-#                 if getattr(t, "dependencies", None):
-#                     try:
-#                         deps = json.loads(t.dependencies)
-#                     except Exception:
-#                         deps = []
-#                 items.append({
-#                     "type": "task",
-#                     "id": t.id,
-#                     "title": t.title,
-#                     "start": str(start) if start else "",
-#                     "end": str(end) if end else "",
-#                     "duration": duration,
-#                     "assigned_to": getattr(t, "assigned_to", None),
-#                     "dependencies": deps,
-#                 })
-#                 # Subtasks
-#                 for st in getattr(t, "subtasks", []):
-#                     if filter_user_id >= 0 and getattr(st, "assigned_to", None) != filter_user_id:
-#                         continue
-#                     st_end = st.due_date
-#                     st_duration = st.hours if hasattr(st, "hours") and st.hours else 1
-#                     st_start = None
-#                     if st_end and st_duration:
-#                         from datetime import timedelta
-#                         st_start = st_end - timedelta(hours=st_duration)
-#                     st_deps = []
-#                     if getattr(st, "dependencies", None):
-#                         try:
-#                             st_deps = json.loads(st.dependencies)
-#                         except Exception:
-#                             st_deps = []
-#                     items.append({
-#                         "type": "subtask",
-#                         "id": st.id,
-#                         "title": st.title,
-#                         "start": str(st_start) if st_start else "",
-#                         "end": str(st_end) if st_end else "",
-#                         "duration": st_duration,
-#                         "assigned_to": getattr(st, "assigned_to", None),
-#                         "dependencies": st_deps,
-#                         "parent_task_id": st.task_id,
-#                     })
-#             self.ganttDataLoaded.emit(items)
-#         else:
-#             self.ganttDataLoaded.emit([])
-# 
-#     @Slot(int, int)
-#     def loadCalendarData(self, project_id, filter_user_id=-1):
-#         """
-#         Loads all deadlines, tasks, subtasks, public holidays, and personal time off for all team members.
-#         If filter_user_id >= 0, only include items for that user.
-#         """
-#         from db import get_project_by_id
-#         import json
-#         project = get_project_by_id(project_id)
-#         # Demo: static public holidays and time off
-#         public_holidays = [
-#             {"type": "holiday", "title": "New Year's Day", "date": "2025-01-01"},
-#             {"type": "holiday", "title": "Good Friday", "date": "2025-04-18"},
-#             {"type": "holiday", "title": "Christmas Day", "date": "2025-12-25"},
-#         ]
-#         personal_time_off = [
-#             {"type": "pto", "user_id": 2, "title": "Alice PTO", "date": "2025-08-28"},
-#             {"type": "pto", "user_id": 3, "title": "Bob PTO", "date": "2025-09-02"},
-#         ]
-#         if project:
-#             events = []
-#             # Tasks
-#             for t in getattr(project, "tasks", []):
-#                 if filter_user_id >= 0 and getattr(t, "assigned_to", None) != filter_user_id:
-#                     continue
-#                 events.append({
-#                     "type": "task",
-#                     "id": t.id,
-#                     "title": t.title,
-#                     "due_date": str(t.due_date) if t.due_date else "",
-#                     "assigned_to": getattr(t, "assigned_to", None),
-#                 })
-#                 # Subtasks
-#                 for st in getattr(t, "subtasks", []):
-#                     if filter_user_id >= 0 and getattr(st, "assigned_to", None) != filter_user_id:
-#                         continue
-#                     events.append({
-#                         "type": "subtask",
-#                         "id": st.id,
-#                         "title": st.title,
-#                         "due_date": str(st.due_date) if st.due_date else "",
-#                         "assigned_to": getattr(st, "assigned_to", None),
-#                         "parent_task_id": st.task_id,
-#                     })
-#             # Add public holidays and PTO (filter PTO by user if needed)
-#             events.extend(public_holidays)
-#             if filter_user_id >= 0:
-#                 events.extend([pto for pto in personal_time_off if pto["user_id"] == filter_user_id])
-#             else:
-#                 events.extend(personal_time_off)
-#             self.calendarDataLoaded.emit(events)
-#         else:
-#             self.calendarDataLoaded.emit([])
-# 
-#     @Slot(int, int)
-#     def loadProjectDetail(self, project_id, user_id):
-#         from db import get_project_by_id
-#         project = get_project_by_id(project_id, user_id)
-#         if project:
-#             # Convert project and its tasks to dict for QML
-#             tasks = []
-#             for t in getattr(project, "tasks", []):
-#                 tasks.append({
-#                     "id": t.id,
-#                     "title": t.title,
-#                     "status": t.status,
-#                     "due_date": str(t.due_date) if t.due_date else "",
-#                     "description": t.description,
-#                 })
-#             detail = {
-#                 "id": project.id,
-#                 "name": project.name,
-#                 "description": project.description,
-#                 "deadline": project.deadline,
-#                 "owner": getattr(project.owner, "username", ""),
-#                 "tasks": tasks,
-#             }
-#             self.projectDetailLoaded.emit(detail)
-#         else:
-#             self.projectDetailLoaded.emit(None)
-# 
-#     @Slot(int)
-#     def loadSubtaskDetail(self, subtask_id):
-#         from db import get_subtask_by_id
-#         subtask = get_subtask_by_id(subtask_id)
-#         if subtask:
-#             detail = {
-#                 "id": subtask.id,
-#                 "title": subtask.title,
-#                 "description": subtask.description,
-#                 "status": subtask.status,
-#                 "due_date": str(subtask.due_date) if getattr(subtask, "due_date", None) not in (None, "") else "",
-#                 "assigned_to": getattr(subtask.assignee, "username", ""),
-#                 "category": subtask.category,
-#             }
-#             self.subtaskDetailLoaded.emit(detail)
-#         else:
-#             self.subtaskDetailLoaded.emit(None)
-#     @Slot(int, str, str, int, str, float, object)
-#     def addTask(self, project_id, title, description, assigned_to, due_date, hours, dependencies):
-#         """Add a new task to a project, auto-assign if not set, create 'check progress' subtask."""
-#         try:
-#             from db import create_task
-#             import datetime, json
-#             if not assigned_to:
-#                 assigned_to = self._get_current_user_id()
-#             due_dt = datetime.datetime.strptime(due_date, "%Y-%m-%d") if due_date else None
-#             dep_list = dependencies if isinstance(dependencies, list) else json.loads(dependencies) if dependencies else []
-#             result = create_task(
-#                 project_id=project_id,
-#                 title=title,
-#                 description=description,
-#                 assigned_to=assigned_to,
-#                 due_date=due_dt,
-#                 hours=hours,
-#                 dependencies=dep_list
-#             )
-#             self.loadProjectDetail(project_id, assigned_to)
-#         except Exception as e:
-# 
-#     @Slot(int, int, str, str, int, float, object)
-#     def editTask(self, task_id, project_id, title, description, assigned_to, hours, dependencies):
-#         """Edit an existing task."""
-#         try:
-#             from db import update_task
-#             import json
-#             dep_list = dependencies if isinstance(dependencies, list) else json.loads(dependencies) if dependencies else []
-#             update_task(
-#                 task_id=task_id,
-#                 title=title,
-#                 description=description,
-#                 assigned_to=assigned_to,
-#                 hours=hours,
-#                 dependencies=dep_list
-#             )
-#             self.loadProjectDetail(project_id, assigned_to)
-#         except Exception as e:
-# 
-#     @Slot(int, int)
-#     def deleteTask(self, task_id, project_id):
-#         """Delete a task from a project."""
-#         try:
-#             from db import delete_task
-#             delete_task(task_id)
-#             self.loadProjectDetail(project_id, self._get_current_user_id())
-#         except Exception as e:
-# 
-#     @Slot(int, int, str, str, int, float, object)
-#     def addSubtask(self, task_id, project_id, title, description, assigned_to, hours, dependencies):
-#         """Add a subtask to a task, auto-assign if not set, update 'check progress' deadline."""
-#         try:
-#             from db import create_subtask
-#             import datetime, json
-#             if not assigned_to:
-#                 assigned_to = self._get_current_user_id()
-#             dep_list = dependencies if isinstance(dependencies, list) else json.loads(dependencies) if dependencies else []
-#             create_subtask(
-#                 task_id=task_id,
-#                 title=title,
-#                 description=description,
-#                 assigned_to=assigned_to,
-#                 hours=hours,
-#                 dependencies=dep_list
-#             )
-#             self.loadProjectDetail(project_id, assigned_to)
-#         except Exception as e:
-# 
-#     @Slot(int, int)
-#     def deleteSubtask(self, subtask_id, project_id):
-#         """Delete a subtask from a project."""
-#         try:
-#             from db import delete_subtask
-#             delete_subtask(subtask_id)
-#             self.loadProjectDetail(project_id, self._get_current_user_id())
-#         except Exception as e:
-# 
-#     def _get_current_user_id(self):
-#         try:
-#             from PySide6.QtQml import QQmlEngine
-#             ctx = QQmlEngine.contextForObject(self)
-#             if ctx and ctx.contextProperty("AuthManager"):
-#                 auth = ctx.contextProperty("AuthManager")
-#                 return getattr(auth, "userId", 0)
-#         except Exception:
-#             pass
-#         return 0
+class ProjectManager(QObject):
+    projectCreated = Signal(bool, str)
+    projectDetailLoaded = Signal(object)
+    subtaskDetailLoaded = Signal(object)
+    ganttDataLoaded = Signal(object)
+    calendarDataLoaded = Signal(object)
+    taskDetailLoaded = Signal(object)
+    membersChanged = Signal()
+    leaderChanged = Signal()
+    filterByMember = Signal(int)
+
+    def __init__(self):
+        super().__init__()
+        self._members = []
+        self._leader_id = None
+
+    @Slot(int)
+    def loadProjectMembers(self, project_id):
+        """Load members for a project and emit membersChanged."""
+        try:
+            from db import get_project_members
+            self._members = get_project_members(project_id)
+            self.membersChanged.emit()
+        except Exception as e:
+            pass
+
+    @Property(list, notify=membersChanged)
+    def members(self):
+        return [
+            {
+                "user_id": getattr(m, "user_id", None),
+                "username": getattr(getattr(m, "user", None), "username", ""),
+                "role": getattr(m, "role", ""),
+            }
+            for m in self._members
+        ] if self._members else []
+
+    @Slot(int, int, int, str)
+    def addProjectMember(self, project_id, acting_user_id, new_member_id, role):
+        """Add a member to a project (acting_user_id is the user performing the action)."""
+        try:
+            from db import add_project_member
+            add_project_member(project_id, acting_user_id, new_member_id, role)
+            self.loadProjectMembers(project_id)
+        except Exception as e:
+            pass
+
+    @Slot(int, int)
+    def assignProjectLeader(self, project_id, user_id):
+        """Assign/change the leader for a project."""
+        try:
+            from db import update_project_leader
+            update_project_leader(project_id, user_id)
+            self.leaderChanged.emit()
+            self.loadProjectMembers(project_id)
+        except Exception as e:
+            pass
+
+    @Slot(int)
+    def filterInfoByMember(self, user_id):
+        """Emit signal to filter all info by member (for QML hover)."""
+        self.filterByMember.emit(user_id)
+
+    @Slot(int, str, str)
+    def updateSubtaskCategory(self, subtask_id, from_category, to_category):
+        """
+        Update the category of a subtask and log the move event.
+        """
+        try:
+            from db import update_subtask_category
+            update_subtask_category(subtask_id, to_category)
+        except Exception as e:
+            pass
+
+    @Slot(int)
+    def loadTaskDetail(self, task_id):
+        from db import get_task_by_id
+        task = get_task_by_id(task_id)
+        if task:
+            detail = {
+                "id": task.id,
+                "title": task.title,
+                "status": task.status,
+                "due_date": str(task.due_date) if getattr(task, "due_date", None) not in (None, "") else "",
+                "description": task.description,
+                "assigned_to": getattr(task, "assigned_to", ""),
+                "category": getattr(task, "category", "other"),
+                "project_id": getattr(task, "project_id", None),
+            }
+            self.taskDetailLoaded.emit(detail)
+        else:
+            self.taskDetailLoaded.emit(None)
+
+    @Slot(str, str, str, int)
+    def createProject(self, name, description, deadline, owner_id):
+        from db import create_project
+        result = create_project(name, description, owner_id, [], deadline)
+        if result:
+            self.projectCreated.emit(True, "Project created successfully")
+        else:
+            self.projectCreated.emit(False, "Failed to create project")
+
+    @Slot(int, int)
+    def loadGanttData(self, project_id, filter_user_id=-1):
+        """
+        Loads all tasks and subtasks for the project, including dependencies, durations, and assigned_to.
+        If filter_user_id >= 0, only include tasks/subtasks assigned to that user.
+        """
+        from db import get_project_by_id, get_subtasks
+        import json
+        project = get_project_by_id(project_id)
+        if project:
+            items = []
+            # Tasks
+            for t in getattr(project, "tasks", []):
+                if filter_user_id >= 0 and getattr(t, "assigned_to", None) != filter_user_id:
+                    continue
+                end = t.due_date
+                duration = t.hours if hasattr(t, "hours") and t.hours else 1
+                start = None
+                if end and duration:
+                    from datetime import timedelta
+                    start = end - timedelta(hours=duration)
+                # Parse dependencies
+                deps = []
+                if getattr(t, "dependencies", None):
+                    try:
+                        deps = json.loads(t.dependencies)
+                    except Exception:
+                        deps = []
+                items.append({
+                    "type": "task",
+                    "id": t.id,
+                    "title": t.title,
+                    "start": str(start) if start else "",
+                    "end": str(end) if end else "",
+                    "duration": duration,
+                    "assigned_to": getattr(t, "assigned_to", None),
+                    "dependencies": deps,
+                })
+                # Subtasks
+                for st in getattr(t, "subtasks", []):
+                    if filter_user_id >= 0 and getattr(st, "assigned_to", None) != filter_user_id:
+                        continue
+                    st_end = st.due_date
+                    st_duration = st.hours if hasattr(st, "hours") and st.hours else 1
+                    st_start = None
+                    if st_end and st_duration:
+                        from datetime import timedelta
+                        st_start = st_end - timedelta(hours=st_duration)
+                    st_deps = []
+                    if getattr(st, "dependencies", None):
+                        try:
+                            st_deps = json.loads(st.dependencies)
+                        except Exception:
+                            st_deps = []
+                    items.append({
+                        "type": "subtask",
+                        "id": st.id,
+                        "title": st.title,
+                        "start": str(st_start) if st_start else "",
+                        "end": str(st_end) if st_end else "",
+                        "duration": st_duration,
+                        "assigned_to": getattr(st, "assigned_to", None),
+                        "dependencies": st_deps,
+                        "parent_task_id": st.task_id,
+                    })
+            self.ganttDataLoaded.emit(items)
+        else:
+            self.ganttDataLoaded.emit([])
+
+    @Slot(int, int)
+    def loadCalendarData(self, project_id, filter_user_id=-1):
+        """
+        Loads all deadlines, tasks, subtasks, public holidays, and personal time off for all team members.
+        If filter_user_id >= 0, only include items for that user.
+        """
+        from db import get_project_by_id
+        import json
+        project = get_project_by_id(project_id)
+        # Demo: static public holidays and time off
+        public_holidays = [
+            {"type": "holiday", "title": "New Year's Day", "date": "2025-01-01"},
+            {"type": "holiday", "title": "Good Friday", "date": "2025-04-18"},
+            {"type": "holiday", "title": "Christmas Day", "date": "2025-12-25"},
+        ]
+        personal_time_off = [
+            {"type": "pto", "user_id": 2, "title": "Alice PTO", "date": "2025-08-28"},
+            {"type": "pto", "user_id": 3, "title": "Bob PTO", "date": "2025-09-02"},
+        ]
+        if project:
+            events = []
+            # Tasks
+            for t in getattr(project, "tasks", []):
+                if filter_user_id >= 0 and getattr(t, "assigned_to", None) != filter_user_id:
+                    continue
+                events.append({
+                    "type": "task",
+                    "id": t.id,
+                    "title": t.title,
+                    "due_date": str(t.due_date) if t.due_date else "",
+                    "assigned_to": getattr(t, "assigned_to", None),
+                })
+                # Subtasks
+                for st in getattr(t, "subtasks", []):
+                    if filter_user_id >= 0 and getattr(st, "assigned_to", None) != filter_user_id:
+                        continue
+                    events.append({
+                        "type": "subtask",
+                        "id": st.id,
+                        "title": st.title,
+                        "due_date": str(st.due_date) if st.due_date else "",
+                        "assigned_to": getattr(st, "assigned_to", None),
+                        "parent_task_id": st.task_id,
+                    })
+            # Add public holidays and PTO (filter PTO by user if needed)
+            events.extend(public_holidays)
+            if filter_user_id >= 0:
+                events.extend([pto for pto in personal_time_off if pto["user_id"] == filter_user_id])
+            else:
+                events.extend(personal_time_off)
+            self.calendarDataLoaded.emit(events)
+        else:
+            self.calendarDataLoaded.emit([])
+
+    @Slot(int, int)
+    def loadProjectDetail(self, project_id, user_id):
+        from db import get_project_by_id
+        project = get_project_by_id(project_id, user_id)
+        if project:
+            # Convert project and its tasks to dict for QML
+            tasks = []
+            for t in getattr(project, "tasks", []):
+                tasks.append({
+                    "id": t.id,
+                    "title": t.title,
+                    "status": t.status,
+                    "due_date": str(t.due_date) if t.due_date else "",
+                    "description": t.description,
+                })
+            detail = {
+                "id": project.id,
+                "name": project.name,
+                "description": project.description,
+                "deadline": project.deadline,
+                "owner": getattr(project.owner, "username", ""),
+                "tasks": tasks,
+            }
+            self.projectDetailLoaded.emit(detail)
+        else:
+            self.projectDetailLoaded.emit(None)
+
+    @Slot(int)
+    def loadSubtaskDetail(self, subtask_id):
+        from db import get_subtask_by_id
+        subtask = get_subtask_by_id(subtask_id)
+        if subtask:
+            detail = {
+                "id": subtask.id,
+                "title": subtask.title,
+                "description": subtask.description,
+                "status": subtask.status,
+                "due_date": str(subtask.due_date) if getattr(subtask, "due_date", None) not in (None, "") else "",
+                "assigned_to": getattr(subtask.assignee, "username", ""),
+                "category": subtask.category,
+            }
+            self.subtaskDetailLoaded.emit(detail)
+        else:
+            self.subtaskDetailLoaded.emit(None)
+
+    @Slot(int, str, str, int, str, float, object)
+    def addTask(self, project_id, title, description, assigned_to, due_date, hours, dependencies):
+        """Add a new task to a project, auto-assign if not set, create 'check progress' subtask."""
+        try:
+            from db import create_task
+            import datetime, json
+            if not assigned_to:
+                assigned_to = self._get_current_user_id()
+            due_dt = datetime.datetime.strptime(due_date, "%Y-%m-%d") if due_date else None
+            dep_list = dependencies if isinstance(dependencies, list) else json.loads(dependencies) if dependencies else []
+            result = create_task(
+                project_id=project_id,
+                title=title,
+                description=description,
+                assigned_to=assigned_to,
+                due_date=due_dt,
+                hours=hours,
+                dependencies=dep_list
+            )
+            self.loadProjectDetail(project_id, assigned_to)
+        except Exception as e:
+            pass
+
+    @Slot(int, int, str, str, int, float, object)
+    def editTask(self, task_id, project_id, title, description, assigned_to, hours, dependencies):
+        """Edit an existing task."""
+        try:
+            from db import update_task
+            import json
+            dep_list = dependencies if isinstance(dependencies, list) else json.loads(dependencies) if dependencies else []
+            update_task(
+                task_id=task_id,
+                title=title,
+                description=description,
+                assigned_to=assigned_to,
+                hours=hours,
+                dependencies=dep_list
+            )
+            self.loadProjectDetail(project_id, assigned_to)
+        except Exception as e:
+            pass
+
+    @Slot(int, int)
+    def deleteTask(self, task_id, project_id):
+        """Delete a task from a project."""
+        try:
+            from db import delete_task
+            delete_task(task_id)
+            self.loadProjectDetail(project_id, self._get_current_user_id())
+        except Exception as e:
+            pass
+
+    @Slot(int, int, str, str, int, float, object)
+    def addSubtask(self, task_id, project_id, title, description, assigned_to, hours, dependencies):
+        """Add a subtask to a task, auto-assign if not set, update 'check progress' deadline."""
+        try:
+            from db import create_subtask
+            import datetime, json
+            if not assigned_to:
+                assigned_to = self._get_current_user_id()
+            dep_list = dependencies if isinstance(dependencies, list) else json.loads(dependencies) if dependencies else []
+            create_subtask(
+                task_id=task_id,
+                title=title,
+                description=description,
+                assigned_to=assigned_to,
+                hours=hours,
+                dependencies=dep_list
+            )
+            self.loadProjectDetail(project_id, assigned_to)
+        except Exception as e:
+            pass
+
+    @Slot(int, int)
+    def deleteSubtask(self, subtask_id, project_id):
+        """Delete a subtask from a project."""
+        try:
+            from db import delete_subtask
+            delete_subtask(subtask_id)
+            self.loadProjectDetail(project_id, self._get_current_user_id())
+        except Exception as e:
+            pass
+
+    def _get_current_user_id(self):
+        try:
+            from PySide6.QtQml import QQmlEngine
+            ctx = QQmlEngine.contextForObject(self)
+            if ctx and ctx.contextProperty("AuthManager"):
+                auth = ctx.contextProperty("AuthManager")
+                return getattr(auth, "userId", 0)
+        except Exception:
+            pass
+        return 0
 # 
 # Entry point for launching the PySide6 application and loading QML
 if __name__ == "__main__":
@@ -696,12 +781,24 @@ if __name__ == "__main__":
     # Create the QML application engine
     engine = QQmlApplicationEngine()
 
-    # Load the main QML file
     # Expose log_event to QML
     event_log_bridge = EventLogBridge()
     log_event_bridge = LogEventBridge(event_log_bridge)
     engine.rootContext().setContextProperty("log_event", log_event_bridge)
-     
+
+    # Expose AuthManager to QML
+    auth_manager = AuthManager()
+    engine.rootContext().setContextProperty("AuthManager", auth_manager)
+    # Expose DashboardManager to QML
+    dashboard_manager = DashboardManager()
+    engine.rootContext().setContextProperty("dashboardManager", dashboard_manager)
+    # Expose ProjectManager to QML
+    project_manager = ProjectManager()
+    engine.rootContext().setContextProperty("projectManager", project_manager)
+    # Expose UserManager to QML
+    user_manager = UserManager()
+    engine.rootContext().setContextProperty("userManager", user_manager)
+
     qml_file = QUrl.fromLocalFile("Draft_2/app/qml/Main.qml")
     engine.load(qml_file)
 
