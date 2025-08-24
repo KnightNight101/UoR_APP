@@ -219,13 +219,14 @@ ApplicationWindow {
                     color: "#000"
                     font.family: "Inter"
                     font.bold: false
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
 
             // Main area (ToDoListBox)
             Rectangle {
                 id: mainContent
-                x: 500
+                x: sidebar.x + sidebar.width + (60 * (parent.width / 1920))
                 y: 0
                 width: 1000
                 height: 900
@@ -237,7 +238,6 @@ ApplicationWindow {
                 // Main heading "To Do Today"
                 Text {
                     text: "To Do Today"
-                    x: 328
                     y: 35
                     width: 344
                     height: 70
@@ -245,65 +245,77 @@ ApplicationWindow {
                     color: "#000"
                     font.family: "Inter"
                     font.bold: false
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
 
-                // Quadrant rectangles
-                Rectangle { // Important and Urgent
-                    x: 264
-                    y: 215
-                    width: 450
-                    height: 325
-                    color: "#f5f5f5"
-                    border.color: "#bbb"
-                    border.width: 1
-                    radius: 12
-                }
-                Rectangle { // Important
-                    x: 714
-                    y: 215
-                    width: 450
-                    height: 325
-                    color: "#f5f5f5"
-                    border.color: "#bbb"
-                    border.width: 1
-                    radius: 12
-                }
-                Rectangle { // Urgent
-                    x: 264
-                    y: 540
-                    width: 450
-                    height: 325
-                    color: "#f5f5f5"
-                    border.color: "#bbb"
-                    border.width: 1
-                    radius: 12
-                }
-                Rectangle { // Other
-                    x: 714
-                    y: 540
-                    width: 450
-                    height: 325
-                    color: "#f5f5f5"
-                    border.color: "#bbb"
-                    border.width: 1
-                    radius: 12
-                }
-
-                // Vertical divider (Divider 2)
-                Rectangle {
-                    x: 575
-                    y: 0
-                    width: 5
+                // Group 3: Quadrant grid and dividers, positioned absolutely in ToDoListBox
+                Item {
+                    id: group3
+                    x: 55
+                    y: 125
+                    width: 900
                     height: 650
-                    color: "#000"
-                }
-                // Horizontal divider (Divider 1)
-                Rectangle {
-                    x: 250
-                    y: 325
-                    width: 650
-                    height: 5
-                    color: "#000"
+
+                    // Important and Urgent
+                    Rectangle {
+                        x: 0
+                        y: 0
+                        width: 450
+                        height: 325
+                        color: "#f5f5f5"
+                        border.color: "#bbb"
+                        border.width: 1
+                        radius: 12
+                    }
+                    // Important
+                    Rectangle {
+                        x: 450
+                        y: 0
+                        width: 450
+                        height: 325
+                        color: "#f5f5f5"
+                        border.color: "#bbb"
+                        border.width: 1
+                        radius: 12
+                    }
+                    // Urgent
+                    Rectangle {
+                        x: 0
+                        y: 325
+                        width: 450
+                        height: 325
+                        color: "#f5f5f5"
+                        border.color: "#bbb"
+                        border.width: 1
+                        radius: 12
+                    }
+                    // Other
+                    Rectangle {
+                        x: 450
+                        y: 325
+                        width: 450
+                        height: 325
+                        color: "#f5f5f5"
+                        border.color: "#bbb"
+                        border.width: 1
+                        radius: 12
+                    }
+                    // Divider 1 (horizontal)
+                    Rectangle {
+                        x: 0
+                        y: 325
+                        width: 900
+                        height: 5
+                        color: "#000"
+                    }
+                    // Divider 2 (vertical)
+                    Rectangle {
+                        x: 450
+                        y: 0
+                        width: 5
+                        height: 650
+                        color: "#000"
+                    }
                 }
             }
         }
