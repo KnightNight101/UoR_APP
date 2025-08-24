@@ -3319,3 +3319,60 @@ sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <Task at 0x1a640fb51c0
 [2025-08-24T15:26:04.824814] User 'Nithin' logged in
 [2025-08-24T15:27:54.257000] User 'Nithin' logged in
 [2025-08-24T15:29:38.602841] User 'Nithin' logged in
+[2025-08-24T15:40:00.793465] User 'Nithin' logged in
+[2025-08-24T15:46:23.801111] User 'Nithin' logged in
+[2025-08-24T15:48:50.465512] User 'Nithin' logged in
+[2025-08-24T15:55:02.938775] User 'Nithin' logged in
+[2025-08-24T16:04:38.116224] User 'Nithin' logged in
+[2025-08-24T16:05:28.964342] User 'Nithin' logged in
+[2025-08-24T16:06:52.944179] User 'Nithin' logged in
+[2025-08-24T16:09:48.547120] User 'Nithin' logged in
+[2025-08-24T16:09:50.028829] Navigated to page: createProject
+[2025-08-24T16:10:02.278980] Navigated to page: dashboard
+[2025-08-24T16:11:40.823794] User 'Nithin' logged in
+[2025-08-24T16:11:42.416520] Navigated to page: createProject
+[2025-08-24T16:13:59.089522] User logged out (window closed)
+[2025-08-24T16:13:59.150082] Navigated to page: dashboard
+[2025-08-24T16:14:07.646491] User 'Nithin' logged in
+[2025-08-24T16:14:09.048548] Navigated to page: createProject
+[2025-08-24T16:15:08.898018] User logged out (window closed)
+[2025-08-24T16:15:08.955965] Navigated to page: dashboard
+[2025-08-24T16:15:55.867047] User 'Nithin' logged in
+[2025-08-24T16:15:57.332911] Navigated to page: createProject
+[2025-08-24T16:16:56.594868] User logged out (window closed)
+[2025-08-24T16:16:56.689657] Navigated to page: dashboard
+[2025-08-24T16:17:06.931749] User 'Nithin' logged in
+[2025-08-24T16:17:08.127902] Navigated to page: createProject
+[2025-08-24T16:17:14.279886] Navigated to page: dashboard
+[2025-08-24T16:21:14.243866] User logged out (window closed)
+[2025-08-24T16:21:37.543436] User 'Nithin' logged in
+[2025-08-24T16:21:38.955943] Navigated to page: createProject
+[2025-08-24T16:21:40.770696] Navigated to page: dashboard
+[2025-08-24T16:22:14.343846] User logged out (window closed)
+[2025-08-24T16:23:37.317622] User 'Nithin	' logged in
+[2025-08-24T16:23:39.001465] Navigated to page: createProject
+[2025-08-24T16:23:40.802478] Navigated to page: dashboard
+[2025-08-24T16:26:21.046791] User logged out (window closed)
+[2025-08-24T16:26:31.653283] User 'Nithin' logged in
+[2025-08-24T16:29:20.711231] User 'Nithin' logged in
+[2025-08-24T16:29:26.523639] Navigated to page: eventlog
+[2025-08-24T16:29:40.635935] Navigated to page: dashboard
+[2025-08-24T16:33:03.993787] User logged out (window closed)
+[2025-08-24T16:33:06.347964] User logged out (window closed)
+[2025-08-24T16:33:17.816163] User 'Nithin' logged in
+[2025-08-24T16:34:53.640203] User logged out (window closed)
+[2025-08-24T16:35:04.704408] User 'Nithin' logged in
+[2025-08-24T16:38:13.182889] User logged out (window closed)
+[2025-08-24T16:38:25.373638] User 'Nithin' logged in
+[2025-08-24T16:39:33.122484] Navigated to page: createProject
+[2025-08-24T16:40:51.876009] User logged out (window closed)
+[2025-08-24T16:40:51.945679] Navigated to page: dashboard
+[2025-08-24T16:41:03.996705] User 'Nithin' logged in
+[2025-08-24T16:41:05.674037] Navigated to page: createProject
+[2025-08-24T16:41:12.850078] Navigated to page: dashboard
+[2025-08-24T16:41:18.980641] Navigated to page: createProject
+[2025-08-24T16:41:25.352778] Navigated to page: dashboard
+[2025-08-24T16:42:28.637396] User logged out (window closed)
+[2025-08-24T16:42:43.734532] User 'Nithin' logged in
+[2025-08-24T16:42:46.231561] Navigated to page: createProject
+[2025-08-24T16:42:55.482359] Navigated to page: dashboard

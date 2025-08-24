@@ -8,6 +8,7 @@
 import QtQuick 2.15          // Core QML types
 import QtQuick.Controls 2.15 // UI controls (Button, TextField, etc.)
 import QtQuick.Layouts 1.15  // Layout helpers (ColumnLayout, RowLayout, etc.)
+import QtQuick.Controls 2.15 // For Calendar and Dialog types
 
 // Optionally, you can set a style for controls (e.g., Material), but it's commented out here
 // QtQuick.Controls.Controls.style: "Material"
@@ -20,9 +21,30 @@ ApplicationWindow {
     height: 640
     title: qsTr("Login") // Window title
 
+    onClosing: {
+        if (root.loggedIn) {
+            if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                log_event.log_event("User logged out (window closed)")
+            }
+            root.loggedIn = false
+            root.loginUser = ""
+            root.loginPass = ""
+            root.currentPage = "dashboard"
+        }
+    }
+
     // Set solid white background for the window
     color: "white"
     // Navigation state
+    onCurrentPageChanged: {
+        if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+            log_event.log_event("Navigated to page: " + root.currentPage)
+        }
+        // Always refresh projects when navigating to dashboard
+        if (root.currentPage === "dashboard" && AuthManager.userId > 0) {
+            dashboardManager.loadProjects(AuthManager.userId)
+        }
+    }
     property string currentPage: "dashboard" // "dashboard" or "eventlog"
 
     // Reference to backend event log bridge
@@ -33,6 +55,15 @@ ApplicationWindow {
     property string loginUser: ""      // Stores username input
     property string loginPass: ""      // Stores password input
     property string loginError: ""     // Stores error message for invalid login
+// Load projects after login or when userId changes
+Connections {
+    target: AuthManager
+    onUserIdChanged: {
+        if (AuthManager.userId > 0) {
+            dashboardManager.loadProjects(AuthManager.userId)
+        }
+    }
+}
 
     // --- Login Page UI (visible when not logged in) ---
     Item {
@@ -93,12 +124,13 @@ ApplicationWindow {
                         spacing: 10
 
                         // Username input
-                        TextField {
+                        TextArea {
                             id: usernameField
                             placeholderText: "Username"
                             text: root.loginUser
                             onTextChanged: root.loginUser = text // Bind to property
-                            Layout.preferredWidth: 200
+                            width: 400
+                            height: 40
                         }
                         // Password input (masked)
                         TextField {
@@ -107,7 +139,8 @@ ApplicationWindow {
                             echoMode: TextInput.Password // Hide input text
                             text: root.loginPass
                             onTextChanged: root.loginPass = text // Bind to property
-                            Layout.preferredWidth: 200
+                            width: 400
+                            height: 40
                         }
                         // Login button
                         Button {
@@ -141,6 +174,9 @@ ApplicationWindow {
     // --- Dashboard Page (visible when logged in) ---
     Item {
         anchors.fill: parent
+        Component.onCompleted: {
+            console.log("DEBUG: Dashboard visible. dashboardManager.projects =", dashboardManager.projects)
+        }
         visible: root.loggedIn && root.currentPage === "dashboard"
 
         // --- User Icon and Menu (top right) ---
@@ -185,7 +221,12 @@ ApplicationWindow {
                 MenuItem { text: "Event Log"; onTriggered: root.currentPage = "eventlog" }
                 MenuItem { text: "Settings"; onTriggered: {/* TODO: Implement settings navigation */} }
                 MenuSeparator { }
-                MenuItem { text: "Logout"; onTriggered: { root.loggedIn = false; root.loginUser = ""; root.loginPass = ""; root.currentPage = "dashboard"; } }
+                MenuItem { text: "Logout"; onTriggered: {
+                    if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                        log_event.log_event("User logged out")
+                    }
+                    root.loggedIn = false; root.loginUser = ""; root.loginPass = ""; root.currentPage = "dashboard";
+                } }
             }
         }
 
@@ -208,18 +249,85 @@ ApplicationWindow {
                 border.width: 1
                 radius: 25
 
-                // Sidebar heading "Projects"
-                Text {
-                    text: "Projects"
-                    x: 0
+                // Projects box container
+                Column {
+                    id: projectsBox
+                    width: parent.width
+                    height: parent.height - 60
                     y: 35
-                    width: 223
-                    height: 70
-                    font.pixelSize: 58
-                    color: "#000"
-                    font.family: "Inter"
-                    font.bold: false
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    spacing: 0
+
+                    // Sidebar heading "Projects"
+                    Text {
+                        text: "Projects"
+                        width: 223
+                        height: 70
+                        font.pixelSize: 58
+                        color: "#000"
+                        font.family: "Inter"
+                        font.bold: false
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
+                    // Project list below heading (dynamic, selectable)
+                    Column {
+                        id: projectListColumn
+                        width: parent.width
+                        spacing: 8
+                        anchors.top: parent.top
+                        anchors.topMargin: 70
+                        Repeater {
+                            model: dashboardManager.projects
+                            Rectangle {
+                                width: parent.width
+                                height: 32
+                                color: "#ffffff"
+                                border.color: "transparent"
+                                border.width: 0
+                                radius: 6
+                                visible: true
+                                Text {
+                                    text: (modelData.name && modelData.name.length > 0) ? modelData.name : "(Untitled)"
+                                    font.pixelSize: 18
+                                    color: "#2255aa"
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 8
+                                }
+                            }
+                        }
+                    }
+
+                    // Floating add button at bottom of projects box
+                    Rectangle {
+                        id: addProjectBtn
+                        width: 48
+                        height: 48
+                        radius: 24
+                        color: "#2255aa"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: 32
+                        z: 10
+                        border.color: "#fff"
+                        border.width: 2
+
+                        Text {
+                            text: "+"
+                            anchors.centerIn: parent
+                            font.pixelSize: 32
+                            color: "#fff"
+                            font.bold: true
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: {
+                                root.currentPage = "createProject"
+                            }
+                        }
+                    }
                 }
             }
 
@@ -410,7 +518,7 @@ ApplicationWindow {
 
                     // Bottom row buttons
                     Row {
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        // removed anchors.horizontalCenter for Column child
                         spacing: 16
 
                         Button {
@@ -425,14 +533,233 @@ ApplicationWindow {
                                 eventLogFlick.contentY = 0
                             }
                         }
+                    
+                        // --- Project Creation Page ---
                     }
                 }
             }
         }
+        // --- Project Creation Page (top-level, always available) ---
+        Item {
+            anchors.fill: parent
+            visible: root.loggedIn && root.currentPage === "createProject"
+    
+            Rectangle {
+                width: 600
+                height: 500
+                color: "#fff"
+                border.color: "#2255aa"
+                border.width: 3
+                radius: 24
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                z: 10
+    
+                Column {
+                    anchors.centerIn: parent
+                    spacing: 16
+    
+                    Text {
+                        text: "Create a new project"
+                        font.pixelSize: 32
+                        font.bold: true
+                        color: "#2255aa"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+    
+                    // Title
+                    TextArea {
+                        id: projectNameField
+                        placeholderText: "Title"
+                        width: 400
+                        height: 40
+                    }
+                    // Description
+                    TextArea {
+                        id: projectDescField
+                        placeholderText: "Description"
+                        width: 400
+                        height: 80
+                    }
+                    // Team members multi-select dropdown
+                    Rectangle {
+                        width: 400
+                        height: 48
+                        color: "#f8f9fa"
+                        border.color: "#bbb"
+                        border.width: 1
+                        radius: 8
+    
+                        property var selectedMembers: []
+    
+                        ComboBox {
+                            id: teamCombo
+                            width: parent.width
+                            model: userManager.users
+                            textRole: "username"
+                            valueRole: "id"
+                            editable: false
+                            onActivated: {
+                                if (userManager.users.length > 0) {
+                                    let user = userManager.users[currentIndex];
+                                    let idx = parent.selectedMembers.indexOf(user.id);
+                                    if (idx === -1) {
+                                        parent.selectedMembers.push(user.id);
+                                    } else {
+                                        parent.selectedMembers.splice(idx, 1);
+                                    }
+                                    // Force ComboBox to reset so user can select again
+                                    teamCombo.currentIndex = -1;
+                                }
+                            }
+                            delegate: ItemDelegate {
+                                width: parent.width
+                                text: model.username
+                                highlighted: parent.selectedMembers.indexOf(model.id) !== -1
+                                onClicked: {
+                                    let idx = parent.selectedMembers.indexOf(model.id);
+                                    if (idx === -1) {
+                                        parent.selectedMembers.push(model.id);
+                                    } else {
+                                        parent.selectedMembers.splice(idx, 1);
+                                    }
+                                    teamCombo.currentIndex = -1;
+                                }
+                                background: Rectangle {
+                                    color: parent.selectedMembers.indexOf(model.id) !== -1 ? "#e0f7fa" : "transparent"
+                                }
+                            }
+                        }
+                        // Show selected members below
+                        Flow {
+                            anchors.top: teamCombo.bottom
+                            anchors.topMargin: 4
+                            spacing: 8
+                            Repeater {
+                                model: parent.selectedMembers
+                                Rectangle {
+                                    color: "#e0f7fa"
+                                    radius: 6
+                                    border.color: "#2255aa"
+                                    border.width: 1
+                                    height: 28
+                                    width: 100
+                                    Text {
+                                        anchors.centerIn: parent
+                                        text: {
+                                            var user = userManager.users.find(u => u.id === modelData)
+                                            return user ? user.username : ""
+                                        }
+                                        color: "#2255aa"
+                                        font.pixelSize: 14
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // Deadline picker
+                    Row {
+                        spacing: 8
+                        width: 400
+                        // Fallback: Simple date picker using ComboBoxes
+                        Row {
+                            spacing: 8
+                            property int selectedYear: (new Date()).getFullYear()
+                            property int selectedMonth: (new Date()).getMonth() + 1
+                            property int selectedDay: (new Date()).getDate()
+    
+                            ComboBox {
+                                id: yearCombo
+                                width: 80
+                                model: {
+                                    let years = [];
+                                    let thisYear = (new Date()).getFullYear();
+                                    for (let y = thisYear; y <= thisYear + 5; ++y) years.push(y);
+                                    return years;
+                                }
+                                onCurrentIndexChanged: parent.selectedYear = model[currentIndex]
+                                currentIndex: 0
+                            }
+                            ComboBox {
+                                id: monthCombo
+                                width: 60
+                                model: [1,2,3,4,5,6,7,8,9,10,11,12]
+                                onCurrentIndexChanged: parent.selectedMonth = model[currentIndex]
+                                currentIndex: (new Date()).getMonth()
+                            }
+                            ComboBox {
+                                id: dayCombo
+                                width: 60
+                                model: {
+                                    let daysInMonth = new Date(parent.selectedYear, parent.selectedMonth, 0).getDate();
+                                    let days = [];
+                                    for (let d = 1; d <= daysInMonth; ++d) days.push(d);
+                                    return days;
+                                }
+                                onCurrentIndexChanged: parent.selectedDay = model[currentIndex]
+                                currentIndex: (new Date()).getDate() - 1
+                            }
+                            Text {
+                                text: "Deadline: " + parent.selectedYear + "-" +
+                                    ("0" + parent.selectedMonth).slice(-2) + "-" +
+                                    ("0" + parent.selectedDay).slice(-2)
+                            }
+                        }
+                    }
+    
+                    // Bottom buttons
+                    Row {
+                        spacing: 24
+                        anchors.horizontalCenter: parent.horizontalCenter
+    
+                        Button {
+                            text: "Let's get started"
+                            onClicked: {
+                                let deadline =
+                                    yearCombo.model[yearCombo.currentIndex] + "-" +
+                                    ("0" + monthCombo.model[monthCombo.currentIndex]).slice(-2) + "-" +
+                                    ("0" + dayCombo.model[dayCombo.currentIndex]).slice(-2);
+                                projectManager.createProject(
+                                    projectNameField.text,
+                                    projectDescField.text,
+                                    deadline,
+                                    AuthManager.userId
+                                    // TODO: Pass selectedMembers to backend if supported
+                                )
+                            }
+                        }
+                        Button {
+                            text: "Cancel"
+                            onClicked: {
+                                root.currentPage = "dashboard"
+                            }
+                        }
+                    }
+                    Text {
+                        id: createProjectStatus
+                        color: "red"
+                        font.pixelSize: 16
+                    }
+                }
+    
+                Connections {
+                    target: projectManager
+                    function onProjectCreated(success, message) {
+                        createProjectStatus.text = message
+                        if (success) {
+                            root.currentPage = "dashboard"
+                            dashboardManager.loadProjects(AuthManager.userId)
+                        }
+                    }
+                }
+            }
+        }
+    
         // --- All other code remains commented out below ---
-    }
  
     // --- All other code remains commented out below ---
     /*
     <rest of original file remains commented out>
     */
+
+}
