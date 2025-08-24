@@ -420,6 +420,7 @@ class ProjectManager(QObject):
     membersChanged = Signal()
     leaderChanged = Signal()
     filterByMember = Signal(int)
+    projectTitleUpdated = Signal(bool, str)
 
     def __init__(self):
         super().__init__()
@@ -795,6 +796,25 @@ class ProjectManager(QObject):
         except Exception:
             pass
         return 0
+
+    @Slot(int, int, str)
+    def updateProjectTitle(self, project_id, user_id, new_title):
+        """
+        Update the project title (name) for a given project.
+        Emits projectTitleUpdated signal (success, message).
+        """
+        try:
+            from db import update_project
+            updated_project, err = update_project(project_id, user_id, name=new_title)
+            if updated_project:
+                self.projectTitleUpdated.emit(True, "Project title updated successfully.")
+            else:
+                msg = err or "Failed to update project title."
+                self.projectTitleUpdated.emit(False, msg)
+        except Exception as e:
+            from traceback import format_exc
+            log_error(f"Error updating project title: {e}\n{format_exc()}")
+            self.projectTitleUpdated.emit(False, "Error updating project title.")
 # 
 # Entry point for launching the PySide6 application and loading QML
 if __name__ == "__main__":

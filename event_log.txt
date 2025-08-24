@@ -3487,3 +3487,111 @@ sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <Task at 0x1a640fb51c0
 [2025-08-24T18:26:25.295249] Project deleted: '' by user 'Nithin'
 [2025-08-24T18:26:25.296766] Navigated to page: dashboard
 [2025-08-24T18:26:25.397281] Project '' deleted.
+[2025-08-24T18:28:31.282394] Navigated to project details: Trial 1
+[2025-08-24T18:28:31.340050] Navigated to page: projectDetails
+[2025-08-24T18:29:28.088572] User logged out (window closed)
+[2025-08-24T18:29:28.152155] Navigated to page: dashboard
+[2025-08-24T18:29:32.874696] Opened project details: (Untitled Project)
+[2025-08-24T18:29:38.571560] User 'Nithin' logged in
+[2025-08-24T18:29:38.591135] User 'Nithin' logged in
+[2025-08-24T18:29:40.874449] Navigated to project details: Trial 1
+[2025-08-24T18:29:40.939870] Navigated to page: projectDetails
+[2025-08-24T18:29:44.085598] Project 'Trial 1' deleted by Nithin.
+[2025-08-24T18:29:44.086679] Navigated to page: dashboard
+[2025-08-24T18:29:44.180462] Project 'Trial 1' deleted.
+[2025-08-24T18:29:46.385460] Navigated to project details: Trial 1
+[2025-08-24T18:29:46.438491] Navigated to page: projectDetails
+[2025-08-24T18:29:49.507658] Project 'Trial 1' deleted by Nithin.
+[2025-08-24T18:29:49.510659] Navigated to page: dashboard
+[2025-08-24T18:29:49.618443] Project 'Trial 1' deleted.
+[2025-08-24T18:30:07.544951] Navigated to project details: Phase 1
+[2025-08-24T18:30:07.596954] Navigated to page: projectDetails
+[2025-08-24T18:30:10.717418] Project 'Phase 1' deleted by Nithin.
+[2025-08-24T18:30:10.718431] Navigated to page: dashboard
+[2025-08-24T18:30:10.817998] Project 'Phase 1' deleted.
+[2025-08-24T18:30:12.499354] Navigated to project details: Demo Project
+[2025-08-24T18:30:12.553913] Navigated to page: projectDetails
+[2025-08-24T18:30:15.088728] Project 'Demo Project' deleted by Nithin.
+[2025-08-24T18:30:15.089746] Navigated to page: dashboard
+[2025-08-24T18:30:15.170340] Project 'Demo Project' deleted.
+[2025-08-24T18:30:16.001331] Navigated to project details: Demo Project
+[2025-08-24T18:30:16.070612] Navigated to page: projectDetails
+[2025-08-24T18:30:18.388692] Project 'Demo Project' deleted by Nithin.
+[2025-08-24T18:30:18.389660] Navigated to page: dashboard
+[2025-08-24T18:30:18.488422] Project 'Demo Project' deleted.
+[2025-08-24T18:30:21.463347] Navigated to project details: (Untitled Project)
+[2025-08-24T18:30:21.544598] Navigated to page: projectDetails
+[2025-08-24T18:38:34.681511] User logged out (window closed)
+[2025-08-24T18:38:34.738414] Navigated to page: dashboard
+[2025-08-24T18:38:39.312089] Opened project details: (Untitled Project)
+[2025-08-24T18:38:47.571221] User 'Nithin' logged in
+[2025-08-24T18:38:47.592867] User 'Nithin' logged in
+[2025-08-24T18:38:54.539248] Navigated to project details: (Untitled Project)
+[2025-08-24T18:38:54.594691] Navigated to page: projectDetails
+[2025-08-24T18:38:57.504765] Navigated to page: dashboard
+[2025-08-24T18:38:58.835618] Navigated to project details: Master's Dissertation
+[2025-08-24T18:38:58.893906] Navigated to page: projectDetails
+[2025-08-24T18:39:00.392725] Navigated to page: dashboard
+[2025-08-24T18:39:07.029003] Navigated to project details: Ohase 2
+[2025-08-24T18:39:07.092935] Navigated to page: projectDetails
+[2025-08-24T18:39:14.210376] Navigated to page: dashboard
+[2025-08-24T18:39:15.723130] Navigated to project details: Ohase 2
+[2025-08-24T18:39:15.788059] Navigated to page: projectDetails
+[2025-08-24T18:39:18.541268] Navigated to page: dashboard
+[2025-08-24T18:39:25.421324] User logged out
+[2025-08-24T19:06:14.666546] Opened project details: (Untitled Project)
+[2025-08-24T19:06:22.329562] User 'Nithin' logged in
+[2025-08-24T19:06:22.352231] User 'Nithin' logged in
+[2025-08-24T19:06:23.720929] Navigated to project details: Master's Dissertation
+[2025-08-24T19:06:23.808772] Navigated to page: projectDetails
+[2025-08-24T19:06:26.257991] Navigated to page: dashboard
+[2025-08-24T19:07:55.512125] User logged out (window closed)
+[2025-08-24T19:08:01.731536] Opened project details: (Untitled Project)
+[2025-08-24T19:08:07.207814] User 'Nithin' logged in
+[2025-08-24T19:08:07.231515] User 'Nithin' logged in
+[2025-08-24T19:08:08.928315] Navigated to project details: Master's Dissertation
+[2025-08-24T19:08:09.006619] Navigated to page: projectDetails
+[2025-08-24T19:08:14.669628] Navigated to page: dashboard
+[2025-08-24T19:10:44.795374] User logged out (window closed)
+[2025-08-24T19:10:49.568428] Opened project details: (Untitled Project)
+[2025-08-24T19:10:56.424590] User 'Nithin' logged in
+[2025-08-24T19:10:56.448575] User 'Nithin' logged in
+[2025-08-24T19:10:57.810151] Navigated to project details: Ohase 2
+[2025-08-24T19:10:57.882724] Navigated to page: projectDetails
+[2025-08-24T19:11:44.254514] User logged out (window closed)
+[2025-08-24T19:11:44.328882] Navigated to page: dashboard
+[2025-08-24T19:11:49.345679] Opened project details: (Untitled Project)
+[2025-08-24T19:11:54.380020] User 'Nithin' logged in
+[2025-08-24T19:11:54.402146] User 'Nithin' logged in
+[2025-08-24T19:11:55.438337] Navigated to project details: Another one, perhaps
+[2025-08-24T19:11:55.501453] Navigated to page: projectDetails
+[2025-08-24T19:12:42.171680] Navigated to page: dashboard
+[2025-08-24T19:12:44.619432] User logged out
+[2025-08-24T19:13:47.366252] Opened project details: (Untitled Project)
+[2025-08-24T19:13:55.266571] User 'Nithin' logged in
+[2025-08-24T19:13:55.288235] User 'Nithin' logged in
+[2025-08-24T19:13:56.361286] Navigated to project details: Another one, perhaps
+[2025-08-24T19:13:56.440996] Navigated to page: projectDetails
+[2025-08-24T19:14:51.011233] Project 'Another one, perhaps' deleted by Nithin.
+[2025-08-24T19:14:51.013602] Navigated to page: dashboard
+[2025-08-24T19:14:51.177719] Project 'Another one, perhaps' deleted.
+[2025-08-24T19:14:52.319534] User logged out (window closed)
+[2025-08-24T19:15:30.408934] Opened project details: (Untitled Project)
+[2025-08-24T19:15:36.011591] Failed login attempt for user 'Nithin'
+[2025-08-24T19:15:41.823627] User 'Nithin' logged in
+[2025-08-24T19:15:41.848298] User 'Nithin' logged in
+[2025-08-24T19:15:43.630128] Navigated to project details: Ohase 2
+[2025-08-24T19:15:43.695683] Navigated to page: projectDetails
+[2025-08-24T19:16:32.932957] User logged out (window closed)
+[2025-08-24T19:16:33.008409] Navigated to page: dashboard
+[2025-08-24T19:16:39.197868] Opened project details: (Untitled Project)
+[2025-08-24T19:16:47.987288] User 'Nithin' logged in
+[2025-08-24T19:16:48.007715] User 'Nithin' logged in
+[2025-08-24T19:16:50.327655] Navigated to project details: Hm
+[2025-08-24T19:16:50.393099] Navigated to page: projectDetails
+[2025-08-24T19:22:39.658500] Opened project details: (Untitled Project)
+[2025-08-24T19:22:48.500166] User 'Nithin' logged in
+[2025-08-24T19:22:48.519711] User 'Nithin' logged in
+[2025-08-24T19:22:50.555386] Navigated to project details: N13
+[2025-08-24T19:22:50.619795] Navigated to page: projectDetails
+[2025-08-24T19:22:53.857488] Navigated to page: dashboard
