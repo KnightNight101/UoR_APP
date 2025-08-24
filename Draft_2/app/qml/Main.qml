@@ -21,6 +21,13 @@ ApplicationWindow {
     height: 640
     title: qsTr("Login") // Window title
     property int selectedProjectId: -1
+    // --- Project title inline edit state (moved from project details page for global access) ---
+    property bool editingTitle: false
+    onEditingTitleChanged: {
+        console.log("DEBUG: editingTitle changed to", editingTitle)
+    }
+    property string editableTitle: ""
+    property string titleEditStatus: ""
 
     onClosing: {
         if (root.loggedIn) {
@@ -276,7 +283,7 @@ Connections {
                     Row {
                         spacing: 8
                         height: 70
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        Layout.alignment: Qt.AlignHCenter
                         // Projects heading and blue "+" link
                         Text {
                             text: "Projects"
@@ -306,8 +313,7 @@ Connections {
                         id: projectListScroll
                         width: parent.width
                         height: parent.height - 200 // Leaves space for heading and add button
-                        anchors.top: parent.top
-                        anchors.topMargin: 70
+                        y: 70
                         clip: true
                         // horizontalScrollBarPolicy removed (not supported in QtQuick.Controls 2.x)
 
@@ -460,6 +466,7 @@ Connections {
         Item {
             anchors.fill: parent
             visible: root.loggedIn && root.currentPage === "projectDetails"
+            // Move title edit state to root for reliable access
 
             // Top left back-to-dashboard button
             Button {
@@ -477,9 +484,9 @@ Connections {
                 id: deleteProjectBtn
                 text: "Delete Project"
                 anchors.top: parent.top
-                anchors.left: parent.left
+                anchors.right: parent.right
                 anchors.topMargin: 24
-                anchors.leftMargin: 180
+                anchors.rightMargin: 32
                 z: 100
                 onClicked: deleteProjectDialog.open()
             }
@@ -555,20 +562,99 @@ Connections {
             }
 
             // Project Title Heading
-            Text {
-                id: projectDetailsTitle
-                text: {
-                    // Find the selected project by ID
-                    let proj = dashboardManager.projects.find(p => p.id === root.selectedProjectId)
-                    proj && proj.name && proj.name.length > 0 ? proj.name : "(Untitled Project)"
-                }
-                font.pixelSize: 32
-                font.bold: true
-                color: "#2255aa"
+            Item {
+                id: projectTitleEditContainer
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.topMargin: 28
                 anchors.leftMargin: 200
+                width: 500
+                height: 40
+
+                // Normal display mode: plain text, clickable to edit
+                Text {
+                    id: projectDetailsTitle
+                    visible: !root.editingTitle
+                    text: {
+                        let proj = dashboardManager.projects.find(p => p.id === root.selectedProjectId)
+                        proj && proj.name && proj.name.length > 0 ? proj.name : "(Untitled Project)"
+                    }
+                    font.pixelSize: 32
+                    font.bold: true
+                    color: "#2255aa"
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    enabled: projectDetailsTitle.visible
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: {
+                        console.log("DEBUG: Project title clicked, switching to edit mode")
+                        root.editingTitle = true
+                        let proj = dashboardManager.projects.find(p => p.id === root.selectedProjectId)
+                        root.editableTitle = proj && proj.name ? proj.name : ""
+                        root.titleEditStatus = ""
+                    }
+                }
+
+                // Edit mode: TextField + Save/Cancel, only visible when editing
+                Row {
+                    visible: !!root.editingTitle
+                    spacing: 8
+                    TextField {
+                        id: titleEditField
+                        text: root.editableTitle || ""
+                        font.pixelSize: 32
+                        width: 320
+                        selectByMouse: true
+                        onTextChanged: root.editableTitle = text
+                        focus: true
+                        Keys.onReturnPressed: saveTitleBtn.clicked()
+                    }
+                    Button {
+                        id: saveTitleBtn
+                        text: "Save"
+                        onClicked: {
+                            if ((root.editableTitle || "").trim().length === 0) {
+                                root.titleEditStatus = "Title cannot be empty."
+                                return
+                            }
+                            projectManager.updateProjectTitle(
+                                root.selectedProjectId,
+                                AuthManager.userId,
+                                root.editableTitle
+                            )
+                        }
+                    }
+                    Button {
+                        text: "Cancel"
+                        onClicked: {
+                            root.editingTitle = false
+                            root.titleEditStatus = ""
+                        }
+                    }
+                }
+                // Status message (optional, only in edit mode)
+                Text {
+                    text: root.titleEditStatus || ""
+                    color: (root.titleEditStatus === "Project title updated successfully.") ? "green" : "red"
+                    font.pixelSize: 14
+                    anchors.left: parent.left
+                    anchors.top: parent.top
+                    anchors.topMargin: 44
+                    visible: !!root.editingTitle && (root.titleEditStatus || "").length > 0
+                }
+            }
+            // Listen for projectTitleUpdated signal
+            Connections {
+                target: projectManager
+                function onProjectTitleUpdated(success, message) {
+                    root.titleEditStatus = message
+                    if (success) {
+                        dashboardManager.loadProjects(AuthManager.userId)
+                        root.editingTitle = false
+                        // Optionally, refresh project details if needed
+                    }
+                }
             }
 
             // Log event when page is shown
@@ -748,7 +834,7 @@ Connections {
                         ComboBox {
                             id: teamCombo
                             width: parent.width
-                            model: userManager.users
+                            model: userManager ? userManager.users : []
                             textRole: "username"
                             valueRole: "id"
                             editable: false
