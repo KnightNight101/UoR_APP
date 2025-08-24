@@ -20,6 +20,7 @@ ApplicationWindow {
     width: 480
     height: 640
     title: qsTr("Login") // Window title
+    property int selectedProjectId: -1
 
     onClosing: {
         if (root.loggedIn) {
@@ -130,13 +131,14 @@ Connections {
                         spacing: 10
 
                         // Username input
-                        TextArea {
+                        TextField {
                             id: usernameField
                             placeholderText: "Username"
                             text: root.loginUser
                             onTextChanged: root.loginUser = text // Bind to property
-                            width: 400
+                            Layout.preferredWidth: 200
                             height: 40
+                            horizontalAlignment: TextInput.AlignLeft
                         }
                         // Password input (masked)
                         TextField {
@@ -145,7 +147,7 @@ Connections {
                             echoMode: TextInput.Password // Hide input text
                             text: root.loginPass
                             onTextChanged: root.loginPass = text // Bind to property
-                            width: 400
+                            Layout.preferredWidth: 200
                             height: 40
                         }
                         // Login button
@@ -307,13 +309,26 @@ Connections {
                                     radius: 6
                                     visible: true
                                     clip: true
+    
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: {
+                                            root.selectedProjectId = modelData.id
+                                            if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                                                let pname = (modelData.name && modelData.name.length > 0) ? modelData.name : "(Untitled Project)";
+                                                log_event.log_event("Navigated to project details: " + pname);
+                                            }
+                                            root.currentPage = "projectDetails"
+                                        }
+                                    }
+    
                                     Text {
                                         text: (modelData.name && modelData.name.length > 0) ? modelData.name : "(Untitled)"
                                         font.pixelSize: 16
                                         color: "#2255aa"
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        anchors.left: parent.left
-                                        anchors.leftMargin: 8
+                                        verticalAlignment: Text.AlignVCenter
+                                        leftPadding: 8
                                         elide: Text.ElideRight
                                         width: parent.width - 16
                                     }
@@ -323,35 +338,7 @@ Connections {
                     }
 
                     // Floating add button at bottom of projects box
-                    Rectangle {
-                        id: addProjectBtn
-                        width: 48
-                        height: 48
-                        radius: 24
-                        color: "#2255aa"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.bottom: parent.bottom
-                        anchors.bottomMargin: 32
-                        z: 10
-                        border.color: "#fff"
-                        border.width: 2
 
-                        Text {
-                            text: "+"
-                            anchors.centerIn: parent
-                            font.pixelSize: 32
-                            color: "#fff"
-                            font.bold: true
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: {
-                                root.currentPage = "createProject"
-                            }
-                        }
-                    }
                 }
             }
 
@@ -452,6 +439,49 @@ Connections {
             }
         }
     }
+        // --- Project Details Page (visible when logged in and currentPage is "projectDetails") ---
+        Item {
+            anchors.fill: parent
+            visible: root.loggedIn && root.currentPage === "projectDetails"
+
+            // Top left back-to-dashboard button
+            Button {
+                text: "\u25C0 Dashboard"
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.topMargin: 24
+                anchors.leftMargin: 32
+                onClicked: root.currentPage = "dashboard"
+                z: 100
+            }
+
+            // Project Title Heading
+            Text {
+                id: projectDetailsTitle
+                text: {
+                    // Find the selected project by ID
+                    let proj = dashboardManager.projects.find(p => p.id === root.selectedProjectId)
+                    proj && proj.name && proj.name.length > 0 ? proj.name : "(Untitled Project)"
+                }
+                font.pixelSize: 32
+                font.bold: true
+                color: "#2255aa"
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.topMargin: 28
+                anchors.leftMargin: 200
+            }
+
+            // Log event when page is shown
+            Component.onCompleted: {
+                if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                    let proj = dashboardManager.projects.find(p => p.id === root.selectedProjectId)
+                    let pname = proj && proj.name && proj.name.length > 0 ? proj.name : "(Untitled Project)"
+                    log_event.log_event("Opened project details: " + pname)
+                }
+            }
+        }
+
         // --- Event Log Page (visible when logged in and currentPage is "eventlog") ---
         Item {
             anchors.fill: parent
