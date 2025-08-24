@@ -2922,3 +2922,23 @@ db.authenticate_user returned: <db.User object at 0x0000019F39D5B5C0>
 [DEBUG] authenticate_user: user.id=2, user.username=user, user.password_hash='$2b$12$v5p0zwoAsbaW.hMeiK32i.pT/D7DxG4dGnR/iN3VrARPDCZLcq6P6'
 [DEBUG] authenticate_user: verify_password result=True
 [DEBUG] authenticate_user: returning user_with_roles=True
+[DEBUG] authenticate_user: username='Nithin', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=Nithin, user.password_hash='$2b$12$gADLHb42rxvvxHyCOYrqnOwOb5/Wjiws5FVgGvOwCPuPwO.5gkIze'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+[DEBUG] authenticate_user: username='Nithin', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=Nithin, user.password_hash='$2b$12$gADLHb42rxvvxHyCOYrqnOwOb5/Wjiws5FVgGvOwCPuPwO.5gkIze'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+[DEBUG] authenticate_user: username='Nithin', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=Nithin, user.password_hash='$2b$12$gADLHb42rxvvxHyCOYrqnOwOb5/Wjiws5FVgGvOwCPuPwO.5gkIze'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+[DEBUG] authenticate_user: username='Nithin', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=Nithin, user.password_hash='$2b$12$gADLHb42rxvvxHyCOYrqnOwOb5/Wjiws5FVgGvOwCPuPwO.5gkIze'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True
+[DEBUG] authenticate_user: username='Nithin', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=Nithin, user.password_hash='$2b$12$gADLHb42rxvvxHyCOYrqnOwOb5/Wjiws5FVgGvOwCPuPwO.5gkIze'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True

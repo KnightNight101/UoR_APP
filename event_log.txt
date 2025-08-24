@@ -3376,3 +3376,29 @@ sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <Task at 0x1a640fb51c0
 [2025-08-24T16:42:43.734532] User 'Nithin' logged in
 [2025-08-24T16:42:46.231561] Navigated to page: createProject
 [2025-08-24T16:42:55.482359] Navigated to page: dashboard
+[2025-08-24T16:44:07.880100] User logged out (window closed)
+[2025-08-24T16:44:18.876549] User 'Nithin' logged in
+[2025-08-24T16:44:22.976152] Navigated to page: eventlog
+[2025-08-24T16:44:25.664546] Navigated to page: dashboard
+[2025-08-24T16:46:17.223212] User logged out (window closed)
+[2025-08-24T16:46:30.484493] User 'Nithin' logged in
+[2025-08-24T16:47:44.141987] User logged out (window closed)
+[2025-08-24T16:48:59.834386] User 'Nithin' logged in
+[2025-08-24T16:49:01.979290] Navigated to page: createProject
+[2025-08-24T16:49:09.572668] Navigated to page: dashboard
+[2025-08-24T16:50:29.630309] User logged out (window closed)
+[2025-08-24T16:50:45.416574] User 'Nithin' logged in
+[2025-08-24T16:50:45.432134] User 'Nithin' logged in
+[2025-08-24T16:51:32.129043] User logged out (window closed)
+[2025-08-24T17:39:04.410882] User 'Nithin' logged in
+[2025-08-24T17:39:04.427843] User 'Nithin' logged in
+[2025-08-24T17:41:46.797363] User 'Nithin' logged in
+[2025-08-24T17:41:46.811880] User 'Nithin' logged in
+[2025-08-24T17:43:19.702619] Navigated to page: eventlog
+[2025-08-24T17:43:35.632750] Navigated to page: dashboard
+[2025-08-24T17:44:10.869840] User logged out (window closed)
+[2025-08-24T17:44:22.998718] User 'Nithin' logged in
+[2025-08-24T17:44:23.014955] User 'Nithin' logged in
+[2025-08-24T17:44:43.778322] User logged out (window closed)
+[2025-08-24T17:45:05.687783] User 'Nithin' logged in
+[2025-08-24T17:45:05.703420] User 'Nithin' logged in

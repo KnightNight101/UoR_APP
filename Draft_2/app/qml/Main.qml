@@ -55,6 +55,12 @@ ApplicationWindow {
     property string loginUser: ""      // Stores username input
     property string loginPass: ""      // Stores password input
     property string loginError: ""     // Stores error message for invalid login
+
+    onLoggedInChanged: {
+        if (loggedIn && AuthManager.userId > 0) {
+            dashboardManager.loadProjects(AuthManager.userId)
+        }
+    }
 // Load projects after login or when userId changes
 Connections {
     target: AuthManager
@@ -147,15 +153,8 @@ Connections {
                             text: "Login"
                             Layout.preferredWidth: 200
                             onClicked: {
-                                // Simple login logic: password must be "password" and username not empty
-                                if (root.loginPass === "password" && root.loginUser.length > 0) {
-                                    root.loggedIn = true
-                                    root.loginError = ""
-                                    root.visibility = "Maximized"
-                                    if (typeof log_event.log_event === "function") log_event.log_event("User '" + root.loginUser + "' logged in")
-                                } else {
-                                    root.loginError = "Invalid credentials"
-                                }
+                                // Only call AuthManager.login; do not set loggedIn here
+                                AuthManager.login(root.loginUser, root.loginPass);
                             }
                         }
                         // Error message display
@@ -164,6 +163,20 @@ Connections {
                             color: "red"
                             visible: root.loginError.length > 0
                             font.pixelSize: 14
+                        }
+                    }
+                }
+                // Handle login result and set loggedIn only after AuthManager.userId is set
+                Connections {
+                    target: AuthManager
+                    function onLoginResult(success, message) {
+                        if (success && AuthManager.userId > 0) {
+                            root.loggedIn = true;
+                            root.loginError = "";
+                            root.visibility = "Maximized";
+                            if (typeof log_event.log_event === "function") log_event.log_event("User '" + root.loginUser + "' logged in");
+                        } else {
+                            root.loginError = message;
                         }
                     }
                 }
@@ -270,29 +283,40 @@ Connections {
                     }
 
                     // Project list below heading (dynamic, selectable)
-                    Column {
-                        id: projectListColumn
+                    ScrollView {
+                        id: projectListScroll
                         width: parent.width
-                        spacing: 8
+                        height: parent.height - 200 // Leaves space for heading and add button
                         anchors.top: parent.top
                         anchors.topMargin: 70
-                        Repeater {
-                            model: dashboardManager.projects
-                            Rectangle {
-                                width: parent.width
-                                height: 32
-                                color: "#ffffff"
-                                border.color: "transparent"
-                                border.width: 0
-                                radius: 6
-                                visible: true
-                                Text {
-                                    text: (modelData.name && modelData.name.length > 0) ? modelData.name : "(Untitled)"
-                                    font.pixelSize: 18
-                                    color: "#2255aa"
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    anchors.left: parent.left
-                                    anchors.leftMargin: 8
+                        clip: true
+                        // horizontalScrollBarPolicy removed (not supported in QtQuick.Controls 2.x)
+
+                        Column {
+                            id: projectListColumn
+                            width: parent.width
+                            spacing: 6
+                            Repeater {
+                                model: dashboardManager.projects
+                                Rectangle {
+                                    width: parent.width
+                                    height: 24
+                                    color: "#ffffff"
+                                    border.color: "transparent"
+                                    border.width: 0
+                                    radius: 6
+                                    visible: true
+                                    clip: true
+                                    Text {
+                                        text: (modelData.name && modelData.name.length > 0) ? modelData.name : "(Untitled)"
+                                        font.pixelSize: 16
+                                        color: "#2255aa"
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        anchors.left: parent.left
+                                        anchors.leftMargin: 8
+                                        elide: Text.ElideRight
+                                        width: parent.width - 16
+                                    }
                                 }
                             }
                         }
@@ -763,3 +787,4 @@ Connections {
     */
 
 }
+
