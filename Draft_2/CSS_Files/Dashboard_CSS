@@ -1,0 +1,177 @@
+/* Slide 16:9 - 1 */
+
+position: relative;
+width: 1920px;
+height: 1080px;
+
+background: #FFFFFF;
+
+
+/* Group 1 */
+
+position: absolute;
+width: 1500px;
+height: 900px;
+left: calc(50% - 1500px/2);
+top: calc(50% - 900px/2);
+
+
+
+/* ProjectsBox */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 444.44px;
+height: 900px;
+left: 210px;
+top: 90px;
+
+border: 1px solid #000000;
+border-radius: 25px;
+
+
+/* Projects */
+
+position: absolute;
+width: 223px;
+height: 70px;
+left: 320px;
+top: 120px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 58px;
+line-height: 70px;
+
+color: #000000;
+
+
+
+/* To Do Today */
+
+position: absolute;
+width: 344px;
+height: 70px;
+left: 764px;
+top: 120px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 58px;
+line-height: 70px;
+
+color: #000000;
+
+
+
+/* Group 3 */
+
+position: absolute;
+width: 900px;
+height: 650px;
+left: 764px;
+top: 215px;
+
+
+
+/* Important and Urgent */
+
+position: absolute;
+width: 450px;
+height: 325px;
+left: 764px;
+top: 215px;
+
+
+
+/* Important */
+
+position: absolute;
+width: 450px;
+height: 325px;
+left: 1214px;
+top: 215px;
+
+
+
+/* Urgent */
+
+position: absolute;
+width: 450px;
+height: 325px;
+left: 764px;
+top: 540px;
+
+
+
+/* Other */
+
+position: absolute;
+width: 450px;
+height: 325px;
+left: 1214px;
+top: 540px;
+
+
+
+/* ToDoListBox */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 1000px;
+height: 900px;
+left: 710px;
+top: 90px;
+
+border: 1px solid #000000;
+border-radius: 25px;
+
+
+/* Group 2 */
+
+position: absolute;
+width: 650px;
+height: 650px;
+left: 885px;
+top: 215px;
+
+
+
+/* Divider 2 */
+
+position: absolute;
+width: 650px;
+height: 0px;
+left: 1210px;
+top: 215px;
+
+border: 5px solid #000000;
+transform: rotate(90deg);
+
+
+/* Divider 1 */
+
+position: absolute;
+width: 650px;
+height: 0px;
+left: 885px;
+top: 540px;
+
+border: 5px solid #000000;
+
+
+/* Ellipse 1 */
+
+box-sizing: border-box;
+
+position: absolute;
+width: 90px;
+height: 90px;
+left: 1780px;
+top: 30px;
+
+border: 1px solid #000000;
