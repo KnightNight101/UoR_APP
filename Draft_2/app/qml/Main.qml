@@ -238,7 +238,7 @@ Connections {
                 x: userIcon.width - width
                 y: userIcon.height
                 MenuItem { text: "Profile"; onTriggered: {/* TODO: Implement profile navigation */} }
-                MenuItem { text: "Calendar"; onTriggered: {/* TODO: Implement calendar navigation */} }
+                MenuItem { text: "Calendar"; onTriggered: { root.currentPage = "calendar" } }
                 MenuItem { text: "File Manager"; onTriggered: {/* TODO: Implement file manager navigation */} }
                 MenuItem { text: "Event Log"; onTriggered: root.currentPage = "eventlog" }
                 MenuItem { text: "Settings"; onTriggered: {/* TODO: Implement settings navigation */} }
@@ -995,6 +995,441 @@ Connections {
         }
     
         // --- All other code remains commented out below ---
+
+        // --- Calendar Page (visible when logged in and currentPage is "calendar") ---
+        Item {
+            id: calendarPage
+            anchors.fill: parent
+            visible: root.loggedIn && root.currentPage === "calendar"
+            // Back to Dashboard Button
+            Button {
+                text: "\u25C0 Dashboard"
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.topMargin: 24
+                anchors.leftMargin: 32
+                z: 100
+                onClicked: root.currentPage = "dashboard"
+            }
+        
+            // --- Calendar State ---
+            property date calendarCurrentMonth: new Date()
+            property date calendarSelectedDate: new Date()
+            property var calendarEvents: ({}) // { "yyyy-MM-dd": [ {title, desc, time} ] }
+            property bool addEventDialogOpen: false
+            property bool takeTimeOffDialogOpen: false
+            property string newEventTitle: ""
+            property string newEventDesc: ""
+            property string newEventTime: ""
+
+            // --- Top Bar with Navigation ---
+            Rectangle {
+                width: 600
+                height: 60
+                color: "#fff"
+                border.color: "#2255aa"
+                border.width: 2
+                radius: 16
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                anchors.topMargin: 32
+
+                Row {
+                    anchors.centerIn: parent
+                    spacing: 24
+
+                    Button {
+                        text: "<"
+                        onClicked: {
+                            let d = new Date(calendarPage.calendarCurrentMonth)
+                            d.setMonth(d.getMonth() - 1)
+                            calendarPage.calendarCurrentMonth = d
+                        }
+                    }
+                    Text {
+                        text: Qt.formatDate(calendarPage.calendarCurrentMonth, "MMMM yyyy")
+                        font.pixelSize: 24
+                        color: "#2255aa"
+                        font.bold: true
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    Button {
+                        text: ">"
+                        onClicked: {
+                            let d = new Date(calendarPage.calendarCurrentMonth)
+                            d.setMonth(d.getMonth() + 1)
+                            calendarPage.calendarCurrentMonth = d
+                        }
+                    }
+                }
+            }
+
+            // --- Calendar Month View ---
+            Item {
+                id: calendarWidget
+                anchors.top: parent.top
+                anchors.topMargin: 110
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: 600
+                height: 400
+            
+                property int year: calendarPage.calendarCurrentMonth.getFullYear()
+                property int month: calendarPage.calendarCurrentMonth.getMonth()
+                property int firstDayOfWeek: (new Date(year, month, 1)).getDay() // 0=Sun
+                property int daysInMonth: (new Date(year, month + 1, 0)).getDate()
+                property int weeks: Math.ceil((firstDayOfWeek + daysInMonth) / 7)
+            
+                // Weekday headers
+                Row {
+                    anchors.top: parent.top
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    spacing: 0
+                    width: parent.width
+                    Repeater {
+                        model: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+                        delegate: Rectangle {
+                            width: parent.width / 7
+                            height: 32
+                            color: "#e9eef6"
+                            border.color: "#2255aa"
+                            border.width: 1
+                            Text {
+                                anchors.centerIn: parent
+                                text: modelData
+                                color: "#2255aa"
+                                font.pixelSize: 16
+                                font.bold: true
+                            }
+                        }
+                    }
+                }
+            
+                // Month grid
+                Grid {
+                    id: calendarGrid
+                    anchors.top: parent.top
+                    anchors.topMargin: 40
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    columns: 7
+                    rows: calendarWidget.weeks
+                    width: parent.width
+                    height: parent.height - 40
+            
+                    Repeater {
+                        model: calendarWidget.weeks * 7
+                        delegate: Item {
+                            width: parent.width / 7
+                            height: (parent.height) / calendarWidget.weeks
+                            property int dayNum: index - calendarWidget.firstDayOfWeek + 1
+                            visible: dayNum > 0 && dayNum <= calendarWidget.daysInMonth
+                            Rectangle {
+                                width: parent.width
+                                height: parent.height
+                                color: (dayNum === calendarPage.calendarCurrentMonth.getDate() &&
+                                        calendarPage.calendarCurrentMonth.getMonth() === calendarWidget.month &&
+                                        calendarPage.calendarCurrentMonth.getFullYear() === calendarWidget.year)
+                                    ? "#e0f7fa"
+                                    : (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(calendarWidget.year, calendarWidget.month, dayNum), "yyyy-MM-dd") ? "#e0f7fa" : "transparent")
+                                border.color: (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(calendarWidget.year, calendarWidget.month, dayNum), "yyyy-MM-dd")) ? "#2255aa" : "transparent"
+                                border.width: (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(calendarWidget.year, calendarWidget.month, dayNum), "yyyy-MM-dd")) ? 2 : 0
+                                radius: 8
+                                MouseArea {
+                                    anchors.fill: parent
+                                    enabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: {
+                                        calendarPage.calendarSelectedDate = new Date(calendarWidget.year, calendarWidget.month, dayNum)
+                                    }
+                                }
+                                Text {
+                                    anchors.centerIn: parent
+                                    text: dayNum
+                                    color: "#2255aa"
+                                    font.pixelSize: 18
+                                    font.bold: Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(calendarWidget.year, calendarWidget.month, dayNum), "yyyy-MM-dd")
+                                }
+                            }
+                        }
+                    }
+            // Export iCal Button
+            Button {
+                text: "Export as iCal (.ics)"
+                x: 32
+                y: calendarWidget.y + calendarWidget.height + 104
+                onClicked: {
+                    if (typeof backend !== "undefined" && backend.exportICal)
+                        backend.exportICal();
+                }
+            }
+            Button {
+                text: "Import iCal (.ics)"
+                x: 32
+                y: calendarWidget.y + calendarWidget.height + 60
+                onClicked: {
+                    if (typeof backend !== "undefined" && backend.importICal)
+                        backend.importICal();
+                }
+            }
+            Button {
+                text: "Take Time Off"
+                x: 32
+                y: calendarWidget.y + calendarWidget.height + 16
+                onClicked: {
+                    if (calendarPage.takeTimeOffDialogOpen === undefined) {
+                        calendarPage.takeTimeOffDialogOpen = false;
+                    }
+                    calendarPage.takeTimeOffDialogOpen = true;
+                }
+            }
+
+            // Take Time Off Dialog
+            Dialog {
+                id: takeTimeOffDialog
+                modal: true
+                visible: calendarPage.takeTimeOffDialogOpen
+                width: 400
+                height: 320
+                x: (parent.width - width) / 2
+                y: (parent.height - height) / 2
+                property date startDate: new Date()
+                property date endDate: new Date()
+                property string reason: ""
+                onAccepted: {
+                    let d = new Date(startDate);
+                    while (d <= endDate) {
+                        let key = Qt.formatDate(d, "yyyy-MM-dd");
+                        if (!calendarPage.calendarEvents[key])
+                            calendarPage.calendarEvents[key] = [];
+                        calendarPage.calendarEvents[key].push({
+                            title: "Time Off",
+                            desc: reason,
+                            time: "",
+                            type: "timeoff"
+                        });
+                        d.setDate(d.getDate() + 1);
+                    }
+                    calendarPage.takeTimeOffDialogOpen = false;
+                    reason = "";
+                }
+                onRejected: {
+                    calendarPage.takeTimeOffDialogOpen = false;
+                    reason = "";
+                }
+                Rectangle {
+                    anchors.fill: parent
+                    color: "#fff"
+                    radius: 12
+                    border.color: "#2255aa"
+                    border.width: 2
+                    Column {
+                        anchors.centerIn: parent
+                        spacing: 16
+                        Text {
+                            text: "Take Time Off"
+                            font.pixelSize: 22
+                            color: "#2255aa"
+                            font.bold: true
+                        }
+                        Row {
+                            spacing: 8
+                            Text {
+                                text: "Start:"
+                            }
+                            TextField {
+                                width: 120
+                                text: Qt.formatDate(takeTimeOffDialog.startDate, "yyyy-MM-dd")
+                                readOnly: true
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: takeTimeOffDialog.startDate = calendarPage.calendarSelectedDate
+                                }
+                            }
+                            Text {
+                                text: "End:"
+                            }
+                            TextField {
+                                width: 120
+                                text: Qt.formatDate(takeTimeOffDialog.endDate, "yyyy-MM-dd")
+                                readOnly: true
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: takeTimeOffDialog.endDate = calendarPage.calendarSelectedDate
+                                }
+                            }
+                        }
+                        TextField {
+                            placeholderText: "Reason (optional)"
+                            text: takeTimeOffDialog.reason
+                            onTextChanged: takeTimeOffDialog.reason = text
+                            width: 300
+                        }
+                        Row {
+                            spacing: 16
+                            Button {
+                                text: "Confirm"
+                                onClicked: takeTimeOffDialog.accepted()
+                            }
+                            Button {
+                                text: "Cancel"
+                                onClicked: takeTimeOffDialog.rejected()
+                            }
+                        }
+                    }
+                }
+            }
+                }
+            }
+
+            // --- Add Event/Task Button ---
+            Button {
+                text: "Add Event/Task"
+                anchors.top: calendarWidget.bottom
+                anchors.topMargin: 16
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: calendarPage.addEventDialogOpen = true
+            }
+
+            // --- Events/Tasks List for Selected Date ---
+            Rectangle {
+                width: 600
+                height: 180
+                color: "#f8f9fa"
+                border.color: "#2255aa"
+                border.width: 2
+                radius: 16
+                anchors.top: calendarWidget.bottom
+                anchors.topMargin: 64
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                Column {
+                    anchors.fill: parent
+                    anchors.margins: 16
+                    spacing: 8
+
+                    Text {
+                        text: "Events/Tasks for " + Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd")
+                        font.pixelSize: 20
+                        color: "#2255aa"
+                        font.bold: true
+                    }
+
+                    Repeater {
+                        model: (calendarPage.calendarEvents[Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd")] || [])
+                        delegate: Rectangle {
+                            width: parent.width
+                            height: 40
+                            color: "#fff"
+                            border.color: "#bbb"
+                            border.width: 1
+                            radius: 8
+                            Row {
+                                anchors.verticalCenter: parent.verticalCenter
+                                spacing: 12
+                                Text {
+                                    text: modelData.time
+                                    font.pixelSize: 14
+                                    color: "#888"
+                                    width: 60
+                                }
+                                Text {
+                                    text: modelData.title
+                                    font.pixelSize: 16
+                                    color: "#2255aa"
+                                    font.bold: true
+                                }
+                                Text {
+                                    text: modelData.desc
+                                    font.pixelSize: 14
+                                    color: "#222"
+                                }
+                            }
+                        }
+                    }
+                    // If no events
+                    Text {
+                        text: (calendarPage.calendarEvents[Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd")] || []).length === 0 ? "No events/tasks for this date." : ""
+                        color: "#888"
+                        font.pixelSize: 16
+                    }
+                }
+            }
+
+            // --- Add Event/Task Dialog ---
+            Dialog {
+                id: addEventDialog
+                modal: true
+                visible: calendarPage.addEventDialogOpen
+                width: 400
+                height: 320
+                x: (parent.width - width) / 2
+                y: (parent.height - height) / 2
+                onAccepted: {
+                    let key = Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd")
+                    if (!calendarPage.calendarEvents[key])
+                        calendarPage.calendarEvents[key] = []
+                    calendarPage.calendarEvents[key].push({
+                        title: calendarPage.newEventTitle,
+                        desc: calendarPage.newEventDesc,
+                        time: calendarPage.newEventTime
+                    })
+                    // Reset fields
+                    calendarPage.newEventTitle = ""
+                    calendarPage.newEventDesc = ""
+                    calendarPage.newEventTime = ""
+                    calendarPage.addEventDialogOpen = false
+                }
+                onRejected: {
+                    calendarPage.addEventDialogOpen = false
+                }
+                Rectangle {
+                    anchors.fill: parent
+                    color: "#fff"
+                    radius: 12
+                    border.color: "#2255aa"
+                    border.width: 2
+
+                    Column {
+                        anchors.centerIn: parent
+                        spacing: 16
+                        Text {
+                            text: "Add Event/Task"
+                            font.pixelSize: 22
+                            color: "#2255aa"
+                            font.bold: true
+                        }
+                        TextField {
+                            placeholderText: "Title"
+                            text: calendarPage.newEventTitle
+                            onTextChanged: calendarPage.newEventTitle = text
+                            width: 300
+                        }
+                        TextField {
+                            placeholderText: "Description"
+                            text: calendarPage.newEventDesc
+                            onTextChanged: calendarPage.newEventDesc = text
+                            width: 300
+                        }
+                        TextField {
+                            placeholderText: "Time (e.g. 14:00)"
+                            text: calendarPage.newEventTime
+                            onTextChanged: calendarPage.newEventTime = text
+                            width: 300
+                        }
+                        Row {
+                            spacing: 16
+                            Button {
+                                text: "Add"
+                                onClicked: addEventDialog.accepted()
+                            }
+                            Button {
+                                text: "Cancel"
+                                onClicked: addEventDialog.rejected()
+                            }
+                        }
+                    }
+                }
+            }
+        }
  
     // --- All other code remains commented out below ---
     /*

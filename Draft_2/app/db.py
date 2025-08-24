@@ -77,6 +77,33 @@ role_permissions = Table('role_permissions', Base.metadata,
     Column('permission_id', Integer, ForeignKey('permissions.id'), primary_key=True)
 )
 
+# --- Calendar Event Models ---
+
+event_invitees = Table(
+    'event_invitees', Base.metadata,
+    Column('event_id', Integer, ForeignKey('events.id'), primary_key=True),
+    Column('user_id', Integer, ForeignKey('users.id'), primary_key=True),
+    Column('status', String, default='pending')  # 'pending', 'accepted', 'declined'
+)
+
+class Event(Base):
+    __tablename__ = "events"
+    id = Column(Integer, primary_key=True)
+    title = Column(String, nullable=False)
+    description = Column(Text)
+    start_datetime = Column(DateTime, nullable=False)
+    end_datetime = Column(DateTime, nullable=False)
+    creator_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    created_at = Column(DateTime, server_default=func.current_timestamp())
+
+    # Relationships
+    creator = relationship("User", back_populates="events_created")
+    invitees = relationship(
+        "User",
+        secondary=event_invitees,
+        back_populates="events_invited"
+    )
+
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
@@ -91,6 +118,12 @@ class User(Base):
     roles = relationship("Role", secondary=user_roles, back_populates="users")
     refresh_tokens = relationship("RefreshToken", back_populates="user", cascade="all, delete-orphan")
     tenant = relationship("Tenant", back_populates="users")
+    events_created = relationship("Event", back_populates="creator", cascade="all, delete-orphan")
+    events_invited = relationship(
+        "Event",
+        secondary=event_invitees,
+        back_populates="invitees"
+    )
 
 class Role(Base):
     __tablename__ = "roles"

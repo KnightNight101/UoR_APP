@@ -3595,3 +3595,93 @@ sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <Task at 0x1a640fb51c0
 [2025-08-24T19:22:50.555386] Navigated to project details: N13
 [2025-08-24T19:22:50.619795] Navigated to page: projectDetails
 [2025-08-24T19:22:53.857488] Navigated to page: dashboard
+[2025-08-24T19:23:04.364120] Navigated to project details: Ohase 2
+[2025-08-24T19:23:04.444088] Navigated to page: projectDetails
+[2025-08-24T19:23:12.341349] Navigated to page: dashboard
+[2025-08-24T19:23:15.669525] Navigated to project details: (Untitled Project)
+[2025-08-24T19:23:15.728604] Navigated to page: projectDetails
+[2025-08-24T19:23:18.490143] Project '' deleted by Nithin.
+[2025-08-24T19:23:18.491144] Navigated to page: dashboard
+[2025-08-24T19:23:18.591992] Project '' deleted.
+[2025-08-24T19:23:21.240231] Navigated to project details: Demo Project
+[2025-08-24T19:23:21.299458] Navigated to page: projectDetails
+[2025-08-24T19:23:25.031008] Project 'Demo Project' deleted by Nithin.
+[2025-08-24T19:23:25.033477] Navigated to page: dashboard
+[2025-08-24T19:23:25.131163] Project 'Demo Project' deleted.
+[2025-08-24T19:23:26.711773] Navigated to project details: Demo Project
+[2025-08-24T19:23:26.771911] Navigated to page: projectDetails
+[2025-08-24T19:23:29.248479] Project 'Demo Project' deleted by Nithin.
+[2025-08-24T19:23:29.249476] Navigated to page: dashboard
+[2025-08-24T19:23:29.347378] Project 'Demo Project' deleted.
+[2025-08-24T19:23:30.041763] Navigated to project details: Demo Project
+[2025-08-24T19:23:30.099693] Navigated to page: projectDetails
+[2025-08-24T19:23:33.025087] Project 'Demo Project' deleted by Nithin.
+[2025-08-24T19:23:33.029499] Navigated to page: dashboard
+[2025-08-24T19:23:33.123043] Project 'Demo Project' deleted.
+[2025-08-24T19:23:34.602626] Navigated to project details: Demo Project
+[2025-08-24T19:23:34.665572] Navigated to page: projectDetails
+[2025-08-24T19:23:37.541535] Project 'Demo Project' deleted by Nithin.
+[2025-08-24T19:23:37.542559] Navigated to page: dashboard
+[2025-08-24T19:23:37.651421] Project 'Demo Project' deleted.
+[2025-08-24T19:23:39.001798] Navigated to project details: Demo Project
+[2025-08-24T19:23:39.080983] Navigated to page: projectDetails
+[2025-08-24T19:23:41.935163] Project 'Demo Project' deleted by Nithin.
+[2025-08-24T19:23:41.936165] Navigated to page: dashboard
+[2025-08-24T19:23:42.032903] Project 'Demo Project' deleted.
+[2025-08-24T19:23:43.313899] Navigated to project details: Demo Project
+[2025-08-24T19:23:43.375352] Navigated to page: projectDetails
+[2025-08-24T19:23:45.905107] Project 'Demo Project' deleted by Nithin.
+[2025-08-24T19:23:45.907099] Navigated to page: dashboard
+[2025-08-24T19:23:45.997753] Project 'Demo Project' deleted.
+[2025-08-24T19:23:47.219046] Navigated to project details: Demo Project
+[2025-08-24T19:23:47.278100] Navigated to page: projectDetails
+[2025-08-24T19:23:50.226263] Project 'Demo Project' deleted by Nithin.
+[2025-08-24T19:23:50.228279] Navigated to page: dashboard
+[2025-08-24T19:23:50.321190] Project 'Demo Project' deleted.
+[2025-08-24T19:23:51.684394] Navigated to project details: Demo Project
+[2025-08-24T19:23:51.747606] Navigated to page: projectDetails
+[2025-08-24T19:23:54.584469] Project 'Demo Project' deleted by Nithin.
+[2025-08-24T19:23:54.586447] Navigated to page: dashboard
+[2025-08-24T19:23:54.705062] Project 'Demo Project' deleted.
+[2025-08-24T19:23:56.125200] Navigated to project details: Demo Project
+[2025-08-24T19:23:56.214624] Navigated to page: projectDetails
+[2025-08-24T19:23:58.608992] Project 'Demo Project' deleted by Nithin.
+[2025-08-24T19:23:58.610992] Navigated to page: dashboard
+[2025-08-24T19:23:58.703220] Project 'Demo Project' deleted.
+[2025-08-24T19:23:59.636195] Navigated to project details: Demo Project
+[2025-08-24T19:23:59.693747] Navigated to page: projectDetails
+[2025-08-24T19:24:02.697386] Project 'Demo Project' deleted by Nithin.
+[2025-08-24T19:24:02.698397] Navigated to page: dashboard
+[2025-08-24T19:24:02.801744] Project 'Demo Project' deleted.
+[2025-08-24T19:24:03.852016] Navigated to project details: Demo Project
+[2025-08-24T19:24:03.909941] Navigated to page: projectDetails
+[2025-08-24T19:24:06.316101] Project 'Demo Project' deleted by Nithin.
+[2025-08-24T19:24:06.317103] Navigated to page: dashboard
+[2025-08-24T19:24:06.397402] Project 'Demo Project' deleted.
+[2025-08-24T19:27:25.030142] Navigated to project details: Master's Dissertation
+[2025-08-24T19:27:25.089452] Navigated to page: projectDetails
+[2025-08-24T20:09:30.699854] User logged out (window closed)
+[2025-08-24T20:09:30.762382] Navigated to page: dashboard
+[2025-08-24T20:51:02.958739] Opened project details: (Untitled Project)
+[2025-08-24T20:52:53.932726] Opened project details: (Untitled Project)
+[2025-08-24T20:53:47.513862] Opened project details: (Untitled Project)
+[2025-08-24T20:55:01.255010] Opened project details: (Untitled Project)
+[2025-08-24T20:56:26.140299] Opened project details: (Untitled Project)
+[2025-08-24T20:56:34.736999] User 'Nithin' logged in
+[2025-08-24T20:56:34.754605] User 'Nithin' logged in
+[2025-08-24T20:56:37.804797] Navigated to page: calendar
+[2025-08-24T20:57:36.214348] User logged out (window closed)
+[2025-08-24T20:57:36.272169] Navigated to page: dashboard
+[2025-08-24T20:57:41.328829] Opened project details: (Untitled Project)
+[2025-08-24T20:57:50.827757] User 'Nithin' logged in
+[2025-08-24T20:57:50.845811] User 'Nithin' logged in
+[2025-08-24T20:57:56.207506] Navigated to page: calendar
+[2025-08-24T20:57:58.032494] Navigated to page: dashboard
+[2025-08-24T20:58:04.224607] User logged out
+[2025-08-24T21:02:01.831267] Opened project details: (Untitled Project)
+[2025-08-24T21:03:06.313470] Opened project details: (Untitled Project)
+[2025-08-24T21:05:25.879817] Opened project details: (Untitled Project)
+[2025-08-24T21:42:49.594744] Opened project details: (Untitled Project)
+[2025-08-24T21:42:56.311851] User 'Nithin' logged in
+[2025-08-24T21:42:56.325854] User 'Nithin' logged in
+[2025-08-24T21:43:02.930747] Navigated to page: calendar
