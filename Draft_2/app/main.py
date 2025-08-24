@@ -411,6 +411,7 @@ class DashboardManager(QObject):
 # 
 class ProjectManager(QObject):
     projectCreated = Signal(bool, str)
+    projectDeleted = Signal(bool, str)
     projectDetailLoaded = Signal(object)
     subtaskDetailLoaded = Signal(object)
     ganttDataLoaded = Signal(object)
@@ -424,6 +425,28 @@ class ProjectManager(QObject):
         super().__init__()
         self._members = []
         self._leader_id = None
+
+    @Slot(int, int)
+    def deleteProject(self, project_id, user_id):
+        """
+        Delete a project and log the deletion event.
+        Emits projectDeleted signal (success, message).
+        """
+        from db import delete_project, get_project_by_id, get_user_by_id
+        try:
+            project = get_project_by_id(project_id)
+            user = get_user_by_id(user_id)
+            project_name = getattr(project, "name", str(project_id)) if project else str(project_id)
+            username = getattr(user, "username", str(user_id)) if user else str(user_id)
+            success, msg = delete_project(project_id, user_id)
+            if success:
+                log_event(f"Project '{project_name}' deleted by {username}.")
+                self.projectDeleted.emit(True, f"Project '{project_name}' deleted.")
+            else:
+                self.projectDeleted.emit(False, msg or "Failed to delete project.")
+        except Exception as e:
+            log_error(f"Error deleting project: {e}")
+            self.projectDeleted.emit(False, "Error deleting project.")
 
     @Slot(int)
     def loadProjectMembers(self, project_id):
