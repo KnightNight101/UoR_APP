@@ -1,88 +1,83 @@
-# Deployment Documentation - Draft_2 Project Management Platform
+# Draft_2 Project Management Platform - Local Desktop Deployment Guide
 
-## Table of Contents
+## Overview
 
-1. [Deployment Overview](#deployment-overview)
-2. [Docker Deployment](#docker-deployment)
-3. [Local Development Deployment](#local-development-deployment)
-4. [Production Deployment Options](#production-deployment-options)
-5. [Environment Configuration](#environment-configuration)
-6. [Database Deployment](#database-deployment)
-7. [CI/CD Pipeline](#cicd-pipeline)
-8. [Security Hardening](#security-hardening)
-9. [Monitoring and Logging](#monitoring-and-logging)
-10. [Scaling Considerations](#scaling-considerations)
-11. [Troubleshooting Guide](#troubleshooting-guide)
-12. [Maintenance Procedures](#maintenance-procedures)
+This guide describes how to install, configure, and run the Draft_2 Project Management Platform as a local desktop application on Windows 11 (or similar). This version is for single-user or small team use on a local machine. No Docker, web, or cloud deployment is supported.
 
----
+## Prerequisites
 
-## 1. Deployment Overview
+- **Python 3.11+** (https://www.python.org/downloads/)
+- **PySide6** (for the default QML desktop interface)
+- **Other Python dependencies** (see [`Draft_2/requirements.txt`](Draft_2/requirements.txt:1))
+- (Optional) **LibreOffice** for document integration
 
-The Draft_2 Project Management Platform is a modern full-stack web application designed for containerized deployment with comprehensive project management capabilities.
+## Installation Steps
 
-### Technology Stack
-- **Frontend**: React 19.1.0 with Vite 7.0.4, Material-UI 7.2.0
-- **Backend**: Flask 3.0.0 with SQLAlchemy 2.0.23
-- **Database**: SQLite (development), PostgreSQL-ready (production)
-- **Document Version Control**: GitPython for Git-based versioning of LibreOffice documents (ODT, ODS, etc.), ODFDiff for semantic diffing
-- **Security**: bcrypt 4.1.2
-- **Containerization**: Docker with multi-stage builds
+1. **Install Python 3.11+**
+   Download and install Python from the official website. Ensure "Add Python to PATH" is checked during installation.
 
-### Deployment Architecture
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Load Balancer │    │  Docker Container│    │    Database     │
-│   (nginx/proxy) │────│                 │────│   (SQLite/PG)   │
-│                 │    │  Flask:5000     │    │                 │
-│                 │    │  Vite:5173      │    │                 │
-│                 │    │  SSH:2200       │    │                 │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
+2. **Create and activate a virtual environment**
+   Open a terminal in the project directory and run:
+   ```sh
+   python -m venv venv
+   venv\Scripts\activate   # On Windows
+   # source venv/bin/activate   # On Linux/Mac
+   ```
 
-### Infrastructure Requirements
-- **Minimum**: 1 CPU, 2GB RAM, 10GB storage
-- **Recommended**: 2+ CPUs, 4GB RAM, 50GB+ storage  
-- **Production**: 4+ CPUs, 8GB RAM, 100GB+ storage
-- **Network**: Ports 5000, 5173, 2200 accessible
+3. **Install dependencies**
+   ```sh
+   pip install -r Draft_2/requirements.txt
+   pip install PySide6
+   ```
 
-### Security Considerations
-- Non-root container execution
-- Encrypted password storage (bcrypt)
-- SSH server for secure connections
-- Role-based access control (RBAC)
-- Input validation and sanitization
+   If you plan to use the legacy interface, also install PyQt5:
+   ```sh
+   pip install PyQt5
+   ```
 
----
+4. **(Optional) Install LibreOffice**
+   Download and install LibreOffice from https://www.libreoffice.org/ if you want to use document versioning features.
 
-## 2. Docker Deployment
+## Database Initialization
 
-### Current Dockerfile Analysis
+1. **Initialize the SQLite database**
+   Run the following command to create the database and tables:
+   ```sh
+   python Draft_2/app/db.py
+   ```
+   This will create `Draft_2/app/auth.db` if it does not exist.
 
-The existing [`Dockerfile`](Dockerfile:1) implements security best practices:
+2. **(Optional) Create an admin user**
+   You can create an admin user by running:
+   ```sh
+   python -c "from Draft_2.app.db import register_user; register_user('admin', 'your_password', 'admin')"
+   ```
 
-```dockerfile
-# syntax=docker/dockerfile:1
-FROM python:3.11-slim
+## Running the Application
 
-# Create non-root user for security
-RUN useradd --create-home --shell /bin/bash appuser
-WORKDIR /home/appuser/app
+- **Default (QML interface, PySide6):**
+  ```sh
+  python Draft_2/app/main.py
+  ```
 
-# Install Python dependencies
-COPY requirements.txt /tmp/
-RUN pip install --no-cache-dir -r /tmp/requirements.txt
+- **Legacy (classic interface, PyQt5):**
+  ```sh
+  python Draft_2/app/oldmain.py
+  ```
 
-# Copy application code
-COPY app/ ./app/
-COPY config/ ./config/
+If you see errors about missing modules, ensure your virtual environment is activated and all dependencies are installed.
 
-# Set proper ownership
-RUN chown -R appuser:appuser /home/appuser/app
-USER appuser
+## Configuration and Data
 
-# Expose SSH server port
-EXPOSE 2200
+- **User preferences** are stored in `config/user_pref_2.json`.
+- **Document files** are stored in the `files/` directory.
+- **Event logs** are written to `event_log.txt` in the project root.
+
+## Notes
+
+- This deployment is for local desktop use only.
+- All Docker, web, and cloud deployment instructions are obsolete and have been removed.
+- For troubleshooting, check the terminal output and `event_log.txt`.
 
 
 ### Container Build Process
