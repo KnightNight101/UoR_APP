@@ -332,7 +332,7 @@ Connections {
                                     radius: 6
                                     visible: true
                                     clip: true
-    
+        
                                     MouseArea {
                                         anchors.fill: parent
                                         cursorShape: Qt.PointingHandCursor
@@ -345,7 +345,7 @@ Connections {
                                             root.currentPage = "projectDetails"
                                         }
                                     }
-    
+        
                                     Text {
                                         text: (modelData.name && modelData.name.length > 0) ? modelData.name : "(Untitled)"
                                         font.pixelSize: 16
@@ -464,9 +464,14 @@ Connections {
     }
         // --- Project Details Page (visible when logged in and currentPage is "projectDetails") ---
         Item {
+            id: projectDetailsPage
             anchors.fill: parent
             visible: root.loggedIn && root.currentPage === "projectDetails"
             // Move title edit state to root for reliable access
+            property var tabLabels: ["Tasks", "Gantt Chart", "Calendar", "Team"]
+
+            // --- Tab Bar State ---
+            property int selectedTabIndex: 0
 
             // Top left back-to-dashboard button
             Button {
@@ -644,6 +649,59 @@ Connections {
                     visible: !!root.editingTitle && (root.titleEditStatus || "").length > 0
                 }
             }
+            // --- Vertical Tab Bar (right side, folder-style tabs) ---
+            Column {
+                id: verticalTabBar
+                width: 120
+                height: 260
+                spacing: 0
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.topMargin: 120
+                anchors.rightMargin: 0
+                z: 50
+
+
+                Repeater {
+                    model: projectDetailsPage.tabLabels ? projectDetailsPage.tabLabels.length : 0
+                    delegate: Rectangle {
+                        width: 120
+                        height: 48
+                        color: index === projectDetailsPage.selectedTabIndex ? "#fff" : "#e9eef6"
+                        border.color: index === projectDetailsPage.selectedTabIndex ? "#2255aa" : "#e9eef6"
+                        border.width: 2
+                        radius: 24
+                        antialiasing: true
+
+
+                        Row {
+                            anchors.fill: parent
+                            spacing: 0
+                            Rectangle {
+                                width: 6
+                                height: parent.height
+                                color: index === projectDetailsPage.selectedTabIndex ? "#2255aa" : "transparent"
+                                radius: 3
+                            }
+                            Text {
+                                anchors.centerIn: parent
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignHCenter
+                                text: projectDetailsPage.tabLabels[index]
+                                color: "#2255aa"
+                                font.pixelSize: 16
+                                font.bold: index === projectDetailsPage.selectedTabIndex
+                            }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: projectDetailsPage.selectedTabIndex = index
+                        }
+                    }
+                }
+            }
             // Listen for projectTitleUpdated signal
             Connections {
                 target: projectManager
@@ -666,6 +724,7 @@ Connections {
                 }
             }
         }
+
 
         // --- Event Log Page (visible when logged in and currentPage is "eventlog") ---
         Item {
@@ -1151,34 +1210,6 @@ Connections {
                             }
                         }
                     }
-            // Export iCal Button
-            Button {
-                text: "Export as iCal (.ics)"
-                x: 32
-                y: calendarWidget.y + calendarWidget.height + 104
-                onClicked: {
-                    if (typeof backend !== "undefined" && backend.exportICal)
-                        backend.exportICal();
-                }
-            }
-            Button {
-                text: "Import iCal (.ics)"
-                x: 32
-                y: calendarWidget.y + calendarWidget.height + 60
-                onClicked: {
-                    if (typeof backend !== "undefined" && backend.importICal)
-                        backend.importICal();
-                }
-            }
-            Button {
-                text: "Take Time Off"
-                x: 32
-                y: calendarWidget.y + calendarWidget.height + 16
-                onClicked: {
-                    if (calendarPage.takeTimeOffDialogOpen === undefined) {
-                        calendarPage.takeTimeOffDialogOpen = false;
-                    }
-                    calendarPage.takeTimeOffDialogOpen = true;
                 }
             }
 
@@ -1277,16 +1308,36 @@ Connections {
                     }
                 }
             }
-                }
-            }
 
-            // --- Add Event/Task Button ---
-            Button {
-                text: "Add Event/Task"
+            // --- Calendar Action Buttons Row ---
+            Row {
                 anchors.top: calendarWidget.bottom
                 anchors.topMargin: 16
                 anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: calendarPage.addEventDialogOpen = true
+                spacing: 16
+
+                Button {
+                    text: "Add Event/Task"
+                    onClicked: calendarPage.addEventDialogOpen = true
+                }
+                Button {
+                    text: "Take Time Off"
+                    onClicked: calendarPage.takeTimeOffDialogOpen = true
+                }
+                Button {
+                    text: "Import iCal (.ics)"
+                    onClicked: {
+                        if (typeof backend !== "undefined" && backend.importICal)
+                            backend.importICal();
+                    }
+                }
+                Button {
+                    text: "Export as iCal (.ics)"
+                    onClicked: {
+                        if (typeof backend !== "undefined" && backend.exportICal)
+                            backend.exportICal();
+                    }
+                }
             }
 
             // --- Events/Tasks List for Selected Date ---
@@ -1437,4 +1488,3 @@ Connections {
     */
 
 }
-
