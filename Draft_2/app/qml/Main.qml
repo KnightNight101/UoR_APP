@@ -28,6 +28,118 @@ ApplicationWindow {
     }
     property string editableTitle: ""
     property string titleEditStatus: ""
+    // --- Tasks Model and Flat List Cache ---
+    property var tasksModel: []
+    property var flatTaskList: []
+    // Update flatTaskList whenever tasksModel changes
+    onTasksModelChanged: {
+        flatTaskList = getFlatTaskList();
+    }
+
+    // --- Helper functions for tasks/subtasks ---
+    function getFlatTaskList() {
+        var start = Date.now();
+        if (!root.tasksModel || !Array.isArray(root.tasksModel)) {
+            console.log("ERROR: getFlatTaskList called but root.tasksModel is", root.tasksModel);
+            return [];
+        }
+        console.log("PERF: getFlatTaskList called at", start);
+        var flat = [];
+        for (var i = 0; i < root.tasksModel.length; ++i) {
+            var t = root.tasksModel[i];
+            if (!t) continue;
+            var subtasksSum = 0;
+            if (t.subtasks && Array.isArray(t.subtasks) && t.subtasks.length > 0) {
+                for (var j = 0; j < t.subtasks.length; ++j) {
+                    if (t.subtasks[j] && typeof t.subtasks[j].hours === "number")
+                        subtasksSum += t.subtasks[j].hours;
+                }
+            }
+            flat.push({
+                isSubtask: false,
+                id: t.id,
+                title: t.title,
+                description: t.description,
+                deadline: t.deadline,
+                ownersDisplay: t.owners ? t.owners.join(",") : "",
+                dependenciesDisplay: t.dependencies ? t.dependencies.join(",") : "",
+                hoursSum: subtasksSum > 0 ? subtasksSum : t.hours,
+                hoursVerify: t.hoursVerify,
+                statusIndex: t.status
+            });
+            if (t.subtasks && Array.isArray(t.subtasks) && t.subtasks.length > 0) {
+                for (var j = 0; j < t.subtasks.length; ++j) {
+                    var s = t.subtasks[j];
+                    if (!s) continue;
+                    flat.push({
+                        isSubtask: true,
+                        id: s.id,
+                        title: s.title,
+                        description: s.description,
+                        deadline: "",
+                        ownersDisplay: s.owner,
+                        dependenciesDisplay: s.dependencies ? s.dependencies.join(",") : "",
+                        hoursSum: s.hours,
+                        hoursVerify: s.hoursVerify,
+                        statusIndex: s.status
+                    });
+                }
+            }
+        }
+        var end = Date.now();
+        console.log("PERF: getFlatTaskList finished at", end, "duration:", (end - start), "ms");
+        return flat;
+    }
+
+    function getDependencyTitles(depString) {
+        var start = Date.now();
+        console.log("PERF: getDependencyTitles called at", start, "depString:", depString);
+        var deps = ("" + depString).split(",");
+        var titles = [];
+        for (var i = 0; i < deps.length; ++i) {
+            var depId = deps[i];
+            if (!depId || depId === "undefined") continue;
+            var t = root.tasksModel.find(function(t) { return t.id == depId; });
+            if (t) titles.push(t.title);
+            else {
+                for (var j = 0; j < root.tasksModel.length; ++j) {
+                    var s = root.tasksModel[j].subtasks ? root.tasksModel[j].subtasks.find(function(st) { return st.id == depId; }) : null;
+                    if (s) titles.push(s.title);
+                }
+            }
+        }
+        var end = Date.now();
+        console.log("PERF: getDependencyTitles finished at", end, "duration:", (end - start), "ms");
+        return titles.join(", ");
+    }
+
+    function getOwnerNames(isSubtask, ownersDisplay) {
+        var start = Date.now();
+        console.log("PERF: getOwnerNames called at", start, "isSubtask:", isSubtask, "ownersDisplay:", ownersDisplay);
+        if (isSubtask) {
+            var user = userManager && userManager.users ? userManager.users.find(function(u) { return u.id === ownersDisplay; }) : null;
+            var result = user ? user.username : ownersDisplay;
+            var end = Date.now();
+            console.log("PERF: getOwnerNames finished at", end, "duration:", (end - start), "ms");
+            return result;
+        } else {
+            if (!userManager || !userManager.users) {
+                var end = Date.now();
+                console.log("PERF: getOwnerNames finished at", end, "duration:", (end - start), "ms");
+                return ownersDisplay;
+            }
+            var names = [];
+            var ids = ("" + ownersDisplay).split(",");
+            for (var i = 0; i < ids.length; ++i) {
+                var user = userManager.users.find(function(u) { return u.id == ids[i]; });
+                if (user) names.push(user.username);
+            }
+            var result = names.join(", ");
+            var end = Date.now();
+            console.log("PERF: getOwnerNames finished at", end, "duration:", (end - start), "ms");
+            return result;
+        }
+    }
 
     onClosing: {
         if (root.loggedIn) {
@@ -655,11 +767,10 @@ Connections {
                 width: 120
                 height: 260
                 spacing: 0
-                anchors.top: parent.top
-                anchors.right: parent.right
-                anchors.topMargin: 120
-                anchors.rightMargin: 0
+                x: parent.width - 120
+                y: 120
                 z: 50
+                // Only the Column itself uses x/y for positioning; children must NOT use anchors
 
 
                 Repeater {
@@ -673,9 +784,19 @@ Connections {
                         radius: 24
                         antialiasing: true
 
+                        Component.onCompleted: {
+                            console.log("DEBUG: TabBar delegate created. tabLabels =", projectDetailsPage.tabLabels, "index =", index, "selectedTabIndex =", projectDetailsPage.selectedTabIndex)
+                            // Log all anchor properties for this delegate
+                            console.log("DEBUG: TabBar delegate anchors:",
+                                "top", parent.anchors && parent.anchors.top,
+                                "bottom", parent.anchors && parent.anchors.bottom,
+                                "verticalCenter", parent.anchors && parent.anchors.verticalCenter,
+                                "fill", parent.anchors && parent.anchors.fill,
+                                "centerIn", parent.anchors && parent.anchors.centerIn
+                            );
+                        }
 
                         Row {
-                            anchors.fill: parent
                             spacing: 0
                             Rectangle {
                                 width: 6
@@ -684,7 +805,6 @@ Connections {
                                 radius: 3
                             }
                             Text {
-                                anchors.centerIn: parent
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignHCenter
                                 text: projectDetailsPage.tabLabels[index]
@@ -695,12 +815,320 @@ Connections {
                         }
 
                         MouseArea {
-                            anchors.fill: parent
+                            width: parent.width
+                            height: parent.height
                             cursorShape: Qt.PointingHandCursor
-                            onClicked: projectDetailsPage.selectedTabIndex = index
+                            onClicked: {
+                                console.log("DEBUG: Tab clicked. index =", index, "old selectedTabIndex =", projectDetailsPage.selectedTabIndex)
+                                projectDetailsPage.selectedTabIndex = index
+                                console.log("DEBUG: selectedTabIndex updated to", projectDetailsPage.selectedTabIndex)
+                            }
                         }
                     }
                 }
+// --- Task Tab UI (visible when "Tasks" tab is selected) ---
+    // --- Frontend model for tasks and subtasks (demo, replace with backend binding as needed) ---
+    // property var tasksModel: [] // Moved to ApplicationWindow root
+
+    // Helper to flatten tasks and subtasks for display
+    // (Moved to ApplicationWindow root scope below)
+// Helper to resolve owner names for display in QML Text
+
+
+// === MOVE ALL HELPERS TO ROOT SCOPE ===
+
+// (Insert after ApplicationWindow { ... properties ... } and before any Item/Rectangle)
+
+// --- INSERT AT LINE 32 (after ApplicationWindow properties, before onClosing) ---
+
+
+// === END INSERT ===
+
+// Remove all helper function definitions from inside Item/Rectangle blocks below
+
+Item {
+    id: taskTab
+    anchors.fill: parent
+    // Hierarchical task/subtask tree/list
+    Rectangle {
+        id: taskTreeBox
+        anchors.fill: parent
+        color: "#f8f9fa"
+        border.color: "#2255aa"
+        border.width: 2
+        radius: 16
+        anchors.margins: 32
+
+        Column {
+            anchors.fill: parent
+            anchors.margins: 16
+            spacing: 8
+
+            // Header row
+            Row {
+                spacing: 12
+                Text { text: "Title"; font.bold: true; width: 120 }
+                Text { text: "Description"; font.bold: true; width: 180 }
+                Text { text: "Deadline"; font.bold: true; width: 90 }
+                Text { text: "Owners"; font.bold: true; width: 90 }
+                Text { text: "Dependencies"; font.bold: true; width: 110 }
+                Text { text: "Hours (sum)"; font.bold: true; width: 70 }
+                Text { text: "Verify"; font.bold: true; width: 60 }
+                Text { text: "Status"; font.bold: true; width: 90 }
+                Text { text: ""; width: 90 } // Actions
+            }
+
+            // Task/subtask rows (dynamic)
+            Repeater {
+                model: root.flatTaskList
+                delegate: Row {
+                    spacing: 12
+                    Component.onCompleted: {
+                        console.log("PERF: TaskTab delegate created for", modelData.title, "isSubtask:", modelData.isSubtask);
+                    }
+                    // Indent subtasks
+                    Item { width: modelData.isSubtask ? 24 : 0 }
+                    Text { text: modelData.title; width: 120 }
+                    Text { text: modelData.description; width: 180 }
+                    Text { text: modelData.deadline; width: 90 }
+                    // Owners display (resolve user names if available)
+                    Text {
+                        width: 90
+                        text: root.getOwnerNames(modelData.isSubtask, modelData.ownersDisplay)
+                    }
+                    // Dependencies display (resolve task/subtask titles)
+                    Text {
+                        width: 110
+                        text: root.getDependencyTitles(modelData.dependenciesDisplay)
+                    }
+
+    // --- Add/Edit Subtask Dialog ---
+    Dialog {
+        id: subtaskDialog
+        modal: true
+        property bool editMode: false
+        property int parentTaskIndex: -1
+        property int editSubtaskIndex: -1
+        property var subtaskData: {
+            return {
+                title: "",
+                description: "",
+                owner: null,
+                dependencies: [],
+                hours: 0,
+                hoursVerify: 0,
+                status: 0
+            }
+        }
+        width: 480
+        height: 500
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        Column {
+            anchors.centerIn: parent
+            spacing: 12
+            Text { text: editMode ? "Edit Subtask" : "Add Subtask"; font.pixelSize: 22; font.bold: true }
+            TextField { placeholderText: "Title"; text: subtaskDialog.subtaskData.title; onTextChanged: subtaskDialog.subtaskData.title = text }
+            TextField { placeholderText: "Description"; text: subtaskDialog.subtaskData.description; onTextChanged: subtaskDialog.subtaskData.description = text }
+            // Owner single-select
+            ComboBox {
+                id: subOwnerCombo
+                width: 400
+                model: userManager ? userManager.users : []
+                textRole: "username"
+                valueRole: "id"
+                editable: false
+                currentIndex: userManager && subtaskDialog.subtaskData.owner !== null ? userManager.users.findIndex(u => u.id === subtaskDialog.subtaskData.owner) : -1
+                onActivated: {
+                    if (Array.isArray(currentIndex)) {
+                        // Multiple owners selected, prompt to duplicate
+                        // TODO: Show duplication prompt
+                    } else {
+                        subtaskDialog.subtaskData.owner = userManager.users[currentIndex].id;
+                    }
+                }
+            }
+            // Dependencies multi-select (grouped by parent task)
+            Rectangle {
+                width: 400; height: 40; color: "#f8f9fa"; border.color: "#bbb"; border.width: 1; radius: 8
+                property var selectedDeps: subtaskDialog.subtaskData.dependencies
+                ComboBox {
+                    id: subDepCombo
+                    width: parent.width
+                    model: root.tasksModel ? root.tasksModel : []
+                    textRole: "title"
+                    valueRole: "id"
+                    editable: false
+                    onActivated: {
+                        let task = tasksModel[currentIndex];
+                        let idx = parent.selectedDeps.indexOf(task.id);
+                        if (idx === -1) parent.selectedDeps.push(task.id);
+                        else parent.selectedDeps.splice(idx, 1);
+                        subDepCombo.currentIndex = -1;
+                    }
+                    delegate: ItemDelegate {
+                        width: parent.width
+                        text: model.title
+                        highlighted: parent.selectedDeps.indexOf(model.id) !== -1
+                        onClicked: {
+                            let idx = parent.selectedDeps.indexOf(model.id);
+                            if (idx === -1) parent.selectedDeps.push(model.id);
+                            else parent.selectedDeps.splice(idx, 1);
+                            subDepCombo.currentIndex = -1;
+                        }
+                        background: Rectangle { color: parent.selectedDeps.indexOf(model.id) !== -1 ? "#e0f7fa" : "transparent" }
+                    }
+                }
+            }
+            TextField { placeholderText: "Hours to complete"; text: subtaskDialog.subtaskData.hours; inputMethodHints: Qt.ImhDigitsOnly; onTextChanged: subtaskDialog.subtaskData.hours = parseInt(text) }
+            TextField { placeholderText: "Hours to verify"; text: subtaskDialog.subtaskData.hoursVerify; inputMethodHints: Qt.ImhDigitsOnly; onTextChanged: subtaskDialog.subtaskData.hoursVerify = parseInt(text) }
+            ComboBox { width: 180; model: ["not yet started", "in progress", "being tested", "complete"]; currentIndex: subtaskDialog.subtaskData.status; onCurrentIndexChanged: subtaskDialog.subtaskData.status = currentIndex }
+            Row {
+                spacing: 16
+                Button {
+                    text: "Save"
+                    onClicked: {
+                        if (taskDialog.editMode) {
+                            // Edit existing task
+                            let t = tasksModel[taskDialog.editTaskIndex];
+                            t.title = taskDialog.taskData.title;
+                            t.description = taskDialog.taskData.description;
+                            t.deadline = taskDialog.taskData.deadline;
+                            t.owners = taskDialog.taskData.owners.slice();
+                            t.dependencies = taskDialog.taskData.dependencies.slice();
+                            t.hours = taskDialog.taskData.hours;
+                            t.hoursVerify = taskDialog.taskData.hoursVerify;
+                            t.status = taskDialog.taskData.status;
+                        } else {
+                            // Add new task
+                            let newId = Math.max(0, ...tasksModel.map(t => t.id)) + 1;
+                            tasksModel.push({
+                                id: newId,
+                                title: taskDialog.taskData.title,
+                                description: taskDialog.taskData.description,
+                                deadline: taskDialog.taskData.deadline,
+                                owners: taskDialog.taskData.owners.slice(),
+                                dependencies: taskDialog.taskData.dependencies.slice(),
+                                hours: taskDialog.taskData.hours,
+                                hoursVerify: taskDialog.taskData.hoursVerify,
+                                status: taskDialog.taskData.status,
+                                subtasks: []
+                            });
+                        }
+                        taskDialog.close();
+                    }
+                }
+                Button { text: "Cancel"; onClicked: subtaskDialog.close() }
+            }
+        }
+    }
+                    Text { text: modelData.hoursSum; width: 70 }
+                    Text { text: modelData.hoursVerify; width: 60 }
+                    ComboBox {
+                        width: 90
+                        model: ["not yet started", "in progress", "being tested", "complete"]
+                        currentIndex: modelData.statusIndex
+                        onCurrentIndexChanged: {
+                            if (!modelData.isSubtask) {
+                                let idx = tasksModel.findIndex(t => t.id === modelData.id);
+                                if (idx !== -1) tasksModel[idx].status = currentIndex;
+                            } else {
+                                let parentIdx = tasksModel.findIndex(t => t.subtasks && t.subtasks.find(st => st.id === modelData.id));
+                                let subIdx = tasksModel[parentIdx].subtasks.findIndex(st => st.id === modelData.id);
+                                if (parentIdx !== -1 && subIdx !== -1) tasksModel[parentIdx].subtasks[subIdx].status = currentIndex;
+                            }
+                        }
+                    }
+                    Row {
+                        spacing: 4
+                        Button {
+                            text: "Edit"
+                            onClicked: {
+                                if (!modelData.isSubtask) {
+                                    taskDialog.editMode = true;
+                                    taskDialog.editTaskIndex = tasksModel.findIndex(t => t.id === modelData.id);
+                                    let t = tasksModel[taskDialog.editTaskIndex];
+                                    taskDialog.taskData = {
+                                        title: t.title,
+                                        description: t.description,
+                                        deadline: t.deadline,
+                                        owners: t.owners.slice(),
+                                        dependencies: t.dependencies.slice(),
+                                        hours: t.hours,
+                                        hoursVerify: t.hoursVerify,
+                                        status: t.status
+                                    };
+                                    taskDialog.open();
+                                } else {
+                                    // Subtask edit
+                                    let parentIdx = tasksModel.findIndex(t => t.subtasks && t.subtasks.find(st => st.id === modelData.id));
+                                    let subIdx = tasksModel[parentIdx].subtasks.findIndex(st => st.id === modelData.id);
+                                    subtaskDialog.editMode = true;
+                                    subtaskDialog.parentTaskIndex = parentIdx;
+                                    subtaskDialog.editSubtaskIndex = subIdx;
+                                    let s = tasksModel[parentIdx].subtasks[subIdx];
+                                    subtaskDialog.subtaskData = {
+                                        title: s.title,
+                                        description: s.description,
+                                        owner: s.owner,
+                                        dependencies: s.dependencies.slice(),
+                                        hours: s.hours,
+                                        hoursVerify: s.hoursVerify,
+                                        status: s.status
+                                    };
+                                    subtaskDialog.open();
+                                }
+                            }
+                        }
+                        Button {
+                            text: "Delete"
+                            onClicked: {
+                                if (!modelData.isSubtask) {
+                                    let idx = tasksModel.findIndex(t => t.id === modelData.id);
+                                    if (idx !== -1) tasksModel.splice(idx, 1);
+                                } else {
+                                    let parentIdx = tasksModel.findIndex(t => t.subtasks && t.subtasks.find(st => st.id === modelData.id));
+                                    let subIdx = tasksModel[parentIdx].subtasks.findIndex(st => st.id === modelData.id);
+                                    if (parentIdx !== -1 && subIdx !== -1) tasksModel[parentIdx].subtasks.splice(subIdx, 1);
+                                }
+                            }
+                        }
+                        Button {
+                            text: "Add Subtask"
+                            visible: !modelData.isSubtask
+                            onClicked: {
+                                subtaskDialog.editMode = false;
+                                subtaskDialog.parentTaskIndex = tasksModel.findIndex(t => t.id === modelData.id);
+                                subtaskDialog.editSubtaskIndex = -1;
+                                subtaskDialog.subtaskData = {
+                                    title: "",
+                                    description: "",
+                                    owner: null,
+                                    dependencies: [],
+                                    hours: 0,
+                                    hoursVerify: 0,
+                                    status: 0
+                                };
+                                subtaskDialog.open();
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Add Task button
+            Button {
+                text: "Add Task"
+                anchors.left: parent.left
+                onClicked: {/* TODO: Open add task dialog */}
+            }
+        }
+    }
+    visible: projectDetailsPage.selectedTabIndex === 0
+
+    // Placeholder for hierarchical task/subtask tree and controls
+    // The full UI and logic will be implemented in the next steps
+}
             }
             // Listen for projectTitleUpdated signal
             Connections {
@@ -804,6 +1232,98 @@ Connections {
                                             Text {
                                                 text: modelData.description
                                                 font.pixelSize: 16
+// --- Add/Edit Task Dialog ---
+Dialog {
+    id: taskDialog
+    modal: true
+    property bool editMode: false
+    property int editTaskIndex: -1
+    property var taskData: null
+    width: 480
+    height: 520
+    x: (parent.width - width) / 2
+    y: (parent.height - height) / 2
+    Column {
+        anchors.centerIn: parent
+        spacing: 12
+        Text { text: taskDialog.editMode ? "Edit Task" : "Add Task"; font.pixelSize: 22; font.bold: true }
+        TextField { placeholderText: "Title"; text: taskDialog.taskData ? taskDialog.taskData.title : ""; onTextChanged: if (taskDialog.taskData) taskDialog.taskData.title = text }
+        TextField { placeholderText: "Description"; text: taskDialog.taskData ? taskDialog.taskData.description : ""; onTextChanged: if (taskDialog.taskData) taskDialog.taskData.description = text }
+        TextField { placeholderText: "Deadline (YYYY-MM-DD)"; text: taskDialog.taskData ? taskDialog.taskData.deadline : ""; onTextChanged: if (taskDialog.taskData) taskDialog.taskData.deadline = text }
+        // Owners multi-select
+        Rectangle {
+            width: 400; height: 40; color: "#f8f9fa"; border.color: "#bbb"; border.width: 1; radius: 8
+            property var selectedOwners: taskDialog.taskData ? taskDialog.taskData.owners : []
+            ComboBox {
+                id: ownerCombo
+                width: parent.width
+                model: userManager ? userManager.users : []
+                textRole: "username"
+                valueRole: "id"
+                editable: false
+                onActivated: {
+                    let user = userManager.users[currentIndex];
+                    let idx = parent.selectedOwners.indexOf(user.id);
+                    if (idx === -1) parent.selectedOwners.push(user.id);
+                    else parent.selectedOwners.splice(idx, 1);
+                    ownerCombo.currentIndex = -1;
+                }
+                delegate: ItemDelegate {
+                    width: parent.width
+                    text: model.username
+                    highlighted: parent.selectedOwners.indexOf(model.id) !== -1
+                    onClicked: {
+                        let idx = parent.selectedOwners.indexOf(model.id);
+                        if (idx === -1) parent.selectedOwners.push(model.id);
+                        else parent.selectedOwners.splice(idx, 1);
+                        ownerCombo.currentIndex = -1;
+                    }
+                    background: Rectangle { color: parent.selectedOwners.indexOf(model.id) !== -1 ? "#e0f7fa" : "transparent" }
+                }
+            }
+        }
+        // Dependencies multi-select
+        Rectangle {
+            width: 400; height: 40; color: "#f8f9fa"; border.color: "#bbb"; border.width: 1; radius: 8
+            property var selectedDeps: taskDialog.taskData ? taskDialog.taskData.dependencies : []
+            ComboBox {
+                id: depCombo
+                width: parent.width
+                model: root.tasksModel
+                textRole: "title"
+                valueRole: "id"
+                editable: false
+                onActivated: {
+                    let task = tasksModel[currentIndex];
+                    let idx = parent.selectedDeps.indexOf(task.id);
+                    if (idx === -1) parent.selectedDeps.push(task.id);
+                    else parent.selectedDeps.splice(idx, 1);
+                    depCombo.currentIndex = -1;
+                }
+                delegate: ItemDelegate {
+                    width: parent.width
+                    text: model.title
+                    highlighted: parent.selectedDeps.indexOf(model.id) !== -1
+                    onClicked: {
+                        let idx = parent.selectedDeps.indexOf(model.id);
+                        if (idx === -1) parent.selectedDeps.push(model.id);
+                        else parent.selectedDeps.splice(idx, 1);
+                        depCombo.currentIndex = -1;
+                    }
+                    background: Rectangle { color: parent.selectedDeps.indexOf(model.id) !== -1 ? "#e0f7fa" : "transparent" }
+                }
+            }
+        }
+        TextField { placeholderText: "Hours to complete"; text: taskDialog.taskData ? taskDialog.taskData.hours : ""; inputMethodHints: Qt.ImhDigitsOnly; onTextChanged: if (taskDialog.taskData) taskDialog.taskData.hours = parseInt(text) }
+        TextField { placeholderText: "Hours to verify"; text: taskDialog.taskData ? taskDialog.taskData.hoursVerify : ""; inputMethodHints: Qt.ImhDigitsOnly; onTextChanged: if (taskDialog.taskData) taskDialog.taskData.hoursVerify = parseInt(text) }
+        ComboBox { width: 180; model: ["not yet started", "in progress", "being tested", "complete"]; currentIndex: taskDialog.taskData ? taskDialog.taskData.status : 0; onCurrentIndexChanged: if (taskDialog.taskData) taskDialog.taskData.status = currentIndex }
+        Row {
+            spacing: 16
+            Button { text: "Save"; onClicked: {/* TODO: Save logic */} }
+            Button { text: "Cancel"; onClicked: taskDialog.close() }
+        }
+    }
+}
                                                 color: "#222"
                                                 elide: Text.ElideRight
                                             }
