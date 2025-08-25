@@ -2,80 +2,41 @@
 
 ## Overview
 
-This document provides comprehensive documentation for the Draft_2 Project Management Platform, a full-stack web application designed for team collaboration, task management, and file sharing. The platform combines a Flask backend with a React frontend to deliver a modern, responsive project management solution.
+This document describes the features of the Draft_2 Project Management Platform, a local desktop application built with Python and PySide6/QML.
+**Note:** The application was rolled back from a web-based stack; all web/React/Vite/MUI/GitHub/VCS features are now planned only and not present in the current codebase.
 
 ---
 
 ## Technology Stack Summary
 
-### Backend Technologies
-- **Flask 3.0.0** - Python web framework for API development
-- **SQLAlchemy 2.0.23** - Object-relational mapping (ORM) for database operations
-- **SQLite** - Lightweight database for development (production-ready for small teams)
-- **bcrypt 4.1.2** - Secure password hashing and authentication
-
-### Frontend Technologies
-- **React 19.1.0** - Modern JavaScript library for building user interfaces
-- **Vite 7.0.4** - Fast build tool and development server
-- **Material-UI (MUI) 7.2.0** - Professional React component library
-- **React Router DOM 7.6.3** - Client-side routing and navigation
-- **@hello-pangea/dnd 18.0.1** - Drag-and-drop functionality for task management
-- **@mui/x-data-grid 8.8.0** - Advanced data grid components for user management
-- **@mui/x-date-pickers 8.8.0** - Date selection components for project deadlines
-
-### Development Tools
-- **ESLint** - Code linting and quality assurance
-- **Docker** - Containerization for deployment
-- **date-fns** - Modern date utility library
+- **Python 3.x** with **PySide6** for desktop GUI (QML frontend)
+- **SQLAlchemy** ORM and **SQLite** for local database
+- **bcrypt** for password hashing and authentication
+- **No web frontend or Git-based versioning is currently implemented**
 
 ---
 
 ## Feature Overview
 
-The platform provides a comprehensive suite of project management tools organized around four core pillars:
+The platform provides a suite of project management tools for local use, organized around these pillars:
 
-1. **User Authentication & Authorization** - Secure access control with role-based permissions
-2. **Project & Task Management** - Complete project lifecycle management with task organization
-3. **Team Collaboration** - Multi-user workflows with role assignments and communication
-4. **File Management** - Secure file sharing with version control integration
+1. **User Authentication & Authorization** – Secure access control with role-based permissions
+2. **Project & Task Management** – Project lifecycle management, task/subtask organization, Gantt and calendar views
+3. **Team Collaboration** – Multi-user workflows, role assignments, and messaging
+4. **File Management** – Planned only; not currently implemented
 
 ---
 
 ## 1. User Authentication & Authorization
 
-### Description
-Comprehensive user management system with secure authentication, role-based access control, and permission management.
+**Implemented:**
+- User registration, password hashing, and role-based access control
+- User creation, listing, and management via the desktop UI
+- Admin and user roles with permission system
 
-### Current Implementation Status
-- ✅ **Fully Implemented**: User registration, password hashing, database schema
-- ✅ **Backend API**: User creation, user listing, user count endpoints
-- ⚠️ **Partially Implemented**: Frontend authentication (UI exists, backend integration pending)
-- ❌ **Planned**: Login/logout functionality, session management, password reset
-
-### User Interface
-- **Login Page** ([`Authentication.jsx`](ui/src/pages/Authentication.jsx:1)): Clean, professional login interface with username/password fields
-- **User Role Selection**: Admin/User access buttons for demonstration
-- **Password Reset**: Interface designed (functionality pending)
-
-### Technical Implementation
-- **Database Schema**: Complete user, roles, and permissions tables in [`schema.sql`](app/schema.sql:3)
-- **Password Security**: bcrypt hashing implemented in [`db.py`](app/db.py:78)
-- **API Endpoints**: 
-  - `GET /api/users` - List all users
-  - `GET /api/user-count` - Get total user count
-  - `POST /api/users` - Create new user
-
-### Security Features
-- **Password Hashing**: bcrypt with salt for secure password storage
-- **Role-Based Access**: Admin and user roles with expandable permission system
-- **SQL Injection Protection**: SQLAlchemy ORM prevents SQL injection attacks
-
-### Future Enhancements
-- Session-based authentication with secure cookies
-- JWT token implementation for stateless authentication
-- Multi-factor authentication (MFA) support
-- OAuth integration (Google, Microsoft, etc.)
-- Password complexity requirements and rotation policies
+**Planned:**
+- Session management and password reset
+- Multi-factor authentication (MFA), OAuth, and advanced security features
 
 ---
 
@@ -707,8 +668,5 @@ Platform performance optimization focusing on fast loading times, efficient data
 
 ## Conclusion
 
-The Draft_2 Project Management Platform represents a comprehensive, modern approach to team collaboration and project management. With its solid foundation of React and Flask technologies, professional UI/UX design, and scalable architecture, the platform is well-positioned for continued development and production deployment.
-
-The current implementation demonstrates strong architectural decisions, security-conscious design, and user-focused interface development. While several features require backend completion and integration work, the foundation provides an excellent starting point for a full-featured project management solution.
-
-The platform's modular design, comprehensive database schema, and modern technology stack make it suitable for organizations of various sizes, from small teams to larger enterprises, with clear paths for scaling and feature enhancement.
+The Draft_2 Project Management Platform is a local desktop application for project and team management, with a strong foundation in Python and PySide6/QML.
+While several advanced features are planned, the current implementation provides robust project, task, user, and team management for local use.
