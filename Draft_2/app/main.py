@@ -60,6 +60,26 @@ class UserManager(QObject):
         }
 from PySide6.QtCore import QObject, Signal, Slot, Property
 
+class LoginManager(QObject):
+    loginResult = Signal(bool, str)  # success, message
+
+    def __init__(self):
+        super().__init__()
+        # Placeholder: in-memory user store
+        self._users = {
+            "alice": "password123",
+            "bob": "securepass",
+            "admin": "admin"
+        }
+
+    @Slot(str, str)
+    def verify_credentials(self, username, password):
+        """Check credentials and emit loginResult signal."""
+        if username in self._users and self._users[username] == password:
+            self.loginResult.emit(True, "Login successful")
+        else:
+            self.loginResult.emit(False, "Invalid username or password")
+
 class EventLogEntry(QObject):
     timestampChanged = Signal()
     descriptionChanged = Signal()
@@ -410,8 +430,11 @@ class DashboardManager(QObject):
 #         }
 # 
 class ProjectManager(QObject):
+    # Signals for QML integration (required by task)
     projectCreated = Signal(bool, str)
     projectDeleted = Signal(bool, str)
+    projectTitleUpdated = Signal(bool, str)
+    # Existing signals
     projectDetailLoaded = Signal(object)
     subtaskDetailLoaded = Signal(object)
     ganttDataLoaded = Signal(object)
@@ -420,12 +443,14 @@ class ProjectManager(QObject):
     membersChanged = Signal()
     leaderChanged = Signal()
     filterByMember = Signal(int)
-    projectTitleUpdated = Signal(bool, str)
 
     def __init__(self):
         super().__init__()
         self._members = []
         self._leader_id = None
+        # Placeholder/in-memory project list for demo/testing
+        self._placeholder_mode = True  # Set to False to use real DB logic
+        self._projects = []
 
     @Slot(int, int)
     def deleteProject(self, project_id, user_id):
@@ -841,6 +866,10 @@ if __name__ == "__main__":
     # Expose UserManager to QML
     user_manager = UserManager()
     engine.rootContext().setContextProperty("userManager", user_manager)
+
+    # Expose LoginManager to QML
+    login_manager = LoginManager()
+    engine.rootContext().setContextProperty("loginManager", login_manager)
 
     qml_file = QUrl.fromLocalFile("Draft_2/app/qml/Main.qml")
     engine.load(qml_file)

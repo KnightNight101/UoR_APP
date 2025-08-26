@@ -3963,3 +3963,46 @@ sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <Task at 0x1a640fb51c0
 [2025-08-25T16:22:45.567887] Navigated to page: projectDetails
 [2025-08-25T16:24:36.652963] User logged out (window closed)
 [2025-08-25T16:24:37.455639] Navigated to page: dashboard
+[2025-08-25T17:55:00.737751] Opened project details: (Untitled Project)
+[2025-08-25T17:55:09.109774] User 'Nithin' logged in
+[2025-08-25T17:55:09.120804] User 'Nithin' logged in
+[2025-08-25T17:55:11.327521] Navigated to project details: New Project
+[2025-08-25T17:55:12.431448] Navigated to page: projectDetails
+[2025-08-25T17:55:32.457494] User logged out (window closed)
+[2025-08-25T17:55:34.178539] Navigated to page: dashboard
+[2025-08-25T18:33:06.023632] User 'Nithin' logged in
+[2025-08-25T18:33:06.034636] User 'Nithin' logged in
+[2025-08-25T18:33:07.420513] Navigated to project details: New Project
+[2025-08-25T18:33:07.486873] Navigated to page: projectDetails
+[2025-08-25T18:35:30.618064] User logged out (window closed)
+[2025-08-25T18:35:30.747129] Navigated to page: dashboard
+[2025-08-25T18:35:42.222054] User 'Nithin' logged in
+[2025-08-25T18:35:42.232703] User 'Nithin' logged in
+[2025-08-25T18:35:43.145790] Navigated to project details: New Project
+[2025-08-25T18:35:43.214987] Navigated to page: projectDetails
+[2025-08-25T18:36:53.234368] User logged out (window closed)
+[2025-08-25T18:36:53.302519] Navigated to page: dashboard
+[2025-08-25T18:39:11.103538] User 'Nithin' logged in
+[2025-08-25T18:39:11.113131] User 'Nithin' logged in
+[2025-08-25T18:39:12.441150] Navigated to project details: New Project
+[2025-08-25T18:39:12.500498] Navigated to page: projectDetails
+[2025-08-25T18:41:47.769818] User 'Nithin' logged in
+[2025-08-25T18:41:47.779349] User 'Nithin' logged in
+[2025-08-25T18:41:48.946222] Navigated to project details: New Project
+[2025-08-25T18:41:49.004617] Navigated to page: projectDetails
+[2025-08-25T18:42:26.679405] User logged out (window closed)
+[2025-08-25T18:42:26.742528] Navigated to page: dashboard
+[2025-08-25T18:42:42.572720] User 'Nithin' logged in
+[2025-08-25T18:42:42.583193] User 'Nithin' logged in
+[2025-08-25T18:42:43.769760] Navigated to project details: New Project
+[2025-08-25T18:42:43.829095] Navigated to page: projectDetails
+[2025-08-25T18:45:11.605865] User logged out (window closed)
+[2025-08-25T18:45:11.665878] Navigated to page: dashboard
+[2025-08-25T18:45:16.216650] Opened project details: (Untitled Project)
+[2025-08-25T18:45:23.015373] User 'Nithin' logged in
+[2025-08-25T18:45:23.027411] User 'Nithin' logged in
+[2025-08-25T18:45:25.063448] Navigated to project details: Master's Dissertation
+[2025-08-25T18:45:25.866006] Navigated to page: projectDetails
+[2025-08-25T18:45:27.974925] User logged out (window closed)
+[2025-08-25T18:45:28.795457] Navigated to page: dashboard
+[2025-08-25T20:28:27.293737] Opened project details: (Untitled Project)
