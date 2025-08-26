@@ -120,3 +120,40 @@ def test_backend_api_for_qml_ui(client):
     task_id = response.get_json()["id"]
     response = client.get(f"/tasks/{task_id}")
     assert response.status_code == 200
+def test_project_creation_and_team_assignment_with_event_logging(client):
+    # Create a project with all fields
+    response = client.post("/projects", json={
+        "name": "Integration Project",
+        "description": "Project for integration test",
+        "owner_id": 1,
+        "members": [{"user_id": 1}],
+        "deadline": "2025-09-10",
+        "tasks": []
+    })
+    assert response.status_code == 201
+    project = response.get_json()
+    project_id = project["id"]
+
+    # Assign a new team member
+    # First, ensure user 2 exists
+    import sqlite3
+    conn = sqlite3.connect("Draft_2/app/auth.db")
+    cur = conn.cursor()
+    cur.execute("INSERT OR IGNORE INTO users (id, username) VALUES (?, ?)", (2, "testuser2"))
+    conn.commit()
+    conn.close()
+
+    response = client.post(f"/projects/{project_id}/members", json={
+        "user_id": 1,
+        "new_member_id": 2,
+        "role": "member"
+    })
+    assert response.status_code == 200
+    member = response.get_json()
+    assert member["user_id"] == 2
+
+    # Check event logging (assuming events are logged in event_log.txt)
+    with open("Draft_2/app/event_log.txt", "r", encoding="utf-8") as f:
+        log_content = f.read()
+    assert "Integration Project" in log_content or "project" in log_content.lower()
+    assert "testuser2" in log_content or "member" in log_content.lower()

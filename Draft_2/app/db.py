@@ -1066,7 +1066,7 @@ def create_project(
     deadline: Optional[str] = None,
     tasks: Optional[list] = None
 ):
-    """Create a new project with optional initial members, deadline, and tasks."""
+    """Create a new project with optional initial members, deadline, and tasks. Logs event to EventLog."""
     import json
     import traceback
     print(f"[DEBUG] create_project called (name={name}, owner_id={owner_id})")
@@ -1097,6 +1097,14 @@ def create_project(
                     role='owner'
                 )
                 session.add(owner_membership)
+                # Log event for owner assignment
+                log_structured_event(
+                    session,
+                    event_type="project_owner_assigned",
+                    user_id=owner_id,
+                    project_id=project.id,
+                    reasoning="Owner assigned to new project"
+                )
 
             # Add initial members if provided
             if members:
@@ -1110,6 +1118,14 @@ def create_project(
                             role=role
                         )
                         session.add(member)
+                        # Log event for member assignment
+                        log_structured_event(
+                            session,
+                            event_type="project_member_assigned",
+                            user_id=user_id,
+                            project_id=project.id,
+                            reasoning=f"User assigned as {role} to project"
+                        )
 
             # --- Create real Task rows for each task in tasks ---
             from datetime import datetime as dt
@@ -1141,6 +1157,15 @@ def create_project(
                     )
                 else:
                     raise ValueError("Project ID was not assigned correctly.")
+
+            # Log event for project creation
+            log_structured_event(
+                session,
+                event_type="project_created",
+                user_id=owner_id,
+                project_id=project.id,
+                reasoning="Project created"
+            )
 
             session.commit()
             print("[DEBUG] create_project: Session committed")
@@ -1297,7 +1322,7 @@ def get_project_members(project_id: int, user_id: Optional[int] = None):
         return []
 
 def add_project_member(project_id: int, user_id: int, new_member_id: int, role: str = 'member'):
-    """Add member to project (owner or admin only)."""
+    """Add member to project (owner or admin only). Logs event to EventLog."""
     try:
         with SessionLocal() as session:
             # Check if user has permission to add members
@@ -1331,6 +1356,14 @@ def add_project_member(project_id: int, user_id: int, new_member_id: int, role: 
                 role=role
             )
             session.add(new_member)
+            # Log event for member assignment
+            log_structured_event(
+                session,
+                event_type="project_member_assigned",
+                user_id=new_member_id,
+                project_id=project_id,
+                reasoning=f"User assigned as {role} to project"
+            )
             session.commit()
             
             # Return new member with user info
