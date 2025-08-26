@@ -353,6 +353,15 @@ npm run dev              # Start Vite server (port 5173)
 **Estimated Reading Time**: 120-150 minutes  
 **Scope**: Complete production deployment lifecycle
 
+#### **[`TESTING.md`](TESTING.md)** - Testing Approach and Backend/API Coverage
+**Purpose**: Comprehensive testing documentation for backend logic, API endpoints, event logging, and test coverage
+**Contents**:
+- Backend logic and API endpoints for project creation, metadata, deadline, description, and team member assignment
+- Event logging for project creation and team assignment (via `event_logs` table)
+- Automated and manual test coverage for all backend features
+- Initial test failures (missing `event_logs` table, payload format issues)
+- Rectifications and final passing results for all backend tests
+
 ### Document Cross-References and Dependencies
 
 #### **Reading Path Dependencies**

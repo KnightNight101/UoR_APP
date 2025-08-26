@@ -97,3 +97,85 @@ FROM files
 WHERE files.project_id = ? AND files.subtask_id = ?]
 [parameters: (1, 39)]
 (Background on this error at: https://sqlalche.me/e/20/e3q8)
+[ERROR] [2025-08-26T17:26:08.225205] Error creating project: (sqlite3.OperationalError) no such table: event_logs
+[SQL: INSERT INTO event_logs (timestamp, user_id, project_id, task_id, subtask_id, event_type, old_category, new_category, reasoning, context_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('2025-08-26 16:26:08.094162', 1, 35, None, None, 'project_owner_assigned', None, None, 'Owner assigned to new project', None)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: event_logs
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\db.py", line 1101, in create_project
+    log_structured_event(
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\db.py", line 334, in log_structured_event
+    session.commit()
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 1969, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 1256, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 1231, in _prepare_impl
+    self.session.flush()
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 4312, in flush
+    self._flush(objects)
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 4447, in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 4408, in _flush
+    flush_context.execute()
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\persistence.py", line 1226, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: event_logs
+[SQL: INSERT INTO event_logs (timestamp, user_id, project_id, task_id, subtask_id, event_type, old_category, new_category, reasoning, context_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('2025-08-26 16:26:08.094162', 1, 35, None, None, 'project_owner_assigned', None, None, 'Owner assigned to new project', None)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+[ERROR] [2025-08-26T17:26:46.243094] Error creating project: 'int' object has no attribute 'get'
+Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\db.py", line 1112, in create_project
+    user_id = member_data.get('user_id')
+              ^^^^^^^^^^^^^^^
+AttributeError: 'int' object has no attribute 'get'
+

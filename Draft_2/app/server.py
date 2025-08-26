@@ -341,5 +341,117 @@ def verify_plan():
     result = planner.verify_plan_feasibility(plan)
     return jsonify(result)
 
+# --- Project Management Endpoints ---
+
+from Draft_2.app.db import (
+    create_project as orm_create_project,
+    update_project as orm_update_project,
+    get_project_by_id as orm_get_project_by_id,
+    get_project_members as orm_get_project_members,
+    add_project_member as orm_add_project_member,
+    remove_project_member as orm_remove_project_member,
+)
+
+@app.route("/projects", methods=["POST"])
+def create_project():
+    data = request.json
+    if not data:
+        return jsonify({"error": "Missing JSON body"}), 400
+    name = data.get("name")
+    description = data.get("description")
+    owner_id = data.get("owner_id")
+    members = data.get("members", [])
+    deadline = data.get("deadline")
+    tasks = data.get("tasks", [])
+    if not name or not owner_id:
+        return jsonify({"error": "name and owner_id are required"}), 400
+    project = orm_create_project(
+        name=name,
+        description=description,
+        owner_id=owner_id,
+        members=members,
+        deadline=deadline,
+        tasks=tasks
+    )
+    if not project:
+        return jsonify({"error": "Project creation failed"}), 500
+    return jsonify({"id": project.id, "name": project.name, "description": project.description, "deadline": project.deadline}), 201
+
+@app.route("/projects/<int:project_id>", methods=["GET"])
+def get_project(project_id):
+    user_id = request.args.get("user_id", type=int)
+    project = orm_get_project_by_id(project_id, user_id=user_id)
+    if not project:
+        return jsonify({"error": "Project not found or access denied"}), 404
+    return jsonify({
+        "id": project.id,
+        "name": project.name,
+        "description": project.description,
+        "deadline": project.deadline,
+        "owner_id": project.owner_id,
+        "members": [
+            {"user_id": m.user_id, "role": m.role}
+            for m in project.members
+        ]
+    })
+
+@app.route("/projects/<int:project_id>", methods=["PUT"])
+def update_project(project_id):
+    data = request.json
+    if not data:
+        return jsonify({"error": "Missing JSON body"}), 400
+    user_id = data.get("user_id")
+    name = data.get("name")
+    description = data.get("description")
+    if not user_id:
+        return jsonify({"error": "user_id required"}), 400
+    updated, error = orm_update_project(project_id, user_id, name=name, description=description)
+    if error or updated is None:
+        return jsonify({"error": error or "Update failed"}), 403
+    return jsonify({
+        "id": updated.id,
+        "name": updated.name,
+        "description": updated.description,
+        "deadline": updated.deadline,
+        "owner_id": updated.owner_id
+    })
+
+@app.route("/projects/<int:project_id>/members", methods=["GET"])
+def get_project_members(project_id):
+    user_id = request.args.get("user_id", type=int)
+    members = orm_get_project_members(project_id, user_id=user_id)
+    return jsonify([
+        {"user_id": m.user_id, "role": m.role}
+        for m in members
+    ])
+
+@app.route("/projects/<int:project_id>/members", methods=["POST"])
+def add_project_member(project_id):
+    data = request.json
+    if not data:
+        return jsonify({"error": "Missing JSON body"}), 400
+    user_id = data.get("user_id")
+    new_member_id = data.get("new_member_id")
+    role = data.get("role", "member")
+    if not user_id or not new_member_id:
+        return jsonify({"error": "user_id and new_member_id required"}), 400
+    member, error = orm_add_project_member(project_id, user_id, new_member_id, role=role)
+    if error or member is None:
+        return jsonify({"error": error or "Add member failed"}), 403
+    return jsonify({"user_id": member.user_id, "role": member.role})
+
+@app.route("/projects/<int:project_id>/members/<int:member_id>", methods=["DELETE"])
+def remove_project_member(project_id, member_id):
+    data = request.json
+    if not data:
+        return jsonify({"error": "Missing JSON body"}), 400
+    user_id = data.get("user_id")
+    if not user_id:
+        return jsonify({"error": "user_id required"}), 400
+    success, error = orm_remove_project_member(project_id, user_id, member_id)
+    if not success:
+        return jsonify({"error": error}), 403
+    return jsonify({"success": True})
+
 if __name__ == "__main__":
     app.run(debug=True)

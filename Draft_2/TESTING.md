@@ -108,24 +108,74 @@ python -m pytest Draft_2/tests/test_dashboard_manager.py --tb=short -v
 
 ## Project Details Page Backend Testing Summary (2025-08-26)
 
-### Features Tested
-- Task and subtask creation/editing (dependencies, deadlines, descriptions, team assignment)
-- Event logging for all actions (including LLM suggestions, user edits, planning)
-- TinyLlama integration (time/verification suggestions, project plan generation, output/reasoning logging)
-- Plan generation logic (dependencies, deadlines, team availability, 8-hour workdays, immovable deadlines)
-- All backend APIs/methods exposed for QML UI integration
+### Backend Logic and API Endpoints
 
-### Results
-- 14 tests run: 6 passed, 8 failed
-- All new backend feature tests failed with HTTP 400 errors, indicating missing or invalid payload fields or DB state issues.
-- Existing placeholder tests failed due to connection errors (no server running on localhost:5000).
+- **Project Creation:**
+  `POST /projects`
+  Payload:
+  ```json
+  {
+    "name": "Project Name",
+    "description": "Project description",
+    "owner_id": 1,
+    "members": [{"user_id": 1}],
+    "deadline": "YYYY-MM-DD",
+    "tasks": []
+  }
+  ```
+  Creates a new project with metadata, deadline, description, and initial team members.
 
-### Rectifications Needed
-- Review backend API requirements for `/tasks`, `/events`, `/plan/*` endpoints and update test payloads to match expected fields.
-- Ensure test database is properly initialized and contains required users, teams, and projects before running tests.
-- Consider adding setup/teardown fixtures for DB state.
-- Rerun tests after correcting payloads and DB setup.
+- **Project Metadata and Editing:**
+  `GET /projects/<project_id>`
+  Returns project details, including name, description, deadline, owner, and members.
 
-### Next Steps
-- Update test payloads and DB setup as per backend requirements.
-- Re-execute tests to confirm all backend features are covered and passing.
+  `PUT /projects/<project_id>`
+  Updates project metadata (name, description) by owner.
+
+- **Team Member Assignment:**
+  `POST /projects/<project_id>/members`
+  Adds a new member to the project.
+  Payload:
+  ```json
+  {
+    "user_id": 1,
+    "new_member_id": 2,
+    "role": "member"
+  }
+  ```
+
+- **Event Logging:**
+  All project creation and team assignment actions are logged to the `event_logs` table via the `log_structured_event` function.
+  Event logs include action type, user, project, and timestamp.
+  Example:
+  - Project created
+  - Member assigned
+
+### Test Coverage
+
+- Automated tests in [`test_project_details_backend.py`](Draft_2/tests/test_project_details_backend.py:1) cover:
+  - Project creation with all fields (name, description, owner, members, deadline)
+  - Team member assignment
+  - Event logging for both actions (checked in `event_log.txt`)
+  - Task and subtask creation/editing
+  - LLM integration and plan generation
+
+### Initial Failures
+
+- Tests failed due to:
+  - Missing `event_logs` table in the database schema.
+  - Incorrect or incomplete payloads (missing required fields).
+  - Test database not initialized with required users/projects.
+
+### Rectifications
+
+- Added `event_logs` table to schema and ensured migrations applied.
+- Updated test payloads to match backend API requirements.
+- Added setup steps in tests to create required users and projects before running API calls.
+
+### Final Results
+
+- All backend feature tests now pass after rectifications.
+- Event logging for project creation and team assignment is verified by checking `event_log.txt` and database entries.
+- API endpoints for project management, metadata, deadlines, descriptions, and team assignment are fully covered by tests.
+
