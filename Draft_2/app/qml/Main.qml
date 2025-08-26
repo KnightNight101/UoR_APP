@@ -184,7 +184,7 @@ ApplicationWindow {
 // Load projects after login or when userId changes
 Connections {
     target: AuthManager
-    onUserIdChanged: {
+    function onUserIdChanged() {
         if (AuthManager.userId > 0) {
             dashboardManager.loadProjects(AuthManager.userId)
         }
