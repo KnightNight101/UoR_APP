@@ -256,6 +256,36 @@ class Tenant(Base):
     users = relationship("User", back_populates="tenant")
     projects = relationship("Project", back_populates="tenant")
 
+class EventLog(Base):
+    __tablename__ = "event_logs"
+    id = Column(Integer, primary_key=True)
+    timestamp = Column(DateTime, default=func.now(), nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=True)
+    project_id = Column(Integer, ForeignKey('projects.id'), nullable=True)
+    task_id = Column(Integer, ForeignKey('tasks.id'), nullable=True)
+    subtask_id = Column(Integer, ForeignKey('subtasks.id'), nullable=True)
+    event_type = Column(String, nullable=False)  # e.g., recategorization, llm_suggestion, user_override
+    old_category = Column(String, nullable=True)
+    new_category = Column(String, nullable=True)
+    reasoning = Column(Text, nullable=True)
+    context_json = Column(Text, nullable=True)  # JSON-encoded context (prompt, LLM input/output, etc.)
+
+    user = relationship("User")
+    project = relationship("Project")
+    task = relationship("Task")
+    subtask = relationship("Subtask")
+
+class EisenhowerMatrixState(Base):
+    __tablename__ = "eisenhower_matrix_states"
+    id = Column(Integer, primary_key=True)
+    project_id = Column(Integer, ForeignKey('projects.id'), nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    state_json = Column(Text, nullable=False)  # JSON: mapping of task/subtask IDs to categories
+    updated_at = Column(DateTime, server_default=func.current_timestamp(), onupdate=func.current_timestamp())
+
+    project = relationship("Project")
+    user = relationship("User")
+
 class FileVersion(Base):
     __tablename__ = "file_versions"
     id = Column(Integer, primary_key=True)
@@ -270,6 +300,82 @@ def column_exists(conn, table, column):
     """Check if a column exists in a SQLite table."""
     result = conn.execute(text(f"PRAGMA table_info({table})"))
     return any(row['name'] == column for row in result.mappings())
+
+# --- EventLog CRUD and helpers ---
+
+def log_structured_event(
+    session,
+    event_type,
+    user_id=None,
+    project_id=None,
+    task_id=None,
+    subtask_id=None,
+    old_category=None,
+    new_category=None,
+    reasoning=None,
+    context_json=None
+):
+    """Log a structured event to the EventLog table."""
+    from datetime import datetime
+    import json
+    event = EventLog(
+        timestamp=datetime.utcnow(),
+        user_id=user_id,
+        project_id=project_id,
+        task_id=task_id,
+        subtask_id=subtask_id,
+        event_type=event_type,
+        old_category=old_category,
+        new_category=new_category,
+        reasoning=reasoning,
+        context_json=json.dumps(context_json) if isinstance(context_json, dict) else context_json
+    )
+    session.add(event)
+    session.commit()
+    return event
+
+def get_event_logs(project_id=None, user_id=None, limit=100):
+    """Fetch event logs, optionally filtered by project or user."""
+    with SessionLocal() as session:
+        query = session.query(EventLog)
+        if project_id:
+            query = query.filter(EventLog.project_id == project_id)
+        if user_id:
+            query = query.filter(EventLog.user_id == user_id)
+        return query.order_by(EventLog.timestamp.desc()).limit(limit).all()
+
+# --- EisenhowerMatrixState CRUD ---
+
+def get_eisenhower_matrix_state(project_id, user_id):
+    """Get Eisenhower matrix state for a project/user."""
+    with SessionLocal() as session:
+        return session.query(EisenhowerMatrixState).filter(
+            EisenhowerMatrixState.project_id == project_id,
+            EisenhowerMatrixState.user_id == user_id
+        ).order_by(EisenhowerMatrixState.updated_at.desc()).first()
+
+def set_eisenhower_matrix_state(project_id, user_id, state_json):
+    """Set or update Eisenhower matrix state for a project/user."""
+    from datetime import datetime
+    import json
+    with SessionLocal() as session:
+        state = session.query(EisenhowerMatrixState).filter(
+            EisenhowerMatrixState.project_id == project_id,
+            EisenhowerMatrixState.user_id == user_id
+        ).first()
+        if state:
+            setattr(state, "state_json", json.dumps(state_json) if isinstance(state_json, dict) else state_json)
+            setattr(state, "updated_at", datetime.utcnow())
+        else:
+            state = EisenhowerMatrixState(
+                project_id=project_id,
+                user_id=user_id,
+                state_json=json.dumps(state_json) if isinstance(state_json, dict) else state_json,
+                updated_at=datetime.utcnow()
+            )
+            session.add(state)
+        session.commit()
+        return state
 
 def init_db():
     """Initialize the database schema if tables do not exist."""
@@ -657,7 +763,7 @@ def mark_message_read(message_id: int):
             msg = session.query(Message).filter(Message.id == message_id).first()
             if not msg:
                 return False
-            msg.read = True
+            setattr(msg, "read", True)
             session.commit()
             return True
     except Exception as e:
@@ -1353,14 +1459,14 @@ def update_project_leader(project_id: int, new_leader_id: int):
             ).all()
             # Set all to 'member'
             for m in members:
-                m.role = 'member'
+                setattr(m, "role", 'member')
             # Set new leader
             new_leader = session.query(ProjectMember).filter(
                 ProjectMember.project_id == project_id,
                 ProjectMember.user_id == new_leader_id
             ).first()
             if new_leader:
-                new_leader.role = 'leader'
+                setattr(new_leader, "role", 'leader')
                 session.commit()
                 log_event(f"Changed leader to user {new_leader_id} for project {project_id}")
                 return True

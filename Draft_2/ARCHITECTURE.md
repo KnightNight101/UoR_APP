@@ -83,6 +83,42 @@ flowchart TD
 
 ---
 
+### 2.8 Dashboard Logic, Eisenhower Matrix & LLM Integration
+
+#### DashboardManager (Backend/QML API)
+- Exposes user projects and Eisenhower matrix state to QML via properties and slots.
+- Methods:
+  - `loadProjects(user_id)`: Loads all projects for a user.
+  - `projects` (Property): List of project dicts for QML.
+  - `loadEisenhowerMatrixState(user_id, project_id)`: Loads Eisenhower matrix state for a user/project.
+  - `eisenhowerMatrixState` (Property): Current Eisenhower matrix state (QML-accessible).
+  - `setEisenhowerMatrixState(user_id, project_id, state_json)`: Updates Eisenhower matrix state.
+- All methods are exposed to QML and update UI via signals.
+
+#### Recategorization & Event Logging
+- `recategorizeTaskOrSubtask(user_id, project_id, task_id, subtask_id, old_category, new_category)`:
+  - Called by QML on drag-and-drop between Eisenhower matrix categories.
+  - Updates category in DB and logs a structured event (with timestamp, user, project, task/subtask, old/new category, reasoning).
+  - Event log is append-only (`event_log.txt`) and accessible in the UI.
+- All recategorization and significant actions are logged for auditability.
+
+#### TinyLlama/LLM Integration
+- `suggestEisenhowerCategory(user_id, project_id, task_id, subtask_id)`:
+  - Gathers recent event logs as context.
+  - Calls TinyLlama LLM via local HTTP API (`http://localhost:8000/suggest`) to get category suggestion and reasoning.
+  - Applies suggestion (if subtask) and logs the LLM suggestion event with full context and LLM response.
+  - All LLM interactions are local; no external network calls.
+
+#### QML API Exposure
+- All backend logic for dashboard, Eisenhower matrix, recategorization, and LLM integration is exposed to QML via PySide6 properties and slots.
+- QML UI interacts with backend by calling these slots and observing property changes (signals).
+
+---
+- **Dashboard/Eisenhower Matrix**: QML UI interacts with `DashboardManager` to fetch/update projects and Eisenhower matrix state.
+- **Recategorization**: QML triggers `recategorizeTaskOrSubtask` on drag-and-drop; backend updates DB and logs event.
+- **LLM Integration**: QML calls `suggestEisenhowerCategory`; backend gathers context, calls TinyLlama, applies/logs suggestion, and updates UI.
+---
+
 ## 3. Data & Control Flow
 
 - **UI → Backend**: QML UI calls backend manager methods via signals/slots for all actions (login, CRUD, navigation).

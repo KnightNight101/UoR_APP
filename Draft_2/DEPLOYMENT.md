@@ -79,6 +79,36 @@ If you see errors about missing modules, ensure your virtual environment is acti
 - All Docker, web, and cloud deployment instructions are obsolete and have been removed.
 - For troubleshooting, check the terminal output and `event_log.txt`.
 
+## LLM Integration and Dashboard Event Logging
+
+### TinyLlama/LLM Integration
+
+- The backend supports integration with a local LLM (e.g., TinyLlama) for Eisenhower matrix category suggestions and other dashboard features.
+- By default, the backend expects the LLM to be available as an HTTP API (e.g., `http://localhost:8080`).
+- To run TinyLlama as a container:
+  ```sh
+  docker run -d --name tinyllama-llm -p 8080:8080 tinyllama/llm:latest
+  ```
+- You may set the LLM endpoint via the `LLM_API_URL` environment variable:
+  ```sh
+  export LLM_API_URL=http://localhost:8080
+  ```
+  or in Docker Compose:
+  ```yaml
+  environment:
+    - LLM_API_URL=http://tinyllama-llm:8080
+  ```
+- The backend will use this endpoint for LLM-powered features (e.g., `suggestEisenhowerCategory`).
+
+### Event Logging
+
+- All dashboard recategorization and LLM suggestion events are logged to `event_log.txt` in the project root.
+- No additional configuration is required; ensure the application has write access to this file.
+
+### Additional Notes
+
+- No extra dependencies are required for dashboard/Eisenhower matrix logic beyond those in `requirements.txt`.
+- For production, ensure the LLM container is running and accessible to the backend at the configured URL.
 
 ### Container Build Process
 

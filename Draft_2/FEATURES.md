@@ -128,6 +128,13 @@ Advanced task organization system featuring the Eisenhower Matrix methodology wi
 - **Task Editing**: Edit task details and deadlines from the dashboard
 - **Task Deletion**: Delete tasks and subtasks from the dashboard and project views
 
+### Backend-Integrated Features
+
+- **Eisenhower Matrix State Persistence**: Each user's Eisenhower matrix state (task categorization) is saved and loaded from the backend, ensuring consistency across sessions.
+- **Drag-and-Drop Recategorization**: Moving tasks/subtasks between matrix categories triggers backend updates and logs a structured event (with timestamp, user, old/new category, and reasoning).
+- **Event Logging**: All recategorization actions and significant changes are logged to an append-only local event log, viewable in the UI.
+- **LLM Suggestion Logging**: When using the LLM to suggest a category, the suggestion and reasoning are logged for auditability.
+
 ### Future Enhancements
 - Real-time collaborative editing with WebSockets
 - Task dependencies and blocking relationships
@@ -294,6 +301,13 @@ Centralized command centers providing role-specific overviews, analytics, and qu
 - Export functionality for reports and data
 - Integration with external analytics tools
 - Mobile-optimized dashboard variants
+---
+
+### LLM Integration & Suggestion Logging
+
+- **TinyLlama LLM Integration**: The dashboard can request category suggestions for tasks/subtasks using a local TinyLlama LLM. The backend gathers recent event logs as context and calls the LLM via a local HTTP API.
+- **Suggestion Logging**: All LLM suggestions (category and reasoning) are logged as structured events, providing a full audit trail of AI-assisted decisions.
+- **Auditability**: Both user-driven and LLM-driven recategorizations are logged, ensuring transparency and traceability for all Eisenhower matrix changes.
 
 ---
 
