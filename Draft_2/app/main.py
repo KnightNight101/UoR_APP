@@ -207,10 +207,12 @@ class AuthManager(QObject):
         return 0
 class DashboardManager(QObject):
     projectsChanged = Signal()
+    eisenhowerMatrixStateChanged = Signal()
 
     def __init__(self):
         super().__init__()
         self._projects = []
+        self._eisenhower_matrix_state = {}
 
     @Slot(int)
     def loadProjects(self, user_id):
@@ -225,6 +227,39 @@ class DashboardManager(QObject):
             print(f"[DEBUG] loadProjects exception: {e}")
             self._projects = []
             self.projectsChanged.emit()
+
+    @Slot(int, int)
+    def loadEisenhowerMatrixState(self, user_id, project_id):
+        """Fetch Eisenhower matrix state for a user/project and notify QML."""
+        try:
+            from db import get_eisenhower_matrix_state
+            state_obj = get_eisenhower_matrix_state(project_id, user_id)
+            import json
+            if state_obj and state_obj.state_json:
+                self._eisenhower_matrix_state = json.loads(state_obj.state_json)
+            else:
+                self._eisenhower_matrix_state = {}
+            self.eisenhowerMatrixStateChanged.emit()
+        except Exception as e:
+            print(f"[DEBUG] loadEisenhowerMatrixState exception: {e}")
+            self._eisenhower_matrix_state = {}
+            self.eisenhowerMatrixStateChanged.emit()
+
+    @Slot(int, int, 'QVariant')
+    def setEisenhowerMatrixState(self, user_id, project_id, state_json):
+        """Set Eisenhower matrix state for a user/project and notify QML."""
+        try:
+            from db import set_eisenhower_matrix_state
+            import json
+            set_eisenhower_matrix_state(project_id, user_id, state_json)
+            self._eisenhower_matrix_state = state_json if isinstance(state_json, dict) else json.loads(state_json)
+            self.eisenhowerMatrixStateChanged.emit()
+        except Exception as e:
+            print(f"[DEBUG] setEisenhowerMatrixState exception: {e}")
+
+    @Property('QVariant', notify=eisenhowerMatrixStateChanged)
+    def eisenhowerMatrixState(self):
+        return self._eisenhower_matrix_state
 
     def _projectsChanged(self):
         pass
@@ -252,7 +287,112 @@ class DashboardManager(QObject):
             "description": safe_str(getattr(p, "description", "")),
             "deadline": safe_str(getattr(p, "deadline", "")),
         }
-# 
+    @Slot(int, int, int, int, str, str)
+    def recategorizeTaskOrSubtask(self, user_id, project_id, task_id, subtask_id, old_category, new_category):
+        """
+        Backend support for drag-and-drop recategorization of tasks/subtasks.
+        Logs all changes as events with timestamps.
+        """
+        try:
+            from db import update_subtask_category, update_task, log_structured_event
+            import datetime
+            # Only one of task_id or subtask_id should be set
+            if subtask_id and subtask_id > 0:
+                update_subtask_category(subtask_id, new_category)
+                log_structured_event(
+                    None,  # session will be created inside
+                    event_type="recategorization",
+                    user_id=user_id,
+                    project_id=project_id,
+                    task_id=task_id if task_id > 0 else None,
+                    subtask_id=subtask_id,
+                    old_category=old_category,
+                    new_category=new_category,
+                    reasoning="User drag-and-drop recategorization",
+                    context_json=None
+                )
+            elif task_id and task_id > 0:
+                update_task(task_id, category=new_category)
+                log_structured_event(
+                    None,
+                    event_type="recategorization",
+                    user_id=user_id,
+                    project_id=project_id,
+                    task_id=task_id,
+                    subtask_id=None,
+                    old_category=old_category,
+                    new_category=new_category,
+                    reasoning="User drag-and-drop recategorization",
+                    context_json=None
+                )
+            # Optionally reload Eisenhower matrix state
+            self.loadEisenhowerMatrixState(user_id, project_id)
+        except Exception as e:
+            print(f"[DEBUG] recategorizeTaskOrSubtask exception: {e}")
+
+    @Slot(int, int, int, int)
+    def suggestEisenhowerCategory(self, user_id, project_id, task_id, subtask_id):
+        """
+        Integrate TinyLlama LLM to suggest Eisenhower matrix categorization for a task/subtask.
+        Uses event logs as context and logs LLM suggestions with reasoning.
+        """
+        try:
+            import requests
+            import json
+            from db import get_event_logs, log_structured_event, update_subtask_category
+
+            # Gather context: last 50 event logs for this project/user
+            logs = get_event_logs(project_id=project_id, user_id=user_id, limit=50)
+            context = [
+                {
+                    "timestamp": str(getattr(e, "timestamp", "")),
+                    "event_type": getattr(e, "event_type", ""),
+                    "old_category": getattr(e, "old_category", ""),
+                    "new_category": getattr(e, "new_category", ""),
+                    "reasoning": getattr(e, "reasoning", ""),
+                    "task_id": getattr(e, "task_id", None),
+                    "subtask_id": getattr(e, "subtask_id", None),
+                }
+                for e in logs
+            ]
+            # Prepare payload for LLM
+            payload = {
+                "user_id": user_id,
+                "project_id": project_id,
+                "task_id": task_id,
+                "subtask_id": subtask_id,
+                "context": context
+            }
+            # Call TinyLlama container (assume HTTP API at localhost:8000/suggest)
+            response = requests.post("http://localhost:8000/suggest", json=payload, timeout=10)
+            if response.status_code == 200:
+                result = response.json()
+                suggested_category = result.get("suggested_category")
+                reasoning = result.get("reasoning", "")
+                # Apply suggestion to subtask if subtask_id is set
+                if subtask_id and subtask_id > 0 and suggested_category:
+                    update_subtask_category(subtask_id, suggested_category)
+                # Log LLM suggestion event
+                log_structured_event(
+                    None,
+                    event_type="llm_suggestion",
+                    user_id=user_id,
+                    project_id=project_id,
+                    task_id=task_id if task_id > 0 else None,
+                    subtask_id=subtask_id if subtask_id > 0 else None,
+                    old_category=None,
+                    new_category=suggested_category,
+                    reasoning=reasoning,
+                    context_json={"llm_response": result, "llm_payload": payload}
+                )
+                # Optionally reload Eisenhower matrix state
+                self.loadEisenhowerMatrixState(user_id, project_id)
+            else:
+                print(f"[DEBUG] LLM API error: {response.status_code} {response.text}")
+        except Exception as e:
+            print(f"[DEBUG] suggestEisenhowerCategory exception: {e}")
+
+#
 # # get_user_projects, get_user_tasks, get_user_messages are now imported above
 # 
 # class DashboardManager(QObject):
