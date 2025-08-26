@@ -105,3 +105,27 @@ Command used:
 ```
 python -m pytest Draft_2/tests/test_dashboard_manager.py --tb=short -v
 ```
+
+## Project Details Page Backend Testing Summary (2025-08-26)
+
+### Features Tested
+- Task and subtask creation/editing (dependencies, deadlines, descriptions, team assignment)
+- Event logging for all actions (including LLM suggestions, user edits, planning)
+- TinyLlama integration (time/verification suggestions, project plan generation, output/reasoning logging)
+- Plan generation logic (dependencies, deadlines, team availability, 8-hour workdays, immovable deadlines)
+- All backend APIs/methods exposed for QML UI integration
+
+### Results
+- 14 tests run: 6 passed, 8 failed
+- All new backend feature tests failed with HTTP 400 errors, indicating missing or invalid payload fields or DB state issues.
+- Existing placeholder tests failed due to connection errors (no server running on localhost:5000).
+
+### Rectifications Needed
+- Review backend API requirements for `/tasks`, `/events`, `/plan/*` endpoints and update test payloads to match expected fields.
+- Ensure test database is properly initialized and contains required users, teams, and projects before running tests.
+- Consider adding setup/teardown fixtures for DB state.
+- Rerun tests after correcting payloads and DB setup.
+
+### Next Steps
+- Update test payloads and DB setup as per backend requirements.
+- Re-execute tests to confirm all backend features are covered and passing.

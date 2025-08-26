@@ -1,5 +1,14 @@
-enimport sqlite3
+import sqlite3
 from flask import Flask, request, jsonify
+from Draft_2.app.db import (
+    create_task as orm_create_task,
+    get_task_by_id,
+    get_project_by_id,
+    get_user_by_id,
+    log_structured_event,
+    SessionLocal,
+)
+from Draft_2.app.backend.tiny_llama import TinyLlamaPlanner
 
 app = Flask(__name__)
 DB_PATH = "Draft_2/app/auth.db"
@@ -279,6 +288,58 @@ def respond_invitation(event_id):
     invitees = [invitee_row_to_dict(r) for r in cur.fetchall()]
     conn.close()
     return jsonify({"invitees": invitees})
+
+@app.route("/plan/generate", methods=["POST"])
+def generate_project_plan():
+    data = request.json
+    if not data or not isinstance(data, dict):
+        return jsonify({"error": "Missing JSON body"}), 400
+    project_id = data.get("project_id")
+    user_id = data.get("user_id")
+    if not project_id or not user_id:
+        return jsonify({"error": "project_id and user_id required"}), 400
+    planner = TinyLlamaPlanner(user_id=user_id)
+    plan = planner.generate_project_plan(project_id)
+    if plan is None:
+        return jsonify({"error": "Plan generation failed"}), 500
+    return jsonify({"plan": plan})
+
+@app.route("/plan/suggest_time", methods=["POST"])
+def suggest_time_for_task():
+    data = request.json
+    if not data or not isinstance(data, dict):
+        return jsonify({"error": "Missing JSON body"}), 400
+    task_id = data.get("task_id")
+    user_id = data.get("user_id")
+    if not task_id or not user_id:
+        return jsonify({"error": "task_id and user_id required"}), 400
+    with SessionLocal() as session:
+        Task = get_task_by_id.__globals__["Task"]
+        Project = get_project_by_id.__globals__["Project"]
+        ProjectMember = get_project_by_id.__globals__["ProjectMember"]
+        task = session.query(Task).filter_by(id=task_id).first()
+        if not task:
+            return jsonify({"error": "Task not found"}), 404
+        project = session.query(Project).filter_by(id=task.project_id).first()
+        if not project:
+            return jsonify({"error": "Project not found"}), 404
+        team_members = session.query(ProjectMember).filter_by(project_id=project.id).all()
+        planner = TinyLlamaPlanner(user_id=user_id)
+        suggestion = planner.suggest_time_for_task(task, project, team_members)
+    return jsonify({"suggestion": suggestion})
+
+@app.route("/plan/verify", methods=["POST"])
+def verify_plan():
+    data = request.json
+    if not data or not isinstance(data, dict):
+        return jsonify({"error": "Missing JSON body"}), 400
+    plan = data.get("plan")
+    user_id = data.get("user_id")
+    if not plan or not user_id:
+        return jsonify({"error": "plan and user_id required"}), 400
+    planner = TinyLlamaPlanner(user_id=user_id)
+    result = planner.verify_plan_feasibility(plan)
+    return jsonify(result)
 
 if __name__ == "__main__":
     app.run(debug=True)
