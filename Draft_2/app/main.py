@@ -3,6 +3,7 @@
 # 
 import datetime
 from PySide6.QtCore import QObject, Signal, Slot, Property
+from Draft_2.app.db import update_subtask_category, log_structured_event, get_event_logs
 
 def log_event(event):
     """Append event messages to the event log with timestamp and print to terminal."""
@@ -339,7 +340,6 @@ class DashboardManager(QObject):
         try:
             import requests
             import json
-            from db import get_event_logs, log_structured_event, update_subtask_category
 
             # Gather context: last 50 event logs for this project/user
             logs = get_event_logs(project_id=project_id, user_id=user_id, limit=50)
