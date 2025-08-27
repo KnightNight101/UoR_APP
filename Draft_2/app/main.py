@@ -982,7 +982,107 @@ class ProjectManager(QObject):
             self.projectTitleUpdated.emit(False, "Error updating project title.")
 # 
 # Entry point for launching the PySide6 application and loading QML
+
+import os
+import threading
+import time
+import requests
+from git import Repo, InvalidGitRepositoryError, NoSuchPathError
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
+from db import SessionLocal, Project, Task
+
+PROJECT_ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../project_files"))
+
+class ProjectFileManager:
+    def __init__(self, root_dir=PROJECT_ROOT_DIR):
+        self.root_dir = root_dir
+        os.makedirs(self.root_dir, exist_ok=True)
+        self.projects = []
+        self._load_projects()
+        self._setup_directories_and_git()
+        self._start_file_watchdog()
+
+    def _load_projects(self):
+        with SessionLocal() as session:
+            self.projects = session.query(Project).all()
+
+    def _setup_directories_and_git(self):
+        for project in self.projects:
+            project_dir = os.path.join(self.root_dir, f"project_{project.id}")
+            os.makedirs(project_dir, exist_ok=True)
+            # Init git repo if not exists
+            try:
+                Repo(project_dir)
+            except (InvalidGitRepositoryError, NoSuchPathError):
+                Repo.init(project_dir)
+            # Create task subdirectories (not subtasks)
+            for task in getattr(project, "tasks", []):
+                task_dir = os.path.join(project_dir, f"task_{task.id}")
+                os.makedirs(task_dir, exist_ok=True)
+
+    def _start_file_watchdog(self):
+        event_handler = ProjectFileChangeHandler(self)
+        observer = Observer()
+        observer.schedule(event_handler, self.root_dir, recursive=True)
+        observer_thread = threading.Thread(target=observer.start, daemon=True)
+        observer_thread.start()
+
+class ProjectFileChangeHandler(FileSystemEventHandler):
+    def __init__(self, manager):
+        super().__init__()
+        self.manager = manager
+
+    def on_modified(self, event):
+        self._handle_event(event)
+
+    def on_created(self, event):
+        self._handle_event(event)
+
+    def _handle_event(self, event):
+        if event.is_directory:
+            return
+        file_path = event.src_path
+        project_dir = self._find_project_dir(file_path)
+        if project_dir:
+            try:
+                repo = Repo(project_dir)
+                rel_path = os.path.relpath(file_path, project_dir)
+                repo.index.add([rel_path])
+                # Generate commit summary using LLM
+                summary = self._get_llm_commit_summary(file_path)
+                repo.index.commit(summary or "Auto-commit: file changed")
+            except Exception as e:
+                print(f"[VCS] Error handling file change: {e}")
+
+    def _find_project_dir(self, file_path):
+        # Find the nearest parent directory that matches a project directory
+        abs_root = os.path.abspath(self.manager.root_dir)
+        abs_path = os.path.abspath(file_path)
+        if not abs_path.startswith(abs_root):
+            return None
+        parts = abs_path[len(abs_root):].strip(os.sep).split(os.sep)
+        if parts:
+            project_dir = os.path.join(abs_root, parts[0])
+            if os.path.isdir(project_dir):
+                return project_dir
+        return None
+
+    def _get_llm_commit_summary(self, file_path):
+        # Placeholder: call LLM endpoint for commit summary
+        try:
+            resp = requests.post("http://localhost:8000/llm/commit_summary", json={"file_path": file_path}, timeout=5)
+            if resp.status_code == 200:
+                return resp.json().get("summary", "")
+        except Exception as e:
+            print(f"[LLM] Commit summary error: {e}")
+        return None
+
 if __name__ == "__main__":
+    # Start project file manager (creates dirs, sets up git, starts watcher)
+    pfm = ProjectFileManager()
+
     # Create the Qt application
     app = QApplication(sys.argv)
 

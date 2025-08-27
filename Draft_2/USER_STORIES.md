@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides comprehensive user stories and requirements for the Draft_2 Project Management Platform, a full-stack web application built with Flask backend and React frontend. The platform serves different user roles with various features for project management, task tracking, and team collaboration.
+This document provides comprehensive user stories and requirements for the Draft_2 Project Management Platform, a local desktop application built with a Flask backend and QML (PySide6/PyQt) frontend. The platform serves different user roles with various features for project management, task tracking, and team collaboration.
 
 ---
 
@@ -571,7 +571,7 @@ This document provides comprehensive user stories and requirements for the Draft
 #### FR001: Response Time
 - **Requirement:** Page load times must be under 3 seconds for 95% of requests
 - **Measurement:** Average response time < 1 second, 95th percentile < 3 seconds
-- **Implementation:** Vite build optimization, API response caching, database query optimization
+- **Implementation:** QML engine optimization, API response caching, database query optimization
 
 #### FR002: Concurrent User Support
 - **Requirement:** System must support at least 100 concurrent users without performance degradation
@@ -658,8 +658,8 @@ This document provides comprehensive user stories and requirements for the Draft
 ### Usability Requirements
 
 #### NFR001: User Interface Design
-- **Requirement:** Interface must follow Material-UI design principles
-- **Implementation Status:**  Material-UI 7.2.0 implemented throughout application
+- **Requirement:** Interface must follow QtQuick Controls/Qt Design principles
+- **Implementation Status:**  QML/QtQuick Controls implemented throughout application
 - **Success Criteria:** Consistent visual design, intuitive navigation, accessibility standards
 
 #### NFR002: Mobile Responsiveness
@@ -681,7 +681,7 @@ This document provides comprehensive user stories and requirements for the Draft
 
 #### NFR005: Keyboard Navigation
 - **Requirement:** All features must be accessible via keyboard navigation
-- **Implementation Status:**  Material-UI components provide basic support
+- **Implementation Status:**  QML/QtQuick Controls provide basic support
 - **Success Criteria:** Tab order, keyboard shortcuts, focus management
 
 ### Browser Compatibility
@@ -700,12 +700,12 @@ This document provides comprehensive user stories and requirements for the Draft
 
 #### NFR008: Page Load Speed
 - **Requirement:** Initial page load under 3 seconds on 3G connection
-- **Implementation Status:**  Vite optimization, code splitting ready
-- **Success Criteria:** Lighthouse score > 90, Core Web Vitals compliance
+- **Implementation Status:**  QML engine optimization, efficient resource loading
+- **Success Criteria:** Fast startup, responsive UI, low resource usage
 
 #### NFR009: Task Operation Speed
 - **Requirement:** Drag-and-drop operations complete within 100ms
-- **Implementation Status:**  Optimized React state updates, smooth animations
+- **Implementation Status:**  Optimized QML property bindings and animations
 - **Success Criteria:** 60fps animations, responsive user feedback
 
 #### NFR010: Search Performance
@@ -935,7 +935,7 @@ All user stories must meet these baseline criteria:
 
 The Draft_2 Project Management Platform represents a comprehensive solution for team collaboration and project management. The user stories and requirements outlined in this document provide a roadmap for delivering a secure, scalable, and user-friendly platform that serves the needs of modern teams.
 
-The current implementation demonstrates strong architectural foundations with React frontend, Flask backend, and comprehensive database design. The prioritized approach ensures that core functionality is delivered first, with advanced features following in subsequent releases.
+The current implementation demonstrates strong architectural foundations with a QML (PySide6/PyQt) frontend, Flask backend, and comprehensive database design. The prioritized approach ensures that core functionality is delivered first, with advanced features following in subsequent releases.
 
 **Key Success Factors:**
 1. **User-Centered Design:** All features designed around actual user needs and workflows

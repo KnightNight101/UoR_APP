@@ -175,7 +175,6 @@ CMD ["python", "app/api_server.py"]
 | Port | Service | Description |
 |------|---------|-------------|
 | 5000 | Flask API | Backend REST API server |
-| 5173 | Vite Dev Server | Frontend development server |
 
 ### Volume Mounting for Persistent Data
 
@@ -320,31 +319,18 @@ curl http://localhost:5000/api/user-count
 }
 ```
 
-### Frontend Setup (React with Vite)
+### Frontend Setup (QML Desktop UI)
 
-#### Start Development Server
+No separate frontend build step is required. The QML UI is launched by running the main Python application:
+
 ```bash
-cd ui/
-
-# Start Vite development server
-npm run dev
-
-# Server will start on http://localhost:5173
-```
-
-#### Build for Production
-```bash
-# Create production build
-npm run build
-
-# Preview production build
-npm run preview
+python app/main.py
 ```
 
 #### Verify Frontend
-- Navigate to http://localhost:5173
-- Verify authentication page loads
-- Check developer console for errors
+- The QML desktop window should launch
+- Verify authentication dialog loads
+- Check terminal output for errors
 - Test API connectivity to http://localhost:5000
 
 ### Running in Development Mode

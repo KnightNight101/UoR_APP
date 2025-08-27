@@ -3,7 +3,7 @@
 ## Overview
 
 This document describes the features of the Draft_2 Project Management Platform, a local desktop application built with Python and PySide6/QML.
-**Note:** The application was rolled back from a web-based stack; all web/React/Vite/MUI/GitHub/VCS features are now planned only and not present in the current codebase.
+**Note:** The application was rolled back from a web-based stack; all web/React/Vite/MUI/GitHub/VCS features are now planned only and not present in the current codebase. The current implementation uses a QML frontend with PySide6 for a native desktop experience.
 
 ---
 
@@ -52,10 +52,10 @@ Complete project lifecycle management including project creation, team assignmen
 - ❌ **Integration**: Frontend-backend connection pending
 
 ### User Interface
-- **Project Creation** ([`ProjectCreation.jsx`](ui/src/pages/ProjectCreation.jsx:1)): 
+- **Project Creation** (QML Form):
   - Project name and deadline selection
   - Dynamic task addition with individual deadlines
-  - Material-UI date pickers with modern UX
+  - QML date pickers with modern UX
   - Form validation and user feedback
 - **Project Overview**: Displayed in dashboard sidebar with navigation
 - **Project Status Tracking**: Visual indicators for project progress
@@ -65,8 +65,8 @@ Complete project lifecycle management including project creation, team assignmen
   - [`projects`](app/schema.sql:40) table with owner relationships
   - [`project_members`](app/schema.sql:49) table for team assignments
   - Foreign key constraints ensuring data integrity
-- **Frontend State Management**: React hooks for form state and dynamic task lists
-- **Date Handling**: date-fns library for consistent date operations
+- **Frontend State Management**: QML property bindings and signals for form state and dynamic task lists
+- **Date Handling**: QML/Qt date types for consistent date operations
 
 ### Features
 - **Project Creation**: Name, description, deadline, and initial task setup
@@ -99,24 +99,24 @@ Advanced task organization system featuring the Eisenhower Matrix methodology wi
 - ❌ **Real-time Updates**: Live collaboration features
 
 ### User Interface
-- **Dashboard** ([`Dashboard.jsx`](ui/src/pages/Dashboard.jsx:1)): 
+- **Dashboard** (QML Eisenhower Matrix):
   - Four-quadrant Eisenhower Matrix layout:
     - **Urgent & Important**: High-priority tasks requiring immediate attention
     - **Urgent**: Time-sensitive tasks with medium importance
     - **Important**: Strategic tasks with flexible timing
     - **Others**: Low-priority tasks and maintenance items
-  - Drag-and-drop between categories with smooth animations
+  - Drag-and-drop between categories with smooth animations (QML native)
   - Task cards showing title and subtask lists
   - Visual feedback during drag operations
 
 ### Technical Implementation
-- **Drag-and-Drop**: @hello-pangea/dnd library for smooth interactions
-- **State Management**: React hooks managing task positions and categories
+- **Drag-and-Drop**: QML native drag-and-drop for smooth interactions
+- **State Management**: QML property bindings and signals managing task positions and categories
 - **Database Schema**:
   - [`tasks`](app/schema.sql:58) table with project relationships and assignments
   - [`subtasks`](app/schema.sql:71) table for task breakdown
   - Status tracking and due date management
-- **Responsive Design**: Adapts to mobile and tablet viewports
+- **Responsive Design**: Adapts to desktop window resizing
 
 ### Features
 - **Visual Task Organization**: Four-category priority matrix
@@ -175,8 +175,8 @@ Comprehensive employee onboarding and user administration system with automated 
 - **Automated Username Generation**: Initials + employee count algorithm
 - **Default Password System**: Consistent "changeme123" with copy functionality
 - **API Integration**: Live backend communication for user operations
-- **Data Grid**: MUI X DataGrid with advanced features
-- **Form Validation**: Client-side validation with server-side error handling
+- **Data Grid**: QML TableView or ListView for user management
+- **Form Validation**: QML property validation with backend error handling
 
 ### Features
 - **Employee Onboarding**: First name, middle name, last name, job role capture
@@ -211,9 +211,9 @@ Secure file storage and sharing system with project-based access controls, versi
 - ❌ **Backend Implementation**: File storage and retrieval APIs
 
 ### User Interface
-- **File Management** ([`FileManagement.jsx`](ui/src/pages/FileManagement.jsx:1)): Currently placeholder interface
+- **File Management** (QML File Management UI): Currently placeholder interface
 - **Planned Features**:
-  - Drag-and-drop file upload interface
+  - Drag-and-drop file upload interface (QML)
   - File browser with folder navigation
   - Permission management interface
   - Version history viewer
@@ -281,10 +281,10 @@ Centralized command centers providing role-specific overviews, analytics, and qu
   - Employee list access (functional)
 
 ### Technical Implementation
-- **Responsive Grid System**: Material-UI grid layout adapting to screen sizes
-- **State Management**: React hooks managing dashboard data
-- **Navigation Integration**: React Router for seamless page transitions
-- **Component Architecture**: Modular design for maintainability
+- **Responsive Layout**: QML layouts adapting to window size
+- **State Management**: QML property bindings and signals managing dashboard data
+- **Navigation Integration**: QML StackView or Loader for page transitions
+- **Component Architecture**: Modular QML design for maintainability
 
 ### Features
 - **Role-Based Views**: Different dashboards for users and administrators
@@ -386,7 +386,6 @@ Comprehensive security framework protecting user data, controlling access, and e
 ### Security Features
 - **Password Protection**: Industry-standard bcrypt hashing
 - **SQL Injection Prevention**: ORM-based database access
-- **Cross-Site Scripting (XSS) Protection**: React's built-in sanitization
 - **Role-Based Access Control**: Hierarchical permission system
 - **Input Sanitization**: Form validation and data cleaning
 - **Database Integrity**: Foreign key constraints and validation
@@ -413,20 +412,20 @@ Comprehensive security framework protecting user data, controlling access, and e
 ## 9. UI/UX Features
 
 ### Description
-Modern, responsive user interface designed with Material-UI components, providing intuitive navigation, accessibility, and professional aesthetics across all device types.
+Modern, responsive user interface designed with QML/QtQuick Controls, providing intuitive navigation, accessibility, and professional aesthetics across all desktop platforms.
 
 ### Current Implementation Status
-- ✅ **Material-UI Integration**: Complete implementation of MUI component library
-- ✅ **Responsive Design**: Mobile-first approach with breakpoint management
-- ✅ **Navigation System**: React Router with consistent routing
-- ✅ **Component Architecture**: Reusable components and consistent styling
+- ✅ **QML/QtQuick Controls Integration**: Complete implementation of QtQuick Controls component library
+- ✅ **Responsive Design**: Desktop window resizing and layout management
+- ✅ **Navigation System**: QML StackView or Loader for consistent navigation
+- ✅ **Component Architecture**: Reusable QML components and consistent styling
 - ✅ **Interactive Elements**: Drag-and-drop, form validation, and user feedback
 - ⚠️ **Accessibility**: Basic accessibility features (can be enhanced)
 
 ### User Interface Design
 
 #### Design System
-- **Material-UI 7.2.0**: Professional component library with consistent theming
+- **QtQuick Controls**: Professional component library with consistent theming
 - **Color Scheme**: Professional blue primary color (#1976d2) with semantic color usage
 - **Typography**: Consistent font hierarchy and readable text sizing
 - **Spacing**: Standardized spacing units for visual consistency
@@ -449,11 +448,11 @@ Modern, responsive user interface designed with Material-UI components, providin
 - **Date Pickers**: Professional date selection components
 
 ### Technical Implementation
-- **Component Architecture**: Functional components with React hooks
-- **State Management**: Local state with plans for global state management
+- **Component Architecture**: QML components with property bindings and signals
+- **State Management**: QML property bindings and Python integration for global state
 - **Styling System**: MUI's sx prop for consistent styling
-- **Responsive Breakpoints**: xs, sm, md, lg breakpoint system
-- **Icon System**: Material-UI icons for consistent visual language
+- **Responsive Layout**: QML layouts adapt to window size
+- **Icon System**: Qt icon sets for consistent visual language
 
 ### UI/UX Features
 - **Professional Aesthetics**: Clean, modern interface design
@@ -486,8 +485,8 @@ Modern, responsive user interface designed with Material-UI components, providin
 Platform performance optimization focusing on fast loading times, efficient data handling, and scalable architecture for growing teams and projects.
 
 ### Current Implementation Status
-- ✅ **Frontend Performance**: Vite build system with fast HMR (Hot Module Replacement)
-- ✅ **Component Optimization**: React functional components with efficient rendering
+- ✅ **Frontend Performance**: QML engine provides fast UI rendering and native performance
+- ✅ **Component Optimization**: QML components with efficient property bindings
 - ✅ **Database Design**: Optimized schema with proper indexing
 - ⚠️ **API Performance**: Basic Flask setup (optimization needed for production)
 - ❌ **Caching**: Redis caching and CDN implementation planned
@@ -496,11 +495,10 @@ Platform performance optimization focusing on fast loading times, efficient data
 ### Technical Performance Features
 
 #### Frontend Performance
-- **Build System**: Vite 7.0.4 providing sub-second hot reloads
-- **Bundle Optimization**: Tree shaking and code splitting ready
-- **Component Efficiency**: React 19.1.0 with concurrent features
-- **State Management**: Optimized React hooks preventing unnecessary re-renders
-- **Asset Loading**: Lazy loading for images and components
+- **QML Engine**: Native QML engine provides instant UI startup
+- **Component Efficiency**: QML components with property bindings and lazy loading
+- **State Management**: QML signals and Python integration for efficient updates
+- **Asset Loading**: Qt resource system for images and components
 
 #### Backend Performance
 - **Database**: SQLite for development, PostgreSQL ready for production
@@ -517,10 +515,9 @@ Platform performance optimization focusing on fast loading times, efficient data
 ### Performance Metrics
 
 #### Loading Times
-- **Development Server**: Sub-second startup with Vite
-- **Hot Module Replacement**: <100ms for component updates
-- **Build Time**: <30 seconds for production builds
-- **First Paint**: Target <2 seconds for initial page load
+- **Application Startup**: Instant startup with QML/PySide6
+- **UI Updates**: <100ms for component updates via QML bindings
+- **First Paint**: Target <2 seconds for initial window display
 
 #### Scalability Considerations
 - **User Capacity**: Designed for 100-1000 concurrent users
@@ -633,9 +630,9 @@ Platform performance optimization focusing on fast loading times, efficient data
 4. **Real-time Features**: WebSocket support not implemented
 
 ### Frontend Limitations
-1. **Static Data**: Many components use mock data instead of API calls
+1. **Static Data**: Many QML components use mock data instead of API calls
 2. **Error Handling**: Basic error handling needs enhancement
-3. **Loading States**: Not all components show loading indicators
+3. **Loading States**: Not all QML components show loading indicators
 4. **Form Validation**: Server-side validation integration needed
 
 ### Security Considerations
@@ -655,7 +652,7 @@ Platform performance optimization focusing on fast loading times, efficient data
 - Complete file upload and management system
 
 ### Phase 2: Integration (Priority: High)  
-- Connect all frontend components to backend APIs
+- Connect all QML frontend components to backend APIs
 - Implement real-time updates with WebSockets
 - Add proper error handling and loading states
 - Complete user authentication flow
@@ -663,7 +660,7 @@ Platform performance optimization focusing on fast loading times, efficient data
 ### Phase 3: Advanced Features (Priority: Medium)
 - Real-time collaboration features
 - Advanced reporting and analytics
-- Mobile app development (React Native)
+- Mobile app development (Qt/QML or other cross-platform frameworks)
 - Third-party integrations (GitHub, Slack, etc.)
 
 ### Phase 4: Production Readiness (Priority: Medium)

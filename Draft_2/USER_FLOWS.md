@@ -1,6 +1,6 @@
 # User Flow Diagrams - Draft_2 Project Management Platform
 
-This document contains comprehensive user flow diagrams for the Draft_2 Project Management Platform, showing complete user journeys through various platform features including current implementation and planned enhancements.
+This document contains comprehensive user flow diagrams for the Draft_2 Project Management Platform, showing complete user journeys through various platform features including current implementation and planned enhancements. All flows now refer to the QML (PySide6/PyQt) desktop application, not a web or React-based UI.
 
 ---
 
@@ -23,7 +23,7 @@ Complete login/logout process showing role selection, authentication, and dashbo
 
 ```mermaid
 flowchart TD
-    Start([User visits platform]) --> Landing[/Landing Page<br/>Authentication.jsx/]
+    Start([User launches application]) --> Landing[/Login Dialog (QML)/]
     
     Landing --> CheckSession{Session exists?}
     CheckSession -->|Yes| ValidateSession[Validate Session Token]
@@ -50,8 +50,8 @@ flowchart TD
     RoleCheck -->|Admin| AdminRedirect[/Redirect to<br/>Admin Dashboard<br/>/admin-dashboard/]
     RoleCheck -->|User| UserRedirect[/Redirect to<br/>User Dashboard<br/>/dashboard/]
     
-    AdminRedirect --> AdminDashboard[/AdminDashboard.jsx<br/>Three-panel layout/]
-    UserRedirect --> UserDashboard[/Dashboard.jsx<br/>Eisenhower Matrix/]
+    AdminRedirect --> AdminDashboard[/Admin Dashboard (QML)<br/>Three-panel layout/]
+    UserRedirect --> UserDashboard[/Dashboard (QML)<br/>Eisenhower Matrix/]
     
     %% Password Reset Flow
     ShowLogin --> ResetPassword[User clicks Reset Password]
@@ -114,13 +114,13 @@ flowchart TD
     
     %% User Management Flow
     RightPanel --> EmployeeListBtn[Click Employee Lists]
-    EmployeeListBtn --> EmployeeList[/Employee List Page<br/>DataGrid with filters/]
+    EmployeeListBtn --> EmployeeList[/Employee List Page<br/>QML TableView with filters/]
     
     EmployeeList --> FilterUsers[/Apply Filters<br/>Project assignment<br/>Open tickets/]
     EmployeeList --> ViewUserDetails[View User Details]
     EmployeeList --> AddUserBtn[Click Add User]
     
-    AddUserBtn --> AddUserForm[/Add User Form<br/>Employee onboarding/]
+    AddUserBtn --> AddUserForm[/Add User Form<br/>Employee onboarding (QML)/]
     AddUserForm --> FillUserDetails[/Fill user details<br/>Name, role, permissions/]
     FillUserDetails --> GenerateCredentials[/Auto-generate<br/>Username & Password/]
     GenerateCredentials --> SubmitUser[Submit User Creation]
@@ -134,7 +134,7 @@ flowchart TD
     ReturnToList --> EmployeeList
     
     %% Project Oversight
-    CenterPanel --> ProjectOverview[/View Project Status<br/>All projects/]
+    CenterPanel --> ProjectOverview[/View Project Status<br/>All projects (QML)/]
     ProjectOverview --> ProjectDetails[Select Project Details]
     ProjectDetails --> ViewTasks[/View Project Tasks<br/>Team assignments/]
     ViewTasks --> TaskManagement[/Manage Task Assignments<br/>Status updates/]
@@ -199,9 +199,9 @@ Standard user workflows showing task management, project participation, and file
 
 ```mermaid
 flowchart TD
-    UserLogin([User Login]) --> UserDash[/User Dashboard<br/>Eisenhower Matrix/]
+    UserLogin([User Login]) --> UserDash[/User Dashboard (QML)<br/>Eisenhower Matrix/]
     
-    UserDash --> TaskMatrix[/Four-Quadrant Matrix<br/>Drag & Drop Tasks/]
+    UserDash --> TaskMatrix[/Four-Quadrant Matrix (QML)<br/>Drag & Drop Tasks/]
     UserDash --> ProjectPanel[/Right Panel<br/>Project Overview/]
     
     %% Task Management
@@ -244,7 +244,7 @@ flowchart TD
     
     %% Create New Project
     ProjectPanel --> CreateProjectBtn[Click Create New Project]
-    CreateProjectBtn --> ProjectCreation[/Project Creation Form<br/>ProjectCreation.jsx/]
+    CreateProjectBtn --> ProjectCreation[/Project Creation Form (QML)/]
     
     ProjectCreation --> ProjectName[/Enter Project Name<br/>Required field/]
     ProjectName --> ProjectDeadline[/Set Project Deadline<br/>Optional/]
@@ -263,7 +263,7 @@ flowchart TD
     ProjectError --> ProjectCreation
     
     %% File Access
-    ProjectView --> ProjectFiles[/Access Project Files<br/>Shared documents/]
+    ProjectView --> ProjectFiles[/Access Project Files<br/>Shared documents (QML)/]
     ProjectFiles --> ViewFile[View File Contents]
     ProjectFiles --> DownloadFile[Download File]
     ProjectFiles --> FilePermissions{Can edit file?}
@@ -1090,8 +1090,8 @@ flowchart TD
 1. **Intuitive Authentication**: Simple role-based access with clear visual cues
 2. **Drag-and-Drop Task Management**: Engaging Eisenhower Matrix interface
 3. **Streamlined Employee Onboarding**: Automated credential generation
-4. **Professional UI**: Material-UI components provide consistent experience
-5. **Responsive Design**: Mobile-friendly layouts across all components
+4. **Professional UI**: QML/QtQuick Controls provide a consistent desktop experience
+5. **Responsive Design**: Layout adapts to desktop window resizing
 
 ### Planned UX Enhancements
 1. **Real-time Updates**: Live collaboration and notifications
