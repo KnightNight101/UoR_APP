@@ -717,14 +717,25 @@ def delete_subtask(subtask_id: int):
         return False
 
 def update_subtask_category(subtask_id: int, category: str):
-    """Update the category of a subtask."""
+    """Update the category of a subtask and log the event."""
     try:
         with SessionLocal() as session:
             subtask = session.query(Subtask).filter(Subtask.id == subtask_id).first()
             if not subtask:
                 return None
+            old_category = subtask.category
             subtask.category = category  # type: ignore
             session.commit()
+            # Log the recategorization event
+            from Draft_2.app.db import log_structured_event
+            log_structured_event(
+                session,
+                event_type="recategorization",
+                subtask_id=subtask_id,
+                old_category=old_category,
+                new_category=category,
+                reasoning="Category updated via update_subtask_category"
+            )
             return subtask
     except Exception as e:
         log_error(f"Error updating subtask category: {e}")

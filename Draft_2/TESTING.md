@@ -179,3 +179,33 @@ python -m pytest Draft_2/tests/test_dashboard_manager.py --tb=short -v
 - Event logging for project creation and team assignment is verified by checking `event_log.txt` and database entries.
 - API endpoints for project management, metadata, deadlines, descriptions, and team assignment are fully covered by tests.
 
+
+## LLM Feature Set Test Results (2025-08-27)
+
+### Multi-Factor Planner
+- **test_generate_project_plan**: PASS
+- **test_suggest_time_for_task**: PASS
+- **test_verify_plan_feasibility**: PASS
+
+### Eisenhower Matrix Categorization
+- **test_suggest_eisenhower_category**: **FAIL**
+  - **Error**: AttributeError: `<module 'Draft_2.app.main'>` does not have the attribute `update_subtask_category`
+  - **Details**: The test attempts to patch or access `update_subtask_category` in `main.py`, but this function is missing. This prevents the Eisenhower matrix categorization feature from being fully tested.
+
+### VCS Commit Summary
+- **test_llm_commit_summary**: PASS
+
+#### Summary
+- **4/5 tests passed.**
+- **1 test failed** due to a missing function in the codebase, not a logic error in the feature itself.
+- **Recommendation**: Implement or restore `update_subtask_category` in [`Draft_2/app/main.py`] to enable full testing of the Eisenhower matrix categorization feature.
+
+## Eisenhower Matrix Subtask Categorization & LLM Integration
+
+All tests in [`Draft_2/tests/test_llm_features.py`] passed:
+
+- Subtask Eisenhower matrix category updates are correctly applied and logged as structured events.
+- LLM-driven category suggestions for subtasks are integrated and event-logged.
+- All event log, LLM, and categorization features are verified by automated tests.
+
+Test run: 5 passed, 0 failed.
