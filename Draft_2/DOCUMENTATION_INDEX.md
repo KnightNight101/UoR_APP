@@ -6,10 +6,11 @@
 2. [Documentation Structure](#documentation-structure)
 3. [Getting Started Guide](#getting-started-guide)
 4. [Documentation Files Index](#documentation-files-index)
-5. [Quick Reference Section](#quick-reference-section)
-6. [Implementation Status](#implementation-status)
-7. [Contribution Guidelines](#contribution-guidelines)
-8. [Support and Resources](#support-and-resources)
+5. [Diagrams and Visual Resources](#diagrams-and-visual-resources)
+6. [Quick Reference Section](#quick-reference-section)
+7. [Implementation Status](#implementation-status)
+8. [Contribution Guidelines](#contribution-guidelines)
+9. [Support and Resources](#support-and-resources)
 
 ---
 
@@ -58,12 +59,11 @@ The Draft_2 Project Management Platform is a comprehensive, modern full-stack we
 ### Technology Stack Summary
 
 #### Frontend Technologies
-- **React 19.1.0**: Modern JavaScript library with concurrent features
-- **Vite 7.0.4**: Fast build tool with sub-second hot module replacement
-- **Material-UI 7.2.0**: Professional component library with consistent theming
-- **React Router DOM 7.6.3**: Client-side navigation and route protection
-- **@hello-pangea/dnd 18.0.1**: Drag-and-drop functionality for task management
-- **@mui/x-data-grid 8.8.0**: Advanced data grid for user management interfaces
+- **QML (Qt Modeling Language)**: Declarative UI language for building modern, responsive desktop interfaces
+- **PySide6/PyQt**: Python bindings for Qt, enabling integration between QML frontend and Python backend
+- **QtQuick Controls 2**: Standard QML component library for UI elements and layouts
+- **QML Drag-and-Drop**: Native drag-and-drop support for task management
+- **Qt Charts**: Data visualization and charting for analytics features
 
 #### Backend Technologies
 - **Flask 3.0.0**: Python web framework for REST API development
@@ -149,10 +149,9 @@ pip install -r requirements.txt
 python app/db.py          # Initialize database
 python app/api_server.py  # Start API server (port 5000)
 
-# 2. Frontend Setup (new terminal)
-cd ui
-npm install
-npm run dev              # Start Vite server (port 5173)
+# 2. Frontend Setup (QML Desktop UI)
+# No separate build step required. The QML UI is launched by the Python application.
+# See README.md for details on running the desktop app.
 ```
 
 **Key Developer Resources:**
@@ -162,7 +161,7 @@ npm run dev              # Start Vite server (port 5173)
 - [`DATABASE_SCHEMA.md`](DATABASE_SCHEMA.md) - Database models and relationships
 
 **Development Workflow:**
-- Frontend: http://localhost:5173 (live reload enabled)
+- Desktop UI: Launched via Python (QML/PySide6)
 - Backend: http://localhost:5000 (API endpoints)
 - Database: SQLite at `app/auth.db` (auto-created)
 
@@ -232,135 +231,65 @@ npm run dev              # Start Vite server (port 5173)
 
 ### Core Documentation Files
 
-#### **[`README.md`](README.md)** - Setup and Preview Instructions
-**Purpose**: Primary entry point for project setup and initial configuration  
-**Contents**: 
-- Prerequisites installation (Python 3.11+, Node.js 16+, Docker)
-- Quick start guide with command-line instructions
-- Development and production setup procedures
-- Project structure overview and file organization
-- Troubleshooting common setup issues
-- Contributing guidelines and development workflow
+#### [`README.md`](README.md) — Application Setup & Overview
+- **Purpose:** Entry point for installing and running the local desktop application. Covers prerequisites, environment setup, and troubleshooting.
+- **Audience:** All users, especially new contributors.
 
-**Target Audience**: Developers, System Administrators, New Contributors  
-**Estimated Reading Time**: 10-15 minutes  
-**Prerequisites**: Basic command line knowledge
+#### [`FEATURES.md`](FEATURES.md) — Feature List & Status
+- **Purpose:** Catalog of all implemented and planned features, with status indicators and technical notes.
+- **Audience:** Product managers, developers, testers.
 
-#### **[`FEATURES.md`](FEATURES.md)** - Feature Documentation
-**Purpose**: Comprehensive feature catalog with implementation status and technical details  
-**Contents**:
-- Technology stack summary with version specifications
-- 10 major feature categories with detailed descriptions
-- Current implementation status (✅ Complete, ⚠️ Partial, ❌ Planned)
-- User interface screenshots and component documentation
-- Browser compatibility and performance benchmarks
-- Mobile responsiveness and accessibility features
+#### [`ARCHITECTURE.md`](ARCHITECTURE.md) — System Architecture (QML/PySide6 Desktop)
+- **Purpose:** Describes the offline, local architecture: QML UI, PySide6 backend, local SQLite databases, file versioning, and event logging. Includes architecture diagrams and module breakdowns.
+- **Audience:** Developers, technical architects.
 
-**Target Audience**: Product Managers, Developers, End Users, Stakeholders  
-**Estimated Reading Time**: 45-60 minutes  
-**Key Sections**: Authentication, Task Management, Project Management, File Sharing
+#### [`DATABASE_SCHEMA.md`](DATABASE_SCHEMA.md) — Database Schema & Entity Relationships
+- **Purpose:** Full documentation of the SQLite/PostgreSQL schema, entity relationships, constraints, and sample queries. Includes ER diagrams and migration notes.
+- **Audience:** Backend developers, DB admins.
 
-#### **[`ARCHITECTURE.md`](ARCHITECTURE.md)** - System Architecture Diagrams
-**Purpose**: Technical system design documentation with visual architecture diagrams  
-**Contents**:
-- High-level system overview with component relationships
-- Application layer architecture showing data flow
-- Database schema diagrams with entity relationships
-- Component architecture for React frontend
-- API architecture and endpoint organization
-- Security architecture and authentication flows
-- Deployment architecture with Docker and infrastructure
-- Performance considerations and scalability planning
+#### [`API_DOCUMENTATION.md`](API_DOCUMENTATION.md) — Internal API & QML Backend Interfaces
+- **Purpose:** Documents Python backend classes, QML-exposed slots/properties, event logging, and LLM integration. **Note:** No REST API; all features are local and accessed via the desktop UI.
+- **Audience:** Developers extending backend logic or QML integration.
 
-**Target Audience**: Technical Architects, Senior Developers, DevOps Engineers  
-**Estimated Reading Time**: 30-45 minutes  
-**Prerequisites**: Understanding of web application architecture
+#### [`TESTING.md`](TESTING.md) — Testing Approach & Manual Test Scenarios
+- **Purpose:** Describes current manual testing approach, backend test coverage, and test scenarios for the desktop application. Includes backend logic and event logging tests.
+- **Audience:** Testers, QA, developers.
 
-#### **[`USER_FLOWS.md`](USER_FLOWS.md)** - User Flow Diagrams
-**Purpose**: Visual documentation of complete user journeys through platform features  
-**Contents**:
-- 8 comprehensive flow diagrams using Mermaid syntax
-- Authentication and role-based access flows
-- Admin workflows for user management and system administration
-- Regular user flows for task and project management
-- Employee onboarding process with automation
-- Error handling scenarios and recovery procedures
-- Implementation status indicators for each flow step
+#### [`USER_FLOWS.md`](USER_FLOWS.md) — User Flow Diagrams
+- **Purpose:** Visual documentation of user journeys, including authentication, dashboard, and project/task flows. Uses Mermaid syntax and references PNG diagrams.
+- **Audience:** UX/UI designers, product managers.
 
-**Target Audience**: UX/UI Designers, Product Managers, Developers, QA Testers  
-**Estimated Reading Time**: 60-90 minutes  
-**Visual Elements**: Flowcharts, decision trees, process diagrams
+#### [`USER_STORIES.md`](USER_STORIES.md) — User Stories & Requirements
+- **Purpose:** Detailed user stories, personas, acceptance criteria, and business requirements.
+- **Audience:** Product managers, business analysts, QA.
 
-#### **[`USER_STORIES.md`](USER_STORIES.md)** - User Stories and Requirements
-**Purpose**: Detailed requirements documentation with user-centered feature descriptions  
-**Contents**:
-- User personas with goals and pain points
-- 7 epic-level user stories with business value statements
-- 40+ detailed user stories with acceptance criteria
-- Functional and non-functional requirements specifications
-- Business requirements with success metrics
-- User acceptance criteria and testing guidelines
-- Implementation priority matrix (MoSCoW method)
+#### [`DEPLOYMENT.md`](DEPLOYMENT.md) — Deployment & Packaging Guide
+- **Purpose:** Instructions for packaging, distributing, and running the desktop application on Windows/macOS/Linux. Covers Docker for development, not for production.
+- **Audience:** System administrators, DevOps.
 
-**Target Audience**: Product Managers, Business Analysts, Developers, QA Testers  
-**Estimated Reading Time**: 90-120 minutes  
-**Framework**: Agile user story methodology with acceptance criteria
+#### [`FEATURE_MIGRATION_CHECKLIST.md`](FEATURE_MIGRATION_CHECKLIST.md) — Feature Migration Status
+- **Purpose:** Checklist for tracking feature migration and implementation status after architectural changes or rollbacks.
+- **Audience:** Developers, project managers.
 
-#### **[`API_DOCUMENTATION.md`](API_DOCUMENTATION.md)** - API Reference
-**Purpose**: Complete REST API documentation for developers and integrators  
-**Contents**:
-- API overview with authentication methods and response formats
-- 50+ endpoint specifications with request/response examples
-- Authentication endpoints (login, logout, token refresh)
-- User management, project management, and task management APIs
-- File management and role/permission endpoints
-- Error response schemas and HTTP status codes
-- Data models and SDK integration examples
-- Testing guidelines with sample code
+#### [`FEATURELIST.txt`](FEATURELIST.txt) — Legacy/Reference Feature List
+- **Purpose:** Text-based summary of features for quick reference.
+- **Audience:** All team members.
 
-**Target Audience**: Frontend Developers, API Integrators, Mobile App Developers  
-**Estimated Reading Time**: 75-90 minutes  
-**Format**: OpenAPI-style documentation with curl examples
+### Additional Documentation & Guides
 
-#### **[`DATABASE_SCHEMA.md`](DATABASE_SCHEMA.md)** - Database Schema Documentation
-**Purpose**: Complete database design documentation with entity relationships  
-**Contents**:
-- Entity Relationship Diagram with all table relationships
-- 13 database tables with detailed column specifications
-- Data integrity constraints and foreign key relationships
-- Performance considerations and indexing strategies
-- Migration procedures from SQLite to PostgreSQL
-- Sample queries for common operations
-- Backup and recovery procedures
+- **No `Report_Info.md` present in this directory.**
+- See [`images/`](images/) for UI wireframes and visual resources.
 
-**Target Audience**: Database Administrators, Backend Developers, DevOps Engineers  
-**Estimated Reading Time**: 45-60 minutes  
-**Prerequisites**: Understanding of relational database concepts
+---
 
-#### **[`DEPLOYMENT.md`](DEPLOYMENT.md)** - Deployment Guide
-**Purpose**: Comprehensive deployment procedures for development and production environments  
-**Contents**:
-- Docker deployment with multi-stage builds and security best practices
-- Local development setup with step-by-step instructions
-- Production deployment options (AWS, Azure, GCP, VPS, Kubernetes)
-- Environment configuration and secret management
-- Database deployment and migration procedures
-- CI/CD pipeline setup with GitHub Actions
-- Security hardening and monitoring configuration
-- Troubleshooting guide and maintenance procedures
+## Diagrams and Visual Resources
 
-**Target Audience**: DevOps Engineers, System Administrators, Production Engineers  
-**Estimated Reading Time**: 120-150 minutes  
-**Scope**: Complete production deployment lifecycle
+- [`mermaid_diagram_1752676135992.png`](mermaid_diagram_1752676135992.png): Mermaid-generated architecture or flow diagram.
+- [`mermaid_diagram_1752677070670.png`](mermaid_diagram_1752677070670.png): Mermaid-generated diagram (see [`ARCHITECTURE.md`](ARCHITECTURE.md) and [`USER_FLOWS.md`](USER_FLOWS.md) for context).
+- [`images/Dashboard_Wireframe.png`](images/Dashboard_Wireframe.png): UI wireframe for the dashboard layout.
+- Additional images: [`images/logo.jpg`](images/logo.jpg), [`images/user.jpg`](images/user.jpg) — used in the UI.
 
-#### **[`TESTING.md`](TESTING.md)** - Testing Approach and Backend/API Coverage
-**Purpose**: Comprehensive testing documentation for backend logic, API endpoints, event logging, and test coverage
-**Contents**:
-- Backend logic and API endpoints for project creation, metadata, deadline, description, and team member assignment
-- Event logging for project creation and team assignment (via `event_logs` table)
-- Automated and manual test coverage for all backend features
-- Initial test failures (missing `event_logs` table, payload format issues)
-- Rectifications and final passing results for all backend tests
+---
 
 ### Document Cross-References and Dependencies
 
@@ -406,7 +335,7 @@ graph TD
 ### Default Ports and URLs
 
 #### **Development URLs**
-- **Frontend Application**: `http://localhost:5173` (Vite development server)
+- **Desktop Application**: Launched via Python (QML/PySide6)
 - **Backend API**: `http://localhost:5000` (Flask development server)
 - **Database**: `sqlite:///app/auth.db` (local SQLite file)
 
@@ -420,8 +349,8 @@ graph TD
 | Port | Service | Environment | Description |
 |------|---------|-------------|-------------|
 | 5000 | Flask API | Dev/Prod | REST API server |
-| 5173 | Vite Dev Server | Dev Only | Frontend with HMR |
-| 4173 | Vite Preview | Dev Only | Production preview |
+|      |                |          |                   |
+|      |                |          |                   |
 | 2200 | SSH Server | Dev/Prod | Secure shell access |
 | 443 | HTTPS | Prod Only | SSL termination |
 | 80 | HTTP | Prod Only | Redirect to HTTPS |
@@ -476,23 +405,9 @@ gunicorn -w 4 -b 0.0.0.0:5000 app.api_server:app
 
 #### **Frontend Setup Commands**
 ```bash
-# Navigate to UI directory
-cd ui
-
-# Install dependencies
-npm install
-
-# Development server (with hot reload)
-npm run dev
-
-# Production build
-npm run build
-
-# Preview production build
-npm run preview
-
-# Code linting
-npm run lint
+# No separate frontend build step required.
+# To launch the desktop UI, run the main Python application:
+python app/main.py
 ```
 
 #### **Docker Commands**
@@ -519,7 +434,7 @@ docker-compose logs -f app
 
 #### **Configuration Files**
 - **Backend Config**: `app/config.py` (Flask configuration)
-- **Frontend Config**: `ui/vite.config.js` (Vite build configuration)
+- **Frontend Config**: `app/qml/` (QML UI source files)
 - **Database Config**: `app/db.py` (SQLAlchemy configuration)
 - **Docker Config**: `Dockerfile` (containerization setup)
 - **Nginx Config**: `nginx.conf` (reverse proxy configuration)
@@ -583,13 +498,13 @@ The Draft_2 Project Management Platform demonstrates a strong architectural foun
 - **Project Creation Form**: Complete UI with validation
   - Project name and deadline selection
   - Dynamic task addition during project setup
-  - Date picker integration with Material-UI
+  - Date picker integration with QtQuick Controls
   - Form validation and user feedback
 - **Database Schema**: Comprehensive project, members, and task relationships
 
 #### **System Architecture**
 - **Database Design**: 13-table schema with proper relationships and constraints
-- **Component Architecture**: Modular React components with professional Material-UI design
+- **Component Architecture**: Modular QML components with QtQuick Controls
 - **API Foundation**: Flask REST API structure with SQLAlchemy ORM
 - **Security Framework**: Role-based access control, input validation, secure configuration
 
@@ -709,12 +624,12 @@ The Draft_2 Project Management Platform demonstrates a strong architectural foun
 - Write docstrings following Google or NumPy style conventions
 - Use SQLAlchemy ORM patterns consistently across all database operations
 
-**React Frontend Standards:**
-- Follow React 19+ best practices with functional components and hooks
-- Use TypeScript for type safety (migration planned)
-- Implement consistent component structure with props interfaces
-- Follow Material-UI design system guidelines and theming
-- Use ESLint configuration provided in project root
+**QML Frontend Standards:**
+- Use QML/QtQuick Controls 2 for UI components and layouts
+- Follow Qt best practices for separation of logic and presentation
+- Use Python (PySide6/PyQt) for backend integration and business logic
+- Maintain consistent component structure and property bindings
+- Use Qt Linting and QML formatting tools for code quality
 
 **Database Standards:**
 - All database changes must include migration scripts
@@ -758,14 +673,14 @@ refactor(components): extract reusable form validation logic
 - Performance tests for database queries and API responses
 
 **Frontend Testing:**
-- Component unit tests using React Testing Library
-- Integration tests for user workflows
-- Accessibility tests for WCAG 2.1 AA compliance
-- Cross-browser testing on supported platforms
+- QML unit tests using Qt Test framework
+- Integration tests for user workflows via QML/Python
+- Accessibility tests for desktop UI standards
+- Cross-platform testing on Windows, macOS, and Linux
 
 **Test Coverage Requirements:**
 - Minimum 80% code coverage for backend Python code
-- Minimum 70% component coverage for React components
+- Minimum 70% component coverage for QML components
 - 100% coverage for security-critical authentication code
 - Integration test coverage for all API endpoints
 
@@ -870,7 +785,7 @@ pre-commit install
 **Frontend Setup Problems:**
 - **`npm install` fails**: Delete `node_modules` and `package-lock.json`, then retry
 - **Build errors**: Run `npm run lint` to identify syntax errors
-- **Port conflicts**: Vite automatically uses next available port, check terminal output for actual URL
+- **Port conflicts**: If you see port conflicts, ensure no other services are running on required backend ports.
 - **Module resolution errors**: Verify all dependencies are installed and versions match package.json
 
 **Docker Issues:**
@@ -895,8 +810,8 @@ python -c "from app.db import engine; print(engine.execute('SELECT 1').scalar())
 # Test API endpoint
 curl http://localhost:5000/api/user-count
 
-# Check frontend build
-cd ui && npm run build && echo "Build successful"
+# Check frontend launch
+python app/main.py
 ```
 
 ### FAQ Section
@@ -920,14 +835,14 @@ cd ui && npm run build && echo "Build successful"
 **Q: How do I add a new API endpoint?**  
 **A:** Follow the pattern in [`app/api_server.py`](app/api_server.py). Add the route, implement the handler function, update [`API_DOCUMENTATION.md`](API_DOCUMENTATION.md), and write corresponding tests.
 
-**Q: How do I add a new React component?**  
-**A:** Create components in [`ui/src/components/`](ui/src/components/) for reusable elements or [`ui/src/pages/`](ui/src/pages/) for page-level components. Follow Material-UI theming patterns and include PropTypes or TypeScript interfaces.
+**Q: How do I add a new QML component?**
+**A:** Create new QML files in [`app/qml/`](app/qml/) for reusable UI elements or pages. Use QtQuick Controls for standard widgets and layouts. Integrate with Python backend via signals, slots, and properties using PySide6/PyQt.
 
 **Q: How do I modify the database schema?**  
 **A:** Update [`app/schema.sql`](app/schema.sql), create migration scripts, update SQLAlchemy models in [`app/db.py`](app/db.py), and document changes in [`DATABASE_SCHEMA.md`](DATABASE_SCHEMA.md).
 
 **Q: How do I enable HTTPS in development?**  
-**A:** Use a reverse proxy like nginx or enable HTTPS in Vite configuration. Production deployment should use proper SSL certificates from a trusted certificate authority.
+**A:** Use a reverse proxy like nginx for HTTPS. Production deployment should use proper SSL certificates from a trusted certificate authority.
 
 #### **Security Questions**
 
@@ -937,22 +852,23 @@ cd ui && npm run build && echo "Build successful"
 **Q: What authentication methods are supported?**  
 **A:** Currently username/password with planned JWT token support. The architecture supports integration with OAuth providers (Google, Microsoft) and SSO solutions for enterprise deployment.
 
-**Q: How do I configure role-based permissions?**  
-**A:** The database schema includes roles and permissions tables. Implement permission checking middleware in Flask and component-level access control in React components.
+**Q: How do I configure role-based permissions?**
+**A:** The database schema includes roles and permissions tables. Implement permission checking middleware in Flask and UI-level access control in QML components.
 
 ### Technology Stack Documentation Links
 
 #### **Frontend Technologies**
 
-**React Resources:**
-- [React 19.1.0 Official Documentation](https://react.dev/) - Component patterns, hooks, and concurrent features
-- [Vite 7.0.4 Documentation](https://vitejs.dev/) - Build configuration, plugins, and optimization
-- [Material-UI 7.2.0 Documentation](https://mui.com/) - Component library, theming, and customization
+**QML Resources:**
+- [QML Documentation](https://doc.qt.io/qt-6/qmlapplications.html) - QML syntax, components, and best practices
+- [PySide6 Documentation](https://doc.qt.io/qtforpython/) - Python integration with QML
+- [QtQuick Controls 2](https://doc.qt.io/qt-6/qtquickcontrols-index.html) - Standard UI components for QML
+- [Qt Charts](https://doc.qt.io/qt-6/qtcharts-index.html) - Data visualization in QML
 
 **UI Libraries:**
-- [React Router DOM 7.6.3](https://reactrouter.com/) - Client-side routing and navigation
-- [@hello-pangea/dnd](https://github.com/hello-pangea/dnd) - Drag-and-drop functionality
-- [MUI X Data Grid](https://mui.com/x/react-data-grid/) - Advanced data table components
+- [QtQuick Controls 2](https://doc.qt.io/qt-6/qtquickcontrols-index.html) - UI widgets and layouts
+- [QML Drag-and-Drop](https://doc.qt.io/qt-6/qtquick-draganddrop.html) - Native drag-and-drop support
+- [Qt Data Models](https://doc.qt.io/qt-6/qml-qtqml-models-qabstractitemmodel.html) - Data-driven UI components
 
 #### **Backend Technologies**
 
@@ -992,7 +908,7 @@ cd ui && npm run build && echo "Build successful"
 #### **Professional Development**
 
 **Skill Building:**
-- **Full-Stack Development**: Gain experience with modern React and Python Flask patterns
+- **Full-Stack Development**: Gain experience with modern QML (PySide6/PyQt) and Python Flask patterns
 - **Database Design**: Learn relational database modeling and optimization techniques
 - **DevOps Practices**: Experience with Docker, CI/CD, and production deployment
 - **Security Implementation**: Understand authentication, authorization, and data protection
@@ -1007,14 +923,14 @@ cd ui && npm run build && echo "Build successful"
 
 ## Conclusion
 
-The Draft_2 Project Management Platform represents a comprehensive, modern approach to team collaboration and project management. With its solid foundation of React and Flask technologies, professional UI/UX design, and scalable architecture, the platform demonstrates enterprise-ready development practices.
+The Draft_2 Project Management Platform represents a comprehensive, modern approach to team collaboration and project management. With its solid foundation of QML (PySide6/PyQt) and Flask technologies, professional UI/UX design, and scalable architecture, the platform demonstrates enterprise-ready development practices.
 
 ### Key Strengths
 
 1. **Architectural Excellence**: Well-designed system architecture with clear separation of concerns
 2. **Security-First Design**: bcrypt password hashing, role-based access control, and input validation
-3. **Modern Technology Stack**: Latest versions of React, Flask, and supporting libraries
-4. **Professional UI/UX**: Material-UI components with responsive design and accessibility considerations
+3. **Modern Technology Stack**: Latest versions of QML (PySide6/PyQt), Flask, and supporting libraries
+4. **Professional UI/UX**: QtQuick Controls components with responsive design and accessibility considerations
 5. **Comprehensive Documentation**: Detailed documentation covering all aspects from setup to deployment
 6. **Scalable Foundation**: Clear migration path from development to production with enterprise features
 

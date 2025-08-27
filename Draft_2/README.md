@@ -107,34 +107,33 @@ Error responses include error details:
 
 **Note**: Additional endpoints for projects, tasks, and files are defined in the schema but not yet implemented in [`api_server.py`](app/api_server.py:1).
 
-## Frontend Access
+## Desktop Application Access
 
 ### Main Application
 
-1. **Start the development server**: `npm run dev` in the `ui/` directory
-2. **Open your browser**: Navigate to `http://localhost:5173`
+1. **Start the desktop application**: `python app/main.py`
+2. The QML-based UI will launch as a native desktop window.
 
-### Available Pages
+### Main Screens
 
-- **Authentication** (`/`) - Login and registration interface
-- **Dashboard** (`/dashboard`) - Main task management with Eisenhower Matrix
-  - Drag-and-drop task organization
+- **Authentication** (Login dialog) - Login and registration interface
+- **Dashboard** - Main task management with Eisenhower Matrix
+  - Drag-and-drop task organization (QML native)
   - Set, edit, and delete task deadlines
   - Edit and delete tasks directly from the dashboard
   - Four priority categories: Urgent & Important, Urgent, Important, Others
   - Project overview panel
-- **Project Creation** (`/create-project`) - Form to create new projects
-- **Admin Dashboard** (`/admin-dashboard`) - Administrative tools
-- **Employee List** (`/employee-list`) - User management interface
-- **Add User** (`/add-user`) - User registration form
+- **Project Creation** - Form to create new projects
+- **Admin Dashboard** - Administrative tools
+- **Employee List** - User management interface
+- **Add User** - User registration form
 
 ### UI Features
 
-- **Material-UI Components** - Professional, responsive design
-- **Drag & Drop** - Task organization with `@hello-pangea/dnd`
-- **React Router** - Client-side navigation
-- **Responsive Design** - Works on desktop and mobile devices
-- **Document Versioning UI** - File management screens now include version history, diff viewing (with ODFDiff), and restore options for LibreOffice documents. Users can browse, compare, and revert document versions directly from the UI.
+- **QML/QtQuick Controls** - Modern, responsive desktop UI components
+- **Native Drag & Drop** - Task organization using QML drag-and-drop
+- **Consistent Desktop Experience** - Optimized for Windows, macOS, and Linux
+- **Document Versioning UI** - File management screens include version history, diff viewing (with ODFDiff), and restore options for LibreOffice documents. Users can browse, compare, and revert document versions directly from the UI.
 
 ## Troubleshooting
 
@@ -174,8 +173,7 @@ Error responses include error details:
    ```
 
 3. **Port conflicts (5173)**
-   - Vite will automatically use the next available port
-   - Check the terminal output for the actual URL
+   - This port is not used in the QML desktop application. If you see port conflicts, ensure no other services are running on required backend ports.
 
 **Docker Issues:**
 
@@ -192,24 +190,24 @@ Error responses include error details:
 
 ### Development Tips
 
-- Use browser developer tools to debug React components
-- Check the browser console for JavaScript errors
-- Monitor network requests to debug API calls
-- Use `console.log()` for debugging React state changes
+- Use Python logging and print statements to debug backend logic
+- Use QML's `console.log()` for debugging UI state changes
+- Monitor terminal output for errors and status messages
+- Check `event_log.txt` for application event logs
 
 ### Performance Considerations
 
-- The React app uses Vite for fast development builds
-- Material-UI components are optimized for production
+- The QML desktop app launches instantly with Python and PySide6
+- QtQuick Controls provide a consistent, professional UI
 - SQLite is suitable for development but consider PostgreSQL for production
-- Implement proper error boundaries in React for production use
+- Implement robust error handling in both Python and QML for production use
 
 ## Next Steps
 
 For continued development:
 
 1. **Complete API Implementation** - Implement remaining CRUD operations for projects, tasks, and files (including task deadlines, editing, and deletion)
-2. **Authentication Integration** - Connect React frontend to Flask authentication endpoints  
+2. **Authentication Integration** - Connect QML frontend to Flask authentication endpoints
 3. **File Upload System** - Implement file management features
 4. **Real-time Updates** - Add WebSocket support for collaborative features
 5. **Testing** - Add comprehensive unit and integration tests
