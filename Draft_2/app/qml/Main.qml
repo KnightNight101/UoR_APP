@@ -371,6 +371,7 @@ Connections {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
 
+
             // Sidebar (ProjectsBox)
             Rectangle {
                 id: sidebar
@@ -577,255 +578,326 @@ Connections {
         // --- Project Details Page (visible when logged in and currentPage is "projectDetails") ---
         Item {
             id: projectDetailsPage
+            Component.onCompleted: {
+                console.log("DEBUG: projectDetailsPage Component.onCompleted")
+            }
+            onVisibleChanged: {
+                console.log("DEBUG: projectDetailsPage visible =", visible)
+            }
             anchors.fill: parent
             visible: root.loggedIn && root.currentPage === "projectDetails"
-            // Move title edit state to root for reliable access
             property var tabLabels: ["Tasks", "Gantt Chart", "Calendar", "Team"]
-
-            // --- Tab Bar State ---
             property int selectedTabIndex: 0
 
-            // Top left back-to-dashboard button
-            Button {
-                text: "\u25C0 Dashboard"
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.topMargin: 24
-                anchors.leftMargin: 32
-                onClicked: root.currentPage = "dashboard"
-                z: 100
-            }
+            // Main content rectangle (SVG spec)
+            // Top bar row (Back to Dashboard + Project Title) above the main rectangle
+            Row {
+                id: topBarRow
+                x: 45
+                y: 80
+                width: 900
+                height: 48
+                spacing: 24
 
-            // Delete Project Button (top left, next to Dashboard)
-            Button {
-                id: deleteProjectBtn
-                text: "Delete Project"
-                anchors.top: parent.top
-                anchors.right: parent.right
-                anchors.topMargin: 24
-                anchors.rightMargin: 32
-                z: 100
-                onClicked: deleteProjectDialog.open()
-            }
+                Button {
+                    text: "\u25C0 Dashboard"
+                    onClicked: root.currentPage = "dashboard"
+                    z: 100
+                }
 
-            // Delete Confirmation Dialog
-            Dialog {
-                id: deleteProjectDialog
-                modal: true
-                x: (parent.width - width) / 2
-                y: (parent.height - height) / 2
-                standardButtons: Dialog.NoButton
-                width: 340
-                height: 180
+                // Project Title Heading (inline edit)
+                Item {
+                    id: projectTitleEditContainer
+                    width: 500
+                    height: 40
 
-                Rectangle {
-                    anchors.fill: parent
-                    color: "#fff"
-                    radius: 12
-                    border.color: "#2255aa"
-                    border.width: 2
-
-                    Column {
-                        anchors.centerIn: parent
-                        spacing: 24
-
-                        Text {
-                            text: "Are you sure you want to delete this project?"
-                            font.pixelSize: 18
-                            color: "#222"
-                            horizontalAlignment: Text.AlignHCenter
-                            wrapMode: Text.WordWrap
-                            width: 300
+                    Text {
+                        id: projectDetailsTitle
+                        visible: !root.editingTitle
+                        text: {
+                            let proj = dashboardManager.projects.find(p => p.id === root.selectedProjectId)
+                            proj && proj.name && proj.name.length > 0 ? proj.name : "(Untitled Project)"
                         }
+                        font.pixelSize: 32
+                        font.bold: true
+                        color: "#2255aa"
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        enabled: projectDetailsTitle.visible
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            root.editingTitle = true
+                            let proj = dashboardManager.projects.find(p => p.id === root.selectedProjectId)
+                            root.editableTitle = proj && proj.name ? proj.name : ""
+                            root.titleEditStatus = ""
+                        }
+                    }
 
-                        Row {
-                            spacing: 24
-                            anchors.horizontalCenter: parent.horizontalCenter
-
-                            Button {
-                                text: "Cancel"
-                                onClicked: deleteProjectDialog.close()
+                    Row {
+                        visible: !!root.editingTitle
+                        spacing: 8
+                        TextField {
+                            id: titleEditField
+                            text: root.editableTitle || ""
+                            font.pixelSize: 32
+                            width: 320
+                            selectByMouse: true
+                            onTextChanged: root.editableTitle = text
+                            focus: true
+                            Keys.onReturnPressed: saveTitleBtn.clicked()
+                        }
+                        Button {
+                            id: saveTitleBtn
+                            text: "Save"
+                            onClicked: {
+                                if ((root.editableTitle || "").trim().length === 0) {
+                                    root.titleEditStatus = "Title cannot be empty."
+                                    return
+                                }
+                                projectManager.updateProjectTitle(
+                                    root.selectedProjectId,
+                                    AuthManager.userId,
+                                    root.editableTitle
+                                )
                             }
-                            Button {
-                                text: "Delete"
+                        }
+                        Button {
+                            text: "Cancel"
+                            onClicked: {
+                                root.editingTitle = false
+                                root.titleEditStatus = ""
+                            }
+                        }
+                    }
+                    Text {
+                        text: root.titleEditStatus || ""
+                        color: (root.titleEditStatus === "Project title updated successfully.") ? "green" : "red"
+                        font.pixelSize: 14
+                        anchors.left: parent.left
+                        anchors.top: parent.top
+                        anchors.topMargin: 44
+                        visible: !!root.editingTitle && (root.titleEditStatus || "").length > 0
+                    }
+                }
+            }
+
+            Rectangle {
+                id: projectDetailsMainRect
+                x: 45
+                y: 131
+                width: 1666
+                height: 921
+                color: "#D9D9D9"
+                radius: 18
+
+                // Delete Project Button (top right)
+                Button {
+                    id: deleteProjectBtn
+                    text: "Delete Project"
+                    anchors.top: parent.top
+                    anchors.right: parent.right
+                    anchors.topMargin: 24
+                    anchors.rightMargin: 32
+                    z: 100
+                    onClicked: deleteProjectDialog.open()
+                }
+
+                // Delete Confirmation Dialog
+                Dialog {
+                    id: deleteProjectDialog
+                    modal: true
+                    x: (parent.width - width) / 2
+                    y: (parent.height - height) / 2
+                    standardButtons: Dialog.NoButton
+                    width: 340
+                    height: 180
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "#fff"
+                        radius: 12
+                        border.color: "#2255aa"
+                        border.width: 2
+
+                        Column {
+                            anchors.centerIn: parent
+                            spacing: 24
+
+                            Text {
+                                text: "Are you sure you want to delete this project?"
+                                font.pixelSize: 18
+                                color: "#222"
+                                horizontalAlignment: Text.AlignHCenter
+                                wrapMode: Text.WordWrap
+                                width: 300
+                            }
+
+                            Row {
+                                spacing: 24
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                Button {
+                                    text: "Cancel"
+                                    onClicked: deleteProjectDialog.close()
+                                }
+                                Button {
+                                    text: "Delete"
+                                    onClicked: {
+                                        projectManager.deleteProject(root.selectedProjectId, AuthManager.userId)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Listen for projectDeleted signal to handle UI after deletion
+                Connections {
+                    target: projectManager
+                    function onProjectDeleted(success, message) {
+                        if (success) {
+                            deleteProjectDialog.close()
+                            root.currentPage = "dashboard"
+                            dashboardManager.loadProjects(AuthManager.userId)
+                            if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                                log_event.log_event(message)
+                            }
+                        } else {
+                            deleteProjectDialog.close()
+                            if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                                log_event.log_event("Project deletion failed: " + message)
+                            }
+                        }
+                    }
+                }
+
+                // Project Title Heading
+
+                // --- Vertical Tab Bar removed from here; moved to right sidebar ---
+
+                // --- Tab Content (all tabs inside main rectangle) ---
+                Item {
+                    id: tabContentContainer
+                    anchors.fill: parent
+                    anchors.margins: 80
+                    // Tasks Tab
+                    Item {
+                        id: taskTab
+                        anchors.fill: parent
+                        visible: projectDetailsPage.selectedTabIndex === 0
+                        Text {
+                            anchors.centerIn: parent
+                            text: "Tasks tab content goes here."
+                            color: "#2255aa"
+                            font.pixelSize: 28
+                            font.bold: true
+                        }
+                    }
+                    // Gantt Chart Tab
+                    Item {
+                        id: ganttTab
+                        anchors.fill: parent
+                        visible: projectDetailsPage.selectedTabIndex === 1
+                        Text {
+                            anchors.centerIn: parent
+                            text: "Gantt Chart tab content goes here."
+                            color: "#2255aa"
+                            font.pixelSize: 28
+                            font.bold: true
+                        }
+                    }
+                    // Calendar Tab
+                    Item {
+                        id: calendarTab
+                        anchors.fill: parent
+                        visible: projectDetailsPage.selectedTabIndex === 2
+                        Text {
+                            anchors.centerIn: parent
+                            text: "Calendar tab content goes here."
+                            color: "#2255aa"
+                            font.pixelSize: 28
+                            font.bold: true
+                        }
+                    }
+                    // Team Tab
+                    Item {
+                        id: teamTab
+                        anchors.fill: parent
+                        visible: projectDetailsPage.selectedTabIndex === 3
+                        Text {
+                            anchors.centerIn: parent
+                            text: "Team tab content goes here."
+                            color: "#2255aa"
+                            font.pixelSize: 28
+                            font.bold: true
+                        }
+                    }
+                }
+            }
+
+            // Right sidebar rectangle (SVG spec)
+            Rectangle {
+                id: projectDetailsSidebar
+                x: 1742
+                y: 131
+                width: 149
+                height: 921
+                color: "#D9D9D9"
+                radius: 18
+
+                // --- Vertical Tab Bar (now in right sidebar) ---
+                Column {
+                    id: verticalTabBar
+                    width: parent.width
+                    height: 260
+                    spacing: 0
+                    anchors.top: parent.top
+                    anchors.topMargin: 120
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    z: 50
+
+                    Repeater {
+                        model: projectDetailsPage.tabLabels ? projectDetailsPage.tabLabels.length : 0
+                        delegate: Rectangle {
+                            width: parent.width
+                            height: 48
+                            color: index === projectDetailsPage.selectedTabIndex ? "#fff" : "#e9eef6"
+                            border.color: index === projectDetailsPage.selectedTabIndex ? "#2255aa" : "#e9eef6"
+                            border.width: 2
+                            radius: 24
+                            antialiasing: true
+
+                            Row {
+                                spacing: 0
+                                Rectangle {
+                                    width: 6
+                                    height: parent.height
+                                    color: index === projectDetailsPage.selectedTabIndex ? "#2255aa" : "transparent"
+                                    radius: 3
+                                }
+                                Text {
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    text: projectDetailsPage.tabLabels[index]
+                                    color: "#2255aa"
+                                    font.pixelSize: 16
+                                    font.bold: index === projectDetailsPage.selectedTabIndex
+                                }
+                            }
+
+                            MouseArea {
+                                width: parent.width
+                                height: parent.height
+                                cursorShape: Qt.PointingHandCursor
                                 onClicked: {
-                                    projectManager.deleteProject(root.selectedProjectId, AuthManager.userId)
+                                    projectDetailsPage.selectedTabIndex = index
                                 }
                             }
                         }
                     }
                 }
             }
-    
-            // Listen for projectDeleted signal to handle UI after deletion
-            Connections {
-                target: projectManager
-                function onProjectDeleted(success, message) {
-                    if (success) {
-                        deleteProjectDialog.close()
-                        root.currentPage = "dashboard"
-                        dashboardManager.loadProjects(AuthManager.userId)
-                        if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
-                            log_event.log_event(message)
-                        }
-                    } else {
-                        // Optionally show error to user
-                        deleteProjectDialog.close()
-                        if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
-                            log_event.log_event("Project deletion failed: " + message)
-                        }
-                    }
-                }
-            }
-
-            // Project Title Heading
-            Item {
-                id: projectTitleEditContainer
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.topMargin: 28
-                anchors.leftMargin: 200
-                width: 500
-                height: 40
-
-                // Normal display mode: plain text, clickable to edit
-                Text {
-                    id: projectDetailsTitle
-                    visible: !root.editingTitle
-                    text: {
-                        let proj = dashboardManager.projects.find(p => p.id === root.selectedProjectId)
-                        proj && proj.name && proj.name.length > 0 ? proj.name : "(Untitled Project)"
-                    }
-                    font.pixelSize: 32
-                    font.bold: true
-                    color: "#2255aa"
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    enabled: projectDetailsTitle.visible
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        console.log("DEBUG: Project title clicked, switching to edit mode")
-                        root.editingTitle = true
-                        let proj = dashboardManager.projects.find(p => p.id === root.selectedProjectId)
-                        root.editableTitle = proj && proj.name ? proj.name : ""
-                        root.titleEditStatus = ""
-                    }
-                }
-
-                // Edit mode: TextField + Save/Cancel, only visible when editing
-                Row {
-                    visible: !!root.editingTitle
-                    spacing: 8
-                    TextField {
-                        id: titleEditField
-                        text: root.editableTitle || ""
-                        font.pixelSize: 32
-                        width: 320
-                        selectByMouse: true
-                        onTextChanged: root.editableTitle = text
-                        focus: true
-                        Keys.onReturnPressed: saveTitleBtn.clicked()
-                    }
-                    Button {
-                        id: saveTitleBtn
-                        text: "Save"
-                        onClicked: {
-                            if ((root.editableTitle || "").trim().length === 0) {
-                                root.titleEditStatus = "Title cannot be empty."
-                                return
-                            }
-                            projectManager.updateProjectTitle(
-                                root.selectedProjectId,
-                                AuthManager.userId,
-                                root.editableTitle
-                            )
-                        }
-                    }
-                    Button {
-                        text: "Cancel"
-                        onClicked: {
-                            root.editingTitle = false
-                            root.titleEditStatus = ""
-                        }
-                    }
-                }
-                // Status message (optional, only in edit mode)
-                Text {
-                    text: root.titleEditStatus || ""
-                    color: (root.titleEditStatus === "Project title updated successfully.") ? "green" : "red"
-                    font.pixelSize: 14
-                    anchors.left: parent.left
-                    anchors.top: parent.top
-                    anchors.topMargin: 44
-                    visible: !!root.editingTitle && (root.titleEditStatus || "").length > 0
-                }
-            }
-            // --- Vertical Tab Bar (right side, folder-style tabs) ---
-            Column {
-                id: verticalTabBar
-                width: 120
-                height: 260
-                spacing: 0
-                x: parent.width - 120
-                y: 120
-                z: 50
-                // Only the Column itself uses x/y for positioning; children must NOT use anchors
-
-
-                Repeater {
-                    model: projectDetailsPage.tabLabels ? projectDetailsPage.tabLabels.length : 0
-                    delegate: Rectangle {
-                        width: 120
-                        height: 48
-                        color: index === projectDetailsPage.selectedTabIndex ? "#fff" : "#e9eef6"
-                        border.color: index === projectDetailsPage.selectedTabIndex ? "#2255aa" : "#e9eef6"
-                        border.width: 2
-                        radius: 24
-                        antialiasing: true
-
-                        Component.onCompleted: {
-                            console.log("DEBUG: TabBar delegate created. tabLabels =", projectDetailsPage.tabLabels, "index =", index, "selectedTabIndex =", projectDetailsPage.selectedTabIndex)
-                            // Log all anchor properties for this delegate
-                            console.log("DEBUG: TabBar delegate anchors:",
-                                "top", parent.anchors && parent.anchors.top,
-                                "bottom", parent.anchors && parent.anchors.bottom,
-                                "verticalCenter", parent.anchors && parent.anchors.verticalCenter,
-                                "fill", parent.anchors && parent.anchors.fill,
-                                "centerIn", parent.anchors && parent.anchors.centerIn
-                            );
-                        }
-
-                        Row {
-                            spacing: 0
-                            Rectangle {
-                                width: 6
-                                height: parent.height
-                                color: index === projectDetailsPage.selectedTabIndex ? "#2255aa" : "transparent"
-                                radius: 3
-                            }
-                            Text {
-                                verticalAlignment: Text.AlignVCenter
-                                horizontalAlignment: Text.AlignHCenter
-                                text: projectDetailsPage.tabLabels[index]
-                                color: "#2255aa"
-                                font.pixelSize: 16
-                                font.bold: index === projectDetailsPage.selectedTabIndex
-                            }
-                        }
-
-                        MouseArea {
-                            width: parent.width
-                            height: parent.height
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: {
-                                console.log("DEBUG: Tab clicked. index =", index, "old selectedTabIndex =", projectDetailsPage.selectedTabIndex)
-                                projectDetailsPage.selectedTabIndex = index
-                                console.log("DEBUG: selectedTabIndex updated to", projectDetailsPage.selectedTabIndex)
-                            }
-                        }
-                    }
-                }
 // --- Task Tab UI (visible when "Tasks" tab is selected) ---
     // --- Frontend model for tasks and subtasks (demo, replace with backend binding as needed) ---
     // property var tasksModel: [] // Moved to ApplicationWindow root
@@ -846,290 +918,17 @@ Connections {
 
 // Remove all helper function definitions from inside Item/Rectangle blocks below
 
-Item {
-    id: taskTab
-    anchors.fill: parent
-    // Hierarchical task/subtask tree/list
-    Rectangle {
-        id: taskTreeBox
-        anchors.fill: parent
-        color: "#f8f9fa"
-        border.color: "#2255aa"
-        border.width: 2
-        radius: 16
-        anchors.margins: 32
-
-        Column {
-            anchors.fill: parent
-            anchors.margins: 16
-            spacing: 8
-
-            // Header row
-            Row {
-                spacing: 12
-                Text { text: "Title"; font.bold: true; width: 120 }
-                Text { text: "Description"; font.bold: true; width: 180 }
-                Text { text: "Deadline"; font.bold: true; width: 90 }
-                Text { text: "Owners"; font.bold: true; width: 90 }
-                Text { text: "Dependencies"; font.bold: true; width: 110 }
-                Text { text: "Hours (sum)"; font.bold: true; width: 70 }
-                Text { text: "Verify"; font.bold: true; width: 60 }
-                Text { text: "Status"; font.bold: true; width: 90 }
-                Text { text: ""; width: 90 } // Actions
+/* === RESTORED TASK TAB UI: Only tab container, no dialogs or editing features === */
+// Removed duplicate tab Item blocks after refactor. Tab content is now handled inside Rectangle's tabContentContainer.
+/* === GANTT CHART TAB UI === */
+// Removed duplicate tab Item blocks after refactor. Tab content is now handled inside Rectangle's tabContentContainer.
+/* === CALENDAR TAB UI === */
+// Removed duplicate tab Item blocks after refactor. Tab content is now handled inside Rectangle's tabContentContainer.
+/* === TEAM TAB UI === */
+// Removed duplicate tab Item blocks after refactor. Tab content is now handled inside Rectangle's tabContentContainer.
+            // DEBUG: Centered debug rectangle for layout testing
             }
-
-            // Task/subtask rows (dynamic)
-            Repeater {
-                model: root.flatTaskList
-                delegate: Row {
-                    spacing: 12
-                    Component.onCompleted: {
-                        console.log("PERF: TaskTab delegate created for", modelData.title, "isSubtask:", modelData.isSubtask);
-                    }
-                    // Indent subtasks
-                    Item { width: modelData.isSubtask ? 24 : 0 }
-                    Text { text: modelData.title; width: 120 }
-                    Text { text: modelData.description; width: 180 }
-                    Text { text: modelData.deadline; width: 90 }
-                    // Owners display (resolve user names if available)
-                    Text {
-                        width: 90
-                        text: root.getOwnerNames(modelData.isSubtask, modelData.ownersDisplay)
-                    }
-                    // Dependencies display (resolve task/subtask titles)
-                    Text {
-                        width: 110
-                        text: root.getDependencyTitles(modelData.dependenciesDisplay)
-                    }
-
-    // --- Add/Edit Subtask Dialog ---
-    Dialog {
-        id: subtaskDialog
-        modal: true
-        property bool editMode: false
-        property int parentTaskIndex: -1
-        property int editSubtaskIndex: -1
-        property var subtaskData: {
-            return {
-                title: "",
-                description: "",
-                owner: null,
-                dependencies: [],
-                hours: 0,
-                hoursVerify: 0,
-                status: 0
-            }
-        }
-        width: 480
-        height: 500
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        Column {
-            anchors.centerIn: parent
-            spacing: 12
-            Text { text: editMode ? "Edit Subtask" : "Add Subtask"; font.pixelSize: 22; font.bold: true }
-            TextField { placeholderText: "Title"; text: subtaskDialog.subtaskData.title; onTextChanged: subtaskDialog.subtaskData.title = text }
-            TextField { placeholderText: "Description"; text: subtaskDialog.subtaskData.description; onTextChanged: subtaskDialog.subtaskData.description = text }
-            // Owner single-select
-            ComboBox {
-                id: subOwnerCombo
-                width: 400
-                model: userManager ? userManager.users : []
-                textRole: "username"
-                valueRole: "id"
-                editable: false
-                currentIndex: userManager && subtaskDialog.subtaskData.owner !== null ? userManager.users.findIndex(u => u.id === subtaskDialog.subtaskData.owner) : -1
-                onActivated: {
-                    if (Array.isArray(currentIndex)) {
-                        // Multiple owners selected, prompt to duplicate
-                        // TODO: Show duplication prompt
-                    } else {
-                        subtaskDialog.subtaskData.owner = userManager.users[currentIndex].id;
-                    }
-                }
-            }
-            // Dependencies multi-select (grouped by parent task)
-            Rectangle {
-                width: 400; height: 40; color: "#f8f9fa"; border.color: "#bbb"; border.width: 1; radius: 8
-                property var selectedDeps: subtaskDialog.subtaskData.dependencies
-                ComboBox {
-                    id: subDepCombo
-                    width: parent.width
-                    model: root.tasksModel ? root.tasksModel : []
-                    textRole: "title"
-                    valueRole: "id"
-                    editable: false
-                    onActivated: {
-                        let task = tasksModel[currentIndex];
-                        let idx = parent.selectedDeps.indexOf(task.id);
-                        if (idx === -1) parent.selectedDeps.push(task.id);
-                        else parent.selectedDeps.splice(idx, 1);
-                        subDepCombo.currentIndex = -1;
-                    }
-                    delegate: ItemDelegate {
-                        width: parent.width
-                        text: model.title
-                        highlighted: parent.selectedDeps.indexOf(model.id) !== -1
-                        onClicked: {
-                            let idx = parent.selectedDeps.indexOf(model.id);
-                            if (idx === -1) parent.selectedDeps.push(model.id);
-                            else parent.selectedDeps.splice(idx, 1);
-                            subDepCombo.currentIndex = -1;
-                        }
-                        background: Rectangle { color: parent.selectedDeps.indexOf(model.id) !== -1 ? "#e0f7fa" : "transparent" }
-                    }
-                }
-            }
-            TextField { placeholderText: "Hours to complete"; text: subtaskDialog.subtaskData.hours; inputMethodHints: Qt.ImhDigitsOnly; onTextChanged: subtaskDialog.subtaskData.hours = parseInt(text) }
-            TextField { placeholderText: "Hours to verify"; text: subtaskDialog.subtaskData.hoursVerify; inputMethodHints: Qt.ImhDigitsOnly; onTextChanged: subtaskDialog.subtaskData.hoursVerify = parseInt(text) }
-            ComboBox { width: 180; model: ["not yet started", "in progress", "being tested", "complete"]; currentIndex: subtaskDialog.subtaskData.status; onCurrentIndexChanged: subtaskDialog.subtaskData.status = currentIndex }
-            Row {
-                spacing: 16
-                Button {
-                    text: "Save"
-                    onClicked: {
-                        if (taskDialog.editMode) {
-                            // Edit existing task
-                            let t = tasksModel[taskDialog.editTaskIndex];
-                            t.title = taskDialog.taskData.title;
-                            t.description = taskDialog.taskData.description;
-                            t.deadline = taskDialog.taskData.deadline;
-                            t.owners = taskDialog.taskData.owners.slice();
-                            t.dependencies = taskDialog.taskData.dependencies.slice();
-                            t.hours = taskDialog.taskData.hours;
-                            t.hoursVerify = taskDialog.taskData.hoursVerify;
-                            t.status = taskDialog.taskData.status;
-                        } else {
-                            // Add new task
-                            let newId = Math.max(0, ...tasksModel.map(t => t.id)) + 1;
-                            tasksModel.push({
-                                id: newId,
-                                title: taskDialog.taskData.title,
-                                description: taskDialog.taskData.description,
-                                deadline: taskDialog.taskData.deadline,
-                                owners: taskDialog.taskData.owners.slice(),
-                                dependencies: taskDialog.taskData.dependencies.slice(),
-                                hours: taskDialog.taskData.hours,
-                                hoursVerify: taskDialog.taskData.hoursVerify,
-                                status: taskDialog.taskData.status,
-                                subtasks: []
-                            });
-                        }
-                        taskDialog.close();
-                    }
-                }
-                Button { text: "Cancel"; onClicked: subtaskDialog.close() }
-            }
-        }
-    }
-                    Text { text: modelData.hoursSum; width: 70 }
-                    Text { text: modelData.hoursVerify; width: 60 }
-                    ComboBox {
-                        width: 90
-                        model: ["not yet started", "in progress", "being tested", "complete"]
-                        currentIndex: modelData.statusIndex
-                        onCurrentIndexChanged: {
-                            if (!modelData.isSubtask) {
-                                let idx = tasksModel.findIndex(t => t.id === modelData.id);
-                                if (idx !== -1) tasksModel[idx].status = currentIndex;
-                            } else {
-                                let parentIdx = tasksModel.findIndex(t => t.subtasks && t.subtasks.find(st => st.id === modelData.id));
-                                let subIdx = tasksModel[parentIdx].subtasks.findIndex(st => st.id === modelData.id);
-                                if (parentIdx !== -1 && subIdx !== -1) tasksModel[parentIdx].subtasks[subIdx].status = currentIndex;
-                            }
-                        }
-                    }
-                    Row {
-                        spacing: 4
-                        Button {
-                            text: "Edit"
-                            onClicked: {
-                                if (!modelData.isSubtask) {
-                                    taskDialog.editMode = true;
-                                    taskDialog.editTaskIndex = tasksModel.findIndex(t => t.id === modelData.id);
-                                    let t = tasksModel[taskDialog.editTaskIndex];
-                                    taskDialog.taskData = {
-                                        title: t.title,
-                                        description: t.description,
-                                        deadline: t.deadline,
-                                        owners: t.owners.slice(),
-                                        dependencies: t.dependencies.slice(),
-                                        hours: t.hours,
-                                        hoursVerify: t.hoursVerify,
-                                        status: t.status
-                                    };
-                                    taskDialog.open();
-                                } else {
-                                    // Subtask edit
-                                    let parentIdx = tasksModel.findIndex(t => t.subtasks && t.subtasks.find(st => st.id === modelData.id));
-                                    let subIdx = tasksModel[parentIdx].subtasks.findIndex(st => st.id === modelData.id);
-                                    subtaskDialog.editMode = true;
-                                    subtaskDialog.parentTaskIndex = parentIdx;
-                                    subtaskDialog.editSubtaskIndex = subIdx;
-                                    let s = tasksModel[parentIdx].subtasks[subIdx];
-                                    subtaskDialog.subtaskData = {
-                                        title: s.title,
-                                        description: s.description,
-                                        owner: s.owner,
-                                        dependencies: s.dependencies.slice(),
-                                        hours: s.hours,
-                                        hoursVerify: s.hoursVerify,
-                                        status: s.status
-                                    };
-                                    subtaskDialog.open();
-                                }
-                            }
-                        }
-                        Button {
-                            text: "Delete"
-                            onClicked: {
-                                if (!modelData.isSubtask) {
-                                    let idx = tasksModel.findIndex(t => t.id === modelData.id);
-                                    if (idx !== -1) tasksModel.splice(idx, 1);
-                                } else {
-                                    let parentIdx = tasksModel.findIndex(t => t.subtasks && t.subtasks.find(st => st.id === modelData.id));
-                                    let subIdx = tasksModel[parentIdx].subtasks.findIndex(st => st.id === modelData.id);
-                                    if (parentIdx !== -1 && subIdx !== -1) tasksModel[parentIdx].subtasks.splice(subIdx, 1);
-                                }
-                            }
-                        }
-                        Button {
-                            text: "Add Subtask"
-                            visible: !modelData.isSubtask
-                            onClicked: {
-                                subtaskDialog.editMode = false;
-                                subtaskDialog.parentTaskIndex = tasksModel.findIndex(t => t.id === modelData.id);
-                                subtaskDialog.editSubtaskIndex = -1;
-                                subtaskDialog.subtaskData = {
-                                    title: "",
-                                    description: "",
-                                    owner: null,
-                                    dependencies: [],
-                                    hours: 0,
-                                    hoursVerify: 0,
-                                    status: 0
-                                };
-                                subtaskDialog.open();
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Add Task button
-            Button {
-                text: "Add Task"
-                anchors.left: parent.left
-                onClicked: {/* TODO: Open add task dialog */}
-            }
-        }
-    }
-    visible: projectDetailsPage.selectedTabIndex === 0
-
-    // Placeholder for hierarchical task/subtask tree and controls
-    // The full UI and logic will be implemented in the next steps
-}
-            }
+            // Listen for projectTitleUpdated signal
             // Listen for projectTitleUpdated signal
             Connections {
                 target: projectManager
@@ -1151,8 +950,6 @@ Item {
                     log_event.log_event("Opened project details: " + pname)
                 }
             }
-        }
-
 
         // --- Event Log Page (visible when logged in and currentPage is "eventlog") ---
         Item {
@@ -1232,98 +1029,13 @@ Item {
                                             Text {
                                                 text: modelData.description
                                                 font.pixelSize: 16
+/* === ADD/EDIT TASK DIALOG COMMENTED OUT FOR TAB TESTING ===
 // --- Add/Edit Task Dialog ---
 Dialog {
     id: taskDialog
-    modal: true
-    property bool editMode: false
-    property int editTaskIndex: -1
-    property var taskData: null
-    width: 480
-    height: 520
-    x: (parent.width - width) / 2
-    y: (parent.height - height) / 2
-    Column {
-        anchors.centerIn: parent
-        spacing: 12
-        Text { text: taskDialog.editMode ? "Edit Task" : "Add Task"; font.pixelSize: 22; font.bold: true }
-        TextField { placeholderText: "Title"; text: taskDialog.taskData ? taskDialog.taskData.title : ""; onTextChanged: if (taskDialog.taskData) taskDialog.taskData.title = text }
-        TextField { placeholderText: "Description"; text: taskDialog.taskData ? taskDialog.taskData.description : ""; onTextChanged: if (taskDialog.taskData) taskDialog.taskData.description = text }
-        TextField { placeholderText: "Deadline (YYYY-MM-DD)"; text: taskDialog.taskData ? taskDialog.taskData.deadline : ""; onTextChanged: if (taskDialog.taskData) taskDialog.taskData.deadline = text }
-        // Owners multi-select
-        Rectangle {
-            width: 400; height: 40; color: "#f8f9fa"; border.color: "#bbb"; border.width: 1; radius: 8
-            property var selectedOwners: taskDialog.taskData ? taskDialog.taskData.owners : []
-            ComboBox {
-                id: ownerCombo
-                width: parent.width
-                model: userManager ? userManager.users : []
-                textRole: "username"
-                valueRole: "id"
-                editable: false
-                onActivated: {
-                    let user = userManager.users[currentIndex];
-                    let idx = parent.selectedOwners.indexOf(user.id);
-                    if (idx === -1) parent.selectedOwners.push(user.id);
-                    else parent.selectedOwners.splice(idx, 1);
-                    ownerCombo.currentIndex = -1;
-                }
-                delegate: ItemDelegate {
-                    width: parent.width
-                    text: model.username
-                    highlighted: parent.selectedOwners.indexOf(model.id) !== -1
-                    onClicked: {
-                        let idx = parent.selectedOwners.indexOf(model.id);
-                        if (idx === -1) parent.selectedOwners.push(model.id);
-                        else parent.selectedOwners.splice(idx, 1);
-                        ownerCombo.currentIndex = -1;
-                    }
-                    background: Rectangle { color: parent.selectedOwners.indexOf(model.id) !== -1 ? "#e0f7fa" : "transparent" }
-                }
-            }
-        }
-        // Dependencies multi-select
-        Rectangle {
-            width: 400; height: 40; color: "#f8f9fa"; border.color: "#bbb"; border.width: 1; radius: 8
-            property var selectedDeps: taskDialog.taskData ? taskDialog.taskData.dependencies : []
-            ComboBox {
-                id: depCombo
-                width: parent.width
-                model: root.tasksModel
-                textRole: "title"
-                valueRole: "id"
-                editable: false
-                onActivated: {
-                    let task = tasksModel[currentIndex];
-                    let idx = parent.selectedDeps.indexOf(task.id);
-                    if (idx === -1) parent.selectedDeps.push(task.id);
-                    else parent.selectedDeps.splice(idx, 1);
-                    depCombo.currentIndex = -1;
-                }
-                delegate: ItemDelegate {
-                    width: parent.width
-                    text: model.title
-                    highlighted: parent.selectedDeps.indexOf(model.id) !== -1
-                    onClicked: {
-                        let idx = parent.selectedDeps.indexOf(model.id);
-                        if (idx === -1) parent.selectedDeps.push(model.id);
-                        else parent.selectedDeps.splice(idx, 1);
-                        depCombo.currentIndex = -1;
-                    }
-                    background: Rectangle { color: parent.selectedDeps.indexOf(model.id) !== -1 ? "#e0f7fa" : "transparent" }
-                }
-            }
-        }
-        TextField { placeholderText: "Hours to complete"; text: taskDialog.taskData ? taskDialog.taskData.hours : ""; inputMethodHints: Qt.ImhDigitsOnly; onTextChanged: if (taskDialog.taskData) taskDialog.taskData.hours = parseInt(text) }
-        TextField { placeholderText: "Hours to verify"; text: taskDialog.taskData ? taskDialog.taskData.hoursVerify : ""; inputMethodHints: Qt.ImhDigitsOnly; onTextChanged: if (taskDialog.taskData) taskDialog.taskData.hoursVerify = parseInt(text) }
-        ComboBox { width: 180; model: ["not yet started", "in progress", "being tested", "complete"]; currentIndex: taskDialog.taskData ? taskDialog.taskData.status : 0; onCurrentIndexChanged: if (taskDialog.taskData) taskDialog.taskData.status = currentIndex }
-        Row {
-            spacing: 16
-            Button { text: "Save"; onClicked: {/* TODO: Save logic */} }
-            Button { text: "Cancel"; onClicked: taskDialog.close() }
-        }
-    }
+    // ... (all add/edit task dialog UI and logic commented out) ...
 }
+=== END ADD/EDIT TASK DIALOG === */
                                                 color: "#222"
                                                 elide: Text.ElideRight
                                             }
@@ -1985,6 +1697,32 @@ Dialog {
                             text: calendarPage.newEventTime
                             onTextChanged: calendarPage.newEventTime = text
                             width: 300
+                            // --- Loading Overlay (must be last so it overlays all content) ---
+                            Rectangle {
+                                id: loadingOverlay
+                                anchors.fill: parent
+                                color: "#ffffffcc"
+                                visible: loadingManager.loading
+                                z: 9999
+                        
+                                Column {
+                                    anchors.centerIn: parent
+                                    spacing: 24
+                                    ProgressBar {
+                                        id: progressBar
+                                        width: 240
+                                        from: 0
+                                        to: 1
+                                        value: loadingManager.progress
+                                    }
+                                    Text {
+                                        text: "Loading, please wait..."
+                                        font.pixelSize: 20
+                                        color: "#2255aa"
+                                        horizontalAlignment: Text.AlignHCenter
+                                    }
+                                }
+                            }
                         }
                         Row {
                             spacing: 16

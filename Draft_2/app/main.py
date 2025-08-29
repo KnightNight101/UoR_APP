@@ -3,7 +3,7 @@
 # 
 import datetime
 from PySide6.QtCore import QObject, Signal, Slot, Property
-from Draft_2.app.db import update_subtask_category, log_structured_event, get_event_logs
+from db import update_subtask_category, log_structured_event, get_event_logs
 
 def log_event(event):
     """Append event messages to the event log with timestamp and print to terminal."""
@@ -177,7 +177,11 @@ class AuthManager(QObject):
 
     @Slot(str, str)
     def login(self, username, password):
+        from __main__ import global_loading_manager
+        global_loading_manager.loading = True
+        global_loading_manager.progress = 0.2
         user = authenticate_user(username, password)
+        global_loading_manager.progress = 0.7
         if user:
             self._user = user
             self.userIdChanged.emit()
@@ -186,6 +190,8 @@ class AuthManager(QObject):
         else:
             log_event(f"Failed login attempt for user '{username}'")
             self.loginResult.emit(False, "Invalid username or password")
+        global_loading_manager.progress = 1.0
+        global_loading_manager.loading = False
 
     @Property(object)
     def user(self):
@@ -217,17 +223,24 @@ class DashboardManager(QObject):
 
     @Slot(int)
     def loadProjects(self, user_id):
+        from __main__ import global_loading_manager
+        global_loading_manager.loading = True
+        global_loading_manager.progress = 0.1
         try:
             projects, _ = get_user_projects(user_id)
+            global_loading_manager.progress = 0.5
             print(f"[DEBUG] loadProjects: user_id={user_id}, projects_found={len(projects)}")
             for p in projects:
                 print(f"[DEBUG] Project loaded: id={getattr(p, 'id', None)}, name={getattr(p, 'name', None)}")
             self._projects = [self._project_to_dict(p) for p in projects]
+            global_loading_manager.progress = 0.9
             self.projectsChanged.emit()
         except Exception as e:
             print(f"[DEBUG] loadProjects exception: {e}")
             self._projects = []
             self.projectsChanged.emit()
+        global_loading_manager.progress = 1.0
+        global_loading_manager.loading = False
 
     @Slot(int, int)
     def loadEisenhowerMatrixState(self, user_id, project_id):
@@ -825,8 +838,12 @@ class ProjectManager(QObject):
 
     @Slot(int, int)
     def loadProjectDetail(self, project_id, user_id):
+        from __main__ import global_loading_manager
+        global_loading_manager.loading = True
+        global_loading_manager.progress = 0.1
         from db import get_project_by_id
         project = get_project_by_id(project_id, user_id)
+        global_loading_manager.progress = 0.5
         if project:
             # Convert project and its tasks to dict for QML
             tasks = []
@@ -838,6 +855,7 @@ class ProjectManager(QObject):
                     "due_date": str(t.due_date) if t.due_date else "",
                     "description": t.description,
                 })
+            global_loading_manager.progress = 0.9
             detail = {
                 "id": project.id,
                 "name": project.name,
@@ -849,6 +867,8 @@ class ProjectManager(QObject):
             self.projectDetailLoaded.emit(detail)
         else:
             self.projectDetailLoaded.emit(None)
+        global_loading_manager.progress = 1.0
+        global_loading_manager.loading = False
 
     @Slot(int)
     def loadSubtaskDetail(self, subtask_id):
@@ -1005,8 +1025,9 @@ class ProjectFileManager:
         self._start_file_watchdog()
 
     def _load_projects(self):
+        from sqlalchemy.orm import joinedload
         with SessionLocal() as session:
-            self.projects = session.query(Project).all()
+            self.projects = session.query(Project).options(joinedload(Project.tasks)).all()
 
     def _setup_directories_and_git(self):
         for project in self.projects:
@@ -1109,13 +1130,48 @@ if __name__ == "__main__":
 
     # Expose LoginManager to QML
     login_manager = LoginManager()
-    engine.rootContext().setContextProperty("loginManager", login_manager)
 
-    qml_file = QUrl.fromLocalFile("Draft_2/app/qml/Main.qml")
-    engine.load(qml_file)
+# Keep a global reference to LoadingManager to prevent garbage collection
+global_loading_manager = None
 
-    # Exit if QML failed to load
-    if not engine.rootObjects():
-        sys.exit(-1)
-    # Start the Qt event loop
-    sys.exit(app.exec())
+class LoadingManager(QObject):
+    loadingChanged = Signal()
+    progressChanged = Signal()
+
+    def __init__(self):
+        super().__init__()
+        self._loading = False
+        self._progress = 0.0
+
+    @Property(bool, notify=loadingChanged)
+    def loading(self):
+        return self._loading
+
+    @loading.setter
+    def loading(self, value):
+        if self._loading != value:
+            self._loading = value
+            self.loadingChanged.emit()
+
+    @Property(float, notify=progressChanged)
+    def progress(self):
+        return self._progress
+
+    @progress.setter
+    def progress(self, value):
+        if self._progress != value:
+            self._progress = value
+            self.progressChanged.emit()
+
+global_loading_manager = LoadingManager()
+engine.rootContext().setContextProperty("loadingManager", global_loading_manager)
+engine.rootContext().setContextProperty("loginManager", login_manager)
+
+qml_file = QUrl.fromLocalFile("Draft_2/app/qml/Main.qml")
+engine.load(qml_file)
+
+# Exit if QML failed to load
+if not engine.rootObjects():
+    sys.exit(-1)
+# Start the Qt event loop
+sys.exit(app.exec())
