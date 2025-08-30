@@ -4133,3 +4133,28 @@ sqlalchemy.orm.exc.DetachedInstanceError: Parent instance <Task at 0x1a640fb51c0
 [2025-08-29T18:15:30.178789] Navigated to page: projectDetails
 [2025-08-29T18:15:44.420363] User logged out (window closed)
 [2025-08-29T18:15:44.481013] Navigated to page: dashboard
+[2025-08-30T11:57:50.487442] Opened project details: (Untitled Project)
+[2025-08-30T11:57:58.713912] User 'Nithin' logged in
+[2025-08-30T11:57:58.725949] User 'Nithin' logged in
+[2025-08-30T11:58:07.686236] Navigated to page: eventlog
+[2025-08-30T11:58:10.128378] Navigated to page: dashboard
+[2025-08-30T11:58:12.071184] Navigated to page: calendar
+[2025-08-30T11:58:17.185388] Navigated to page: dashboard
+[2025-08-30T11:58:23.817176] Navigated to project details: Master's Dissertation
+[2025-08-30T11:58:23.890401] Navigated to page: projectDetails
+[2025-08-30T11:58:56.238204] Navigated to page: dashboard
+[2025-08-30T11:58:57.880273] Navigated to project details: New Project
+[2025-08-30T11:58:57.951125] Navigated to page: projectDetails
+[2025-08-30T11:59:06.343952] Navigated to page: dashboard
+[2025-08-30T11:59:07.966190] Navigated to page: createProject
+[2025-08-30T11:59:09.732492] Navigated to page: dashboard
+[2025-08-30T11:59:10.668784] Navigated to project details: New Project
+[2025-08-30T11:59:10.744042] Navigated to page: projectDetails
+[2025-08-30T11:59:13.113973] Navigated to page: dashboard
+[2025-08-30T11:59:15.256281] Navigated to project details: New Project
+[2025-08-30T11:59:15.324109] Navigated to page: projectDetails
+[2025-08-30T11:59:18.544264] Navigated to page: dashboard
+[2025-08-30T11:59:37.721344] Navigated to project details: New Project
+[2025-08-30T11:59:37.807633] Navigated to page: projectDetails
+[2025-08-30T11:59:57.006306] Navigated to page: dashboard
+[2025-08-30T12:02:56.895869] User logged out (window closed)

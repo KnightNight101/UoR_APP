@@ -1,0 +1,959 @@
+[
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 19
+      },
+      "Member2": {
+        "available_hours": 21
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 10,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 8,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 3,
+        "dependencies": []
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 9,
+        "dependencies": []
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 18
+      },
+      "Member2": {
+        "available_hours": 12
+      },
+      "Member3": {
+        "available_hours": 11
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 7,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 5,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 8,
+        "dependencies": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 5,
+        "dependencies": [
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 25
+      },
+      "Member2": {
+        "available_hours": 20
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 8,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 8,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 4,
+        "dependencies": [
+          1,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 13
+      },
+      "Member2": {
+        "available_hours": 16
+      },
+      "Member3": {
+        "available_hours": 15
+      },
+      "Member4": {
+        "available_hours": 22
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 5,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 8,
+        "dependencies": []
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 7,
+        "dependencies": [
+          2
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 8,
+        "dependencies": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Task 5",
+        "estimate": 8,
+        "dependencies": [
+          4,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 21
+      },
+      "Member2": {
+        "available_hours": 11
+      },
+      "Member3": {
+        "available_hours": 22
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 8,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 6,
+        "dependencies": []
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 6,
+        "dependencies": [
+          2
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 7,
+        "dependencies": [
+          3
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Task 5",
+        "estimate": 10,
+        "dependencies": [
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 20
+      },
+      "Member2": {
+        "available_hours": 19
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 9,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 3,
+        "dependencies": []
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 10,
+        "dependencies": []
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 4,
+        "dependencies": [
+          2,
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 10
+      },
+      "Member2": {
+        "available_hours": 18
+      },
+      "Member3": {
+        "available_hours": 22
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 4,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 7,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 9,
+        "dependencies": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 3,
+        "dependencies": [
+          3,
+          2
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Task 5",
+        "estimate": 3,
+        "dependencies": []
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 20
+      },
+      "Member2": {
+        "available_hours": 25
+      },
+      "Member3": {
+        "available_hours": 25
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 8,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 10,
+        "dependencies": []
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 5,
+        "dependencies": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 3,
+        "dependencies": [
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 17
+      },
+      "Member2": {
+        "available_hours": 15
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 7,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 6,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 8,
+        "dependencies": []
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 15
+      },
+      "Member2": {
+        "available_hours": 20
+      },
+      "Member3": {
+        "available_hours": 19
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 3,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 8,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 5,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 7,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Task 5",
+        "estimate": 8,
+        "dependencies": []
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 19
+      },
+      "Member2": {
+        "available_hours": 20
+      },
+      "Member3": {
+        "available_hours": 17
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 7,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 8,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 7,
+        "dependencies": []
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 10,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Task 5",
+        "estimate": 5,
+        "dependencies": []
+      },
+      {
+        "id": 6,
+        "name": "Task 6",
+        "estimate": 7,
+        "dependencies": [
+          5
+        ]
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 14
+      },
+      "Member2": {
+        "available_hours": 11
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 4,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 5,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 4,
+        "dependencies": []
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 7,
+        "dependencies": []
+      },
+      {
+        "id": 5,
+        "name": "Task 5",
+        "estimate": 4,
+        "dependencies": [
+          4
+        ]
+      },
+      {
+        "id": 6,
+        "name": "Task 6",
+        "estimate": 4,
+        "dependencies": [
+          4,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 19
+      },
+      "Member2": {
+        "available_hours": 18
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 4,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 9,
+        "dependencies": []
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 7,
+        "dependencies": [
+          2,
+          1
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 10,
+        "dependencies": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Task 5",
+        "estimate": 7,
+        "dependencies": []
+      },
+      {
+        "id": 6,
+        "name": "Task 6",
+        "estimate": 5,
+        "dependencies": [
+          2,
+          4
+        ]
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 16
+      },
+      "Member2": {
+        "available_hours": 17
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 8,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 5,
+        "dependencies": []
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 8,
+        "dependencies": [
+          1,
+          2
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 4,
+        "dependencies": []
+      },
+      {
+        "id": 5,
+        "name": "Task 5",
+        "estimate": 10,
+        "dependencies": []
+      },
+      {
+        "id": 6,
+        "name": "Task 6",
+        "estimate": 5,
+        "dependencies": []
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 12
+      },
+      "Member2": {
+        "available_hours": 18
+      },
+      "Member3": {
+        "available_hours": 25
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 3,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 5,
+        "dependencies": []
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 3,
+        "dependencies": [
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 17
+      },
+      "Member2": {
+        "available_hours": 24
+      },
+      "Member3": {
+        "available_hours": 20
+      },
+      "Member4": {
+        "available_hours": 19
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 3,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 10,
+        "dependencies": []
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 3,
+        "dependencies": []
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 3,
+        "dependencies": []
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 20
+      },
+      "Member2": {
+        "available_hours": 20
+      },
+      "Member3": {
+        "available_hours": 13
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 9,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 8,
+        "dependencies": []
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 8,
+        "dependencies": [
+          2,
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 24
+      },
+      "Member2": {
+        "available_hours": 20
+      },
+      "Member3": {
+        "available_hours": 15
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 6,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 10,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 5,
+        "dependencies": [
+          2,
+          1
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 8,
+        "dependencies": [
+          2,
+          1
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Task 5",
+        "estimate": 10,
+        "dependencies": [
+          2
+        ]
+      },
+      {
+        "id": 6,
+        "name": "Task 6",
+        "estimate": 5,
+        "dependencies": []
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 22
+      },
+      "Member2": {
+        "available_hours": 18
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 8,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 10,
+        "dependencies": []
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 8,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 5,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Task 5",
+        "estimate": 8,
+        "dependencies": [
+          2,
+          1
+        ]
+      },
+      {
+        "id": 6,
+        "name": "Task 6",
+        "estimate": 4,
+        "dependencies": [
+          5,
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "team": {
+      "Member1": {
+        "available_hours": 21
+      },
+      "Member2": {
+        "available_hours": 12
+      },
+      "Member3": {
+        "available_hours": 18
+      },
+      "Member4": {
+        "available_hours": 21
+      }
+    },
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Task 1",
+        "estimate": 3,
+        "dependencies": []
+      },
+      {
+        "id": 2,
+        "name": "Task 2",
+        "estimate": 5,
+        "dependencies": [
+          1
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Task 3",
+        "estimate": 7,
+        "dependencies": []
+      },
+      {
+        "id": 4,
+        "name": "Task 4",
+        "estimate": 10,
+        "dependencies": [
+          2
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Task 5",
+        "estimate": 10,
+        "dependencies": []
+      },
+      {
+        "id": 6,
+        "name": "Task 6",
+        "estimate": 8,
+        "dependencies": [
+          5
+        ]
+      }
+    ]
+  }
+]
