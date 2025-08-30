@@ -9,7 +9,7 @@ TEST_DIR.mkdir(exist_ok=True)
 # ---------------------------
 # Commit Summary Generator
 # ---------------------------
-def generate_commit_summary_cases(n=30):
+def generate_commit_summary_cases(n=100):
     verbs = ["fix", "feat", "refactor", "chore", "docs", "test", "style", "perf"]
     changes = [
         ("print('hello')", "print('hello world')", "update greeting"),
@@ -35,7 +35,7 @@ def generate_commit_summary_cases(n=30):
 # ---------------------------
 # Eisenhower Matrix Generator
 # ---------------------------
-def generate_eisenhower_cases(n=20):
+def generate_eisenhower_cases(n=100):
     cases = []
     for _ in range(n):
         tasks = []
@@ -65,7 +65,7 @@ def generate_eisenhower_cases(n=20):
 # ---------------------------
 # Sprint Planning Generator
 # ---------------------------
-def generate_sprint_cases(n=20):
+def generate_sprint_cases(n=100):
     cases = []
     for _ in range(n):
         # Generate team

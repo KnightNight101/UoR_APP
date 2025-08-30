@@ -1,39 +1,115 @@
 [
   {
+    "diff": "--- a/file.py\n+++ b/file.py\n- pwd == db[user]\n+ hash(pwd) == db[user]",
+    "expected": "perf: secure password check"
+  },
+  {
     "diff": "--- a/file.py\n+++ b/file.py\n- logger.debug(x)\n+ logger.info(x)",
-    "expected": "docs: change logging level"
+    "expected": "fix: change logging level"
   },
   {
     "diff": "--- a/file.py\n+++ b/file.py\n- debug: true\n+ debug: false",
-    "expected": "style: disable debug mode"
+    "expected": "docs: disable debug mode"
   },
   {
-    "diff": "--- a/file.py\n+++ b/file.py\n- logger.debug(x)\n+ logger.info(x)",
-    "expected": "refactor: change logging level"
+    "diff": "--- a/file.py\n+++ b/file.py\n- data = fetch()\n+ data = clean(fetch())",
+    "expected": "style: clean data before returning"
   },
   {
-    "diff": "--- a/file.py\n+++ b/file.py\n- return {}\n+ return {\"status\": \"ok\"}",
-    "expected": "perf: add status response"
+    "diff": "--- a/file.py\n+++ b/file.py\n- data = fetch()\n+ data = clean(fetch())",
+    "expected": "test: clean data before returning"
   },
   {
     "diff": "--- a/file.py\n+++ b/file.py\n- print('hello')\n+ print('hello world')",
     "expected": "perf: update greeting"
   },
   {
-    "diff": "--- a/file.py\n+++ b/file.py\n- # no tests yet\n+ def test_status(): assert True",
-    "expected": "feat: add basic test"
+    "diff": "--- a/file.py\n+++ b/file.py\n- pwd == db[user]\n+ hash(pwd) == db[user]",
+    "expected": "refactor: secure password check"
   },
   {
     "diff": "--- a/file.py\n+++ b/file.py\n- return a+b\n+ return a + b",
     "expected": "perf: improve formatting"
   },
   {
+    "diff": "--- a/file.py\n+++ b/file.py\n- result = []\n+ result = {}",
+    "expected": "style: switch result container"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- print('hello')\n+ print('hello world')",
+    "expected": "fix: update greeting"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- data = fetch()\n+ data = clean(fetch())",
+    "expected": "docs: clean data before returning"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- result = []\n+ result = {}",
+    "expected": "style: switch result container"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- pwd == db[user]\n+ hash(pwd) == db[user]",
+    "expected": "perf: secure password check"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- print('hello')\n+ print('hello world')",
+    "expected": "fix: update greeting"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- return a+b\n+ return a + b",
+    "expected": "perf: improve formatting"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- data = fetch()\n+ data = clean(fetch())",
+    "expected": "refactor: clean data before returning"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- return a+b\n+ return a + b",
+    "expected": "refactor: improve formatting"
+  },
+  {
     "diff": "--- a/file.py\n+++ b/file.py\n- debug: true\n+ debug: false",
-    "expected": "test: disable debug mode"
+    "expected": "fix: disable debug mode"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- list()\n+ set()",
+    "expected": "style: optimize data structure"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- print('hello')\n+ print('hello world')",
+    "expected": "style: update greeting"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- result = []\n+ result = {}",
+    "expected": "refactor: switch result container"
   },
   {
     "diff": "--- a/file.py\n+++ b/file.py\n- return {}\n+ return {\"status\": \"ok\"}",
-    "expected": "perf: add status response"
+    "expected": "docs: add status response"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- list()\n+ set()",
+    "expected": "perf: optimize data structure"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- list()\n+ set()",
+    "expected": "refactor: optimize data structure"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- return {}\n+ return {\"status\": \"ok\"}",
+    "expected": "docs: add status response"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- return {}\n+ return {\"status\": \"ok\"}",
+    "expected": "style: add status response"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- return {}\n+ return {\"status\": \"ok\"}",
+    "expected": "refactor: add status response"
+  },
+  {
+    "diff": "--- a/file.py\n+++ b/file.py\n- print('hello')\n+ print('hello world')",
+    "expected": "refactor: update greeting"
   },
   {
     "diff": "--- a/file.py\n+++ b/file.py\n- data = fetch()\n+ data = clean(fetch())",
@@ -41,82 +117,6 @@
   },
   {
     "diff": "--- a/file.py\n+++ b/file.py\n- return {}\n+ return {\"status\": \"ok\"}",
-    "expected": "perf: add status response"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- list()\n+ set()",
-    "expected": "chore: optimize data structure"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- pwd == db[user]\n+ hash(pwd) == db[user]",
-    "expected": "docs: secure password check"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- pwd == db[user]\n+ hash(pwd) == db[user]",
-    "expected": "feat: secure password check"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- # no tests yet\n+ def test_status(): assert True",
-    "expected": "chore: add basic test"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- data = fetch()\n+ data = clean(fetch())",
-    "expected": "style: clean data before returning"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- return a+b\n+ return a + b",
-    "expected": "chore: improve formatting"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- return {}\n+ return {\"status\": \"ok\"}",
-    "expected": "feat: add status response"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- return {}\n+ return {\"status\": \"ok\"}",
-    "expected": "refactor: add status response"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- pwd == db[user]\n+ hash(pwd) == db[user]",
-    "expected": "feat: secure password check"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- logger.debug(x)\n+ logger.info(x)",
-    "expected": "refactor: change logging level"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- list()\n+ set()",
-    "expected": "feat: optimize data structure"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- list()\n+ set()",
-    "expected": "chore: optimize data structure"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- return {}\n+ return {\"status\": \"ok\"}",
-    "expected": "style: add status response"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- pwd == db[user]\n+ hash(pwd) == db[user]",
-    "expected": "fix: secure password check"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- result = []\n+ result = {}",
-    "expected": "style: switch result container"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- result = []\n+ result = {}",
-    "expected": "docs: switch result container"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- logger.debug(x)\n+ logger.info(x)",
-    "expected": "perf: change logging level"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- data = fetch()\n+ data = clean(fetch())",
-    "expected": "style: clean data before returning"
-  },
-  {
-    "diff": "--- a/file.py\n+++ b/file.py\n- list()\n+ set()",
-    "expected": "perf: optimize data structure"
+    "expected": "chore: add status response"
   }
 ]

@@ -6,15 +6,15 @@ import json
 import difflib
 import csv
 import datetime
+import time
 from pathlib import Path
 from app.backend.tiny_llama import TinyLlamaPlanner
 
 planner = TinyLlamaPlanner()
-
-RESULTS_FILE = f"benchmark_results_{datetime.date.today()}.csv"
+RESULTS_FILE = f"benchmark_results_{datetime.date.today()}_debug.csv"
 
 # -------------------------
-# Utility functions
+# Utilities
 # -------------------------
 def similarity(a, b):
     return difflib.SequenceMatcher(None, a.lower(), b.lower()).ratio()
@@ -31,6 +31,20 @@ def safe_int(s, default=0):
     except (ValueError, TypeError):
         return default
 
+def query_llm_debug(prompt):
+    print("\n--- LLM Prompt ---")
+    print(prompt[:500])  # print first 500 chars
+    start = time.time()
+    try:
+        output = planner.query_llm(prompt)
+    except Exception as e:
+        print(f"⚠️ LLM call failed: {e}")
+        output = ""
+    end = time.time()
+    print(f"--- LLM Output ({end - start:.2f}s) ---")
+    print(output[:500])
+    return output
+
 # -------------------------
 # Commit Summary Tests
 # -------------------------
@@ -38,11 +52,8 @@ def run_commit_summary_tests():
     cases = json.load(open("tests/commit_summary_tests.json"))
     results = []
     for case in cases:
-        prompt = f"Summarize the following code changes as a git commit message:\n{case['diff']}"
-        try:
-            output = planner.query_llm(prompt)
-        except:
-            output = ""
+        prompt = f"Summarize the following code changes as a git commit message:\n{case.get('diff', '')}"
+        output = query_llm_debug(prompt)
         sim = similarity(case.get("expected", ""), output)
         results.append({
             "task": "commit_summary",
@@ -60,33 +71,27 @@ def run_eisenhower_tests():
     cases = json.load(open("tests/eisenhower_tests.json"))
     results = []
     for case in cases:
-        prompt = f"Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format: {json.dumps(case.get('tasks', []))}"
-        try:
-            output = planner.query_llm(prompt)
-        except:
-            output = ""
+        prompt = f"Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:\n{json.dumps(case.get('tasks', []))}"
+        output = query_llm_debug(prompt)
         accuracy = 0
+        parsed_result = {}
         try:
-            result = json.loads(output)
+            parsed_result = json.loads(output)
+        except json.JSONDecodeError:
+            # Try a simple fix (single quotes → double quotes)
+            try:
+                parsed_result = json.loads(output.replace("'", '"'))
+            except:
+                parsed_result = {}
+        try:
             correct = 0
             total = len(case.get("expected", {}))
             for quadrant, ids in case.get("expected", {}).items():
-                if set(ids) == set(result.get(quadrant, [])):
+                if set(ids) == set(parsed_result.get(quadrant, [])):
                     correct += 1
             accuracy = correct / total if total else 0
-        except json.JSONDecodeError:
-            # Attempt minimal cleanup or fallback
-            output = output.replace("'", '"')  # common JSON fix
-            try:
-                result = json.loads(output)
-                correct = 0
-                total = len(case.get("expected", {}))
-                for quadrant, ids in case.get("expected", {}).items():
-                    if set(ids) == set(result.get(quadrant, [])):
-                        correct += 1
-                accuracy = correct / total if total else 0
-            except:
-                accuracy = 0
+        except:
+            accuracy = 0
         results.append({
             "task": "eisenhower",
             "input": json.dumps(case.get("tasks", [])),
@@ -95,7 +100,6 @@ def run_eisenhower_tests():
             "accuracy": round(safe_float(accuracy), 3)
         })
     return results
-
 
 # -------------------------
 # Sprint Planning Tests
@@ -113,14 +117,18 @@ Constraints:
 Team: {json.dumps(case.get('team', {}))}
 Tasks: {json.dumps(case.get('tasks', []))}
 """
-        try:
-            output = planner.query_llm(prompt)
-        except:
-            output = ""
+        output = query_llm_debug(prompt)
         score = 0
+        parsed_result = {}
         try:
-            result = json.loads(output)
-            backlog = result.get("sprint_backlog", [])
+            parsed_result = json.loads(output)
+        except json.JSONDecodeError:
+            try:
+                parsed_result = json.loads(output.replace("'", '"'))
+            except:
+                parsed_result = {}
+        try:
+            backlog = parsed_result.get("sprint_backlog", [])
             assigned_hours = {m: 0 for m in case.get("team", {})}
             deps_satisfied = True
             for entry in backlog:
@@ -149,10 +157,9 @@ Tasks: {json.dumps(case.get('tasks', []))}
     return results
 
 # -------------------------
-# Save results
+# Save Results
 # -------------------------
 def save_results(all_results):
-    # Gather all unique keys from all result dicts
     keys = set()
     for r in all_results:
         keys.update(r.keys())
@@ -161,7 +168,7 @@ def save_results(all_results):
         writer = csv.DictWriter(f, fieldnames=keys)
         writer.writeheader()
         writer.writerows(all_results)
-    print(f" Results saved to {RESULTS_FILE}")
+    print(f"Results saved to {RESULTS_FILE}")
 
 # -------------------------
 # Main
