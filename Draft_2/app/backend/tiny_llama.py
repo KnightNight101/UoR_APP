@@ -2,7 +2,7 @@ import os
 import json
 from datetime import datetime, timedelta
 
-from Draft_2.app.db import (
+from app.db import (
     log_structured_event, SessionLocal, Project, Task, Subtask, ProjectMember, User
 )
 
@@ -102,6 +102,14 @@ class TinyLlamaPlanner:
             context={"plan": plan, "feasible": feasible}
         )
         return {"feasible": feasible, "reasoning": reasoning}
+
+    def query_llm(self, prompt):
+        """
+        Stub for generic LLM prompt handling.
+        Replace this with actual LLM inference logic as needed.
+        """
+        # For now, just echo the prompt for debugging.
+        return f"[LLM STUB RESPONSE] {prompt}"
 
 # Example usage:
 # planner = TinyLlamaPlanner(user_id=123)
