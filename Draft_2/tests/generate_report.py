@@ -1,105 +1,100 @@
 import csv
 from pathlib import Path
 import statistics
+import re
 
-RESULTS_FILE = sorted(Path(".").glob("benchmark_results_*.csv"))[-1]  # latest file
-REPORT_FILE = RESULTS_FILE.with_suffix(".md")
+def extract_date(fname: str):
+    """Extract YYYY-MM-DD from filename."""
+    m = re.search(r"(\d{4}-\d{2}-\d{2})", fname)
+    return m.group(1) if m else "unknown"
 
-def generate_report():
+def summarize_results(file):
     results = []
-    with open(RESULTS_FILE, newline="") as f:
+    with open(file, newline="") as f:
         reader = csv.DictReader(f)
         for row in reader:
             results.append(row)
 
-    # Group by task
     commit = [r for r in results if r["task"] == "commit_summary"]
     eisen = [r for r in results if r["task"] == "eisenhower"]
     sprint = [r for r in results if r["task"] == "sprint_planning"]
 
-    # Aggregate metrics
-    commit_similarities = [float(r.get("similarity", 0) or 0) for r in commit]
-    eisen_acc = [float(r.get("accuracy", 0) or 0) for r in eisen]
-    sprint_valid = [int(r.get("valid_plan", 0) or 0) for r in sprint]
+    commit_vals = [float(r.get("similarity", 0) or 0) for r in commit]
+    eisen_vals = [float(r.get("accuracy", 0) or 0) for r in eisen]
+    sprint_vals = [int(r.get("valid_plan", 0) or 0) for r in sprint]
 
-    avg_commit = round(statistics.mean(commit_similarities), 3) if commit_similarities else 0
-    avg_eisen = round(statistics.mean(eisen_acc), 3) if eisen_acc else 0
-    pct_sprint = round(100 * sum(sprint_valid) / len(sprint_valid), 1) if sprint_valid else 0
+    avg_commit = round(statistics.mean(commit_vals), 3) if commit_vals else 0
+    avg_eisen = round(statistics.mean(eisen_vals), 3) if eisen_vals else 0
+    pct_sprint = round(100 * sum(sprint_vals) / len(sprint_vals), 1) if sprint_vals else 0
 
-    with open(REPORT_FILE, "w", encoding="utf-8") as f:
+    return {
+        "date": extract_date(file.name),
+        "file": file.name,
+        "commit": avg_commit,
+        "eisen": avg_eisen,
+        "sprint": pct_sprint
+    }
+
+def make_trend_graph(metric_name, values, key):
+    """
+    Mermaid graph LR trendline with nodes for each date.
+    values = list of dicts with 'date' and metric.
+    """
+    graph = ["```mermaid", "graph LR", f'    title["{metric_name} over time"]']
+    nodes = []
+    for i, entry in enumerate(values):
+        val = entry[key]
+        label = f'{entry["date"]}: {val}'
+        node = f'N{i}["{label}"]'
+        nodes.append(node)
+    # connect nodes with arrows
+    for i in range(len(nodes) - 1):
+        graph.append(f"    {nodes[i]} --> {nodes[i+1]}")
+    # add final nodes
+    if nodes:
+        graph.insert(2, f"    {nodes[0]}")
+        graph.extend([f"    {n}" for n in nodes[1:]])
+    graph.append("```")
+    return "\n".join(graph)
+
+def generate_report():
+    files = sorted(Path(".").glob("benchmark_results_*.csv"))
+    if not files:
+        print("No benchmark CSVs found")
+        return
+
+    summaries = [summarize_results(f) for f in files]
+
+    latest = summaries[-1]
+    REPORT_FILE = Path(files[-1]).with_suffix(".md")
+
+    with open(REPORT_FILE, "w") as f:
         f.write(f"# LLM Benchmark Report\n\n")
-        f.write(f"**Source file:** `{RESULTS_FILE.name}`\n\n")
+        f.write(f"Latest source file: `{latest['file']}`\n\n")
 
-        # Summary
-        f.write("## Summary Metrics\n\n")
-        f.write(f"- **Commit Summary Similarity (avg):** {avg_commit}\n")
-        f.write(f"- **Eisenhower Accuracy (avg):** {avg_eisen}\n")
-        f.write(f"- **Valid Sprint Plans (%):** {pct_sprint}%\n\n")
+        # Latest snapshot summary
+        f.write("## Latest Metrics\n\n")
+        f.write(f"- **Commit Summary Similarity (avg):** {latest['commit']}\n")
+        f.write(f"- **Eisenhower Accuracy (avg):** {latest['eisen']}\n")
+        f.write(f"- **Valid Sprint Plans (%):** {latest['sprint']}%\n\n")
 
-        # Mermaid charts
-        f.write("## Performance Visualisation\n\n")
+        # Trends section
+        if len(summaries) > 1:
+            f.write("## Performance Trends Over Time\n\n")
 
-        # Commit summary chart
-        if commit_similarities:
             f.write("### Commit Summaries\n")
-            f.write("```mermaid\n")
-            f.write("bar\n")
-            f.write("  title Commit Summary Similarities\n")
-            f.write("  x-axis Similarity\n")
-            f.write("  y-axis Test Case\n")
-            for i, sim in enumerate(commit_similarities, start=1):
-                f.write(f"  \"Case {i}\" : {sim}\n")
-            f.write("```\n\n")
+            f.write(make_trend_graph("Commit Summary Similarities", summaries, "commit"))
+            f.write("\n\n")
 
-        # Eisenhower chart
-        if eisen_acc:
             f.write("### Eisenhower Matrix\n")
-            f.write("```mermaid\n")
-            f.write("bar\n")
-            f.write("  title Eisenhower Accuracy\n")
-            f.write("  x-axis Accuracy\n")
-            f.write("  y-axis Test Case\n")
-            for i, acc in enumerate(eisen_acc, start=1):
-                f.write(f"  \"Case {i}\" : {acc}\n")
-            f.write("```\n\n")
+            f.write(make_trend_graph("Eisenhower Accuracy", summaries, "eisen"))
+            f.write("\n\n")
 
-        # Sprint planning chart
-        if sprint_valid:
             f.write("### Sprint Planning\n")
-            f.write("```mermaid\n")
-            f.write("pie showData\n")
-            f.write("  title Sprint Planning Validity\n")
-            f.write(f"  \"Valid\" : {sum(sprint_valid)}\n")
-            f.write(f"  \"Invalid\" : {len(sprint_valid) - sum(sprint_valid)}\n")
-            f.write("```\n\n")
+            f.write(make_trend_graph("Sprint Planning Validity %", summaries, "sprint"))
+            f.write("\n\n")
 
-        # Example outputs (qualitative)
-        f.write("## Example Outputs\n\n")
-
-        if commit:
-            ex = commit[0]
-            f.write("### Commit Summary Example\n")
-            f.write(f"- **Input diff:** `{ex['input'][:60]}...`\n")
-            f.write(f"- **Expected:** {ex['expected']}\n")
-            f.write(f"- **Output:** {ex['output']}\n")
-            f.write(f"- **Similarity:** {ex['similarity']}\n\n")
-
-        if eisen:
-            ex = eisen[0]
-            f.write("### Eisenhower Example\n")
-            f.write(f"- **Input tasks:** {ex['input']}\n")
-            f.write(f"- **Expected:** {ex['expected']}\n")
-            f.write(f"- **Output:** {ex['output']}\n")
-            f.write(f"- **Accuracy:** {ex['accuracy']}\n\n")
-
-        if sprint:
-            ex = sprint[0]
-            f.write("### Sprint Planning Example\n")
-            f.write(f"- **Input:** {ex['input'][:80]}...\n")
-            f.write(f"- **Output:** {ex['output']}\n")
-            f.write(f"- **Valid Plan:** {ex['valid_plan']}\n\n")
-
-    print(f" Report written to {REPORT_FILE}")
+    print(f"Report written to {REPORT_FILE}")
 
 if __name__ == "__main__":
     generate_report()
