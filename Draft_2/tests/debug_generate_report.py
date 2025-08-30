@@ -19,7 +19,7 @@ def safe_float(s, default=0.0):
 
 def safe_int(s, default=0):
     try:
-        return int(float(s))  # handle "0.0" as well
+        return int(float(s))
     except (ValueError, TypeError):
         return default
 
@@ -47,17 +47,16 @@ def summarize_results(file):
         "file": file.name,
         "commit": avg_commit,
         "eisen": avg_eisen,
-        "sprint": pct_sprint
+        "sprint": pct_sprint,
+        "commit_results": commit,
+        "eisen_results": eisen,
+        "sprint_results": sprint
     }
 
 # -------------------------
 # Trend Graph
 # -------------------------
 def make_trend_graph(metric_name, values, key):
-    """
-    Mermaid graph LR trendline with nodes for each date.
-    values = list of dicts with 'date' and metric.
-    """
     graph = ["```mermaid", "graph LR", f'    title["{metric_name} over time"]']
     nodes = []
     for i, entry in enumerate(values):
@@ -65,10 +64,8 @@ def make_trend_graph(metric_name, values, key):
         label = f'{entry["date"]}: {val}'
         node = f'N{i}["{label}"]'
         nodes.append(node)
-    # Connect nodes
     for i in range(len(nodes)-1):
         graph.append(f"    {nodes[i]} --> {nodes[i+1]}")
-    # Add all nodes for safety
     for n in nodes:
         if n not in graph:
             graph.insert(2, f"    {n}")
@@ -81,7 +78,7 @@ def make_trend_graph(metric_name, values, key):
 def generate_report():
     files = sorted(Path(".").glob("benchmark_results_*.csv"))
     if not files:
-        print("No benchmark CSVs found")
+        print(" No benchmark CSVs found")
         return
 
     summaries = [summarize_results(f) for f in files]
@@ -108,19 +105,40 @@ def generate_report():
 
         # Trend graphs
         if len(summaries) > 1:
-            f.write("##Performance Trends Over Time\n\n")
-
+            f.write("## Performance Trends Over Time\n\n")
             f.write("### Commit Summaries\n")
             f.write(make_trend_graph("Commit Summary Similarities", summaries, "commit"))
             f.write("\n\n")
-
             f.write("### Eisenhower Matrix\n")
             f.write(make_trend_graph("Eisenhower Accuracy", summaries, "eisen"))
             f.write("\n\n")
-
             f.write("### Sprint Planning\n")
             f.write(make_trend_graph("Sprint Planning Validity %", summaries, "sprint"))
             f.write("\n\n")
+
+        # Include actual LLM outputs for latest run
+        f.write("## Latest LLM Outputs\n\n")
+
+        f.write("### Commit Summary Examples\n")
+        for r in latest['commit_results']:
+            f.write(f"- **Input Diff:** `{r['input'][:200]}...`\n")
+            f.write(f"  \n  **Expected:** `{r['expected'][:200]}...`\n")
+            f.write(f"  \n  **LLM Output:** `{r['output'][:300]}...`\n")
+            f.write(f"  \n  **Similarity:** {r.get('similarity', 0)}\n\n")
+
+        f.write("### Eisenhower Matrix Examples\n")
+        for r in latest['eisen_results']:
+            f.write(f"- **Input Tasks:** `{r['input'][:200]}...`\n")
+            f.write(f"  \n  **Expected:** `{r['expected'][:200]}...`\n")
+            f.write(f"  \n  **LLM Output:** `{r['output'][:300]}...`\n")
+            f.write(f"  \n  **Accuracy:** {r.get('accuracy', 0)}\n\n")
+
+        f.write("### Sprint Planning Examples\n")
+        for r in latest['sprint_results']:
+            f.write(f"- **Input:** `{r['input'][:200]}...`\n")
+            f.write(f"  \n  **Expected:** `{r['expected']}`\n")
+            f.write(f"  \n  **LLM Output:** `{r['output'][:300]}...`\n")
+            f.write(f"  \n  **Valid Plan:** {r.get('valid_plan', 0)}\n\n")
 
     print(f"Report written to {REPORT_FILE}")
 
