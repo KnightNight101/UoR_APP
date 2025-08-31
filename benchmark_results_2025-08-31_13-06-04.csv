@@ -1,0 +1,921 @@
+task,expected,output,timestamp,similarity,model,time_taken_sec,accuracy,input,precision,valid_plan
+commit_summary,perf: secure password check,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",2025-08-31 13:06:04,0.169,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",,
+commit_summary,fix: change logging level,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- logger.debug(x)
++ logger.info(x)",2025-08-31 13:06:04,0.189,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- logger.debug(x)
++ logger.info(x)",,
+commit_summary,docs: disable debug mode,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- debug: true
++ debug: false",2025-08-31 13:06:04,0.198,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- debug: true
++ debug: false",,
+commit_summary,style: clean data before returning,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",2025-08-31 13:06:04,0.141,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",,
+commit_summary,test: clean data before returning,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",2025-08-31 13:06:04,0.153,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",,
+commit_summary,perf: update greeting,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",2025-08-31 13:06:04,0.106,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",,
+commit_summary,refactor: secure password check,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",2025-08-31 13:06:04,0.187,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",,
+commit_summary,perf: improve formatting,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",2025-08-31 13:06:04,0.137,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",,
+commit_summary,style: switch result container,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",2025-08-31 13:06:04,0.18,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",,
+commit_summary,fix: update greeting,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",2025-08-31 13:06:04,0.083,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",,
+commit_summary,docs: clean data before returning,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",2025-08-31 13:06:04,0.131,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",,
+commit_summary,style: switch result container,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",2025-08-31 13:06:04,0.18,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",,
+commit_summary,perf: secure password check,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",2025-08-31 13:06:04,0.169,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",,
+commit_summary,fix: update greeting,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",2025-08-31 13:06:04,0.083,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",,
+commit_summary,perf: improve formatting,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",2025-08-31 13:06:04,0.137,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",,
+commit_summary,refactor: clean data before returning,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",2025-08-31 13:06:04,0.171,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",,
+commit_summary,refactor: improve formatting,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",2025-08-31 13:06:04,0.133,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",,
+commit_summary,fix: disable debug mode,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- debug: true
++ debug: false",2025-08-31 13:06:04,0.161,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- debug: true
++ debug: false",,
+commit_summary,style: optimize data structure,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- list()
++ set()",2025-08-31 13:06:04,0.205,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- list()
++ set()",,
+commit_summary,style: update greeting,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",2025-08-31 13:06:04,0.14,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",,
+commit_summary,refactor: switch result container,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",2025-08-31 13:06:04,0.212,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",,
+commit_summary,docs: add status response,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",2025-08-31 13:06:04,0.151,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",,
+commit_summary,perf: optimize data structure,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- list()
++ set()",2025-08-31 13:06:04,0.181,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- list()
++ set()",,
+commit_summary,refactor: optimize data structure,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- list()
++ set()",2025-08-31 13:06:04,0.189,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- list()
++ set()",,
+commit_summary,docs: add status response,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",2025-08-31 13:06:04,0.151,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",,
+commit_summary,style: add status response,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",2025-08-31 13:06:04,0.162,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",,
+commit_summary,refactor: add status response,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",2025-08-31 13:06:04,0.148,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",,
+commit_summary,refactor: update greeting,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",2025-08-31 13:06:04,0.115,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",,
+commit_summary,refactor: clean data before returning,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",2025-08-31 13:06:04,0.171,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",,
+commit_summary,chore: add status response,"[LLM STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",2025-08-31 13:06:04,0.15,TinyLlama,0.0,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",,
+eisenhower,"{""Do First"": [], ""Schedule"": [], ""Delegate"": [3, 4], ""Eliminate"": [1, 2, 5]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 1}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 4}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 1, ""urgency"": 1}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 1}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 4}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 1, ""urgency"": 1}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [1], ""Delegate"": [2, 3], ""Eliminate"": []}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 1}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 1}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}]",0.0,
+eisenhower,"{""Do First"": [1], ""Schedule"": [2], ""Delegate"": [3, 5], ""Eliminate"": [4]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 4}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 1}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 3, ""urgency"": 5}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.0,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 4}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 1}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 3, ""urgency"": 5}]",0.0,
+eisenhower,"{""Do First"": [1, 3], ""Schedule"": [], ""Delegate"": [], ""Eliminate"": [2]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 4}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 4}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [3, 5], ""Delegate"": [1, 4], ""Eliminate"": [2]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 3}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 4}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 5, ""urgency"": 3}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 3}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 4}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 5, ""urgency"": 3}]",0.0,
+eisenhower,"{""Do First"": [2], ""Schedule"": [1], ""Delegate"": [3], ""Eliminate"": [4]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 3}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 1}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.0,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 3}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 1}]",0.0,
+eisenhower,"{""Do First"": [1], ""Schedule"": [], ""Delegate"": [3], ""Eliminate"": [2, 4]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 2}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 2}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [], ""Delegate"": [2], ""Eliminate"": [1, 3]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 5}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 1}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 5}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 1}]",0.0,
+eisenhower,"{""Do First"": [2], ""Schedule"": [3], ""Delegate"": [1], ""Eliminate"": []}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 5}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 4, ""urgency"": 3}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 5}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 4, ""urgency"": 3}]",0.0,
+eisenhower,"{""Do First"": [1], ""Schedule"": [2, 3], ""Delegate"": [], ""Eliminate"": []}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 1}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 1}]",0.0,
+eisenhower,"{""Do First"": [5], ""Schedule"": [], ""Delegate"": [2, 3], ""Eliminate"": [1, 4]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 3}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 2}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 5, ""urgency"": 5}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 3}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 2}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 5, ""urgency"": 5}]",0.0,
+eisenhower,"{""Do First"": [2], ""Schedule"": [], ""Delegate"": [1, 3], ""Eliminate"": []}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 4}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 4}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [4, 5], ""Delegate"": [1], ""Eliminate"": [2, 3]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 5, ""urgency"": 2}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 4, ""urgency"": 1}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 5, ""urgency"": 2}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 4, ""urgency"": 1}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [], ""Delegate"": [1, 4], ""Eliminate"": [2, 3]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 3}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 2, ""urgency"": 5}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 3}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 2, ""urgency"": 5}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [1], ""Delegate"": [3], ""Eliminate"": [2]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [], ""Delegate"": [1, 2, 3], ""Eliminate"": []}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.75,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [2, 3], ""Delegate"": [1], ""Eliminate"": [4]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 4, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 1}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 4, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 1}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [], ""Delegate"": [], ""Eliminate"": [1, 2, 3]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 3}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.75,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 3}]",0.0,
+eisenhower,"{""Do First"": [4], ""Schedule"": [1, 3], ""Delegate"": [], ""Eliminate"": [2]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 4, ""urgency"": 5}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 4, ""urgency"": 5}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [1], ""Delegate"": [4], ""Eliminate"": [2, 3]}","[LLM STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 2, ""urgency"": 5}]",2025-08-31 13:06:04,,TinyLlama,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 2, ""urgency"": 5}]",0.0,
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 23}, ""Member2"": {""available_hours"": 22}, ""Member3"": {""available_hours"": 18}, ""Member4"": {""available_hours"": 19}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 9, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 5, ""dependencies"": []}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 23}, ""Member2"": {""available_hours"": 22}, ""Member3"": {""available_hours"": 18}, ""Member4"": {""available_hours"": 19}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 9, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 5, ""dependencies"": []}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 17}, ""Member2"": {""available_hours"": 15}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 18}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": [2, 3]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 10, ""dependencies"": [2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 10, ""dependencies"": [5]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 17}, ""Member2"": {""available_hours"": 15}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 18}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": [2, 3]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 10, ""dependencies"": [2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 10, ""dependencies"": [5]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 20}, ""Member3"": {""available_hours"": 21}, ""Member4"": {""available_hours"": 21}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 10, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 4, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [2, 3]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 7, ""dependencies"": [4]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 20}, ""Member3"": {""available_hours"": 21}, ""Member4"": {""available_hours"": 21}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 10, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 4, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [2, 3]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 7, ""dependencies"": [4]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 14}, ""Member2"": {""available_hours"": 20}, ""Member3"": {""available_hours"": 21}, ""Member4"": {""available_hours"": 10}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1, 2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 5, ""dependencies"": [5, 4]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 14}, ""Member2"": {""available_hours"": 20}, ""Member3"": {""available_hours"": 21}, ""Member4"": {""available_hours"": 10}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1, 2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 5, ""dependencies"": [5, 4]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 25}, ""Member2"": {""available_hours"": 23}, ""Member3"": {""available_hours"": 20}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 4, ""dependencies"": [1]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 25}, ""Member2"": {""available_hours"": 23}, ""Member3"": {""available_hours"": 20}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 4, ""dependencies"": [1]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 20}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 9, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 4, ""dependencies"": [2]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 20}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 9, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 4, ""dependencies"": [2]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 24}, ""Member3"": {""available_hours"": 25}, ""Member4"": {""available_hours"": 22}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 7, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 9, ""dependencies"": []}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 24}, ""Member3"": {""available_hours"": 25}, ""Member4"": {""available_hours"": 22}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 7, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 9, ""dependencies"": []}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 14}, ""Member2"": {""available_hours"": 17}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 24}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [1, 4]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 6, ""dependencies"": [4]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 14}, ""Member2"": {""available_hours"": 17}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 24}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [1, 4]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 6, ""dependencies"": [4]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 10}, ""Member2"": {""available_hours"": 11}, ""Member3"": {""available_hours"": 12}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 8, ""dependencies"": [3]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 5, ""dependencies"": [1, 3]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 9, ""dependencies"": [1]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 10}, ""Member2"": {""available_hours"": 11}, ""Member3"": {""available_hours"": 12}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 8, ""dependencies"": [3]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 5, ""dependencies"": [1, 3]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 9, ""dependencies"": [1]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 14}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 10, ""dependencies"": [1]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 14}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 10, ""dependencies"": [1]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 20}, ""Member2"": {""available_hours"": 24}, ""Member3"": {""available_hours"": 18}, ""Member4"": {""available_hours"": 25}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": []}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 20}, ""Member2"": {""available_hours"": 24}, ""Member3"": {""available_hours"": 18}, ""Member4"": {""available_hours"": 25}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": []}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 14}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 5, ""dependencies"": [1, 2]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 14}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 5, ""dependencies"": [1, 2]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 17}, ""Member2"": {""available_hours"": 21}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 6, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [1]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 17}, ""Member2"": {""available_hours"": 21}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 6, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [1]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 11}, ""Member2"": {""available_hours"": 18}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 9, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 5, ""dependencies"": [2, 1]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": [2, 3]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 11}, ""Member2"": {""available_hours"": 18}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 9, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 5, ""dependencies"": [2, 1]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": [2, 3]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 12}, ""Member2"": {""available_hours"": 12}, ""Member3"": {""available_hours"": 17}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 4, ""dependencies"": [3, 1]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 8, ""dependencies"": [5]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 12}, ""Member2"": {""available_hours"": 12}, ""Member3"": {""available_hours"": 17}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 4, ""dependencies"": [3, 1]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 8, ""dependencies"": [5]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 15}, ""Member2"": {""available_hours"": 17}, ""Member3"": {""available_hours"": 22}, ""Member4"": {""available_hours"": 18}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 6, ""dependencies"": [4, 2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 3, ""dependencies"": [4, 2]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 15}, ""Member2"": {""available_hours"": 17}, ""Member3"": {""available_hours"": 22}, ""Member4"": {""available_hours"": 18}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 6, ""dependencies"": [4, 2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 3, ""dependencies"": [4, 2]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 13}, ""Member2"": {""available_hours"": 21}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 16}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 7, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [2, 1]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [2, 1]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 8, ""dependencies"": []}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 13}, ""Member2"": {""available_hours"": 21}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 16}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 7, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [2, 1]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [2, 1]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 8, ""dependencies"": []}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 24}, ""Member2"": {""available_hours"": 15}, ""Member3"": {""available_hours"": 15}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1, 2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [3]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 24}, ""Member2"": {""available_hours"": 15}, ""Member3"": {""available_hours"": 15}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1, 2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [3]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 10}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 9, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 7, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": [2]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 10}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 9, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 7, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": [2]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[LLM STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 23}, ""Member2"": {""available_hours"": 19}, ""Member3"": {""available_hours"": 14}, ""Member4"": {""available_hours"": 14}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 10, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 7, ""dependencies"": [2, 1]}]
+",2025-08-31 13:06:04,,TinyLlama,0.0,,"team={""Member1"": {""available_hours"": 23}, ""Member2"": {""available_hours"": 19}, ""Member3"": {""available_hours"": 14}, ""Member4"": {""available_hours"": 14}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 10, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 7, ""dependencies"": [2, 1]}]",,1
+commit_summary,perf: secure password check,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",2025-08-31 13:06:04,0.19,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",,
+commit_summary,fix: change logging level,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- logger.debug(x)
++ logger.info(x)",2025-08-31 13:06:04,0.178,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- logger.debug(x)
++ logger.info(x)",,
+commit_summary,docs: disable debug mode,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- debug: true
++ debug: false",2025-08-31 13:06:04,0.22,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- debug: true
++ debug: false",,
+commit_summary,style: clean data before returning,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",2025-08-31 13:06:04,0.133,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",,
+commit_summary,test: clean data before returning,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",2025-08-31 13:06:04,0.144,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",,
+commit_summary,perf: update greeting,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",2025-08-31 13:06:04,0.144,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",,
+commit_summary,refactor: secure password check,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",2025-08-31 13:06:04,0.176,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",,
+commit_summary,perf: improve formatting,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",2025-08-31 13:06:04,0.14,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",,
+commit_summary,style: switch result container,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",2025-08-31 13:06:04,0.169,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",,
+commit_summary,fix: update greeting,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",2025-08-31 13:06:04,0.078,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",,
+commit_summary,docs: clean data before returning,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",2025-08-31 13:06:04,0.144,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",,
+commit_summary,style: switch result container,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",2025-08-31 13:06:04,0.169,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",,
+commit_summary,perf: secure password check,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",2025-08-31 13:06:04,0.19,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",,
+commit_summary,fix: update greeting,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",2025-08-31 13:06:04,0.078,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",,
+commit_summary,perf: improve formatting,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",2025-08-31 13:06:04,0.14,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",,
+commit_summary,refactor: clean data before returning,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",2025-08-31 13:06:04,0.162,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",,
+commit_summary,refactor: improve formatting,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",2025-08-31 13:06:04,0.125,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",,
+commit_summary,fix: disable debug mode,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- debug: true
++ debug: false",2025-08-31 13:06:04,0.151,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- debug: true
++ debug: false",,
+commit_summary,style: optimize data structure,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- list()
++ set()",2025-08-31 13:06:04,0.192,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- list()
++ set()",,
+commit_summary,style: update greeting,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",2025-08-31 13:06:04,0.132,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",,
+commit_summary,refactor: switch result container,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",2025-08-31 13:06:04,0.199,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",,
+commit_summary,docs: add status response,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",2025-08-31 13:06:04,0.175,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",,
+commit_summary,perf: optimize data structure,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- list()
++ set()",2025-08-31 13:06:04,0.205,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- list()
++ set()",,
+commit_summary,refactor: optimize data structure,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- list()
++ set()",2025-08-31 13:06:04,0.176,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- list()
++ set()",,
+commit_summary,docs: add status response,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",2025-08-31 13:06:04,0.175,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",,
+commit_summary,style: add status response,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",2025-08-31 13:06:04,0.174,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",,
+commit_summary,refactor: add status response,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",2025-08-31 13:06:04,0.16,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",,
+commit_summary,refactor: update greeting,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",2025-08-31 13:06:04,0.108,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",,
+commit_summary,refactor: clean data before returning,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",2025-08-31 13:06:04,0.162,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",,
+commit_summary,chore: add status response,"[Deepseek R1 8b STUB RESPONSE] Summarize the following code changes as a git commit message:
+--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",2025-08-31 13:06:04,0.163,Deepseek,0.0,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",,
+eisenhower,"{""Do First"": [], ""Schedule"": [], ""Delegate"": [3, 4], ""Eliminate"": [1, 2, 5]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 1}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 4}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 1, ""urgency"": 1}]",2025-08-31 13:06:04,,Deepseek,0.0,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 1}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 4}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 1, ""urgency"": 1}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [1], ""Delegate"": [2, 3], ""Eliminate"": []}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 1}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}]",2025-08-31 13:06:04,,Deepseek,0.0,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 1}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}]",0.0,
+eisenhower,"{""Do First"": [1], ""Schedule"": [2], ""Delegate"": [3, 5], ""Eliminate"": [4]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 4}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 1}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 3, ""urgency"": 5}]",2025-08-31 13:06:04,,Deepseek,0.0,0.0,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 4}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 1}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 3, ""urgency"": 5}]",0.0,
+eisenhower,"{""Do First"": [1, 3], ""Schedule"": [], ""Delegate"": [], ""Eliminate"": [2]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 4}]",2025-08-31 13:06:04,,Deepseek,0.0,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 4}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [3, 5], ""Delegate"": [1, 4], ""Eliminate"": [2]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 3}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 4}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 5, ""urgency"": 3}]",2025-08-31 13:06:04,,Deepseek,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 3}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 4}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 5, ""urgency"": 3}]",0.0,
+eisenhower,"{""Do First"": [2], ""Schedule"": [1], ""Delegate"": [3], ""Eliminate"": [4]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 3}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 1}]",2025-08-31 13:06:04,,Deepseek,0.0,0.0,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 3}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 1}]",0.0,
+eisenhower,"{""Do First"": [1], ""Schedule"": [], ""Delegate"": [3], ""Eliminate"": [2, 4]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 2}]",2025-08-31 13:06:04,,Deepseek,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 2}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [], ""Delegate"": [2], ""Eliminate"": [1, 3]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 5}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 1}]",2025-08-31 13:06:04,,Deepseek,0.0,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 5}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 1}]",0.0,
+eisenhower,"{""Do First"": [2], ""Schedule"": [3], ""Delegate"": [1], ""Eliminate"": []}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 5}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 4, ""urgency"": 3}]",2025-08-31 13:06:04,,Deepseek,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 5}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 4, ""urgency"": 3}]",0.0,
+eisenhower,"{""Do First"": [1], ""Schedule"": [2, 3], ""Delegate"": [], ""Eliminate"": []}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 1}]",2025-08-31 13:06:04,,Deepseek,0.0,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 1}]",0.0,
+eisenhower,"{""Do First"": [5], ""Schedule"": [], ""Delegate"": [2, 3], ""Eliminate"": [1, 4]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 3}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 2}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 5, ""urgency"": 5}]",2025-08-31 13:06:04,,Deepseek,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 3}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 2}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 5, ""urgency"": 5}]",0.0,
+eisenhower,"{""Do First"": [2], ""Schedule"": [], ""Delegate"": [1, 3], ""Eliminate"": []}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 4}]",2025-08-31 13:06:04,,Deepseek,0.0,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 4}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [4, 5], ""Delegate"": [1], ""Eliminate"": [2, 3]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 5, ""urgency"": 2}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 4, ""urgency"": 1}]",2025-08-31 13:06:04,,Deepseek,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 5, ""urgency"": 2}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 4, ""urgency"": 1}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [], ""Delegate"": [1, 4], ""Eliminate"": [2, 3]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 3}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 2, ""urgency"": 5}]",2025-08-31 13:06:04,,Deepseek,0.0,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 3}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 2, ""urgency"": 5}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [1], ""Delegate"": [3], ""Eliminate"": [2]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}]",2025-08-31 13:06:04,,Deepseek,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [], ""Delegate"": [1, 2, 3], ""Eliminate"": []}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}]",2025-08-31 13:06:04,,Deepseek,0.0,0.75,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [2, 3], ""Delegate"": [1], ""Eliminate"": [4]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 4, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 1}]",2025-08-31 13:06:04,,Deepseek,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 4, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 1}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [], ""Delegate"": [], ""Eliminate"": [1, 2, 3]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 3}]",2025-08-31 13:06:04,,Deepseek,0.0,0.75,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 3}]",0.0,
+eisenhower,"{""Do First"": [4], ""Schedule"": [1, 3], ""Delegate"": [], ""Eliminate"": [2]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 4, ""urgency"": 5}]",2025-08-31 13:06:04,,Deepseek,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 4, ""urgency"": 5}]",0.0,
+eisenhower,"{""Do First"": [], ""Schedule"": [1], ""Delegate"": [4], ""Eliminate"": [2, 3]}","[Deepseek R1 8b STUB RESPONSE] Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:
+[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 2, ""urgency"": 5}]",2025-08-31 13:06:04,,Deepseek,0.0,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 2, ""urgency"": 5}]",0.0,
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 23}, ""Member2"": {""available_hours"": 22}, ""Member3"": {""available_hours"": 18}, ""Member4"": {""available_hours"": 19}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 9, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 5, ""dependencies"": []}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 23}, ""Member2"": {""available_hours"": 22}, ""Member3"": {""available_hours"": 18}, ""Member4"": {""available_hours"": 19}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 9, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 5, ""dependencies"": []}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 17}, ""Member2"": {""available_hours"": 15}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 18}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": [2, 3]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 10, ""dependencies"": [2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 10, ""dependencies"": [5]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 17}, ""Member2"": {""available_hours"": 15}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 18}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": [2, 3]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 10, ""dependencies"": [2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 10, ""dependencies"": [5]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 20}, ""Member3"": {""available_hours"": 21}, ""Member4"": {""available_hours"": 21}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 10, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 4, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [2, 3]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 7, ""dependencies"": [4]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 20}, ""Member3"": {""available_hours"": 21}, ""Member4"": {""available_hours"": 21}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 10, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 4, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [2, 3]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 7, ""dependencies"": [4]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 14}, ""Member2"": {""available_hours"": 20}, ""Member3"": {""available_hours"": 21}, ""Member4"": {""available_hours"": 10}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1, 2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 5, ""dependencies"": [5, 4]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 14}, ""Member2"": {""available_hours"": 20}, ""Member3"": {""available_hours"": 21}, ""Member4"": {""available_hours"": 10}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1, 2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 5, ""dependencies"": [5, 4]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 25}, ""Member2"": {""available_hours"": 23}, ""Member3"": {""available_hours"": 20}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 4, ""dependencies"": [1]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 25}, ""Member2"": {""available_hours"": 23}, ""Member3"": {""available_hours"": 20}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 4, ""dependencies"": [1]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 20}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 9, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 4, ""dependencies"": [2]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 20}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 9, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 4, ""dependencies"": [2]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 24}, ""Member3"": {""available_hours"": 25}, ""Member4"": {""available_hours"": 22}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 7, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 9, ""dependencies"": []}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 24}, ""Member3"": {""available_hours"": 25}, ""Member4"": {""available_hours"": 22}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 7, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 9, ""dependencies"": []}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 14}, ""Member2"": {""available_hours"": 17}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 24}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [1, 4]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 6, ""dependencies"": [4]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 14}, ""Member2"": {""available_hours"": 17}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 24}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [1, 4]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 6, ""dependencies"": [4]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 10}, ""Member2"": {""available_hours"": 11}, ""Member3"": {""available_hours"": 12}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 8, ""dependencies"": [3]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 5, ""dependencies"": [1, 3]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 9, ""dependencies"": [1]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 10}, ""Member2"": {""available_hours"": 11}, ""Member3"": {""available_hours"": 12}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 8, ""dependencies"": [3]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 5, ""dependencies"": [1, 3]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 9, ""dependencies"": [1]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 14}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 10, ""dependencies"": [1]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 14}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 10, ""dependencies"": [1]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 20}, ""Member2"": {""available_hours"": 24}, ""Member3"": {""available_hours"": 18}, ""Member4"": {""available_hours"": 25}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": []}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 20}, ""Member2"": {""available_hours"": 24}, ""Member3"": {""available_hours"": 18}, ""Member4"": {""available_hours"": 25}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": []}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 14}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 5, ""dependencies"": [1, 2]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 14}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 5, ""dependencies"": [1, 2]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 17}, ""Member2"": {""available_hours"": 21}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 6, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [1]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 17}, ""Member2"": {""available_hours"": 21}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 6, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [1]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 11}, ""Member2"": {""available_hours"": 18}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 9, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 5, ""dependencies"": [2, 1]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": [2, 3]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 11}, ""Member2"": {""available_hours"": 18}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 9, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 5, ""dependencies"": [2, 1]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": [2, 3]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 12}, ""Member2"": {""available_hours"": 12}, ""Member3"": {""available_hours"": 17}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 4, ""dependencies"": [3, 1]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 8, ""dependencies"": [5]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 12}, ""Member2"": {""available_hours"": 12}, ""Member3"": {""available_hours"": 17}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 4, ""dependencies"": [3, 1]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 8, ""dependencies"": [5]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 15}, ""Member2"": {""available_hours"": 17}, ""Member3"": {""available_hours"": 22}, ""Member4"": {""available_hours"": 18}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 6, ""dependencies"": [4, 2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 3, ""dependencies"": [4, 2]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 15}, ""Member2"": {""available_hours"": 17}, ""Member3"": {""available_hours"": 22}, ""Member4"": {""available_hours"": 18}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 6, ""dependencies"": [4, 2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 3, ""dependencies"": [4, 2]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 13}, ""Member2"": {""available_hours"": 21}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 16}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 7, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [2, 1]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [2, 1]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 8, ""dependencies"": []}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 13}, ""Member2"": {""available_hours"": 21}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 16}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 7, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [2, 1]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [2, 1]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 8, ""dependencies"": []}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 24}, ""Member2"": {""available_hours"": 15}, ""Member3"": {""available_hours"": 15}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1, 2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [3]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 24}, ""Member2"": {""available_hours"": 15}, ""Member3"": {""available_hours"": 15}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1, 2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [3]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 10}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 9, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 7, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": [2]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 10}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 9, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 7, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": [2]}]",,1
+sprint_planning,Valid sprint plan respecting constraints,"[Deepseek R1 8b STUB RESPONSE] 
+Plan a 2-week agile sprint for the following team and tasks. 
+Constraints:
+- Respect task dependencies
+- Do not assign more hours than available
+- Output JSON with format: {'sprint_backlog': [{'task_id': int, 'assignee': str, 'week': int}]}
+Team: {""Member1"": {""available_hours"": 23}, ""Member2"": {""available_hours"": 19}, ""Member3"": {""available_hours"": 14}, ""Member4"": {""available_hours"": 14}}
+Tasks: [{""id"": 1, ""name"": ""Task 1"", ""estimate"": 10, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 7, ""dependencies"": [2, 1]}]
+",2025-08-31 13:06:04,,Deepseek,0.0,,"team={""Member1"": {""available_hours"": 23}, ""Member2"": {""available_hours"": 19}, ""Member3"": {""available_hours"": 14}, ""Member4"": {""available_hours"": 14}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 10, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 7, ""dependencies"": [2, 1]}]",,1

@@ -9,8 +9,7 @@ import datetime
 import time
 from pathlib import Path
 from app.backend.tiny_llama import TinyLlamaPlanner
-
-planner = TinyLlamaPlanner()
+from app.backend.deepseek_r1 import DeepseekR1Interface
 
 # File name includes timestamp
 RESULTS_FILE = f"benchmark_results_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.csv"
@@ -33,50 +32,58 @@ def safe_int(s, default=0):
     except (ValueError, TypeError):
         return default
 
-def query_llm_debug(prompt):
-    print("\n--- LLM Prompt ---")
-    print(prompt[:500])  # first 500 chars
+def query_model(planner, prompt, model_name):
     start = time.time()
-    try:
-        output = planner.query_llm(prompt)
-    except Exception as e:
-        print(f"LLM call failed: {e}")
+    if model_name == "TinyLlama":
+        try:
+            output = planner.query_llm(prompt)
+        except Exception as e:
+            print(f"TinyLlama call failed: {e}")
+            output = ""
+    elif model_name == "Deepseek":
+        try:
+            output = planner.generate_response(prompt)
+        except Exception as e:
+            print(f"Deepseek call failed: {e}")
+            output = ""
+    else:
         output = ""
     end = time.time()
-    print(f"--- LLM Output ({end - start:.2f}s) ---")
-    print(output[:500])
-    return output
+    elapsed = end - start
+    return output, elapsed
 
 # -------------------------
 # Commit Summary Tests
 # -------------------------
-def run_commit_summary_tests():
+def run_commit_summary_tests(planner, model_name):
     cases = json.load(open("Draft_2/tests/commit_summary_tests.json"))
     results = []
     for case in cases:
         prompt = f"Summarize the following code changes as a git commit message:\n{case.get('diff', '')}"
-        output = query_llm_debug(prompt)
+        output, elapsed = query_model(planner, prompt, model_name)
         sim = similarity(case.get("expected", ""), output)
         timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         results.append({
             "timestamp": timestamp,
+            "model": model_name,
             "task": "commit_summary",
             "input": case.get("diff", ""),
             "expected": case.get("expected", ""),
             "output": output,
-            "similarity": round(safe_float(sim), 3)
+            "similarity": round(safe_float(sim), 3),
+            "time_taken_sec": round(elapsed, 3)
         })
     return results
 
 # -------------------------
 # Eisenhower Matrix Tests
 # -------------------------
-def run_eisenhower_tests():
+def run_eisenhower_tests(planner, model_name):
     cases = json.load(open("Draft_2/tests/eisenhower_tests.json"))
     results = []
     for case in cases:
         prompt = f"Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:\n{json.dumps(case.get('tasks', []))}"
-        output = query_llm_debug(prompt)
+        output, elapsed = query_model(planner, prompt, model_name)
         parsed_result = {}
         try:
             parsed_result = json.loads(output)
@@ -86,30 +93,44 @@ def run_eisenhower_tests():
             except:
                 parsed_result = {}
         accuracy = 0
+        precision = 0
         try:
             correct = 0
             total = len(case.get("expected", {}))
+            true_positives = 0
+            false_positives = 0
+            false_negatives = 0
             for quadrant, ids in case.get("expected", {}).items():
-                if set(ids) == set(parsed_result.get(quadrant, [])):
+                expected_set = set(ids)
+                predicted_set = set(parsed_result.get(quadrant, []))
+                if expected_set == predicted_set:
                     correct += 1
+                true_positives += len(expected_set & predicted_set)
+                false_positives += len(predicted_set - expected_set)
+                false_negatives += len(expected_set - predicted_set)
             accuracy = correct / total if total else 0
+            precision = true_positives / (true_positives + false_positives) if (true_positives + false_positives) else 0
         except:
             accuracy = 0
+            precision = 0
         timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         results.append({
             "timestamp": timestamp,
+            "model": model_name,
             "task": "eisenhower",
             "input": json.dumps(case.get("tasks", [])),
             "expected": json.dumps(case.get("expected", {})),
             "output": output,
-            "accuracy": round(safe_float(accuracy), 3)
+            "accuracy": round(safe_float(accuracy), 3),
+            "precision": round(safe_float(precision), 3),
+            "time_taken_sec": round(elapsed, 3)
         })
     return results
 
 # -------------------------
 # Sprint Planning Tests
 # -------------------------
-def run_sprint_planning_tests():
+def run_sprint_planning_tests(planner, model_name):
     cases = json.load(open("Draft_2/tests/sprint_planning_tests.json"))
     results = []
     for case in cases:
@@ -122,7 +143,7 @@ Constraints:
 Team: {json.dumps(case.get('team', {}))}
 Tasks: {json.dumps(case.get('tasks', []))}
 """
-        output = query_llm_debug(prompt)
+        output, elapsed = query_model(planner, prompt, model_name)
         parsed_result = {}
         try:
             parsed_result = json.loads(output)
@@ -155,11 +176,13 @@ Tasks: {json.dumps(case.get('tasks', []))}
         timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         results.append({
             "timestamp": timestamp,
+            "model": model_name,
             "task": "sprint_planning",
             "input": f"team={json.dumps(case.get('team', {}))}, tasks={json.dumps(case.get('tasks', []))}",
             "expected": "Valid sprint plan respecting constraints",
             "output": output,
-            "valid_plan": safe_int(score)
+            "valid_plan": safe_int(score),
+            "time_taken_sec": round(elapsed, 3)
         })
     return results
 
@@ -182,10 +205,52 @@ def save_results(all_results):
 # -------------------------
 def main():
     results = []
-    results += run_commit_summary_tests()
-    results += run_eisenhower_tests()
-    results += run_sprint_planning_tests()
+    # TinyLlama
+    tiny_llama = TinyLlamaPlanner()
+    results += run_commit_summary_tests(tiny_llama, "TinyLlama")
+    results += run_eisenhower_tests(tiny_llama, "TinyLlama")
+    results += run_sprint_planning_tests(tiny_llama, "TinyLlama")
+    # Deepseek
+    deepseek = DeepseekR1Interface()
+    results += run_commit_summary_tests(deepseek, "Deepseek")
+    results += run_eisenhower_tests(deepseek, "Deepseek")
+    results += run_sprint_planning_tests(deepseek, "Deepseek")
     save_results(results)
 
 if __name__ == "__main__":
     main()
+
+# ----------------------------------------------------------
+# Script Explanation:
+# ----------------------------------------------------------
+# This script benchmarks two models: TinyLlama and Deepseek.
+# For each model, it runs three types of tests:
+#   - Commit Summary
+#   - Eisenhower Matrix
+#   - Sprint Planning
+# For each test case, it records:
+#   - Model name
+#   - Task type
+#   - Input and expected output
+#   - Model output
+#   - Performance metrics (similarity, accuracy, precision, valid_plan, etc.)
+#   - Time taken for the model to respond
+# Results are saved to a CSV file with a timestamped filename.
+#
+# CSV File Format:
+# Each row represents a single test case for a specific model and task.
+# Columns include:
+#   - timestamp: When the test was run
+#   - model: Model name ("TinyLlama" or "Deepseek")
+#   - task: Task type ("commit_summary", "eisenhower", "sprint_planning")
+#   - input: The input provided to the model
+#   - expected: The expected output (if applicable)
+#   - output: The model's response
+#   - similarity: Similarity score (for commit summary)
+#   - accuracy: Accuracy (for eisenhower)
+#   - precision: Precision (for eisenhower)
+#   - valid_plan: 1 if sprint plan is valid, 0 otherwise (for sprint planning)
+#   - time_taken_sec: Time taken for the model to respond (in seconds)
+# Not all columns are present for every task; unused columns are left blank.
+#
+# You can extend this script to add more models or tasks as needed.
