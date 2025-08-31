@@ -1,0 +1,321 @@
+valid_plan,timestamp,accuracy,input,expected,similarity,precision,task,model,time_taken_sec,output
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",perf: secure password check,0.0,,commit_summary,TinyLlama,0.066,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- logger.debug(x)
++ logger.info(x)",fix: change logging level,0.0,,commit_summary,TinyLlama,0.06,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- debug: true
++ debug: false",docs: disable debug mode,0.0,,commit_summary,TinyLlama,0.055,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",style: clean data before returning,0.0,,commit_summary,TinyLlama,0.055,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",test: clean data before returning,0.0,,commit_summary,TinyLlama,0.059,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",perf: update greeting,0.0,,commit_summary,TinyLlama,0.06,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",refactor: secure password check,0.0,,commit_summary,TinyLlama,0.055,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",perf: improve formatting,0.0,,commit_summary,TinyLlama,0.066,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",style: switch result container,0.0,,commit_summary,TinyLlama,0.062,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",fix: update greeting,0.0,,commit_summary,TinyLlama,0.06,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",docs: clean data before returning,0.0,,commit_summary,TinyLlama,0.056,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",style: switch result container,0.0,,commit_summary,TinyLlama,0.058,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",perf: secure password check,0.0,,commit_summary,TinyLlama,0.093,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",fix: update greeting,0.0,,commit_summary,TinyLlama,0.072,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",perf: improve formatting,0.0,,commit_summary,TinyLlama,0.065,
+,2025-08-31 14:33:32,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",refactor: clean data before returning,0.0,,commit_summary,TinyLlama,0.06,
+,2025-08-31 14:33:33,,"--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",refactor: improve formatting,0.0,,commit_summary,TinyLlama,0.059,
+,2025-08-31 14:33:33,,"--- a/file.py
++++ b/file.py
+- debug: true
++ debug: false",fix: disable debug mode,0.0,,commit_summary,TinyLlama,0.057,
+,2025-08-31 14:33:33,,"--- a/file.py
++++ b/file.py
+- list()
++ set()",style: optimize data structure,0.0,,commit_summary,TinyLlama,0.059,
+,2025-08-31 14:33:33,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",style: update greeting,0.0,,commit_summary,TinyLlama,0.054,
+,2025-08-31 14:33:33,,"--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",refactor: switch result container,0.0,,commit_summary,TinyLlama,0.055,
+,2025-08-31 14:33:33,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",docs: add status response,0.0,,commit_summary,TinyLlama,0.054,
+,2025-08-31 14:33:33,,"--- a/file.py
++++ b/file.py
+- list()
++ set()",perf: optimize data structure,0.0,,commit_summary,TinyLlama,0.057,
+,2025-08-31 14:33:33,,"--- a/file.py
++++ b/file.py
+- list()
++ set()",refactor: optimize data structure,0.0,,commit_summary,TinyLlama,0.059,
+,2025-08-31 14:33:33,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",docs: add status response,0.0,,commit_summary,TinyLlama,0.054,
+,2025-08-31 14:33:33,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",style: add status response,0.0,,commit_summary,TinyLlama,0.053,
+,2025-08-31 14:33:33,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",refactor: add status response,0.0,,commit_summary,TinyLlama,0.054,
+,2025-08-31 14:33:33,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",refactor: update greeting,0.0,,commit_summary,TinyLlama,0.054,
+,2025-08-31 14:33:33,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",refactor: clean data before returning,0.0,,commit_summary,TinyLlama,0.055,
+,2025-08-31 14:33:33,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",chore: add status response,0.0,,commit_summary,TinyLlama,0.055,
+,2025-08-31 14:33:33,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 1}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 4}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 1, ""urgency"": 1}]","{""Do First"": [], ""Schedule"": [], ""Delegate"": [3, 4], ""Eliminate"": [1, 2, 5]}",,0.0,eisenhower,TinyLlama,0.053,
+,2025-08-31 14:33:33,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 1}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}]","{""Do First"": [], ""Schedule"": [1], ""Delegate"": [2, 3], ""Eliminate"": []}",,0.0,eisenhower,TinyLlama,0.057,
+,2025-08-31 14:33:33,0.0,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 4}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 1}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 3, ""urgency"": 5}]","{""Do First"": [1], ""Schedule"": [2], ""Delegate"": [3, 5], ""Eliminate"": [4]}",,0.0,eisenhower,TinyLlama,0.06,
+,2025-08-31 14:33:33,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 4}]","{""Do First"": [1, 3], ""Schedule"": [], ""Delegate"": [], ""Eliminate"": [2]}",,0.0,eisenhower,TinyLlama,0.052,
+,2025-08-31 14:33:34,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 3}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 4}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 5, ""urgency"": 3}]","{""Do First"": [], ""Schedule"": [3, 5], ""Delegate"": [1, 4], ""Eliminate"": [2]}",,0.0,eisenhower,TinyLlama,0.059,
+,2025-08-31 14:33:34,0.0,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 3}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 1}]","{""Do First"": [2], ""Schedule"": [1], ""Delegate"": [3], ""Eliminate"": [4]}",,0.0,eisenhower,TinyLlama,0.054,
+,2025-08-31 14:33:34,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 2}]","{""Do First"": [1], ""Schedule"": [], ""Delegate"": [3], ""Eliminate"": [2, 4]}",,0.0,eisenhower,TinyLlama,0.068,
+,2025-08-31 14:33:34,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 5}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 1}]","{""Do First"": [], ""Schedule"": [], ""Delegate"": [2], ""Eliminate"": [1, 3]}",,0.0,eisenhower,TinyLlama,0.058,
+,2025-08-31 14:33:34,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 5}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 4, ""urgency"": 3}]","{""Do First"": [2], ""Schedule"": [3], ""Delegate"": [1], ""Eliminate"": []}",,0.0,eisenhower,TinyLlama,0.06,
+,2025-08-31 14:33:34,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 1}]","{""Do First"": [1], ""Schedule"": [2, 3], ""Delegate"": [], ""Eliminate"": []}",,0.0,eisenhower,TinyLlama,0.055,
+,2025-08-31 14:33:34,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 3}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 2}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 5, ""urgency"": 5}]","{""Do First"": [5], ""Schedule"": [], ""Delegate"": [2, 3], ""Eliminate"": [1, 4]}",,0.0,eisenhower,TinyLlama,0.058,
+,2025-08-31 14:33:34,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 4}]","{""Do First"": [2], ""Schedule"": [], ""Delegate"": [1, 3], ""Eliminate"": []}",,0.0,eisenhower,TinyLlama,0.061,
+,2025-08-31 14:33:34,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 5, ""urgency"": 2}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 4, ""urgency"": 1}]","{""Do First"": [], ""Schedule"": [4, 5], ""Delegate"": [1], ""Eliminate"": [2, 3]}",,0.0,eisenhower,TinyLlama,0.053,
+,2025-08-31 14:33:34,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 3}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 2, ""urgency"": 5}]","{""Do First"": [], ""Schedule"": [], ""Delegate"": [1, 4], ""Eliminate"": [2, 3]}",,0.0,eisenhower,TinyLlama,0.06,
+,2025-08-31 14:33:34,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}]","{""Do First"": [], ""Schedule"": [1], ""Delegate"": [3], ""Eliminate"": [2]}",,0.0,eisenhower,TinyLlama,0.055,
+,2025-08-31 14:33:34,0.75,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}]","{""Do First"": [], ""Schedule"": [], ""Delegate"": [1, 2, 3], ""Eliminate"": []}",,0.0,eisenhower,TinyLlama,0.054,
+,2025-08-31 14:33:34,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 4, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 1}]","{""Do First"": [], ""Schedule"": [2, 3], ""Delegate"": [1], ""Eliminate"": [4]}",,0.0,eisenhower,TinyLlama,0.054,
+,2025-08-31 14:33:34,0.75,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 3}]","{""Do First"": [], ""Schedule"": [], ""Delegate"": [], ""Eliminate"": [1, 2, 3]}",,0.0,eisenhower,TinyLlama,0.054,
+,2025-08-31 14:33:34,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 4, ""urgency"": 5}]","{""Do First"": [4], ""Schedule"": [1, 3], ""Delegate"": [], ""Eliminate"": [2]}",,0.0,eisenhower,TinyLlama,0.056,
+,2025-08-31 14:33:34,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 2, ""urgency"": 5}]","{""Do First"": [], ""Schedule"": [1], ""Delegate"": [4], ""Eliminate"": [2, 3]}",,0.0,eisenhower,TinyLlama,0.053,
+1,2025-08-31 14:33:34,,"team={""Member1"": {""available_hours"": 23}, ""Member2"": {""available_hours"": 22}, ""Member3"": {""available_hours"": 18}, ""Member4"": {""available_hours"": 19}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 9, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 5, ""dependencies"": []}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.057,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 17}, ""Member2"": {""available_hours"": 15}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 18}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": [2, 3]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 10, ""dependencies"": [2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 10, ""dependencies"": [5]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.055,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 20}, ""Member3"": {""available_hours"": 21}, ""Member4"": {""available_hours"": 21}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 10, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 4, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [2, 3]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 7, ""dependencies"": [4]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.055,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 14}, ""Member2"": {""available_hours"": 20}, ""Member3"": {""available_hours"": 21}, ""Member4"": {""available_hours"": 10}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1, 2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 5, ""dependencies"": [5, 4]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.055,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 25}, ""Member2"": {""available_hours"": 23}, ""Member3"": {""available_hours"": 20}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 4, ""dependencies"": [1]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.054,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 20}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 9, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 4, ""dependencies"": [2]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.057,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 24}, ""Member3"": {""available_hours"": 25}, ""Member4"": {""available_hours"": 22}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 7, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 9, ""dependencies"": []}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.06,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 14}, ""Member2"": {""available_hours"": 17}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 24}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [1, 4]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 6, ""dependencies"": [4]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.057,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 10}, ""Member2"": {""available_hours"": 11}, ""Member3"": {""available_hours"": 12}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 8, ""dependencies"": [3]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 5, ""dependencies"": [1, 3]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 9, ""dependencies"": [1]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.067,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 14}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 10, ""dependencies"": [1]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.07,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 20}, ""Member2"": {""available_hours"": 24}, ""Member3"": {""available_hours"": 18}, ""Member4"": {""available_hours"": 25}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": []}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.075,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 14}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 5, ""dependencies"": [1, 2]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.071,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 17}, ""Member2"": {""available_hours"": 21}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 6, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [1]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.066,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 11}, ""Member2"": {""available_hours"": 18}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 9, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 5, ""dependencies"": [2, 1]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": [2, 3]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.06,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 12}, ""Member2"": {""available_hours"": 12}, ""Member3"": {""available_hours"": 17}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 4, ""dependencies"": [3, 1]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 8, ""dependencies"": [5]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.057,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 15}, ""Member2"": {""available_hours"": 17}, ""Member3"": {""available_hours"": 22}, ""Member4"": {""available_hours"": 18}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 6, ""dependencies"": [4, 2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 3, ""dependencies"": [4, 2]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.058,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 13}, ""Member2"": {""available_hours"": 21}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 16}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 7, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [2, 1]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [2, 1]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 8, ""dependencies"": []}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.062,
+1,2025-08-31 14:33:35,,"team={""Member1"": {""available_hours"": 24}, ""Member2"": {""available_hours"": 15}, ""Member3"": {""available_hours"": 15}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1, 2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [3]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.058,
+1,2025-08-31 14:33:36,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 10}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 9, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 7, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": [2]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.059,
+1,2025-08-31 14:33:36,,"team={""Member1"": {""available_hours"": 23}, ""Member2"": {""available_hours"": 19}, ""Member3"": {""available_hours"": 14}, ""Member4"": {""available_hours"": 14}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 10, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 7, ""dependencies"": [2, 1]}]",Valid sprint plan respecting constraints,,,sprint_planning,TinyLlama,0.057,
+,2025-08-31 14:33:36,,"--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",perf: secure password check,0.0,,commit_summary,Deepseek,0.054,
+,2025-08-31 14:33:36,,"--- a/file.py
++++ b/file.py
+- logger.debug(x)
++ logger.info(x)",fix: change logging level,0.0,,commit_summary,Deepseek,0.054,
+,2025-08-31 14:33:36,,"--- a/file.py
++++ b/file.py
+- debug: true
++ debug: false",docs: disable debug mode,0.0,,commit_summary,Deepseek,0.059,
+,2025-08-31 14:33:36,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",style: clean data before returning,0.0,,commit_summary,Deepseek,0.056,
+,2025-08-31 14:33:36,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",test: clean data before returning,0.0,,commit_summary,Deepseek,0.058,
+,2025-08-31 14:33:36,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",perf: update greeting,0.0,,commit_summary,Deepseek,0.061,
+,2025-08-31 14:33:36,,"--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",refactor: secure password check,0.0,,commit_summary,Deepseek,0.052,
+,2025-08-31 14:33:36,,"--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",perf: improve formatting,0.0,,commit_summary,Deepseek,0.063,
+,2025-08-31 14:33:36,,"--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",style: switch result container,0.0,,commit_summary,Deepseek,0.055,
+,2025-08-31 14:33:36,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",fix: update greeting,0.0,,commit_summary,Deepseek,0.06,
+,2025-08-31 14:33:36,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",docs: clean data before returning,0.0,,commit_summary,Deepseek,0.058,
+,2025-08-31 14:33:36,,"--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",style: switch result container,0.0,,commit_summary,Deepseek,0.063,
+,2025-08-31 14:33:36,,"--- a/file.py
++++ b/file.py
+- pwd == db[user]
++ hash(pwd) == db[user]",perf: secure password check,0.0,,commit_summary,Deepseek,0.079,
+,2025-08-31 14:33:36,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",fix: update greeting,0.0,,commit_summary,Deepseek,0.071,
+,2025-08-31 14:33:37,,"--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",perf: improve formatting,0.0,,commit_summary,Deepseek,0.064,
+,2025-08-31 14:33:37,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",refactor: clean data before returning,0.0,,commit_summary,Deepseek,0.071,
+,2025-08-31 14:33:37,,"--- a/file.py
++++ b/file.py
+- return a+b
++ return a + b",refactor: improve formatting,0.0,,commit_summary,Deepseek,0.073,
+,2025-08-31 14:33:37,,"--- a/file.py
++++ b/file.py
+- debug: true
++ debug: false",fix: disable debug mode,0.0,,commit_summary,Deepseek,0.085,
+,2025-08-31 14:33:37,,"--- a/file.py
++++ b/file.py
+- list()
++ set()",style: optimize data structure,0.0,,commit_summary,Deepseek,0.07,
+,2025-08-31 14:33:37,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",style: update greeting,0.0,,commit_summary,Deepseek,0.065,
+,2025-08-31 14:33:37,,"--- a/file.py
++++ b/file.py
+- result = []
++ result = {}",refactor: switch result container,0.0,,commit_summary,Deepseek,0.067,
+,2025-08-31 14:33:37,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",docs: add status response,0.0,,commit_summary,Deepseek,0.063,
+,2025-08-31 14:33:37,,"--- a/file.py
++++ b/file.py
+- list()
++ set()",perf: optimize data structure,0.0,,commit_summary,Deepseek,0.067,
+,2025-08-31 14:33:37,,"--- a/file.py
++++ b/file.py
+- list()
++ set()",refactor: optimize data structure,0.0,,commit_summary,Deepseek,0.071,
+,2025-08-31 14:33:37,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",docs: add status response,0.0,,commit_summary,Deepseek,0.072,
+,2025-08-31 14:33:37,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",style: add status response,0.0,,commit_summary,Deepseek,0.065,
+,2025-08-31 14:33:37,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",refactor: add status response,0.0,,commit_summary,Deepseek,0.074,
+,2025-08-31 14:33:37,,"--- a/file.py
++++ b/file.py
+- print('hello')
++ print('hello world')",refactor: update greeting,0.0,,commit_summary,Deepseek,0.076,
+,2025-08-31 14:33:38,,"--- a/file.py
++++ b/file.py
+- data = fetch()
++ data = clean(fetch())",refactor: clean data before returning,0.0,,commit_summary,Deepseek,0.061,
+,2025-08-31 14:33:38,,"--- a/file.py
++++ b/file.py
+- return {}
++ return {""status"": ""ok""}",chore: add status response,0.0,,commit_summary,Deepseek,0.065,
+,2025-08-31 14:33:38,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 1}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 4}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 1, ""urgency"": 1}]","{""Do First"": [], ""Schedule"": [], ""Delegate"": [3, 4], ""Eliminate"": [1, 2, 5]}",,0.0,eisenhower,Deepseek,0.064,
+,2025-08-31 14:33:38,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 1}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}]","{""Do First"": [], ""Schedule"": [1], ""Delegate"": [2, 3], ""Eliminate"": []}",,0.0,eisenhower,Deepseek,0.069,
+,2025-08-31 14:33:38,0.0,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 4}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 1}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 3, ""urgency"": 5}]","{""Do First"": [1], ""Schedule"": [2], ""Delegate"": [3, 5], ""Eliminate"": [4]}",,0.0,eisenhower,Deepseek,0.067,
+,2025-08-31 14:33:38,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 4}]","{""Do First"": [1, 3], ""Schedule"": [], ""Delegate"": [], ""Eliminate"": [2]}",,0.0,eisenhower,Deepseek,0.066,
+,2025-08-31 14:33:38,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 3}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 4}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 5, ""urgency"": 3}]","{""Do First"": [], ""Schedule"": [3, 5], ""Delegate"": [1, 4], ""Eliminate"": [2]}",,0.0,eisenhower,Deepseek,0.069,
+,2025-08-31 14:33:38,0.0,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 3}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 1}]","{""Do First"": [2], ""Schedule"": [1], ""Delegate"": [3], ""Eliminate"": [4]}",,0.0,eisenhower,Deepseek,0.065,
+,2025-08-31 14:33:38,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 1, ""urgency"": 2}]","{""Do First"": [1], ""Schedule"": [], ""Delegate"": [3], ""Eliminate"": [2, 4]}",,0.0,eisenhower,Deepseek,0.062,
+,2025-08-31 14:33:38,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 5}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 1}]","{""Do First"": [], ""Schedule"": [], ""Delegate"": [2], ""Eliminate"": [1, 3]}",,0.0,eisenhower,Deepseek,0.071,
+,2025-08-31 14:33:38,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 5}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 4, ""urgency"": 3}]","{""Do First"": [2], ""Schedule"": [3], ""Delegate"": [1], ""Eliminate"": []}",,0.0,eisenhower,Deepseek,0.071,
+,2025-08-31 14:33:38,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 1}]","{""Do First"": [1], ""Schedule"": [2, 3], ""Delegate"": [], ""Eliminate"": []}",,0.0,eisenhower,Deepseek,0.067,
+,2025-08-31 14:33:38,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 3}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 5}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 2}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 5, ""urgency"": 5}]","{""Do First"": [5], ""Schedule"": [], ""Delegate"": [2, 3], ""Eliminate"": [1, 4]}",,0.0,eisenhower,Deepseek,0.062,
+,2025-08-31 14:33:38,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 3, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 4, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 4}]","{""Do First"": [2], ""Schedule"": [], ""Delegate"": [1, 3], ""Eliminate"": []}",,0.0,eisenhower,Deepseek,0.062,
+,2025-08-31 14:33:38,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 5, ""urgency"": 2}, {""id"": 5, ""name"": ""Task 5"", ""importance"": 4, ""urgency"": 1}]","{""Do First"": [], ""Schedule"": [4, 5], ""Delegate"": [1], ""Eliminate"": [2, 3]}",,0.0,eisenhower,Deepseek,0.06,
+,2025-08-31 14:33:38,0.5,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 2, ""urgency"": 3}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 2, ""urgency"": 5}]","{""Do First"": [], ""Schedule"": [], ""Delegate"": [1, 4], ""Eliminate"": [2, 3]}",,0.0,eisenhower,Deepseek,0.066,
+,2025-08-31 14:33:39,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 1}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 5}]","{""Do First"": [], ""Schedule"": [1], ""Delegate"": [3], ""Eliminate"": [2]}",,0.0,eisenhower,Deepseek,0.059,
+,2025-08-31 14:33:39,0.75,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 5}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 4}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 5}]","{""Do First"": [], ""Schedule"": [], ""Delegate"": [1, 2, 3], ""Eliminate"": []}",,0.0,eisenhower,Deepseek,0.066,
+,2025-08-31 14:33:39,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 2, ""urgency"": 4}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 5, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 4, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 3, ""urgency"": 1}]","{""Do First"": [], ""Schedule"": [2, 3], ""Delegate"": [1], ""Eliminate"": [4]}",,0.0,eisenhower,Deepseek,0.06,
+,2025-08-31 14:33:39,0.75,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 1, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 3, ""urgency"": 2}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 3, ""urgency"": 3}]","{""Do First"": [], ""Schedule"": [], ""Delegate"": [], ""Eliminate"": [1, 2, 3]}",,0.0,eisenhower,Deepseek,0.057,
+,2025-08-31 14:33:39,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 1, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 5, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 4, ""urgency"": 5}]","{""Do First"": [4], ""Schedule"": [1, 3], ""Delegate"": [], ""Eliminate"": [2]}",,0.0,eisenhower,Deepseek,0.065,
+,2025-08-31 14:33:39,0.25,"[{""id"": 1, ""name"": ""Task 1"", ""importance"": 5, ""urgency"": 2}, {""id"": 2, ""name"": ""Task 2"", ""importance"": 2, ""urgency"": 3}, {""id"": 3, ""name"": ""Task 3"", ""importance"": 1, ""urgency"": 2}, {""id"": 4, ""name"": ""Task 4"", ""importance"": 2, ""urgency"": 5}]","{""Do First"": [], ""Schedule"": [1], ""Delegate"": [4], ""Eliminate"": [2, 3]}",,0.0,eisenhower,Deepseek,0.06,
+1,2025-08-31 14:33:39,,"team={""Member1"": {""available_hours"": 23}, ""Member2"": {""available_hours"": 22}, ""Member3"": {""available_hours"": 18}, ""Member4"": {""available_hours"": 19}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 9, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 5, ""dependencies"": []}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.061,
+1,2025-08-31 14:33:39,,"team={""Member1"": {""available_hours"": 17}, ""Member2"": {""available_hours"": 15}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 18}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": [2, 3]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 10, ""dependencies"": [2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 10, ""dependencies"": [5]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.069,
+1,2025-08-31 14:33:39,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 20}, ""Member3"": {""available_hours"": 21}, ""Member4"": {""available_hours"": 21}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 10, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 4, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [2, 3]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 7, ""dependencies"": [4]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.062,
+1,2025-08-31 14:33:39,,"team={""Member1"": {""available_hours"": 14}, ""Member2"": {""available_hours"": 20}, ""Member3"": {""available_hours"": 21}, ""Member4"": {""available_hours"": 10}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1, 2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 5, ""dependencies"": [5, 4]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.064,
+1,2025-08-31 14:33:39,,"team={""Member1"": {""available_hours"": 25}, ""Member2"": {""available_hours"": 23}, ""Member3"": {""available_hours"": 20}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 5, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 5, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 4, ""dependencies"": [1]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.064,
+1,2025-08-31 14:33:39,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 20}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 9, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 4, ""dependencies"": [2]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.064,
+1,2025-08-31 14:33:39,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 24}, ""Member3"": {""available_hours"": 25}, ""Member4"": {""available_hours"": 22}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 7, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 9, ""dependencies"": []}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.067,
+1,2025-08-31 14:33:39,,"team={""Member1"": {""available_hours"": 14}, ""Member2"": {""available_hours"": 17}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 24}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [1, 4]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 6, ""dependencies"": [4]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.069,
+1,2025-08-31 14:33:39,,"team={""Member1"": {""available_hours"": 10}, ""Member2"": {""available_hours"": 11}, ""Member3"": {""available_hours"": 12}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 8, ""dependencies"": [3]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 5, ""dependencies"": [1, 3]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 9, ""dependencies"": [1]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.068,
+1,2025-08-31 14:33:40,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 14}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 8, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 10, ""dependencies"": [1]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.066,
+1,2025-08-31 14:33:40,,"team={""Member1"": {""available_hours"": 20}, ""Member2"": {""available_hours"": 24}, ""Member3"": {""available_hours"": 18}, ""Member4"": {""available_hours"": 25}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": []}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.072,
+1,2025-08-31 14:33:40,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 14}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 5, ""dependencies"": [1, 2]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.064,
+1,2025-08-31 14:33:40,,"team={""Member1"": {""available_hours"": 17}, ""Member2"": {""available_hours"": 21}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 6, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": []}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 8, ""dependencies"": [1]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.06,
+1,2025-08-31 14:33:40,,"team={""Member1"": {""available_hours"": 11}, ""Member2"": {""available_hours"": 18}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 9, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 5, ""dependencies"": [2, 1]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 6, ""dependencies"": [2, 3]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.061,
+1,2025-08-31 14:33:40,,"team={""Member1"": {""available_hours"": 12}, ""Member2"": {""available_hours"": 12}, ""Member3"": {""available_hours"": 17}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 3, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 4, ""dependencies"": [3, 1]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 8, ""dependencies"": [5]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.063,
+1,2025-08-31 14:33:40,,"team={""Member1"": {""available_hours"": 15}, ""Member2"": {""available_hours"": 17}, ""Member3"": {""available_hours"": 22}, ""Member4"": {""available_hours"": 18}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 8, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 8, ""dependencies"": [2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 6, ""dependencies"": [4, 2]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 3, ""dependencies"": [4, 2]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.064,
+1,2025-08-31 14:33:40,,"team={""Member1"": {""available_hours"": 13}, ""Member2"": {""available_hours"": 21}, ""Member3"": {""available_hours"": 20}, ""Member4"": {""available_hours"": 16}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 3, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 4, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 7, ""dependencies"": []}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [2, 1]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [2, 1]}, {""id"": 6, ""name"": ""Task 6"", ""estimate"": 8, ""dependencies"": []}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.06,
+1,2025-08-31 14:33:40,,"team={""Member1"": {""available_hours"": 24}, ""Member2"": {""available_hours"": 15}, ""Member3"": {""available_hours"": 15}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 4, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 6, ""dependencies"": []}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 6, ""dependencies"": [1, 2]}, {""id"": 4, ""name"": ""Task 4"", ""estimate"": 7, ""dependencies"": [1, 2]}, {""id"": 5, ""name"": ""Task 5"", ""estimate"": 7, ""dependencies"": [3]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.061,
+1,2025-08-31 14:33:40,,"team={""Member1"": {""available_hours"": 19}, ""Member2"": {""available_hours"": 10}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 9, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 7, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 9, ""dependencies"": [2]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.062,
+1,2025-08-31 14:33:40,,"team={""Member1"": {""available_hours"": 23}, ""Member2"": {""available_hours"": 19}, ""Member3"": {""available_hours"": 14}, ""Member4"": {""available_hours"": 14}}, tasks=[{""id"": 1, ""name"": ""Task 1"", ""estimate"": 10, ""dependencies"": []}, {""id"": 2, ""name"": ""Task 2"", ""estimate"": 3, ""dependencies"": [1]}, {""id"": 3, ""name"": ""Task 3"", ""estimate"": 7, ""dependencies"": [2, 1]}]",Valid sprint plan respecting constraints,,,sprint_planning,Deepseek,0.067,

@@ -1,17 +1,18 @@
 import sys
 from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
 import json
 import difflib
 import csv
 import datetime
 import time
-from pathlib import Path
+import subprocess
+
+# Add your backend path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 from app.backend.tiny_llama import TinyLlamaPlanner
 from app.backend.deepseek_r1 import DeepseekR1Interface
 
-# File name includes timestamp
 RESULTS_FILE = f"benchmark_results_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.csv"
 
 # -------------------------
@@ -32,26 +33,6 @@ def safe_int(s, default=0):
     except (ValueError, TypeError):
         return default
 
-def query_model(planner, prompt, model_name):
-    start = time.time()
-    if model_name == "TinyLlama":
-        try:
-            output = planner.query_llm(prompt)
-        except Exception as e:
-            print(f"TinyLlama call failed: {e}")
-            output = ""
-    elif model_name == "Deepseek":
-        try:
-            output = planner.generate_response(prompt)
-        except Exception as e:
-            print(f"Deepseek call failed: {e}")
-            output = ""
-    else:
-        output = ""
-    end = time.time()
-    elapsed = end - start
-    return output, elapsed
-
 # -------------------------
 # Commit Summary Tests
 # -------------------------
@@ -60,7 +41,12 @@ def run_commit_summary_tests(planner, model_name):
     results = []
     for case in cases:
         prompt = f"Summarize the following code changes as a git commit message:\n{case.get('diff', '')}"
-        output, elapsed = query_model(planner, prompt, model_name)
+        start = time.time()
+        if model_name == "TinyLlama":
+            output = planner.query_llm(prompt)
+        else:
+            output = planner.generate_response(prompt)
+        elapsed = time.time() - start
         sim = similarity(case.get("expected", ""), output)
         timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         results.append({
@@ -83,8 +69,14 @@ def run_eisenhower_tests(planner, model_name):
     results = []
     for case in cases:
         prompt = f"Sort these tasks into an Eisenhower matrix (Do First, Schedule, Delegate, Eliminate) in JSON format:\n{json.dumps(case.get('tasks', []))}"
-        output, elapsed = query_model(planner, prompt, model_name)
-        parsed_result = {}
+        start = time.time()
+        if model_name == "TinyLlama":
+            output = planner.query_llm(prompt)
+        else:
+            output = planner.generate_response(prompt)
+        elapsed = time.time() - start
+
+        # Parse JSON safely
         try:
             parsed_result = json.loads(output)
         except json.JSONDecodeError:
@@ -92,27 +84,21 @@ def run_eisenhower_tests(planner, model_name):
                 parsed_result = json.loads(output.replace("'", '"'))
             except:
                 parsed_result = {}
-        accuracy = 0
-        precision = 0
-        try:
-            correct = 0
-            total = len(case.get("expected", {}))
-            true_positives = 0
-            false_positives = 0
-            false_negatives = 0
-            for quadrant, ids in case.get("expected", {}).items():
-                expected_set = set(ids)
-                predicted_set = set(parsed_result.get(quadrant, []))
-                if expected_set == predicted_set:
-                    correct += 1
-                true_positives += len(expected_set & predicted_set)
-                false_positives += len(predicted_set - expected_set)
-                false_negatives += len(expected_set - predicted_set)
-            accuracy = correct / total if total else 0
-            precision = true_positives / (true_positives + false_positives) if (true_positives + false_positives) else 0
-        except:
-            accuracy = 0
-            precision = 0
+
+        correct = 0
+        total = len(case.get("expected", {}))
+        tp = 0
+        fp = 0
+        for quadrant, ids in case.get("expected", {}).items():
+            expected_set = set(ids)
+            predicted_set = set(parsed_result.get(quadrant, []))
+            if expected_set == predicted_set:
+                correct += 1
+            tp += len(expected_set & predicted_set)
+            fp += len(predicted_set - expected_set)
+        accuracy = correct / total if total else 0
+        precision = tp / (tp + fp) if (tp + fp) else 0
+
         timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         results.append({
             "timestamp": timestamp,
@@ -143,8 +129,15 @@ Constraints:
 Team: {json.dumps(case.get('team', {}))}
 Tasks: {json.dumps(case.get('tasks', []))}
 """
-        output, elapsed = query_model(planner, prompt, model_name)
-        parsed_result = {}
+        start = time.time()
+        if model_name == "TinyLlama":
+            output = planner.query_llm(prompt)
+        else:
+            output = planner.generate_response(prompt)
+        elapsed = time.time() - start
+
+        # Validate sprint plan
+        score = 0
         try:
             parsed_result = json.loads(output)
         except json.JSONDecodeError:
@@ -152,7 +145,7 @@ Tasks: {json.dumps(case.get('tasks', []))}
                 parsed_result = json.loads(output.replace("'", '"'))
             except:
                 parsed_result = {}
-        score = 0
+
         try:
             backlog = parsed_result.get("sprint_backlog", [])
             assigned_hours = {m: 0 for m in case.get("team", {})}
@@ -173,6 +166,7 @@ Tasks: {json.dumps(case.get('tasks', []))}
             score = int(deps_satisfied and hours_ok)
         except:
             score = 0
+
         timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         results.append({
             "timestamp": timestamp,
@@ -205,52 +199,21 @@ def save_results(all_results):
 # -------------------------
 def main():
     results = []
-    # TinyLlama
-    tiny_llama = TinyLlamaPlanner()
+
+    # TinyLlama via Ollama
+    tiny_llama = TinyLlamaPlanner(model_name="tinyllama")
     results += run_commit_summary_tests(tiny_llama, "TinyLlama")
     results += run_eisenhower_tests(tiny_llama, "TinyLlama")
     results += run_sprint_planning_tests(tiny_llama, "TinyLlama")
-    # Deepseek
-    deepseek = DeepseekR1Interface()
+
+    # Deepseek via Ollama
+    deepseek = DeepseekR1Interface(model_name="deepseek")
     results += run_commit_summary_tests(deepseek, "Deepseek")
     results += run_eisenhower_tests(deepseek, "Deepseek")
     results += run_sprint_planning_tests(deepseek, "Deepseek")
+
     save_results(results)
+
 
 if __name__ == "__main__":
     main()
-
-# ----------------------------------------------------------
-# Script Explanation:
-# ----------------------------------------------------------
-# This script benchmarks two models: TinyLlama and Deepseek.
-# For each model, it runs three types of tests:
-#   - Commit Summary
-#   - Eisenhower Matrix
-#   - Sprint Planning
-# For each test case, it records:
-#   - Model name
-#   - Task type
-#   - Input and expected output
-#   - Model output
-#   - Performance metrics (similarity, accuracy, precision, valid_plan, etc.)
-#   - Time taken for the model to respond
-# Results are saved to a CSV file with a timestamped filename.
-#
-# CSV File Format:
-# Each row represents a single test case for a specific model and task.
-# Columns include:
-#   - timestamp: When the test was run
-#   - model: Model name ("TinyLlama" or "Deepseek")
-#   - task: Task type ("commit_summary", "eisenhower", "sprint_planning")
-#   - input: The input provided to the model
-#   - expected: The expected output (if applicable)
-#   - output: The model's response
-#   - similarity: Similarity score (for commit summary)
-#   - accuracy: Accuracy (for eisenhower)
-#   - precision: Precision (for eisenhower)
-#   - valid_plan: 1 if sprint plan is valid, 0 otherwise (for sprint planning)
-#   - time_taken_sec: Time taken for the model to respond (in seconds)
-# Not all columns are present for every task; unused columns are left blank.
-#
-# You can extend this script to add more models or tasks as needed.
