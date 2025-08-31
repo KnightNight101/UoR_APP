@@ -1,4 +1,4 @@
-/*
+    /*
     Main.qml - Login Page Implementation
 
     This file defines the main application window and the login page UI for the QML-based desktop client.
@@ -165,7 +165,7 @@ ApplicationWindow {
             dashboardManager.loadProjects(AuthManager.userId)
         }
     }
-    property string currentPage: "dashboard" // "dashboard" or "eventlog"
+    property string currentPage: "dashboard" // "dashboard", "eventlog", "settings"
 
     // Reference to backend event log bridge
     property var eventLogBridge: null
@@ -353,7 +353,15 @@ Connections {
                 MenuItem { text: "Calendar"; onTriggered: { root.currentPage = "calendar" } }
                 MenuItem { text: "File Manager"; onTriggered: {/* TODO: Implement file manager navigation */} }
                 MenuItem { text: "Event Log"; onTriggered: root.currentPage = "eventlog" }
-                MenuItem { text: "Settings"; onTriggered: {/* TODO: Implement settings navigation */} }
+                MenuItem {
+                    text: "Settings"
+                    onTriggered: {
+                        root.currentPage = "settings"
+                        if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                            log_event.log_event("Navigated to settings page")
+                        }
+                    }
+                }
                 MenuSeparator { }
                 MenuItem { text: "Logout"; onTriggered: {
                     if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
@@ -435,7 +443,11 @@ Connections {
                             width: parent.width
                             spacing: 6
                             Repeater {
-                                model: dashboardManager.projects
+                                model: dashboardManager ? dashboardManager.projects : []
+                                Component.onCompleted: {
+                                    if (!dashboardManager)
+                                        console.log("DEBUG: dashboardManager is null at project list")
+                                }
                                 Rectangle {
                                     width: parent.width
                                     height: 24
@@ -628,7 +640,9 @@ Connections {
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
                             root.editingTitle = true
-                            let proj = dashboardManager.projects.find(p => p.id === root.selectedProjectId)
+                            if (!dashboardManager)
+                                console.log("DEBUG: dashboardManager is null at project title edit")
+                            let proj = dashboardManager ? dashboardManager.projects.find(p => p.id === root.selectedProjectId) : null
                             root.editableTitle = proj && proj.name ? proj.name : ""
                             root.titleEditStatus = ""
                         }
@@ -1702,8 +1716,12 @@ Dialog {
                                 id: loadingOverlay
                                 anchors.fill: parent
                                 color: "#ffffffcc"
-                                visible: loadingManager.loading
+                                visible: loadingManager ? loadingManager.loading : false
                                 z: 9999
+                                Component.onCompleted: {
+                                    if (!loadingManager)
+                                        console.log("DEBUG: loadingManager is null at loadingOverlay")
+                                }
                         
                                 Column {
                                     anchors.centerIn: parent
@@ -1713,7 +1731,11 @@ Dialog {
                                         width: 240
                                         from: 0
                                         to: 1
-                                        value: loadingManager.progress
+                                        value: loadingManager ? loadingManager.progress : 0
+                                        Component.onCompleted: {
+                                            if (!loadingManager)
+                                                console.log("DEBUG: loadingManager is null at progressBar")
+                                        }
                                     }
                                     Text {
                                         text: "Loading, please wait..."
@@ -1739,7 +1761,55 @@ Dialog {
                 }
             }
         }
- 
+
+        // --- Settings Page (visible when logged in and currentPage is "settings") ---
+        Item {
+            id: settingsPage
+            anchors.fill: parent
+            visible: root.loggedIn && root.currentPage === "settings"
+
+            // Top bar row with back button and title (top left of the page)
+            Row {
+                spacing: 16
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.topMargin: 24
+                anchors.leftMargin: 32
+
+                Button {
+                    text: "\u25C0 Dashboard"
+                    onClicked: {
+                        root.currentPage = "dashboard"
+                        if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                            log_event.log_event("Returned to dashboard from settings")
+                        }
+                    }
+                    z: 100
+                }
+                Text {
+                    text: "Settings"
+                    font.pixelSize: 32
+                    font.bold: true
+                    color: "#2255aa"
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+
+            // Centered content box for settings content (empty for now)
+            Rectangle {
+                width: 600
+                height: 400
+                color: "#fff"
+                border.color: "#2255aa"
+                border.width: 3
+                radius: 24
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                z: 10
+            }
+        }
+
     // --- All other code remains commented out below ---
     /*
     <rest of original file remains commented out>
