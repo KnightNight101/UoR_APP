@@ -1,0 +1,181 @@
+[2025-07-30T16:25:57.295530Z] REQUEST | GET /health | Request: {} | Action: Received API call | Result: None | Error: None | Status: None
+[2025-07-30T16:25:57.298383Z] RESPONSE | GET /health | Request: None | Action: Sent API response | Result: '{"message":"API server is healthy","status":"ok"}\n' | Error: None | Status: 200
+[ERROR] [2025-08-16T12:48:38.826267] Error creating message: (sqlite3.IntegrityError) NOT NULL constraint failed: messages.timestamp
+[SQL: INSERT INTO messages (sender_id, recipient_id, content, read) VALUES (?, ?, ?, ?) RETURNING id, timestamp]
+[parameters: (2, 1, 'Testing', 0)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[2025-08-17T13:02:56.897026] Task added: 'Task 1' | Project: 'Trial 2' | Deadline: 2025-09-08 00:00:00 | Hours: 8 | Assigned to: Unassigned
+[2025-08-17T13:03:31.858292] Task added: 'Task 2' | Project: 'Trial 2' | Deadline: 2025-08-29 00:00:00 | Hours: 8 | Assigned to: Unassigned
+[2025-08-17T13:11:19.365284] Task added: 'Don't know what number we're on' | Project: 'Trial' | Deadline: 2025-08-31 00:00:00 | Hours: 8 | Assigned to: Unassigned
+[2025-08-17T13:24:52.348211] Task added: 'kjsdfhad' | Project: 'Trial' | Deadline: 2025-08-26 00:00:00 | Hours: 8 | Assigned to: Unassigned
+[2025-08-17T16:13:33.529701] Task added: 'New Task 1' | Project: 'NewTrial' | Deadline: 2025-08-18 00:00:00 | Hours: 5 | Assigned to: Unassigned
+[2025-08-17T16:15:13.928875] Task added: 'New Task' | Project: 'NewTrial' | Deadline: 2025-08-18 00:00:00 | Hours: 5 | Assigned to: Unassigned
+[2025-08-17T16:17:08.391714] Task added: 'New Task' | Project: 'NewTrial' | Deadline: 2025-08-20 00:00:00 | Hours: 5 | Assigned to: Unassigned
+[2025-08-17T16:18:21.070010] Task added: 'New Task' | Project: 'NewTrial' | Deadline: 2025-08-26 00:00:00 | Hours: 4 | Assigned to: Unassigned
+[2025-08-17T16:20:42.963205] Task added: 'Task 1' | Project: 'NewTrial' | Deadline: 2025-08-28 00:00:00 | Hours: 5 | Assigned to: Unassigned
+[ERROR] [2025-08-17T16:21:18.711076] Error deleting task: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 18), (None, 19)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[ERROR] [2025-08-17T16:21:20.949979] Error deleting task: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 18), (None, 19)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[ERROR] [2025-08-17T16:21:23.660975] Error deleting task: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 20), (None, 21)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[ERROR] [2025-08-17T16:21:25.759957] Error deleting task: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 22), (None, 23)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[ERROR] [2025-08-17T16:24:41.351795] Error deleting task: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 18), (None, 19)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[ERROR] [2025-08-17T16:24:43.788200] Error deleting task: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 20), (None, 21)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[2025-08-17T16:43:04.594098] Task added: 'Task 1' | Project: 'NewTrial' | Deadline: 2025-08-18 00:00:00 | Hours: 9 | Assigned to: Unassigned
+[2025-08-17T17:11:12.921870] Task added: 'New Task' | Project: 'NewTrial' | Deadline: 2025-08-17 00:00:00 | Hours: 0 | Assigned to: Unassigned
+[2025-08-17T17:12:34.078781] Task added: 'final check' | Project: 'NewTrial' | Deadline: 2025-08-17 00:00:00 | Hours: 0 | Assigned to: Unassigned
+[2025-08-17T17:39:58.334627] Task added: 'Second Task' | Project: 'NewTrial' | Deadline: 2025-08-30 00:00:00 | Hours: 4 | Assigned to: Unassigned
+[2025-08-17T17:51:23.878835] Task added: 'Third Task?' | Project: 'NewTrial' | Deadline: 2025-08-29 00:00:00 | Hours: 6 | Assigned to: Unassigned
+[ERROR] [2025-08-17T18:52:52.617602] Error deleting project: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 30), (None, 32), (None, 33), (None, 34), (None, 35), (None, 36)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[ERROR] [2025-08-17T18:54:56.449371] Error deleting project: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 30), (None, 32), (None, 33), (None, 34), (None, 35), (None, 36)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[ERROR] [2025-08-17T19:08:46.501296] Error deleting project: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 30), (None, 32), (None, 33), (None, 34), (None, 35), (None, 36)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[ERROR] [2025-08-17T19:10:32.796601] Error deleting project: (sqlite3.IntegrityError) NOT NULL constraint failed: subtasks.task_id
+[SQL: UPDATE subtasks SET task_id=? WHERE subtasks.id = ?]
+[parameters: [(None, 30), (None, 32), (None, 33), (None, 34), (None, 35), (None, 36)]]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+[2025-08-17T19:50:21.782402] Task added: 'Literature Review' | Project: 'Master's Dissertation' | Deadline: 2025-08-17 00:00:00 | Hours: 8 | Assigned to: Unassigned
+[2025-08-17T20:00:47.256668] Task added: 'Literature Review' | Project: 'Master's Dissertation' | Deadline: 2025-08-18 00:00:00 | Hours: 8 | Assigned to: Unassigned
+[2025-08-17T21:36:00.539082] Task added: 'Methodology' | Project: 'Master's Dissertation' | Deadline: 2025-08-17 00:00:00 | Hours: 0 | Assigned to: Unassigned
+[ERROR] [2025-08-18T17:23:58.206849] Error getting files: (sqlite3.OperationalError) no such column: files.subtask_id
+[SQL: SELECT files.id AS files_id, files.project_id AS files_project_id, files.task_id AS files_task_id, files.subtask_id AS files_subtask_id, files.filename AS files_filename, files.filepath AS files_filepath, files.uploaded_by AS files_uploaded_by, files.uploaded_at AS files_uploaded_at, files.description AS files_description 
+FROM files 
+WHERE files.project_id = ? AND files.subtask_id = ?]
+[parameters: (1, 39)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[ERROR] [2025-08-18T17:24:05.021861] Error getting files: (sqlite3.OperationalError) no such column: files.subtask_id
+[SQL: SELECT files.id AS files_id, files.project_id AS files_project_id, files.task_id AS files_task_id, files.subtask_id AS files_subtask_id, files.filename AS files_filename, files.filepath AS files_filepath, files.uploaded_by AS files_uploaded_by, files.uploaded_at AS files_uploaded_at, files.description AS files_description 
+FROM files 
+WHERE files.project_id = ? AND files.subtask_id = ?]
+[parameters: (1, 39)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[ERROR] [2025-08-18T17:34:10.642594] Error getting files: (sqlite3.OperationalError) no such column: files.subtask_id
+[SQL: SELECT files.id AS files_id, files.project_id AS files_project_id, files.task_id AS files_task_id, files.subtask_id AS files_subtask_id, files.filename AS files_filename, files.filepath AS files_filepath, files.uploaded_by AS files_uploaded_by, files.uploaded_at AS files_uploaded_at, files.description AS files_description 
+FROM files 
+WHERE files.project_id = ? AND files.subtask_id = ?]
+[parameters: (1, 39)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[ERROR] [2025-08-18T17:34:12.127724] Error getting files: (sqlite3.OperationalError) no such column: files.subtask_id
+[SQL: SELECT files.id AS files_id, files.project_id AS files_project_id, files.task_id AS files_task_id, files.subtask_id AS files_subtask_id, files.filename AS files_filename, files.filepath AS files_filepath, files.uploaded_by AS files_uploaded_by, files.uploaded_at AS files_uploaded_at, files.description AS files_description 
+FROM files 
+WHERE files.project_id = ? AND files.subtask_id = ?]
+[parameters: (1, 39)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[ERROR] [2025-08-18T17:34:12.810181] Error getting files: (sqlite3.OperationalError) no such column: files.subtask_id
+[SQL: SELECT files.id AS files_id, files.project_id AS files_project_id, files.task_id AS files_task_id, files.subtask_id AS files_subtask_id, files.filename AS files_filename, files.filepath AS files_filepath, files.uploaded_by AS files_uploaded_by, files.uploaded_at AS files_uploaded_at, files.description AS files_description 
+FROM files 
+WHERE files.project_id = ? AND files.subtask_id = ?]
+[parameters: (1, 39)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[ERROR] [2025-08-18T17:34:12.981864] Error getting files: (sqlite3.OperationalError) no such column: files.subtask_id
+[SQL: SELECT files.id AS files_id, files.project_id AS files_project_id, files.task_id AS files_task_id, files.subtask_id AS files_subtask_id, files.filename AS files_filename, files.filepath AS files_filepath, files.uploaded_by AS files_uploaded_by, files.uploaded_at AS files_uploaded_at, files.description AS files_description 
+FROM files 
+WHERE files.project_id = ? AND files.subtask_id = ?]
+[parameters: (1, 39)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[ERROR] [2025-08-26T17:26:08.225205] Error creating project: (sqlite3.OperationalError) no such table: event_logs
+[SQL: INSERT INTO event_logs (timestamp, user_id, project_id, task_id, subtask_id, event_type, old_category, new_category, reasoning, context_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('2025-08-26 16:26:08.094162', 1, 35, None, None, 'project_owner_assigned', None, None, 'Owner assigned to new project', None)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+Traceback (most recent call last):
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: event_logs
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\db.py", line 1101, in create_project
+    log_structured_event(
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\db.py", line 334, in log_structured_event
+    session.commit()
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 1969, in commit
+    trans.commit(_to_root=True)
+  File "<string>", line 2, in commit
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 1256, in commit
+    self._prepare_impl()
+  File "<string>", line 2, in _prepare_impl
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 1231, in _prepare_impl
+    self.session.flush()
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 4312, in flush
+    self._flush(objects)
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 4447, in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\util\langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\session.py", line 4408, in _flush
+    flush_context.execute()
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\orm\persistence.py", line 1226, in _emit_insert_statements
+    result = connection.execute(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+           ^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\sql\elements.py", line 516, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1639, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 2343, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "C:\Users\KnightNight101\AppData\Roaming\Python\Python312\site-packages\sqlalchemy\engine\default.py", line 922, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: event_logs
+[SQL: INSERT INTO event_logs (timestamp, user_id, project_id, task_id, subtask_id, event_type, old_category, new_category, reasoning, context_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('2025-08-26 16:26:08.094162', 1, 35, None, None, 'project_owner_assigned', None, None, 'Owner assigned to new project', None)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+[ERROR] [2025-08-26T17:26:46.243094] Error creating project: 'int' object has no attribute 'get'
+Traceback (most recent call last):
+  File "C:\Users\KnightNight101\UoR_APP\Draft_2\app\db.py", line 1112, in create_project
+    user_id = member_data.get('user_id')
+              ^^^^^^^^^^^^^^^
+AttributeError: 'int' object has no attribute 'get'
+
