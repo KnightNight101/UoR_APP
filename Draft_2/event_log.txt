@@ -1,0 +1,21 @@
+[2025-08-31T12:23:38.821143] Opened project details: (Untitled Project)
+[2025-08-31T12:23:45.736763] User 'Nithin' logged in
+[2025-08-31T12:23:45.748240] User 'Nithin' logged in
+[2025-08-31T12:27:24.060304] User logged out
+[2025-08-31T12:51:22.075109] Opened project details: (Untitled Project)
+[2025-08-31T12:51:22.080401] Opened settings page
+[2025-08-31T12:51:31.383747] User 'Nithin' logged in
+[2025-08-31T12:51:31.394751] User 'Nithin' logged in
+[2025-08-31T12:51:40.042663] Navigated to page: calendar
+[2025-08-31T12:51:41.751677] Navigated to page: dashboard
+[2025-08-31T12:51:45.643601] User logged out
+[2025-08-31T12:57:43.791953] Opened project details: (Untitled Project)
+[2025-08-31T12:57:49.122255] User 'Nithin' logged in
+[2025-08-31T12:57:49.134246] User 'Nithin' logged in
+[2025-08-31T12:57:53.474973] Navigated to page: eventlog
+[2025-08-31T12:57:59.692159] Navigated to page: dashboard
+[2025-08-31T12:58:07.613263] Navigated to page: calendar
+[2025-08-31T12:58:09.883119] Navigated to page: dashboard
+[2025-08-31T12:58:11.244267] Navigated to project details: New Project
+[2025-08-31T12:58:11.248272] Navigated to page: projectDetails
+[2025-08-31T12:58:21.021722] Navigated to page: dashboard
