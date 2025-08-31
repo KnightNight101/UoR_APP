@@ -3,7 +3,7 @@
 # 
 import datetime
 from PySide6.QtCore import QObject, Signal, Slot, Property
-from db import update_subtask_category, log_structured_event, get_event_logs
+from .db import update_subtask_category, log_structured_event, get_event_logs
 
 def log_event(event):
     """Append event messages to the event log with timestamp and print to terminal."""
@@ -166,7 +166,7 @@ class LogEventBridge(QObject):
 from PySide6.QtCore import QUrl
 # 
 # sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
-from db import authenticate_user, get_user_projects, get_user_tasks, get_user_messages
+from .db import authenticate_user, get_user_projects, get_user_tasks, get_user_messages
 # 
 class AuthManager(QObject):
     loginResult = Signal(bool, str)  # success, message
@@ -1011,7 +1011,7 @@ from git import Repo, InvalidGitRepositoryError, NoSuchPathError
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
-from db import SessionLocal, Project, Task
+from .db import SessionLocal, Project, Task
 
 PROJECT_ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../project_files"))
 
@@ -1167,7 +1167,7 @@ global_loading_manager = LoadingManager()
 engine.rootContext().setContextProperty("loadingManager", global_loading_manager)
 engine.rootContext().setContextProperty("loginManager", login_manager)
 
-qml_file = QUrl.fromLocalFile("Draft_2/app/qml/Main.qml")
+qml_file = QUrl.fromLocalFile("app/qml/Main.qml")
 engine.load(qml_file)
 
 # Exit if QML failed to load
