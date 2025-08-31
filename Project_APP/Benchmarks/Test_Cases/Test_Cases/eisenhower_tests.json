@@ -1,0 +1,4620 @@
+[
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "1oUnHziuL9jI"
+            },
+            {
+                "id": 1,
+                "title": "MWf7uOu3tWiw"
+            },
+            {
+                "id": 2,
+                "title": "7yHZFT2XrFTC"
+            },
+            {
+                "id": 3,
+                "title": "wchjniqODV2T"
+            },
+            {
+                "id": 4,
+                "title": "goZYV7MI5CGW"
+            },
+            {
+                "id": 5,
+                "title": "Sdu0ft0EEsi0"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                0,
+                5,
+                1,
+                4
+            ],
+            "Schedule": [],
+            "Delegate": [
+                2,
+                3,
+                5,
+                1,
+                0
+            ],
+            "Eliminate": [
+                3,
+                5,
+                1,
+                4,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "wr0SkwubK1th"
+            },
+            {
+                "id": 1,
+                "title": "U13dpkeTqxmZ"
+            },
+            {
+                "id": 2,
+                "title": "PkBAtayhxYwo"
+            },
+            {
+                "id": 3,
+                "title": "fUPCYQPtGVNV"
+            },
+            {
+                "id": 4,
+                "title": "m58eyFDkvbMP"
+            },
+            {
+                "id": 5,
+                "title": "X08JmJV8gNaC"
+            },
+            {
+                "id": 6,
+                "title": "XfQQJ9ymR9tM"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                2,
+                4,
+                1,
+                3,
+                5,
+                6
+            ],
+            "Schedule": [
+                6
+            ],
+            "Delegate": [
+                2
+            ],
+            "Eliminate": [
+                1,
+                0,
+                3,
+                5,
+                6,
+                4
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "zxiZgSQflnHH"
+            },
+            {
+                "id": 1,
+                "title": "EVgAqOEVrTk0"
+            },
+            {
+                "id": 2,
+                "title": "j1kkq3WT033V"
+            },
+            {
+                "id": 3,
+                "title": "KkzPZJDNnAiX"
+            },
+            {
+                "id": 4,
+                "title": "UCGDbMHoT8Zf"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3,
+                1,
+                0
+            ],
+            "Schedule": [],
+            "Delegate": [
+                4,
+                2,
+                0,
+                3,
+                1
+            ],
+            "Eliminate": [
+                1,
+                3,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "DBFkScWA3wmX"
+            },
+            {
+                "id": 1,
+                "title": "23WYtRlD9yEe"
+            },
+            {
+                "id": 2,
+                "title": "UwU30eK7QsMw"
+            },
+            {
+                "id": 3,
+                "title": "KHCQURKIDjUO"
+            },
+            {
+                "id": 4,
+                "title": "yfl8GrkmcEu1"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3,
+                1,
+                0,
+                4
+            ],
+            "Schedule": [
+                0
+            ],
+            "Delegate": [
+                2,
+                1,
+                3,
+                0,
+                4
+            ],
+            "Eliminate": [
+                3,
+                1,
+                4,
+                0,
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "fYpWZO4F0o0i"
+            },
+            {
+                "id": 1,
+                "title": "Adr4jawFNLdx"
+            },
+            {
+                "id": 2,
+                "title": "5U6GPe1guMCV"
+            },
+            {
+                "id": 3,
+                "title": "xuIMWcuprdZ5"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [],
+            "Delegate": [
+                2,
+                0
+            ],
+            "Eliminate": [
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "2a43YRInR5Qc"
+            },
+            {
+                "id": 1,
+                "title": "Nnd9nb2BRtLq"
+            },
+            {
+                "id": 2,
+                "title": "d7Esp0BYA4hb"
+            },
+            {
+                "id": 3,
+                "title": "Gc6YU8dX0LjN"
+            },
+            {
+                "id": 4,
+                "title": "BppSRPw50a6K"
+            },
+            {
+                "id": 5,
+                "title": "eQ9ckxoZDbWv"
+            },
+            {
+                "id": 6,
+                "title": "z7q9JkPZj0dy"
+            },
+            {
+                "id": 7,
+                "title": "hLRvaTVMryeF"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                7,
+                1,
+                4,
+                2,
+                6,
+                3
+            ],
+            "Schedule": [
+                4,
+                2,
+                3,
+                0,
+                5,
+                7,
+                1,
+                6
+            ],
+            "Delegate": [
+                1,
+                0,
+                4,
+                7,
+                2,
+                5
+            ],
+            "Eliminate": [
+                4,
+                5
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "EF1AJaTvuk01"
+            },
+            {
+                "id": 1,
+                "title": "SVcwIbVq7n3X"
+            },
+            {
+                "id": 2,
+                "title": "QIg7EmaLTAsy"
+            },
+            {
+                "id": 3,
+                "title": "T4mFin78Ct6o"
+            },
+            {
+                "id": 4,
+                "title": "zHR6zaJfzqOj"
+            },
+            {
+                "id": 5,
+                "title": "0oYVtZ5ynJhg"
+            },
+            {
+                "id": 6,
+                "title": "4Mf7qgAd7KIk"
+            },
+            {
+                "id": 7,
+                "title": "dOLyoOeXyxUs"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [
+                5,
+                2
+            ],
+            "Delegate": [
+                4,
+                0,
+                1
+            ],
+            "Eliminate": [
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "0ry67Y1cfX4f"
+            },
+            {
+                "id": 1,
+                "title": "rS3Ms0qo5WMZ"
+            },
+            {
+                "id": 2,
+                "title": "zQJSK97y6GAM"
+            },
+            {
+                "id": 3,
+                "title": "tSMTGv0x5upI"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3,
+                0,
+                1
+            ],
+            "Schedule": [
+                3,
+                1
+            ],
+            "Delegate": [],
+            "Eliminate": [
+                1,
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "saVJw792EunU"
+            },
+            {
+                "id": 1,
+                "title": "zKh57ZxJr3DU"
+            },
+            {
+                "id": 2,
+                "title": "M1G6JL7oAffF"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                1,
+                0
+            ],
+            "Schedule": [
+                0,
+                1,
+                2
+            ],
+            "Delegate": [
+                0,
+                2,
+                1
+            ],
+            "Eliminate": [
+                0,
+                1,
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "elSz316IG8uc"
+            },
+            {
+                "id": 1,
+                "title": "irzcXCAnM1EL"
+            },
+            {
+                "id": 2,
+                "title": "KCfD3qS3Khi4"
+            },
+            {
+                "id": 3,
+                "title": "B3ZOeZDEVh7R"
+            },
+            {
+                "id": 4,
+                "title": "xJd4hvVxYxrT"
+            },
+            {
+                "id": 5,
+                "title": "jv9U3iDlVuPX"
+            },
+            {
+                "id": 6,
+                "title": "HeXvAMCZOlbm"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3,
+                1,
+                5,
+                4,
+                2,
+                6
+            ],
+            "Schedule": [
+                2,
+                6,
+                1,
+                0,
+                4
+            ],
+            "Delegate": [
+                1,
+                6,
+                4
+            ],
+            "Eliminate": [
+                0,
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "9sXkQfN4SWm6"
+            },
+            {
+                "id": 1,
+                "title": "wQ2esyRj65gY"
+            },
+            {
+                "id": 2,
+                "title": "yBm4m2pQogRO"
+            },
+            {
+                "id": 3,
+                "title": "XppgsPLMBqgO"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1
+            ],
+            "Schedule": [
+                0,
+                2,
+                1
+            ],
+            "Delegate": [
+                3,
+                0
+            ],
+            "Eliminate": [
+                2,
+                1,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "X5JN7R2LInGI"
+            },
+            {
+                "id": 1,
+                "title": "4cFSlyQxYr4c"
+            },
+            {
+                "id": 2,
+                "title": "WTR7GoLAIStQ"
+            },
+            {
+                "id": 3,
+                "title": "IkloEuy7GcnD"
+            },
+            {
+                "id": 4,
+                "title": "oR3EsWcjFpnd"
+            },
+            {
+                "id": 5,
+                "title": "WsMeOTZjHShn"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                5,
+                1,
+                2,
+                3,
+                4,
+                0
+            ],
+            "Schedule": [
+                0,
+                1,
+                4,
+                2
+            ],
+            "Delegate": [
+                0,
+                1,
+                3,
+                2,
+                4
+            ],
+            "Eliminate": [
+                1,
+                5
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "l5Bw39QzELx6"
+            },
+            {
+                "id": 1,
+                "title": "B6YMoRF9GEby"
+            },
+            {
+                "id": 2,
+                "title": "0rVYdusMMISZ"
+            },
+            {
+                "id": 3,
+                "title": "mpuCf16in4aP"
+            },
+            {
+                "id": 4,
+                "title": "Ic3rp4jzJWVj"
+            },
+            {
+                "id": 5,
+                "title": "k06E9RSBPMAz"
+            },
+            {
+                "id": 6,
+                "title": "LLV1W3XLpIpl"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3,
+                4,
+                6,
+                1,
+                2,
+                0,
+                5
+            ],
+            "Schedule": [],
+            "Delegate": [
+                4,
+                6,
+                2,
+                5,
+                0,
+                3
+            ],
+            "Eliminate": [
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "FqnAR6AyzR2r"
+            },
+            {
+                "id": 1,
+                "title": "Sjx18ZyzXcGX"
+            },
+            {
+                "id": 2,
+                "title": "8q12rb7N660f"
+            },
+            {
+                "id": 3,
+                "title": "B8iW0Ti4Hx0p"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                2,
+                3,
+                1
+            ],
+            "Schedule": [
+                0,
+                1
+            ],
+            "Delegate": [],
+            "Eliminate": [
+                3,
+                2,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "7bXkU4VhSEMr"
+            },
+            {
+                "id": 1,
+                "title": "r0hL5sGCj1OH"
+            },
+            {
+                "id": 2,
+                "title": "VzsPJHI9FlNC"
+            },
+            {
+                "id": 3,
+                "title": "0j7qyEQ2Hh7m"
+            },
+            {
+                "id": 4,
+                "title": "Kfv7dbOAssZD"
+            },
+            {
+                "id": 5,
+                "title": "9iBxqmaThSaV"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                5
+            ],
+            "Schedule": [
+                1,
+                3,
+                5
+            ],
+            "Delegate": [
+                2,
+                4,
+                0,
+                1,
+                3,
+                5
+            ],
+            "Eliminate": [
+                1,
+                2,
+                0,
+                5,
+                3,
+                4
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "gQRTBKsAVg4S"
+            },
+            {
+                "id": 1,
+                "title": "hrfPRnHnE74C"
+            },
+            {
+                "id": 2,
+                "title": "7EOdDgwtGunk"
+            },
+            {
+                "id": 3,
+                "title": "z3DFqYTbnYio"
+            },
+            {
+                "id": 4,
+                "title": "TrbxEXJhFih1"
+            },
+            {
+                "id": 5,
+                "title": "BUTE3iiLkCNY"
+            },
+            {
+                "id": 6,
+                "title": "m5kkFaQc5Nzf"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [
+                2
+            ],
+            "Delegate": [],
+            "Eliminate": [
+                1,
+                5
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "kOira1DkOWFx"
+            },
+            {
+                "id": 1,
+                "title": "mp5Fx28s18gK"
+            },
+            {
+                "id": 2,
+                "title": "DxQMzV9mMsx2"
+            },
+            {
+                "id": 3,
+                "title": "UtMr8pD3akLi"
+            },
+            {
+                "id": 4,
+                "title": "BxMI8Tht1ZxG"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [
+                4,
+                0,
+                3
+            ],
+            "Delegate": [
+                4
+            ],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "zwxvN4f42HGr"
+            },
+            {
+                "id": 1,
+                "title": "ZO2Ra0X8Sda1"
+            },
+            {
+                "id": 2,
+                "title": "qY3AdmdF2AHf"
+            },
+            {
+                "id": 3,
+                "title": "4FKHOSFaeBTc"
+            },
+            {
+                "id": 4,
+                "title": "e4gpo8oECmPj"
+            },
+            {
+                "id": 5,
+                "title": "NkYRYMczRPY7"
+            },
+            {
+                "id": 6,
+                "title": "AcRlbSjKhN0k"
+            },
+            {
+                "id": 7,
+                "title": "z57F50vs1nHh"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                6,
+                7,
+                1
+            ],
+            "Schedule": [
+                6,
+                2
+            ],
+            "Delegate": [
+                4,
+                7,
+                1,
+                6,
+                0,
+                3,
+                5
+            ],
+            "Eliminate": [
+                5,
+                0,
+                1,
+                7,
+                6,
+                4,
+                2,
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "OJ7bdVDbOSAc"
+            },
+            {
+                "id": 1,
+                "title": "cCkv6APOlZaj"
+            },
+            {
+                "id": 2,
+                "title": "J1H9SrPAj6lv"
+            },
+            {
+                "id": 3,
+                "title": "l0UKPH0OXrqx"
+            },
+            {
+                "id": 4,
+                "title": "cPU2UKs17iv6"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1,
+                2,
+                4,
+                3,
+                0
+            ],
+            "Schedule": [],
+            "Delegate": [
+                3,
+                2,
+                1
+            ],
+            "Eliminate": [
+                4,
+                1,
+                3,
+                0,
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "OwumNLkBM9oo"
+            },
+            {
+                "id": 1,
+                "title": "95Dc9KltWE5k"
+            },
+            {
+                "id": 2,
+                "title": "7W8ggmWUW3un"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                0
+            ],
+            "Schedule": [
+                0,
+                1
+            ],
+            "Delegate": [
+                2,
+                0
+            ],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "6Uv7ovPG8aA2"
+            },
+            {
+                "id": 1,
+                "title": "Du3BKymoGQHb"
+            },
+            {
+                "id": 2,
+                "title": "kgRUURZ4i68h"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                1
+            ],
+            "Schedule": [],
+            "Delegate": [
+                1,
+                2
+            ],
+            "Eliminate": [
+                1,
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "P1SXO7hwf1Wx"
+            },
+            {
+                "id": 1,
+                "title": "V0uD8fSbk7aR"
+            },
+            {
+                "id": 2,
+                "title": "7w8DWrLIHh20"
+            },
+            {
+                "id": 3,
+                "title": "Y7DRVfuyVjfG"
+            },
+            {
+                "id": 4,
+                "title": "wGMjTT8aWhH4"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                4,
+                2,
+                1,
+                3
+            ],
+            "Schedule": [
+                4,
+                1
+            ],
+            "Delegate": [
+                0,
+                3,
+                1,
+                2,
+                4
+            ],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "TSF8Yd3bybG7"
+            },
+            {
+                "id": 1,
+                "title": "iy1ndFgihXfi"
+            },
+            {
+                "id": 2,
+                "title": "skd8tTlrr6xw"
+            },
+            {
+                "id": 3,
+                "title": "Gz8wWOPJzRxm"
+            },
+            {
+                "id": 4,
+                "title": "lIqO6vzzZlbG"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [
+                1,
+                2,
+                3,
+                0
+            ],
+            "Delegate": [
+                4,
+                3,
+                2,
+                1
+            ],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "TaOXcTkPlTRn"
+            },
+            {
+                "id": 1,
+                "title": "oRdvXsk86c95"
+            },
+            {
+                "id": 2,
+                "title": "JpdOXnJIHjJU"
+            },
+            {
+                "id": 3,
+                "title": "4ifhK5c1IYzo"
+            },
+            {
+                "id": 4,
+                "title": "6Kbh6LLj07F7"
+            },
+            {
+                "id": 5,
+                "title": "AFSZldeYBsg9"
+            },
+            {
+                "id": 6,
+                "title": "8tDCpIPqlUvv"
+            },
+            {
+                "id": 7,
+                "title": "VYMzseKXiUMy"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3,
+                0,
+                2,
+                4
+            ],
+            "Schedule": [
+                0,
+                2,
+                3,
+                5,
+                1,
+                4,
+                6,
+                7
+            ],
+            "Delegate": [
+                3,
+                1,
+                4,
+                7
+            ],
+            "Eliminate": [
+                6,
+                1,
+                5,
+                4,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "xR7pUp3rnh4w"
+            },
+            {
+                "id": 1,
+                "title": "DoYpJwyeSt6K"
+            },
+            {
+                "id": 2,
+                "title": "sD4R6xWgKcK2"
+            },
+            {
+                "id": 3,
+                "title": "gWwwVLwFXNsA"
+            },
+            {
+                "id": 4,
+                "title": "vk7Ni50HauAt"
+            },
+            {
+                "id": 5,
+                "title": "9fY7odyLFIgn"
+            },
+            {
+                "id": 6,
+                "title": "tfRdJx7Io3br"
+            },
+            {
+                "id": 7,
+                "title": "V4mR3kIn65ih"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                4,
+                3,
+                2,
+                0,
+                5,
+                6
+            ],
+            "Schedule": [
+                0,
+                1,
+                3,
+                2,
+                5,
+                4
+            ],
+            "Delegate": [
+                4
+            ],
+            "Eliminate": [
+                6,
+                3,
+                4,
+                5,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "4q8Tzcdljzro"
+            },
+            {
+                "id": 1,
+                "title": "E8epDokkcIZQ"
+            },
+            {
+                "id": 2,
+                "title": "jvX2QjKoxXLL"
+            },
+            {
+                "id": 3,
+                "title": "xACSRfGA6g82"
+            },
+            {
+                "id": 4,
+                "title": "5SOag4LnSO8s"
+            },
+            {
+                "id": 5,
+                "title": "Ocig3kNPn6q8"
+            },
+            {
+                "id": 6,
+                "title": "3Lgl1l0bYyb6"
+            },
+            {
+                "id": 7,
+                "title": "dUoOYfaSBQ1y"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                4,
+                0,
+                7,
+                6,
+                2,
+                1
+            ],
+            "Schedule": [
+                1,
+                4,
+                6,
+                0,
+                2,
+                3,
+                5
+            ],
+            "Delegate": [
+                1,
+                2,
+                7,
+                0,
+                6,
+                4,
+                5
+            ],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "tLbahyh15BcP"
+            },
+            {
+                "id": 1,
+                "title": "13v1ZMhiJ6yJ"
+            },
+            {
+                "id": 2,
+                "title": "XF5ckzLTbjSf"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [
+                0
+            ],
+            "Delegate": [
+                2,
+                1
+            ],
+            "Eliminate": [
+                1,
+                2,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "khoUJ42gHuSt"
+            },
+            {
+                "id": 1,
+                "title": "LAhP3cOgG4dO"
+            },
+            {
+                "id": 2,
+                "title": "RvV2x8Leju2f"
+            },
+            {
+                "id": 3,
+                "title": "UDzO3MekXYv5"
+            },
+            {
+                "id": 4,
+                "title": "500NL4bY4Doj"
+            },
+            {
+                "id": 5,
+                "title": "8Qy4XNCmovkH"
+            },
+            {
+                "id": 6,
+                "title": "dIe2gHSjVtuf"
+            },
+            {
+                "id": 7,
+                "title": "66dJDzyVumBx"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0
+            ],
+            "Schedule": [
+                7,
+                4,
+                5
+            ],
+            "Delegate": [
+                3,
+                6,
+                2,
+                0,
+                4,
+                7,
+                5
+            ],
+            "Eliminate": [
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "5P1K49EYek6W"
+            },
+            {
+                "id": 1,
+                "title": "3JKUCc8pQY0t"
+            },
+            {
+                "id": 2,
+                "title": "4AELWf7J4rgu"
+            },
+            {
+                "id": 3,
+                "title": "YiZ02jIzKHXq"
+            },
+            {
+                "id": 4,
+                "title": "5AN6jPkgf56l"
+            },
+            {
+                "id": 5,
+                "title": "25CBIT2au9B8"
+            },
+            {
+                "id": 6,
+                "title": "fS4uJamF2lSb"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                2
+            ],
+            "Schedule": [
+                1,
+                2,
+                5,
+                6,
+                3,
+                4
+            ],
+            "Delegate": [],
+            "Eliminate": [
+                6,
+                2,
+                0,
+                3,
+                5,
+                4
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "vvPkrFdOA9jF"
+            },
+            {
+                "id": 1,
+                "title": "jx5V4KF0J9ME"
+            },
+            {
+                "id": 2,
+                "title": "cHId2DQEThZp"
+            },
+            {
+                "id": 3,
+                "title": "Vk9ilDEBnAvW"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0
+            ],
+            "Schedule": [
+                0,
+                2
+            ],
+            "Delegate": [
+                3,
+                2
+            ],
+            "Eliminate": [
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "Bf9FxZn3MKfO"
+            },
+            {
+                "id": 1,
+                "title": "HakHqx535PU3"
+            },
+            {
+                "id": 2,
+                "title": "FVMtMX2fQUHl"
+            },
+            {
+                "id": 3,
+                "title": "XGbHbiWpVcKk"
+            },
+            {
+                "id": 4,
+                "title": "egDuaS2XiIom"
+            },
+            {
+                "id": 5,
+                "title": "UWaCWMKoCglO"
+            },
+            {
+                "id": 6,
+                "title": "GwdIqWG7WdvE"
+            },
+            {
+                "id": 7,
+                "title": "pa4KzLS6qDPd"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1,
+                4,
+                5,
+                2,
+                3,
+                6,
+                7,
+                0
+            ],
+            "Schedule": [
+                2,
+                0
+            ],
+            "Delegate": [
+                0
+            ],
+            "Eliminate": [
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "QoJKUPBxBfu8"
+            },
+            {
+                "id": 1,
+                "title": "VGVPOan0FkTL"
+            },
+            {
+                "id": 2,
+                "title": "lN2YhvDMaiWd"
+            },
+            {
+                "id": 3,
+                "title": "U050xYFTaJO4"
+            },
+            {
+                "id": 4,
+                "title": "R02iHiwjr1l8"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3,
+                2,
+                1
+            ],
+            "Schedule": [],
+            "Delegate": [
+                1,
+                4,
+                3,
+                2,
+                0
+            ],
+            "Eliminate": [
+                0,
+                3,
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "Blf0WgU6lZ8R"
+            },
+            {
+                "id": 1,
+                "title": "ahdbLY1dWSn3"
+            },
+            {
+                "id": 2,
+                "title": "gH6dmLkj5QWJ"
+            },
+            {
+                "id": 3,
+                "title": "ilaZOfYi32F9"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1,
+                2,
+                0,
+                3
+            ],
+            "Schedule": [],
+            "Delegate": [
+                1
+            ],
+            "Eliminate": [
+                2,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "PdLnPFEgFigv"
+            },
+            {
+                "id": 1,
+                "title": "rQYNVKzWvLqI"
+            },
+            {
+                "id": 2,
+                "title": "1hnAifqSfT3R"
+            },
+            {
+                "id": 3,
+                "title": "C3DvWxYeqRQn"
+            },
+            {
+                "id": 4,
+                "title": "xca4RgmUel5x"
+            },
+            {
+                "id": 5,
+                "title": "6xPc6htjAMM7"
+            },
+            {
+                "id": 6,
+                "title": "NmuYxOON40du"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1,
+                4,
+                5,
+                6,
+                3
+            ],
+            "Schedule": [
+                0,
+                1,
+                3
+            ],
+            "Delegate": [
+                0,
+                1,
+                5,
+                4,
+                6,
+                3,
+                2
+            ],
+            "Eliminate": [
+                2,
+                6,
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "x5OkHLxp5xoK"
+            },
+            {
+                "id": 1,
+                "title": "NcgzyOjZkS8Z"
+            },
+            {
+                "id": 2,
+                "title": "jWi406l0xItZ"
+            },
+            {
+                "id": 3,
+                "title": "JCd1TRTe2WgQ"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3,
+                0,
+                1
+            ],
+            "Schedule": [],
+            "Delegate": [
+                1,
+                3,
+                0,
+                2
+            ],
+            "Eliminate": [
+                1,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "DZOuz1TI3Dct"
+            },
+            {
+                "id": 1,
+                "title": "fJkKNY7k8TBJ"
+            },
+            {
+                "id": 2,
+                "title": "g8ukiYOYm10E"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                1
+            ],
+            "Schedule": [],
+            "Delegate": [
+                1,
+                2,
+                0
+            ],
+            "Eliminate": [
+                1,
+                0,
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "kITs3Us385je"
+            },
+            {
+                "id": 1,
+                "title": "b7CKzHmVDCHl"
+            },
+            {
+                "id": 2,
+                "title": "sjKV6gm6CQWS"
+            },
+            {
+                "id": 3,
+                "title": "F1bQ1xRi6tOb"
+            },
+            {
+                "id": 4,
+                "title": "YEbiWqiRWw8c"
+            },
+            {
+                "id": 5,
+                "title": "RKHySnetaChR"
+            },
+            {
+                "id": 6,
+                "title": "mDMTF6RjTegh"
+            },
+            {
+                "id": 7,
+                "title": "luYrAFkWxwVc"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                4,
+                7,
+                3,
+                0,
+                6
+            ],
+            "Schedule": [
+                0,
+                6,
+                7,
+                4,
+                1,
+                2
+            ],
+            "Delegate": [
+                5,
+                7,
+                6,
+                1,
+                0
+            ],
+            "Eliminate": [
+                0,
+                5,
+                2,
+                7,
+                1,
+                6
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "a1pMm6FdfMSL"
+            },
+            {
+                "id": 1,
+                "title": "3yedyXddxykq"
+            },
+            {
+                "id": 2,
+                "title": "5MW7U7Ghp7gQ"
+            },
+            {
+                "id": 3,
+                "title": "8lmvJLPWjJ48"
+            },
+            {
+                "id": 4,
+                "title": "jejJHOx0916A"
+            },
+            {
+                "id": 5,
+                "title": "31ygHtRzeHky"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1,
+                2,
+                3,
+                5,
+                0
+            ],
+            "Schedule": [
+                0,
+                3
+            ],
+            "Delegate": [
+                2
+            ],
+            "Eliminate": [
+                0,
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "pi76VcN1z8Ls"
+            },
+            {
+                "id": 1,
+                "title": "jAD6VDrBx21g"
+            },
+            {
+                "id": 2,
+                "title": "UNes44RCWJcW"
+            },
+            {
+                "id": 3,
+                "title": "ddktH0iaMhaF"
+            },
+            {
+                "id": 4,
+                "title": "kuS6QoJ8jW32"
+            },
+            {
+                "id": 5,
+                "title": "dTVq8r0JMMpB"
+            },
+            {
+                "id": 6,
+                "title": "yypZufA9hQej"
+            },
+            {
+                "id": 7,
+                "title": "YN5VyDAyBpXw"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1,
+                7,
+                2,
+                5,
+                0,
+                3,
+                4
+            ],
+            "Schedule": [
+                1,
+                3,
+                0,
+                2
+            ],
+            "Delegate": [],
+            "Eliminate": [
+                7,
+                3,
+                5,
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "Xy4XFcn4Ak6J"
+            },
+            {
+                "id": 1,
+                "title": "fV7PPMZftxK4"
+            },
+            {
+                "id": 2,
+                "title": "aw6hEi70GjZ8"
+            },
+            {
+                "id": 3,
+                "title": "wBMngzxZ0sf5"
+            },
+            {
+                "id": 4,
+                "title": "rWOIwQpZrPci"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3,
+                2,
+                4,
+                0
+            ],
+            "Schedule": [
+                1,
+                4
+            ],
+            "Delegate": [
+                1,
+                0,
+                2,
+                4
+            ],
+            "Eliminate": [
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "ePd6vlcYaXrc"
+            },
+            {
+                "id": 1,
+                "title": "tV58Nz6ncXwC"
+            },
+            {
+                "id": 2,
+                "title": "AgtyfW8TxBWv"
+            },
+            {
+                "id": 3,
+                "title": "rLVC049hkQli"
+            },
+            {
+                "id": 4,
+                "title": "7ZalS0MHykUh"
+            },
+            {
+                "id": 5,
+                "title": "wJpmQ0nhs0o5"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1,
+                5,
+                2,
+                0
+            ],
+            "Schedule": [
+                3,
+                4,
+                1,
+                2,
+                0,
+                5
+            ],
+            "Delegate": [],
+            "Eliminate": [
+                5,
+                0,
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "n3LuucaluH1r"
+            },
+            {
+                "id": 1,
+                "title": "ezHsMWzy8VJT"
+            },
+            {
+                "id": 2,
+                "title": "QTDsCoRGvQ3r"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [
+                2,
+                0
+            ],
+            "Delegate": [
+                0
+            ],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "NItBKbedyS4K"
+            },
+            {
+                "id": 1,
+                "title": "hZKwIlwWZtKM"
+            },
+            {
+                "id": 2,
+                "title": "Hd7etceUwYHN"
+            },
+            {
+                "id": 3,
+                "title": "MpX2kpylk7bJ"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                2,
+                1
+            ],
+            "Schedule": [],
+            "Delegate": [
+                0,
+                2
+            ],
+            "Eliminate": [
+                2,
+                0,
+                1,
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "eaRJbsr7eM9c"
+            },
+            {
+                "id": 1,
+                "title": "YdtVPlDo132u"
+            },
+            {
+                "id": 2,
+                "title": "Bh2KOkXoJSzj"
+            },
+            {
+                "id": 3,
+                "title": "cmHsIJpfmFHd"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                0,
+                1
+            ],
+            "Schedule": [
+                3,
+                2
+            ],
+            "Delegate": [
+                2,
+                3
+            ],
+            "Eliminate": [
+                1,
+                2,
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "wA5XBzD0qg1R"
+            },
+            {
+                "id": 1,
+                "title": "2z5QOI0wole4"
+            },
+            {
+                "id": 2,
+                "title": "Xbi0N27HxMvn"
+            },
+            {
+                "id": 3,
+                "title": "GKiACKmf80a1"
+            },
+            {
+                "id": 4,
+                "title": "1AtRFrhlXsUF"
+            },
+            {
+                "id": 5,
+                "title": "q1a7ERdibfB8"
+            },
+            {
+                "id": 6,
+                "title": "zwut6n4AqvdX"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                5,
+                1,
+                0,
+                6
+            ],
+            "Schedule": [
+                3,
+                2
+            ],
+            "Delegate": [
+                5,
+                0,
+                3
+            ],
+            "Eliminate": [
+                3,
+                0,
+                6,
+                1,
+                2,
+                5,
+                4
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "hBAy5Pzqfs5b"
+            },
+            {
+                "id": 1,
+                "title": "FbQZMZ5vy7el"
+            },
+            {
+                "id": 2,
+                "title": "zv4N9gYNNGxG"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2
+            ],
+            "Schedule": [
+                0,
+                2,
+                1
+            ],
+            "Delegate": [
+                0
+            ],
+            "Eliminate": [
+                2,
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "jVQbOHwXJEaq"
+            },
+            {
+                "id": 1,
+                "title": "QczTl6Zy6fMq"
+            },
+            {
+                "id": 2,
+                "title": "p7ubyRLrTW5O"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                1
+            ],
+            "Schedule": [
+                1,
+                0
+            ],
+            "Delegate": [],
+            "Eliminate": [
+                0,
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "PAGy1mA2r9kt"
+            },
+            {
+                "id": 1,
+                "title": "3RDgqpmdj45v"
+            },
+            {
+                "id": 2,
+                "title": "3ajwAdfNmgIw"
+            },
+            {
+                "id": 3,
+                "title": "XgaEl9Kj0m1a"
+            },
+            {
+                "id": 4,
+                "title": "HlRCB7JFBIqU"
+            },
+            {
+                "id": 5,
+                "title": "NZTIPcepWtlg"
+            },
+            {
+                "id": 6,
+                "title": "u6aFDL3kNTEd"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [
+                4,
+                0,
+                3,
+                5,
+                1,
+                6,
+                2
+            ],
+            "Delegate": [
+                1,
+                0,
+                3,
+                5
+            ],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "pjxrsbmoLA9a"
+            },
+            {
+                "id": 1,
+                "title": "aWa30X00S2yV"
+            },
+            {
+                "id": 2,
+                "title": "ID5FnhkLPWpa"
+            },
+            {
+                "id": 3,
+                "title": "CCsT2GxwPvy1"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [],
+            "Delegate": [
+                2,
+                3,
+                0,
+                1
+            ],
+            "Eliminate": [
+                1,
+                2,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "fOmpFUiMWqXS"
+            },
+            {
+                "id": 1,
+                "title": "r1ySO1wL9sRv"
+            },
+            {
+                "id": 2,
+                "title": "05F1vEQYt8OJ"
+            },
+            {
+                "id": 3,
+                "title": "vZ3OicERIxDE"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3,
+                1
+            ],
+            "Schedule": [],
+            "Delegate": [
+                1
+            ],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "bE2zE7QpgFa0"
+            },
+            {
+                "id": 1,
+                "title": "rAp4Bb79Fjqv"
+            },
+            {
+                "id": 2,
+                "title": "5aYaMGqE7pMb"
+            },
+            {
+                "id": 3,
+                "title": "PEn8fb46QCad"
+            },
+            {
+                "id": 4,
+                "title": "dcsU1gBS1vlo"
+            },
+            {
+                "id": 5,
+                "title": "6vXxFEk5bH7r"
+            },
+            {
+                "id": 6,
+                "title": "LjV083HFiOQA"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                1,
+                2,
+                5
+            ],
+            "Schedule": [
+                6
+            ],
+            "Delegate": [
+                3
+            ],
+            "Eliminate": [
+                2,
+                1,
+                0,
+                5,
+                4
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "rGM4PSDpX46z"
+            },
+            {
+                "id": 1,
+                "title": "KIkJqikPgQho"
+            },
+            {
+                "id": 2,
+                "title": "xo44h94c736x"
+            },
+            {
+                "id": 3,
+                "title": "xvExkGSCMchN"
+            },
+            {
+                "id": 4,
+                "title": "pSCSCBEyMoYJ"
+            },
+            {
+                "id": 5,
+                "title": "787GERTBFyTb"
+            },
+            {
+                "id": 6,
+                "title": "5yMMy4S8y4Ls"
+            },
+            {
+                "id": 7,
+                "title": "4Ie2pjXPCP6y"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3,
+                4,
+                7,
+                5,
+                0,
+                1
+            ],
+            "Schedule": [
+                0,
+                7,
+                2,
+                4,
+                1,
+                6,
+                5
+            ],
+            "Delegate": [
+                3,
+                1,
+                6,
+                0
+            ],
+            "Eliminate": [
+                7,
+                4,
+                2,
+                5
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "JTONs6QpgYDZ"
+            },
+            {
+                "id": 1,
+                "title": "GpDYAhaL6w37"
+            },
+            {
+                "id": 2,
+                "title": "N0XrMXUEh0Wf"
+            },
+            {
+                "id": 3,
+                "title": "svfgMhjA77hW"
+            },
+            {
+                "id": 4,
+                "title": "JoCDI8rWtDRc"
+            },
+            {
+                "id": 5,
+                "title": "gSmVLa80FFtY"
+            },
+            {
+                "id": 6,
+                "title": "ceKKf0QA2ERU"
+            },
+            {
+                "id": 7,
+                "title": "mMpV9hzehv0G"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                4,
+                1,
+                6
+            ],
+            "Schedule": [
+                0,
+                5,
+                1,
+                6,
+                2
+            ],
+            "Delegate": [
+                7
+            ],
+            "Eliminate": [
+                6,
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "iGmIjhONCSA7"
+            },
+            {
+                "id": 1,
+                "title": "GEoVTgmSAeUb"
+            },
+            {
+                "id": 2,
+                "title": "QzMPnX53j8Mp"
+            },
+            {
+                "id": 3,
+                "title": "0apRLn7Cudv4"
+            },
+            {
+                "id": 4,
+                "title": "WgZuSDfBo3QV"
+            },
+            {
+                "id": 5,
+                "title": "Px0Z6UlXyP1E"
+            },
+            {
+                "id": 6,
+                "title": "Q0cEWpvFxTjk"
+            },
+            {
+                "id": 7,
+                "title": "7WwJgTGXX2jZ"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                4,
+                0,
+                7,
+                1
+            ],
+            "Schedule": [
+                0,
+                1,
+                3,
+                5
+            ],
+            "Delegate": [
+                0,
+                7,
+                2,
+                4
+            ],
+            "Eliminate": [
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "MlpCGjYmfevC"
+            },
+            {
+                "id": 1,
+                "title": "BgN6YORYQHHb"
+            },
+            {
+                "id": 2,
+                "title": "Jkq72tMkMFuq"
+            },
+            {
+                "id": 3,
+                "title": "dhYgddVhIVBq"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3,
+                0
+            ],
+            "Schedule": [],
+            "Delegate": [],
+            "Eliminate": [
+                2,
+                3,
+                0,
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "iF77qgfJdPkh"
+            },
+            {
+                "id": 1,
+                "title": "la4kH6FSDaYO"
+            },
+            {
+                "id": 2,
+                "title": "VyUIxohpShNU"
+            },
+            {
+                "id": 3,
+                "title": "f8OBIoWNEwTV"
+            },
+            {
+                "id": 4,
+                "title": "MyMPCALiBMa6"
+            },
+            {
+                "id": 5,
+                "title": "z72xpEfK8w9m"
+            },
+            {
+                "id": 6,
+                "title": "YXkYclM9EPKU"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                2,
+                5,
+                4
+            ],
+            "Schedule": [],
+            "Delegate": [],
+            "Eliminate": [
+                6,
+                0,
+                4,
+                1,
+                3,
+                2,
+                5
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "tf5rmnsWB8GK"
+            },
+            {
+                "id": 1,
+                "title": "HktvLTIktdaO"
+            },
+            {
+                "id": 2,
+                "title": "KiwCKxa0ZiFQ"
+            },
+            {
+                "id": 3,
+                "title": "b50ysdTamC3x"
+            },
+            {
+                "id": 4,
+                "title": "7l2cIFCYuS4n"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [
+                2,
+                3,
+                0,
+                1,
+                4
+            ],
+            "Delegate": [
+                3,
+                0,
+                2
+            ],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "6HXiVTex7pRq"
+            },
+            {
+                "id": 1,
+                "title": "xQlCl9V7Y1QM"
+            },
+            {
+                "id": 2,
+                "title": "ccGgYNqsyBSn"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0
+            ],
+            "Schedule": [
+                2
+            ],
+            "Delegate": [],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "WKiC7wopaipT"
+            },
+            {
+                "id": 1,
+                "title": "lUEBGWj3jEQX"
+            },
+            {
+                "id": 2,
+                "title": "59nGivf0T9R6"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0
+            ],
+            "Schedule": [],
+            "Delegate": [
+                0,
+                2
+            ],
+            "Eliminate": [
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "8VHHodQvLQxu"
+            },
+            {
+                "id": 1,
+                "title": "I3DJymF7kyXP"
+            },
+            {
+                "id": 2,
+                "title": "5iK48hkw1sva"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                1,
+                2
+            ],
+            "Schedule": [
+                2,
+                0
+            ],
+            "Delegate": [],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "fEemlAySlj9N"
+            },
+            {
+                "id": 1,
+                "title": "kZb6NwXgHfZW"
+            },
+            {
+                "id": 2,
+                "title": "WQVqZQ5NoiSS"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                1
+            ],
+            "Schedule": [
+                0,
+                2,
+                1
+            ],
+            "Delegate": [
+                1,
+                0,
+                2
+            ],
+            "Eliminate": [
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "JjJlf06GPEAA"
+            },
+            {
+                "id": 1,
+                "title": "kHsedFhQvJap"
+            },
+            {
+                "id": 2,
+                "title": "gcq9MNRy5y7J"
+            },
+            {
+                "id": 3,
+                "title": "hcwSoM0xAeuC"
+            },
+            {
+                "id": 4,
+                "title": "DS7aaFkWjeFw"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1,
+                2,
+                4,
+                3,
+                0
+            ],
+            "Schedule": [
+                2,
+                4
+            ],
+            "Delegate": [
+                4
+            ],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "8mDlaAtvsCT4"
+            },
+            {
+                "id": 1,
+                "title": "XpZPh0viD9xL"
+            },
+            {
+                "id": 2,
+                "title": "zgVN8jcmHwDA"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                1
+            ],
+            "Schedule": [],
+            "Delegate": [
+                0,
+                1
+            ],
+            "Eliminate": [
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "bHKjasx4NVu8"
+            },
+            {
+                "id": 1,
+                "title": "6eYzqZU8xTsK"
+            },
+            {
+                "id": 2,
+                "title": "MA1EtYZ7jirp"
+            },
+            {
+                "id": 3,
+                "title": "ibESjw5d481H"
+            },
+            {
+                "id": 4,
+                "title": "4xYyZs0iPQy7"
+            },
+            {
+                "id": 5,
+                "title": "1FKllHJ7odNK"
+            },
+            {
+                "id": 6,
+                "title": "vaEVoMyyzfHT"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                5
+            ],
+            "Schedule": [],
+            "Delegate": [
+                4
+            ],
+            "Eliminate": [
+                0,
+                1,
+                4,
+                2,
+                6
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "mrQERfREakvD"
+            },
+            {
+                "id": 1,
+                "title": "xgrSeegrLFfq"
+            },
+            {
+                "id": 2,
+                "title": "DRY9JszWTh8q"
+            },
+            {
+                "id": 3,
+                "title": "sgZCKAqEzhQR"
+            },
+            {
+                "id": 4,
+                "title": "QKntTWR44VMa"
+            },
+            {
+                "id": 5,
+                "title": "1yN2HLav6Wsu"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                1,
+                3
+            ],
+            "Schedule": [
+                5
+            ],
+            "Delegate": [
+                3
+            ],
+            "Eliminate": [
+                0,
+                2,
+                5,
+                4,
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "yO8SoeY540JL"
+            },
+            {
+                "id": 1,
+                "title": "ccpHn4mZZWYK"
+            },
+            {
+                "id": 2,
+                "title": "kKk0CWr6W0M6"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1,
+                2,
+                0
+            ],
+            "Schedule": [
+                1,
+                2,
+                0
+            ],
+            "Delegate": [],
+            "Eliminate": [
+                2,
+                1,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "4ENbABbIsLzc"
+            },
+            {
+                "id": 1,
+                "title": "Iiwf3Hj8delY"
+            },
+            {
+                "id": 2,
+                "title": "A67jrr5vgdjE"
+            },
+            {
+                "id": 3,
+                "title": "IcNCMY43d9FS"
+            },
+            {
+                "id": 4,
+                "title": "QIzTz2gPmjBB"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                1,
+                4,
+                3,
+                2
+            ],
+            "Schedule": [
+                0
+            ],
+            "Delegate": [
+                3,
+                1,
+                4,
+                2
+            ],
+            "Eliminate": [
+                4
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "Fy4JrdS9oJ85"
+            },
+            {
+                "id": 1,
+                "title": "W4tijVugndDw"
+            },
+            {
+                "id": 2,
+                "title": "ic7Qbc32ngdJ"
+            },
+            {
+                "id": 3,
+                "title": "eaKc5Km59mTv"
+            },
+            {
+                "id": 4,
+                "title": "gOAvjkgBDTXn"
+            },
+            {
+                "id": 5,
+                "title": "nIbcDV8M7LwS"
+            },
+            {
+                "id": 6,
+                "title": "nwJiz4Y8cDvl"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                6,
+                3,
+                0,
+                1
+            ],
+            "Schedule": [
+                3,
+                0,
+                6,
+                5,
+                1,
+                2,
+                4
+            ],
+            "Delegate": [
+                4,
+                3,
+                2,
+                0,
+                6,
+                5,
+                1
+            ],
+            "Eliminate": [
+                3,
+                0,
+                4,
+                6,
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "vKSSSHbvCIri"
+            },
+            {
+                "id": 1,
+                "title": "oMpAQqk7CUBi"
+            },
+            {
+                "id": 2,
+                "title": "yz1wJuzsDiTN"
+            },
+            {
+                "id": 3,
+                "title": "qaY0uCZ4ALdO"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [
+                0
+            ],
+            "Delegate": [],
+            "Eliminate": [
+                0,
+                3,
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "PBoW7UZG6Mc9"
+            },
+            {
+                "id": 1,
+                "title": "rcxVLll2pKAk"
+            },
+            {
+                "id": 2,
+                "title": "ILYjqIkCdrV3"
+            },
+            {
+                "id": 3,
+                "title": "YQEXrfLNwVN2"
+            },
+            {
+                "id": 4,
+                "title": "yUsWZq0XHoyQ"
+            },
+            {
+                "id": 5,
+                "title": "QuU79wBQ8NMW"
+            },
+            {
+                "id": 6,
+                "title": "AShiJ7MokSn6"
+            },
+            {
+                "id": 7,
+                "title": "yuATfZ7P0517"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                7,
+                4,
+                1
+            ],
+            "Schedule": [],
+            "Delegate": [
+                7,
+                2,
+                5,
+                4
+            ],
+            "Eliminate": [
+                2,
+                6,
+                0,
+                5,
+                4,
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "7KOkBMya4THy"
+            },
+            {
+                "id": 1,
+                "title": "qHeL2BumQ47t"
+            },
+            {
+                "id": 2,
+                "title": "d3vi63HDqHm2"
+            },
+            {
+                "id": 3,
+                "title": "urPwcZELU0K1"
+            },
+            {
+                "id": 4,
+                "title": "mRSbCqN4vO4C"
+            },
+            {
+                "id": 5,
+                "title": "ERGPJheinxit"
+            },
+            {
+                "id": 6,
+                "title": "N97yFtwn1ydf"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1,
+                2,
+                6
+            ],
+            "Schedule": [
+                0
+            ],
+            "Delegate": [
+                6,
+                0,
+                5,
+                2,
+                3,
+                4,
+                1
+            ],
+            "Eliminate": [
+                3,
+                1,
+                6,
+                2,
+                5,
+                4
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "hUDmvku07jlo"
+            },
+            {
+                "id": 1,
+                "title": "TlufCyRt1sxV"
+            },
+            {
+                "id": 2,
+                "title": "l4AXBycgGBQ1"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                1
+            ],
+            "Schedule": [
+                0,
+                1,
+                2
+            ],
+            "Delegate": [
+                2,
+                1
+            ],
+            "Eliminate": [
+                1,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "TWuCiaGzVztj"
+            },
+            {
+                "id": 1,
+                "title": "qtREOsjKMnts"
+            },
+            {
+                "id": 2,
+                "title": "1lGZyJkSPep6"
+            },
+            {
+                "id": 3,
+                "title": "HlnWtoU7Hj7Q"
+            },
+            {
+                "id": 4,
+                "title": "LowuD4N8yhUW"
+            },
+            {
+                "id": 5,
+                "title": "FLpwaadBtB4p"
+            },
+            {
+                "id": 6,
+                "title": "wmhUoonX2zZk"
+            },
+            {
+                "id": 7,
+                "title": "72Sm0kkhhUqe"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                6,
+                5
+            ],
+            "Schedule": [
+                2,
+                4,
+                0,
+                7,
+                6,
+                3,
+                5,
+                1
+            ],
+            "Delegate": [
+                1
+            ],
+            "Eliminate": [
+                3,
+                1,
+                7,
+                2,
+                5
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "gPPhawi0Gi58"
+            },
+            {
+                "id": 1,
+                "title": "WUExWuPiXRUN"
+            },
+            {
+                "id": 2,
+                "title": "rS3QsSOW2rLT"
+            },
+            {
+                "id": 3,
+                "title": "rlzCoNT5F2Zv"
+            },
+            {
+                "id": 4,
+                "title": "Z2yacsnzjmfQ"
+            },
+            {
+                "id": 5,
+                "title": "G4ly0omPLaJ7"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                3,
+                4,
+                1
+            ],
+            "Schedule": [
+                0,
+                3,
+                5,
+                1,
+                2
+            ],
+            "Delegate": [
+                3,
+                4,
+                0,
+                2
+            ],
+            "Eliminate": [
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "r3kDBEaI3FHn"
+            },
+            {
+                "id": 1,
+                "title": "jR5M78pd0gcj"
+            },
+            {
+                "id": 2,
+                "title": "1bhf7mGrdWgs"
+            },
+            {
+                "id": 3,
+                "title": "SwvAOZ80NqZk"
+            },
+            {
+                "id": 4,
+                "title": "bbP6zJ2JViqZ"
+            },
+            {
+                "id": 5,
+                "title": "fbiKM5oCHIjT"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                4,
+                5,
+                2,
+                3,
+                0,
+                1
+            ],
+            "Schedule": [
+                3
+            ],
+            "Delegate": [
+                2,
+                4
+            ],
+            "Eliminate": [
+                2,
+                0,
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "DPc20JPTHAoI"
+            },
+            {
+                "id": 1,
+                "title": "skg8tBpf71VU"
+            },
+            {
+                "id": 2,
+                "title": "uE4IbYLoiVyK"
+            },
+            {
+                "id": 3,
+                "title": "5vRTolbF33J1"
+            },
+            {
+                "id": 4,
+                "title": "8y3PxMaZHVwq"
+            },
+            {
+                "id": 5,
+                "title": "ani1uwq6pU7o"
+            },
+            {
+                "id": 6,
+                "title": "LqmvelE8yyuz"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3,
+                6
+            ],
+            "Schedule": [
+                5,
+                6,
+                1,
+                0
+            ],
+            "Delegate": [
+                3,
+                5,
+                2,
+                4,
+                6
+            ],
+            "Eliminate": [
+                1,
+                2,
+                4,
+                6,
+                3,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "t20Z8Clf27C5"
+            },
+            {
+                "id": 1,
+                "title": "gBXv4SJBouEK"
+            },
+            {
+                "id": 2,
+                "title": "eV5dAa0wUJEg"
+            },
+            {
+                "id": 3,
+                "title": "i40oyRdnSw58"
+            },
+            {
+                "id": 4,
+                "title": "J2ws13lUMF9S"
+            },
+            {
+                "id": 5,
+                "title": "YBE0JWuxtamu"
+            },
+            {
+                "id": 6,
+                "title": "U8tdkLSD8Z17"
+            },
+            {
+                "id": 7,
+                "title": "wjEz4FCZ9ZZb"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3,
+                2
+            ],
+            "Schedule": [
+                0,
+                4,
+                7,
+                1,
+                5,
+                6,
+                2
+            ],
+            "Delegate": [
+                6,
+                0,
+                5,
+                3
+            ],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "rhk1JMVzKD7x"
+            },
+            {
+                "id": 1,
+                "title": "hv1XBwNee31p"
+            },
+            {
+                "id": 2,
+                "title": "g00uMzPddUk2"
+            },
+            {
+                "id": 3,
+                "title": "JMx9SZ2k0bAU"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                3,
+                0
+            ],
+            "Schedule": [],
+            "Delegate": [],
+            "Eliminate": [
+                1,
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "TNT0zPqWnwye"
+            },
+            {
+                "id": 1,
+                "title": "9aOJ4wia1QlP"
+            },
+            {
+                "id": 2,
+                "title": "Akj3IAT66e0G"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1
+            ],
+            "Schedule": [
+                1,
+                2,
+                0
+            ],
+            "Delegate": [],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "plnqwadaTuWz"
+            },
+            {
+                "id": 1,
+                "title": "36ovFcNm5Tqi"
+            },
+            {
+                "id": 2,
+                "title": "QP2bTAsVVVFD"
+            },
+            {
+                "id": 3,
+                "title": "MbtIYJnajUCM"
+            },
+            {
+                "id": 4,
+                "title": "QXYtfPY3p2Yu"
+            },
+            {
+                "id": 5,
+                "title": "oflieXm8HIoO"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1
+            ],
+            "Schedule": [
+                2,
+                1
+            ],
+            "Delegate": [
+                5,
+                4,
+                2
+            ],
+            "Eliminate": [
+                4,
+                0,
+                1,
+                3,
+                5
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "wmSUBHlkjqDG"
+            },
+            {
+                "id": 1,
+                "title": "NL3mRbZxLdhF"
+            },
+            {
+                "id": 2,
+                "title": "IOTRyYLkBSUh"
+            },
+            {
+                "id": 3,
+                "title": "DRlBbdVtEtVD"
+            },
+            {
+                "id": 4,
+                "title": "SrON6H90GQ6S"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                4,
+                2
+            ],
+            "Schedule": [],
+            "Delegate": [
+                3,
+                1
+            ],
+            "Eliminate": [
+                4,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "KHOhv9YoJbry"
+            },
+            {
+                "id": 1,
+                "title": "Dlt4G4AGa2q3"
+            },
+            {
+                "id": 2,
+                "title": "MSRc5oB8Nh4p"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                1
+            ],
+            "Schedule": [
+                2,
+                1
+            ],
+            "Delegate": [
+                1
+            ],
+            "Eliminate": [
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "erVOFyhPCf9X"
+            },
+            {
+                "id": 1,
+                "title": "Z0qCRPCblhc3"
+            },
+            {
+                "id": 2,
+                "title": "6CeLSL7aa2Ty"
+            },
+            {
+                "id": 3,
+                "title": "lVh7g68PqEvE"
+            },
+            {
+                "id": 4,
+                "title": "4nJxcrEjQRrp"
+            },
+            {
+                "id": 5,
+                "title": "AUJEaJwUx62o"
+            },
+            {
+                "id": 6,
+                "title": "ZUAUjWEGU3dC"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                4,
+                1,
+                5
+            ],
+            "Schedule": [
+                2,
+                0,
+                1
+            ],
+            "Delegate": [],
+            "Eliminate": [
+                6
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "5iffut5VORhG"
+            },
+            {
+                "id": 1,
+                "title": "FMtxa0wful4H"
+            },
+            {
+                "id": 2,
+                "title": "TKHiDUKae5aW"
+            },
+            {
+                "id": 3,
+                "title": "XXprGkIN0JPj"
+            },
+            {
+                "id": 4,
+                "title": "3koBtyrKj2ft"
+            },
+            {
+                "id": 5,
+                "title": "MCnvASxkeJIq"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1
+            ],
+            "Schedule": [],
+            "Delegate": [
+                5,
+                3,
+                4,
+                2,
+                1
+            ],
+            "Eliminate": [
+                0,
+                3,
+                2,
+                4,
+                5,
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "dyx5N3ink3s2"
+            },
+            {
+                "id": 1,
+                "title": "eDH3HVCfMukM"
+            },
+            {
+                "id": 2,
+                "title": "gFfUrWbdmfg4"
+            },
+            {
+                "id": 3,
+                "title": "nGDBHGjYVs1J"
+            },
+            {
+                "id": 4,
+                "title": "3VfvRlceYqRr"
+            },
+            {
+                "id": 5,
+                "title": "5nnKhoa8ppfe"
+            },
+            {
+                "id": 6,
+                "title": "OuK47E8CjvBP"
+            },
+            {
+                "id": 7,
+                "title": "UPYWwk6QBri1"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3
+            ],
+            "Schedule": [
+                6,
+                5,
+                2,
+                3,
+                4,
+                7
+            ],
+            "Delegate": [],
+            "Eliminate": [
+                7,
+                5,
+                0,
+                4,
+                2,
+                1,
+                6,
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "OThep120IFpS"
+            },
+            {
+                "id": 1,
+                "title": "awkmTtfYhSQp"
+            },
+            {
+                "id": 2,
+                "title": "AcjXVmxHE5Lx"
+            },
+            {
+                "id": 3,
+                "title": "5rigKkvoRURy"
+            },
+            {
+                "id": 4,
+                "title": "3ve2G1YrXbel"
+            },
+            {
+                "id": 5,
+                "title": "N3CvLa6dPh47"
+            },
+            {
+                "id": 6,
+                "title": "p5VrAagEwaNb"
+            },
+            {
+                "id": 7,
+                "title": "S3toetLqrj5U"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                6,
+                2,
+                7,
+                5,
+                3,
+                1
+            ],
+            "Schedule": [
+                4,
+                6,
+                1,
+                0
+            ],
+            "Delegate": [
+                6
+            ],
+            "Eliminate": []
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "eELOuTsr91fU"
+            },
+            {
+                "id": 1,
+                "title": "TLvi311YmoER"
+            },
+            {
+                "id": 2,
+                "title": "31oqfS97hb0G"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [
+                0
+            ],
+            "Delegate": [
+                0,
+                2
+            ],
+            "Eliminate": [
+                1,
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "fJf96VfRKIuk"
+            },
+            {
+                "id": 1,
+                "title": "gExgcy5nPJog"
+            },
+            {
+                "id": 2,
+                "title": "vAFX7NDZllJv"
+            },
+            {
+                "id": 3,
+                "title": "u74Oclh82ds7"
+            },
+            {
+                "id": 4,
+                "title": "n75YfiUNKBlw"
+            },
+            {
+                "id": 5,
+                "title": "NEz2dj1OFbnD"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [
+                5,
+                3,
+                4,
+                1
+            ],
+            "Delegate": [
+                0
+            ],
+            "Eliminate": [
+                4
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "2Fjd4SQImt96"
+            },
+            {
+                "id": 1,
+                "title": "vxBHI29A1jPx"
+            },
+            {
+                "id": 2,
+                "title": "2dlHhNlxkvFP"
+            },
+            {
+                "id": 3,
+                "title": "AlDXyD6idJes"
+            },
+            {
+                "id": 4,
+                "title": "ZOfQ0vTyxHSn"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                2,
+                3
+            ],
+            "Schedule": [
+                0,
+                3,
+                4
+            ],
+            "Delegate": [
+                1
+            ],
+            "Eliminate": [
+                3,
+                1,
+                2,
+                0,
+                4
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "6tArLQIBcMwW"
+            },
+            {
+                "id": 1,
+                "title": "UQXGQgmyFYi6"
+            },
+            {
+                "id": 2,
+                "title": "fbHZ67EyXejq"
+            },
+            {
+                "id": 3,
+                "title": "MLDJNs7iIx6i"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                1
+            ],
+            "Schedule": [
+                0,
+                2,
+                1
+            ],
+            "Delegate": [
+                3,
+                1,
+                0
+            ],
+            "Eliminate": [
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "yaAysxL52Fd2"
+            },
+            {
+                "id": 1,
+                "title": "3dknna2iTMdm"
+            },
+            {
+                "id": 2,
+                "title": "L6TTiWEn6dDV"
+            },
+            {
+                "id": 3,
+                "title": "OR4gdp4qU7Jl"
+            },
+            {
+                "id": 4,
+                "title": "aEty5yYfhBg1"
+            },
+            {
+                "id": 5,
+                "title": "WBNxTu8N7OL5"
+            },
+            {
+                "id": 6,
+                "title": "HbNe0j4R0v05"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                6,
+                2,
+                1,
+                0
+            ],
+            "Schedule": [
+                2,
+                3,
+                4,
+                5,
+                0
+            ],
+            "Delegate": [],
+            "Eliminate": [
+                0,
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "mIYhyP4bv0kY"
+            },
+            {
+                "id": 1,
+                "title": "Lk59TFPIrDGs"
+            },
+            {
+                "id": 2,
+                "title": "nHFeokxxs8Li"
+            },
+            {
+                "id": 3,
+                "title": "NxwJoHunA7F7"
+            },
+            {
+                "id": 4,
+                "title": "ffQC9OPfDZpI"
+            },
+            {
+                "id": 5,
+                "title": "Djfs6nIc83B9"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                2,
+                4,
+                3,
+                1,
+                5
+            ],
+            "Schedule": [
+                1,
+                2,
+                3
+            ],
+            "Delegate": [
+                3,
+                0,
+                2
+            ],
+            "Eliminate": [
+                4,
+                5,
+                0,
+                1,
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "GipgWCwGAnwb"
+            },
+            {
+                "id": 1,
+                "title": "TncN9ml8j2Of"
+            },
+            {
+                "id": 2,
+                "title": "xVK2uJhOOEee"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [
+                2
+            ],
+            "Delegate": [
+                2
+            ],
+            "Eliminate": [
+                0,
+                2,
+                1
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "OyY1uFmcevc6"
+            },
+            {
+                "id": 1,
+                "title": "rROclhtF9Dtk"
+            },
+            {
+                "id": 2,
+                "title": "gJGgzXv4qvnt"
+            },
+            {
+                "id": 3,
+                "title": "tBmqAsUiF8xL"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                3
+            ],
+            "Schedule": [
+                0,
+                2,
+                3
+            ],
+            "Delegate": [
+                2
+            ],
+            "Eliminate": [
+                2,
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "lr3gly7s9Gk6"
+            },
+            {
+                "id": 1,
+                "title": "nOYJE9svhJjV"
+            },
+            {
+                "id": 2,
+                "title": "75kC2M9gImUW"
+            },
+            {
+                "id": 3,
+                "title": "zbT7LeP7uJui"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1,
+                2,
+                0,
+                3
+            ],
+            "Schedule": [
+                2,
+                3,
+                0,
+                1
+            ],
+            "Delegate": [
+                1,
+                3,
+                2,
+                0
+            ],
+            "Eliminate": [
+                1,
+                3,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "A7zqmO8mlcjd"
+            },
+            {
+                "id": 1,
+                "title": "kjeQVPX62Nr2"
+            },
+            {
+                "id": 2,
+                "title": "mrQe0yu4suM3"
+            },
+            {
+                "id": 3,
+                "title": "13DaErNrAhDe"
+            },
+            {
+                "id": 4,
+                "title": "Uqtmdb1ASJb7"
+            }
+        ],
+        "expected": {
+            "Do First": [],
+            "Schedule": [
+                4,
+                0,
+                3,
+                1
+            ],
+            "Delegate": [
+                3,
+                2
+            ],
+            "Eliminate": [
+                1,
+                4,
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "UwSnvKrdcDXz"
+            },
+            {
+                "id": 1,
+                "title": "Q7HAhssWY1yK"
+            },
+            {
+                "id": 2,
+                "title": "Le9NRNNMhDZm"
+            },
+            {
+                "id": 3,
+                "title": "YVL76Psaeqdv"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                1,
+                3,
+                2
+            ],
+            "Schedule": [
+                3,
+                0
+            ],
+            "Delegate": [
+                0
+            ],
+            "Eliminate": [
+                0,
+                1,
+                3,
+                2
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "nBQBlIEjdyga"
+            },
+            {
+                "id": 1,
+                "title": "AmIkvQtevfdM"
+            },
+            {
+                "id": 2,
+                "title": "0JjGww9PEmRx"
+            },
+            {
+                "id": 3,
+                "title": "3EjMTWZyQ1rX"
+            },
+            {
+                "id": 4,
+                "title": "1Dw6T2iIEDDp"
+            },
+            {
+                "id": 5,
+                "title": "BMpf5hmD3WWo"
+            },
+            {
+                "id": 6,
+                "title": "YsUgi1wi2qNf"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                6,
+                3,
+                1,
+                2,
+                5,
+                0,
+                4
+            ],
+            "Schedule": [
+                6,
+                3,
+                0,
+                4,
+                2,
+                1,
+                5
+            ],
+            "Delegate": [
+                2,
+                5,
+                3,
+                4,
+                0,
+                6,
+                1
+            ],
+            "Eliminate": [
+                4,
+                2,
+                3,
+                6,
+                0
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "sfZQnrOiSU4h"
+            },
+            {
+                "id": 1,
+                "title": "ATthqZDTRJVk"
+            },
+            {
+                "id": 2,
+                "title": "xNy8LZCZBhKo"
+            },
+            {
+                "id": 3,
+                "title": "TEWsJECgc4Ze"
+            },
+            {
+                "id": 4,
+                "title": "6fB76evCzCuG"
+            },
+            {
+                "id": 5,
+                "title": "Lhw2QzSzJ3yx"
+            },
+            {
+                "id": 6,
+                "title": "m7Xadd8uirsj"
+            },
+            {
+                "id": 7,
+                "title": "9W8G7mh9BDIk"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                0,
+                7,
+                3,
+                4,
+                1,
+                6
+            ],
+            "Schedule": [
+                4,
+                1,
+                5
+            ],
+            "Delegate": [
+                5,
+                6,
+                1,
+                0,
+                7,
+                4
+            ],
+            "Eliminate": [
+                6,
+                2,
+                5,
+                1,
+                7,
+                3
+            ]
+        }
+    },
+    {
+        "tasks": [
+            {
+                "id": 0,
+                "title": "HcXOxjpIBkDE"
+            },
+            {
+                "id": 1,
+                "title": "p4mPxYq6nSgr"
+            },
+            {
+                "id": 2,
+                "title": "feweUDW5R68b"
+            },
+            {
+                "id": 3,
+                "title": "fxu1uW6T4VR1"
+            },
+            {
+                "id": 4,
+                "title": "btL2OGtANOnm"
+            }
+        ],
+        "expected": {
+            "Do First": [
+                1
+            ],
+            "Schedule": [],
+            "Delegate": [
+                2,
+                3,
+                4,
+                1,
+                0
+            ],
+            "Eliminate": [
+                0
+            ]
+        }
+    }
+]
