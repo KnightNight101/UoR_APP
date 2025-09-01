@@ -17,14 +17,14 @@ MD_FILE = RESULTS_DIR / f"benchmark_results.md"
 # ----------------------------
 # Models to benchmark
 # ----------------------------
-MODELS = ["tinyllama:1.1b", "deepseek-r1:8b"]
+MODELS = ["tinyllama:1.1b", "deepseek-r1:8b", "deepseek-r1:32b"]
 
 # ----------------------------
 # Utility functions
 # ----------------------------
 def ensure_ollama():
     # Try default Windows path
-    default_path = Path("C:/Users/KnightNight101/AppData/Local/Programs/Ollama/ollama.exe")
+    default_path = Path("C:/Users/yg838314/AppData/Local/Programs/Ollama/ollama.exe")
     if default_path.exists():
         return str(default_path)
     raise EnvironmentError("Ollama executable not found. Install Ollama first.")
@@ -56,21 +56,21 @@ def query_model(model_name, prompt):
 # ----------------------------
 # Test Case Generators
 # ----------------------------
-def generate_commit_summary_tests(n=100):
+def generate_commit_summary_tests(n=15):
     tests = []
     for _ in range(n):
         diff_lines = [f"{random.choice(['+', '-'])} {random.randint(0, 999)}{random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')}" for _ in range(5)]
         tests.append({"diff": "\n".join(diff_lines), "expected": "summary"})
     return tests
 
-def generate_eisenhower_tests(n=100):
+def generate_eisenhower_tests(n=15):
     tests = []
     for _ in range(n):
         tasks = [{"id": i, "title": f"Task_{random.randint(0,1000)}"} for i in range(random.randint(3,6))]
         tests.append({"tasks": tasks})
     return tests
 
-def generate_sprint_planning_tests(n=100):
+def generate_sprint_planning_tests(n=15):
     tests = []
     for _ in range(n):
         tasks = [{"id": i, "title": f"Task_{random.randint(0,1000)}",
@@ -91,7 +91,6 @@ def evaluate_output(output, expected):
 # ----------------------------
 def run_benchmark_for_model(model_name):
     results = []
-
     test_sets = [
         ("Commit Summary", generate_commit_summary_tests),
         ("Eisenhower", generate_eisenhower_tests),
@@ -100,7 +99,8 @@ def run_benchmark_for_model(model_name):
 
     for test_name, generator in test_sets:
         tests = generator()
-        for test_case in tests:
+        for idx, test_case in enumerate(tests, 1):
+            print(f"[DEBUG] Running test case {idx}/15 for {test_name} on model {model_name}")
             # Format prompt for each test type
             if test_name == "Commit Summary":
                 prompt = f"Summarize the following diff:\n{test_case['diff']}"
@@ -119,23 +119,28 @@ def run_benchmark_for_model(model_name):
 
             accuracy = evaluate_output(output, test_case.get("expected",""))
             precision = accuracy  # placeholder, could be refined
-            results.append({
+            result_row = {
                 "model": model_name,
                 "test_type": test_name,
                 "accuracy": accuracy,
                 "precision": precision,
                 "time_s": elapsed
-            })
+            }
+            results.append(result_row)
+            # Save only the latest result row to CSV (append mode)
+            save_csv([result_row], append=True)
     return results
 
 # ----------------------------
 # CSV and Markdown Reporting
 # ----------------------------
-def save_csv(results):
+def save_csv(results, append=False):
     keys = results[0].keys()
-    with open(CSV_FILE, "w", newline="", encoding="utf-8") as f:
+    file_exists = CSV_FILE.exists()
+    with open(CSV_FILE, "a" if append else "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, keys)
-        writer.writeheader()
+        if not file_exists or not append:
+            writer.writeheader()
         writer.writerows(results)
 
 def generate_md(results):
@@ -183,8 +188,7 @@ def main():
         all_results += run_benchmark_for_model(model_name)
 
     if all_results:
-        save_csv(all_results)
-        generate_md(all_results)
+        # Do not overwrite CSV or MD at the end, since results are appended per test case
         print(f"Benchmark completed! Results saved to {CSV_FILE} and {MD_FILE}")
 
 if __name__ == "__main__":
