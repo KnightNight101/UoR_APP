@@ -1,153 +1,92 @@
-# System Architecture Overview
+# Architecture Overview
 
-This document provides a comprehensive overview of the main application's architecture, its components, and the structure of its codebase. Benchmarking components are excluded.
-
----
-
-## 1. Architecture Overview
-
-The main application is structured into modular components, separating the user interface, backend logic, and data management. The architecture supports maintainability, scalability, and clear separation of concerns.
+This document provides a high-level architectural overview of the main application components. Each section includes a mermaid diagram and a fresh explanation of the component's role and structure.
 
 ---
 
-## 2. Application Architecture Flowchart
+## main.py
 
 ```mermaid
 flowchart TD
-    %% Application Architecture Flowchart (previously drafted)
-    %% [Insert the previously drafted application architecture flowchart here]
+    A[main.py Entry Point] -->|Initializes| B[ProjectFileManager]
+    A -->|Creates| C[QApplication & QQmlApplicationEngine]
+    A -->|Exposes| D[QML Context Properties]
+    D --> E[AuthManager]
+    D --> F[DashboardManager]
+    D --> G[ProjectManager]
+    D --> H[UserManager]
+    D --> I[LogEventBridge]
+    D --> J[LoadingManager]
+    C --> K[Loads Main.qml]
+    K --> L[QML UI]
 ```
+
+**Explanation:**  
+`main.py` is the application's entry point, responsible for initializing the backend (including file management and Git integration), setting up the Qt application and QML engine, and exposing Python backend objects to the QML frontend. It manages the connection between the UI and backend logic, ensuring that user actions in the interface are handled by the appropriate Python classes.
 
 ---
 
-## 3. Admin Utilities Flowchart
+## Main.qml
 
 ```mermaid
 flowchart TD
-    %% Admin Utilities Flowchart (previously drafted)
-    %% [Insert the previously drafted admin utilities flowchart here]
+    A[ApplicationWindow] --> B[Login Page]
+    A --> C[Dashboard Page]
+    A --> D[Project Details Page]
+    A --> E[Event Log Page]
+    A --> F[Settings Page]
+    C --> G[Sidebar (Projects)]
+    C --> H[Main Content (Tasks, Quadrants)]
+    D --> I[Tabs: Tasks, Gantt, Calendar, Team]
+    D --> J[Right Sidebar (Tab Bar)]
+    D --> K[Dialogs (Delete, Remove Member)]
+    A --> L[Backend Context Properties]
 ```
+
+**Explanation:**  
+`Main.qml` defines the main user interface using QML. It structures the application window, navigation, and all major pages (login, dashboard, project details, event log, settings). The UI is dynamic, responding to backend signals and exposing user actions to Python logic via context properties. The dashboard and project details pages are modular, supporting tabbed navigation and dialogs for project and team management.
 
 ---
 
-## 4. Backend Model Class Diagram
+## reset_users.py
 
 ```mermaid
-classDiagram
-    %% Backend Model Class Diagram (previously drafted)
-    %% [Insert the previously drafted backend model class diagram here]
+flowchart TD
+    A[reset_users.py] --> B[SessionLocal]
+    B --> C[User Table]
+    B --> D[Role Table]
+    A -->|Deletes non-target users| C
+    A -->|Ensures target users exist| C
+    A -->|Assigns roles| D
 ```
+
+**Explanation:**  
+`reset_users.py` is a utility script for database maintenance. It resets the user table to a predefined set of users, updating passwords and roles as needed. This ensures a consistent user base for development or testing, removing any extraneous users and enforcing correct role assignments.
 
 ---
 
-## 5. Code File Documentation
+## print_users.py
 
-### Project_APP/APP/main.py
-
-**Summary:**  
-[Summary of main.py from previous analysis.]
-
-**Code Block Breakdown:**  
-```python
-# [Code block breakdown of main.py from previous breakdowns.]
+```mermaid
+flowchart TD
+    A[print_users.py] --> B[get_all_users()]
+    B --> C[User Table]
+    A -->|Prints| D[User IDs and Usernames]
 ```
+
+**Explanation:**  
+`print_users.py` is a simple script that queries all users from the database and prints their IDs and usernames. It is primarily used for debugging or verifying the current state of the user table.
 
 ---
 
-### Project_APP/APP/Main.qml
+## backend/db.py
 
-**Summary:**  
-[Summary of Main.qml from previous analysis.]
-
-**Code Block Breakdown:**  
-```qml
-// [Code block breakdown of Main.qml from previous breakdowns.]
+```mermaid
+flowchart TD
+    A[backend/db.py] --> B[Imports]
+    B --> C[Project_APP.APP.db]
+    A -->|Re-exports DB functions| C
 ```
 
----
-
-### Project_APP/APP/reset_users.py
-
-**Summary:**  
-[Summary of reset_users.py from previous analysis.]
-
-**Code Block Breakdown:**  
-```python
-# [Code block breakdown of reset_users.py from previous breakdowns.]
-```
-
----
-
-### Project_APP/APP/print_users.py
-
-**Summary:**  
-[Summary of print_users.py from previous analysis.]
-
-**Code Block Breakdown:**  
-```python
-# [Code block breakdown of print_users.py from previous breakdowns.]
-```
-
----
-
-### Project_APP/APP/backend/db.py
-
-**Summary:**  
-[Summary of backend/db.py from previous analysis.]
-
-**Code Block Breakdown:**  
-```python
-# [Code block breakdown of backend/db.py from previous breakdowns.]
-```
-
----
-
-### Project_APP/APP/backend/get_models.py
-
-**Summary:**  
-[Summary of backend/get_models.py from previous analysis.]
-
-**Code Block Breakdown:**  
-```python
-# [Code block breakdown of backend/get_models.py from previous breakdowns.]
-```
-
----
-
-### Project_APP/APP/backend/deepseek_r1.py
-
-**Summary:**  
-[Summary of backend/deepseek_r1.py from previous analysis.]
-
-**Code Block Breakdown:**  
-```python
-# [Code block breakdown of backend/deepseek_r1.py from previous breakdowns.]
-```
-
----
-
-### Project_APP/APP/backend/deepseek_r1_32b.py
-
-**Summary:**  
-[Summary of backend/deepseek_r1_32b.py from previous analysis.]
-
-**Code Block Breakdown:**  
-```python
-# [Code block breakdown of backend/deepseek_r1_32b.py from previous breakdowns.]
-```
-
----
-
-### Project_APP/APP/backend/tiny_llama.py
-
-**Summary:**  
-[Summary of backend/tiny_llama.py from previous analysis.]
-
-**Code Block Breakdown:**  
-```python
-# [Code block breakdown of backend/tiny_llama.py from previous breakdowns.]
-```
-
----
-
-*Add additional code files as needed, following the same structure.*
+**Explanation:**  
+`backend/db.py` acts as a bridge, re-exporting database functions and models from the main application database module. This allows backend logic to be organized and accessed consistently, supporting modularity and maintainability.
