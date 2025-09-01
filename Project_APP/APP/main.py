@@ -60,10 +60,15 @@ class UserManager(QObject):
     @Slot()
     def loadUsers(self):
         try:
-            from db import get_all_users
+            from Project_APP.APP.backend.db import get_all_users
             self._users = [self._user_to_dict(u) for u in get_all_users()]
+            print(
+                "DEBUG: UserManager.loadUsers loaded users:",
+                [(f"id={u['id']}, username={u['username']}") for u in self._users]
+            )
             self.usersChanged.emit()
-        except Exception:
+        except Exception as e:
+            print("ERROR: UserManager.loadUsers exception:", e)
             self._users = []
             self.usersChanged.emit()
 
@@ -263,7 +268,7 @@ class DashboardManager(QObject):
     def loadEisenhowerMatrixState(self, user_id, project_id):
         """Fetch Eisenhower matrix state for a user/project and notify QML."""
         try:
-            from db import get_eisenhower_matrix_state
+            from Project_APP.APP.backend.db import get_eisenhower_matrix_state
             state_obj = get_eisenhower_matrix_state(project_id, user_id)
             import json
             if state_obj and state_obj.state_json:
@@ -280,7 +285,7 @@ class DashboardManager(QObject):
     def setEisenhowerMatrixState(self, user_id, project_id, state_json):
         """Set Eisenhower matrix state for a user/project and notify QML."""
         try:
-            from db import set_eisenhower_matrix_state
+            from Project_APP.APP.backend.db import set_eisenhower_matrix_state
             import json
             set_eisenhower_matrix_state(project_id, user_id, state_json)
             self._eisenhower_matrix_state = state_json if isinstance(state_json, dict) else json.loads(state_json)
@@ -325,7 +330,7 @@ class DashboardManager(QObject):
         Logs all changes as events with timestamps.
         """
         try:
-            from db import update_subtask_category, update_task, log_structured_event
+            from Project_APP.APP.backend.db import update_subtask_category, update_task, log_structured_event
             import datetime
             # Only one of task_id or subtask_id should be set
             if subtask_id and subtask_id > 0:
@@ -628,7 +633,7 @@ class ProjectManager(QObject):
         Delete a project and log the deletion event.
         Emits projectDeleted signal (success, message).
         """
-        from db import delete_project, get_project_by_id, get_user_by_id
+        from Project_APP.APP.backend.db import delete_project, get_project_by_id, get_user_by_id
         try:
             project = get_project_by_id(project_id)
             user = get_user_by_id(user_id)
@@ -648,7 +653,7 @@ class ProjectManager(QObject):
     def loadProjectMembers(self, project_id):
         """Load members for a project and emit membersChanged."""
         try:
-            from db import get_project_members
+            from Project_APP.APP.backend.db import get_project_members
             self._members = get_project_members(project_id)
             self.membersChanged.emit()
         except Exception as e:
@@ -669,7 +674,7 @@ class ProjectManager(QObject):
     def addProjectMember(self, project_id, acting_user_id, new_member_id, role):
         """Add a member to a project (acting_user_id is the user performing the action)."""
         try:
-            from db import add_project_member
+            from Project_APP.APP.backend.db import add_project_member
             add_project_member(project_id, acting_user_id, new_member_id, role)
             self.loadProjectMembers(project_id)
         except Exception as e:
@@ -679,7 +684,7 @@ class ProjectManager(QObject):
     def assignProjectLeader(self, project_id, user_id):
         """Assign/change the leader for a project."""
         try:
-            from db import update_project_leader
+            from Project_APP.APP.backend.db import update_project_leader
             update_project_leader(project_id, user_id)
             self.leaderChanged.emit()
             self.loadProjectMembers(project_id)
@@ -697,14 +702,14 @@ class ProjectManager(QObject):
         Update the category of a subtask and log the move event.
         """
         try:
-            from db import update_subtask_category
+            from Project_APP.APP.backend.db import update_subtask_category
             update_subtask_category(subtask_id, to_category)
         except Exception as e:
             pass
 
     @Slot(int)
     def loadTaskDetail(self, task_id):
-        from db import get_task_by_id
+        from Project_APP.APP.backend.db import get_task_by_id
         task = get_task_by_id(task_id)
         if task:
             detail = {
@@ -723,7 +728,7 @@ class ProjectManager(QObject):
 
     @Slot(str, str, str, int)
     def createProject(self, name, description, deadline, owner_id):
-        from db import create_project
+        from Project_APP.APP.backend.db import create_project
         result = create_project(name, description, owner_id, [], deadline)
         if result:
             self.projectCreated.emit(True, "Project created successfully")
@@ -736,7 +741,7 @@ class ProjectManager(QObject):
         Loads all tasks and subtasks for the project, including dependencies, durations, and assigned_to.
         If filter_user_id >= 0, only include tasks/subtasks assigned to that user.
         """
-        from db import get_project_by_id, get_subtasks
+        from Project_APP.APP.backend.db import get_project_by_id, get_subtasks
         import json
         project = get_project_by_id(project_id)
         if project:
@@ -805,7 +810,7 @@ class ProjectManager(QObject):
         Loads all deadlines, tasks, subtasks, public holidays, and personal time off for all team members.
         If filter_user_id >= 0, only include items for that user.
         """
-        from db import get_project_by_id
+        from Project_APP.APP.backend.db import get_project_by_id
         import json
         project = get_project_by_id(project_id)
         # Demo: static public holidays and time off
@@ -889,7 +894,7 @@ class ProjectManager(QObject):
 
     @Slot(int)
     def loadSubtaskDetail(self, subtask_id):
-        from db import get_subtask_by_id
+        from Project_APP.APP.backend.db import get_subtask_by_id
         subtask = get_subtask_by_id(subtask_id)
         if subtask:
             detail = {
@@ -909,7 +914,7 @@ class ProjectManager(QObject):
     def addTask(self, project_id, title, description, assigned_to, due_date, hours, dependencies):
         """Add a new task to a project, auto-assign if not set, create 'check progress' subtask."""
         try:
-            from db import create_task
+            from Project_APP.APP.backend.db import create_task
             import datetime, json
             if not assigned_to:
                 assigned_to = self._get_current_user_id()
@@ -932,7 +937,7 @@ class ProjectManager(QObject):
     def editTask(self, task_id, project_id, title, description, assigned_to, hours, dependencies):
         """Edit an existing task."""
         try:
-            from db import update_task
+            from Project_APP.APP.backend.db import update_task
             import json
             dep_list = dependencies if isinstance(dependencies, list) else json.loads(dependencies) if dependencies else []
             update_task(
@@ -951,7 +956,7 @@ class ProjectManager(QObject):
     def deleteTask(self, task_id, project_id):
         """Delete a task from a project."""
         try:
-            from db import delete_task
+            from Project_APP.APP.backend.db import delete_task
             delete_task(task_id)
             self.loadProjectDetail(project_id, self._get_current_user_id())
         except Exception as e:
@@ -961,7 +966,7 @@ class ProjectManager(QObject):
     def addSubtask(self, task_id, project_id, title, description, assigned_to, hours, dependencies):
         """Add a subtask to a task, auto-assign if not set, update 'check progress' deadline."""
         try:
-            from db import create_subtask
+            from Project_APP.APP.backend.db import create_subtask
             import datetime, json
             if not assigned_to:
                 assigned_to = self._get_current_user_id()
@@ -982,7 +987,7 @@ class ProjectManager(QObject):
     def deleteSubtask(self, subtask_id, project_id):
         """Delete a subtask from a project."""
         try:
-            from db import delete_subtask
+            from Project_APP.APP.backend.db import delete_subtask
             delete_subtask(subtask_id)
             self.loadProjectDetail(project_id, self._get_current_user_id())
         except Exception as e:
@@ -1006,7 +1011,7 @@ class ProjectManager(QObject):
         Emits projectTitleUpdated signal (success, message).
         """
         try:
-            from db import update_project
+            from Project_APP.APP.backend.db import update_project
             updated_project, err = update_project(project_id, user_id, name=new_title)
             if updated_project:
                 self.projectTitleUpdated.emit(True, "Project title updated successfully.")

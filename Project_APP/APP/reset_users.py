@@ -8,6 +8,12 @@ TARGET_USERS = [
     {"username": "Nithin", "password": "password", "role": "user"},
     {"username": "standard", "password": "password", "role": "user"},
     {"username": "admin", "password": "password", "role": "admin"},
+    {"username": "Adam", "password": "password", "role": "user"},
+    {"username": "Pat", "password": "password", "role": "user"},
+    {"username": "Ben", "password": "password", "role": "user"},
+    {"username": "Grace", "password": "password", "role": "user"},
+    {"username": "Lucy", "password": "password", "role": "user"},
+    {"username": "Priya", "password": "password", "role": "user"},
 ]
 
 def main():
@@ -31,7 +37,7 @@ def main():
                 from db import register_user
                 register_user(user["username"], user["password"], user["role"])
         session.commit()
-    print("User database reset: only Nithin, standard, and admin exist, all with password 'password'.")
+    print("User database reset: only Nithin, standard, admin, Adam, Pat, Ben, Grace, Lucy, and Priya exist, all with password 'password'.")
 
 if __name__ == "__main__":
     main()
