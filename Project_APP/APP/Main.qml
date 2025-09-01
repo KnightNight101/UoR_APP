@@ -826,12 +826,142 @@ Connections {
                         id: calendarTab
                         anchors.fill: parent
                         visible: projectDetailsPage.selectedTabIndex === 2
-                        Text {
-                            anchors.centerIn: parent
-                            text: "Calendar tab content goes here."
-                            color: "#2255aa"
-                            font.pixelSize: 28
-                            font.bold: true
+                        // --- Basic Month Calendar (no events, no dialogs, no backend) ---
+                        property date calendarCurrentMonth: new Date()
+                        property date calendarSelectedDate: new Date()
+
+                        // Top bar with month navigation
+                        Rectangle {
+                            width: parent.width
+                            height: 48
+                            color: "#fff"
+                            border.color: "#2255aa"
+                            border.width: 2
+                            radius: 12
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.topMargin: 8
+
+                            Row {
+                                anchors.centerIn: parent
+                                spacing: 24
+
+                                Button {
+                                    text: "<"
+                                    onClicked: {
+                                        let d = new Date(calendarTab.calendarCurrentMonth)
+                                        d.setMonth(d.getMonth() - 1)
+                                        calendarTab.calendarCurrentMonth = d
+                                    }
+                                }
+                                Text {
+                                    text: Qt.formatDate(calendarTab.calendarCurrentMonth, "MMMM yyyy")
+                                    font.pixelSize: 20
+                                    color: "#2255aa"
+                                    font.bold: true
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+                                Button {
+                                    text: ">"
+                                    onClicked: {
+                                        let d = new Date(calendarTab.calendarCurrentMonth)
+                                        d.setMonth(d.getMonth() + 1)
+                                        calendarTab.calendarCurrentMonth = d
+                                    }
+                                }
+                            }
+                        }
+
+                        // Month view
+                        Item {
+                            id: projectCalendarWidget
+                            width: Math.min(parent.width, 520)
+                            height: Math.min(parent.height - 70, 340)
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.top: parent.top
+                            anchors.topMargin: 64
+
+                            property int year: calendarTab.calendarCurrentMonth.getFullYear()
+                            property int month: calendarTab.calendarCurrentMonth.getMonth()
+                            property int firstDayOfWeek: (new Date(year, month, 1)).getDay() // 0=Sun
+                            property int daysInMonth: (new Date(year, month + 1, 0)).getDate()
+                            property int weeks: Math.ceil((firstDayOfWeek + daysInMonth) / 7)
+
+                            // Weekday headers
+                            Row {
+                                anchors.top: parent.top
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                spacing: 0
+                                width: parent.width
+                                Repeater {
+                                    model: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+                                    delegate: Rectangle {
+                                        width: parent.width / 7
+                                        height: 28
+                                        color: "#e9eef6"
+                                        border.color: "#2255aa"
+                                        border.width: 1
+                                        Text {
+                                            anchors.centerIn: parent
+                                            text: modelData
+                                            color: "#2255aa"
+                                            font.pixelSize: 14
+                                            font.bold: true
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Month grid
+                            Grid {
+                                id: projectCalendarGrid
+                                anchors.top: parent.top
+                                anchors.topMargin: 32
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.margins: 8
+                                columns: 7
+                                rows: projectCalendarWidget.weeks
+                                width: parent.width - 16
+                                height: parent.height - 40
+                            
+                                Repeater {
+                                    model: projectCalendarWidget.weeks * 7
+                                    delegate: Item {
+                                        width: parent.width / 7
+                                        height: (parent.height) / projectCalendarWidget.weeks
+                                        property int dayNum: index - projectCalendarWidget.firstDayOfWeek + 1
+                                        visible: dayNum > 0 && dayNum <= projectCalendarWidget.daysInMonth
+                                        Rectangle {
+                                            width: parent.width
+                                            height: parent.height
+                                            color: (Qt.formatDate(calendarTab.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(projectCalendarWidget.year, projectCalendarWidget.month, dayNum), "yyyy-MM-dd"))
+                                                ? "#e0f7fa"
+                                                : "transparent"
+                                            border.color: (Qt.formatDate(calendarTab.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(projectCalendarWidget.year, projectCalendarWidget.month, dayNum), "yyyy-MM-dd")) ? "#2255aa" : "transparent"
+                                            border.width: (Qt.formatDate(calendarTab.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(projectCalendarWidget.year, projectCalendarWidget.month, dayNum), "yyyy-MM-dd")) ? 2 : 0
+                                            radius: 6
+                                            MouseArea {
+                                                anchors.fill: parent
+                                                enabled: true
+                                                cursorShape: Qt.PointingHandCursor
+                                                onClicked: {
+                                                    calendarTab.calendarSelectedDate = new Date(projectCalendarWidget.year, projectCalendarWidget.month, dayNum)
+                                                }
+                                            }
+                                            Text {
+                                                anchors.centerIn: parent
+                                                text: dayNum
+                                                color: "#2255aa"
+                                                font.pixelSize: 16
+                                                font.bold: Qt.formatDate(calendarTab.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(projectCalendarWidget.year, projectCalendarWidget.month, dayNum), "yyyy-MM-dd")
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     // Team Tab
@@ -1371,7 +1501,7 @@ Dialog {
 
             // --- Calendar Month View ---
             Item {
-                id: calendarWidget
+                id: mainCalendarWidget
                 anchors.top: parent.top
                 anchors.topMargin: 110
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -1416,34 +1546,34 @@ Dialog {
                     anchors.topMargin: 40
                     anchors.horizontalCenter: parent.horizontalCenter
                     columns: 7
-                    rows: calendarWidget.weeks
+                    rows: mainCalendarWidget.weeks
                     width: parent.width
                     height: parent.height - 40
             
                     Repeater {
-                        model: calendarWidget.weeks * 7
+                        model: mainCalendarWidget.weeks * 7
                         delegate: Item {
                             width: parent.width / 7
-                            height: (parent.height) / calendarWidget.weeks
-                            property int dayNum: index - calendarWidget.firstDayOfWeek + 1
-                            visible: dayNum > 0 && dayNum <= calendarWidget.daysInMonth
+                            height: (parent.height) / mainCalendarWidget.weeks
+                            property int dayNum: index - mainCalendarWidget.firstDayOfWeek + 1
+                            visible: dayNum > 0 && dayNum <= mainCalendarWidget.daysInMonth
                             Rectangle {
                                 width: parent.width
                                 height: parent.height
                                 color: (dayNum === calendarPage.calendarCurrentMonth.getDate() &&
-                                        calendarPage.calendarCurrentMonth.getMonth() === calendarWidget.month &&
-                                        calendarPage.calendarCurrentMonth.getFullYear() === calendarWidget.year)
+                                        calendarPage.calendarCurrentMonth.getMonth() === mainCalendarWidget.month &&
+                                        calendarPage.calendarCurrentMonth.getFullYear() === mainCalendarWidget.year)
                                     ? "#e0f7fa"
-                                    : (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(calendarWidget.year, calendarWidget.month, dayNum), "yyyy-MM-dd") ? "#e0f7fa" : "transparent")
-                                border.color: (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(calendarWidget.year, calendarWidget.month, dayNum), "yyyy-MM-dd")) ? "#2255aa" : "transparent"
-                                border.width: (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(calendarWidget.year, calendarWidget.month, dayNum), "yyyy-MM-dd")) ? 2 : 0
+                                    : (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(mainCalendarWidget.year, mainCalendarWidget.month, dayNum), "yyyy-MM-dd") ? "#e0f7fa" : "transparent")
+                                border.color: (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(mainCalendarWidget.year, mainCalendarWidget.month, dayNum), "yyyy-MM-dd")) ? "#2255aa" : "transparent"
+                                border.width: (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(mainCalendarWidget.year, mainCalendarWidget.month, dayNum), "yyyy-MM-dd")) ? 2 : 0
                                 radius: 8
                                 MouseArea {
                                     anchors.fill: parent
                                     enabled: true
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
-                                        calendarPage.calendarSelectedDate = new Date(calendarWidget.year, calendarWidget.month, dayNum)
+                                        calendarPage.calendarSelectedDate = new Date(mainCalendarWidget.year, mainCalendarWidget.month, dayNum)
                                     }
                                 }
                                 Text {
@@ -1451,7 +1581,7 @@ Dialog {
                                     text: dayNum
                                     color: "#2255aa"
                                     font.pixelSize: 18
-                                    font.bold: Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(calendarWidget.year, calendarWidget.month, dayNum), "yyyy-MM-dd")
+                                    font.bold: Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(mainCalendarWidget.year, mainCalendarWidget.month, dayNum), "yyyy-MM-dd")
                                 }
                             }
                         }
@@ -1557,7 +1687,7 @@ Dialog {
 
             // --- Calendar Action Buttons Row ---
             Row {
-                anchors.top: calendarWidget.bottom
+                anchors.top: mainCalendarWidget.bottom
                 anchors.topMargin: 16
                 anchors.horizontalCenter: parent.horizontalCenter
                 spacing: 16
@@ -1594,7 +1724,7 @@ Dialog {
                 border.color: "#2255aa"
                 border.width: 2
                 radius: 16
-                anchors.top: calendarWidget.bottom
+                anchors.top: mainCalendarWidget.bottom
                 anchors.topMargin: 64
                 anchors.horizontalCenter: parent.horizontalCenter
 
