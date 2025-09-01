@@ -1,4 +1,4 @@
-/*
+    /*
     Main.qml - Login Page Implementation
 
     This file defines the main application window and the login page UI for the QML-based desktop client.
@@ -34,6 +34,14 @@ ApplicationWindow {
     // Update flatTaskList whenever tasksModel changes
     onTasksModelChanged: {
         flatTaskList = getFlatTaskList();
+    }
+
+    // Log whenever userManager.users changes
+    Connections {
+        target: userManager
+        function onUsersChanged() {
+            console.log("QML LOG: userManager.users changed:", userManager ? userManager.users : "undefined")
+        }
     }
 
     // --- Helper functions for tasks/subtasks ---
@@ -165,7 +173,7 @@ ApplicationWindow {
             dashboardManager.loadProjects(AuthManager.userId)
         }
     }
-    property string currentPage: "dashboard" // "dashboard" or "eventlog"
+    property string currentPage: "dashboard" // "dashboard", "eventlog", "settings"
 
     // Reference to backend event log bridge
     property var eventLogBridge: null
@@ -353,7 +361,15 @@ Connections {
                 MenuItem { text: "Calendar"; onTriggered: { root.currentPage = "calendar" } }
                 MenuItem { text: "File Manager"; onTriggered: {/* TODO: Implement file manager navigation */} }
                 MenuItem { text: "Event Log"; onTriggered: root.currentPage = "eventlog" }
-                MenuItem { text: "Settings"; onTriggered: {/* TODO: Implement settings navigation */} }
+                MenuItem {
+                    text: "Settings"
+                    onTriggered: {
+                        root.currentPage = "settings"
+                        if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                            log_event.log_event("Navigated to settings page")
+                        }
+                    }
+                }
                 MenuSeparator { }
                 MenuItem { text: "Logout"; onTriggered: {
                     if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
@@ -435,7 +451,11 @@ Connections {
                             width: parent.width
                             spacing: 6
                             Repeater {
-                                model: dashboardManager.projects
+                                model: dashboardManager ? dashboardManager.projects : []
+                                Component.onCompleted: {
+                                    if (!dashboardManager)
+                                        console.log("DEBUG: dashboardManager is null at project list")
+                                }
                                 Rectangle {
                                     width: parent.width
                                     height: 24
@@ -628,7 +648,9 @@ Connections {
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
                             root.editingTitle = true
-                            let proj = dashboardManager.projects.find(p => p.id === root.selectedProjectId)
+                            if (!dashboardManager)
+                                console.log("DEBUG: dashboardManager is null at project title edit")
+                            let proj = dashboardManager ? dashboardManager.projects.find(p => p.id === root.selectedProjectId) : null
                             root.editableTitle = proj && proj.name ? proj.name : ""
                             root.titleEditStatus = ""
                         }
@@ -812,12 +834,142 @@ Connections {
                         id: calendarTab
                         anchors.fill: parent
                         visible: projectDetailsPage.selectedTabIndex === 2
-                        Text {
-                            anchors.centerIn: parent
-                            text: "Calendar tab content goes here."
-                            color: "#2255aa"
-                            font.pixelSize: 28
-                            font.bold: true
+                        // --- Basic Month Calendar (no events, no dialogs, no backend) ---
+                        property date calendarCurrentMonth: new Date()
+                        property date calendarSelectedDate: new Date()
+
+                        // Top bar with month navigation
+                        Rectangle {
+                            width: parent.width
+                            height: 48
+                            color: "#fff"
+                            border.color: "#2255aa"
+                            border.width: 2
+                            radius: 12
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.topMargin: 8
+
+                            Row {
+                                anchors.centerIn: parent
+                                spacing: 24
+
+                                Button {
+                                    text: "<"
+                                    onClicked: {
+                                        let d = new Date(calendarTab.calendarCurrentMonth)
+                                        d.setMonth(d.getMonth() - 1)
+                                        calendarTab.calendarCurrentMonth = d
+                                    }
+                                }
+                                Text {
+                                    text: Qt.formatDate(calendarTab.calendarCurrentMonth, "MMMM yyyy")
+                                    font.pixelSize: 20
+                                    color: "#2255aa"
+                                    font.bold: true
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+                                Button {
+                                    text: ">"
+                                    onClicked: {
+                                        let d = new Date(calendarTab.calendarCurrentMonth)
+                                        d.setMonth(d.getMonth() + 1)
+                                        calendarTab.calendarCurrentMonth = d
+                                    }
+                                }
+                            }
+                        }
+
+                        // Month view
+                        Item {
+                            id: projectCalendarWidget
+                            width: Math.min(parent.width, 520)
+                            height: Math.min(parent.height - 70, 340)
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.top: parent.top
+                            anchors.topMargin: 64
+
+                            property int year: calendarTab.calendarCurrentMonth.getFullYear()
+                            property int month: calendarTab.calendarCurrentMonth.getMonth()
+                            property int firstDayOfWeek: (new Date(year, month, 1)).getDay() // 0=Sun
+                            property int daysInMonth: (new Date(year, month + 1, 0)).getDate()
+                            property int weeks: Math.ceil((firstDayOfWeek + daysInMonth) / 7)
+
+                            // Weekday headers
+                            Row {
+                                anchors.top: parent.top
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                spacing: 0
+                                width: parent.width
+                                Repeater {
+                                    model: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+                                    delegate: Rectangle {
+                                        width: parent.width / 7
+                                        height: 28
+                                        color: "#e9eef6"
+                                        border.color: "#2255aa"
+                                        border.width: 1
+                                        Text {
+                                            anchors.centerIn: parent
+                                            text: modelData
+                                            color: "#2255aa"
+                                            font.pixelSize: 14
+                                            font.bold: true
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Month grid
+                            Grid {
+                                id: projectCalendarGrid
+                                anchors.top: parent.top
+                                anchors.topMargin: 32
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.margins: 8
+                                columns: 7
+                                rows: projectCalendarWidget.weeks
+                                width: parent.width - 16
+                                height: parent.height - 40
+                            
+                                Repeater {
+                                    model: projectCalendarWidget.weeks * 7
+                                    delegate: Item {
+                                        width: parent.width / 7
+                                        height: (parent.height) / projectCalendarWidget.weeks
+                                        property int dayNum: index - projectCalendarWidget.firstDayOfWeek + 1
+                                        visible: dayNum > 0 && dayNum <= projectCalendarWidget.daysInMonth
+                                        Rectangle {
+                                            width: parent.width
+                                            height: parent.height
+                                            color: (Qt.formatDate(calendarTab.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(projectCalendarWidget.year, projectCalendarWidget.month, dayNum), "yyyy-MM-dd"))
+                                                ? "#e0f7fa"
+                                                : "transparent"
+                                            border.color: (Qt.formatDate(calendarTab.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(projectCalendarWidget.year, projectCalendarWidget.month, dayNum), "yyyy-MM-dd")) ? "#2255aa" : "transparent"
+                                            border.width: (Qt.formatDate(calendarTab.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(projectCalendarWidget.year, projectCalendarWidget.month, dayNum), "yyyy-MM-dd")) ? 2 : 0
+                                            radius: 6
+                                            MouseArea {
+                                                anchors.fill: parent
+                                                enabled: true
+                                                cursorShape: Qt.PointingHandCursor
+                                                onClicked: {
+                                                    calendarTab.calendarSelectedDate = new Date(projectCalendarWidget.year, projectCalendarWidget.month, dayNum)
+                                                }
+                                            }
+                                            Text {
+                                                anchors.centerIn: parent
+                                                text: dayNum
+                                                color: "#2255aa"
+                                                font.pixelSize: 16
+                                                font.bold: Qt.formatDate(calendarTab.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(projectCalendarWidget.year, projectCalendarWidget.month, dayNum), "yyyy-MM-dd")
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     // Team Tab
@@ -825,12 +977,154 @@ Connections {
                         id: teamTab
                         anchors.fill: parent
                         visible: projectDetailsPage.selectedTabIndex === 3
-                        Text {
-                            anchors.centerIn: parent
-                            text: "Team tab content goes here."
-                            color: "#2255aa"
-                            font.pixelSize: 28
-                            font.bold: true
+
+                        // Refresh users and log when tab becomes visible
+                        property bool wasVisible: false
+                        onVisibleChanged: {
+                            if (visible && !wasVisible) {
+                                if (typeof userManager !== "undefined" && typeof userManager.loadUsers === "function") {
+                                    userManager.loadUsers();
+                                    console.log("QML LOG: Called userManager.loadUsers() on Team tab entry");
+                                }
+                                if (typeof projectManager !== "undefined" && typeof projectManager.loadProjectMembers === "function") {
+                                    projectManager.loadProjectMembers(root.selectedProjectId);
+                                    console.log("QML LOG: Called projectManager.loadProjectMembers() on Team tab entry");
+                                }
+                                if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                                    log_event.log_event("Navigated to Team tab");
+                                }
+                                wasVisible = true;
+                            } else if (!visible) {
+                                wasVisible = false;
+                            }
+                        }
+
+                        // --- Team Management UI ---
+                        // Listen for membersChanged to refresh team table after removal
+                        Connections {
+                            target: projectManager
+                            function onMembersChanged() {
+                                console.log("QML LOG: projectManager.membersChanged received, refreshing team table");
+                                // projectManager.loadProjectMembers(root.selectedProjectId); // Removed to break infinite loop
+                            }
+                        }
+                        // --- Team Remove Confirmation State ---
+                        property int memberToRemoveId: -1
+                        property string memberToRemoveName: ""
+                        property bool showRemoveDialog: false
+
+                        Column {
+                            anchors.fill: parent
+                            spacing: 24
+
+                            Component.onCompleted: {
+                                console.log("QML LOG: Team tab loaded. userManager.users =", userManager ? userManager.users : "undefined")
+                            }
+
+                            // Add Team Member Row
+                            Row {
+                                spacing: 12
+                                ComboBox {
+                                    id: addTeamUserCombo
+                                    width: 200
+                                    model: userManager ? userManager.users : []
+                                    textRole: "username"
+                                    valueRole: "id"
+                                    editable: false
+
+                                    onModelChanged: {
+                                        console.log("QML LOG: ComboBox model changed. New model =", model)
+                                    }
+                                }
+                                TextField {
+                                    id: addTeamRoleField
+                                    width: 160
+                                    placeholderText: "Role"
+                                }
+                                Button {
+                                    text: "Add"
+                                    onClicked: {
+                                        if (addTeamUserCombo.currentIndex >= 0 && addTeamRoleField.text.length > 0) {
+                                            projectManager.addProjectMember(
+                                                root.selectedProjectId,
+                                                AuthManager.userId,
+                                                addTeamUserCombo.currentValue,
+                                                addTeamRoleField.text
+                                            );
+                                            // Refresh team list after addition
+                                            projectManager.loadProjectMembers(root.selectedProjectId);
+                                            if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                                                log_event.log_event("Added user ID " + addTeamUserCombo.currentValue + " as team member with role '" + addTeamRoleField.text + "'");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Team Members Table
+                            Column {
+                                width: parent.width
+                                spacing: 0
+
+                                // Table Header
+                                Row {
+                                    spacing: 12
+                                    width: parent.width
+                                    Rectangle { width: 200; height: 32; color: "#e9eef6"; Text { anchors.centerIn: parent; text: "Member"; font.bold: true } }
+                                    Rectangle { width: 160; height: 32; color: "#e9eef6"; Text { anchors.centerIn: parent; text: "Role"; font.bold: true } }
+                                    Rectangle { width: 100; height: 32; color: "#e9eef6"; }
+                                }
+
+                                // Table Rows
+                                Repeater {
+                                    model: projectManager && projectManager.members ? projectManager.members : []
+                                    onModelChanged: {
+                                        console.log("QML LOG: Team table model changed. New members =", JSON.stringify(model));
+                                    }
+                                    delegate: Row {
+                                        spacing: 12
+                                        width: parent.width
+                                        Rectangle {
+                                            width: 200; height: 32; color: "#fff"
+                                            Text {
+                                                anchors.centerIn: parent
+                                                text: {
+                                                    var user = userManager && userManager.users
+                                                        ? userManager.users.find(u => u.id === modelData.user_id)
+                                                        : null;
+                                                    return user ? user.username : modelData.user_id;
+                                                }
+                                            }
+                                        }
+                                        Rectangle {
+                                            width: 160; height: 32; color: "#fff"
+                                            Text {
+                                                anchors.centerIn: parent
+                                                text: modelData.role
+                                            }
+                                        }
+                
+                                        Rectangle {
+                                            width: 100; height: 32; color: "#fff"
+                                            Button {
+                                                anchors.centerIn: parent
+                                                text: "Remove team member"
+                                                onClicked: {
+                                                    console.log("QML LOG: Remove button clicked for user_id =", modelData.user_id);
+                                                    teamTab.memberToRemoveId = modelData.user_id;
+                                                    var user = userManager && userManager.users
+                                                        ? userManager.users.find(u => u.id === modelData.user_id)
+                                                        : null;
+                                                    teamTab.memberToRemoveName = user ? user.username : modelData.user_id;
+                                                    teamTab.showRemoveDialog = true;
+                                                    console.log("QML LOG: Set memberToRemoveId =", teamTab.memberToRemoveId, "memberToRemoveName =", teamTab.memberToRemoveName, "showRemoveDialog =", teamTab.showRemoveDialog);
+                                                }
+                                            }
+                                        }
+                                        // --- Remove Team Member Confirmation Dialog (moved outside Repeater) ---
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -898,6 +1192,73 @@ Connections {
                     }
                 }
             }
+            // --- Remove Team Member Confirmation Dialog (must be direct child of teamTab) ---
+            Dialog {
+                id: removeMemberDialog
+                modal: true
+                visible: teamTab.showRemoveDialog
+                width: 360
+                height: 180
+                standardButtons: Dialog.NoButton
+                x: (parent.width - width) / 2
+                y: (parent.height - height) / 2
+                onVisibleChanged: {
+                    console.log("QML LOG: Remove dialog visible =", visible, "memberToRemoveId =", teamTab.memberToRemoveId, "memberToRemoveName =", teamTab.memberToRemoveName);
+                }
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: "#fff"
+                    radius: 12
+                    border.color: "#2255aa"
+                    border.width: 2
+
+                    Column {
+                        anchors.centerIn: parent
+                        spacing: 24
+
+                        Text {
+                            text: "Remove team member '" + teamTab.memberToRemoveName + "'?"
+                            font.pixelSize: 18
+                            color: "#222"
+                            horizontalAlignment: Text.AlignHCenter
+                            wrapMode: Text.WordWrap
+                            width: 300
+                        }
+
+                        Row {
+                            spacing: 24
+                            anchors.horizontalCenter: parent.horizontalCenter
+
+                            Button {
+                                text: "Cancel"
+                                onClicked: {
+                                    teamTab.showRemoveDialog = false;
+                                    teamTab.memberToRemoveId = -1;
+                                    teamTab.memberToRemoveName = "";
+                                }
+                            }
+                            Button {
+                                text: "Remove"
+                                onClicked: {
+                                    if (teamTab.memberToRemoveId > 0) {
+                                        console.log("QML LOG: Confirmed removal for user_id =", teamTab.memberToRemoveId);
+                                        projectManager.removeProjectMember(root.selectedProjectId, teamTab.memberToRemoveId);
+                                        projectManager.loadProjectMembers(root.selectedProjectId);
+                                        if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                                            log_event.log_event("Removed user ID " + teamTab.memberToRemoveId + " from team");
+                                        }
+                                    }
+                                    teamTab.showRemoveDialog = false;
+                                    teamTab.memberToRemoveId = -1;
+                                    teamTab.memberToRemoveName = "";
+                                    console.log("QML LOG: Remove dialog closed and state reset");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 // --- Task Tab UI (visible when "Tasks" tab is selected) ---
     // --- Frontend model for tasks and subtasks (demo, replace with backend binding as needed) ---
     // property var tasksModel: [] // Moved to ApplicationWindow root
@@ -949,6 +1310,10 @@ Connections {
                     let pname = proj && proj.name && proj.name.length > 0 ? proj.name : "(Untitled Project)"
                     log_event.log_event("Opened project details: " + pname)
                 }
+                // Listen for backend projectMembersChanged signal to refresh team table
+                projectManager.projectMembersChanged.connect(function() {
+                    projectManager.loadProjectMembers(root.selectedProjectId);
+                });
             }
 
         // --- Event Log Page (visible when logged in and currentPage is "eventlog") ---
@@ -1357,7 +1722,7 @@ Dialog {
 
             // --- Calendar Month View ---
             Item {
-                id: calendarWidget
+                id: mainCalendarWidget
                 anchors.top: parent.top
                 anchors.topMargin: 110
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -1402,34 +1767,34 @@ Dialog {
                     anchors.topMargin: 40
                     anchors.horizontalCenter: parent.horizontalCenter
                     columns: 7
-                    rows: calendarWidget.weeks
+                    rows: mainCalendarWidget.weeks
                     width: parent.width
                     height: parent.height - 40
             
                     Repeater {
-                        model: calendarWidget.weeks * 7
+                        model: mainCalendarWidget.weeks * 7
                         delegate: Item {
                             width: parent.width / 7
-                            height: (parent.height) / calendarWidget.weeks
-                            property int dayNum: index - calendarWidget.firstDayOfWeek + 1
-                            visible: dayNum > 0 && dayNum <= calendarWidget.daysInMonth
+                            height: (parent.height) / mainCalendarWidget.weeks
+                            property int dayNum: index - mainCalendarWidget.firstDayOfWeek + 1
+                            visible: dayNum > 0 && dayNum <= mainCalendarWidget.daysInMonth
                             Rectangle {
                                 width: parent.width
                                 height: parent.height
                                 color: (dayNum === calendarPage.calendarCurrentMonth.getDate() &&
-                                        calendarPage.calendarCurrentMonth.getMonth() === calendarWidget.month &&
-                                        calendarPage.calendarCurrentMonth.getFullYear() === calendarWidget.year)
+                                        calendarPage.calendarCurrentMonth.getMonth() === mainCalendarWidget.month &&
+                                        calendarPage.calendarCurrentMonth.getFullYear() === mainCalendarWidget.year)
                                     ? "#e0f7fa"
-                                    : (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(calendarWidget.year, calendarWidget.month, dayNum), "yyyy-MM-dd") ? "#e0f7fa" : "transparent")
-                                border.color: (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(calendarWidget.year, calendarWidget.month, dayNum), "yyyy-MM-dd")) ? "#2255aa" : "transparent"
-                                border.width: (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(calendarWidget.year, calendarWidget.month, dayNum), "yyyy-MM-dd")) ? 2 : 0
+                                    : (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(mainCalendarWidget.year, mainCalendarWidget.month, dayNum), "yyyy-MM-dd") ? "#e0f7fa" : "transparent")
+                                border.color: (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(mainCalendarWidget.year, mainCalendarWidget.month, dayNum), "yyyy-MM-dd")) ? "#2255aa" : "transparent"
+                                border.width: (Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(mainCalendarWidget.year, mainCalendarWidget.month, dayNum), "yyyy-MM-dd")) ? 2 : 0
                                 radius: 8
                                 MouseArea {
                                     anchors.fill: parent
                                     enabled: true
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
-                                        calendarPage.calendarSelectedDate = new Date(calendarWidget.year, calendarWidget.month, dayNum)
+                                        calendarPage.calendarSelectedDate = new Date(mainCalendarWidget.year, mainCalendarWidget.month, dayNum)
                                     }
                                 }
                                 Text {
@@ -1437,7 +1802,7 @@ Dialog {
                                     text: dayNum
                                     color: "#2255aa"
                                     font.pixelSize: 18
-                                    font.bold: Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(calendarWidget.year, calendarWidget.month, dayNum), "yyyy-MM-dd")
+                                    font.bold: Qt.formatDate(calendarPage.calendarSelectedDate, "yyyy-MM-dd") === Qt.formatDate(new Date(mainCalendarWidget.year, mainCalendarWidget.month, dayNum), "yyyy-MM-dd")
                                 }
                             }
                         }
@@ -1543,7 +1908,7 @@ Dialog {
 
             // --- Calendar Action Buttons Row ---
             Row {
-                anchors.top: calendarWidget.bottom
+                anchors.top: mainCalendarWidget.bottom
                 anchors.topMargin: 16
                 anchors.horizontalCenter: parent.horizontalCenter
                 spacing: 16
@@ -1580,7 +1945,7 @@ Dialog {
                 border.color: "#2255aa"
                 border.width: 2
                 radius: 16
-                anchors.top: calendarWidget.bottom
+                anchors.top: mainCalendarWidget.bottom
                 anchors.topMargin: 64
                 anchors.horizontalCenter: parent.horizontalCenter
 
@@ -1702,8 +2067,12 @@ Dialog {
                                 id: loadingOverlay
                                 anchors.fill: parent
                                 color: "#ffffffcc"
-                                visible: loadingManager.loading
+                                visible: loadingManager ? loadingManager.loading : false
                                 z: 9999
+                                Component.onCompleted: {
+                                    if (!loadingManager)
+                                        console.log("DEBUG: loadingManager is null at loadingOverlay")
+                                }
                         
                                 Column {
                                     anchors.centerIn: parent
@@ -1713,7 +2082,11 @@ Dialog {
                                         width: 240
                                         from: 0
                                         to: 1
-                                        value: loadingManager.progress
+                                        value: loadingManager ? loadingManager.progress : 0
+                                        Component.onCompleted: {
+                                            if (!loadingManager)
+                                                console.log("DEBUG: loadingManager is null at progressBar")
+                                        }
                                     }
                                     Text {
                                         text: "Loading, please wait..."
@@ -1739,7 +2112,55 @@ Dialog {
                 }
             }
         }
- 
+
+        // --- Settings Page (visible when logged in and currentPage is "settings") ---
+        Item {
+            id: settingsPage
+            anchors.fill: parent
+            visible: root.loggedIn && root.currentPage === "settings"
+
+            // Top bar row with back button and title (top left of the page)
+            Row {
+                spacing: 16
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.topMargin: 24
+                anchors.leftMargin: 32
+
+                Button {
+                    text: "\u25C0 Dashboard"
+                    onClicked: {
+                        root.currentPage = "dashboard"
+                        if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                            log_event.log_event("Returned to dashboard from settings")
+                        }
+                    }
+                    z: 100
+                }
+                Text {
+                    text: "Settings"
+                    font.pixelSize: 32
+                    font.bold: true
+                    color: "#2255aa"
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+
+            // Centered content box for settings content (empty for now)
+            Rectangle {
+                width: 600
+                height: 400
+                color: "#fff"
+                border.color: "#2255aa"
+                border.width: 3
+                radius: 24
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                z: 10
+            }
+        }
+
     // --- All other code remains commented out below ---
     /*
     <rest of original file remains commented out>
