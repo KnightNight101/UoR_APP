@@ -1,0 +1,1453 @@
+@article{ahmed1453BitesizeTeaching2021,
+  title = {1453 {{Bitesize}} Teaching: Learning- but Make It Snappy},
+  shorttitle = {1453 {{Bitesize}} Teaching},
+  author = {Ahmed, Leila and Matu, Eugen},
+  date = {2021-08-01},
+  journaltitle = {Archives of Disease in Childhood},
+  volume = {106},
+  pages = {A375-A376},
+  publisher = {BMJ Publishing Group Ltd},
+  issn = {0003-9888, 1468-2044},
+  doi = {10.1136/archdischild-2021-rcpch.653},
+  url = {https://adc.bmj.com/content/106/Suppl_1/A375.2},
+  urldate = {2025-07-11},
+  abstract = {Background The pressures on clinical time is a well-recognised obstacle to medical teaching in a busy department.1 The current novel Corona virus (COVID-19) pandemic has challenged this even further by placing unprecedented demands on our time and ability to deliver face to face teaching.2 There is evidence demonstrating that teaching delivered in short units is well received by learners.3 4 Objectives To develop a new, quality-assured framework of teaching consisting of 15-minute virtual teaching sessions (Bitesize). They would be suitable for and accessible to all staff in a busy tertiary neonatal unit. Methods In the first phase, teaching sessions were delivered twice weekly with a focus on establishing routine and demonstrating how to deliver the teaching. After a period of 4 weeks, a survey was sent to participants. The sessions were then continued over a 6-month period with modifications incorporating feedback from the first survey. At the end of the 6-month period, another survey was sent to the participants for their feedback on Bitesize teaching.The sessions were open to all staff and was accessible on a virtual platform. Once completed, recorded sessions were uploaded to an online education platform. Results The initial survey was sent to 30 participants and 10 responded (33\%). As illustrated in table 1 below, there was a strong positive response to the sessions.View this table:View inline View popup Abstract 1453 Table 1 Positive feedback from initial bitesize sessions. There was emphasis on the relevance, as well as the practical and interactive nature of the sessionsIn order to promote inclusivity and make the sessions relevant to everyone, the sessions were delivered by various members of the team in the NICU including the c-onsultants, trainees and the extended multidisciplinary team as demonstrated in table 2 below.View this table:View inline View popup Abstract 1453 Table 2 The different roles of the Bitesize presenters. The MDT included nurses and nurse educators, a pharmacist, a Speech and Language therapist, physiotherapist and breastfeeding support specialists. Presenters who delivered more than one session were counted once.The response was positive even after 6 months. When asked what they liked about Bitesize, 78\% (n=11) highlighted the brevity of the sessions.Participants were asked if they would like Bitesize to continue (if staying in the NICU) or to be initiated in their new department (if rotating) and 100\% (n=14) said that they would. Conclusions Bitesize teaching is a valuable technique for delivering concise and relevant teaching in a busy department. The brevity promotes inclusivity of different team members and encourages the virtual participation fostered in the current pandemic climate. ReferencesAldeen Amer. Gisondi M. Bedside teaching in the emergency department. Acad Emerg Med 2006 Aug;13(8).Bari Arfan. Dermatology Residency Training in Covid-19 Pandemic: Transition from traditional to online teaching. J Coll Physicians Surg Pak 2020;30(6).Manning K. Spicer J. Golub L. Akbashev. Klein R. The micro revolution: effect of bite-sized teaching (BST) on learner engagement and learning in postgraduate medical education. BMC Med Educ 2021;1(69).Tattersall A. Beecroft C. Freeman J. Learn something new in 20 minutes. Bite size sessions to support research and teaching. Health Info Libr J 2013;30(3).},
+  issue = {Suppl 1},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\6MZ8G8X9\Ahmed and Matu - 2021 - 1453 Bitesize teaching learning- but make it snap.pdf}
+}
+
+@online{ahmedStudyingLLMPerformance2024,
+  title = {Studying {{LLM Performance}} on {{Closed-}} and {{Open-source Data}}},
+  author = {Ahmed, Toufique and Bird, Christian and Devanbu, Premkumar and Chakraborty, Saikat},
+  date = {2024-02-23},
+  eprint = {2402.15100},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2402.15100},
+  url = {http://arxiv.org/abs/2402.15100},
+  urldate = {2025-07-11},
+  abstract = {Large Language models (LLMs) are finding wide use in software engineering practice. These models are extremely data-hungry, and are largely trained on open-source (OSS) code distributed with permissive licenses. In terms of actual use however, a great deal of software development still occurs in the for-profit/proprietary sphere, where the code under development is not, and never has been, in the public domain; thus, many developers, do their work, and use LLMs, in settings where the models may not be as familiar with the code under development. In such settings, do LLMs work as well as they do for OSS code? If not, what are the differences? When performance differs, what are the possible causes, and are there work-arounds? In this paper, we examine this issue using proprietary, closed-source software data from Microsoft, where most proprietary code is in C\# and C++. We find that performance for C\# changes little from OSS --{$>$} proprietary code, but does significantly reduce for C++; we find that this difference is attributable to differences in identifiers. We also find that some performance degradation, in some cases, can be ameliorated efficiently by in-context learning.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Machine Learning,Computer Science - Software Engineering},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\L548ED9S\\Ahmed et al. - 2024 - Studying LLM Performance on Closed- and Open-sourc.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\FGWDFBYR\\2402.html}
+}
+
+@inproceedings{alhazmiDecisionSupportSystem2018,
+  title = {A {{Decision Support System}} for {{Sprint Planning}} in {{Scrum Practice}}},
+  booktitle = {{{SoutheastCon}} 2018},
+  author = {Alhazmi, Alhejab and Huang, Shihong},
+  date = {2018-04},
+  pages = {1--9},
+  issn = {1558-058X},
+  doi = {10.1109/SECON.2018.8479063},
+  url = {https://ieeexplore.ieee.org/abstract/document/8479063},
+  urldate = {2025-07-11},
+  abstract = {Scrum is one of the Agile software development processes broadly adopted in industry. Scrum promotes frequent customer involvements and incremental short release. Sprint planning is a critical step in Scrum that sets up next release goals and lays out plans to achieve those goals. This paper presents a Sprint Planning dEcision Support System (SPESS) which is a tool to assist the managers for Sprint planning. Among considering other Sprint planning factors, SPESS takes into consideration developer competency, developer seniority and task dependency. The results are that the assignments of the tasks of each Sprint to developers guarantee that each team member contributes to their fullest potential, and project planning is optimized for the shortest possible time.},
+  eventtitle = {{{SoutheastCon}} 2018},
+  keywords = {competence,Complexity theory,Decision support systems,Essence,Estimation,Hungarian algorithm,Planning,planning poker,Scrum,Software,Sprint planning,Task analysis,task dependence,Tools}
+}
+
+@article{alibasaDoingFeelingRelationships2022,
+  title = {Doing and {{Feeling}}: {{Relationships Between Moods}}, {{Productivity}} and {{Task-Switching}}},
+  shorttitle = {Doing and {{Feeling}}},
+  author = {Alibasa, Muhammad Johan and Purwanto, Rizka W. and Yacef, Kalina and Glozier, Nick and Calvo, Rafael A.},
+  date = {2022-07},
+  journaltitle = {IEEE Transactions on Affective Computing},
+  volume = {13},
+  number = {3},
+  pages = {1140--1154},
+  issn = {1949-3045},
+  doi = {10.1109/TAFFC.2020.3029440},
+  url = {https://ieeexplore.ieee.org/abstract/document/9216577},
+  urldate = {2025-07-11},
+  abstract = {Digital technology influences behaviours, moods and wellbeing. The relationships are complex, but users are increasingly interested in finding how to balance a digital life with psychological wellbeing. We present an approach for investigating the relationship between lifestyle aspects and digital technology usage patterns that combines MindGauge, a mobile app enabling users collect and analyse their moods and behaviours, with a productivity tool (RescueTime). We then report a 16-month study in which we collected computer and smartphone usage and self-reports from 72 participants. We present methods for analysing the relationship between productivity, task-switching, mood and lifestyle, and more specifically how digital technology usage associates with productivity and task-switching. Our study also investigates how lifestyle aspects (sleep quality, physical activity, workload, social interaction and alcoholic drink consumption) relate to mood, task-switching and productivity. Results show that more frequent task-switching is associated with negative moods. A few lifestyle aspects, such as sleep quality and physical activity, had a significant relationship with positive moods. We also contribute a mood detection model that utilise both digital footprints and lifestyle contexts, yielding an accuracy of 87 percent. The study provides evidence that such methods can be used to understand the impact of technology on wellbeing.},
+  keywords = {computer logs,Digital behaviour,Facebook,Mood,mood and lifestyle,mood detection,productivity,Productivity,Stress,Switches,Task analysis,task-switching,Tools}
+}
+
+@article{alsudiriAlignmentLargeProject2013,
+  title = {Alignment of Large Project Management Process to Business Strategy: {{A}} Review and Conceptual Framework},
+  shorttitle = {Alignment of Large Project Management Process to Business Strategy},
+  author = {Alsudiri, Turki and Al-Karaghouli, Wafi and Eldabi, Tillal},
+  year = {2013-10-14Z},
+  journaltitle = {Journal of Enterprise Information Management},
+  volume = {26},
+  number = {5},
+  pages = {596--615},
+  publisher = {Emerald Group Publishing Limited},
+  issn = {1741-0398},
+  doi = {10.1108/JEIM-07-2013-0050},
+  url = {https://www.emerald.com/insight/content/doi/10.1108/jeim-07-2013-0050/full/html},
+  urldate = {2025-07-18},
+  abstract = {– The purpose of this paper is to discuss in depth the factors that lead to misalignment between the project management (PM) and the business strategy by investigating four case studies in the telecommunications industry in Saudi Arabia. , – Due to the limited research on the subject of the alignment of PM and business strategy, the methodology used in this research was a case study in depth interview. , – The paper highlights the important factors that affect the process of aligning the PM to the business strategy. The companies that have strong alignment between the business strategy and the PM show successful projects outcome while the companies that have mismatch alignment show less successful projects outcome. , – The paper has investigated four telecommunications companies only. However, more companies will be better to compare the finding. Due to time constrains, the research has studied one project in each company. Each project was supporting one of the company's business strategies. More projects and business strategies will lead to clear picture of the alignment. Access to executives’ managers and CIO's was difficult. Several meetings were cancelled without short notice. , – This paper helps the companies to implement their business strategies with embedding their projects in the overall strategy. Also, helps the PM team to execute the projects in a strategic way. , – This paper contributes to the literature with a clear explanation of the concept of the alignment and provides a framework to ensure the alignment between the large PM process and the business strategy is achieved.},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\WY4RKTVD\html.html}
+}
+
+@online{AttentionSpanLectures,
+  title = {Attention Span during Lectures: 8 Seconds, 10 Minutes, or More? | {{Advances}} in {{Physiology Education}} | {{American Physiological Society}}},
+  url = {https://journals.physiology.org/doi/full/10.1152/advan.00109.2016?},
+  urldate = {2025-07-11}
+}
+
+@article{baymCollaborationMeetings,
+  title = {Collaboration and {{Meetings}}},
+  author = {Baym, Nancy and Bergmann, Rachel and Coleman, Adam and Fernandez, Ricardo Reyna and Rintel, Sean and Sellen, Abigail and Smith, Tiffany},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\XH3SB2UR\Baym et al. - Collaboration and Meetings.pdf}
+}
+
+@article{blijlevenIdentifyingEliminatingInefficiencies2017,
+  title = {Identifying and Eliminating Inefficiencies in Information System Usage: {{A}} Lean Perspective},
+  shorttitle = {Identifying and Eliminating Inefficiencies in Information System Usage},
+  author = {Blijleven, Vincent and Koelemeijer, Kitty and Jaspers, Monique},
+  date = {2017-11-01},
+  journaltitle = {International Journal of Medical Informatics},
+  shortjournal = {International Journal of Medical Informatics},
+  volume = {107},
+  pages = {40--47},
+  issn = {1386-5056},
+  doi = {10.1016/j.ijmedinf.2017.08.005},
+  url = {https://www.sciencedirect.com/science/article/pii/S1386505617302046},
+  urldate = {2025-07-19},
+  abstract = {Objectives Mismatches frequently occur between information system (IS) dictated workflows and actual workflows of IS users. The resulting impeded workflows negatively influence the efficiency with which goods or services are produced and delivered to customers. Within a healthcare context, impeded workflows can additionally have a negative impact on the safety and effectiveness of care delivered to patients. Methods This study evaluates the impact of an electronic health record system of a large university hospital on workflows of healthcare professionals from a lean management waste perspective. Workflow mismatches were identified from direct observations and follow-up semi-structured interviews with physicians and nurses and assessed in terms of waste generated. Results In total, 241 manifestations of waste were identified and classified according to 8 types of waste. Furthermore, noteworthy relationships among the identified manifestations of waste were found. These include differences in frequency per type of waste, certain types of waste having a cascading effect, and waste proliferating as a result of mimicked and routinized behavior. Conclusions The knowledge obtained from this study can support (re)design of IS to better match workflows which may subsequently lead to more safe, effective and efficient patient care.},
+  keywords = {Case study,Electronic health records,Healthcare,Inefficiency,Information system,Information technology,Lean,Usability,Waste},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\8ZBKRBUR\\Blijleven et al. - 2017 - Identifying and eliminating inefficiencies in information system usage A lean perspective.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\C7DHA2DV\\S1386505617302046.html}
+}
+
+@book{bourkeServerLoadBalancing2001,
+  title = {Server {{Load Balancing}}},
+  author = {Bourke, Tony},
+  date = {2001},
+  publisher = {"O'Reilly Media, Inc."},
+  abstract = {Load balancing improves network performance by distributing traffic efficiently so that individual servers are not overwhelmed by sudden fluctuations in activity. Server Load Balancing is a guide to this critical component of high availability, clustering, and fault tolerance, all of which provide the infrastructure for reliable Internet sites and large corporate networks. Much of the information on load balancing comes from vendor-specific manuals that use inconsistent terminology and are often biased toward the products they cover. Server Load Balancing explains to engineers and technicians the concepts and terminology of load balancing and offers practical guidance for planning and implementing it in almost any environment. It includes a configuration guide with diagrams and sample configurations for installing, configuring, and maintaining products from the four major vendors:  Alteon WebSystems Cisco's CSS Series (formerly ArrowPoint) F5's BIG-IP the Foundry ServerIron series  By comparing several load balancing products, you'll gain a deeper understanding of the technology and how best to use it to improve your network performance. No system administrator responsible for traffic management should be without this practical guide.},
+  isbn = {978-0-596-00050-9},
+  langid = {english},
+  pagetotal = {192},
+  keywords = {Computers / Business & Productivity Software / Databases,Computers / Data Transmission Systems / General,Computers / Database Administration & Management,Computers / Distributed Systems / Client-Server Computing,Computers / General,Computers / Hardware / General,Computers / Hardware / Mainframes & Minicomputers,Computers / Information Technology,Computers / Networking / General,Computers / Networking / Hardware,Computers / Operating Systems / Windows Desktop,Technology & Engineering / Data Transmission Systems / General}
+}
+
+@inproceedings{bratterudSungDiagramRevitalizing2020,
+  title = {The {{Sung Diagram}}: {{Revitalizing}} the {{Eisenhower Matrix}}},
+  shorttitle = {The {{Sung Diagram}}},
+  booktitle = {Diagrammatic {{Representation}} and {{Inference}}},
+  author = {Bratterud, Hannah and Burgess, Mac and Fasy, Brittany Terese and Millman, David L. and Oster, Troy and Sung, Eunyoung (Christine)},
+  editor = {Pietarinen, Ahti-Veikko and Chapman, Peter and Bosveld-de Smet, Leonie and Giardino, Valeria and Corter, James and Linker, Sven},
+  date = {2020},
+  pages = {498--502},
+  publisher = {Springer International Publishing},
+  location = {Cham},
+  doi = {10.1007/978-3-030-54249-8_43},
+  abstract = {The Eisenhower Decision Matrix, credited to the task management system of US President Dwight Eisenhower, is a graphical diagram used in strategy and planning for tasks. This matrix, however, only provides four types of priorities. We identify a collection of scenarios in which the traditional matrix provides misleading suggestions and propose an extension to the matrix that addresses the misleading suggestions illustrated with examples and implementation in a web application.},
+  isbn = {978-3-030-54249-8},
+  langid = {english}
+}
+
+@article{brayfieldEmployeeAttitudesEmployee1955,
+  title = {Employee Attitudes and Employee Performance},
+  author = {Brayfield, Arthur H. and Crockett, Walter H.},
+  date = {1955},
+  journaltitle = {Psychological Bulletin},
+  volume = {52},
+  number = {5},
+  pages = {396--424},
+  publisher = {American Psychological Association},
+  location = {US},
+  issn = {1939-1455},
+  doi = {10.1037/h0045899},
+  abstract = {An examination is made of the empirical literature bearing upon the relationships between employee attitudes and employee performance. A discussion of methodological questions includes considerations of sampling, of criterion measures, and of general problems of analysis and design. Theoretical considerations include the employee's outside environment, and both union and company structures. Two conclusions are inferred from the literature reviewed: 1. Job satisfaction does not imply strong motivation for outstanding performance; and 2. "… productivity may be only peripherally related to many of the goals toward which the industrial worker is striving." 62 references. (PsycINFO Database Record (c) 2016 APA, all rights reserved)},
+  keywords = {Employee Attitudes,Performance,Sampling (Experimental)},
+  file = {C:\Users\KnightNight101\Zotero\storage\FWK2EDX7\1956-06387-001.html}
+}
+
+@inproceedings{carneiroScrumAgileProject2018,
+  title = {Scrum {{Agile Project Management Methodology Application}} for {{Workflow Management}}: {{A Case Study}}},
+  shorttitle = {Scrum {{Agile Project Management Methodology Application}} for {{Workflow Management}}},
+  booktitle = {2018 {{IEEE International Conference}} on {{Industrial Engineering}} and {{Engineering Management}} ({{IEEM}})},
+  author = {Carneiro, L. B. and Silva, A. C. C. L. M. and Alencar, L. H.},
+  date = {2018-12},
+  pages = {938--942},
+  issn = {2157-362X},
+  doi = {10.1109/IEEM.2018.8607356},
+  url = {https://ieeexplore.ieee.org/abstract/document/8607356},
+  urldate = {2025-07-11},
+  abstract = {The management of routine activities involves activity planning, goal alignment, and optimization of resources, in general, the same efforts needed to manage a project. In this sense, this research intended to find a methodology that could be adapted to the management of a department of a public company, aiming at continuous improvement of its performance. Within the project management field there are the traditional and the agile methodologies. Agile project management methodologies are characterized by being simple, flexible and dynamic, easily responding to changes and promoting team integration. Scrum methodology is one of the most popular because it is affordable and does not require extensive documentation. This work aimed to show how it was possible to use Scrum in the management of routines, making the necessary adaptations, and presenting the performance indicators to evaluate the improvements achieved with the use of the tool. As a result, better planning of activities, prioritization of tasks, constant monitoring of the activities, better flow of routine work, better delivery quality and greater alignment among team members were observed.},
+  eventtitle = {2018 {{IEEE International Conference}} on {{Industrial Engineering}} and {{Engineering Management}} ({{IEEM}})},
+  keywords = {Agile Project Management Methodology,case study,Companies,Computer aided software engineering,management of routines,Monitoring,Planning,Project management,Scrum,Task analysis}
+}
+
+@article{carrierCausesEffectsPracticalities2015,
+  title = {Causes, Effects, and Practicalities of Everyday Multitasking},
+  author = {Carrier, L. Mark and Rosen, Larry D. and Cheever, Nancy A. and Lim, Alex F.},
+  date = {2015-03-01},
+  journaltitle = {Developmental Review},
+  shortjournal = {Developmental Review},
+  series = {Special {{Issue}}: {{Living}} in the “{{Net}}” {{Generation}}: {{Multitasking}}, {{Learning}}, and {{Development}}},
+  volume = {35},
+  pages = {64--78},
+  issn = {0273-2297},
+  doi = {10.1016/j.dr.2014.12.005},
+  url = {https://www.sciencedirect.com/science/article/pii/S0273229714000513},
+  urldate = {2025-07-11},
+  abstract = {Everyday multitasking with electronic devices is common among all age groups, but the youngest generations of persons carry out the most everyday multitasking, especially in the form of media multitasking. Multitasking via technology in school settings or at home while studying is common for students. Both external factors (e.g., alerts from smartphones) and internal factors (e.g., thoughts about future online activities) influence multitasking prevalence. Although laboratory research has shown that performing concurrent tasks is subject to processing bottlenecks and to switch costs, real-life everyday multitasking is different from laboratory dual-task scenarios in several ways, including having more than two tasks involved, proceeding by interleaving tasks over extended periods of time, and allowing more flexibility in resource allocation and setting of priorities. Theoretically, everyday multitasking should be capable of achieving some processing efficiencies. Yet, empirical research shows that studying, doing homework, learning during lectures, learning from other sources, grades, and GPA likely are all negatively affected by concurrent multitasking with technology. Young people who frequently multitask compared with other young people may be poorer at ignoring irrelevant environmental information, but the effects of extreme multitasking on other cognitive outcomes are not clear-cut. There are strategies that people of all ages can use to minimize multitasking and reduce distractions when they are performing important tasks such as studying or doing homework.},
+  keywords = {Attention,Everyday multitasking,Learning,Technology}
+}
+
+@online{chengSliceLevelSchedulingHigh2025,
+  title = {Slice-{{Level Scheduling}} for {{High Throughput}} and {{Load Balanced LLM Serving}}},
+  author = {Cheng, Ke and Hu, Wen and Wang, Zhi and Peng, Hongen and Li, Jianguo and Zhang, Sheng},
+  date = {2025-03-09},
+  eprint = {2406.13511},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2406.13511},
+  url = {http://arxiv.org/abs/2406.13511},
+  urldate = {2025-07-11},
+  abstract = {Large language models (LLMs) iteratively generate text token by token, with memory usage increasing with the length of generated token sequences. Since the request generation length is generally unpredictable, it is difficult to estimate the time and memory required to process requests, thus posing a challenge for effective request scheduling. Conventional sequence-level scheduling (SLS) serves requests in a first-come first-served (FCFS) manner with static batching where requests with short generation lengths are delayed until those with long ones have finished generation. Besides, to avoid out-of-memory (OOM) errors, SLS batches requests using a small batch size, which limits throughput. Recently proposed iteration-level scheduling (ILS) improves this with continuous batching, timely completing requests and dynamically adding new ones, but often limits the number of parallel-processing requests to OOM errors, thus compromising throughput. Moreover, both SLS and ILS fail to effectively balance workload across multiple LLM instances. To tackle these challenges, we propose slice-level scheduling (SCLS). By splitting the predefined maximal generation length limit into slices and serving batches slice by slice, it provides a precise range of serving time and memory usage for batched requests, laying the foundation for effective scheduling. Experiments confirm that compared with SLS and ILS schedulers, SCLS can improve throughput by up to 315.8\% and greatly mitigate load imbalance with proposed batching and offloading algorithms.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Distributed Parallel and Cluster Computing},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\T7TL88CH\\Cheng et al. - 2025 - Slice-Level Scheduling for High Throughput and Loa.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\VKVC4J6E\\2406.html}
+}
+
+@article{chenUnleashingPotentialPrompt2025,
+  title = {Unleashing the Potential of Prompt Engineering for Large Language Models},
+  author = {Chen, Banghao and Zhang, Zhaofeng and Langrené, Nicolas and Zhu, Shengxin},
+  date = {2025-06},
+  journaltitle = {Patterns},
+  volume = {6},
+  number = {6},
+  eprint = {2310.14735},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  pages = {101260},
+  issn = {2666-3899},
+  doi = {10.1016/j.patter.2025.101260},
+  url = {http://arxiv.org/abs/2310.14735},
+  urldate = {2025-07-11},
+  abstract = {This comprehensive review delves into the pivotal role of prompt engineering in unleashing the capabilities of Large Language Models (LLMs). The development of Artificial Intelligence (AI), from its inception in the 1950s to the emergence of advanced neural networks and deep learning architectures, has made a breakthrough in LLMs, with models such as GPT-4o and Claude-3, and in Vision-Language Models (VLMs), with models such as CLIP and ALIGN. Prompt engineering is the process of structuring inputs, which has emerged as a crucial technique to maximize the utility and accuracy of these models. This paper explores both foundational and advanced methodologies of prompt engineering, including techniques such as self-consistency, chain-of-thought, and generated knowledge, which significantly enhance model performance. Additionally, it examines the prompt method of VLMs through innovative approaches such as Context Optimization (CoOp), Conditional Context Optimization (CoCoOp), and Multimodal Prompt Learning (MaPLe). Critical to this discussion is the aspect of AI security, particularly adversarial attacks that exploit vulnerabilities in prompt engineering. Strategies to mitigate these risks and enhance model robustness are thoroughly reviewed. The evaluation of prompt methods is also addressed through both subjective and objective metrics, ensuring a robust analysis of their efficacy. This review also reflects the essential role of prompt engineering in advancing AI capabilities, providing a structured framework for future research and application.},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\NTMWKJU5\\Chen et al. - 2025 - Unleashing the potential of prompt engineering for.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\DGKUYNNL\\2310.html}
+}
+
+@article{chisCognitiveLoadProductivity2023,
+  title = {The {{Cognitive Load}} – {{Productivity Tradeoff}} in {{Task Switching}}},
+  author = {Chis, Maximillian and Li, Huao and Zheng, Keyang and Lewis, Michael and Hughes, Dana and Sycara, Katia},
+  date = {2023-09-01},
+  journaltitle = {Proceedings of the Human Factors and Ergonomics Society Annual Meeting},
+  volume = {67},
+  number = {1},
+  pages = {666--671},
+  publisher = {SAGE Publications Inc},
+  issn = {1071-1813},
+  doi = {10.1177/21695067231193677},
+  url = {https://doi.org/10.1177/21695067231193677},
+  urldate = {2025-07-11},
+  abstract = {Although the majority of analyses of multitasking have been done in experimental settings where the tasks analyzed are non-interdependent, multitasking as it occurs in the workforce is highly complex, balancing multiple competing needs of logistical efficiency, cognitive load, and minimization of idle time. The reported study investigates multitasking in teams performing an experimental search and rescue task in Minecraft. The player in the team’s Transporter role is responsible for searching for victims and, after they have been triaged, transporting them to the appropriate location for evacuation. Player’s choices to switch tasks within and between task sets (searching vs. transporting) provide an opportunity to study interdependent task switching in the wild. That switching between task sets is more cognitively demanding than switching between tasks of the same type is well-documented. We find that an ACT-R estimate of average chunks in working memory is higher for teams that switch between task sets less frequently while scores are also higher.},
+  langid = {english}
+}
+
+@online{chuLLMAgentsEducation2025,
+  title = {{{LLM Agents}} for {{Education}}: {{Advances}} and {{Applications}}},
+  shorttitle = {{{LLM Agents}} for {{Education}}},
+  author = {Chu, Zhendong and Wang, Shen and Xie, Jian and Zhu, Tinghui and Yan, Yibo and Ye, Jinheng and Zhong, Aoxiao and Hu, Xuming and Liang, Jing and Yu, Philip S. and Wen, Qingsong},
+  date = {2025-03-14},
+  eprint = {2503.11733},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2503.11733},
+  url = {http://arxiv.org/abs/2503.11733},
+  urldate = {2025-07-11},
+  abstract = {Large Language Model (LLM) agents have demonstrated remarkable capabilities in automating tasks and driving innovation across diverse educational applications. In this survey, we provide a systematic review of state-of-the-art research on LLM agents in education, categorizing them into two broad classes: (1) \textbackslash emph\{Pedagogical Agents\}, which focus on automating complex pedagogical tasks to support both teachers and students; and (2) \textbackslash emph\{Domain-Specific Educational Agents\}, which are tailored for specialized fields such as science education, language learning, and professional development. We comprehensively examine the technological advancements underlying these LLM agents, including key datasets, benchmarks, and algorithmic frameworks that drive their effectiveness. Furthermore, we discuss critical challenges such as privacy, bias and fairness concerns, hallucination mitigation, and integration with existing educational ecosystems. This survey aims to provide a comprehensive technological overview of LLM agents for education, fostering further research and collaboration to enhance their impact for the greater good of learners and educators alike.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Computers and Society,Computer Science - Human-Computer Interaction},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\XMY3722W\\Chu et al. - 2025 - LLM Agents for Education Advances and Application.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\3TKPP4MR\\2503.html}
+}
+
+@article{dadashiSeeingWoodsTrees2017,
+  title = {Seeing the Woods for the Trees: The Problem of Information Inefficiency and Information Overload on Operator Performance},
+  shorttitle = {Seeing the Woods for the Trees},
+  author = {Dadashi, Nastaran and Golightly, David and Sharples, Sarah},
+  date = {2017-11-01},
+  journaltitle = {Cognition, Technology \& Work},
+  shortjournal = {Cogn Tech Work},
+  volume = {19},
+  number = {4},
+  pages = {561--570},
+  issn = {1435-5566},
+  doi = {10.1007/s10111-017-0451-1},
+  url = {https://doi.org/10.1007/s10111-017-0451-1},
+  urldate = {2025-07-19},
+  abstract = {One of the recurring questions in designing dynamic control environments is whether providing more information leads to better operational decisions. The idea of having every piece of information is increasingly tempting (and in safety critical domains often mandatory) but has become a potential obstacle for designers and operators. The present research study examined this challenge of appropriate information design and usability within a railway control setting. A laboratory study was conducted to investigate the presentation of different levels of information (taken from data processing framework, Dadashi et al. in Ergonomics 57(3):387–402, 2014) and the association with, and potential prediction of, the performance of a human operator when completing a cognitively demanding problem-solving scenario within railways. Results indicated that presenting users only with information corresponding to their cognitive task, and in the absence of other, non task-relevant information, improves the performance of their problem-solving/alarm handling. Knowing the key features of interest to various agents (machine or human) and using the data processing framework to guide the optimal level of information required by each of these agents could potentially lead to safer and more usable designs.},
+  langid = {english},
+  keywords = {Cognition,Cognitive Control,Decision support system,Human computer interaction,Information Model,Information Processing,Instructional Design,Interaction Design,Usability engineering},
+  file = {C:\Users\KnightNight101\Zotero\storage\FBQIJMGN\Dadashi et al. - 2017 - Seeing the woods for the trees the problem of information inefficiency and information overload on.pdf}
+}
+
+@article{damijApproachOptimizingKanban2024,
+  title = {An {{Approach}} to {{Optimizing Kanban Board Workflow}} and {{Shortening}} the {{Project Management Plan}}},
+  author = {Damij, Nadja and Damij, Talib},
+  date = {2024},
+  journaltitle = {IEEE Transactions on Engineering Management},
+  volume = {71},
+  pages = {13266--13273},
+  issn = {1558-0040},
+  doi = {10.1109/TEM.2021.3120984},
+  url = {https://ieeexplore.ieee.org/abstract/document/9611021},
+  urldate = {2025-07-11},
+  abstract = {Kanban is a well-known agile method first implemented in Toyota's manufacturing process in the 1950s, later spreading across various industries and academic fields. It focuses on process and project improvement in different fields and emphasizes a team's ability to improve the efficiency of day-to-day activities by implementing the core practices (e.g., visualizing workflow, limiting work-in-progress, managing flow). The efficiency of day-to-day activities is crucial in every process, yet, recent times have called for a new out-of-the-box approach to address the challenges companies face. While the literature review presents efficiency improvements through the use of the core practices, one of the biggest problems while implementing Kanban is shown to be the setting of effective work-in-progress limits. This article addresses this issue and proves that the workflow does not exclusively depend on the work-in-progress limits—as the core practices suggest—but on determining the optimal relationship (solution) among the replenishment value, resource capacity, and work-in-progress limits. Such an approach ensures that the workflow pace on the Kanban board is sustainable by reducing the number of work items in queues as well as people's idleness. The proposed empirical approach runs a series of simulation scenarios aimed at helping to identify the optimal relationship among the three mentioned elements for generating a sustainable workflow pace and minimizing work/people's idleness.},
+  keywords = {Agile project management,Continuous improvement,Feedback loop,Kanban method,Project management,replenishment,resource capacity,Software,Standards,Task analysis,Visualization,work-in-progress (WIP) limits}
+}
+
+@article{devineNewChallengesDynamic2005,
+  title = {New Challenges in Dynamic Load Balancing},
+  author = {Devine, Karen D. and Boman, Erik G. and Heaphy, Robert T. and Hendrickson, Bruce A. and Teresco, James D. and Faik, Jamal and Flaherty, Joseph E. and Gervasio, Luis G.},
+  date = {2005-02-01},
+  journaltitle = {Applied Numerical Mathematics},
+  shortjournal = {Applied Numerical Mathematics},
+  series = {{{ADAPT}} '03: {{Conference}} on {{Adaptive Methods}} for {{Partial Differential Equations}} and {{Large-Scale Computation}}},
+  volume = {52},
+  number = {2},
+  pages = {133--152},
+  issn = {0168-9274},
+  doi = {10.1016/j.apnum.2004.08.028},
+  url = {https://www.sciencedirect.com/science/article/pii/S0168927404001631},
+  urldate = {2025-07-11},
+  abstract = {Data partitioning and load balancing are important components of parallel computations. Many different partitioning strategies have been developed, with great effectiveness in parallel applications. But the load-balancing problem is not yet solved completely; new applications and architectures require new partitioning features. Existing algorithms must be enhanced to support more complex applications. New models are needed for non-square, non-symmetric, and highly connected systems arising from applications in biology, circuits, and materials simulations. Increased use of heterogeneous computing architectures requires partitioners that account for non-uniform computing, network, and memory resources. And, for greatest impact, these new capabilities must be delivered in toolkits that are robust, easy-to-use, and applicable to a wide range of applications. In this paper, we discuss our approaches to addressing these issues within the Zoltan Parallel Data Services toolkit.},
+  keywords = {Dynamic load balancing,Geometric partitioning,Hypergraph,Partitioning,Resource-aware load balancing,Zoltan},
+  file = {C:\Users\KnightNight101\Zotero\storage\SBEPEZUY\S0168927404001631.html}
+}
+
+@article{diamantidisFactorsAffectingEmployee2018,
+  title = {Factors Affecting Employee Performance: An Empirical Approach},
+  shorttitle = {Factors Affecting Employee Performance},
+  author = {Diamantidis, Anastasios D. and Chatzoglou, Prodromos},
+  date = {2018-12-28T00:00:00Z},
+  journaltitle = {International Journal of Productivity and Performance Management},
+  volume = {68},
+  number = {1},
+  pages = {171--193},
+  publisher = {Emerald Publishing Limited},
+  issn = {1741-0401},
+  doi = {10.1108/IJPPM-01-2018-0012},
+  url = {https://www.emerald.com/insight/content/doi/10.1108/ijppm-01-2018-0012/full/html},
+  urldate = {2025-07-11},
+  abstract = {Nowadays, the phenomenon of increased competition between firms and their need to respond effectively to rapidly changing operational conditions, as well as to personnel requirements, has escalated the necessity to identify those factors that affect employee performance (EP). The purpose of this paper is to examine the interrelations between firm/environment-related factors (training culture, management support, environmental dynamism and organizational climate), job-related factors (job environment, job autonomy, job communication) and employee-related factors (intrinsic motivation, skill flexibility, skill level, proactivity, adaptability, commitment) and their impact on EP.,A new research model that examines the relationships between these factors and EP is proposed utilizing the structural equation modeling approach.,The results indicate that job environment and management support have the strongest impacts (direct and indirect) on job performance, while adaptability and intrinsic motivation directly affect job performance.,A potential limitation of this research is that it is not focused only on one business sector (i.e. the sample is heterogeneous).,In this study, firm/environmental-related factors, job-related factors, employee-related factors and EP are incorporated in a single model using data from small- and medium-sized enterprises. Overall, the final model can explain 27 percent of EP variance (first-level analysis) and 42 percent of EP variance (second-level analysis).},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\SM7EXCDE\html.html}
+}
+
+@article{dmytryshynProposalEffectiveTime2022,
+  title = {Proposal of an Effective Time Management System},
+  author = {Dmytryshyn, Marta and Goran, Tetyana},
+  date = {2022-12-30},
+  journaltitle = {Management : Journal of Contemporary Management Issues},
+  volume = {27},
+  number = {2},
+  pages = {283--298},
+  publisher = {Sveučilište u Splitu, Ekonomski fakultet},
+  issn = {1331-0194, 1846-3363},
+  doi = {10.30924/mjcmi.27.2.15},
+  url = {https://hrcak.srce.hr/clanak/417245},
+  urldate = {2025-07-10},
+  abstract = {In this study, we review studies on time management and propose an effective time management system. We introduce an algorithm for identifying time management problems in the form of a decision support system, which allows a consistent review of prob...},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\EDQFBTHQ\Dmytryshyn and Goran - 2022 - Proposal of an effective time management system.pdf}
+}
+
+@inproceedings{dohertyPiecingTogetherTeamwork2025,
+  title = {Piecing {{Together Teamwork}}: {{A Responsible Approach}} to an {{LLM-based Educational Jigsaw Agent}}},
+  shorttitle = {Piecing {{Together Teamwork}}},
+  booktitle = {Proceedings of the 2025 {{CHI Conference}} on {{Human Factors}} in {{Computing Systems}}},
+  author = {Doherty, Emily and Perkoff, E. Margaret and family=Bayern, given=Sean, prefix=von, useprefix=true and Zhang, Rui and Dey, Indrani and Bodzianowski, Michal and Puntambekar, Sadhana and Hirshfield, Leanne},
+  date = {2025-04-25},
+  series = {{{CHI}} '25},
+  pages = {1--17},
+  publisher = {Association for Computing Machinery},
+  location = {New York, NY, USA},
+  doi = {10.1145/3706598.3713349},
+  url = {https://dl.acm.org/doi/10.1145/3706598.3713349},
+  urldate = {2025-07-11},
+  abstract = {Conversational agents have been used to support student learning for some time, but the emergence of Large Language Models (LLMs) poses a novel opportunity to enhance their capabilities in collaborative settings. LLM-powered agents can provide timely interventions in collaborative conversations when a teacher is unable to assist the students. However, the use of LLMs in such tools raises many ethical questions and concerns, especially for use with young, impressionable populations. In this work, we present the human-centered design and evaluation of an LLM-based agent aimed to facilitate small group collaboration in middle- and high-school classrooms. Fifty-eight groups of dyads and triads (145 participants), aged 12-17, collaborated in a jigsaw activity and were assigned to be assisted by our agent or not. The results showed decreased self-reported ratings of social loafing and increased use of language related to respectful collaboration in interactions with the agent compared to those without.},
+  isbn = {979-8-4007-1394-1},
+  file = {C:\Users\KnightNight101\Zotero\storage\345HM3IN\Doherty et al. - 2025 - Piecing Together Teamwork A Responsible Approach .pdf}
+}
+
+@inproceedings{dongNextGenerationIntelligentAssistants2023,
+  title = {Towards {{Next-Generation Intelligent Assistants Leveraging LLM Techniques}}},
+  booktitle = {Proceedings of the 29th {{ACM SIGKDD Conference}} on {{Knowledge Discovery}} and {{Data Mining}}},
+  author = {Dong, Xin Luna and Moon, Seungwhan and Xu, Yifan Ethan and Malik, Kshitiz and Yu, Zhou},
+  date = {2023-08-04},
+  series = {{{KDD}} '23},
+  pages = {5792--5793},
+  publisher = {Association for Computing Machinery},
+  location = {New York, NY, USA},
+  doi = {10.1145/3580305.3599572},
+  url = {https://dl.acm.org/doi/10.1145/3580305.3599572},
+  urldate = {2025-07-11},
+  abstract = {Virtual Intelligent Assistants take user requests in the voice form, perform actions such as setting an alarm, turning on a light, and answering a question, and provide answers or confirmations in the voice form or through other channels such as a screen. Assistants have become prevalent in the past decade, and users have been taking services from assistants like Amazon Alexa, Apple Siri, Google Assistant, and Microsoft Cortana.The emergence of AR/VR devices raised many new challenges for building intelligent assistants. The unique requirements have inspired new research directions such as (a) understanding users' situated multi-modal contexts (e.g. vision, sensor signals) as well as language-oriented conversational contexts, (b) personalizing the assistant services by grounding interactions on growing public and personal knowledge graphs and online search engines, and (c) on- device model inference and training techniques that satisfy strict resource and privacy constraints.In this tutorial, we will provide an in-depth walk-through of techniques in the afore-mentioned areas in the recent literature. We aim to introduce techniques for researchers and practitioners who are building intelligent assistants, and inspire research that will bring us one step closer to realizing the dream of building an all-day accompanying assistant. Additionally, we will highlight the significant role that Large Language Models (LLMs) play in enhancing these strategies, underscoring their potential to reshape the future landscape of intelligent assistance.},
+  isbn = {979-8-4007-0103-0},
+  file = {C:\Users\KnightNight101\Zotero\storage\DMIYBRXU\Dong et al. - 2023 - Towards Next-Generation Intelligent Assistants Lev.pdf}
+}
+
+@book{epsteinProjectWorkflowManagement2013,
+  title = {Project {{Workflow Management}}: {{A Business Process Approach}}},
+  shorttitle = {Project {{Workflow Management}}},
+  author = {Epstein, Daniel and Maltzman, Rich},
+  date = {2013-11-07},
+  eprint = {_ePJCgAAQBAJ},
+  eprinttype = {googlebooks},
+  publisher = {J. Ross Publishing},
+  abstract = {Foreword by industry legend Harold Kerzner!This book describes a completely unique step-by-step, workflow-guiding approach to project management which simplifies activities by enforcing execution of all required processes on time, and redirecting to an alternative path in the event of project issues. Since compliance with all project management processes is enforced by the workflow, product quality is significantly improved and life cycle errors are almost eliminated.  Project Workflow Management: A Business Process Approach is the first and only book in the marketplace which enables readers with no prior project management experience to manage the entire life cycle of any small to mid-sized project. It also equips mid- and senior-level project managers with directions and a detailed map to the effective management of complex projects and programs.},
+  isbn = {978-1-60427-092-1},
+  langid = {english},
+  pagetotal = {353},
+  keywords = {Business & Economics / Project Management}
+}
+
+@article{erdoganMoreEffectiveSprint2018,
+  title = {More Effective Sprint Retrospective with Statistical Analysis},
+  author = {Erdoğan, Onur and Pekkaya, Muhammed Emre and Gök, Halime},
+  date = {2018},
+  journaltitle = {Journal of Software: Evolution and Process},
+  volume = {30},
+  number = {5},
+  pages = {e1933},
+  issn = {2047-7481},
+  doi = {10.1002/smr.1933},
+  url = {https://onlinelibrary.wiley.com/doi/abs/10.1002/smr.1933},
+  urldate = {2025-07-11},
+  abstract = {Scrum teams aim to deliver products productively with highest possible value and quality, so they try to deliver high priority and high value product backlog items in earlier sprints. Making size estimation of product backlog items correctly is one of the most prominent factors for effective sprint planning. Retrospective meetings are an opportunity for teams to improve product quality, their productivity, and estimation capability. Enhancing in those areas requires empiricism as agility requires; hence, measureable indicators should be inspected and adapted at regular intervals. In this study, we assessed how and what kind of historical data is required to be collected for monitoring, and how statistical analysis can be investigated for inspection and adaptation in retrospective meetings. We experimented that statistics of “Correlation between Story Point and Actual Effort” and “Consistency of Relative Estimation” were convenient for inspection and adaptation of estimation capability of teams. Past retrospective meetings also showed that statistics of “Team's Actual Effort on Product,” “Team Velocity,” “Actual Effort for One Story Point,” “Innovation Rate,” and “Velocity vs Unplanned Effort Rate” were helpful to control and increase the productivity of teams. “Actual Effort Rate of Quality Activities” and “Subcomponent Defect Density” statistical results helped to enhance product quality.},
+  langid = {english},
+  keywords = {process improvement,product quality,productivity,Scrum,sprint retrospective,statistical analysis}
+}
+
+@incollection{geroimenkoKeyTechniquesWriting2025,
+  title = {Key {{Techniques}} for {{Writing Effective Prompts}}},
+  booktitle = {The {{Essential Guide}} to {{Prompt Engineering}}: {{Key Principles}}, {{Techniques}}, {{Challenges}}, and {{Security Risks}}},
+  author = {Geroimenko, Vladimir},
+  editor = {Geroimenko, Vladimir},
+  date = {2025},
+  pages = {37--83},
+  publisher = {Springer Nature Switzerland},
+  location = {Cham},
+  doi = {10.1007/978-3-031-86206-9_3},
+  url = {https://doi.org/10.1007/978-3-031-86206-9_3},
+  urldate = {2025-07-11},
+  abstract = {This chapter explores key techniques for effective prompt engineering, categorising methods into basic, advanced, and professional levels. Basic techniques such as direct instruction, question-based, and open-ended prompting establish foundational approaches for clear and concise AI interactions. Advanced strategies like chain-of-thought prompting and role-based prompting delve into nuanced methods that enhance contextual understanding and reasoning capabilities. The chapter also introduces professional-level techniques, including iterative prompting and task decomposition, which refine complex processes and foster adaptability. These strategies emphasise optimising prompt clarity, contextual relevance, and structural coherence to achieve precise, actionable, and creative AI responses. By systematically applying these techniques, users can harness AI’s potential across diverse applications, ensuring outputs that align with specific objectives and user intent.},
+  isbn = {978-3-031-86206-9},
+  langid = {english}
+}
+
+@article{golfarelliMultisprintPlanningSmooth2013,
+  title = {Multi-Sprint Planning and Smooth Replanning: {{An}} Optimization Model},
+  shorttitle = {Multi-Sprint Planning and Smooth Replanning},
+  author = {Golfarelli, Matteo and Rizzi, Stefano and Turricchia, Elisa},
+  date = {2013-09-01},
+  journaltitle = {Journal of Systems and Software},
+  shortjournal = {Journal of Systems and Software},
+  volume = {86},
+  number = {9},
+  pages = {2357--2370},
+  issn = {0164-1212},
+  doi = {10.1016/j.jss.2013.04.028},
+  url = {https://www.sciencedirect.com/science/article/pii/S0164121213001039},
+  urldate = {2025-07-11},
+  abstract = {Most agile methods divide a project into sprints (iterations), and include a sprint planning phase that is critical to ensure the project success. Several factors impact on the optimality of a sprint plan, which makes the planning problem difficult. In this paper we formalize the planning problem and propose an optimization model that, given the estimates made by the project team and a set of development constraints, produces a multi-sprint optimal plan that maximizes the business value perceived by users. To cope with the inherent flexibility and uncertainty of agile projects, our approach ensures that a baseline plan can be revised and re-optimized during project execution without disrupting it, which we call smooth replanning. The planning problem is converted into a generalized assignment problem, given a linear programming formulation, and solved using the IBM ILOG CPLEX Optimizer. Our model is validated on both real and synthetic projects. In particular, a case study on two real projects confirms the effectiveness of our approach; as to efficiency, for medium-sized problems an exact solution is found in a few minutes, while for large problems a heuristic solution that is less than 1\% far from the exact one is returned in a few seconds. Finally, some smooth replanning tests investigate the trade-off between plan quality and stability.},
+  keywords = {Agile methods,Linear programming,Optimization models,Scrum,Software engineering}
+}
+
+@inproceedings{grapenthinFacilitatingTaskBreakdown2014,
+  title = {Facilitating {{Task Breakdown}} in {{Sprint Planning Meeting}} 2 with an {{Interaction Room}}: {{An Experience Report}}},
+  shorttitle = {Facilitating {{Task Breakdown}} in {{Sprint Planning Meeting}} 2 with an {{Interaction Room}}},
+  booktitle = {2014 40th {{EUROMICRO Conference}} on {{Software Engineering}} and {{Advanced Applications}}},
+  author = {Grapenthin, Simon and Poggel, Steven and Book, Matthias and Gruhn, Volker},
+  date = {2014-08},
+  pages = {1--8},
+  issn = {2376-9505},
+  doi = {10.1109/SEAA.2014.71},
+  url = {https://ieeexplore.ieee.org/abstract/document/6928782},
+  urldate = {2025-07-11},
+  abstract = {In a large industry project that followed an agile approach based on the Scrum method, we found that the team often struggled with breaking coarse product backlog items down into the detailed tasks that had to be completed in a sprint. The team's understanding of the backlog items' business and technical implications and dependencies seemed not deep enough to identify all necessary tasks, so in addition to the tasks defined in the sprint planning meeting prescribed by Scrum, an average of 26\% of additional tasks was identified later over the course of each sprint, making any attempt at progress estimation or risk management very difficult. To counter this effect and support the team's understanding of backlog items right from the beginning of each sprint, we introduced a pragmatic method to analyze backlog items more comprehensively and thus support a more complete and reliable task breakdown. We consequently found that the effectiveness and precision of task breakdowns has improved significantly in the project.},
+  eventtitle = {2014 40th {{EUROMICRO Conference}} on {{Software Engineering}} and {{Advanced Applications}}},
+  keywords = {Business,Electric breakdown,Information systems,Interaction Room,Planning,Scrum,Scrum (Software development),Software,Task Breakdown,User interfaces}
+}
+
+@online{guanIntelligentVirtualAssistants2023,
+  title = {Intelligent {{Virtual Assistants}} with {{LLM-based Process Automation}}},
+  author = {Guan, Yanchu and Wang, Dong and Chu, Zhixuan and Wang, Shiyu and Ni, Feiyue and Song, Ruihua and Li, Longfei and Gu, Jinjie and Zhuang, Chenyi},
+  date = {2023-12-04},
+  eprint = {2312.06677},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2312.06677},
+  url = {http://arxiv.org/abs/2312.06677},
+  urldate = {2025-07-11},
+  abstract = {While intelligent virtual assistants like Siri, Alexa, and Google Assistant have become ubiquitous in modern life, they still face limitations in their ability to follow multi-step instructions and accomplish complex goals articulated in natural language. However, recent breakthroughs in large language models (LLMs) show promise for overcoming existing barriers by enhancing natural language processing and reasoning capabilities. Though promising, applying LLMs to create more advanced virtual assistants still faces challenges like ensuring robust performance and handling variability in real-world user commands. This paper proposes a novel LLM-based virtual assistant that can automatically perform multi-step operations within mobile apps based on high-level user requests. The system represents an advance in assistants by providing an end-to-end solution for parsing instructions, reasoning about goals, and executing actions. LLM-based Process Automation (LLMPA) has modules for decomposing instructions, generating descriptions, detecting interface elements, predicting next actions, and error checking. Experiments demonstrate the system completing complex mobile operation tasks in Alipay based on natural language instructions. This showcases how large language models can enable automated assistants to accomplish real-world tasks. The main contributions are the novel LLMPA architecture optimized for app process automation, the methodology for applying LLMs to mobile apps, and demonstrations of multi-step task completion in a real-world environment. Notably, this work represents the first real-world deployment and extensive evaluation of a large language model-based virtual assistant in a widely used mobile application with an enormous user base numbering in the hundreds of millions.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\CSG5H57Y\\Guan et al. - 2023 - Intelligent Virtual Assistants with LLM-based Proc.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\4ZQ3NIDV\\2312.html}
+}
+
+@article{heloisamartinsshihWorkflowTechnologybasedMonitoring1996,
+  title = {Workflow Technology-Based Monitoring and Control for Business Process and Project Management},
+  author = {{Heloisa Martins Shih} and Tseng, Mitchell M},
+  date = {1996-12-01},
+  journaltitle = {International Journal of Project Management},
+  shortjournal = {International Journal of Project Management},
+  series = {Business {{Process Re-engineering}} and {{Beyond}}},
+  volume = {14},
+  number = {6},
+  pages = {373--378},
+  issn = {0263-7863},
+  doi = {10.1016/0263-7863(96)00026-9},
+  url = {https://www.sciencedirect.com/science/article/pii/0263786396000269},
+  urldate = {2025-07-11},
+  abstract = {In this paper the application of workflow technology to monitor, control and coordinate business processes and projects is proposed. The conceptual characteristics of processes and projects as well as their management needs in the functions of planning, execution, monitoring and control are compared. The general design of the proposed system is then developed, with an application example. The proposed monitoring and control system provides proactive tracking of the flow of work and information, and of the utilization and commitment of resources. The design supports hierarchical management of the project and/or business process, allowing concerned persons to visualize and to utilize it in different levels of abstraction, as necessary. The application of workflow technology also provides additional benefits in facilitating communication, documentation and re-utilization.},
+  keywords = {Business process monitoring,project monitoring,workflow technology},
+  file = {C:\Users\KnightNight101\Zotero\storage\RTXFC8N4\0263786396000269.html}
+}
+
+@article{higginsTimeManagementStrategies2023,
+  title = {Time Management Strategies for the New Practitioner},
+  author = {Higgins, Jordyn and Graziano, Courtney and Froerer, Camryn and Placide, Rebekah and Tavakoli, Farrah and Chu, Angela},
+  date = {2023-04-15},
+  journaltitle = {American Journal of Health-System Pharmacy},
+  shortjournal = {American Journal of Health-System Pharmacy},
+  volume = {80},
+  number = {8},
+  pages = {483--486},
+  issn = {1079-2082},
+  doi = {10.1093/ajhp/zxad008},
+  url = {https://doi.org/10.1093/ajhp/zxad008},
+  urldate = {2025-07-10},
+  abstract = {Time management is a pivotal skill that translates into how we process our email, organize our documents, manage our calendars, and ensure a high level of productivity in the workplace. We have likely all been asked about time management strategies used to stay organized as students and in our professional lives. Popular methods include utilizing a physical planner, prioritizing tasks by importance as they arise, assigning follow-up tasks at the end of a meeting, utilizing a myriad of digital productivity tools, and organizing within an email inbox. With proper guidance and instruction, each of these tools can be successfully used to help improve productivity.}
+}
+
+@online{HttpsWebpagescharlotteeduJmconrad,
+  title = {{{https://webpages.charlotte.edu/\textasciitilde jmconrad/ECGR4101Common/Articles/Context\%20Switch\%20f-kalins.pdf}}},
+  url = {https://webpages.charlotte.edu/~jmconrad/ECGR4101Common/Articles/Context%20Switch%20f-kalins.pdf},
+  urldate = {2025-07-11}
+}
+
+@online{HttpsWebpagescharlotteeduJmconrada,
+  title = {{{https://webpages.charlotte.edu/\textasciitilde jmconrad/ECGR4101Common/Articles/Context\%20Switch\%20f-kalins.pdf}}},
+  url = {https://webpages.charlotte.edu/~jmconrad/ECGR4101Common/Articles/Context%20Switch%20f-kalins.pdf},
+  urldate = {2025-07-11}
+}
+
+@online{HttpsWebpagescharlotteeduJmconradb,
+  title = {{{https://webpages.charlotte.edu/\textasciitilde jmconrad/ECGR4101Common/Articles/Context\%20Switch\%20f-kalins.pdf}}},
+  url = {https://webpages.charlotte.edu/~jmconrad/ECGR4101Common/Articles/Context%20Switch%20f-kalins.pdf},
+  urldate = {2025-07-11}
+}
+
+@online{HttpsWwwresearchgatenetProfilea,
+  title = {{{https://www.researchgate.net/profile/Omowunmi-Adebayo-4/publication/388122113\_Software\_Adoption\_in\_Project\_Management\_and\_Their\_Impact\_on\_Project\_Efficiency\_and\_Collaboration/links/678b3b1f82501639f5f64d6e/Software-Adoption-in-Project-Management-and-Their-Impact-on-Project-Efficiency-and-Collaboration.pdf}}},
+  url = {https://www.researchgate.net/profile/Omowunmi-Adebayo-4/publication/388122113_Software_Adoption_in_Project_Management_and_Their_Impact_on_Project_Efficiency_and_Collaboration/links/678b3b1f82501639f5f64d6e/Software-Adoption-in-Project-Management-and-Their-Impact-on-Project-Efficiency-and-Collaboration.pdf},
+  urldate = {2025-07-11}
+}
+
+@online{HttpsWwwresearchgatenetProfileb,
+  title = {{{https://www.researchgate.net/profile/Elizabeth-Oluwagbade/publication/386875179\_Conversational\_AI\_as\_the\_New\_Employee\_Liaison\_LLM-Powered\_Chatbots\_in\_Enhancing\_Workplace\_Collaboration\_and\_Inclusion/links/675a40f06150084b45fe4a67/Conversational-AI-as-the-New-Employee-Liaison-LLM-Powered-Chatbots-in-Enhancing-Workplace-Collaboration-and-Inclusion.pdf}}},
+  url = {https://www.researchgate.net/profile/Elizabeth-Oluwagbade/publication/386875179_Conversational_AI_as_the_New_Employee_Liaison_LLM-Powered_Chatbots_in_Enhancing_Workplace_Collaboration_and_Inclusion/links/675a40f06150084b45fe4a67/Conversational-AI-as-the-New-Employee-Liaison-LLM-Powered-Chatbots-in-Enhancing-Workplace-Collaboration-and-Inclusion.pdf},
+  urldate = {2025-07-11}
+}
+
+@online{HttpsWwwresearchgatenetProfilec,
+  title = {{{https://www.researchgate.net/profile/Omowunmi-Adebayo-4/publication/388122113\_Software\_Adoption\_in\_Project\_Management\_and\_Their\_Impact\_on\_Project\_Efficiency\_and\_Collaboration/links/678b3b1f82501639f5f64d6e/Software-Adoption-in-Project-Management-and-Their-Impact-on-Project-Efficiency-and-Collaboration.pdf}}},
+  url = {https://www.researchgate.net/profile/Omowunmi-Adebayo-4/publication/388122113_Software_Adoption_in_Project_Management_and_Their_Impact_on_Project_Efficiency_and_Collaboration/links/678b3b1f82501639f5f64d6e/Software-Adoption-in-Project-Management-and-Their-Impact-on-Project-Efficiency-and-Collaboration.pdf},
+  urldate = {2025-07-11}
+}
+
+@online{HttpsWwwresearchgatenetProfiled,
+  title = {{{https://www.researchgate.net/profile/Elizabeth-Oluwagbade/publication/386875179\_Conversational\_AI\_as\_the\_New\_Employee\_Liaison\_LLM-Powered\_Chatbots\_in\_Enhancing\_Workplace\_Collaboration\_and\_Inclusion/links/675a40f06150084b45fe4a67/Conversational-AI-as-the-New-Employee-Liaison-LLM-Powered-Chatbots-in-Enhancing-Workplace-Collaboration-and-Inclusion.pdf}}},
+  url = {https://www.researchgate.net/profile/Elizabeth-Oluwagbade/publication/386875179_Conversational_AI_as_the_New_Employee_Liaison_LLM-Powered_Chatbots_in_Enhancing_Workplace_Collaboration_and_Inclusion/links/675a40f06150084b45fe4a67/Conversational-AI-as-the-New-Employee-Liaison-LLM-Powered-Chatbots-in-Enhancing-Workplace-Collaboration-and-Inclusion.pdf},
+  urldate = {2025-07-11}
+}
+
+@online{HttpsWwwresearchgatenetProfilee,
+  title = {{{https://www.researchgate.net/profile/Omowunmi-Adebayo-4/publication/388122113\_Software\_Adoption\_in\_Project\_Management\_and\_Their\_Impact\_on\_Project\_Efficiency\_and\_Collaboration/links/678b3b1f82501639f5f64d6e/Software-Adoption-in-Project-Management-and-Their-Impact-on-Project-Efficiency-and-Collaboration.pdf}}},
+  url = {https://www.researchgate.net/profile/Omowunmi-Adebayo-4/publication/388122113_Software_Adoption_in_Project_Management_and_Their_Impact_on_Project_Efficiency_and_Collaboration/links/678b3b1f82501639f5f64d6e/Software-Adoption-in-Project-Management-and-Their-Impact-on-Project-Efficiency-and-Collaboration.pdf},
+  urldate = {2025-07-11}
+}
+
+@online{HttpsWwwresearchgatenetProfilef,
+  title = {{{https://www.researchgate.net/profile/Elizabeth-Oluwagbade/publication/386875179\_Conversational\_AI\_as\_the\_New\_Employee\_Liaison\_LLM-Powered\_Chatbots\_in\_Enhancing\_Workplace\_Collaboration\_and\_Inclusion/links/675a40f06150084b45fe4a67/Conversational-AI-as-the-New-Employee-Liaison-LLM-Powered-Chatbots-in-Enhancing-Workplace-Collaboration-and-Inclusion.pdf}}},
+  url = {https://www.researchgate.net/profile/Elizabeth-Oluwagbade/publication/386875179_Conversational_AI_as_the_New_Employee_Liaison_LLM-Powered_Chatbots_in_Enhancing_Workplace_Collaboration_and_Inclusion/links/675a40f06150084b45fe4a67/Conversational-AI-as-the-New-Employee-Liaison-LLM-Powered-Chatbots-in-Enhancing-Workplace-Collaboration-and-Inclusion.pdf},
+  urldate = {2025-07-11}
+}
+
+@online{HttpsWwwresearchgatenetProfileg,
+  title = {{{https://www.researchgate.net/profile/Elizabeth-Oluwagbade/publication/386875179\_Conversational\_AI\_as\_the\_New\_Employee\_Liaison\_LLM-Powered\_Chatbots\_in\_Enhancing\_Workplace\_Collaboration\_and\_Inclusion/links/675a40f06150084b45fe4a67/Conversational-AI-as-the-New-Employee-Liaison-LLM-Powered-Chatbots-in-Enhancing-Workplace-Collaboration-and-Inclusion.pdf}}},
+  url = {https://www.researchgate.net/profile/Elizabeth-Oluwagbade/publication/386875179_Conversational_AI_as_the_New_Employee_Liaison_LLM-Powered_Chatbots_in_Enhancing_Workplace_Collaboration_and_Inclusion/links/675a40f06150084b45fe4a67/Conversational-AI-as-the-New-Employee-Liaison-LLM-Powered-Chatbots-in-Enhancing-Workplace-Collaboration-and-Inclusion.pdf},
+  urldate = {2025-07-11}
+}
+
+@article{huPsycoLLMEnhancingLLM2025,
+  title = {{{PsycoLLM}}: {{Enhancing LLM}} for {{Psychological Understanding}} and {{Evaluation}}},
+  shorttitle = {{{PsycoLLM}}},
+  author = {Hu, Jinpeng and Dong, Tengteng and Luo, Gang and Ma, Hui and Zou, Peng and Sun, Xiao and Guo, Dan and Yang, Xun and Wang, Meng},
+  date = {2025-04},
+  journaltitle = {IEEE Transactions on Computational Social Systems},
+  volume = {12},
+  number = {2},
+  pages = {539--551},
+  issn = {2329-924X},
+  doi = {10.1109/TCSS.2024.3497725},
+  url = {https://ieeexplore.ieee.org/abstract/document/10772313},
+  urldate = {2025-07-11},
+  abstract = {Mental health has attracted substantial attention in recent years and large language model (LLM) can be an effective technology for alleviating this problem owing to its capability in text understanding and dialogue. However, existing research in this domain often suffers from limitations, such as training on datasets lacking crucial prior knowledge and evidence, and the absence of comprehensive evaluation methods. In this article, we propose a specialized psychological LLM, named PsycoLLM, trained on a proposed high-quality psychological dataset, including single-turn QA, multiturn dialogues, and knowledge-based QA. Specifically, we construct multi-turn dialogues through a three-step pipeline comprising multiturn QA generation, evidence judgment, and dialogue refinement. We augment this process with real-world psychological case backgrounds extracted from online platforms, enhancing the relevance and applicability of the generated data. Additionally, to compare the performance of PsycoLLM with other LLMs, we develop a comprehensive psychological benchmark based on authoritative psychological counseling examinations in China, which includes assessments of professional ethics, theoretical proficiency, and case analysis. The experimental results on the benchmark illustrate the effectiveness of PsycoLLM, which demonstrates superior performance compared with other LLMs.},
+  keywords = {Benchmark testing,Context modeling,Data mining,Electronic mail,Knowledge based systems,Large language model (LLM),Large language models,Law,mental health,Mental health,psychological evaluation,psychological understanding,Training,Transformers},
+  file = {C:\Users\KnightNight101\Zotero\storage\BRY8XHT9\Hu et al. - 2025 - PsycoLLM Enhancing LLM for Psychological Understa.pdf}
+}
+
+@online{iftikharTherapyNLPTask2025,
+  title = {Therapy as an {{NLP Task}}: {{Psychologists}}' {{Comparison}} of {{LLMs}} and {{Human Peers}} in {{CBT}}},
+  shorttitle = {Therapy as an {{NLP Task}}},
+  author = {Iftikhar, Zainab and Ransom, Sean and Xiao, Amy and Nugent, Nicole and Huang, Jeff},
+  date = {2025-06-25},
+  eprint = {2409.02244},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2409.02244},
+  url = {http://arxiv.org/abs/2409.02244},
+  urldate = {2025-07-11},
+  abstract = {Large language models (LLMs) are being used as ad-hoc therapists. Research suggests that LLMs outperform human counselors when generating a single, isolated empathetic response; however, their session-level behavior remains understudied. In this study, we compare the session-level behaviors of human counselors with those of an LLM prompted by a team of peer counselors to deliver single-session Cognitive Behavioral Therapy (CBT). Our three-stage, mixed-methods study involved: a) a year-long ethnography of a text-based support platform where seven counselors iteratively refined CBT prompts through self-counseling and weekly focus groups; b) the manual simulation of human counselor sessions with a CBT-prompted LLM, given the full patient dialogue and contextual notes; and c) session evaluations of both human and LLM sessions by three licensed clinical psychologists using CBT competence measures. Our results show a clear trade-off. Human counselors excel at relational strategies -- small talk, self-disclosure, and culturally situated language -- that lead to higher empathy, collaboration, and deeper user reflection. LLM counselors demonstrate higher procedural adherence to CBT techniques but struggle to sustain collaboration, misread cultural cues, and sometimes produce "deceptive empathy," i.e., formulaic warmth that can inflate users' expectations of genuine human care. Taken together, our findings imply that while LLMs might outperform counselors in generating single empathetic responses, their ability to lead sessions is more limited, highlighting that therapy cannot be reduced to a standalone natural language processing (NLP) task. We call for carefully designed human-AI workflows in scalable support: LLMs can scaffold evidence-based techniques, while peers provide relational support. We conclude by mapping concrete design opportunities and ethical guardrails for such hybrid systems.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Computation and Language,Computer Science - Human-Computer Interaction},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\NUGXWIIX\\Iftikhar et al. - 2025 - Therapy as an NLP Task Psychologists' Comparison .pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\ZC2P8WKH\\2409.html}
+}
+
+@inproceedings{illankoonIdentifyingPsychologicalEffects2008,
+  title = {Identifying the Psychological Effects of Short, Repetitive and Easy Tasks on Production Lines},
+  booktitle = {Proceedings of the 13th {{International Conference}} on {{Productivity}} and {{Quality Research}}},
+  author = {Illankoon, Prasanna and Manathunge, Yamuna},
+  date = {2008-06-25},
+  volume = {13},
+  pages = {221--231},
+  url = {https://www.researchgate.net/profile/Paeivi-Iskanius/publication/235983800_Proceedings_of_the_13th_International_Conference_on_Productivity_and_Quality_Research_-_ICPQR_2008/links/00b7d5152ffe6875cf000000/Proceedings-of-the-13th-International-Conference-on-Productivity-and-Quality-Research-ICPQR-2008.pdf#page=221},
+  urldate = {2025-07-19},
+  eventtitle = {International {{Conference}} on {{Productivity}} and {{Quality Research}}},
+  isbn = {978-951-42-8827-2},
+  file = {C:\Users\KnightNight101\Zotero\storage\G4SFU7XG\httpswww.researchgate.netprofilePaeivi-Iskaniuspublication235983800_Proceedings_of_the_13th_I.pdf}
+}
+
+@article{jafarnejadghomiLoadbalancingAlgorithmsCloud2017,
+  title = {Load-Balancing Algorithms in Cloud Computing: {{A}} Survey},
+  shorttitle = {Load-Balancing Algorithms in Cloud Computing},
+  author = {Jafarnejad Ghomi, Einollah and Masoud Rahmani, Amir and Nasih Qader, Nooruldeen},
+  date = {2017-06-15},
+  journaltitle = {Journal of Network and Computer Applications},
+  shortjournal = {Journal of Network and Computer Applications},
+  volume = {88},
+  pages = {50--71},
+  issn = {1084-8045},
+  doi = {10.1016/j.jnca.2017.04.007},
+  url = {https://www.sciencedirect.com/science/article/pii/S1084804517301480},
+  urldate = {2025-07-11},
+  abstract = {Cloud computing is a modern paradigm to provide services through the Internet. Load balancing is a key aspect of cloud computing and avoids the situation in which some nodes become overloaded while the others are idle or have little work to do. Load balancing can improve the Quality of Service (QoS) metrics, including response time, cost, throughput, performance and resource utilization. In this paper, we study the literature on the task scheduling and load-balancing algorithms and present a new classification of such algorithms, for example, Hadoop MapReduce load balancing category, Natural Phenomena-based load balancing category, Agent-based load balancing category, General load balancing category, application-oriented category, network-aware category, and workflow specific category. Furthermore, we provide a review in each of these seven categories. Also. We provide insights into the identification of open issues and guidelines for future research.},
+  keywords = {Cloud computing,Hadoop MapReduce,Load balancing,Task scheduling},
+  file = {C:\Users\KnightNight101\Zotero\storage\HY8A559E\S1084804517301480.html}
+}
+
+@inproceedings{jainPerformanceAwareLLM2025,
+  title = {Performance {{Aware LLM Load Balancer}} for {{Mixed Workloads}}},
+  booktitle = {Proceedings of the 5th {{Workshop}} on {{Machine Learning}} and {{Systems}}},
+  author = {Jain, Kunal and Parayil, Anjaly and Mallick, Ankur and Choukse, Esha and Qin, Xiaoting and Zhang, Jue and Goiri, Íñigo and Wang, Rujia and Bansal, Chetan and Rühle, Victor and Kulkarni, Anoop and Kofsky, Steve and Rajmohan, Saravan},
+  date = {2025-04-01},
+  series = {{{EuroMLSys}} '25},
+  pages = {19--30},
+  publisher = {Association for Computing Machinery},
+  location = {New York, NY, USA},
+  doi = {10.1145/3721146.3721947},
+  url = {https://dl.acm.org/doi/10.1145/3721146.3721947},
+  urldate = {2025-07-11},
+  abstract = {Large Language Model (LLM) workloads consist of distinct prefill and decode phases, each with unique compute and memory requirements that should be considered when routing input queries across cluster instances. However, existing load-balancing algorithms treat these workloads as monolithic jobs, ignoring the differences between the two phases. This oversight leads to suboptimal query distribution and increased response latency. In our work, we first characterize the factors affecting response latency during LLM inference. We show that balancing inference requests across available LLM instances can improve end-to-end latency more than simply optimizing the instance-level scheduler. Motivated by these findings, we propose a heuristic-guided, reinforcement learning-based router for data-driven, workload-aware scheduling. Our router distributes queries across LLM instances by using a trainable response-length predictor and a novel formulation for estimating the impact of mixing different workloads, achieving over 11\% lower end-to-end latency than existing methods on mixed public datasets. Our framework represents a first step toward a holistic optimization framework and serves as a benchmark for deriving optimal load balancing strategies tailored to different reward functions and requirements. Beyond latency, we can extend the proposed framework to optimize for various performance criteria ensuring that the system meets diverse operational objectives.},
+  isbn = {979-8-4007-1538-9},
+  file = {C:\Users\KnightNight101\Zotero\storage\6GWB3VJS\Jain et al. - 2025 - Performance Aware LLM Load Balancer for Mixed Work.pdf}
+}
+
+@article{jovanovicAnalysisAvailableProject2018,
+  title = {Analysis of the {{Available Project Management Methodologies}}},
+  author = {Jovanovic, Petar and Beric, Ivana},
+  date = {2018-12-18},
+  journaltitle = {Management:Journal of Sustainable Business and Management Solutions in Emerging Economies},
+  volume = {23},
+  number = {3},
+  pages = {1--13},
+  issn = {2406-0658},
+  doi = {10.7595/management.fon.2018.0027},
+  url = {https://management.fon.bg.ac.rs/index.php/mng/article/view/245},
+  urldate = {2025-07-10},
+  abstract = {The paper is an analysis of the available project management methodologies from the standpoint of their applicability. Our aim is to establish specific characteristics of the today available methodologies (PMS, APM, PRINCE2, YUPMA, etc.) that can ensure realistic foundations on which an adequate methodology for a certain group of similar projects can be defined. The use of an adequate project management methodology brings a numerous advantages and benefits to project manager and project team and it shows them the right route towards project completion. This paper gives a review of the most recognizable methodologies proposed and implemented in the project management practice. Specific features of these methodologies were analysed bearing in mind the possibilities of implementation. It was found that general characteristics of traditional methodologies (PMI, IPMA, APM,YUPMA) make them more adequate to be implemented in larger and more complex projects such as: investment, military, manufacturing, overhaul, etc. projects. On the other hand, general characteristics of agile methodologies lead to a conclusion that these methodologies are more suitable to use for IT projects as well as for some smaller and less complex projects, such as devising various studies, project reports, etc. The research presented in this paper should be treated as a basis for further research oriented towards defining specific methodologies adequate for certain groups of similar projects.},
+  issue = {3},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\MZXVKWQC\Jovanovic and Beric - 2018 - Analysis of the Available Project Management Metho.pdf}
+}
+
+@article{karamanComparisonProjectManagement2015,
+  title = {Comparison of Project Management Methodologies: Prince 2 versus {{PMBOK}} for It Projects},
+  author = {Karaman, Ersin and Kurt, Murat},
+  date = {2015},
+  volume = {4},
+  number = {4},
+  abstract = {Project management methodology provides a guideline for managing the projects and it is one of the important factors for successful completion of the projects. Project Management Body of Knowledge (PMBOK) and PRojects IN Controlled Environment Version 2 (PRINCE2) are most widely used project management methodologies in the world. The aim of this study is to compare PRINCE 2 and PMBOK to identify the characteristics of these best practices in order to provide decision criteria for organizations with regard to selecting IT project management methodology.},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\C6XW5U5M\Karaman and Kurt - 2015 - Comparison of project management methodologies pr.pdf}
+}
+
+@inproceedings{kerstenUsingTaskContext2006,
+  title = {Using Task Context to Improve Programmer Productivity},
+  booktitle = {Proceedings of the 14th {{ACM SIGSOFT}} International Symposium on {{Foundations}} of Software Engineering},
+  author = {Kersten, Mik and Murphy, Gail C.},
+  date = {2006-11-05},
+  series = {{{SIGSOFT}} '06/{{FSE-14}}},
+  pages = {1--11},
+  publisher = {Association for Computing Machinery},
+  location = {New York, NY, USA},
+  doi = {10.1145/1181775.1181777},
+  url = {https://doi.org/10.1145/1181775.1181777},
+  urldate = {2025-07-11},
+  abstract = {When working on a large software system, a programmer typically spends an inordinate amount of time sifting through thousands of artifacts to find just the subset of information needed to complete an assigned task. All too often, before completing the task the programmer must switch to working on a different task. These task switches waste time as the programmer must repeatedly find and identify the information relevant to the task-at-hand. In this paper, we present a mechanism that captures, models, and persists the elements and relations relevant to a task. We show how our task context model reduces information overload and focuses a programmer's work by filtering and ranking the information presented by the development environment. A task context is created by monitoring a programmer's activity and extracting the structural relationships of program artifacts. Operations on task contexts integrate with development environment features, such as structure display, search, and change management. We have validated our approach with a longitudinal field study of Mylar, our implementation of task context for the Eclipse development environment. We report a statistically significant improvement in the productivity of 16 industry programmers who voluntarily used Mylar for their daily work.},
+  isbn = {978-1-59593-468-0},
+  file = {C:\Users\KnightNight101\Zotero\storage\6PIATYPX\Kersten and Murphy - 2006 - Using task context to improve programmer productiv.pdf}
+}
+
+@article{kirkeby-hinrupPsychologyLLMInteractions2025,
+  title = {The Psychology of {{LLM}} Interactions: The Uncanny Valley and Other Minds},
+  shorttitle = {The Psychology of {{LLM}} Interactions},
+  author = {Kirkeby-Hinrup, Asger and Stenseke, Jakob},
+  date = {2025-12-31},
+  journaltitle = {Journal of Psychology and AI},
+  volume = {1},
+  number = {1},
+  publisher = {Informa UK Limited},
+  issn = {2997-4100},
+  doi = {10.1080/29974100.2025.2457627},
+  url = {https://www.tandfonline.com/doi/full/10.1080/29974100.2025.2457627},
+  urldate = {2025-07-11},
+  langid = {english}
+}
+
+@report{leatongrayEvaluationBBCsBitesize2016,
+  type = {Report},
+  title = {Evaluation of the {{BBC}}'s {{Bitesize Programme}} with Special Reference to the Different Educational Frameworks of the {{UK}}’s Component Nations},
+  author = {Leaton Gray, S. H. and Scott, D.},
+  date = {2016-05},
+  journaltitle = {UCL: London, UK.},
+  institution = {UCL},
+  location = {London, UK},
+  url = {https://discovery.ucl.ac.uk/id/eprint/1493175/},
+  urldate = {2025-07-11},
+  abstract = {In this report we give a detailed account of the educational systems of England, Scotland, Wales and Northern Ireland, in particular identifying similarities and differences in terms of: • organisation and class sizes, • overarching curriculum trends (but not specific subject content), • assessment trends, • post-16 education patterns, • general teaching and learning trends, • homework trends, • the application of different teaching materials and techniques, for example, online learning, • the application of different pedagogies, • the role of pupil confidence in determining and defining success, • the balance between teacher instruction and learner autonomy, and • how far extra material would be needed and welcomed by particular types of learners in each nation and across the United Kingdom. Although the four countries have a broadly similar structure, there are significant variations between the school systems, ranging from the age that children start school to the type of tests they take. We consider how this might influence revisions to the BBC Bitesize website.},
+  langid = {english},
+  pagetotal = {24},
+  file = {C:\Users\KnightNight101\Zotero\storage\BHTEGW6F\Leaton Gray and Scott - 2016 - Evaluation of the BBC's Bitesize Programme with sp.pdf}
+}
+
+@article{leePromptEngineeringKnowledge2024,
+  title = {Prompt {{Engineering}} for {{Knowledge Creation}}: {{Using Chain-of-Thought}} to {{Support Students}}’ {{Improvable Ideas}}},
+  shorttitle = {Prompt {{Engineering}} for {{Knowledge Creation}}},
+  author = {Lee, Alwyn Vwen Yen and Teo, Chew Lee and Tan, Seng Chee},
+  date = {2024-09},
+  journaltitle = {AI},
+  volume = {5},
+  number = {3},
+  pages = {1446--1461},
+  publisher = {Multidisciplinary Digital Publishing Institute},
+  issn = {2673-2688},
+  doi = {10.3390/ai5030069},
+  url = {https://www.mdpi.com/2673-2688/5/3/69},
+  urldate = {2025-07-11},
+  abstract = {Knowledge creation in education is a critical practice for advancing collective knowledge and fostering innovation within a student community. Students play vital roles in identifying gaps and collaborative work to improve community ideas from discourse, but idea quality can be suboptimal, affected by a lack of resources or diversity of ideas. The use of generative Artificial Intelligence and large language models (LLMs) in education has allowed work on idea-centric discussions to advance in ways that were previously unfeasible. However, the use of LLMs requires specific skill sets in prompt engineering, relevant to the in-context technique known as Chain-of-Thought (CoT) for generating and supporting improvable ideas in student discourse. A total of 721 discourse turns consisting of 272 relevant question–answer pairs and 149 threads of student discourse data were collected from 31 students during a two-day student Knowledge Building Design Studio (sKBDS). Student responses were augmented using the CoT approach and the LLM-generated responses were compared with students’ original responses. Findings are illustrated using two threads to show that CoT-augmented inputs for the LLMs can generate responses that support improvable ideas in the context of knowledge creation. This study presents work from authentic student discourse and has implications for research and classroom practice.},
+  issue = {3},
+  langid = {english},
+  keywords = {chain-of-thought,knowledge building,knowledge creation,large language models,prompt engineering},
+  file = {C:\Users\KnightNight101\Zotero\storage\L96FXAKC\Lee et al. - 2024 - Prompt Engineering for Knowledge Creation Using C.pdf}
+}
+
+@inproceedings{linSLLMAcceleratingLLM2024,
+  title = {{{sLLM}}: {{Accelerating LLM Inference}} Using {{Semantic Load Balancing}} with {{Shared Memory Data Structures}}},
+  shorttitle = {{{sLLM}}},
+  booktitle = {2024 25th {{International Symposium}} on {{Quality Electronic Design}} ({{ISQED}})},
+  author = {Lin, Jieyu and Zhang, Sai Qian and Leon-Garcia, Alberto},
+  date = {2024-04},
+  pages = {1--6},
+  issn = {1948-3295},
+  doi = {10.1109/ISQED60706.2024.10528703},
+  url = {https://ieeexplore.ieee.org/abstract/document/10528703},
+  urldate = {2025-07-11},
+  abstract = {As Large Language Models (LLMs) are increasingly deployed to support a broad spectrum of applications, enhancing inference efficiency and minimizing costs have become critical areas of focus. To address these challenges, researchers have explored optimizing the Key-Value (KV) cache within LLMs. However, existing approaches have not considered the potential benefits of sharing KV caches across multiple requests in a cluster environment. Addressing this gap, we introduce sLLM, a novel system that integrates an efficient shared-memory-based Semantic Load Balancer with a KV cache sharing mechanism. This design significantly reduces the need for recomputation during LLM inference, which enhances inference performance. Our evaluation of the sLLM system showcases its effectiveness: the Semantic Load Balancer achieves up to a 7× reduction in latency when dispatching requests, while the system as a whole can decrease the Time-To-First-Token (TTFT) for LLM inferences by 30 – 58\%.},
+  eventtitle = {2024 25th {{International Symposium}} on {{Quality Electronic Design}} ({{ISQED}})},
+  keywords = {component,Computational efficiency,Costs,Data structures,Dispatching,formatting,insert,Load management,Machine learning,Semantics,style,styling}
+}
+
+@inproceedings{liQuantifyingCostContext2007,
+  title = {Quantifying the Cost of Context Switch},
+  booktitle = {Proceedings of the 2007 Workshop on {{Experimental}} Computer Science},
+  author = {Li, Chuanpeng and Ding, Chen and Shen, Kai},
+  date = {2007-06-13},
+  series = {{{ExpCS}} '07},
+  pages = {2--es},
+  publisher = {Association for Computing Machinery},
+  location = {New York, NY, USA},
+  doi = {10.1145/1281700.1281702},
+  url = {https://doi.org/10.1145/1281700.1281702},
+  urldate = {2025-07-11},
+  abstract = {Measuring the indirect cost of context switch is a challenging problem. In this paper, we show our results of experimentally quantifying the indirect cost of context switch using a synthetic workload. Specifically, we measure the impact of program data size and access stride on context switch cost. We also demonstrate the potential impact of OS background interrupt handling on the measurement accuracy. Such impact can be alleviated by using a multi-processor system on which one processor is employed for context switch measurement while the other runs OS background tasks.},
+  isbn = {978-1-59593-751-3}
+}
+
+@online{liusieLLMComparativeAssessment2024,
+  title = {{{LLM Comparative Assessment}}: {{Zero-shot NLG Evaluation}} through {{Pairwise Comparisons}} Using {{Large Language Models}}},
+  shorttitle = {{{LLM Comparative Assessment}}},
+  author = {Liusie, Adian and Manakul, Potsawee and Gales, Mark J. F.},
+  date = {2024-02-06},
+  eprint = {2307.07889},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2307.07889},
+  url = {http://arxiv.org/abs/2307.07889},
+  urldate = {2025-07-11},
+  abstract = {Current developments in large language models (LLMs) have enabled impressive zero-shot capabilities across various natural language tasks. An interesting application of these systems is in the automated assessment of natural language generation (NLG), a highly challenging area with great practical benefit. In this paper, we explore two options for exploiting the emergent abilities of LLMs for zero-shot NLG assessment: absolute score prediction, and comparative assessment which uses relative comparisons between pairs of candidates. Though comparative assessment has not been extensively studied in NLG assessment, we note that humans often find it more intuitive to compare two options rather than scoring each one independently. This work examines comparative assessment from multiple perspectives: performance compared to absolute grading; positional biases in the prompt; and efficient ranking in terms of the number of comparisons. We illustrate that LLM comparative assessment is a simple, general and effective approach for NLG assessment. For moderate-sized open-source LLMs, such as FlanT5 and Llama2-chat, comparative assessment is superior to prompt scoring, and in many cases can achieve performance competitive with state-of-the-art methods. Additionally, we demonstrate that LLMs often exhibit strong positional biases when making pairwise comparisons, and we propose debiasing methods that can further improve performance.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Computation and Language},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\UR4S4QQU\\Liusie et al. - 2024 - LLM Comparative Assessment Zero-shot NLG Evaluati.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\RFVX4I4C\\2307.html}
+}
+
+@article{loiroAgileProjectManagement2019,
+  title = {Agile {{Project Management}}: {{A Communicational Workflow Proposal}}},
+  shorttitle = {Agile {{Project Management}}},
+  author = {Loiro, Carina and Castro, Hélio and Ávila, Paulo and Cruz-Cunha, Maria Manuela and Putnik, Goran D. and Ferreira, Luís},
+  date = {2019-01-01},
+  journaltitle = {Procedia Computer Science},
+  shortjournal = {Procedia Computer Science},
+  series = {{{CENTERIS}} 2019 - {{International Conference}} on {{ENTERprise Information Systems}} / {{ProjMAN}} 2019 - {{International Conference}} on {{Project MANagement}} / {{HCist}} 2019 - {{International Conference}} on {{Health}} and {{Social Care Information Systems}} and {{Technologies}}, {{CENTERIS}}/{{ProjMAN}}/{{HCist}} 2019},
+  volume = {164},
+  pages = {485--490},
+  issn = {1877-0509},
+  doi = {10.1016/j.procs.2019.12.210},
+  url = {https://www.sciencedirect.com/science/article/pii/S1877050919322574},
+  urldate = {2025-07-11},
+  abstract = {Embracing agility brings change to companies and everyone involved, so people have a fundamental role in project development. It is essential that teams have a good communication, motivation and concern about quality and client satisfaction, Agile Manufacturing is using Agile Project Management to provide the right team to performance difficult tasks and achieve goals. This paper proposes a team that deals with Agile Project Management, named as AGILE team, composed by a product owner, a team leader and team members, and a communication workflow proposal concerning the conjunction of 3 momentums (requirements analyze, planning and design) along the Agile Project Management. The proposed model is being implemented in a lightening manufacturing company in a very early stage.},
+  keywords = {Agile Manufacturing,Agile Project Management,Agility,Communicational,Team},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\JYNJY6VK\\Loiro et al. - 2019 - Agile Project Management A Communicational Workfl.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\NUXB2GUU\\S1877050919322574.html}
+}
+
+@online{luCorporateCommunicationCompanion2024,
+  title = {Corporate {{Communication Companion}} ({{CCC}}): {{An LLM-empowered Writing Assistant}} for {{Workplace Social Media}}},
+  shorttitle = {Corporate {{Communication Companion}} ({{CCC}})},
+  author = {Lu, Zhuoran and Mysore, Sheshera and Safavi, Tara and Neville, Jennifer and Yang, Longqi and Wan, Mengting},
+  date = {2024-05-07},
+  eprint = {2405.04656},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2405.04656},
+  url = {http://arxiv.org/abs/2405.04656},
+  urldate = {2025-07-11},
+  abstract = {Workplace social media platforms enable employees to cultivate their professional image and connect with colleagues in a semi-formal environment. While semi-formal corporate communication poses a unique set of challenges, large language models (LLMs) have shown great promise in helping users draft and edit their social media posts. However, LLMs may fail to capture individualized tones and voices in such workplace use cases, as they often generate text using a "one-size-fits-all" approach that can be perceived as generic and bland. In this paper, we present Corporate Communication Companion (CCC), an LLM-empowered interactive system that helps people compose customized and individualized workplace social media posts. Using need-finding interviews to motivate our system design, CCC decomposes the writing process into two core functions, outline and edit: First, it suggests post outlines based on users' job status and previous posts, and next provides edits with attributions that users can contextually customize. We conducted a within-subjects user study asking participants both to write posts and evaluate posts written by others. The results show that CCC enhances users' writing experience, and audience members rate CCC-enhanced posts as higher quality than posts written using a non-customized writing assistant. We conclude by discussing the implications of LLM-empowered corporate communication.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Human-Computer Interaction},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\5FZALIS2\\Lu et al. - 2024 - Corporate Communication Companion (CCC) An LLM-em.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\NZL4JJUQ\\2405.html}
+}
+
+@article{mankinsTurningGreatStrategy2005,
+  title = {Turning {{Great Strategy}} into {{Great Performance}}},
+  author = {Mankins, Michael and Steele, Richard},
+  date = {2005-08},
+  journaltitle = {Harvard Business Review},
+  volume = {83},
+  pages = {65--72},
+  url = {https://hbr.org/2005/07/turning-great-strategy-into-great-performance},
+  urldate = {2025-07-18},
+  file = {C:\Users\KnightNight101\Zotero\storage\D2HHU3CJ\Turning Great Strategy into Great Performance.pdf}
+}
+
+@inproceedings{marvinPromptEngineeringLarge2024,
+  title = {Prompt {{Engineering}} in {{Large Language Models}}},
+  booktitle = {Data {{Intelligence}} and {{Cognitive Informatics}}},
+  author = {Marvin, Ggaliwango and Hellen, Nakayiza and Jjingo, Daudi and Nakatumba-Nabende, Joyce},
+  editor = {Jacob, I. Jeena and Piramuthu, Selwyn and Falkowski-Gilski, Przemyslaw},
+  date = {2024},
+  pages = {387--402},
+  publisher = {Springer Nature},
+  location = {Singapore},
+  doi = {10.1007/978-981-99-7962-2_30},
+  abstract = {With the undeniable rapid development of Conversational Artificial Intelligence (AI) particularly Large Language Models (LLMs), prompt engineering has become an obligatory skill for effective communication and interaction with language driven tools like ChatGPT. It can be leveraged in enforcing rules and process automation for ensuring good quality and quantity of output from LLMs. Moreover, the order of providing examples within prompts, automatic instruction generation, and selection methods has been proven to significantly impact the performance of LLMs. Prompts can be optimized to maximize a chosen score function by searching a pool of instruction candidates within LLMs. No wonder automatically generated instructions give better or similar performance than human annotated instructions and outperform baselines of LLMs, this makes prompt engineering a programming procedure for customizing outputs and interactions of LLMs. In this chapter, we provide thorough understanding of prompt engineering, latest prompt engineering techniques with relevant exercises for putting the techniques in practice. We also discuss current and future trends of LLMs and prompt engineering research, including the rise of automatic instruction generation and selection methods. These are very important for prompt and NLP engineers, conversational AI researchers, and all information seekers or users of LLMs and prompt engineering tools in sensitive domains like health care, security, education~among others.~The chapter provides indepth understanding of prompt engineering principles and techniques for responsible coversational AI.},
+  isbn = {978-981-99-7962-2},
+  langid = {english}
+}
+
+@article{melnykDECISIONSUPPORTTECHNOLOGY2020,
+  title = {{{DECISION SUPPORT TECHNOLOGY FOR SPRINT PLANNING}}},
+  author = {Melnyk, K. V. and Hlushko, V. N. and Borysova, N. V.},
+  date = {2020},
+  journaltitle = {Radio Electronics, Computer Science, Control},
+  number = {1},
+  pages = {135--145},
+  issn = {2313-688X},
+  doi = {10.15588/1607-3274-2020-1-14},
+  url = {https://ric.zp.edu.ua/article/view/201735},
+  urldate = {2025-07-11},
+  abstract = {Context. The article describes the relevant planning process of software projects, planning problems and different solutions to these problems basis on use of the Scrum methodology.Objective. The purpose of the work is to develop the technology for solving the sprint planning task in the face of uncertainty and possible risks from software development standpoint.Method. The most used software life cycle models are described. The choice of the Scrum as a widely used representative of agile methodology for software development is justified. An analytical review of the methods for estimation of the complexity of user stories is carried out. The major problems of sprint planning are highlighted. The model of the business process to implement an ITproject by Scrum in the form of an BPMN-diagram has been developed. The algorithm to solve the problem of Sprint Backlog planning with uncertainty has been elaborated. The common process of user stories selection from Product Backlog to Sprint Backlog and ways of solving the possible problems are considered. The task of estimation of labor intensity of user stories and the task of risk evaluation in planning are formalized. The technology of user story selection for Sprint Backlog has been developed. Numerical studies of the decision support technology proposed in the article are carried out. It allows suggesting it as the practical tool during sprint planning. The method of adequacy evaluation of proposed technology is offered. The set of key performance indicators for assessing the team performance is selected.~Results. The sprint planning technology was developed, which project managers, product owners and development teams for increasing the effectiveness of decision-making process can use.~Conclusions. The conducted experiments have confirmed the importance of the proposed decision support technology and allow recommending it for use in practice for planning of software projects. Scientific novelty is to improve the sprint planning process with the assistance of the proposed technology, which alleviates uncertainty while defining labor intensity of user stories and decreases time spent on decision making.},
+  issue = {1},
+  langid = {english},
+  keywords = {team performance.},
+  file = {C:\Users\KnightNight101\Zotero\storage\5UNIBB4N\Melnyk et al. - 2020 - DECISION SUPPORT TECHNOLOGY FOR SPRINT PLANNING.pdf}
+}
+
+@incollection{meyerDevelopersDivergingPerceptions2019,
+  title = {Developers’ {{Diverging Perceptions}} of {{Productivity}}},
+  booktitle = {Rethinking {{Productivity}} in {{Software Engineering}}},
+  author = {Meyer, André N. and Murphy, Gail C. and Fritz, Thomas and Zimmermann, Thomas},
+  editor = {Sadowski, Caitlin and Zimmermann, Thomas},
+  date = {2019},
+  pages = {137--146},
+  publisher = {Apress},
+  location = {Berkeley, CA},
+  doi = {10.1007/978-1-4842-4221-6_12},
+  url = {https://doi.org/10.1007/978-1-4842-4221-6_12},
+  urldate = {2025-07-11},
+  abstract = {To overcome the ever-growing demand for software, software development organizations strive to enhance the productivity of their developers. But what does productivity mean in the context of software development? A substantial amount of work on developer productivity has been undertaken over the past four decades. The majority of this work considered productivity from a top-down perspective (the manager view) in terms of the artifacts and code created per unit of time. Common examples of such productivity measures are the lines of source code modified per hour, the resolution time for modification requests, or function points created per month. These productivity measures focus on a single, output-oriented factor for quantifying productivity, and do not take into account developers’ individual work roles, practices and other factors that might affect their productivity, such as work fragmentation, the tools used, or the work/office environment. In our research, we investigated how productivity could be quantified from the bottom-up, following a mixed-methods approach that involved more than 800 software developers. By investigating developers’ individual productivity, it is possible to better understand the individual work habits and patterns, how they relate to the productivity perceptions and also which factors are most relevant for a developer’s productivity.},
+  isbn = {978-1-4842-4221-6},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\MPHEJRRS\Meyer et al. - 2019 - Developers’ Diverging Perceptions of Productivity.pdf}
+}
+
+@inproceedings{meyerSoftwareDevelopersPerceptions2014,
+  title = {Software Developers' Perceptions of Productivity},
+  booktitle = {Proceedings of the 22nd {{ACM SIGSOFT International Symposium}} on {{Foundations}} of {{Software Engineering}}},
+  author = {Meyer, André N. and Fritz, Thomas and Murphy, Gail C. and Zimmermann, Thomas},
+  date = {2014-11-11},
+  series = {{{FSE}} 2014},
+  pages = {19--29},
+  publisher = {Association for Computing Machinery},
+  location = {New York, NY, USA},
+  doi = {10.1145/2635868.2635892},
+  url = {https://doi.org/10.1145/2635868.2635892},
+  urldate = {2025-07-11},
+  abstract = {The better the software development community becomes at creating software, the more software the world seems to demand. Although there is a large body of research about measuring and investigating productivity from an organizational point of view, there is a paucity of research about how software developers, those at the front-line of software construction, think about, assess and try to improve their productivity. To investigate software developers' perceptions of software development productivity, we conducted two studies: a survey with 379 professional software developers to help elicit themes and an observational study with 11 professional software developers to investigate emergent themes in more detail. In both studies, we found that developers perceive their days as productive when they complete many or big tasks without significant interruptions or context switches. Yet, the observational data we collected shows our participants performed significant task and activity switching while still feeling productive. We analyze such apparent contradictions in our findings and use the analysis to propose ways to better support software developers in a retrospection and improvement of their productivity through the development of new tools and the sharing of best practices.},
+  isbn = {978-1-4503-3056-5},
+  file = {C:\Users\KnightNight101\Zotero\storage\WTXN7HJN\Meyer et al. - 2014 - Software developers' perceptions of productivity.pdf}
+}
+
+@article{meyerWorkLifeDevelopers2017,
+  title = {The {{Work Life}} of {{Developers}}: {{Activities}}, {{Switches}} and {{Perceived Productivity}}},
+  shorttitle = {The {{Work Life}} of {{Developers}}},
+  author = {Meyer, André N. and Barton, Laura E. and Murphy, Gail C. and Zimmermann, Thomas and Fritz, Thomas},
+  date = {2017-12},
+  journaltitle = {IEEE Transactions on Software Engineering},
+  volume = {43},
+  number = {12},
+  pages = {1178--1193},
+  issn = {1939-3520},
+  doi = {10.1109/TSE.2017.2656886},
+  url = {https://ieeexplore.ieee.org/abstract/document/7829407},
+  urldate = {2025-07-11},
+  abstract = {Many software development organizations strive to enhance the productivity of their developers. All too often, efforts aimed at improving developer productivity are undertaken without knowledge about how developers spend their time at work and how it influences their own perception of productivity. To fill in this gap, we deployed a monitoring application at 20 computers of professional software developers from four companies for an average of 11 full work day in situ. Corroborating earlier findings, we found that developers spend their time on a wide variety of activities and switch regularly between them, resulting in highly fragmented work. Our findings extend beyond existing research in that we correlate developers' work habits with perceived productivity and also show productivity is a personal matter. Although productivity is personal, developers can be roughly grouped into morning, low-at-lunch and afternoon people. A stepwise linear regression per participant revealed that more user input is most often associated with a positive, and emails, planned meetings and work unrelated websites with a negative perception of productivity. We discuss opportunities of our findings, the potential to predict high and low productivity and suggest design approaches to create better tool support for planning developers' work day and improving their personal productivity.},
+  keywords = {developer activity,Encoding,human factors,Human factors,interruptions,Monitoring,Productivity,Software development,user studies,work fragmentation},
+  file = {C:\Users\KnightNight101\Zotero\storage\DGMXGM4J\Meyer et al. - 2017 - The Work Life of Developers Activities, Switches .pdf}
+}
+
+@online{ModelEmployeePerformance,
+  title = {The {{Model}} of {{Employee Performance}} - {{ProQuest}}},
+  url = {https://www.proquest.com/openview/032b9db01350e682a093cf54b9bd2d4d/1?pq-origsite=gscholar&cbl=816339},
+  urldate = {2025-07-11},
+  abstract = {Explore millions of resources from scholarly journals, books, newspapers, videos and more, on the ProQuest Platform.},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\YV277PFZ\1.html}
+}
+
+@article{moserOnlyClickAway2013,
+  title = {Only a Click Away? – {{What}} Makes Virtual Meetings, Emails and Outsourcing Successful},
+  shorttitle = {Only a Click Away?},
+  author = {Moser, K. S.},
+  date = {2013-01-01},
+  journaltitle = {Management Articles of the Year},
+  volume = {2013},
+  pages = {25--30},
+  publisher = {CMI},
+  url = {https://www.researchgate.net/publication/249991051_Only_a_click_away_-_What_makes_virtual_meetings_emails_and_outsourcing_successful_Winner_of_the_Management_Articles_of_the_Year_Competition_2013_by_the_Charted_Management_Institute_the_British_Library},
+  urldate = {2025-07-11},
+  abstract = {Good communication is vital for organisations at all phases of the economic cycle. In virtual, multicultural teams it is complex, sensitive and can be a considerable challenge. Karin Moser’s article, ‘Only a click away’, illustrates how even the tiniest matters – such as etiquette, forms of address and degrees of informality – can have significant effects. Outlining the differences between on-site and dispersed teams, Moser shows how norms of behaviour are unconsciously formed and maintained by people who meet face-to-face regularly and argues that different approaches must be actively implemented when developing dispersed teams. The article concludes with a handy list of practical tips. This article was a winner of 'Management Articles of Year 2013' in the UK.},
+  langid = {english},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\FA8W6ZGZ\\Moser - 2013 - Only a click away – What makes virtual meetings, .pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\UK9DV8SQ\\87948.html}
+}
+
+@article{mrozWeReallyNeed2018,
+  title = {Do {{We Really Need Another Meeting}}? {{The Science}} of {{Workplace Meetings}}},
+  shorttitle = {Do {{We Really Need Another Meeting}}?},
+  author = {Mroz, Joseph E. and Allen, Joseph A. and Verhoeven, Dana C. and Shuffler, Marissa L.},
+  date = {2018-12-01},
+  journaltitle = {Current Directions in Psychological Science},
+  shortjournal = {Curr Dir Psychol Sci},
+  volume = {27},
+  number = {6},
+  pages = {484--491},
+  publisher = {SAGE Publications Inc},
+  issn = {0963-7214},
+  doi = {10.1177/0963721418776307},
+  url = {https://doi.org/10.1177/0963721418776307},
+  urldate = {2025-07-11},
+  abstract = {Meetings are routine in organizations, but their value is often questioned by the employees who must sit through them daily. The science of meetings that has emerged as of late provides necessary direction toward improving meetings, but an evaluation of the current state of the science is much needed. In this review, we examine current directions for the psychological science of workplace meetings, with a focus on applying scientific findings about the activities that occur before, during, and after meetings that facilitate success. We conclude with concrete recommendations and a checklist for promoting good meetings, as well as some thoughts on the future of the science of workplace meetings.},
+  langid = {english}
+}
+
+@inproceedings{namUsingLLMHelp2024,
+  title = {Using an {{LLM}} to {{Help With Code Understanding}}},
+  booktitle = {Proceedings of the {{IEEE}}/{{ACM}} 46th {{International Conference}} on {{Software Engineering}}},
+  author = {Nam, Daye and Macvean, Andrew and Hellendoorn, Vincent and Vasilescu, Bogdan and Myers, Brad},
+  date = {2024-04-12},
+  series = {{{ICSE}} '24},
+  pages = {1--13},
+  publisher = {Association for Computing Machinery},
+  location = {New York, NY, USA},
+  doi = {10.1145/3597503.3639187},
+  url = {https://dl.acm.org/doi/10.1145/3597503.3639187},
+  urldate = {2025-07-11},
+  abstract = {Understanding code is challenging, especially when working in new and complex development environments. Code comments and documentation can help, but are typically scarce or hard to navigate. Large language models (LLMs) are revolutionizing the process of writing code. Can they do the same for helping understand it? In this study, we provide a first investigation of an LLM-based conversational UI built directly in the IDE that is geared towards code understanding. Our IDE plugin queries OpenAI's GPT-3.5-turbo model with four high-level requests without the user having to write explicit prompts: to explain a highlighted section of code, provide details of API calls used in the code, explain key domain-specific terms, and provide usage examples for an API. The plugin also allows for open-ended prompts, which are automatically contextualized to the LLM with the program being edited. We evaluate this system in a user study with 32 participants, which confirms that using our plugin can aid task completion more than web search. We additionally provide a thorough analysis of the ways developers use, and perceive the usefulness of, our system, among others finding that the usage and benefits differ between students and professionals. We conclude that in-IDE prompt-less interaction with LLMs is a promising future direction for tool builders.},
+  isbn = {979-8-4007-0217-4},
+  file = {C:\Users\KnightNight101\Zotero\storage\7CNWVISP\Nam et al. - 2024 - Using an LLM to Help With Code Understanding.pdf}
+}
+
+@article{objectImpactEmployeeMotivation,
+  title = {Impact of {{Employee Motivation}} on {{Employee Performance}}},
+  author = {Object, object},
+  url = {https://core.ac.uk/reader/234625730},
+  urldate = {2025-07-11},
+  abstract = {Employee motivation is considered as a force that drives the employees toward attaining specific goals and objectives of the organization. Now days, it is one of the sizzling issue in organizations since every wants to make best use of their financial and human resources. Main purpose of this study is to inquire that what kind of factors influence employ motivation in Pakistan and finding up to which extent motivation affects the employ performance. Data is collected from 160 teachers of Government and private schools by using self-administered questionnaire. Regression analysis is applied to find the effect of employee motivation on employee’s performance involving four variables employee motivation, employee performance, intrinsic rewards and employee perceived training effectiveness. The results of this study show that significant and positive relationship exists between employee motivation and employee performance. It is also concluded that intrinsic rewards has a significant positive relationship with employee performance and employee motivation. This study concludes that employee perceived training effectiveness has a negative relationship with motivation. It is also proved from to their responses, they were provided with the training courses but this training was not implemented by them in their routine teaching as they considered it to be ineffective. They were not satisfied with the training provided to them and this affected their motivation to teach. Keywords: Employee Motivation, Employ Performance, Intrinsic Rewards, Employee Perceived Training Effectiveness},
+  file = {C:\Users\KnightNight101\Zotero\storage\A3F49XVX\Object - Impact of Employee Motivation on Employee Performa.pdf}
+}
+
+@article{pricaEnhancingProjectEfficiency2025,
+  title = {Enhancing {{Project Efficiency}}: {{The Role}} of {{Agile Project Management}} in a {{Dynamic Corporate Landscape}}},
+  shorttitle = {Enhancing {{Project Efficiency}}},
+  author = {Prica, Fadil and Bjelic, Nenad},
+  date = {2025-03-30},
+  journaltitle = {Journal of Policy Options},
+  volume = {8},
+  number = {1},
+  pages = {1--10},
+  issn = {3006-7626},
+  url = {http://resdojournals.com/index.php/jpo/article/view/401},
+  urldate = {2025-07-10},
+  abstract = {Over recent years, the rising importance of knowledge work has prompted organizations to transition from traditional project management approaches to more collaborative methodologies. In today's globally connected environment, it is crucial for project managers to utilize a dynamic project management system that allows for swift and effective responses to emerging challenges and opportunities. Agile project management is recognized for its emphasis on decentralizing control and empowering team members to adapt to change. This article will explore and compare Agile Project Management with traditional project management techniques, highlighting historical practices and their relevance in the contemporary business landscape. Given the increasing complexity and unpredictability of today’s projects, Agile Project Management has proven to be an invaluable asset for both knowledge workers and the project managers who oversee their efforts. This document aims to encourage the adoption of agile methodologies within the corporate sector, providing a comprehensive outline of the approach.},
+  issue = {1},
+  langid = {english},
+  keywords = {Agile Project Management,Corporate Project Strategies,Knowledge Work,Traditional Project Management},
+  file = {C:\Users\KnightNight101\Zotero\storage\P5QD5MM7\Prica and Bjelic - 2025 - Enhancing Project Efficiency The Role of Agile Pr.pdf}
+}
+
+@article{priscaamajuoyiOptimizingAgileProject2024,
+  title = {Optimizing Agile Project Management Methodologies in High-Tech Software Development},
+  author = {{Prisca Amajuoyi} and {Lucky Bamidele Benjamin} and {Kudirat Bukola Adeusi}},
+  date = {2024-05-30},
+  journaltitle = {GSC Advanced Research and Reviews},
+  shortjournal = {GSC Adv. Res. Rev.},
+  volume = {19},
+  number = {2},
+  pages = {268--274},
+  publisher = {GSC Online Press},
+  issn = {2582-4597},
+  doi = {10.30574/gscarr.2024.19.2.0182},
+  url = {https://gsconlinepress.com/journals/gscarr/node/2570},
+  urldate = {2025-07-10},
+  abstract = {This review paper examines the challenges and limitations of traditional Agile methodologies in high-tech software development. It proposes enhancements to optimise efficiency and outcomes. Traditional Agile methodologies, such as Scrum and Kanban, have revolutionised software development practices but face scalability issues and struggle to adapt to rapid technological changes. To address these challenges, this paper proposes integrating DevOps practices, incorporating Lean principles, adopting hybrid Agile methodologies, and emphasising continuous feedback and iterative learning. These enhancements aim to streamline development processes, eliminate waste, tailor Agile practices to specific needs, and foster a culture of continuous improvement. The potential impact of these enhancements on improving efficiency and outcomes in high-tech software development projects is significant. However, further research and experimentation are needed to validate their effectiveness in real-world settings. Continuous improvement and adaptation are essential for organisations to stay competitive in the ever-evolving landscape of high-tech industries.},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\6NCLDNN3\Prisca Amajuoyi et al. - 2024 - Optimizing agile project management methodologies .pdf}
+}
+
+@article{rosenMythMultitasking2008,
+  title = {The {{Myth}} of {{Multitasking}}},
+  author = {Rosen, Christine},
+  date = {2008},
+  journaltitle = {The New Atlantis},
+  number = {20},
+  eprint = {43152412},
+  eprinttype = {jstor},
+  pages = {105--110},
+  publisher = {{Center for the Study of Technology and Society}},
+  issn = {1543-1215},
+  url = {https://www.jstor.org/stable/43152412},
+  urldate = {2025-07-11}
+}
+
+@article{rupareliaHistoryVersionControl2010,
+  title = {The History of Version Control},
+  author = {Ruparelia, Nayan B.},
+  date = {2010-01-25},
+  journaltitle = {SIGSOFT Softw. Eng. Notes},
+  volume = {35},
+  number = {1},
+  pages = {5--9},
+  issn = {0163-5948},
+  doi = {10.1145/1668862.1668876},
+  url = {https://doi.org/10.1145/1668862.1668876},
+  urldate = {2025-07-11}
+}
+
+@article{saltzComparingDataScience2017,
+  title = {Comparing {{Data Science Project Management Methodologies}} via a {{Controlled Experiment}}},
+  author = {Saltz, Jeffrey and {shamshurin}, Ivan and Crowston, Kevin},
+  date = {2017-01-04},
+  journaltitle = {Hawaii International Conference on System Sciences 2017 (HICSS-50)},
+  url = {https://aisel.aisnet.org/hicss-50/da/big_data_and_analytics/4}
+}
+
+@book{salvucciMultitaskingMind2010,
+  title = {The {{Multitasking Mind}}},
+  author = {Salvucci, Dario D. and Taatgen, Niels A.},
+  date = {2010-09-30},
+  publisher = {Oxford University Press},
+  abstract = {Multitasking is all around us: the office worker interrupted by a phone call, the teenager texting while driving, the salesperson chatting while entering an order. When multitasking, the mind juggles all the many tasks we're doing this second, this hour, this week, and tries to perform them together-sometimes with great ease, sometimes with great difficulty. We don't often stop to think about how exactly we accomplish these feats of multitasking great and small. How do we switch from one task to another? What types of multitasking are disruptive, and when are they most disruptive? And ultimately, how can we take advantage of the benefits of multitasking while alleviating its negative effects in our daily lives? This book presents the theory of threaded cognition, a theory that aims to explain the multitasking mind. The theory states that multitasking behavior can be expressed as cognitive threads-independent streams of thought that weave through the mind's processing resources to produce multitasking behavior, and sometimes experience conflicts to produce multitasking interference. Grounded in the ACT-R cognitive architecture, threaded cognition incorporates computational representations and mechanisms used to simulate and predict multitasking behavior and performance. The book describes the implications of threaded cognition theory across three traditionally disparate domains: concurrent multitasking (doing multiple tasks at once), sequential multitasking (interrupting and resuming tasks), and multitask skill acquisition (learning and practicing multiple tasks). The work stresses the importance of unifying basic and applied research by alternating between in-depth descriptions of basic research phenomena and broader treatments of phenomena in applied domains, such as driver distraction and human-computer interaction. The book also includes practical guidelines for designers of interactive systems intended for multitasking contexts.},
+  isbn = {978-0-19-978039-6},
+  langid = {english},
+  pagetotal = {317},
+  keywords = {Psychology / Cognitive Psychology & Cognition,Psychology / General}
+}
+
+@book{schwaberAgileProjectManagement2004,
+  title = {Agile {{Project Management}} with {{Scrum}}},
+  author = {Schwaber, Ken},
+  date = {2004-02-11},
+  eprint = {6pZCAwAAQBAJ},
+  eprinttype = {googlebooks},
+  publisher = {Microsoft Press},
+  abstract = {The rules and practices for Scrum—a simple process for managing complex projects—are few, straightforward, and easy to learn. But Scrum’s simplicity itself—its lack of prescription—can be disarming, and new practitioners often find themselves reverting to old project management habits and tools and yielding lesser results. In this illuminating series of case studies, Scrum co-creator and evangelist Ken Schwaber identifies the real-world lessons—the successes and failures—culled from his years of experience coaching companies in agile project management. Through them, you’ll understand how to use Scrum to solve complex problems and drive better results—delivering more valuable software faster.  Gain the foundation in Scrum theory—and practice—you need to:    Rein in even the most complex, unwieldy projects  Effectively manage unknown or changing product requirements  Simplify the chain of command with self-managing development teams  Receive clearer specifications—and feedback—from customers  Greatly reduce project planning time and required tools  Build—and release—products in 30-day cycles so clients get deliverables earlier  Avoid missteps by regularly inspecting, reporting on, and fine-tuning projects  Support multiple teams working on a large-scale project from many geographic locations  Maximize return on investment!},
+  isbn = {978-0-7356-3790-0},
+  langid = {english},
+  pagetotal = {214},
+  keywords = {Computers / Software Development & Engineering / General}
+}
+
+@article{serradorDoesAgileWork2015,
+  title = {Does {{Agile}} Work? — {{A}} Quantitative Analysis of Agile Project Success},
+  shorttitle = {Does {{Agile}} Work?},
+  author = {Serrador, Pedro and Pinto, Jeffrey K.},
+  date = {2015-07-01},
+  journaltitle = {International Journal of Project Management},
+  shortjournal = {International Journal of Project Management},
+  volume = {33},
+  number = {5},
+  pages = {1040--1051},
+  issn = {0263-7863},
+  doi = {10.1016/j.ijproman.2015.01.006},
+  url = {https://www.sciencedirect.com/science/article/pii/S0263786315000071},
+  urldate = {2025-07-10},
+  abstract = {The Agile project management methodology has been widely used in recent years as a means to counter the dangers of traditional, front-end planning methods that often lead to downstream development pathologies. Although numerous authors have pointed to the advantages of Agile, with its emphasis on individuals and interactions over processes, customer collaboration over contracts and formal negotiations, and responsiveness over rigid planning, there are, to date, very few large-scale, empirical studies to support the contention that Agile methods can improve the likelihood of project success. Developed originally for software development, it is still predominantly an IT phenomenon. But due to its success it has now spread to non-IT projects. Using a data sample of 1002 projects across multiple industries and countries, we tested the effect of Agile use in organizations on two dimensions of project success: efficiency and overall stakeholder satisfaction against organizational goals. We further examined the moderating effects of variables such as perceived quality of the vision/goals of the project, project complexity, and project team experience. Our findings suggest that Agile methods do have a positive impact on both dimensions of project success. Further, the quality of the vision/goals is a marginally significant moderator of this effect. Implications of these findings and directions for future research are discussed.},
+  keywords = {Agile,Efficiency,Methodology,Success}
+}
+
+@book{shenharLinkingProjectManagement2007,
+  title = {Linking Project Management to Business Strategy},
+  editor = {Shenhar, Aaron},
+  date = {2007},
+  publisher = {Project Management Institute},
+  location = {Newtown Square, Pa},
+  isbn = {978-1-933890-33-3 978-1-68015-426-9},
+  langid = {english},
+  pagetotal = {246},
+  file = {C:\Users\KnightNight101\Zotero\storage\EWAYHNNL\Shenhar - 2007 - Linking project management to business strategy.pdf}
+}
+
+@article{sidjiHumanAICollaborationCooperative2024,
+  title = {Human-{{AI Collaboration}} in {{Cooperative Games}}: {{A Study}} of {{Playing Codenames}} with an {{LLM Assistant}}},
+  shorttitle = {Human-{{AI Collaboration}} in {{Cooperative Games}}},
+  author = {Sidji, Matthew and Smith, Wally and Rogerson, Melissa J.},
+  date = {2024-10-15},
+  journaltitle = {Proc. ACM Hum.-Comput. Interact.},
+  volume = {8},
+  pages = {316:1--316:25},
+  doi = {10.1145/3677081},
+  url = {https://dl.acm.org/doi/10.1145/3677081},
+  urldate = {2025-07-11},
+  abstract = {Playing partial information, restricted communication, cooperative (PIRCC) games with humans have proven challenging for AI, due to our reliance on social dynamics and sophisticated cognitive techniques. Yet, recent advances in generative AI may change this situation through new forms of human-AI collaboration. This paper investigates how teams of players interact with an AI assistant in the PIRCC game Codenames and the impact this has on cognition, social dynamics, and player experience. We observed gameplay and conducted post-game focus groups with 54 participants across ten groups. Each group played three rounds of Codenames, with an AI assistant supporting Cluegivers. We found the AI assistant enhanced players' convergent and divergent thinking, but interfered with formation of team mental models, highlighting a tension in the use of AI in creative team scenarios. The presence of the AI challenged many players' understanding of the 'spirit of the game'. Furthermore, the presence of the AI assistants weakened social connections between human teammates, but strengthened connections across teams. This paper provides an empirical account of an AI assistant's effect on cognition, social dynamics, and player experience in Codenames. We highlight the opportunities and challenges that arise when designing hybrid digital boardgames that include AI assistants.},
+  issue = {CHI PLAY},
+  file = {C:\Users\KnightNight101\Zotero\storage\3JWEXPEK\Sidji et al. - 2024 - Human-AI Collaboration in Cooperative Games A Stu.pdf}
+}
+
+@article{sonta-draczkowskaChallengesScalingAgile2024,
+  title = {Challenges of Scaling Agile in Large Enterprises and Implications for Project Management},
+  author = {Sońta-Drączkowska, Ewa and Krogulec, Agnieszka},
+  date = {2024-03-28T00:00:00Z},
+  journaltitle = {International Journal of Managing Projects in Business},
+  volume = {17},
+  number = {2},
+  pages = {360--384},
+  publisher = {Emerald Publishing Limited},
+  issn = {1753-8378},
+  doi = {10.1108/IJMPB-11-2023-0244},
+  url = {https://www.emerald.com/insight/content/doi/10.1108/ijmpb-11-2023-0244/full/html},
+  urldate = {2025-07-13},
+  abstract = {This study seeks to illuminate the managerial tensions inherent in implementing scaled agile (on the organizational, top management, middle management and team levels) and to frame these challenges within the broader context of project management.,The study adopts a grounded theory approach and delves into a qualitative dataset sourced from 34 interviews with subject matter experts actively engaged in scaling agile initiatives within large organizations spanning various industries. Additionally, the data have been enriched through a comprehensive literature review of the existing body of knowledge on scaling agile.,As a result of our investigation, we propose a framework of managerial tensions in scaling agile in large corporate settings and a series of research propositions and questions that may contribute significantly to the body of knowledge surrounding the phenomenon of “deprojectification” and propose agenda for the future studies in the field of project management.,The study also carries significant managerial implications. Firstly, based on the insights from the practice of scaling agile in large corporate setting, management can build awareness of the challenges inherent of transitioning to agile practices. This may help to anticipate the possible problems and proactively develop strategies how to address them. Secondly, management can be instructed about contingencies inherent in scaling agile, along with the potential disfunctions and side effects (unintended outcomes) that may emerge during the transition process. Thirdly, project management practitioners can gain insights on how scaling agile may cause shifts in the approach to managing projects, project team management and competencies that need to be developed to cope with environments where various approaches to managing projects coexist.,These insights can aid in the agile transition process, beginning with directing managerial attention toward contextual factors and progressing through potential challenges at the organizational, top management, middle management and team levels. Furthermore, the study highlights possible dysfunctionalities and side effects of scaling agile, shedding light on the “dark side” of agile.,The study contributes to the expansion of the empirical database on the implementation of agile practices in large organizational settings. It plays a role in defining and delineating the phenomenon of scaling agile within the context of project management and outlines a research agenda for future project management studies. Additionally, our study adds to the ongoing discourse surrounding the “deprojectification” effect that can occur during the scaling of agile. Lastly, it establishes connections between project management and software development literature regarding the implementation of agile at scale.},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\NNPXQGUI\html.html}
+}
+
+@article{spinellisVersionControlSystems2005,
+  title = {Version Control Systems},
+  author = {Spinellis, D.},
+  date = {2005-09},
+  journaltitle = {IEEE Software},
+  volume = {22},
+  number = {5},
+  pages = {108--109},
+  issn = {1937-4194},
+  doi = {10.1109/MS.2005.140},
+  url = {https://ieeexplore.ieee.org/abstract/document/1504674},
+  urldate = {2025-07-11},
+  abstract = {Sane programmers don't write production code without the help of an editor and an interpreter or a compiler, yet the author has seen many software projects limping along without using a version control system. We can explain this contrast if we think in terms of the increased start-up costs and delayed gratification associated with adopting a VCS. We humans typically discount the future, and therefore implementing version control in a project appears to be a fight against human nature. It's true that you can't beat the productivity boost that compilers and editors provide, but four decades after punched-card programming in assembly language has gone out of fashion, we must now look elsewhere for our next efficiency gains. And if you or your project isn't using a VCS, adopting one might well be the single most important tooling improvement you can undertake.},
+  keywords = {Best practices,Books,configuration management,Control systems,Data mining,Documentation,Graphical user interfaces,History,Software testing,VCS,version control system,Web pages,Writing},
+  file = {C:\Users\KnightNight101\Zotero\storage\5LVLC3XF\Spinellis - 2005 - Version control systems.pdf}
+}
+
+@article{subramanianMythMysteryShrinking2018,
+  title = {Myth and {{Mystery}} of {{Shrinking Attention Span}}},
+  author = {Subramanian, Dr K R},
+  date = {2018},
+  volume = {5},
+  abstract = {Everything is fast today, whether it be the food that you consume, the travel modes, entertainment and in general all walks of life. Never before in the history of humans have we seen such a hurry to get going. This is the consequence of the ‗mobile culture‘ that is progressively afflicting our society. Some people call it digital distraction, but others describe it as the way things are done today. One of the deepest concerns expressed by many scientists and researchers is the attention span that is shrinking, people are jumping from one message to another or speaking to three people at the same time and sometimes they call themselves as multitasking wise kids of the modern age. Well, it is easy to understand that the speed of communication, travel and methods of transfer of speech and data have improved with innovative Technology, but the question is, are we allowing enough time at the receiving or sending end to complete or comprehend a message. But some other researchers are calling the whole thing a bluff. Hence the selection of the present topic to find out the reality of the situation.},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\IZLWBRG8\Subramanian - 2018 - Myth and Mystery of Shrinking Attention Span.pdf}
+}
+
+@inproceedings{sunPromptChainingStepwise2024,
+  title = {Prompt {{Chaining}} or {{Stepwise Prompt}}? {{Refinement}} in {{Text Summarization}}},
+  shorttitle = {Prompt {{Chaining}} or {{Stepwise Prompt}}?},
+  booktitle = {Findings of the {{Association}} for {{Computational Linguistics}}: {{ACL}} 2024},
+  author = {Sun, Shichao and Yuan, Ruifeng and Cao, Ziqiang and Li, Wenjie and Liu, Pengfei},
+  editor = {Ku, Lun-Wei and Martins, Andre and Srikumar, Vivek},
+  date = {2024-08},
+  pages = {7551--7558},
+  publisher = {Association for Computational Linguistics},
+  location = {Bangkok, Thailand},
+  doi = {10.18653/v1/2024.findings-acl.449},
+  url = {https://aclanthology.org/2024.findings-acl.449/},
+  urldate = {2025-07-11},
+  eventtitle = {Findings 2024},
+  file = {C:\Users\KnightNight101\Zotero\storage\6A7XFPXH\Sun et al. - 2024 - Prompt Chaining or Stepwise Prompt Refinement in .pdf}
+}
+
+@article{temitopeSoftwareAdoptionProject2020,
+  title = {Software {{Adoption}} in {{Project Management}} and {{Their Impact}} on {{Project Efficiency}} and {{Collaboration}}},
+  author = {Temitope, Adebayo Omowunmi},
+  date = {2020},
+  volume = {3},
+  number = {12},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\FWIB4D77\Temitope - 2020 - Software Adoption in Project Management and Their .pdf}
+}
+
+@article{tichyRcsSystemVersion1985,
+  title = {Rcs — a System for Version Control},
+  author = {Tichy, Walter F.},
+  date = {1985},
+  journaltitle = {Software: Practice and Experience},
+  volume = {15},
+  number = {7},
+  pages = {637--654},
+  issn = {1097-024X},
+  doi = {10.1002/spe.4380150703},
+  url = {https://onlinelibrary.wiley.com/doi/abs/10.1002/spe.4380150703},
+  urldate = {2025-07-11},
+  abstract = {An important problem in program development and maintenance is version control, i.e. the task of keeping a software system consisting of many versions and configurations well organized. The Revision Control System (RCS) is a software tool that assists with that task. RCS manages revisions of text documents, in particular source programs, documentation, and test data. It automates the storing, retrieval, logging and identification of revisions, and it provides selection mechanisms for composing configurations. This paper introduces basic version control concepts and discusses the practice of version control using RCS. For conserving space, RCS stores deltas, i.e. differences between successive revisions. Several delta storage methods are discussed. Usage statistics show that RCS's delta method is space and time efficient. The paper concludes with a detailed survey of version control tools.},
+  langid = {english},
+  keywords = {Configuration management,Deltas,History management,Revisions,Version control},
+  file = {C:\Users\KnightNight101\Zotero\storage\ZGEI26BG\Tichy - 1985 - Rcs — a system for version control.pdf}
+}
+
+@article{vanderschuurConsequencesMediaMultitasking2015,
+  title = {The Consequences of Media Multitasking for Youth: {{A}} Review},
+  shorttitle = {The Consequences of Media Multitasking for Youth},
+  author = {family=Schuur, given=Winneke A., prefix=van der, useprefix=true and Baumgartner, Susanne E. and Sumter, Sindy R. and Valkenburg, Patti M.},
+  date = {2015-12-01},
+  journaltitle = {Computers in Human Behavior},
+  shortjournal = {Computers in Human Behavior},
+  volume = {53},
+  pages = {204--215},
+  issn = {0747-5632},
+  doi = {10.1016/j.chb.2015.06.035},
+  url = {https://www.sciencedirect.com/science/article/pii/S0747563215004744},
+  urldate = {2025-07-11},
+  abstract = {The increasing prevalence of media multitasking among youth has raised concerns regarding its negative effects on youths’ functioning. Although the number of empirical studies on the consequences of media multitasking for youth has grown rapidly, there has been no attempt to integrate theory with the results of these studies. This review integrates available findings on the relationship between media multitasking and three domains of youths’ functioning: cognitive control, academic performance, and socioemotional functioning. Three databases (PsycINFO, ERIC, and CMMC) were searched to identify relevant studies, resulting in 8448 citations. Fifty-six studies met the inclusion criteria: nine studies on cognitive control, 43 on academic performance, and four on socioemotional functioning. Overall, the findings indicate a small to moderate negative relationship between media multitasking and the three domains of youths’ functioning. However, evidence regarding the causal direction of this relationship is lacking. Based on the included studies, we identify several research gaps and present five main directions for future research: examining causality, establishing more targeted theories, improving media multitasking measurements, focusing on individual and contextual differences, and including representative samples.},
+  keywords = {Academic performance,Attention,Cognitive control,Media multitasking,Socioemotional functioning}
+}
+
+@online{whitePromptPatternCatalog2023,
+  title = {A {{Prompt Pattern Catalog}} to {{Enhance Prompt Engineering}} with {{ChatGPT}}},
+  author = {White, Jules and Fu, Quchen and Hays, Sam and Sandborn, Michael and Olea, Carlos and Gilbert, Henry and Elnashar, Ashraf and Spencer-Smith, Jesse and Schmidt, Douglas C.},
+  date = {2023-02-21},
+  eprint = {2302.11382},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2302.11382},
+  url = {http://arxiv.org/abs/2302.11382},
+  urldate = {2025-07-11},
+  abstract = {Prompt engineering is an increasingly important skill set needed to converse effectively with large language models (LLMs), such as ChatGPT. Prompts are instructions given to an LLM to enforce rules, automate processes, and ensure specific qualities (and quantities) of generated output. Prompts are also a form of programming that can customize the outputs and interactions with an LLM.},
+  langid = {english},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Software Engineering},
+  file = {C:\Users\KnightNight101\Zotero\storage\5H8HIE95\White et al. - 2023 - A Prompt Pattern Catalog to Enhance Prompt Enginee.pdf}
+}
+
+@article{wuLLMFineTuningConcepts2025,
+  title = {{{LLM Fine-Tuning}}: {{Concepts}}, {{Opportunities}}, and {{Challenges}}},
+  shorttitle = {{{LLM Fine-Tuning}}},
+  author = {Wu, Xiao-Kun and Chen, Min and Li, Wanyi and Wang, Rui and Lu, Limeng and Liu, Jia and Hwang, Kai and Hao, Yixue and Pan, Yanru and Meng, Qingguo and Huang, Kaibin and Hu, Long and Guizani, Mohsen and Chao, Naipeng and Fortino, Giancarlo and Lin, Fei and Tian, Yonglin and Niyato, Dusit and Wang, Fei-Yue},
+  date = {2025-04},
+  journaltitle = {Big Data and Cognitive Computing},
+  volume = {9},
+  number = {4},
+  pages = {87},
+  publisher = {Multidisciplinary Digital Publishing Institute},
+  issn = {2504-2289},
+  doi = {10.3390/bdcc9040087},
+  url = {https://www.mdpi.com/2504-2289/9/4/87},
+  urldate = {2025-07-11},
+  abstract = {As a foundation of large language models, fine-tuning drives rapid progress, broad applicability, and profound impacts on human–AI collaboration, surpassing earlier technological advancements. This paper provides a comprehensive overview of large language model (LLM) fine-tuning by integrating hermeneutic theories of human comprehension, with a focus on the essential cognitive conditions that underpin this process. Drawing on Gadamer’s concepts of Vorverständnis, Distanciation, and the Hermeneutic Circle, the paper explores how LLM fine-tuning evolves from initial learning to deeper comprehension, ultimately advancing toward self-awareness. It examines the core principles, development, and applications of fine-tuning techniques, emphasizing its growing significance across diverse field and industries. The paper introduces a new term, “Tutorial Fine-Tuning (TFT)”, which annotates a process of intensive tuition given by a “tutor” to a small number of “students”, to define the latest round of LLM fine-tuning advancements. By addressing key challenges associated with fine-tuning, including ensuring adaptability, precision, credibility and reliability, this paper explores potential future directions for the co-evolution of humans and AI. By bridging theoretical perspectives with practical implications, this work provides valuable insights into the ongoing development of LLMs, emphasizing their potential to achieve higher levels of cognitive and operational intelligence.},
+  issue = {4},
+  langid = {english},
+  keywords = {comprehension,fine-tuning,hermeneutics,human–AI co-evolution,large language models (LLM),tutorial fine-tuning},
+  file = {C:\Users\KnightNight101\Zotero\storage\AAXXT7D4\Wu et al. - 2025 - LLM Fine-Tuning Concepts, Opportunities, and Chal.pdf}
+}
+
+@inproceedings{wuPromptChainerChainingLarge2022,
+  title = {{{PromptChainer}}: {{Chaining Large Language Model Prompts}} through {{Visual Programming}}},
+  shorttitle = {{{PromptChainer}}},
+  booktitle = {Extended {{Abstracts}} of the 2022 {{CHI Conference}} on {{Human Factors}} in {{Computing Systems}}},
+  author = {Wu, Tongshuang and Jiang, Ellen and Donsbach, Aaron and Gray, Jeff and Molina, Alejandra and Terry, Michael and Cai, Carrie J},
+  date = {2022-04-28},
+  series = {{{CHI EA}} '22},
+  pages = {1--10},
+  publisher = {Association for Computing Machinery},
+  location = {New York, NY, USA},
+  doi = {10.1145/3491101.3519729},
+  url = {https://doi.org/10.1145/3491101.3519729},
+  urldate = {2025-07-11},
+  abstract = {While LLMs have made it possible to rapidly prototype new ML functionalities, many real-world applications involve complex tasks that cannot be easily handled via a single run of an LLM. Recent work has found that chaining multiple LLM runs together (with the output of one step being the input to the next) can help users accomplish these more complex tasks, and in a way that is perceived to be more transparent and controllable. However, it remains unknown what users need when authoring their own LLM chains – a key step to lowering the barriers for non-AI-experts to prototype AI-infused applications. In this work, we explore the LLM chain authoring process. We find from pilot studies that users need support transforming data between steps of a chain, as well as debugging the chain at multiple granularities. To address these needs, we designed PromptChainer, an interactive interface for visually programming chains. Through case studies with four designers and developers, we show that PromptChainer supports building prototypes for a range of applications, and conclude with open questions on scaling chains to even more complex tasks, as well as supporting low-fi chain prototyping.},
+  isbn = {978-1-4503-9156-6},
+  file = {C:\Users\KnightNight101\Zotero\storage\HPXRZK8I\Wu et al. - 2022 - PromptChainer Chaining Large Language Model Promp.pdf}
+}
+
+@online{xuChainDraftThinking2025,
+  title = {Chain of {{Draft}}: {{Thinking Faster}} by {{Writing Less}}},
+  shorttitle = {Chain of {{Draft}}},
+  author = {Xu, Silei and Xie, Wenhao and Zhao, Lingxiao and He, Pengcheng},
+  date = {2025-03-03},
+  eprint = {2502.18600},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2502.18600},
+  url = {http://arxiv.org/abs/2502.18600},
+  urldate = {2025-07-11},
+  abstract = {Large Language Models (LLMs) have demonstrated remarkable performance in solving complex reasoning tasks through mechanisms like Chain-of-Thought (CoT) prompting, which emphasizes verbose, step-by-step reasoning. However, humans typically employ a more efficient strategy: drafting concise intermediate thoughts that capture only essential information. In this work, we propose Chain of Draft (CoD), a novel paradigm inspired by human cognitive processes, where LLMs generate minimalistic yet informative intermediate reasoning outputs while solving tasks. By reducing verbosity and focusing on critical insights, CoD matches or surpasses CoT in accuracy while using as little as only 7.6\% of the tokens, significantly reducing cost and latency across various reasoning tasks. Our code and data are available at https://github.com/sileix/chain-of-draft.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Computation and Language},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\M26Q8TM2\\Xu et al. - 2025 - Chain of Draft Thinking Faster by Writing Less.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\9CUF8IXV\\2502.html}
+}
+
+@article{xueAnalysisComparisonProject,
+  title = {Analysis and {{Comparison}} of {{Project Management Standards}} and {{Guides}}},
+  author = {Xue, Rui and Baron, Claude and Esteban, Philippe and Zheng, Li},
+  abstract = {With the increasing scale of systems and products, many large companies ask different suppliers to manufacture the components of the final systems or products. Thus, managing projects dedicated to complex systems engineering is very tricky and ensuring the success of projects is a real issue. Many project management tools, techniques and even standards or guides have been developed by different organizations in order to support the management of such projects. For project managers, selecting and relying on immediately operational methods, tools and references (standards and guides) for a project manager to lead his project represents a true difficulty. The purpose of this paper is to introduce, analyze and compare the most famous project management references (PMBoK, ISO 21500 and ISO/IEC 29110) to provide a global and a detailed views on project management methodological guidelines, in order to facilitate the choice of a project management reference to help the project manager to manage the project effectively, thus to improve the success rate of projects.},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\4UKEY5A6\Xue et al. - Analysis and Comparison of Project Management Stan.pdf}
+}
+
+@inproceedings{yaoPromptCoTAlignPrompt2024,
+  title = {{{PromptCoT}}: {{Align Prompt Distribution}} via {{Adapted Chain-of-Thought}}},
+  shorttitle = {{{PromptCoT}}},
+  author = {Yao, Junyi and Liu, Yijiang and Dong, Zhen and Guo, Mingfei and Hu, Helan and Keutzer, Kurt and Du, Li and Zhou, Daquan and Zhang, Shanghang},
+  date = {2024},
+  pages = {7027--7037},
+  url = {https://openaccess.thecvf.com/content/CVPR2024/html/Yao_PromptCoT_Align_Prompt_Distribution_via_Adapted_Chain-of-Thought_CVPR_2024_paper.html},
+  urldate = {2025-07-11},
+  eventtitle = {Proceedings of the {{IEEE}}/{{CVF Conference}} on {{Computer Vision}} and {{Pattern Recognition}}},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\RU7PJF4H\Yao et al. - 2024 - PromptCoT Align Prompt Distribution via Adapted C.pdf}
+}
+
+@online{yePromptEngineeringPrompt2024,
+  title = {Prompt {{Engineering}} a {{Prompt Engineer}}},
+  author = {Ye, Qinyuan and Axmed, Maxamed and Pryzant, Reid and Khani, Fereshte},
+  date = {2024-07-03},
+  eprint = {2311.05661},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2311.05661},
+  url = {http://arxiv.org/abs/2311.05661},
+  urldate = {2025-07-11},
+  abstract = {Prompt engineering is a challenging yet crucial task for optimizing the performance of large language models on customized tasks. It requires complex reasoning to examine the model's errors, hypothesize what is missing or misleading in the current prompt, and communicate the task with clarity. While recent works indicate that large language models can be meta-prompted to perform automatic prompt engineering, we argue that their potential is limited due to insufficient guidance for complex reasoning in the meta-prompt. We fill this gap by infusing into the meta-prompt three key components: detailed descriptions, context specification, and a step-by-step reasoning template. The resulting method, named PE2, exhibits remarkable versatility across diverse language tasks. It finds prompts that outperform "let's think step by step" by 6.3\% on MultiArith and 3.1\% on GSM8K, and outperforms competitive baselines on counterfactual tasks by 6.9\%. Further, we show that PE2 can make targeted and highly specific prompt edits, rectify erroneous prompts, and induce multi-step plans for complex tasks.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\G9X8UFT7\\Ye et al. - 2024 - Prompt Engineering a Prompt Engineer.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\Z32WTL7B\\2311.html}
+}
+
+@inproceedings{zanderNavigatingUnknownIntroduction2024,
+  title = {Navigating the {{Unknown}}: {{Introduction}} of an {{Analysis Metric}} for the {{Sprint Plan}} and {{Sprint Review}} in {{Educational Agile Development Projects}}},
+  shorttitle = {Navigating the {{Unknown}}},
+  booktitle = {Proceedings of the 52nd {{Annual Conference}} of {{SEFI}}, {{Lausanne}}, {{Switzerland}}.},
+  author = {Zander, Mark O. and Meboldt, Mirko},
+  date = {2024},
+  publisher = {Zenodo},
+  doi = {10.5281/zenodo.14256831},
+  url = {https://www.research-collection.ethz.ch/handle/20.500.11850/712419},
+  urldate = {2025-07-11},
+  abstract = {In complex project-based courses, students work with a high degree of autonomy, making it difficult to assess individual progress. Thus, feedback and grading are often based on the results, which neglects the applied methods. However, gaining an understanding of students' approaches to complex projects could enhance comprehension of team success or failure. Our hypothesis is that there is a correlation between the consistency of the sprint plan and sprint review and the team’s overall performance in the competition. We introduce an approach to analyse the methodological effectiveness of student projects in their development approach. 70 student teams were requested to create a sprint plan at the start and a sprint review at the end of each of the five two-week iterative development sprints. The plan and review were based on four guiding questions for each sprint. A total of ten teams were examined, consisting of five high-performance and five low-performance teams. The teams were analysed quantitatively, and the consistency of sprint planning and sprint review was analysed qualitatively for one team from each group. Successful teams ran more tests and developed more prototypes and thus, delivered more profound results. The high-performance team formulated results clearer and more precisely and is more consistent throughout sprint plan and sprint review compared to the low-performance team.},
+  eventtitle = {52nd {{Annual Conference}} of the {{European Society}} for {{Engineering Education}} ({{SEFI}} 2024)},
+  langid = {english},
+  annotation = {Accepted: 2024-12-19T08:09:21Z},
+  file = {C:\Users\KnightNight101\Zotero\storage\PRUNG9M5\Zander and Meboldt - 2024 - Navigating the Unknown Introduction of an Analysi.pdf}
+}
+
+@online{zhangEcoAssistantUsingLLM2023,
+  title = {{{EcoAssistant}}: {{Using LLM Assistant More Affordably}} and {{Accurately}}},
+  shorttitle = {{{EcoAssistant}}},
+  author = {Zhang, Jieyu and Krishna, Ranjay and Awadallah, Ahmed H. and Wang, Chi},
+  date = {2023-10-03},
+  eprint = {2310.03046},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2310.03046},
+  url = {http://arxiv.org/abs/2310.03046},
+  urldate = {2025-07-11},
+  abstract = {Today, users ask Large language models (LLMs) as assistants to answer queries that require external knowledge; they ask about the weather in a specific city, about stock prices, and even about where specific locations are within their neighborhood. These queries require the LLM to produce code that invokes external APIs to answer the user's question, yet LLMs rarely produce correct code on the first try, requiring iterative code refinement upon execution results. In addition, using LLM assistants to support high query volumes can be expensive. In this work, we contribute a framework, EcoAssistant, that enables LLMs to answer code-driven queries more affordably and accurately. EcoAssistant contains three components. First, it allows the LLM assistants to converse with an automatic code executor to iteratively refine code or to produce answers based on the execution results. Second, we use a hierarchy of LLM assistants, which attempts to answer the query with weaker, cheaper LLMs before backing off to stronger, expensive ones. Third, we retrieve solutions from past successful queries as in-context demonstrations to help subsequent queries. Empirically, we show that EcoAssistant offers distinct advantages for affordability and accuracy, surpassing GPT-4 by 10 points of success rate with less than 50\% of GPT-4's cost.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Software Engineering},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\GXPW79Z2\\Zhang et al. - 2023 - EcoAssistant Using LLM Assistant More Affordably .pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\TKHM4EXK\\2310.html}
+}
+
+@online{zhangMutualTheoryMind2024,
+  title = {Mutual {{Theory}} of {{Mind}} in {{Human-AI Collaboration}}: {{An Empirical Study}} with {{LLM-driven AI Agents}} in a {{Real-time Shared Workspace Task}}},
+  shorttitle = {Mutual {{Theory}} of {{Mind}} in {{Human-AI Collaboration}}},
+  author = {Zhang, Shao and Wang, Xihuai and Zhang, Wenhao and Chen, Yongshan and Gao, Landi and Wang, Dakuo and Zhang, Weinan and Wang, Xinbing and Wen, Ying},
+  date = {2024-09-13},
+  eprint = {2409.08811},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2409.08811},
+  url = {http://arxiv.org/abs/2409.08811},
+  urldate = {2025-07-11},
+  abstract = {Theory of Mind (ToM) significantly impacts human collaboration and communication as a crucial capability to understand others. When AI agents with ToM capability collaborate with humans, Mutual Theory of Mind (MToM) arises in such human-AI teams (HATs). The MToM process, which involves interactive communication and ToM-based strategy adjustment, affects the team's performance and collaboration process. To explore the MToM process, we conducted a mixed-design experiment using a large language model-driven AI agent with ToM and communication modules in a real-time shared-workspace task. We find that the agent's ToM capability does not significantly impact team performance but enhances human understanding of the agent and the feeling of being understood. Most participants in our study believe verbal communication increases human burden, and the results show that bidirectional communication leads to lower HAT performance. We discuss the results' implications for designing AI agents that collaborate with humans in real-time shared workspace tasks.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Human-Computer Interaction,Computer Science - Multiagent Systems},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\ULE6Q8PI\\Zhang et al. - 2024 - Mutual Theory of Mind in Human-AI Collaboration A.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\MDHBWD52\\2409.html}
+}
+
+@article{zolkifliVersionControlSystem2018,
+  title = {Version {{Control System}}: {{A Review}}},
+  shorttitle = {Version {{Control System}}},
+  author = {Zolkifli, Nazatul Nurlisa and Ngah, Amir and Deraman, Aziz},
+  date = {2018-01-01},
+  journaltitle = {Procedia Computer Science},
+  shortjournal = {Procedia Computer Science},
+  series = {The 3rd {{International Conference}} on {{Computer Science}} and {{Computational Intelligence}} ({{ICCSCI}} 2018) : {{Empowering Smart Technology}} in {{Digital Era}} for a {{Better Life}}},
+  volume = {135},
+  pages = {408--415},
+  issn = {1877-0509},
+  doi = {10.1016/j.procs.2018.08.191},
+  url = {https://www.sciencedirect.com/science/article/pii/S1877050918314819},
+  urldate = {2025-07-11},
+  abstract = {Version Control Systems (VCS) have been used by many software developers during project developments as it helps them to manage the source codes and enables them to keep every version of the project they have worked on. It is the way towards managing, organizing, and coordinating the development of objects. In Software Engineering, software developers need to collaborate with each other to develop a better project. Thus, VCS is very useful because it also supports a collaborative framework that makes it easy for software developers to work together effectively. Without VCS, collaboration is very challenging. This paper discusses the background and the related works about VCS that have been studied by researchers. The purpose of this paper is to convey the knowledge and ideas that have been established on VCS.},
+  keywords = {Centralized Version Control Systems,Collaborative Development,Distributed Version Control Systems,Software Development,Version Control Systems}
+}

@@ -1,0 +1,12 @@
+flowchart TD
+    A[main.py Entry Point] -->|Initializes| B[ProjectFileManager]
+    A -->|Creates| C[QApplication & QQmlApplicationEngine]
+    A -->|Exposes| D[QML Context Properties]
+    D --> E[AuthManager]
+    D --> F[DashboardManager]
+    D --> G[ProjectManager]
+    D --> H[UserManager]
+    D --> I[LogEventBridge]
+    D --> J[LoadingManager]
+    C --> K[Loads Main.qml]
+    K --> L[QML UI]
