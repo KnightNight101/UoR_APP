@@ -1,0 +1,155 @@
+model,test_type,accuracy,precision,time_s
+deepseek-r1:8b,Commit Summary,1.0,1.0,36.12488651275635
+deepseek-r1:8b,Commit Summary,0.0,0.0,38.329620361328125
+deepseek-r1:8b,Commit Summary,1.0,1.0,46.29404330253601
+deepseek-r1:8b,Commit Summary,1.0,1.0,57.65093803405762
+deepseek-r1:8b,Commit Summary,1.0,1.0,42.684529304504395
+deepseek-r1:8b,Commit Summary,1.0,1.0,37.45262408256531
+deepseek-r1:8b,Commit Summary,0.0,0.0,43.14382266998291
+deepseek-r1:8b,Commit Summary,1.0,1.0,40.32585644721985
+deepseek-r1:8b,Commit Summary,1.0,1.0,54.5861451625824
+deepseek-r1:8b,Commit Summary,1.0,1.0,60.097965478897095
+deepseek-r1:8b,Commit Summary,1.0,1.0,37.764328718185425
+deepseek-r1:8b,Commit Summary,1.0,1.0,240.52134108543396
+deepseek-r1:8b,Commit Summary,1.0,1.0,41.8146755695343
+deepseek-r1:8b,Commit Summary,1.0,1.0,50.11623406410217
+deepseek-r1:8b,Commit Summary,1.0,1.0,35.27127981185913
+deepseek-r1:8b,Commit Summary,1.0,1.0,50.285969495773315
+deepseek-r1:8b,Commit Summary,0.0,0.0,22.718432903289795
+deepseek-r1:8b,Commit Summary,1.0,1.0,32.89173674583435
+deepseek-r1:8b,Commit Summary,1.0,1.0,47.50046133995056
+deepseek-r1:8b,Commit Summary,1.0,1.0,70.52260661125183
+deepseek-r1:8b,Commit Summary,1.0,1.0,50.581055641174316
+deepseek-r1:8b,Commit Summary,1.0,1.0,28.38040804862976
+deepseek-r1:8b,Commit Summary,1.0,1.0,47.73163032531738
+deepseek-r1:8b,Commit Summary,1.0,1.0,32.40997290611267
+deepseek-r1:8b,Commit Summary,1.0,1.0,46.09702658653259
+deepseek-r1:8b,Commit Summary,1.0,1.0,73.44973754882812
+deepseek-r1:8b,Commit Summary,1.0,1.0,44.75696039199829
+deepseek-r1:8b,Commit Summary,1.0,1.0,43.856215476989746
+deepseek-r1:8b,Commit Summary,1.0,1.0,29.38814425468445
+deepseek-r1:8b,Commit Summary,0.0,0.0,64.88852000236511
+deepseek-r1:8b,Commit Summary,1.0,1.0,57.52613067626953
+deepseek-r1:8b,Commit Summary,1.0,1.0,81.26490187644958
+deepseek-r1:8b,Commit Summary,1.0,1.0,50.98790192604065
+deepseek-r1:8b,Commit Summary,0.0,0.0,81.16626334190369
+deepseek-r1:8b,Commit Summary,1.0,1.0,65.46233105659485
+deepseek-r1:8b,Commit Summary,1.0,1.0,51.79135179519653
+deepseek-r1:8b,Commit Summary,1.0,1.0,31.596534729003906
+deepseek-r1:8b,Commit Summary,1.0,1.0,40.550191164016724
+deepseek-r1:8b,Commit Summary,0.0,0.0,31.13689875602722
+deepseek-r1:8b,Commit Summary,1.0,1.0,51.24857711791992
+deepseek-r1:8b,Commit Summary,1.0,1.0,48.280214071273804
+deepseek-r1:8b,Commit Summary,1.0,1.0,53.42208433151245
+deepseek-r1:8b,Commit Summary,1.0,1.0,42.08745789527893
+deepseek-r1:8b,Commit Summary,1.0,1.0,55.171791076660156
+deepseek-r1:8b,Commit Summary,0.0,0.0,31.72908926010132
+deepseek-r1:8b,Commit Summary,1.0,1.0,51.368640661239624
+deepseek-r1:8b,Commit Summary,1.0,1.0,58.074341773986816
+deepseek-r1:8b,Commit Summary,1.0,1.0,45.34428071975708
+deepseek-r1:8b,Commit Summary,1.0,1.0,53.086506605148315
+deepseek-r1:8b,Commit Summary,1.0,1.0,461.9493215084076
+deepseek-r1:8b,Commit Summary,1.0,1.0,22.80747413635254
+deepseek-r1:8b,Commit Summary,1.0,1.0,54.836530923843384
+deepseek-r1:8b,Commit Summary,1.0,1.0,43.334028005599976
+deepseek-r1:8b,Commit Summary,1.0,1.0,60.88563418388367
+deepseek-r1:8b,Commit Summary,1.0,1.0,46.40284180641174
+deepseek-r1:8b,Commit Summary,1.0,1.0,40.35433077812195
+deepseek-r1:8b,Commit Summary,1.0,1.0,115.93955659866333
+deepseek-r1:8b,Commit Summary,1.0,1.0,16.012511253356934
+deepseek-r1:8b,Commit Summary,1.0,1.0,97.55448842048645
+deepseek-r1:8b,Commit Summary,1.0,1.0,50.5942497253418
+deepseek-r1:8b,Commit Summary,1.0,1.0,45.872751235961914
+deepseek-r1:8b,Commit Summary,1.0,1.0,61.418126821517944
+deepseek-r1:8b,Commit Summary,1.0,1.0,28.630945205688477
+deepseek-r1:8b,Commit Summary,1.0,1.0,81.94426560401917
+deepseek-r1:8b,Commit Summary,1.0,1.0,45.60780358314514
+deepseek-r1:8b,Commit Summary,1.0,1.0,18.84951949119568
+deepseek-r1:8b,Commit Summary,1.0,1.0,32.09893012046814
+deepseek-r1:8b,Commit Summary,1.0,1.0,34.92035436630249
+deepseek-r1:8b,Commit Summary,1.0,1.0,26.544166803359985
+deepseek-r1:8b,Commit Summary,1.0,1.0,70.50455498695374
+deepseek-r1:8b,Commit Summary,1.0,1.0,72.07947373390198
+deepseek-r1:8b,Commit Summary,1.0,1.0,35.85148000717163
+deepseek-r1:8b,Commit Summary,1.0,1.0,47.334622621536255
+deepseek-r1:8b,Commit Summary,1.0,1.0,43.280916929244995
+deepseek-r1:8b,Commit Summary,1.0,1.0,38.23324990272522
+deepseek-r1:8b,Commit Summary,1.0,1.0,48.592997789382935
+deepseek-r1:8b,Commit Summary,1.0,1.0,58.95517611503601
+deepseek-r1:8b,Commit Summary,1.0,1.0,60.22248315811157
+deepseek-r1:8b,Commit Summary,1.0,1.0,60.83334684371948
+deepseek-r1:8b,Commit Summary,1.0,1.0,29.703224658966064
+deepseek-r1:8b,Commit Summary,1.0,1.0,37.94098448753357
+deepseek-r1:8b,Commit Summary,1.0,1.0,36.75487756729126
+deepseek-r1:8b,Commit Summary,1.0,1.0,192.43493604660034
+deepseek-r1:8b,Commit Summary,1.0,1.0,52.108723640441895
+deepseek-r1:8b,Commit Summary,1.0,1.0,60.25814652442932
+deepseek-r1:8b,Commit Summary,1.0,1.0,29.009023904800415
+deepseek-r1:8b,Commit Summary,0.0,0.0,38.16095852851868
+deepseek-r1:8b,Commit Summary,1.0,1.0,33.85080122947693
+deepseek-r1:8b,Commit Summary,1.0,1.0,59.261173486709595
+deepseek-r1:8b,Commit Summary,0.0,0.0,53.199095249176025
+deepseek-r1:8b,Commit Summary,1.0,1.0,38.378668546676636
+deepseek-r1:8b,Commit Summary,1.0,1.0,95.72507095336914
+deepseek-r1:8b,Commit Summary,1.0,1.0,50.189494609832764
+deepseek-r1:8b,Commit Summary,1.0,1.0,41.36336851119995
+deepseek-r1:8b,Commit Summary,1.0,1.0,313.4994821548462
+deepseek-r1:8b,Commit Summary,1.0,1.0,68.3143424987793
+tinyllama:1.1b,Commit Summary,0.0,0.0,3.204094171524048
+tinyllama:1.1b,Commit Summary,1.0,1.0,1.2128901481628418
+tinyllama:1.1b,Commit Summary,0.0,0.0,1.6778311729431152
+tinyllama:1.1b,Commit Summary,0.0,0.0,1.1305594444274902
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.48665571212768555
+tinyllama:1.1b,Commit Summary,1.0,1.0,0.8689165115356445
+tinyllama:1.1b,Commit Summary,0.0,0.0,1.4149134159088135
+tinyllama:1.1b,Commit Summary,0.0,0.0,1.3629803657531738
+tinyllama:1.1b,Commit Summary,0.0,0.0,2.592404842376709
+tinyllama:1.1b,Commit Summary,0.0,0.0,3.1754138469696045
+tinyllama:1.1b,Commit Summary,0.0,0.0,1.1716270446777344
+tinyllama:1.1b,Commit Summary,1.0,1.0,1.605175256729126
+tinyllama:1.1b,Commit Summary,0.0,0.0,1.2354676723480225
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.578862190246582
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.7337214946746826
+tinyllama:1.1b,Eisenhower,1.0,1.0,17.72775101661682
+tinyllama:1.1b,Eisenhower,1.0,1.0,153.56999397277832
+tinyllama:1.1b,Eisenhower,1.0,1.0,5.417547702789307
+tinyllama:1.1b,Eisenhower,1.0,1.0,4.610713005065918
+tinyllama:1.1b,Eisenhower,1.0,1.0,9.261823415756226
+tinyllama:1.1b,Eisenhower,1.0,1.0,5.736346006393433
+tinyllama:1.1b,Eisenhower,1.0,1.0,4.608399868011475
+tinyllama:1.1b,Eisenhower,1.0,1.0,10.273776531219482
+tinyllama:1.1b,Eisenhower,1.0,1.0,11.878642797470093
+tinyllama:1.1b,Eisenhower,1.0,1.0,4.8797807693481445
+tinyllama:1.1b,Eisenhower,1.0,1.0,1.2108216285705566
+tinyllama:1.1b,Eisenhower,1.0,1.0,4.861087322235107
+tinyllama:1.1b,Eisenhower,1.0,1.0,5.345282793045044
+tinyllama:1.1b,Eisenhower,1.0,1.0,4.664284944534302
+tinyllama:1.1b,Eisenhower,1.0,1.0,5.281495094299316
+tinyllama:1.1b,Sprint Planner,1.0,1.0,8.330546140670776
+tinyllama:1.1b,Sprint Planner,1.0,1.0,4.5847461223602295
+tinyllama:1.1b,Sprint Planner,1.0,1.0,9.483912706375122
+tinyllama:1.1b,Sprint Planner,1.0,1.0,7.816981554031372
+tinyllama:1.1b,Sprint Planner,1.0,1.0,3.0037057399749756
+tinyllama:1.1b,Sprint Planner,1.0,1.0,7.5287253856658936
+tinyllama:1.1b,Sprint Planner,1.0,1.0,5.9975855350494385
+tinyllama:1.1b,Sprint Planner,1.0,1.0,5.793492078781128
+tinyllama:1.1b,Sprint Planner,1.0,1.0,5.579752445220947
+tinyllama:1.1b,Sprint Planner,1.0,1.0,10.895548343658447
+tinyllama:1.1b,Sprint Planner,1.0,1.0,5.0679731369018555
+tinyllama:1.1b,Sprint Planner,1.0,1.0,17.11373257637024
+tinyllama:1.1b,Sprint Planner,1.0,1.0,4.509720325469971
+tinyllama:1.1b,Sprint Planner,1.0,1.0,13.716244220733643
+tinyllama:1.1b,Sprint Planner,1.0,1.0,6.728950262069702
+deepseek-r1:8b,Commit Summary,1.0,1.0,58.99916172027588
+deepseek-r1:8b,Commit Summary,1.0,1.0,44.80986213684082
+deepseek-r1:8b,Commit Summary,0.0,0.0,43.52630066871643
+deepseek-r1:8b,Commit Summary,0.0,0.0,40.04165697097778
+deepseek-r1:8b,Commit Summary,1.0,1.0,41.36655855178833
+deepseek-r1:8b,Commit Summary,1.0,1.0,55.4747154712677
+deepseek-r1:8b,Commit Summary,1.0,1.0,306.7232689857483
+deepseek-r1:8b,Commit Summary,1.0,1.0,52.65485668182373
+deepseek-r1:8b,Commit Summary,1.0,1.0,75.16863775253296
+deepseek-r1:8b,Commit Summary,1.0,1.0,108.24246907234192
+deepseek-r1:8b,Commit Summary,0.0,0.0,53.97206354141235
+deepseek-r1:8b,Commit Summary,1.0,1.0,88.83797097206116
+deepseek-r1:8b,Commit Summary,1.0,1.0,239.7078356742859
