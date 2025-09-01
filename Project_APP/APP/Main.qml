@@ -36,6 +36,14 @@ ApplicationWindow {
         flatTaskList = getFlatTaskList();
     }
 
+    // Log whenever userManager.users changes
+    Connections {
+        target: userManager
+        function onUsersChanged() {
+            console.log("QML LOG: userManager.users changed:", userManager ? userManager.users : "undefined")
+        }
+    }
+
     // --- Helper functions for tasks/subtasks ---
     function getFlatTaskList() {
         var start = Date.now();
@@ -969,10 +977,32 @@ Connections {
                         id: teamTab
                         anchors.fill: parent
                         visible: projectDetailsPage.selectedTabIndex === 3
+
+                        // Refresh users and log when tab becomes visible
+                        property bool wasVisible: false
+                        onVisibleChanged: {
+                            if (visible && !wasVisible) {
+                                if (typeof userManager !== "undefined" && typeof userManager.loadUsers === "function") {
+                                    userManager.loadUsers();
+                                    console.log("QML LOG: Called userManager.loadUsers() on Team tab entry");
+                                }
+                                if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                                    log_event.log_event("Navigated to Team tab");
+                                }
+                                wasVisible = true;
+                            } else if (!visible) {
+                                wasVisible = false;
+                            }
+                        }
+
                         // --- Team Management UI ---
                         Column {
                             anchors.fill: parent
                             spacing: 24
+
+                            Component.onCompleted: {
+                                console.log("QML LOG: Team tab loaded. userManager.users =", userManager ? userManager.users : "undefined")
+                            }
 
                             // Add Team Member Row
                             Row {
@@ -984,6 +1014,10 @@ Connections {
                                     textRole: "username"
                                     valueRole: "id"
                                     editable: false
+
+                                    onModelChanged: {
+                                        console.log("QML LOG: ComboBox model changed. New model =", model)
+                                    }
                                 }
                                 TextField {
                                     id: addTeamRoleField
