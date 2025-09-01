@@ -1,0 +1,6 @@
+classDiagram
+    class TinyLlamaPlanner {
+        - model_name: str
+        + __init__(model_name="tinyllama:1.1b")
+        + query_llm(prompt: str) str
+    }

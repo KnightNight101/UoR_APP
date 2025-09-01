@@ -153,12 +153,82 @@ What makes this architecture distinctive is its tight integration. Backend funct
 By discarding unnecessary layers of complexity—such as web servers, authentication flows, or cloud connectors—the system remained true to its ethical principles. It was fully local, fully offline, and fully under the user’s control.
 
 % 4. System Design & Implementation
-\chapter{System Design and Implementation}  % ~2000 words
-\section{System Architecture}
-\section{Frontend and Backend Design}
-\section{Key Features and Functionalities}
-\section{LLM Integration and Prompt Engineering}
-\section{Security and Ethical Considerations}
+\chapter{System Design and Implementation}
+
+The architecture of the project management platform was shaped by a complex interplay between ambition, feasibility, and the guiding problem statement of the research. At the outset, the project sought to respond to clear shortcomings in existing digital project management tools: namely, their dependence on cloud infrastructure, their lack of transparency in how user data is processed, and their limited support for embedding ethical considerations into everyday workflows. The project’s objectives, defined in earlier stages, called for a system that would operate securely in offline environments, preserve the privacy of user data, provide accountability through transparent logging, and incorporate intelligent assistance in a way that aligned with human decision-making rather than replacing it.
+
+This chapter explores the system architecture that was ultimately implemented in pursuit of those goals. It begins by considering the initial attempt at a web-based, server-centric model before turning to the local, Python-based desktop application that eventually became the platform’s core. Each architectural layer: user interface, backend managers, database, file handling, event logging, and language model integration, is analysed in detail, showing how these components together fulfil the functional and ethical objectives of the project. Throughout, attention is paid to the flow of data, the rationale for design decisions, and the trade-offs that emerged during development.
+
+\section{From Web Ambitions to Local Implementation}
+
+In the earliest phase of the project, the design gravitated toward a web application model. The rationale was that by creating a centralised server, the system could host large-scale language models, perform computationally expensive processing, and serve results to users via lightweight client browsers. Such an architecture promised scalability, cross-platform accessibility, and a clear separation between backend logic and front-end presentation. In theory, it would allow the system to deploy high-performance language models which could not be easily run on individual user machines while ensuring that all users shared a consistent and up-to-date environment.h
+
+However, this direction quickly revealed its limitations. Building a robust web application demanded technical proficiency in frameworks and languages outside the project’s scope, notably React and its architectural ecosystem. Implementing a distributed system within the project’s timeframe proved infeasible. More importantly, the centralised model contradicted some of the ethical principles that the platform was designed to uphold. A web server necessarily implies the transmission of user data over networks, introducing vulnerabilities around privacy, trust, and dependence on external infrastructure. These concerns directly conflicted with the project’s objective of designing a platform that would guarantee local, secure, and transparent operation.
+As a result, the centralised server concept was abandoned. Instead, development pivoted toward a local-first model built with Python, a language whose accessibility, flexibility, and ecosystem aligned with both the developer’s skillset and the project’s ethical requirements. PySide6 and QML were adopted to provide a modern graphical interface, ensuring that the system remained usable and visually engaging without relying on external frameworks. This transition marked a turning point in the architecture: rather than chasing the scalability of a client-server model, the design embraced the virtues of locality, offline functionality, and user control.
+\section{High-Level Architecture}
+
+The architecture that emerged is a fully offline desktop application with no dependence on HTTP, web servers, or remote APIs. At a high level, the platform is composed of three major layers: the QML-based graphical interface, a set of backend managers written in Python, and a local persistence layer comprising SQLite databases, file repositories, and append-only event logs.
+
+The QML interface provides the user-facing components: login screens, dashboards, project pages, and event logs. Beneath this interface lies the PySide6 entry point (main.py), which instantiates and exposes backend managers to the QML environment. These managers cover authentication, project management, dashboard logic, user management, and event logging which are responsible for mediating between user actions and the persistence layer.
+
+The database layer, built on SQLAlchemy ORM, handles the structured data of the application: users, projects, roles, tasks, subtasks, files, and events. Additional modules extend this layer with encryption, file versioning using Git, semantic diffs with ODFDiff, and metadata tracking. Together, these components form a self-contained ecosystem in which all operations, from logging in to managing files, remain confined to the user’s local machine.
+
+This architecture represents a deliberate balance between modularity and simplicity. Each layer is isolated but tightly integrated, ensuring clear data flow without introducing unnecessary complexity. At the same time, the architecture foregrounds the ethical objectives of the project: locality, transparency, accountability, and offline resilience.
+\section{User Interface Layer}
+
+The interface was implemented in QML, providing a modern, flexible, and responsive environment that would have been difficult to replicate with standard Python GUI toolkits alone. The QML design encapsulates the entire user journey, from authentication through to project management dashboards and Eisenhower matrix visualisations. By exposing backend managers as properties and slots within QML, the system allows the interface to remain cleanly separated from core logic while still enabling rich interaction.
+
+The decision to adopt QML was also a response to a common critique of local applications: that they often feel outdated compared to the sleek, browser-based tools users are accustomed to. By pairing PySide6 with QML, the project retained the ethical benefits of locality while delivering a polished user experience. Navigation, data entry, and task management were designed to be intuitive, ensuring that ethical principles did not come at the cost of usability.
+
+4.5 Backend Managers
+
+The backend managers act as the functional core of the platform. Each manager encapsulates a specific domain of logic:
+The AuthManager handles authentication, user sessions, and password security through bcrypt hashing.
+The DashboardManager oversees the loading of projects, tasks, and Eisenhower matrix states, providing the necessary APIs to the interface.
+The ProjectManager coordinates the creation, editing, and assignment of projects, tasks, and subtasks, as well as calendar integration.
+The UserManager governs user creation, deletion, and lookup, embedding role-based access control.
+The LogEventBridge provides a structured mechanism for recording all significant actions in the event log.
+
+This modular organisation was essential in addressing the problem statement. By separating these responsibilities, the system maintained clarity and extensibility: new features could be added by extending managers without disrupting the rest of the codebase. Equally, modularity enhanced transparency, as the responsibilities of each manager could be easily inspected and audited, supporting the objective of accountability.
+
+4.6 Database and Persistence Layer
+
+At the heart of the architecture lies the persistence layer, implemented through SQLite databases and local file storage. Structured data—including users, roles, permissions, projects, tasks, and events—is stored in relational form using SQLAlchemy. This choice allowed the system to enforce strong schema-level constraints while offering flexibility for future modifications.
+
+File storage was designed with equal care. User documents, particularly LibreOffice files, are stored directly on the local filesystem but tied into the application through metadata stored in the database. Each document is versioned using Git, creating a complete record of changes over time. By integrating ODFDiff, the system was able to go beyond simple commit histories, offering semantic diffs that show meaningful changes to document content.
+
+Encryption was also built into this layer. Sensitive files are encrypted with Fernet, ensuring that even if local storage were compromised, the confidentiality of data would remain intact. Combined with bcrypt-secured authentication, these measures reinforced the ethical requirement of protecting user privacy.
+
+4.7 Event Logging
+
+Transparency and accountability were central to the problem statement, and these were operationalised through the event logging system. Every significant action—whether a login attempt, project creation, file edit, or administrative change—is recorded in an append-only log file. Each entry includes a timestamp, user identity, and structured description of the action.
+
+This design serves two functions. First, it provides an audit trail that supports organisational accountability. Users can view the log through the interface, ensuring that oversight is not limited to administrators but shared across the team. Second, the log serves as a source of context for intelligent assistance. By feeding recent log entries into the language model module, the system situates its suggestions within the lived history of the project, making them more relevant and explainable.
+
+4.8 Integration of Language Models
+
+One of the most distinctive features of the architecture is its integration of a lightweight local language model, TinyLlama. While the original server-based concept would have allowed the use of larger, cloud-hosted models, the final architecture demonstrated that meaningful assistance could still be delivered through local resources.
+
+The model was connected to the system through the dashboard and Eisenhower matrix. When a task or subtask was created, users could request an AI-generated suggestion for its categorisation within the matrix. This suggestion was based on both the task description and recent context drawn from the event log. Importantly, the model’s output was not presented as a final decision but as a recommendation, reinforcing the project’s principle of keeping human judgment central.
+
+Each interaction with the language model was itself logged as an event. This ensured that AI involvement was transparent and auditable, avoiding the “black box” problem that plagues many AI-assisted systems. The design thereby embodied both the functional objective of enhancing project management and the ethical objective of accountable, explainable AI integration.
+
+4.9 Data and Control Flow
+
+The architecture maintained a clear flow of data and control across its layers. User actions in the QML interface triggered backend manager methods via signals and slots. These managers then performed operations on the database or filesystem, updated relevant properties, and emitted signals back to the interface. The interface reflected these updates immediately, ensuring consistency between user interaction and system state.
+
+For example, when a user dragged a task across Eisenhower matrix categories, the QML interface triggered the recategorizeTaskOrSubtask method in the DashboardManager. The manager updated the database, logged the action in the event log, and emitted signals to refresh the UI. If the user requested an AI suggestion, the manager also invoked the language model, processed the response, applied it if appropriate, and recorded the full exchange in the log.
+
+This tightly coupled but transparent data flow ensured that all operations were predictable, traceable, and auditable—qualities directly linked to the project’s objectives.
+
+4.10 Security, Privacy, and Ethics
+
+Security and privacy were not afterthoughts but embedded principles in the architecture. By keeping all data local, the system eliminated risks associated with cloud storage, third-party APIs, or network vulnerabilities. Authentication was secured through strong hashing, while file encryption protected sensitive documents. Role-based access control provided an additional layer of protection, ensuring that only authorised users could access or modify specific resources.
+
+Beyond these technical safeguards, the architecture operationalised ethical principles in subtler ways. The event log made decision-making processes transparent. AI integration was designed to be assistive rather than directive, avoiding the risk of displacing human judgment. The offline-first model supported contexts—such as secure environments or resource-limited organisations—where cloud-based tools would be either inappropriate or inaccessible.
+
+These architectural decisions collectively ensured that the system was not only functional but aligned with the ethical imperatives set out in the problem statement.
+
 
 % 5. Evaluation & Testing
 \chapter{Evaluation and Testing}  % ~1500 words
