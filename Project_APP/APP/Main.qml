@@ -969,12 +969,70 @@ Connections {
                         id: teamTab
                         anchors.fill: parent
                         visible: projectDetailsPage.selectedTabIndex === 3
-                        Text {
-                            anchors.centerIn: parent
-                            text: "Team tab content goes here."
-                            color: "#2255aa"
-                            font.pixelSize: 28
-                            font.bold: true
+                        // --- Team Management UI ---
+                        Column {
+                            anchors.fill: parent
+                            spacing: 24
+
+                            // Add Team Member Row
+                            Row {
+                                spacing: 12
+                                ComboBox {
+                                    id: addTeamUserCombo
+                                    width: 200
+                                    model: userManager ? userManager.users : []
+                                    textRole: "username"
+                                    valueRole: "id"
+                                    editable: false
+                                }
+                                TextField {
+                                    id: addTeamRoleField
+                                    width: 160
+                                    placeholderText: "Role"
+                                }
+                                Button {
+                                    text: "Add"
+                                    // No logic required at this stage
+                                }
+                            }
+
+                            // Team Members Table Header
+                            Row {
+                                spacing: 12
+                                width: parent.width
+                                Text { text: "Member"; font.bold: true; width: 200 }
+                                Text { text: "Role"; font.bold: true; width: 160 }
+                                Text { text: ""; width: 100 }
+                            }
+
+                            // Team Members List (UI only, no backend logic)
+                            Column {
+                                spacing: 8
+                                Repeater {
+                                    model: projectManager && projectManager.currentProjectTeam ? projectManager.currentProjectTeam : []
+                                    delegate: Row {
+                                        spacing: 12
+                                        width: parent.width
+                                        Text {
+                                            width: 200
+                                            text: {
+                                                var user = userManager && userManager.users
+                                                    ? userManager.users.find(u => u.id === modelData.userId)
+                                                    : null;
+                                                return user ? user.username : modelData.userId;
+                                            }
+                                        }
+                                        Text {
+                                            width: 160
+                                            text: modelData.role
+                                        }
+                                        Button {
+                                            text: "Remove team member"
+                                            // No logic required at this stage
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
