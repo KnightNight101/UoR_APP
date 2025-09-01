@@ -155,3 +155,47 @@
 [2025-09-01T14:29:48.149261] Navigated to project details: Master's Dissertation
 [2025-09-01T14:29:48.182821] Navigated to page: projectDetails
 [2025-09-01T14:29:51.065332] Navigated to Team tab
+[2025-09-01T14:30:54.398441] User logged out (window closed)
+[2025-09-01T14:30:54.433557] Navigated to page: dashboard
+[2025-09-01T14:35:46.793363] Opened project details: (Untitled Project)
+[2025-09-01T14:35:52.713377] User 'Nithin' logged in
+[2025-09-01T14:35:52.724911] User 'Nithin' logged in
+[2025-09-01T14:35:54.591566] Navigated to project details: N13
+[2025-09-01T14:35:54.624440] Navigated to page: projectDetails
+[2025-09-01T14:35:56.132826] Navigated to Team tab
+[2025-09-01T14:36:03.520639] Added user ID 5 as team member with role 'Tutor'
+[2025-09-01T14:36:05.226310] Added user ID 5 as team member with role 'Tutor'
+[2025-09-01T14:36:25.192749] Navigated to page: dashboard
+[2025-09-01T14:36:27.058581] Navigated to project details: New Project
+[2025-09-01T14:36:27.086686] Navigated to page: projectDetails
+[2025-09-01T14:36:27.118977] Navigated to Team tab
+[2025-09-01T14:36:29.192685] Navigated to page: dashboard
+[2025-09-01T14:36:42.062078] User logged out (window closed)
+[2025-09-01T14:37:13.627786] Opened project details: (Untitled Project)
+[2025-09-01T14:37:18.662863] User 'Nithin' logged in
+[2025-09-01T14:37:18.676392] User 'Nithin' logged in
+[2025-09-01T14:37:20.432482] Navigated to project details: New Project
+[2025-09-01T14:37:20.463247] Navigated to page: projectDetails
+[2025-09-01T14:37:22.030676] Navigated to Team tab
+[2025-09-01T14:37:32.489368] Added user ID 5 as team member with role 'Tutor'
+[2025-09-01T14:38:23.807806] User logged out (window closed)
+[2025-09-01T14:38:23.857662] Navigated to page: dashboard
+[2025-09-01T14:40:38.249010] Opened project details: (Untitled Project)
+[2025-09-01T14:40:43.936473] User 'Nithin' logged in
+[2025-09-01T14:40:43.953272] User 'Nithin' logged in
+[2025-09-01T14:40:45.399149] Navigated to project details: N13
+[2025-09-01T14:40:45.439983] Navigated to page: projectDetails
+[2025-09-01T14:40:47.130724] Navigated to Team tab
+[2025-09-01T14:40:51.045593] Navigated to page: dashboard
+[2025-09-01T14:40:52.352189] Navigated to project details: Master's Dissertation
+[2025-09-01T14:40:52.398544] Navigated to page: projectDetails
+[2025-09-01T14:40:52.449296] Navigated to Team tab
+[2025-09-01T14:40:59.718103] Added user ID 5 as team member with role 'Tutor'
+[2025-09-01T14:41:17.669614] User logged out (window closed)
+[2025-09-01T14:41:17.733968] Navigated to page: dashboard
+[2025-09-01T14:42:28.329965] Opened project details: (Untitled Project)
+[2025-09-01T14:42:34.835921] User 'Nithin' logged in
+[2025-09-01T14:42:34.861920] User 'Nithin' logged in
+[2025-09-01T14:42:36.235669] Navigated to project details: Master's Dissertation
+[2025-09-01T14:42:36.271133] Navigated to page: projectDetails
+[2025-09-01T14:42:37.586996] Navigated to Team tab
