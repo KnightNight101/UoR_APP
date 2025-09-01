@@ -1,0 +1,43 @@
+\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Problem Statement and Motivation}{4}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Project Objectives}{5}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Develop a Multi-Dimensional Sprint Planner}{5}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Implement an Eisenhower Matrix-Based To-Do List Generator}{6}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Integrate a Version Control System with LLM-Generated Commit Summaries}{6}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}Ensure Secure, Containerised Local Deployment}{6}{subsection.1.2.4}%
+\contentsline {chapter}{\numberline {2}Background and Literature Review}{8}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Project Management}{8}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Project Management}{15}{section.2.2}%
+\contentsline {chapter}{\numberline {3}Methodology}{16}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Requirements Gathering}{17}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Design Approach}{18}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Data Sources and Processing}{18}{section.3.3}%
+\contentsline {section}{\numberline {3.4}LLM Integration}{19}{section.3.4}%
+\contentsline {section}{\numberline {3.5}System Architecture}{19}{section.3.5}%
+\contentsline {chapter}{\numberline {4}System Design and Implementation}{20}{chapter.4}%
+\contentsline {section}{\numberline {4.1}System Architecture}{20}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Frontend and Backend Design}{20}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Key Features and Functionalities}{20}{section.4.3}%
+\contentsline {section}{\numberline {4.4}LLM Integration and Prompt Engineering}{20}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Security and Ethical Considerations}{20}{section.4.5}%
+\contentsline {chapter}{\numberline {5}Evaluation and Testing}{21}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Evaluation Criteria}{21}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Functional Testing}{21}{section.5.2}%
+\contentsline {section}{\numberline {5.3}LLM Response Evaluation}{21}{section.5.3}%
+\contentsline {section}{\numberline {5.4}User Testing and Feedback}{21}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Limitations in Testing}{21}{section.5.5}%
+\contentsline {chapter}{\numberline {6}Discussion}{22}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Analysis of Results}{22}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Challenges Faced}{22}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Agile Methodology Reflection}{22}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Model Performance vs Expectations}{22}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Conclusion and Future Work}{23}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Summary of Contributions}{23}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Applications and Impact}{23}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Limitations}{23}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Future Improvements}{23}{section.7.4}%
+\contentsline {chapter}{\numberline {A}Detailed Literature Review}{26}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Project Management Frameworks and Standards}{26}{section.A.1}%
+\contentsline {chapter}{\numberline {B}Screenshots and Interface Designs}{35}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Test Logs and Scripts}{36}{appendix.C}%
+\contentsline {chapter}{\numberline {D}User Feedback and Survey Responses}{37}{appendix.D}%
