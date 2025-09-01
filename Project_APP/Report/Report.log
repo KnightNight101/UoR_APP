@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.1)  1 SEP 2025 20:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.1)  1 SEP 2025 20:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -703,73 +703,83 @@ Chapter 4.
 [20
 
 ]
-Chapter 5.
 
+[21]
 
-[21
+[22]
 
-]
-Chapter 6.
+[23]
 
-
-[22
-
-]
-Chapter 7.
-
-
-[23
-
-]
-Overfull \hbox (1.98958pt too wide) in paragraph at lines 188--188
-\T1/cmr/m/n/10 gies^^Q. In: \T1/cmr/m/it/10 Man-age-ment:Journal of Sus-tain-able Busi-ness and Man-age-ment So-lu-tions in Emerg-ing Economies
- []
-
-
-
-[24
-
-]
+[24]
 
 [25]
-Appendix A.
+Chapter 5.
 
 
 [26
 
 ]
+Chapter 6.
 
-[27]
 
-[28]
+[27
 
-[29]
+]
+Chapter 7.
+
+
+[28
+
+]
+Overfull \hbox (1.98958pt too wide) in paragraph at lines 258--258
+\T1/cmr/m/n/10 gies^^Q. In: \T1/cmr/m/it/10 Man-age-ment:Journal of Sus-tain-able Busi-ness and Man-age-ment So-lu-tions in Emerg-ing Economies
+ []
+
+
+
+[29
+
+]
 
 [30]
+Appendix A.
 
-[31]
+
+[31
+
+]
 
 [32]
 
 [33]
 
 [34]
+
+[35]
+
+[36]
+
+[37]
+
+[38]
+
+[39]
 Appendix B.
 
 
-[35
+[40
 
 ]
 Appendix C.
 
 
-[36
+[41
 
 ]
 Appendix D.
 
 
-[37
+[42
 
 ] (Report.aux)
  ***********
@@ -781,23 +791,23 @@ L3 programming layer <2024-11-02>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `Report.out' has not changed.
-(rerunfilecheck)             Checksum: 57BE3E33E70AD16FC377B0AA6B395D21;8217.
+(rerunfilecheck)             Checksum: 82AA3E08D6A97883C736A6C5D3633B49;7759.
 Package logreq Info: Writing requests to 'Report.run.xml'.
 \openout1 = `Report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 19225 strings out of 473682
- 335252 string characters out of 5714932
+ 19226 strings out of 473682
+ 335239 string characters out of 5714932
  1206837 words of memory out of 5000000
- 42003 multiletter control sequences out of 15000+600000
+ 42001 multiletter control sequences out of 15000+600000
  575683 words of font info for 78 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,81p,3044b,1554s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,81p,3044b,1554s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk>
-Output written on Report.pdf (38 pages, 285876 bytes).
+Output written on Report.pdf (43 pages, 298373 bytes).
 PDF statistics:
- 928 PDF objects out of 1000 (max. 8388607)
- 93 named destinations out of 1000 (max. 500000)
- 345 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 940 PDF objects out of 1000 (max. 8388607)
+ 96 named destinations out of 1000 (max. 500000)
+ 329 words of extra memory for PDF output out of 10000 (max. 10000000)
 
