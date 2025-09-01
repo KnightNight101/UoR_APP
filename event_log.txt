@@ -199,3 +199,84 @@
 [2025-09-01T14:42:36.235669] Navigated to project details: Master's Dissertation
 [2025-09-01T14:42:36.271133] Navigated to page: projectDetails
 [2025-09-01T14:42:37.586996] Navigated to Team tab
+[2025-09-01T14:43:52.872953] User logged out (window closed)
+[2025-09-01T14:43:52.914037] Navigated to page: dashboard
+[2025-09-01T14:45:48.551981] Opened project details: (Untitled Project)
+[2025-09-01T14:45:54.265567] User 'Nithin' logged in
+[2025-09-01T14:45:54.281086] User 'Nithin' logged in
+[2025-09-01T14:45:55.692165] Navigated to project details: Master's Dissertation
+[2025-09-01T14:45:55.729439] Navigated to page: projectDetails
+[2025-09-01T14:45:57.373227] Navigated to Team tab
+[2025-09-01T14:46:02.298126] Removed user ID 1 from team
+[2025-09-01T14:46:38.607406] User logged out (window closed)
+[2025-09-01T14:46:38.638407] Navigated to page: dashboard
+[2025-09-01T15:28:22.600219] Opened project details: (Untitled Project)
+[2025-09-01T15:28:29.258669] User 'Nithin' logged in
+[2025-09-01T15:28:29.269632] User 'Nithin' logged in
+[2025-09-01T15:28:30.956817] Navigated to project details: Master's Dissertation
+[2025-09-01T15:28:30.986854] Navigated to page: projectDetails
+[2025-09-01T15:28:33.202865] Navigated to Team tab
+[2025-09-01T15:28:36.820840] Removed user ID 1 from team
+[2025-09-01T15:29:58.860682] User logged out (window closed)
+[2025-09-01T15:29:58.894687] Navigated to page: dashboard
+[2025-09-01T15:35:59.632815] Opened project details: (Untitled Project)
+[2025-09-01T15:36:07.524595] User 'Nithin' logged in
+[2025-09-01T15:36:07.537559] User 'Nithin' logged in
+[2025-09-01T15:36:12.805686] Navigated to project details: Master's Dissertation
+[2025-09-01T15:36:12.838225] Navigated to page: projectDetails
+[2025-09-01T15:36:15.034959] Navigated to Team tab
+[2025-09-01T15:36:18.458694] Removed user ID 1 from team
+[2025-09-01T15:36:24.271953] Removed user ID 3 from team
+[2025-09-01T15:36:56.844528] User logged out (window closed)
+[2025-09-01T15:36:56.886536] Navigated to page: dashboard
+[2025-09-01T15:46:33.366026] Opened project details: (Untitled Project)
+[2025-09-01T15:46:39.967191] User 'Nithin' logged in
+[2025-09-01T15:46:39.979259] User 'Nithin' logged in
+[2025-09-01T15:46:43.442259] Navigated to project details: Master's Dissertation
+[2025-09-01T15:46:43.476971] Navigated to page: projectDetails
+[2025-09-01T15:46:45.539301] Navigated to Team tab
+[2025-09-01T15:48:08.860028] User logged out (window closed)
+[2025-09-01T15:48:08.903123] Navigated to page: dashboard
+[2025-09-01T15:48:20.824260] Opened project details: (Untitled Project)
+[2025-09-01T15:48:28.770496] User 'Nithin' logged in
+[2025-09-01T15:48:28.780589] User 'Nithin' logged in
+[2025-09-01T15:48:35.270342] Navigated to project details: Master's Dissertation
+[2025-09-01T15:48:35.305593] Navigated to page: projectDetails
+[2025-09-01T15:48:36.945627] Navigated to Team tab
+[2025-09-01T15:48:40.812773] Removed user ID 1 from team
+[2025-09-01T15:49:03.157385] User logged out (window closed)
+[2025-09-01T15:49:03.219449] Navigated to page: dashboard
+[2025-09-01T15:52:16.407952] Opened project details: (Untitled Project)
+[2025-09-01T15:52:21.744475] User 'Nithin' logged in
+[2025-09-01T15:52:21.757018] User 'Nithin' logged in
+[2025-09-01T15:52:23.175159] Navigated to project details: New Project
+[2025-09-01T15:52:23.225763] Navigated to page: projectDetails
+[2025-09-01T15:52:25.148509] Navigated to page: dashboard
+[2025-09-01T15:52:26.161922] Navigated to project details: Master's Dissertation
+[2025-09-01T15:52:26.238008] Navigated to page: projectDetails
+[2025-09-01T15:52:28.762759] Navigated to Team tab
+[2025-09-01T15:52:32.644805] Removed user ID 1 from team
+[2025-09-01T15:52:39.377521] User logged out (window closed)
+[2025-09-01T15:52:39.442103] Navigated to page: dashboard
+[2025-09-01T15:58:22.575831] Opened project details: (Untitled Project)
+[2025-09-01T15:58:27.656055] User 'Nithin' logged in
+[2025-09-01T15:58:27.675468] User 'Nithin' logged in
+[2025-09-01T15:58:29.159288] Navigated to project details: Master's Dissertation
+[2025-09-01T15:58:29.195722] Navigated to page: projectDetails
+[2025-09-01T15:58:31.836423] Navigated to Team tab
+[2025-09-01T15:58:35.604379] Removed user ID 1 from team
+[2025-09-01T15:58:41.516028] Removed user ID 3 from team
+[2025-09-01T15:58:44.128989] Removed user ID 5 from team
+[2025-09-01T15:58:56.049622] Added user ID 7 as team member with role 'Trial'
+[2025-09-01T15:58:58.585824] Added user ID 7 as team member with role 'Trial'
+[2025-09-01T15:59:48.207590] User logged out (window closed)
+[2025-09-01T15:59:48.274455] Navigated to page: dashboard
+[2025-09-01T16:04:18.686543] Opened project details: (Untitled Project)
+[2025-09-01T16:04:24.275901] User 'Nithin' logged in
+[2025-09-01T16:04:24.288415] User 'Nithin' logged in
+[2025-09-01T16:04:25.536374] Navigated to project details: Master's Dissertation
+[2025-09-01T16:04:25.572270] Navigated to page: projectDetails
+[2025-09-01T16:04:26.995516] Navigated to Team tab
+[2025-09-01T16:04:30.550343] Removed user ID 7 from team
+[2025-09-01T16:04:56.935714] User logged out (window closed)
+[2025-09-01T16:04:56.972552] Navigated to page: dashboard

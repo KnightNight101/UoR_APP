@@ -1000,6 +1000,19 @@ Connections {
                         }
 
                         // --- Team Management UI ---
+                        // Listen for membersChanged to refresh team table after removal
+                        Connections {
+                            target: projectManager
+                            function onMembersChanged() {
+                                console.log("QML LOG: projectManager.membersChanged received, refreshing team table");
+                                // projectManager.loadProjectMembers(root.selectedProjectId); // Removed to break infinite loop
+                            }
+                        }
+                        // --- Team Remove Confirmation State ---
+                        property int memberToRemoveId: -1
+                        property string memberToRemoveName: ""
+                        property bool showRemoveDialog: false
+
                         Column {
                             anchors.fill: parent
                             spacing: 24
@@ -1065,6 +1078,9 @@ Connections {
                                 // Table Rows
                                 Repeater {
                                     model: projectManager && projectManager.members ? projectManager.members : []
+                                    onModelChanged: {
+                                        console.log("QML LOG: Team table model changed. New members =", JSON.stringify(model));
+                                    }
                                     delegate: Row {
                                         spacing: 12
                                         width: parent.width
@@ -1087,14 +1103,25 @@ Connections {
                                                 text: modelData.role
                                             }
                                         }
+                
                                         Rectangle {
                                             width: 100; height: 32; color: "#fff"
                                             Button {
                                                 anchors.centerIn: parent
                                                 text: "Remove team member"
-                                                // No logic required at this stage
+                                                onClicked: {
+                                                    console.log("QML LOG: Remove button clicked for user_id =", modelData.user_id);
+                                                    teamTab.memberToRemoveId = modelData.user_id;
+                                                    var user = userManager && userManager.users
+                                                        ? userManager.users.find(u => u.id === modelData.user_id)
+                                                        : null;
+                                                    teamTab.memberToRemoveName = user ? user.username : modelData.user_id;
+                                                    teamTab.showRemoveDialog = true;
+                                                    console.log("QML LOG: Set memberToRemoveId =", teamTab.memberToRemoveId, "memberToRemoveName =", teamTab.memberToRemoveName, "showRemoveDialog =", teamTab.showRemoveDialog);
+                                                }
                                             }
                                         }
+                                        // --- Remove Team Member Confirmation Dialog (moved outside Repeater) ---
                                     }
                                 }
                             }
@@ -1159,6 +1186,73 @@ Connections {
                                 cursorShape: Qt.PointingHandCursor
                                 onClicked: {
                                     projectDetailsPage.selectedTabIndex = index
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // --- Remove Team Member Confirmation Dialog (must be direct child of teamTab) ---
+            Dialog {
+                id: removeMemberDialog
+                modal: true
+                visible: teamTab.showRemoveDialog
+                width: 360
+                height: 180
+                standardButtons: Dialog.NoButton
+                x: (parent.width - width) / 2
+                y: (parent.height - height) / 2
+                onVisibleChanged: {
+                    console.log("QML LOG: Remove dialog visible =", visible, "memberToRemoveId =", teamTab.memberToRemoveId, "memberToRemoveName =", teamTab.memberToRemoveName);
+                }
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: "#fff"
+                    radius: 12
+                    border.color: "#2255aa"
+                    border.width: 2
+
+                    Column {
+                        anchors.centerIn: parent
+                        spacing: 24
+
+                        Text {
+                            text: "Remove team member '" + teamTab.memberToRemoveName + "'?"
+                            font.pixelSize: 18
+                            color: "#222"
+                            horizontalAlignment: Text.AlignHCenter
+                            wrapMode: Text.WordWrap
+                            width: 300
+                        }
+
+                        Row {
+                            spacing: 24
+                            anchors.horizontalCenter: parent.horizontalCenter
+
+                            Button {
+                                text: "Cancel"
+                                onClicked: {
+                                    teamTab.showRemoveDialog = false;
+                                    teamTab.memberToRemoveId = -1;
+                                    teamTab.memberToRemoveName = "";
+                                }
+                            }
+                            Button {
+                                text: "Remove"
+                                onClicked: {
+                                    if (teamTab.memberToRemoveId > 0) {
+                                        console.log("QML LOG: Confirmed removal for user_id =", teamTab.memberToRemoveId);
+                                        projectManager.removeProjectMember(root.selectedProjectId, teamTab.memberToRemoveId);
+                                        projectManager.loadProjectMembers(root.selectedProjectId);
+                                        if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                                            log_event.log_event("Removed user ID " + teamTab.memberToRemoveId + " from team");
+                                        }
+                                    }
+                                    teamTab.showRemoveDialog = false;
+                                    teamTab.memberToRemoveId = -1;
+                                    teamTab.memberToRemoveName = "";
+                                    console.log("QML LOG: Remove dialog closed and state reset");
                                 }
                             }
                         }
