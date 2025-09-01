@@ -986,6 +986,10 @@ Connections {
                                     userManager.loadUsers();
                                     console.log("QML LOG: Called userManager.loadUsers() on Team tab entry");
                                 }
+                                if (typeof projectManager !== "undefined" && typeof projectManager.loadProjectMembers === "function") {
+                                    projectManager.loadProjectMembers(root.selectedProjectId);
+                                    console.log("QML LOG: Called projectManager.loadProjectMembers() on Team tab entry");
+                                }
                                 if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
                                     log_event.log_event("Navigated to Team tab");
                                 }
@@ -1026,43 +1030,70 @@ Connections {
                                 }
                                 Button {
                                     text: "Add"
-                                    // No logic required at this stage
+                                    onClicked: {
+                                        if (addTeamUserCombo.currentIndex >= 0 && addTeamRoleField.text.length > 0) {
+                                            projectManager.addProjectMember(
+                                                root.selectedProjectId,
+                                                AuthManager.userId,
+                                                addTeamUserCombo.currentValue,
+                                                addTeamRoleField.text
+                                            );
+                                            // Refresh team list after addition
+                                            projectManager.loadProjectMembers(root.selectedProjectId);
+                                            if (typeof log_event !== "undefined" && typeof log_event.log_event === "function") {
+                                                log_event.log_event("Added user ID " + addTeamUserCombo.currentValue + " as team member with role '" + addTeamRoleField.text + "'");
+                                            }
+                                        }
+                                    }
                                 }
                             }
 
-                            // Team Members Table Header
-                            Row {
-                                spacing: 12
-                                width: parent.width
-                                Text { text: "Member"; font.bold: true; width: 200 }
-                                Text { text: "Role"; font.bold: true; width: 160 }
-                                Text { text: ""; width: 100 }
-                            }
-
-                            // Team Members List (UI only, no backend logic)
+                            // Team Members Table
                             Column {
-                                spacing: 8
+                                width: parent.width
+                                spacing: 0
+
+                                // Table Header
+                                Row {
+                                    spacing: 12
+                                    width: parent.width
+                                    Rectangle { width: 200; height: 32; color: "#e9eef6"; Text { anchors.centerIn: parent; text: "Member"; font.bold: true } }
+                                    Rectangle { width: 160; height: 32; color: "#e9eef6"; Text { anchors.centerIn: parent; text: "Role"; font.bold: true } }
+                                    Rectangle { width: 100; height: 32; color: "#e9eef6"; }
+                                }
+
+                                // Table Rows
                                 Repeater {
-                                    model: projectManager && projectManager.currentProjectTeam ? projectManager.currentProjectTeam : []
+                                    model: projectManager && projectManager.members ? projectManager.members : []
                                     delegate: Row {
                                         spacing: 12
                                         width: parent.width
-                                        Text {
-                                            width: 200
-                                            text: {
-                                                var user = userManager && userManager.users
-                                                    ? userManager.users.find(u => u.id === modelData.userId)
-                                                    : null;
-                                                return user ? user.username : modelData.userId;
+                                        Rectangle {
+                                            width: 200; height: 32; color: "#fff"
+                                            Text {
+                                                anchors.centerIn: parent
+                                                text: {
+                                                    var user = userManager && userManager.users
+                                                        ? userManager.users.find(u => u.id === modelData.user_id)
+                                                        : null;
+                                                    return user ? user.username : modelData.user_id;
+                                                }
                                             }
                                         }
-                                        Text {
-                                            width: 160
-                                            text: modelData.role
+                                        Rectangle {
+                                            width: 160; height: 32; color: "#fff"
+                                            Text {
+                                                anchors.centerIn: parent
+                                                text: modelData.role
+                                            }
                                         }
-                                        Button {
-                                            text: "Remove team member"
-                                            // No logic required at this stage
+                                        Rectangle {
+                                            width: 100; height: 32; color: "#fff"
+                                            Button {
+                                                anchors.centerIn: parent
+                                                text: "Remove team member"
+                                                // No logic required at this stage
+                                            }
                                         }
                                     }
                                 }
@@ -1185,6 +1216,10 @@ Connections {
                     let pname = proj && proj.name && proj.name.length > 0 ? proj.name : "(Untitled Project)"
                     log_event.log_event("Opened project details: " + pname)
                 }
+                // Listen for backend projectMembersChanged signal to refresh team table
+                projectManager.projectMembersChanged.connect(function() {
+                    projectManager.loadProjectMembers(root.selectedProjectId);
+                });
             }
 
         // --- Event Log Page (visible when logged in and currentPage is "eventlog") ---

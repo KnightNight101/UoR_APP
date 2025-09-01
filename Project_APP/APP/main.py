@@ -618,6 +618,7 @@ class ProjectManager(QObject):
     membersChanged = Signal()
     leaderChanged = Signal()
     filterByMember = Signal(int)
+    projectMembersChanged = Signal()
 
     def __init__(self):
         super().__init__()
@@ -677,6 +678,18 @@ class ProjectManager(QObject):
             from Project_APP.APP.backend.db import add_project_member
             add_project_member(project_id, acting_user_id, new_member_id, role)
             self.loadProjectMembers(project_id)
+            self.projectMembersChanged.emit()
+        except Exception as e:
+            pass
+
+    @Slot(int, int)
+    def removeProjectMember(self, project_id, member_id):
+        """Remove a member from a project and emit projectMembersChanged."""
+        try:
+            from Project_APP.APP.backend.db import remove_project_member
+            remove_project_member(project_id, member_id)
+            self.loadProjectMembers(project_id)
+            self.projectMembersChanged.emit()
         except Exception as e:
             pass
 
