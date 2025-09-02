@@ -1,0 +1,11 @@
+flowchart TD
+    Start([Start]) --> CheckOllama[Check if Ollama is installed]
+    CheckOllama --> ForEachModel{For each model in MODELS}
+    ForEachModel --> ModelExists{Model exists?}
+    ModelExists -- Yes --> SkipPull[Skip pull]
+    ModelExists -- No --> PullModel[Pull model via Ollama]
+    SkipPull --> NextModel[Next model]
+    PullModel --> NextModel
+    NextModel --> ForEachModel
+    ForEachModel --> AllReady[All models ready]
+    AllReady --> End([End])

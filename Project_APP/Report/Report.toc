@@ -1,0 +1,53 @@
+\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Problem Statement and Motivation}{4}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Project Objectives}{5}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Develop a Multi-Dimensional Sprint Planner}{5}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Implement an Eisenhower Matrix-Based To-Do List Generator}{6}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Integrate a Version Control System with LLM-Generated Commit Summaries}{6}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}Ensure Secure, Containerised Local Deployment}{6}{subsection.1.2.4}%
+\contentsline {chapter}{\numberline {2}Background and Literature Review}{8}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Project Management}{8}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Project Management}{15}{section.2.2}%
+\contentsline {chapter}{\numberline {3}Methodology}{16}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Requirements Gathering}{17}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Design Approach}{18}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Data Sources and Processing}{18}{section.3.3}%
+\contentsline {section}{\numberline {3.4}LLM Integration}{19}{section.3.4}%
+\contentsline {section}{\numberline {3.5}System Architecture}{19}{section.3.5}%
+\contentsline {chapter}{\numberline {4}System Design and Implementation}{20}{chapter.4}%
+\contentsline {section}{\numberline {4.1}From Web Ambitions to Local Implementation}{21}{section.4.1}%
+\contentsline {section}{\numberline {4.2}High-Level Architecture}{21}{section.4.2}%
+\contentsline {section}{\numberline {4.3}User Interface Layer}{22}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Backend Managers}{23}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Database and Persistence Layer}{23}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Event Logging}{24}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Integration of Language Models}{24}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Data and Control Flow}{25}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Security, Privacy, and Ethics}{25}{section.4.9}%
+\contentsline {chapter}{\numberline {5}Evaluation and Testing}{26}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Evaluation Criteria}{26}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Functional Testing}{26}{section.5.2}%
+\contentsline {section}{\numberline {5.3}LLM Response Evaluation}{26}{section.5.3}%
+\contentsline {section}{\numberline {5.4}User Testing and Feedback}{26}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Limitations in Testing}{26}{section.5.5}%
+\contentsline {chapter}{\numberline {6}Discussion}{27}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Analysis of Results}{27}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Challenges Faced}{27}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Agile Methodology Reflection}{27}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Model Performance vs Expectations}{27}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Conclusion and Future Work}{28}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Summary of Contributions}{28}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Applications and Impact}{28}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Limitations}{28}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Future Improvements}{28}{section.7.4}%
+\contentsline {chapter}{\numberline {A}User Stories}{31}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Authentication}{31}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Project Management}{31}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Team and Role Management}{31}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Task and Subtask Management}{32}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Visualization and Planning}{32}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Event Logging}{33}{section.A.6}%
+\contentsline {section}{\numberline {A.7}AI/LLM Integration}{33}{section.A.7}%
+\contentsline {section}{\numberline {A.8}Miscellaneous}{33}{section.A.8}%
+\contentsline {chapter}{\numberline {B}Screenshots and Interface Designs}{34}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Test Logs and Scripts}{35}{appendix.C}%

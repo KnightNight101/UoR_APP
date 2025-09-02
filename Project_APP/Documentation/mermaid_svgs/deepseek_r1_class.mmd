@@ -1,0 +1,6 @@
+classDiagram
+    class DeepSeekR1 {
+        - model_name: str
+        + __init__(model_name="deepseek-r1:8b")
+        + query_llm(prompt: str) str
+    }
