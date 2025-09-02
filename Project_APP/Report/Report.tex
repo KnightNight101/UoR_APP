@@ -4,6 +4,7 @@
 \usepackage{graphicx}
 \usepackage{amsmath,amssymb}
 \usepackage{hyperref}
+\usepackage{svg}
 \usepackage{geometry}
 \usepackage{titlesec}
 \usepackage{fancyhdr}
@@ -250,14 +251,90 @@ These architectural decisions collectively ensured that the system was not only 
 \section{Summary of Contributions}
 \section{Applications and Impact}
 \section{Limitations}
+Despite the successful implementation of the project management platform, several limitations remain that have influenced both the scope and the immediate performance of the system. A primary constraint was the choice of the language model itself. The system employs a generic large language model rather than one specifically trained on project management data. While this allows for functional demonstration of LLM-assisted task categorisation, it inherently limits the accuracy, relevance, and contextual awareness of the model’s suggestions. Access to authentic project data from real-world companies is restricted for privacy and confidentiality reasons, preventing the creation of a finely tuned, domain-specific model. Consequently, the model’s performance is constrained by the absence of rich, structured project datasets, which limits the depth and reliability of its recommendations.
+
+Another significant limitation was the practical challenge of software development alongside full-time MSc commitments. The original ambition of developing an idealised system, featuring a centralised server architecture with secure employee terminals, proved infeasible within the project’s timescale. This vision, had it been realised, would have enabled distributed computing, advanced LLM operations, and multi-user interaction. The necessity to scale back to a fully local, offline application preserved the core objectives of secure, private project management but constrained functionality in areas such as messaging, document sharing, and multi-user collaboration. These limitations illustrate the tension between technical ambition and the practical realities of individual development, as well as the difficulty of achieving enterprise-scale functionality within the bounds of an academic project.
 \section{Future Improvements}
+Future iterations of the system offer significant potential for expansion and enhanced performance. Transitioning to a centralised server model with built-in load balancing would allow for the deployment of more powerful LLMs, capable of processing larger volumes of project data and offering more contextually accurate guidance. Such an architecture would enable advanced functionalities, including real-time translation of messages and documents for international teams, more sophisticated context switching, and personalized employee feedback derived from task completion patterns. By leveraging version control metadata and performance metrics, the system could identify areas for skill development and recommend targeted interventions to improve efficiency.
+
+Additionally, future work could focus on the integration of domain-specific training data, potentially through anonymised or synthetic project datasets, to further improve the precision and relevance of LLM suggestions. Expanding the platform to support secure multi-user collaboration would also broaden its applicability, enabling real-world deployment in organisational environments. These enhancements would not only increase the system’s utility but also demonstrate the transformative potential of combining local project management tools with intelligent, adaptive language models in a secure and ethically responsible framework.
+
 
 % References
 
 \printbibliography% \bibliographystyle{plainnat}
 
-% Appendices (not included in word count)
+
+% Appendices 
 \appendix
+\chapter{Architecture}
+
+\section{Architecture Overview}
+
+This document provides a high-level architectural overview of the main application components. Each section includes a diagram and an explanation of the component's role and structure.
+\subsection{main.py}
+
+\begin{figure}[h]
+\centering
+\includesvg[width=\textwidth,inkscapelatex=false]{main_py.svg}
+\caption{Architecture diagram of \texttt{main.py} showing entry point, initialization of components, and connections to the UI.}
+\end{figure}
+
+\noindent
+\textbf{Explanation:} \\
+\texttt{main.py} is the application's entry point, responsible for initializing the backend (including file management and Git integration), setting up the Qt application and QML engine, and exposing Python backend objects to the QML frontend. It manages the connection between the UI and backend logic, ensuring that user actions in the interface are handled by the appropriate Python classes.
+
+\subsection{Main.qml}
+
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=\textwidth]{Main_qml.svg}
+    \caption{Diagram of \texttt{Main.qml} structure, including application window, pages, navigation, and backend context properties.}
+\end{figure}
+
+\noindent
+\textbf{Explanation:} \\
+\texttt{Main.qml} defines the main user interface using QML. It structures the application window, navigation, and all major pages (login, dashboard, project details, event log, settings). The UI is dynamic, responding to backend signals and exposing user actions to Python logic via context properties. The dashboard and project details pages are modular, supporting tabbed navigation and dialogs for project and team management.
+
+\subsection{reset\_users.py}
+
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=\textwidth]{reset_users.svg}
+    \caption{Diagram of \texttt{reset\_users.py} showing its interaction with the user and role tables.}
+\end{figure}
+
+\noindent
+\textbf{Explanation:} \\
+\texttt{reset\_users.py} is a utility script for database maintenance. It resets the user table to a predefined set of users, updating passwords and roles as needed. This ensures a consistent user base for development or testing, removing any extraneous users and enforcing correct role assignments.
+
+\subsection{print\_users.py}
+
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=\textwidth]{print_users.svg}
+    \caption{Diagram of \texttt{print\_users.py} showing query flow for retrieving user IDs and usernames.}
+\end{figure}
+
+\noindent
+\textbf{Explanation:} \\
+\texttt{print\_users.py} is a simple script that queries all users from the database and prints their IDs and usernames. It is primarily used for debugging or verifying the current state of the user table.
+
+\subsection{backend/db.py}
+
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=\textwidth]{backend_db.svg}
+    \caption{Diagram of \texttt{backend/db.py} acting as a bridge to the main application database functions.}
+\end{figure}
+
+\noindent
+\textbf{Explanation:} \\
+\texttt{backend/db.py} acts as a bridge, re-exporting database functions and models from the main application database module. This allows backend logic to be organized and accessed consistently, supporting modularity and maintainability.
+
+
+
+This document provides a high-level architectural overview of the main application components. Each section includes a diagram and an explanation of the component's role and structure.
 \chapter{User Stories}
 \section{Authentication}
 
@@ -272,7 +349,6 @@ These architectural decisions collectively ensured that the system was not only 
 - As a user, I want to edit project details such as title, description, and deadline, so that project information stays up to date.
 
 - As a user, I want to delete projects, so that I can remove obsolete or completed projects from my workspace.
-
 
 \section{Team and Role Management}
 - As a project owner, I want to add team members to a project and assign roles, so that I can collaborate with others.
