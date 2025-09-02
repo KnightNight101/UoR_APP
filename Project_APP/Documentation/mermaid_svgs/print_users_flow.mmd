@@ -1,0 +1,6 @@
+flowchart TD
+    Start([Start]) --> GetUsers["get_all_users"]
+    GetUsers --> PrintHeader["Print 'Users in database:'"]
+    PrintHeader --> ForEachUser{For each user}
+    ForEachUser --> PrintUser["Print user ID and Username"]
+    PrintUser --> End([End])

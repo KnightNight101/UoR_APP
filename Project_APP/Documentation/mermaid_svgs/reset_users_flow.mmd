@@ -1,0 +1,10 @@
+flowchart TD
+    Start([Start]) --> InitSession[Init DB Session]
+    InitSession --> DeleteUsers[Delete users not in TARGET_USERS]
+    DeleteUsers --> EnsureUsers[Ensure each TARGET_USER exists]
+    EnsureUsers --> UpdatePassword[Update password and role if user exists]
+    UpdatePassword --> CreateUser{User missing?}
+    CreateUser -- Yes --> RegisterUser
+    RegisterUser["register_user"] --> Commit[Commit changes]
+    CreateUser -- No --> Commit
+    Commit --> End([End])
