@@ -1,0 +1,166 @@
+model,test_type,accuracy,precision,recall,f1,time_s
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.024195432662963867
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.02329397201538086
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.02349853515625
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.023880958557128906
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.023933887481689453
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.023221731185913086
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.022898435592651367
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.02425098419189453
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.02299332618713379
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.024230003356933594
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.024002552032470703
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.02355647087097168
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.023113250732421875
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.023262500762939453
+tinyllama:1.1b,Commit Summary,0.0,0.0,0.0,0.0,0.02256155014038086
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.023638486862182617
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.023606061935424805
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.02805304527282715
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.02950429916381836
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.024399280548095703
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.02260112762451172
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.024570226669311523
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.0231020450592041
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.023487329483032227
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.02272629737854004
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.023537397384643555
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.02385401725769043
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.022801637649536133
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.024921178817749023
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.02263617515563965
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.02377176284790039
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.022889137268066406
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.023860454559326172
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.02448749542236328
+tinyllama:1.1b,Eisenhower,0.0,0.0,0.0,0.0,0.025115966796875
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.022648096084594727
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.023372411727905273
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.023298978805541992
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.02590632438659668
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.024109601974487305
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.023639202117919922
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.0230562686920166
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.02356100082397461
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.022794723510742188
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.024287939071655273
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.02415323257446289
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.024913549423217773
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.023916006088256836
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.023257970809936523
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.02313995361328125
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.024062156677246094
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.02348017692565918
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.023540019989013672
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.02462029457092285
+tinyllama:1.1b,Sprint Planner,0,0,0,0,0.02400040626525879
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.0247042179107666
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.023731708526611328
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.024190902709960938
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.022925615310668945
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.024348020553588867
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.023297548294067383
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.023204326629638672
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.026447057723999023
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.03204178810119629
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.026515722274780273
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.022936105728149414
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.023354530334472656
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.022556543350219727
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.022705078125
+deepseek-r1:8b,Commit Summary,0.0,0.0,0.0,0.0,0.022760391235351562
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.023279666900634766
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.022596120834350586
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.022269725799560547
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.023137569427490234
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.024953126907348633
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.022669076919555664
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.023696184158325195
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.02265477180480957
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.023737192153930664
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.023239612579345703
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.023564577102661133
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.022466182708740234
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.02263808250427246
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.02329111099243164
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.023009061813354492
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.022730588912963867
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.023178577423095703
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.024042129516601562
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.022551298141479492
+deepseek-r1:8b,Eisenhower,0.0,0.0,0.0,0.0,0.025658369064331055
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.023153305053710938
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.023073196411132812
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.02292037010192871
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.024233579635620117
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.023044586181640625
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.022721529006958008
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.023313045501708984
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.02327275276184082
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.023229122161865234
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.02313828468322754
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.023113489151000977
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.02336716651916504
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.023256301879882812
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.023438215255737305
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.02335071563720703
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.023802757263183594
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.023355722427368164
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.023348569869995117
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.023714542388916016
+deepseek-r1:8b,Sprint Planner,0,0,0,0,0.022666454315185547
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.023193359375
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.02354574203491211
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.023481130599975586
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.022655725479125977
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.023868083953857422
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.023470163345336914
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.02467060089111328
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.02303791046142578
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.027185916900634766
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.02743816375732422
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.022520780563354492
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.02306056022644043
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.022232770919799805
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.022864103317260742
+deepseek-r1:32b,Commit Summary,0.0,0.0,0.0,0.0,0.023174524307250977
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.0243380069732666
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.024194717407226562
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.02324080467224121
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.02509760856628418
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.02275538444519043
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.023273706436157227
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.023431062698364258
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.02414393424987793
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.025211811065673828
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.022605419158935547
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.02321910858154297
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.023547887802124023
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.025957822799682617
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.0233304500579834
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.024518251419067383
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.023856163024902344
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.024205684661865234
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.022632122039794922
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.022470712661743164
+deepseek-r1:32b,Eisenhower,0.0,0.0,0.0,0.0,0.0253145694732666
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.025188207626342773
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.02342534065246582
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.022599458694458008
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.024097919464111328
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.023105382919311523
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.023470163345336914
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.023663997650146484
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.023267745971679688
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.023116111755371094
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.02357959747314453
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.023396730422973633
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.023239850997924805
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.023418903350830078
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.023800134658813477
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.02376842498779297
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.023229122161865234
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.023099660873413086
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.02244114875793457
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.0232391357421875
+deepseek-r1:32b,Sprint Planner,0,0,0,0,0.02286672592163086
