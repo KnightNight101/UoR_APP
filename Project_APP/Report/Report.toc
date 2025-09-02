@@ -18,6 +18,12 @@
 \contentsline {section}{\numberline {4.1}From Web Ambitions to Local Implementation}{21}{section.4.1}%
 \contentsline {section}{\numberline {4.2}High-Level Architecture}{21}{section.4.2}%
 \contentsline {section}{\numberline {4.3}User Interface Layer}{22}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Backend Managers}{23}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Database and Persistence Layer}{23}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Event Logging}{24}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Integration of Language Models}{24}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Data and Control Flow}{25}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Security, Privacy, and Ethics}{25}{section.4.9}%
 \contentsline {chapter}{\numberline {5}Evaluation and Testing}{26}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Evaluation Criteria}{26}{section.5.1}%
 \contentsline {section}{\numberline {5.2}Functional Testing}{26}{section.5.2}%
@@ -34,8 +40,14 @@
 \contentsline {section}{\numberline {7.2}Applications and Impact}{28}{section.7.2}%
 \contentsline {section}{\numberline {7.3}Limitations}{28}{section.7.3}%
 \contentsline {section}{\numberline {7.4}Future Improvements}{28}{section.7.4}%
-\contentsline {chapter}{\numberline {A}Detailed Literature Review}{31}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Project Management Frameworks and Standards}{31}{section.A.1}%
-\contentsline {chapter}{\numberline {B}Screenshots and Interface Designs}{40}{appendix.B}%
-\contentsline {chapter}{\numberline {C}Test Logs and Scripts}{41}{appendix.C}%
-\contentsline {chapter}{\numberline {D}User Feedback and Survey Responses}{42}{appendix.D}%
+\contentsline {chapter}{\numberline {A}User Stories}{31}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Authentication}{31}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Project Management}{31}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Team and Role Management}{31}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Task and Subtask Management}{32}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Visualization and Planning}{32}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Event Logging}{33}{section.A.6}%
+\contentsline {section}{\numberline {A.7}AI/LLM Integration}{33}{section.A.7}%
+\contentsline {section}{\numberline {A.8}Miscellaneous}{33}{section.A.8}%
+\contentsline {chapter}{\numberline {B}Screenshots and Interface Designs}{34}{appendix.B}%
+\contentsline {chapter}{\numberline {C}Test Logs and Scripts}{35}{appendix.C}%
