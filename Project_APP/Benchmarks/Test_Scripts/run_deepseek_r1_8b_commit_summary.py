@@ -4,86 +4,107 @@ import random
 from pathlib import Path
 import subprocess
 
-# Path to save benchmark results
-CSV_FILE = Path(__file__).parent.parent / "Test_Results" / "benchmark_results.csv"
+# Semantic similarity and summarization metrics
+from sentence_transformers import SentenceTransformer, util
+from bert_score import score
+from rouge_score import rouge_scorer
+from nltk.translate.bleu_score import sentence_bleu
+
+# File paths
+CSV_FILE = Path(__file__).parent.parent / "Test_Results" / "deepseek_r1_8b_commit_summary.csv"
+
+# Load models for evaluation
+sem_model = SentenceTransformer('all-MiniLM-L6-v2')
+rouge_scorer_inst = rouge_scorer.RougeScorer(['rouge1','rouge2','rougeL'], use_stemmer=True)
+
+# -------- Utility Functions --------
 
 def ensure_ollama():
-    """
-    Locate Ollama executable. Adjust path if needed.
-    """
     default_path = Path("C:/Users/yg838314/AppData/Local/Programs/Ollama/ollama.exe")
     if default_path.exists():
         return str(default_path)
     raise EnvironmentError("Ollama executable not found. Install Ollama first.")
 
-def run_cmd(cmd, prompt=None, timeout=60):
-    """
-    Run a subprocess command with optional stdin input (prompt).
-    Includes timeout protection and debugging logs.
-    """
+def run_cmd(cmd, timeout=300):
+    """Run subprocess command with timeout (default 5 min)."""
     print(f"[DEBUG] Running command: {cmd}")
     start_time = time.time()
     try:
-        process = subprocess.Popen(
-            cmd,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            encoding="utf-8",
-            errors="replace"
-        )
-        stdout, stderr = process.communicate(input=prompt, timeout=timeout)
+        result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                text=True, encoding="utf-8", errors="replace",
+                                timeout=timeout)
+        stdout, stderr = result.stdout.strip(), result.stderr.strip()
+        if result.returncode != 0:
+            print(f"[ERROR] Command failed. stdout: {stdout}, stderr: {stderr}")
+            return ""
+        return stdout
     except subprocess.TimeoutExpired:
-        process.kill()
-        stdout, stderr = process.communicate()
         print(f"[ERROR] Command timed out after {timeout} seconds")
         return ""
 
-    elapsed = time.time() - start_time
-    print(f"[DEBUG] Completed in {elapsed:.2f}s")
-    print(f"[DEBUG] stdout (first 200 chars): {stdout[:200]}")
-    print(f"[DEBUG] stderr (first 200 chars): {stderr[:200]}")
-
-    if process.returncode != 0:
-        print(f"[ERROR] Command failed: {cmd}\nReturn code: {process.returncode}")
-        return ""
-    return stdout.strip()
-
 def query_model(model_name, prompt):
-    """
-    Query a model via Ollama with a given prompt.
-    Sends the prompt via stdin.
-    """
+    """Query the Ollama model."""
     ollama_path = ensure_ollama()
-    cmd = [ollama_path, "run", model_name]
-    return run_cmd(cmd, prompt=prompt)
+    safe_prompt = prompt.replace("\n", "\\n").replace('"', '\\"')
+    cmd = [ollama_path, "run", model_name, safe_prompt]
+    return run_cmd(cmd, timeout=300)
 
-def generate_commit_summary_tests(n=15):
-    """
-    Generate synthetic test cases for commit summaries.
-    Each test consists of a fake git diff and an expected placeholder summary.
-    """
-    tests = []
+# -------- Test Case Generation --------
+
+def generate_commit_summary_tests(n=20):
+    """Generate commit diffs and expected summaries."""
+    test_cases = []
+    possible_changes = ['added function', 'removed line', 'updated variable', 'fixed bug', 'refactored code', 'updated README', 'changed comment']
     for _ in range(n):
-        diff_lines = [
-            f"{random.choice(['+', '-'])} {random.randint(0, 999)}{random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')}"
-            for _ in range(5)
-        ]
-        tests.append({"diff": "\n".join(diff_lines), "expected": "summary"})
-    return tests
+        diff_lines = [f"{random.choice(['+','-'])} {random.randint(0,999)}{random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')}" for _ in range(5)]
+        # Generate a "reasonable" expected summary
+        expected_summary = random.choice(possible_changes)
+        test_cases.append({"diff": "\n".join(diff_lines), "expected": expected_summary})
+    return test_cases
+
+# -------- Evaluation Metrics --------
 
 def evaluate_output(output, expected):
-    """
-    Very basic evaluation: check if the expected string is in the output.
-    Replace with more robust evaluation logic later if needed.
-    """
-    return 1.0 if expected in output else 0.0
+    """Compute all metrics."""
+    if not output:
+        # Return 0 for all if model failed
+        return {
+            "accuracy": 0.0, "precision": 0.0, "recall": 0.0, "f1_score": 0.0,
+            "semantic_similarity": 0.0, "bert_precision": 0.0, "bert_recall": 0.0,
+            "bert_f1": 0.0, "rouge1_f1": 0.0, "rouge2_f1": 0.0, "rougeL_f1": 0.0,
+            "bleu": 0.0
+        }
+    
+    # Simple exact-match metrics
+    accuracy = 1.0 if expected.lower() in output.lower() else 0.0
+    precision = accuracy
+    recall = accuracy
+    f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+
+    # Semantic similarity
+    semantic_sim = util.cos_sim(sem_model.encode(output), sem_model.encode(expected)).item()
+
+    # BERTScore
+    bert_P, bert_R, bert_F1 = score([output], [expected], lang='en')
+    bert_P, bert_R, bert_F1 = float(bert_P.mean()), float(bert_R.mean()), float(bert_F1.mean())
+
+    # ROUGE
+    rouge_scores = rouge_scorer_inst.score(expected, output)
+    rouge1, rouge2, rougeL = rouge_scores['rouge1'].fmeasure, rouge_scores['rouge2'].fmeasure, rouge_scores['rougeL'].fmeasure
+
+    # BLEU
+    bleu = sentence_bleu([expected.split()], output.split())
+
+    return {
+        "accuracy": accuracy, "precision": precision, "recall": recall, "f1_score": f1_score,
+        "semantic_similarity": semantic_sim, "bert_precision": bert_P, "bert_recall": bert_R,
+        "bert_f1": bert_F1, "rouge1_f1": rouge1, "rouge2_f1": rouge2, "rougeL_f1": rougeL,
+        "bleu": bleu
+    }
+
+# -------- CSV Saving --------
 
 def save_csv(results, append=True):
-    """
-    Save benchmark results to CSV.
-    """
     keys = results[0].keys()
     file_exists = CSV_FILE.exists()
     with open(CSV_FILE, "a" if append else "w", newline="", encoding="utf-8") as f:
@@ -92,37 +113,32 @@ def save_csv(results, append=True):
             writer.writeheader()
         writer.writerows(results)
 
+# -------- Main Benchmark --------
+
 def main():
-    """
-    Main benchmarking function:
-    - Generates test cases
-    - Runs them against the model
-    - Records accuracy, precision, and runtime
-    """
     model_name = "deepseek-r1:8b"
     test_name = "Commit Summary"
-    tests = generate_commit_summary_tests()
+    tests = generate_commit_summary_tests(n=20)
 
     for idx, test_case in enumerate(tests, 1):
         print(f"[INFO] Running test case {idx}/{len(tests)} for {test_name} on model {model_name}")
         prompt = f"Summarize the following diff:\n{test_case['diff']}"
-        start = time.time()
+        start_time = time.time()
         output = query_model(model_name, prompt)
-        elapsed = time.time() - start
+        elapsed = time.time() - start_time
 
-        accuracy = evaluate_output(output, test_case.get("expected", ""))
-        precision = accuracy
-
-        print(f"[INFO] Test {idx} finished in {elapsed:.2f}s with accuracy={accuracy}")
-
-        result_row = {
+        metrics = evaluate_output(output, test_case["expected"])
+        metrics.update({
             "model": model_name,
             "test_type": test_name,
-            "accuracy": accuracy,
-            "precision": precision,
             "time_s": elapsed
-        }
-        save_csv([result_row], append=True)
+        })
+
+        save_csv([metrics], append=True)
+        print(f"[INFO] Test {idx} finished in {elapsed:.2f}s | Accuracy={metrics['accuracy']:.3f} "
+              f"Precision={metrics['precision']:.3f} Recall={metrics['recall']:.3f} F1={metrics['f1_score']:.3f} "
+              f"SemanticSim={metrics['semantic_similarity']:.3f} BERT_F1={metrics['bert_f1']:.3f} "
+              f"ROUGE1_F1={metrics['rouge1_f1']:.3f} BLEU={metrics['bleu']:.3f}")
 
 if __name__ == "__main__":
     main()
