@@ -19,72 +19,6 @@
 
 \refsection{0}
   \datalist[entry]{nyt/global//global/global/global}
-    \entry{alsudiriAlignmentLargeProject2013}{article}{}{}
-      \name{author}{3}{}{%
-        {{un=0,uniquepart=base,hash=dae694484ab8a943ad1e75dd56e6fd82}{%
-           family={Alsudiri},
-           familyi={A\bibinitperiod},
-           given={Turki},
-           giveni={T\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=2701ba3f9a0844d443e77c2bd3a9d320}{%
-           family={Al-Karaghouli},
-           familyi={A\bibinithyphendelim K\bibinitperiod},
-           given={Wafi},
-           giveni={W\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=3e26467679e0ad5ca2a0f6b928feb7d5}{%
-           family={Eldabi},
-           familyi={E\bibinitperiod},
-           given={Tillal},
-           giveni={T\bibinitperiod},
-           givenun=0}}%
-      }
-      \list{publisher}{1}{%
-        {Emerald Group Publishing Limited}%
-      }
-      \strng{namehash}{5bbbfc34de7522f35122ac453a9d6cb0}
-      \strng{fullhash}{5bbbfc34de7522f35122ac453a9d6cb0}
-      \strng{fullhashraw}{5bbbfc34de7522f35122ac453a9d6cb0}
-      \strng{bibnamehash}{5bbbfc34de7522f35122ac453a9d6cb0}
-      \strng{authorbibnamehash}{5bbbfc34de7522f35122ac453a9d6cb0}
-      \strng{authornamehash}{5bbbfc34de7522f35122ac453a9d6cb0}
-      \strng{authorfullhash}{5bbbfc34de7522f35122ac453a9d6cb0}
-      \strng{authorfullhashraw}{5bbbfc34de7522f35122ac453a9d6cb0}
-      \field{sortinit}{A}
-      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{– The purpose of this paper is to discuss in depth the factors that lead to misalignment between the project management (PM) and the business strategy by investigating four case studies in the telecommunications industry in Saudi Arabia. , – Due to the limited research on the subject of the alignment of PM and business strategy, the methodology used in this research was a case study in depth interview. , – The paper highlights the important factors that affect the process of aligning the PM to the business strategy. The companies that have strong alignment between the business strategy and the PM show successful projects outcome while the companies that have mismatch alignment show less successful projects outcome. , – The paper has investigated four telecommunications companies only. However, more companies will be better to compare the finding. Due to time constrains, the research has studied one project in each company. Each project was supporting one of the company's business strategies. More projects and business strategies will lead to clear picture of the alignment. Access to executives’ managers and CIO's was difficult. Several meetings were cancelled without short notice. , – This paper helps the companies to implement their business strategies with embedding their projects in the overall strategy. Also, helps the PM team to execute the projects in a strategic way. , – This paper contributes to the literature with a clear explanation of the concept of the alignment and provides a framework to ensure the alignment between the large PM process and the business strategy is achieved.}
-      \field{issn}{1741-0398}
-      \field{journaltitle}{Journal of Enterprise Information Management}
-      \field{langid}{english}
-      \field{number}{5}
-      \field{shorttitle}{Alignment of Large Project Management Process to Business Strategy}
-      \field{title}{Alignment of Large Project Management Process to Business Strategy: {{A}} Review and Conceptual Framework}
-      \field{urlday}{18}
-      \field{urlmonth}{7}
-      \field{urlyear}{2025}
-      \field{volume}{26}
-      \field{year}{2013-10-14Z}
-      \field{urldateera}{ce}
-      \field{pages}{596\bibrangedash 615}
-      \range{pages}{20}
-      \verb{doi}
-      \verb 10.1108/JEIM-07-2013-0050
-      \endverb
-      \verb{file}
-      \verb C:\Users\KnightNight101\Zotero\storage\WY4RKTVD\html.html
-      \endverb
-      \verb{urlraw}
-      \verb https://www.emerald.com/insight/content/doi/10.1108/jeim-07-2013-0050/full/html
-      \endverb
-      \verb{url}
-      \verb https://www.emerald.com/insight/content/doi/10.1108/jeim-07-2013-0050/full/html
-      \endverb
-    \endentry
     \entry{damijApproachOptimizingKanban2024}{article}{}{}
       \name{author}{2}{}{%
         {{un=1,uniquepart=given,hash=595247cf885444cc8bf688770b1e2fe0}{%
@@ -137,6 +71,107 @@
       \verb https://ieeexplore.ieee.org/abstract/document/9611021
       \endverb
       \keyw{Agile project management,Continuous improvement,Feedback loop,Kanban method,Project management,replenishment,resource capacity,Software,Standards,Task analysis,Visualization,work-in-progress (WIP) limits}
+    \endentry
+    \entry{guanIntelligentVirtualAssistants2023}{online}{}{}
+      \name{author}{9}{}{%
+        {{un=0,uniquepart=base,hash=84ac383ff035e36c56800e60b436fca4}{%
+           family={Guan},
+           familyi={G\bibinitperiod},
+           given={Yanchu},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4695c12fc5e5638d83abfb67ab9d459c}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Dong},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0fd0e351fbbdcecbd832aac4425e9e72}{%
+           family={Chu},
+           familyi={C\bibinitperiod},
+           given={Zhixuan},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8c23fdbe9467d8a9fb05caa4b245e273}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shiyu},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5f92d85ec8a2edb3559d42b1a8948c08}{%
+           family={Ni},
+           familyi={N\bibinitperiod},
+           given={Feiyue},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8f017b8f951576cb88c5bf6977744755}{%
+           family={Song},
+           familyi={S\bibinitperiod},
+           given={Ruihua},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=32c9fe9ad234b366a8e1d674bd9dac4f}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Longfei},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f7b2d2fc120f6f435154d6aa0e2d4ce5}{%
+           family={Gu},
+           familyi={G\bibinitperiod},
+           given={Jinjie},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=67c128a79ea9647b4a263fa79599c43d}{%
+           family={Zhuang},
+           familyi={Z\bibinitperiod},
+           given={Chenyi},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{3d0b8652c374d95599c9f7e3e72d3717}
+      \strng{fullhash}{1f2e080d6bfa8f7aa22408e6ae7e651f}
+      \strng{fullhashraw}{1f2e080d6bfa8f7aa22408e6ae7e651f}
+      \strng{bibnamehash}{3d0b8652c374d95599c9f7e3e72d3717}
+      \strng{authorbibnamehash}{3d0b8652c374d95599c9f7e3e72d3717}
+      \strng{authornamehash}{3d0b8652c374d95599c9f7e3e72d3717}
+      \strng{authorfullhash}{1f2e080d6bfa8f7aa22408e6ae7e651f}
+      \strng{authorfullhashraw}{1f2e080d6bfa8f7aa22408e6ae7e651f}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{While intelligent virtual assistants like Siri, Alexa, and Google Assistant have become ubiquitous in modern life, they still face limitations in their ability to follow multi-step instructions and accomplish complex goals articulated in natural language. However, recent breakthroughs in large language models (LLMs) show promise for overcoming existing barriers by enhancing natural language processing and reasoning capabilities. Though promising, applying LLMs to create more advanced virtual assistants still faces challenges like ensuring robust performance and handling variability in real-world user commands. This paper proposes a novel LLM-based virtual assistant that can automatically perform multi-step operations within mobile apps based on high-level user requests. The system represents an advance in assistants by providing an end-to-end solution for parsing instructions, reasoning about goals, and executing actions. LLM-based Process Automation (LLMPA) has modules for decomposing instructions, generating descriptions, detecting interface elements, predicting next actions, and error checking. Experiments demonstrate the system completing complex mobile operation tasks in Alipay based on natural language instructions. This showcases how large language models can enable automated assistants to accomplish real-world tasks. The main contributions are the novel LLMPA architecture optimized for app process automation, the methodology for applying LLMs to mobile apps, and demonstrations of multi-step task completion in a real-world environment. Notably, this work represents the first real-world deployment and extensive evaluation of a large language model-based virtual assistant in a widely used mobile application with an enormous user base numbering in the hundreds of millions.}
+      \field{day}{4}
+      \field{eprintclass}{cs}
+      \field{eprinttype}{arXiv}
+      \field{month}{12}
+      \field{pubstate}{prepublished}
+      \field{title}{Intelligent {{Virtual Assistants}} with {{LLM-based Process Automation}}}
+      \field{urlday}{11}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.48550/arXiv.2312.06677
+      \endverb
+      \verb{eprint}
+      \verb 2312.06677
+      \endverb
+      \verb{file}
+      \verb C\:\\Users\\KnightNight101\\Zotero\\storage\\CSG5H57Y\\Guan et al. - 2023 - Intelligent Virtual Assistants with LLM-based Proc.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\4ZQ3NIDV\\2312.html
+      \endverb
+      \verb{urlraw}
+      \verb http://arxiv.org/abs/2312.06677
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/2312.06677
+      \endverb
+      \keyw{Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning}
     \endentry
     \entry{jovanovicAnalysisAvailableProject2018}{article}{}{}
       \name{author}{2}{}{%
@@ -606,6 +641,8 @@
       \endverb
     \endentry
   \enddatalist
+  \missing{gaianuPremiseDataCenter2023a}
+  \missing{oluwagbadeConversationalAINew2024}
 \endrefsection
 \endinput
 

@@ -6,6 +6,7 @@
 \usepackage{hyperref}
 \usepackage{geometry}
 \usepackage{titlesec}
+\usepackage{listings}
 \usepackage{fancyhdr}
 \usepackage{setspace}
 \usepackage{csquotes}
@@ -33,6 +34,7 @@
 \maketitle
 
 \tableofcontents
+
 \newpage
 
 % 1. Introduction
@@ -69,47 +71,102 @@ Finally, the containerised deployment will be tested for security, performance, 
 % 2. Background & Literature Review
 \chapter{Background and Literature Review}  % ~2000 words
 \section{Project Management}
+
 As this software project aims to assist enterprise-level organisations with project management, it is vital for it to interface with companies’ existing project management frameworks. This means ensuring that the workflow of the software does not in itself become a barrier to adoption, necessitating software-specific training and introducing new inefficiencies as a result.
+
 In order to ascertain which framework would be the best to start working with, ‘Analysis and Comparison of Project Management Standards and Guides’ was reviewed \parencite{xueAnalysisComparisonProject}. Xue et al. sets out to analyse and compare three prominent PM references (PMBoK, ISO 21500, and ISO/IEC 29110) to assist project managers in making an informed choice, tailored to the scale of their project and its needs.
+
 The motivation behind the study is grounded in the evolution of project management practices and the increasing need for clear guidance, especially in a landscape where projects vary vastly in size, complexity, and organisational structure. The paper begins by providing a historical context, illustrating that project management (PM) has been practised for millennia, and has continuously evolved with tools like Gantt charts, The Critical Path Method (CPM), Work Breakdown Structure (WBS), and Earned Value Management (EVM) becoming integral to contemporary PM. However, the variety of standards and guides, each designed with different target audiences, creates confusion for project managers, especially those unfamiliar with the subtle differences or lacking the time to conduct deep comparative analysis.
+
 The analysis and comparison conducted directly responds to its problem statement by reducing the complexity around PM standard selection, thereby facilitating better adoption of PM practices tailored to project and organisational size. Furthermore, the paper’s discussion about the trend of large companies outsourcing to smaller suppliers underscores the growing importance of matching standards to organisational scale, especially as supply chains become more fragmented.
+
 To gain a greater understanding, more research was conducted to identify the different project management methodologies used in industry. Reading ‘Analysis of the Available Project Management Methodologies’ \parencite{jovanovicAnalysisAvailableProject2018} once again highlighted that the effective implementation of project management methodologies remains a critical concern for organisations. Jovanovic et al. address a well-documented challenge in project management literature: the inadequacy of one-size-fits-all methodologies to accommodate the heterogeneous nature of projects across different sectors and scales.
+
 The paper’s problem statement identifies a key gap: while numerous internationally recognised methodologies offer structured frameworks and processes, they often fail to consider the unique attributes of particular project types. This limitation is especially salient given the wide variance in project complexity, scope, and sector-specific needs. Agile methodologies emerge from the analysis as particularly well-suited to smaller, less complex projects, especially within the IT sector. Their iterative and flexible nature accommodates rapid change and uncertainty, addressing deficiencies in traditional methodologies, when applied to dynamic or fast-paced project environments. However, Xue et. al. find Agile’s applicability outside IT and similarly scoped projects remains limited.
+
 The study’s synthesis underscores a critical implication: the suitability of any project management methodology is contingent on the interplay between project type, organisational culture, and management philosophy. This reinforces the necessity of moving beyond generalised processes towards methodologies that reflect the specific demands and contexts of project groups.  
+
 The research alludes to future / further development of a modular system that can interface with a range of different project management processes, ensuring that the correct framework is used for the nature of each project and the team members involved whilst also ensuring that data flows smoothly between different projects following different management protocols.
+
 A stand out point here is the claim made by Xue et. al. that the efficacy of Agile is limited. Serrador and Pinto explore the tangible impact of Agile methodologies on project success, offering empirical evidence to support the growing adoption of Agile practices in contemporary project management \parencite{serradorDoesAgileWork2015}. The core aim of the study is to assess whether the degree of Agile usage in a project is positively correlated with various dimensions of project success, namely overall success, efficiency (time and budget), and stakeholder satisfaction. This objective is positioned within a broader critique of the historically high failure rates of projects despite adherence to traditional methodologies, such as waterfall.
-The paper is underpinned by data from 1,386 projects across various industries, providing a substantial empirical base. The methodology quantifies the extent of Agile implementation on a scale from 0\% to 100\% and measures its correlation with perceived project outcomes. The results reveal a statistically significant, though modest, positive relationship between Agile usage and project success, especially in terms of stakeholder satisfaction and overall success. While efficiency gains are less pronounced, they are still statistically valid. Notably, Agile practices did not reduce planning activity overall, rather, they redistributed it: less upfront, more iterative, suggesting a more adaptive planning model rather than an absence of structure.
-Importantly, the study explores moderating variables such as project complexity, team experience, and clarity of project vision. Contrary to expectations, neither complexity nor experience significantly moderated the Agile-success relationship. However, projects with clearer visions saw enhanced benefits from Agile methods, indicating that the methodology’s success is not merely procedural but also context-dependent. The industry dimension adds further nuance: while Agile produced stronger positive effects in tech-oriented, healthcare, and service sectors, it had little to no effect in sectors with rigid planning requirements (e.g., construction, government). Serrador and Pinto provide empirical reinforcement for this project’s claim that Agile’s iterative and stakeholder-centric nature aligns more closely with the needs of modern, fast-moving projects than static, universalised methodologies.
+
+The paper is underpinned by data from 1,386 projects across various industries, providing a substantial empirical base. The methodology quantifies the extent of Agile implementation on a scale from 0% to 100% and measures its correlation with perceived project outcomes. The results reveal a statistically significant, though modest, positive relationship between Agile usage and project success, especially in terms of stakeholder satisfaction and overall success. While efficiency gains are less pronounced, they are still statistically valid. Notably, Agile practices did not reduce planning activity overall, rather, they redistributed it: less upfront, more iterative, suggesting a more adaptive planning model rather than an absence of structure.
+
+Importantly, the study explores the moderation of variables such as project complexity, team experience, and clarity of project vision. Contrary to expectations, neither complexity nor experience significantly moderated the Agile-success relationship. However, projects with clearer visions saw enhanced benefits from Agile methods, indicating that the methodology’s success is not merely procedural but also context-dependent. The industry dimension adds further nuance: while Agile produced stronger positive effects in tech-oriented, healthcare, and service sectors, it had little to no effect in sectors with rigid planning requirements (e.g., construction, government). Serrador and Pinto provide empirical reinforcement for this project’s claim that Agile’s iterative and stakeholder-centric nature aligns more closely with the needs of modern, fast-moving projects than static, universalised methodologies.
+
 However, the relatively low explanatory power (R² values around 0.02–0.15) underscores that Agile is not a panacea; other factors contribute significantly to project outcomes. The study advocates for a more sophisticated understanding of Agile, particularly its hybridisation with traditional methodologies; an area under explored yet reflective of current industry practice.
+
 To gain a deeper understanding of the role of Agile,  key studies aiming to enhance project efficiency were reviewed. Prica et. al. offer a comprehensive examination of Agile Project Management (Agile PM) as a response to the limitations of traditional project management frameworks in complex, uncertain, and fast-paced environments. Central to this discourse is the critique of hierarchical, command-and-control paradigms, which are increasingly misaligned with the demands of knowledge-based, innovation-driven enterprise operations. This insight resonates directly with this project’s problem statement, which identifies structural inefficiencies rooted in bureaucratic rigidity and human cognitive limits as a primary obstacle in enterprise-scale project execution, despite the widespread adoption of established frameworks like PMBOK and PRINCE2 \parencite{pricaEnhancingProjectEfficiency2025}.
+
 The literature traces the origins of Agile to the Agile Manifesto and Declaration of Interdependence, both of which prioritise adaptability, iterative delivery, and team autonomy over prescriptive process adherence. This decentralised model addresses a key challenge described in the problem statement: the human difficulty in managing high-dimensional, dynamic project data. The Agile emphasis on continuous feedback, sprint-based iterations, and role ownership provides a responsive structure that supports real-time adaptability, a core feature of the Multi-Dimensional Sprint Planner objective. These principles form the foundation for automating scheduling based on fluctuating variables, such as team availability and evolving compliance requirements.
-The critique of traditional project theory reinforces the urgency for a paradigm shift. Their argument that models such as “management-as-planning” and “thermostat control” are insufficient aligns with the project's focus on replacing rigid planning with adaptive automation. Moreover, Williams et al.’s empirical findings, which show that PMBOK’s traditional frameworks hinder performance under uncertainty, support the necessity for LLM-augmented systems capable of pattern recognition and adaptive task reassignment. These findings validate the need for integrating ML systems that operate in fluid, decentralised contexts without relying on users to manually restructure plans or reports.
+
+The critique of traditional project theory reinforces the urgency for a paradigm shift. Their argument that models such as 'management-as-planning' and 'thermostat control'are insufficient aligns with this project's focus on replacing rigid planning with adaptive automation. Moreover, Williams et al.’s empirical findings, which show that PMBOK’s traditional frameworks hinder performance under uncertainty, support the necessity for LLM-augmented systems capable of pattern recognition and adaptive task reassignment. These findings validate the need for integrating ML systems that operate in fluid, decentralised contexts without relying on users to manually restructure plans or reports.
+
 Coplien and Harrison’s pattern-based approach to Agile further complements the Eisenhower Matrix-based To-Do List Generator objective. They identify recurring behavioural and structural configurations that promote effective project execution. By learning from these patterns, intelligent systems can be trained to automate task prioritisation, not just based on importance or urgency, but also in relation to historical project behaviours and human productivity cycles, which is a layer of complexity that traditional planning tools overlook.
-Finally, the literature also engages with Wysocki’s quadrant model, which categorises projects by goal clarity and solution certainty. This framework provides an analytical basis for determining when Agile, adaptive, or even extreme project management techniques are most suitable. The proposed system's ability to shift methodologies dynamically and autonomously mirrors this quadrant-based logic. Wysocki’s model offers useful heuristics for designing a sprint planner that fluidly adapts across quadrants, ensuring that LLM-generated roadmaps remain contextually appropriate.
-Much of the literature refers to “Agile Hybrids”: frameworks whose use compounds the benefits of the Agile methodology to increase its efficacy and applicability. In Agile Project Management with Scrum, Schwaber \parencite{schwaberAgileProjectManagement2004} draws a compelling analogy between Scrum and decentralised systems like road traffic or modern logistics, illustrating how simple rules empower independent agents to navigate complexity effectively. He positions Scrum as a response to the limitations of centralised planning in dynamic, uncertain environments. As projects grow in complexity, traditional command-and-control frameworks often fail while Scrum thrives by delegating decision-making to self-organising teams.
+
+Finally, the literature also engages with Wysocki’s quadrant model, which categorises projects by goal clarity and solution certainty. This framework provides an analytical basis for determining when Agile, adaptive, or even extreme project management techniques are most suitable. The proposed system's ability to shift methodologies dynamically and autonomously mirrors this quadrant-based logic. Wysocki’s model offers useful heuristics for designing a sprint planner that fluidly adapts across the Eisenhower Matrix’s quadrants, ensuring that LLM-generated roadmaps remain contextually appropriate.
+
+Much of the literature refers to ‘Agile Hybrids’: frameworks whose use compounds the benefits of the Agile methodology to increase its efficacy and applicability. In Agile Project Management with Scrum, Schwaber \parencite{schwaberAgileProjectManagement2004} draws a compelling analogy between Scrum and decentralised systems like road traffic or modern logistics, illustrating how simple rules empower independent agents to navigate complexity effectively. He positions Scrum as a response to the limitations of centralised planning in dynamic, uncertain environments. As projects grow in complexity, traditional command-and-control frameworks often fail while Scrum thrives by delegating decision-making to self-organising teams.
+
 A key strength of Scrum, according to Schwaber, is its emphasis on short, iterative learning cycles that test complete business value propositions within 30-day sprints. This approach fosters continuous feedback, enabling developers to align more closely with shifting customer needs. Rather than pursuing rigid, front-loaded planning, Scrum adopts a test-and-learn philosophy aligned with Deming's cycle and other empirically driven improvement models. This aligns strongly with one of the key objectives of the project, using real time data to continuously improve and fine tune the sprint plan to ensure that the project remains on target even with shifting requirements and constraints.
-Moreover, Scrum empowers teams to become “managers of their own fate.” By entrusting workers with autonomy and purpose, Scrum taps into collective intelligence and real-time problem-solving. The model’s philosophical, managerial, and technical layers parallel the success of systems like Toyota's lean manufacturing, where trust, feedback, and long-term thinking underpin sustained performance.
-In the paper: Agile Project Management: A Communicational Workflow Proposal, the integration of Agile Project Management (APM) within Agile Manufacturing (AM) represents a paradigm shift toward adaptability, customer responsiveness, and continuous improvement in volatile production contexts. AM extends Agile principles beyond software into manufacturing, emphasising modularity, team autonomy, and fast response to dynamic customer demands \parencite{loiroAgileProjectManagement2019}. APM serves as the structural and procedural backbone of this model, guiding product development through iterative “momentums” rather than rigid phases, from requirements analysis through to maintenance.
-A central contribution of the paper is the proposed AGILE team structure, comprising a Product Owner, Team Leader, and cross-functional Team Members, each playing dynamic roles throughout a product’s lifecycle. Effective communication, both within this team and with stakeholders, is deemed essential. The communication workflow, modeled in UML, facilitates the continuous integration of client feedback across key stages, aligning with core Agile values of responsiveness and customer-centricity.
-However, the paper acknowledges significant barriers: cultural inertia, poor data literacy, and team readiness are cited as frequent obstacles to successful Agile transformation. While early results from an implementation in a lighting manufacturing firm are inconclusive, the framework offers a promising, structured approach to embedding agility in non-software domains, provided organisations invest in education, communication, and role clarity.
-A key takeaway from this paper is the proposed Agile Team structure, which has been modified and will be utilised in this project. Establishing a Team leader is important to ensure accountability and that the project has a strong vision; a factor that has already been established as vital to the success of the Agile framework \parencite{serradorDoesAgileWork2015}. Aligning the vision held by the leader and the business strategy in general with the project management framework is critical (as explored by \citeauthor{alsudiriAlignmentLargeProject2013}.) 
-Prior research indicates that a significant proportion of projects fail to meet time, budget, and strategic objectives due to misalignment between PM processes and corporate strategy (Miller, 2002; Shenhar et al., 2007). While internal factors such as effective communication, executive support, leadership competence, and involvement of project managers in strategic development have been identified as pivotal to enhancing alignment (Eriksson, 2013). This study highlights equally important external factors, including government agencies, vendors, contractors, and site acquisition challenges, which substantially impact strategic implementation. The literature exposes a “missing link” between business strategy and project plans, coined as “project strategy” by Shenhar et al. (2007), underscoring the need for integrative frameworks that bridge this gap. Empirical findings reveal that companies often lack formal mechanisms to align and monitor the synergy between strategy and PM, adversely affecting project outcomes and business performance. This research contributes by applying stakeholder theory and strategic management processes to explain the complex interplay of internal and external influences on alignment. Ultimately, robust strategic alignment facilitates responsiveness to market dynamism and improves the realisation of business goals through effective project delivery.
+
+Moreover, Scrum empowers teams to become ‘managers of their own fate.’ By entrusting workers with autonomy and purpose, Scrum taps into collective intelligence and real-time problem-solving. The model’s philosophical, managerial, and technical layers parallel the success of systems like Toyota's lean manufacturing, where trust, feedback, and long-term thinking underpin sustained performance.
+
+In the paper ‘Agile Project Management: A Communicational Workflow Proposal’, the integration of Agile Project Management (APM) within Agile Manufacturing (AM) represents a paradigm shift toward adaptability, customer responsiveness, and continuous improvement in volatile production contexts. AM extends Agile principles beyond software into manufacturing, emphasising modularity, team autonomy, and fast response to dynamic customer demands \parencite{loiroAgileProjectManagement2019}. APM serves as the structural and procedural backbone of this model, guiding product development through iterative ‘momentums’ rather than rigid phases, from requirements analysis through to maintenance.
+
+A central contribution of the paper is the proposed Agile team structure, comprising a Product Owner, Team Leader, and cross-functional Team Members, each playing dynamic roles throughout a product’s lifecycle. Effective communication, both within this team and with stakeholders, is deemed essential. The communication workflow, modeled in UML, facilitates the continuous integration of client feedback across key stages, aligning with core Agile values of responsiveness and customer-centricity.
+
+However, the paper acknowledges significant barriers: cultural inertia, poor data literacy, and team readiness are cited as frequent obstacles to successful Agile transformation. While early results from implementation in a lighting manufacturing firm are inconclusive, the framework offers a promising, structured approach to embedding agility in non-software domains, provided organisations invest in education, communication, and role clarity.
+
+A key takeaway from this paper is the proposed Agile Team structure, which has been modified and will be utilised in this project. Establishing a Team leader is important to ensure accountability and that the project has a strong vision; a factor that has already been established as vital to the success of the Agile framework \parencite{serradorDoesAgileWork2015}. Aligning the vision held by the leader and the business strategy in general with the project management framework is critical (as explored by \author{alsudiriAlignmentLargeProject2013}.) 
+
+Prior research indicates that a significant proportion of projects fail to meet time, budget, and strategic objectives due to misalignment between PM processes and corporate strategy (Miller, 2002; Shenhar et al., 2007). While internal factors such as effective communication, executive support, leadership competence, and involvement of project managers in strategic development have been identified as pivotal to enhancing alignment (Eriksson, 2013), this study highlights equally important external factors, including government agencies, vendors, contractors, and site acquisition challenges, which substantially impact strategic implementation. The literature exposes a 'missing link'between business strategy and project plans, coined as 'project strategy'by Shenhar et al. (2007), underscoring the need for integrative frameworks that bridge this gap. Empirical findings reveal that companies often lack formal mechanisms to align and monitor the synergy between strategy and PM, adversely affecting project outcomes and business performance. This research contributes by applying stakeholder theory and strategic management processes to explain the complex interplay of internal and external influences on alignment. Ultimately, robust strategic alignment facilitates responsiveness to market dynamism and improves the realisation of business goals through effective project delivery.
 
 In addition to this, a Cross Functional Team member system allows for greater exploitation of an individual’s skill-set, allowing for a level of flexibility that extends beyond task allocation based on a job title. However, this flexibility can lead to a lack of clarity as the number of tasks, subtasks and now the team members who are assigned to them, can vary greatly. 
-The agile methodology has a tool for improving continuous flow and tracking the progress of the subtasks of a project known as Kanban boards. In ‘ An Approach to Optimizing Kanban Board Workflow and Shortening the Project Management Plan’, Damij et. al. tackles a key challenge in Kanban implementation: how to effectively manage workflow on the Kanban board by finding the right balance among three critical parameters: replenishment value, work-in-progress (WIP) limits, and resource capacity \parencite{damijApproachOptimizingKanban2024}. The stated purpose is to go beyond the conventional focus on WIP limits alone and instead propose an approach that optimises the interplay between these factors to create a sustainable and efficient workflow. This purpose directly addresses the long-recognised problem that setting WIP limits in isolation often fails to produce consistent flow improvements, sometimes resulting in either idle team members or overloaded queues.
-The paper’s motivation is rooted in the recent disruptions caused by the COVID-19 pandemic, which exposed the vulnerability of traditional working modes and highlighted the need for agile, adaptable workflows. Kanban is well-suited to meet this need, but practitioners struggle with applying its principles optimally, especially setting WIP limits that fit the actual capacity and demand of teams. The authors argue that sustainable flow depends not just on WIP limits but on harmonising those limits with replenishment (the rate new work is introduced) and the team’s resource capacity.
-To validate this, the paper presents an empirical, simulation-based approach. By modelling the Kanban workflow and systematically varying replenishment rates, WIP limit combinations, and resource allocations, the authors generate data on key performance metrics such as lead time, queue lengths, and team utilization. This empirical method directly supports the paper’s objective to provide actionable insights rather than purely theoretical guidelines. The use of simulation here is clever:it allows “what-if” experiments that would be impractical or disruptive in live projects and provides a controlled way to observe complex interactions among variables.
-The results demonstrate that simply adjusting WIP limits without considering replenishment or resource capacity is insufficient for achieving continuous, smooth flow. For example, low WIP limits lead to team idleness, while overly high limits cause excessive queues and work overload, both of which degrade efficiency. The simulations identify optimal configurations where replenishment aligns with resource availability and WIP limits, producing a balanced system that minimizes waiting times and maximizes team utilization. One key finding is that a replenishment value slightly above the number of resources in the initial stage yields the best performance, avoiding both bottlenecks and idle times.
-This finding directly answers the problem statement by showing that Kanban workflow efficiency is not a simple function of WIP limits but a multi-dimensional optimisation problem. The authors’ approach reframes the challenge as one of finding an “optimal relationship” or harmony among replenishment, WIP limits, and capacity, rather than trying to optimise any single factor in isolation. This aligns well with their project objective of developing a practical approach for Kanban teams to improve flow.
-Moreover, the paper extends its contributions beyond theory, to practice. It suggests that managers who focus solely on maximizing resource utilisation without considering this balanced relationship risk creating dysfunctional workflows. By providing a systematic method, supported by simulation, to find the optimal parameters, the paper offers a tool that can reduce trial-and-error in Kanban board design, improve delivery predictability, and ultimately enhance team performance.
-Finally, it is important to establish the difference that these project management frameworks will have to undergo as a result of the change in the industrial landscape to one where vast quantities of computational power is readily available. In the International Journal of Managing Projects in Business, \citeauthor{sonta-draczkowskaChallengesScalingAgile2024} argue that the accelerating complexity of project environments, driven by technological and social forces, has exposed the limitations of traditional models such as PMBOK and PRINCE2 \parencite{sonta-draczkowskaChallengesScalingAgile2024}. This argument reinforces the problem statement’s core premise: mature frameworks, despite their widespread use, are increasingly unable to cope with high-dimensionality, rapid change, and cognitive overload in enterprise-scale project environments.
-The study highlights a fundamental misalignment between conventional project management practices and the nonlinear, emergent nature of digitally mediated work. Citing Brynjolfsson and McAfee, the authors frame digital disruption as an opportunity to reimagine how value is created and delivered, not merely to automate existing processes. This is directly aligned with the project’s broader goal of integrating LLMs and ML systems not as auxiliary tools, but as foundational components for transforming task management, sprint planning, and decision cycles into adaptive, real-time systems.
-The article outlines three stages of digital evolution in project environments: digitisation, digitalisation, and digital transformation, positioning LLM/ML integration clearly within the third stage. Digital transformation, as defined here, is not just about tools but about rethinking structures, roles, and value streams. This view supports the rationale for containerised deployment with plug-and-play LLM integration, where AI is not bolted onto legacy systems, but instead embedded into reengineered workflows that match how modern teams actually operate.
-The discussion on human limitations, particularly the difficulty in anticipating interdependencies, managing unstructured data, and sustaining awareness across distributed teams, closely mirrors the project’s justification for developing a Multi-Dimensional Sprint Planner. The authors cite the rise of AI-assisted project management tools as a partial response, but stress that many existing tools still fail to close the cognitive gap due to poor interface design, lack of real-time feedback, and generic automation features. This directly maps to the project’s emphasis on removing the need for prompt engineering by abstracting LLM capabilities behind clearly defined workflows, allowing domain experts to engage with AI systems through intuitive interfaces.
-Additionally, the paper’s critique of “pseudo-agility” where organisations adopt Agile in form but not in function echoes the Eisenhower Matrix-based To-Do List Generator objective. It validates the need for personalisation and strategic alignment in task-level execution. By integrating LLMs to adaptively update task prioritisation based on real-time inputs (rather than static backlogs), the system described in the project objectives aims to support true agility, not just procedural mimicry.
-The authors also point to an emerging challenge: the tension between speed and governance in large organisations. While agile methods promote rapid iteration, enterprise environments are constrained by regulatory compliance and auditability. This justifies the project’s final objective of secure, containerised deployment, ensuring that LLMs operate within controlled environments where data sovereignty and traceability are preserved. It also supports the version control and LLM-generated commit summary features, which directly respond to the demand for transparency and historical accountability in AI-assisted workflows.
 
-\section{Project Management}
+The Agile methodology has a tool for improving continuous flow and tracking the progress of the subtasks of a project known as Kanban boards. In ‘ An Approach to Optimizing Kanban Board Workflow and Shortening the Project Management Plan’, Damij et. al. tackle the key challenge in Kanban implementation of how to effectively manage workflow on the Kanban board by finding the right balance among three critical parameters: replenishment value, work-in-progress (WIP) limits, and resource capacity \parencite{damijApproachOptimizingKanban2024}. The stated purpose is to go beyond the conventional focus on WIP limits alone and instead propose an approach that optimises the interplay between these factors to create a sustainable and efficient workflow. This purpose directly addresses the long-recognised problem that setting WIP limits in isolation often fails to produce consistent flow improvements, sometimes resulting in either idle team members or overloaded queues.
+
+The paper’s motivation is rooted in the recent disruptions caused by the COVID-19 pandemic, which exposed the vulnerability of traditional working modes and highlighted the need for agile, adaptable workflows. Kanban is well-suited to meet this need, but practitioners struggle with applying its principles optimally, especially setting WIP limits that fit the actual capacity and demand of teams. The authors argue that sustainable flow depends not just on WIP limits but on harmonising those limits with replenishment (the rate new work is introduced) and the team’s resource capacity.
+
+To validate this, the paper presents an empirical, simulation-based approach. By modelling the Kanban workflow and systematically varying replenishment rates, WIP limit combinations, and resource allocations, the authors generate data on key performance metrics such as lead time, queue lengths, and team utilization. This empirical method directly supports the paper’s objective to provide actionable insights rather than purely theoretical guidelines. The use of simulation here is clever:it allows 'what-if'experiments that would be impractical or disruptive in live projects and provides a controlled way to observe complex interactions among variables.
+
+The results demonstrate that simply adjusting WIP limits without considering replenishment or resource capacity is insufficient for achieving continuous, smooth flow. For example, low WIP limits lead to team idleness, while overly high limits cause excessive queues and work overload, both of which degrade efficiency. The simulations identify optimal configurations where replenishment aligns with resource availability and WIP limits, producing a balanced system that minimises waiting times and maximises team utilisation. One key finding is that a replenishment value slightly above the number of resources in the initial stage yields the best performance, avoiding both bottlenecks and idle times.
+
+This finding directly answers the paper’s problem statement by showing that Kanban workflow efficiency is not a simple function of WIP limits but a multi-dimensional optimisation problem. The authors’ approach reframes the challenge as one of finding an 'optimal relationship'or harmony among replenishment, WIP limits, and capacity, rather than trying to optimise any single factor in isolation. This aligns well with their project objective of developing a practical approach for Kanban teams to improve flow.
+
+Moreover, the paper extends its contributions beyond theory, to practice. It suggests that managers who focus solely on maximizing resource utilisation without considering this balanced relationship risk creating dysfunctional workflows. By providing a systematic method, supported by simulation, to find the optimal parameters, the paper offers a tool that can reduce trial-and-error in Kanban board design, improve delivery predictability, and ultimately enhance team performance.
+
+Finally, it is important to establish the difference that these project management frameworks will have to undergo as a result of the change in the industrial landscape to one where vast quantities of computational power is readily available. In the International Journal of Managing Projects in Business, \author{sonta-draczkowskaChallengesScalingAgile2024} argue that the accelerating complexity of project environments, driven by technological and social forces, has exposed the limitations of traditional models such as PMBOK and PRINCE2 \parencite{sonta-draczkowskaChallengesScalingAgile2024}. This argument reinforces the problem statement’s core premise: mature frameworks, despite their widespread use, are increasingly unable to cope with high-dimensionality, rapid change, and cognitive overload in enterprise-scale project environments.
+
+The study highlights a fundamental misalignment between conventional project management practices and the nonlinear, emergent nature of digitally mediated work. Citing Brynjolfsson and McAfee, the authors frame digital disruption as an opportunity to reimagine how value is created and delivered, not just to merely automate existing processes. This is directly aligned with this project’s broader goal of integrating LLMs and ML systems not as auxiliary tools, but as foundational components for transforming task management, sprint planning, and decision cycles into adaptive, real-time systems.
+
+The article outlines three stages of digital evolution in project environments: digitisation, digitalisation, and digital transformation, positioning LLM/ML integration clearly within the third stage. Digital transformation, as defined here, is not just about tools but about rethinking structures, roles, and value streams. This view supports the rationale for containerised deployment with plug-and-play LLM integration, where AI is not bolted onto legacy systems, but instead embedded into reengineered workflows that match how modern teams actually operate.
+
+The discussion on human limitations, particularly the difficulty in anticipating interdependencies, managing unstructured data, and sustaining awareness across distributed teams, closely mirrors this project’s justification for developing a Multi-Dimensional Sprint Planner. The authors cite the rise of AI-assisted project management tools as a partial response, but stress that many existing tools still fail to close the cognitive gap due to poor interface design, lack of real-time feedback, and generic automation features. This directly maps to this project’s emphasis on removing the need for prompt engineering by abstracting LLM capabilities behind clearly defined workflows, allowing domain experts to engage with AI systems through intuitive interfaces.
+
+Additionally, the paper’s critique of 'pseudo-agility'where organisations adopt Agile in form but not in function echoes the Eisenhower Matrix-based To-Do List Generator objective. It validates the need for personalisation and strategic alignment in task-level execution. By integrating LLMs to adaptively update task prioritisation based on real-time inputs (rather than static backlogs), the system described in the project objectives aims to support true agility, not just procedural mimicry.
+
+The authors also point to an emerging challenge: the tension between speed and governance in large organisations. While Agile methods promote rapid iteration, enterprise environments are constrained by regulatory compliance and auditability. This justifies this project’s final objective of secure, containerised deployment, ensuring that LLMs operate within controlled environments where data sovereignty and traceability are preserved. It also supports the version control and LLM-generated commit summary features, which directly respond to the demand for transparency and historical accountability in AI-assisted workflows
+
+Guan et. al.’s paper on Intelligent Virtual Assistants with LLM-based Process Automation aims to integrate the power of LLM processing with the primitive assistants found on mobile devices such as Amazon’s Alexa and Apple’s Siri. In their research they outline the main drawback of these assistants: the inability to 'carry out intricate multi-step procedures for their human users' \parencite{guanIntelligentVirtualAssistants2023}. They believe that utilising the natural language processing capabilities of LLMs and using them for process automation can allow these assistants to break down more abstract, high level requests and perform the individual steps in a manner that more replicates human-centric approaches.
+
+The problem statement and the research conducted in this paper validates one of the problems that has been identified in this project: effective prompt engineering. In order to turn an abstract, high-level user request into an effective set of tasks to be completed, Guan et. al. takes a modular approach with modules for decomposing instructions, detecting interface elements and predicting future actions. By using Alipay as their target, they were able to demonstrate that their novel concept works, marking 'a major milestone in translating large language model research from controlled experimental settings into large-scale practical applications with tremendous reach and impact'
+
+Integration of LLMs with human interaction is being explored in a range of industries with Chu et al. looking at the use of LLM agents in education. Their findings noted the widely appreciated benefits that LLMs can bring such as personalisation, collaboration and automation, all of which are also key advantages that translate into a project management context. However, they have also noted the ubiquitous issues of hallucinations, bias and fairness gaps. While education is contextually different, the parallels in privacy and deployment strongly reinforce the need for secure, bias-aware AI in enterprise project management. Given this, Chu et al.’s paper is a useful tool to critically evaluate how these ethical challenges express themselves in practice and how they can be neutralised. Chu et al find that 'self-correcting AI tutors'and 'teacher-in-the-loop' models are mitigations for hallucinations. This is reflective of the human in the loop workflow that is proposed for this project , with the authors’ research supporting that human AI feedback loops are essential for effective deployments
+
+Whilst there is no enterprise workflow integration evidence, this paper offers a comprehensive overview and forward-looking recommendations for challenges that transcend industry and are likely to be key hurdles in the PM context, as in both, the LLM would be a domain-specific agent, managing complex tasks and providing accurate plans. Chu et al explain that LLMs have been studied as tools to support students with Problem-Based Learning (PBL) wherein the pupils are tasked with real-world problem solving and project execution. However, ‘studies indicate that their effectiveness is limited by the absence of structured guidance frameworks that help educators and students seamlessly incorporate LLM agents into PBL workflows’. Many of the processes the AI supports overlap in both contexts, for example brainstorming, collaborative problem solving and project execution. While the need for a governing framework is implicit due to the size and context of projects in enterprise-level outfits, this is doubly reinforced when integrating LLMs into the workflow. This study reinforces the need for structural frameworks in the PM use case as well, as explored in this project’s problem statement which determined that orchestration (sprints, VCS, task automation) requires more than raw LLM capacity; it requires structural frameworks. The study shows that tasks considered only doable by humans, due to requiring nuanced judgement (e.g. both planning and teaching) can clearly be augmented with LLMs but with poor governance, the hurdles outweigh the benefits. This mirrors the need for clear auditability and strong Human-LLM integration. This also demonstrates the need for clear prompting to prevent issues like hallucinations and fully leverage the LLMs potential.
+
+White et al. explore prompt engineering techniques to control, refine and optimise LLM output, finding that 'prompt engineering is an increasingly important skill set needed to converse effectively with large language models (LLMs)'. Insights of the paper have informed this project, specifically its concrete techniques for and empirical insights into using prompt engineering to enhance LLM output. However, the paper focuses on surface-level interaction design and does not address deeper organisational integration or secure deployment, which approach has not been taken by this project.
+
+The authors show that effective prompting can reduce LLM hallucinations, improve reasoning and align the output with the user's actual intent, identifying zero-shot, few-shot, and chain-of-thought prompting as major paradigms for performance improvements. They provide empirical comparisons, showing performance gains when prompts are designed with contextual scaffolding and argue that prompt engineering is not a replacement for system design but a complementary control layer. This demonstrates that prompt engineering is a powerful enabler for this project’s objectives, but it requires embedding into a structured framework rather than being used ad hoc. This project’s structure imbibes this finding and capitalises on the edge provided by good prompt engineering by building it into the software, simultaneously eliminating the hurdle of ineffective prompts by non-technical users. The report supports Objectives one and two of this project since sprint planning and Eisenhower-style task classification require precise control over AI responses. The authors also argue that ‘prompt templates can be reused, but contextual grounding remains essential.' This aligns with this project’s requirements of a repeatable workflow in sprint planning and summarisation
+
+Oluwagbade’s paper evaluating conversational AI in enhancing workplace inclusivity has also provided valuable insights to this project \parencite{oluwagbadeConversationalAINew2024}. The paper focuses on LLM-powered chatbots as mediators of communication in diverse workplaces and demonstrates that conversational AI can provide personalised support and also enhance collaboration across geographical and hierarchical boundaries, however the paper does acknowledge risks of bias in AI, privacy concerns, and the challenge of scalability. Conversational AI highlights the social and collaborative dimension of LLM deployment, reinforcing that inclusivity and bias-awareness must accompany technical optimisation. Oluwagbade describes the methods utilised: that of requirement analysis, fine-tuning, pilot testing, iterative refinement, and ethical oversight and proposes a framework for inclusive deployment, emphasising iterative feedback and monitoring, which are reflected in this project. The workplace context of this paper makes it highly relevant to enterprise use cases and as such means this paper has provided helpful insight into this project however, it does not address orchestration of complex tasks such as sprint management or VCS integration. 
+
+Gaianu’s paper ‘XXXX’ compares On-Premise data centres with Cloud solutions, providing insights that aid in addressing this project’s problem statement regarding the trade-offs between self-managed infrastructure vs. outsourced cloud services.  The paper’s emphasis on evaluating Total Cost Ownership (TCO) over the long term when choosing between infrastructure solutions \parencite{gaianuPremiseDataCenter2023a}  informed the evaluation process for this project as it aligns with the objective to identify cost-effective and operationally efficient IT infrastructure options. 
+  
+Cloud services allow for the dynamic scaling of resources and can adjust to meet business needs without intensive investment of capital at the onset\parencite{gaianuPremiseDataCenter2023a}. Thus, Cloud based infrastructure offers the benefit of offering operational agility and adaptability whilst also being cheaper than hosting resources locally. However, whilst requiring more investment in hardware, personnel and ongoing maintenance, On-Premises systems provide organisations with full control over infrastructure. This means XXXXX which is why this was preferred for this project. Additionally, ‘if an organization has high confidence in the capacity of internal IT resources and high confidence in their ability to deliver necessary results, then the On-Premise cost structure can be expected to save money over the longer term when compared to Cloud, ‘ demonstrating that On-Premise infrastructure can still be the most cost-effective solution if internal expertise is strong. This finding reinforces the importance placed throughout this project of building an app that’s easy to use and maintain with clear accountability and auditability that doesn’t require huge amounts of internal expertise; reducing the barrier to a cost-competitive On-Premise solution. An emphasis was placed on requiring less training, less information and maintenance to operate this software so that the benefits of On Premise solutions, which include data security and visibility, could be accessed without sacrificing cost-efficiency in this trade-off. 
+
+Gaianu’s paper also highlights  how different stakeholders approach both systems. Vendors favour Cloud subscriptions for predictable revenue however, whilst Cloud adoption is increasing and vendors prefer it, On-Premise data centers still maintain a significant share due to regulatory, security and compliance needs. Although there are potential vendor biases in favour of Cloud systems and an increase in Cloud adoption, the comparative regulatory ease and ease of compliance offered by On-premise solutions remains a key advantage, when viewed through the lens of key grounding principles of this project, namely XXXX, ease of integration and sustained use and emphasis on data security. The paper argues that, ‘engaging the external Cloud service can free IT resources for other priorities’ which would align with this project’s strategic goals  such as resource optimisation and focusing internal IT teams on value-added tasks
 
 % 3. Methodology
 \chapter{Methodology}  % ~1500 words
@@ -231,12 +288,114 @@ These architectural decisions collectively ensured that the system was not only 
 
 
 % 5. Evaluation & Testing
-\chapter{Evaluation and Testing}  % ~1500 words
-\section{Evaluation Criteria}
-\section{Functional Testing}
-\section{LLM Response Evaluation}
-\section{User Testing and Feedback}
-\section{Limitations in Testing}
+\chapter{Evaluation and Testing}  
+The evaluation of the system was designed around three central goals: functional correctness, LLM-assisted workflow quality, and user-centred responsiveness. Functional correctness referred to the ability of the system to execute expected tasks—creating projects, logging events, managing files, and generating sprints—without errors. Workflow quality assessed whether the LLM component produced useful, coherent, and contextually relevant outputs when prompted. Finally, user-centred responsiveness concerned itself with the stability of the interface, speed of execution, and the seamless integration of frontend and backend components.
+
+Testing therefore needed to serve multiple roles. At the most basic level, it had to verify that each module performed as intended in isolation. At a higher level, it needed to ensure that modules interacted cohesively to produce reliable outputs. And most importantly, it had to capture the dynamic behaviour of the LLM module, where “correctness” could not be reduced to a binary measure, but rather had to be evaluated against consistency, relevance, and utility.
+\section{Early Testing}
+
+The earliest phase of testing began with scripts written in Python to verify core backend functionality. 
+At this stage, the emphasis was on binary correctness: could a project be created, could events be logged, and could files be associated with a project? 
+These scripts mirrored traditional unit tests, although they were not framed within a formal testing library such as pytest. 
+Instead, they were run as standalone files with assertions to check outputs
+\begin{lstlisting}
+    # test_project_creation.py
+from project_manager import ProjectManager
+
+pm = ProjectManager()
+
+def test_project_creation():
+    project_id = pm.create_project("Test Project")
+    assert project_id is not None, "Project ID should not be None"
+    assert pm.get_project(project_id)["name"] == "Test Project"
+
+if __name__ == "__main__":
+    test_project_creation()
+    print("Basic project creation test passed.")
+\end{lstlisting}
+
+This early script captured two crucial requirements: persistence of projects and retrievability. 
+However, it quickly revealed an implementation bug: while \texttt{create\_project} correctly instantiated a project object, the persistence layer did not always commit the object to the database, meaning retrieval could fail. 
+The act of writing this test thus guided early fixes to the database transaction logic.
+
+\begin{lstlisting}
+    def test_multiple_projects():
+    for i in range(50):
+        pid = pm.create_project(f"Project {i}")
+        assert pm.get_project(pid)["name"] == f"Project {i}"
+
+\end{lstlisting}    
+As confidence grew, the test was expanded into loops that created multiple projects, stressing the system for both performance and consistency.
+
+\begin{lstlisting}
+def test_multiple_projects():
+    for i in range(50):
+        pid = pm.create_project(f"Project {i}")
+        assert pm.get_project(pid)["name"] == f"Project {i}"
+\end{lstlisting}    
+By scaling from a single assertion to stress testing with dozens of projects, the test scripts illustrated a central theme of this phase: evolution from minimal functionality to robustness under repeated execution.
+As the software expanded beyond simple project creation, the testing philosophy evolved from binary correctness into metric-based evaluation. Instead of merely asking whether a project existed, tests began asking how the system performed under scale, and whether operations degraded gracefully.
+
+One such evolution concerned event logging, where users could attach milestones, tasks, or updates to projects. A test was written to measure not only whether events could be created but also whether the system could handle thousands of events without breaking database consistency
+\begin{lstlisting}
+# test_event_logging.py
+from project_manager import ProjectManager
+
+pm = ProjectManager()
+pid = pm.create_project("Stress Test Project")
+
+def test_event_logging(n=1000):
+    for i in range(n):
+        eid = pm.log_event(pid, f"Event {i}")
+        assert eid is not None, f"Failed at event {i}"
+    events = pm.get_events(pid)
+    assert len(events) == n, f"Expected {n}, got {len(events)}"
+    print(f"Logged and retrieved {n} events successfully.")
+
+if __name__ == "__main__":
+    test_event_logging()
+\end{lstlisting} 
+
+Running this script surfaced issues with query performance: while the database could store thousands of events, retrieval times increased significantly after about 500. This exposed the need for better indexing, as the default implementation relied on linear scans rather than optimised queries.
+
+The metric here was not correctness but scalability. Success was measured by both correctness (all events retrievable) and performance (retrieval times under an acceptable threshold). This marked a transition from “does it work?” to “does it still work well at scale?”
+The most distinctive component of the system was the sprint planner powered by the LLM. Testing this component required a fundamentally different approach, as correctness could not be asserted in the same binary way as with project IDs or event logs. Instead, the focus was on consistency, relevance, and structure of the generated sprint plans.A bespoke test harness was written to feed deterministic inputs into the LLM and capture outputs for comparison.
+
+\begin{lstlisting}
+# test_sprint_planner.py
+from sprint_planner import SprintPlanner
+
+planner = SprintPlanner()
+
+prompt = {
+    "tasks": ["Design UI", "Implement database", "Write tests"],
+    "deadline": "2 weeks"
+}
+
+response = planner.generate_sprint_plan(prompt)
+
+print("Generated Sprint Plan:")
+print(response)
+
+\end{lstlisting} 
+At first, this script was used informally—responses were read by the developer and judged qualitatively. However, as the sprint planner became more central to the system, the testing harness was expanded to evaluate responses against structured expectations. For instance, if a sprint plan was requested for three tasks, the system should output three assignments with associated timescales.
+
+\begin{lstlisting}
+def validate_sprint_plan(plan, tasks):
+    for task in tasks:
+        assert task in plan, f"Missing task: {task}"
+    assert "timeline" in plan.lower(), "Sprint plan should include a timeline"
+
+response = planner.generate_sprint_plan(prompt)
+validate_sprint_plan(response, prompt["tasks"])
+\end{lstlisting} 
+Through this testing evolution, the scripts shifted from manual qualitative reading to automated structural checks, even if, at the time, the semantic quality of the LLM’s text remained a human judgement.
+\section{Evaluating LLM Performance}
+
+
+
+
+
 
 % 6. Discussion
 \chapter{Discussion}  % ~1000 words
@@ -248,16 +407,108 @@ These architectural decisions collectively ensured that the system was not only 
 % 7. Conclusion & Future Work
 \chapter{Conclusion and Future Work}  % ~700 words
 \section{Summary of Contributions}
+This project has produced a fully local, offline project management platform that combines robust software engineering with intelligent support for task prioritisation. The central innovation of this work is the sprint planner, which enables users to manage tasks, subtasks, and project timelines in a structured, adaptive manner. The sprint planner leverages the Eisenhower matrix and historical project activity to help users prioritise work effectively, enhancing productivity and ensuring critical tasks are highlighted and addressed in a timely manner.
+
+Alongside the sprint planner, the platform incorporates a PyQt (PySide6/QML) interface that balances modern usability with accessibility, providing seamless interaction between the frontend and a secure backend. The backend, built on SQLAlchemy ORM, manages data integrity, user roles, permissions, and file metadata, while the local file versioning system—implemented with GitPython and ODFDiff—ensures that all document changes are auditable and recoverable.
+
+The platform also integrates a local LLM to provide intelligent suggestions within the sprint planner, using recent project events as context to inform task categorisation. This demonstrates how adaptive AI can support task management without relying on cloud-based services, preserving both user privacy and ethical compliance. Additional contributions include a structured event logging system, secure authentication, role-based access control, and data/file encryption, all of which underpin the platform’s offline-first design and reinforce ethical standards in project management.
+
+From a development perspective, the project illustrates how iterative, feature-driven workflows can be applied in academic settings, translating industrial software engineering practices into a functional, user-focused solution. The work contributes not only a working system but also a blueprint for integrating intelligent planning tools in secure, offline environments.
 \section{Applications and Impact}
+The sprint planner offers a practical solution for teams and individuals who require structured, adaptive project management within secure, offline environments. By combining intelligent task prioritisation with an intuitive, modern interface, the system enhances productivity by allowing users to visualise and manage priorities, deadlines, and dependencies effectively. The integration of the Eisenhower matrix within the sprint planner ensures that critical tasks are immediately highlighted, facilitating better decision-making and time management.
+
+The platform’s offline-first architecture ensures that sensitive project data, files, and communication remain local to the user’s machine, aligning with stringent privacy and ethical requirements. Role-based access control, secure authentication, and encrypted file storage further safeguard data integrity and confidentiality, providing a level of trust and reliability often lacking in cloud-based solutions.
+
+The inclusion of a local LLM to support task categorisation represents an innovative approach to intelligent project management without relying on external networks. By analysing recent events and project activity, the system provides contextually relevant recommendations that help users allocate their time and resources more effectively. This AI-assisted functionality improves workflow efficiency while adhering to ethical standards around data privacy and security.
+
+In addition, the platform demonstrates a comprehensive approach to software design, integrating project/task management, file versioning, event logging, and a responsive user interface. The use of GitPython and ODFDiff for versioning ensures that all changes to documents are auditable, while the QML frontend provides an accessible, user-friendly experience. This combination of intelligent planning, robust backend architecture, and ethical design principles positions the sprint planner as a highly practical tool for real-world project management scenarios.
+
+By focusing on these core features, the platform delivers tangible benefits in productivity, task management, and secure data handling, making it a valuable tool for individuals and organisations seeking a reliable, AI-assisted project management solution.
 \section{Limitations}
+Despite the successful implementation of the project management platform, several limitations remain that have influenced both the scope and the immediate performance of the system. A primary constraint was the choice of the language model itself. The system employs a generic large language model rather than one specifically trained on project management data. While this allows for functional demonstration of LLM-assisted task categorisation, it inherently limits the accuracy, relevance, and contextual awareness of the model’s suggestions. Access to authentic project data from real-world companies is restricted for privacy and confidentiality reasons, preventing the creation of a finely tuned, domain-specific model. Consequently, the model’s performance is constrained by the absence of rich, structured project datasets, which limits the depth and reliability of its recommendations.
+
+Another significant limitation was the practical challenge of software development alongside full-time MSc commitments. The original ambition of developing an idealised system, featuring a centralised server architecture with secure employee terminals, proved infeasible within the project’s timescale. This vision, had it been realised, would have enabled distributed computing, advanced LLM operations, and multi-user interaction. The necessity to scale back to a fully local, offline application preserved the core objectives of secure, private project management but constrained functionality in areas such as messaging, document sharing, and multi-user collaboration. These limitations illustrate the tension between technical ambition and the practical realities of individual development, as well as the difficulty of achieving enterprise-scale functionality within the bounds of an academic project.
 \section{Future Improvements}
+Future iterations of the system offer significant potential for expansion and enhanced performance. Transitioning to a centralised server model with built-in load balancing would allow for the deployment of more powerful LLMs, capable of processing larger volumes of project data and offering more contextually accurate guidance. Such an architecture would enable advanced functionalities, including real-time translation of messages and documents for international teams, more sophisticated context switching, and personalized employee feedback derived from task completion patterns. By leveraging version control metadata and performance metrics, the system could identify areas for skill development and recommend targeted interventions to improve efficiency.
+
+Additionally, future work could focus on the integration of domain-specific training data, potentially through anonymised or synthetic project datasets, to further improve the precision and relevance of LLM suggestions. Expanding the platform to support secure multi-user collaboration would also broaden its applicability, enabling real-world deployment in organisational environments. These enhancements would not only increase the system’s utility but also demonstrate the transformative potential of combining local project management tools with intelligent, adaptive language models in a secure and ethically responsible framework.
+
 
 % References
 
 \printbibliography% \bibliographystyle{plainnat}
 
-% Appendices (not included in word count)
+
+% Appendices 
 \appendix
+\chapter{Architecture}
+
+\section{Architecture Overview}
+
+This document provides a high-level architectural overview of the main application components. Each section includes a diagram and an explanation of the component's role and structure.
+\subsection{main.py}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{png_files/main_py_architecture.png}
+\caption{Architecture diagram of \texttt{main.py} showing entry point, initialization of components, and connections to the UI.}
+\end{figure}
+
+\noindent
+\textbf{Explanation:} \\
+\texttt{main.py} is the application's entry point, responsible for initializing the backend (including file management and Git integration), setting up the Qt application and QML engine, and exposing Python backend objects to the QML frontend. It manages the connection between the UI and backend logic, ensuring that user actions in the interface are handled by the appropriate Python classes.
+
+\subsection{Main.qml}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{png_files/main_qml_architecture.png}
+    \caption{Diagram of \texttt{Main.qml} structure, including application window, pages, navigation, and backend context properties.}
+\end{figure}
+
+\noindent
+\textbf{Explanation:} \\
+\texttt{Main.qml} defines the main user interface using QML. It structures the application window, navigation, and all major pages (login, dashboard, project details, event log, settings). The UI is dynamic, responding to backend signals and exposing user actions to Python logic via context properties. The dashboard and project details pages are modular, supporting tabbed navigation and dialogs for project and team management.
+
+\subsection{reset\_users.py}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{png_files/reset_users_flow.png}
+    \caption{Diagram of \texttt{reset\_users.py} showing its interaction with the user and role tables.}
+\end{figure}
+
+\noindent
+\textbf{Explanation:} \\
+\texttt{reset\_users.py} is a utility script for database maintenance. It resets the user table to a predefined set of users, updating passwords and roles as needed. This ensures a consistent user base for development or testing, removing any extraneous users and enforcing correct role assignments.
+
+\subsection{print\_users.py}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{png_files/print_users_flow.png}
+    \caption{Diagram of \texttt{print\_users.py} showing query flow for retrieving user IDs and usernames.}
+\end{figure}
+
+\noindent
+\textbf{Explanation:} \\
+\texttt{print\_users.py} is a simple script that queries all users from the database and prints their IDs and usernames. It is primarily used for debugging or verifying the current state of the user table.
+
+\subsection{backend/db.py}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{png_files/db_module_flow.png}
+    \caption{Diagram of \texttt{backend/db.py} acting as a bridge to the main application database functions.}
+\end{figure}
+
+\noindent
+\textbf{Explanation:} \\
+\texttt{backend/db.py} acts as a bridge, re-exporting database functions and models from the main application database module. This allows backend logic to be organized and accessed consistently, supporting modularity and maintainability.
+
+
+
+This document provides a high-level architectural overview of the main application components. Each section includes a diagram and an explanation of the component's role and structure.
 \chapter{User Stories}
 \section{Authentication}
 
@@ -272,7 +523,6 @@ These architectural decisions collectively ensured that the system was not only 
 - As a user, I want to edit project details such as title, description, and deadline, so that project information stays up to date.
 
 - As a user, I want to delete projects, so that I can remove obsolete or completed projects from my workspace.
-
 
 \section{Team and Role Management}
 - As a project owner, I want to add team members to a project and assign roles, so that I can collaborate with others.
@@ -321,8 +571,6 @@ These architectural decisions collectively ensured that the system was not only 
 
 \chapter{Screenshots and Interface Designs}
 \chapter{Test Logs and Scripts}
-
-
 
 
 \end{document}
