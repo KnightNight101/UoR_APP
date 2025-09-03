@@ -4,6 +4,7 @@
 
 | Model | Commit Summary Accuracy | Commit Summary Precision | Commit Summary Recall | Commit Summary F1_score | Eisenhower Accuracy | Eisenhower Precision | Eisenhower Recall | Eisenhower F1_score | Sprint Planner Accuracy | Sprint Planner Precision | Sprint Planner Recall | Sprint Planner F1_score | Avg Time (s) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| deepseek-r1:8b | 0.900 | 0.900 | 0.900 | 0.900 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 44.96 |
 | tinyllama:1.1b | 0.267 | 0.004 | 0.267 | 0.008 | 0.355 | 0.009 | 0.355 | 0.018 | 0.623 | 0.021 | 0.623 | 0.040 | 3.58 |
 
 ## Model Benchmark Gantt Diagram
@@ -12,6 +13,16 @@ gantt
     title LLM Task Execution Times
     dateFormat  HH:mm:ss
     axisFormat  %H:%M:%S
+    Commit_Summary_0 :done, 0, 55.28
+    Commit_Summary_55 :done, 55, 30.07
+    Commit_Summary_85 :done, 85, 42.69
+    Commit_Summary_128 :done, 128, 42.74
+    Commit_Summary_170 :done, 170, 46.43
+    Commit_Summary_217 :done, 217, 39.21
+    Commit_Summary_256 :done, 256, 44.79
+    Commit_Summary_301 :done, 301, 42.32
+    Commit_Summary_343 :done, 343, 41.83
+    Commit_Summary_385 :done, 385, 64.21
     Commit_Summary_0 :done, 0, 2.32
     Commit_Summary_2 :done, 2, 0.51
     Commit_Summary_2 :done, 2, 0.83
