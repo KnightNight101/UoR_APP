@@ -86,7 +86,7 @@ def summarize_results(results):
     return md
 
 if __name__ == "__main__":
-    benchmark_results = run_benchmark(n_tasks=30, n_runs=5)
+    benchmark_results = run_benchmark(n_tasks=30, n_runs=20)
     md_report = summarize_results(benchmark_results)
     
     # Save Markdown
