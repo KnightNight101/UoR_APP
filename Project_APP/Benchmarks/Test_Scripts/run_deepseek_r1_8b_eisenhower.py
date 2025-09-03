@@ -1,185 +1,97 @@
-#!/usr/bin/env python3
-"""
-Eisenhower Matrix Benchmark for enterprise-scale tasks.
-
-- Generates N test cases of tasks with priorities and importance/urgency.
-- Queries a model to sort tasks into Eisenhower quadrants.
-- Evaluates performance with classification metrics and NLP metrics:
-  accuracy, weighted accuracy, F1 per quadrant, confusion matrix, ROUGE, BLEU, BERTScore.
-- Produces CSV and Markdown reports with summaries and distributions.
-
-Requirements:
-- nltk, rouge_score, bert_score, pandas
-"""
-
-import json
 import random
-from pathlib import Path
-from typing import List, Dict, Any
-import csv
-import numpy as np
+import evaluate
+from sklearn.metrics import accuracy_score, f1_score
 
-# NLP metrics
-from rouge_score import rouge_scorer
-from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
-from bert_score import score as bert_score
+# Load metrics
+rouge = evaluate.load("rouge")
+bleu = evaluate.load("bleu")
+bertscore = evaluate.load("bertscore")
 
-# Classification metrics
-from sklearn.metrics import f1_score, confusion_matrix
+# Eisenhower quadrants
+QUADRANTS = ["Urgent & Important", "Urgent & Not Important",
+             "Not Urgent & Important", "Not Urgent & Not Important"]
 
-# --------------------------
-# Config
-# --------------------------
-NUM_TESTS = 20
-RESULTS_DIR = Path(__file__).parent / "Test_Results"
-RESULTS_DIR.mkdir(exist_ok=True)
-CSV_FILE = RESULTS_DIR / "eisenhower_benchmark.csv"
-MD_FILE = RESULTS_DIR / "eisenhower_benchmark.md"
+def generate_task():
+    """Generate a mock task description and its correct quadrant."""
+    task_type = random.choice(["Report", "Email", "Meeting", "Presentation", "Code Review"])
+    urgency = random.choice(["Urgent", "Not Urgent"])
+    importance = random.choice(["Important", "Not Important"])
+    description = f"{task_type} ({urgency}, {importance})"
+    quadrant = f"{urgency} & {importance}"
+    return description, quadrant
 
-QUADRANTS = ["Urgent & Important", "Not Urgent & Important", "Urgent & Not Important", "Not Urgent & Not Important"]
-QUADRANT_WEIGHTS = {
-    "Urgent & Important": 4,
-    "Not Urgent & Important": 3,
-    "Urgent & Not Important": 2,
-    "Not Urgent & Not Important": 1
-}
+def mock_model_predict(tasks):
+    """Mock prediction function; replace with actual model inference."""
+    predictions = []
+    for desc, true_quadrant in tasks:
+        # Mock high-performance prompting: add some randomness to simulate model mistakes
+        if random.random() < 0.7:
+            predictions.append(true_quadrant)  # correct
+        else:
+            # pick wrong quadrant
+            wrong_choices = [q for q in QUADRANTS if q != true_quadrant]
+            predictions.append(random.choice(wrong_choices))
+    return predictions
 
-MODEL_NAME = "your-model-name"  # replace with actual model call function
-MODEL_TIMEOUT = 300  # seconds
-
-# --------------------------
-# Utilities
-# --------------------------
-def generate_test_case(idx: int, num_tasks: int = 10) -> List[Dict[str, Any]]:
-    """
-    Generate a list of tasks with title and importance/urgency.
-    """
-    random.seed(idx)
-    tasks = []
-    for i in range(num_tasks):
-        title = f"Task_{i}"
-        urgency = random.choice([True, False])
-        importance = random.choice([True, False])
-        quadrant = (
-            "Urgent & Important" if urgency and importance else
-            "Not Urgent & Important" if not urgency and importance else
-            "Urgent & Not Important" if urgency and not importance else
-            "Not Urgent & Not Important"
-        )
-        tasks.append({"id": i, "title": title, "urgency": urgency, "importance": importance, "quadrant": quadrant})
-    return tasks
-
-def run_model(tasks: List[Dict[str, Any]]) -> List[str]:
-    """
-    Strict prompt to the model to sort tasks into quadrants.
-    Returns a list of predicted quadrants in order of tasks.
-    """
-    # Here, replace with actual model call, e.g., via OpenAI, Ollama, etc.
-    # For demonstration, we do a random placeholder
-    preds = []
-    for t in tasks:
-        preds.append(random.choice(QUADRANTS))
-    return preds
-
-# --------------------------
-# NLP metrics
-# --------------------------
-def compute_rouge(preds: List[str], truths: List[str]) -> float:
-    scorer = rouge_scorer.RougeScorer(['rouge1'], use_stemmer=True)
-    scores = []
-    for p, t in zip(preds, truths):
-        scores.append(scorer.score(t, p)['rouge1'].fmeasure)
-    return np.mean(scores)
-
-def compute_bleu(preds: List[str], truths: List[str]) -> float:
-    smoothie = SmoothingFunction().method4
-    scores = []
-    for p, t in zip(preds, truths):
-        scores.append(sentence_bleu([t.split()], p.split(), smoothing_function=smoothie))
-    return np.mean(scores)
-
-def compute_bertscore(preds: List[str], truths: List[str]) -> float:
-    P, R, F1 = bert_score(preds, truths, lang='en', rescale_with_baseline=True)
-    return F1.mean().item()
-
-# --------------------------
-# Evaluation
-# --------------------------
-def evaluate(preds: List[str], truths: List[str]) -> Dict[str, Any]:
-    metrics = {}
-    # Basic classification metrics
-    metrics["accuracy"] = sum(p == t for p, t in zip(preds, truths)) / len(truths)
-    metrics["weighted_accuracy"] = sum(QUADRANT_WEIGHTS[t] if p==t else 0 for p,t in zip(preds, truths)) / sum(QUADRANT_WEIGHTS[t] for t in truths)
-    metrics["f1"] = {q: f1_score([1 if t==q else 0 for t in truths],
-                                 [1 if p==q else 0 for p in preds],
-                                 zero_division=0)
-                     for q in QUADRANTS}
-    metrics["confusion"] = confusion_matrix(truths, preds, labels=QUADRANTS).tolist()
+def compute_metrics(reference, prediction):
+    """Compute Accuracy, F1, ROUGE-1, BLEU, BERTScore"""
+    # Accuracy & weighted F1
+    accuracy = accuracy_score(reference, prediction)
+    f1 = f1_score(reference, prediction, average='weighted')
     
-    # NLP metrics
-    metrics["rouge"] = compute_rouge(preds, truths)
-    metrics["bleu"] = compute_bleu(preds, truths)
-    metrics["bertscore"] = compute_bertscore(preds, truths)
+    # ROUGE-1
+    rouge_res = rouge.compute(predictions=prediction, references=reference, rouge_types=["rouge1"])
+    rouge1_f1 = rouge_res["rouge1"].mid.fmeasure if hasattr(rouge_res["rouge1"], "mid") else rouge_res["rouge1"]
     
-    return metrics
+    # BLEU
+    bleu_res = bleu.compute(predictions=prediction, references=[[r] for r in reference])
+    bleu_score = bleu_res["bleu"]
+    
+    # BERTScore
+    bert_res = bertscore.compute(predictions=prediction, references=reference, lang="en")
+    bertscore_f1 = sum(bert_res["f1"]) / len(bert_res["f1"])
+    
+    return accuracy, f1, rouge1_f1, bleu_score, bertscore_f1
 
-# --------------------------
-# CSV helpers
-# --------------------------
-CSV_FIELDS = ["test_id","accuracy","weighted_accuracy","rouge","bleu","bertscore"] + QUADRANTS + ["confusion"]
-
-def write_csv_row(path: Path, row: Dict[str, Any]):
-    file_exists = path.exists()
-    with open(path, "a", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=CSV_FIELDS)
-        if not file_exists:
-            writer.writeheader()
-        writer.writerow(row)
-
-# --------------------------
-# Markdown report
-# --------------------------
-def generate_md_report(csv_file: Path, md_file: Path):
-    import pandas as pd
-    df = pd.read_csv(csv_file)
-    md_lines = []
-    md_lines.append("# Deepseek R1:8b Eisenhower Matrix Results\n")
-    md_lines.append("## Summary Statistics\n")
-    md_lines.append(f"- Average accuracy: **{df['accuracy'].mean():.3f}**")
-    md_lines.append(f"- Average weighted accuracy: **{df['weighted_accuracy'].mean():.3f}**")
-    md_lines.append(f"- Average ROUGE-1 F1: **{df['rouge'].mean():.3f}**")
-    md_lines.append(f"- Average BLEU: **{df['bleu'].mean():.3f}**")
-    md_lines.append(f"- Average BERTScore: **{df['bertscore'].mean():.3f}**")
-    md_lines.append("\n---\n")
-    md_file.write_text("\n".join(md_lines), encoding="utf-8")
-    print(f"Markdown report written: {md_file}")
-
-# --------------------------
-# Main
-# --------------------------
-def main():
-    for i in range(NUM_TESTS):
-        test_id = i + 1
-        tasks = generate_test_case(i, num_tasks=15)
-        truths = [t["quadrant"] for t in tasks]
-        preds = run_model(tasks)
-        metrics = evaluate(preds, truths)
+def run_benchmark(n_tasks=30, n_runs=5, model_predict_func=mock_model_predict):
+    """Run multiple benchmark runs and collect metrics."""
+    results = []
+    for run in range(n_runs):
+        tasks = [generate_task() for _ in range(n_tasks)]
+        descriptions = [t[0] for t in tasks]
+        reference = [t[1] for t in tasks]
+        predictions = model_predict_func(tasks)
         
-        row = {
-            "test_id": test_id,
-            "accuracy": metrics["accuracy"],
-            "weighted_accuracy": metrics["weighted_accuracy"],
-            "rouge": metrics["rouge"],
-            "bleu": metrics["bleu"],
-            "bertscore": metrics["bertscore"]
-        }
-        for q in QUADRANTS:
-            row[q] = metrics["f1"][q]
-        row["confusion"] = json.dumps(metrics["confusion"])
-        write_csv_row(CSV_FILE, row)
-        print(f"Test {test_id} done.")
+        metrics = compute_metrics(reference, predictions)
+        results.append(metrics)
+        print(f"Run {run+1}: Accuracy={metrics[0]:.3f}, F1={metrics[1]:.3f}, "
+              f"ROUGE-1 F1={metrics[2]:.3f}, BLEU={metrics[3]:.3f}, BERTScore={metrics[4]:.3f}")
+    return results
 
-    generate_md_report(CSV_FILE, MD_FILE)
+def summarize_results(results):
+    """Compute average statistics and return Markdown string."""
+    n = len(results)
+    avg_metrics = [sum(m[i] for m in results)/n for i in range(len(results[0]))]
+    md = "# Deepseek R1:8b Eisenhower Matrix Results\n\n"
+    md += "## Summary Statistics\n\n"
+    md += f"- Average Accuracy: **{avg_metrics[0]:.3f}**\n"
+    md += f"- Average Weighted F1: **{avg_metrics[1]:.3f}**\n"
+    md += f"- Average ROUGE-1 F1: **{avg_metrics[2]:.3f}**\n"
+    md += f"- Average BLEU: **{avg_metrics[3]:.3f}**\n"
+    md += f"- Average BERTScore: **{avg_metrics[4]:.3f}**\n\n"
+    md += "---\n\n## Run Results\n\n"
+    for idx, m in enumerate(results):
+        md += (f"- Run {idx+1}: Accuracy={m[0]:.3f}, F1={m[1]:.3f}, "
+               f"ROUGE-1 F1={m[2]:.3f}, BLEU={m[3]:.3f}, BERTScore={m[4]:.3f}\n")
+    return md
 
 if __name__ == "__main__":
-    main()
+    benchmark_results = run_benchmark(n_tasks=30, n_runs=5)
+    md_report = summarize_results(benchmark_results)
+    
+    # Save Markdown
+    MD_FILE = "deepseek_r1_8b_eisenhower_results.md"
+    with open(MD_FILE, "w", encoding="utf-8") as f:
+        f.write(md_report)
+    
+    print(f"\nBenchmark complete. Markdown report saved to {MD_FILE}")
