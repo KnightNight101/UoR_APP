@@ -576,4 +576,335 @@ LaTeX Font Info:    ... okay on input line 32.
 \scratchdimen=\dimen174
 \scratchbox=\box58
 \nofMPsegments=\count440
-\n
+\nofMParguments=\count441
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count442
+\MPscratchDim=\dimen175
+\MPnumerator=\count443
+\makeMPintoPDFobject=\count444
+\everyMPtoPDFconversion=\toks31
+) (C:\Users\KnightNight101\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (C:\Users\KnightNight101\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+Package hyperref Info: Link coloring OFF on input line 32.
+ (Report.out) (Report.out)
+\@outlinefile=\write4
+\openout4 = `Report.out'.
+
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=469.75502pt
+* \textheight=650.43001pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+\c@lstlisting=\count445
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+(C:\Users\KnightNight101\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\english.lbx
+File: english.lbx 2024/03/21 v3.20 biblatex localization (PK/MW)
+)
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+\openout3 = `Report.bcf'.
+
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file 'Report.bbl' found.
+ (Report.bbl)
+Package biblatex Info: Reference section=0 on input line 32.
+Package biblatex Info: Reference segment=0 on input line 32.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 35.
+ (C:\Users\KnightNight101\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 35.
+ (C:\Users\KnightNight101\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+
+[1
+
+{C:/Users/KnightNight101/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] (Report.toc
+
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.18 ...}High-Level Architecture}{27}{section.4.2}
+                                                  % [1
+
+]
+
+[2])
+\tf@toc=\write5
+\openout5 = `Report.toc'.
+
+
+
+[3]
+Chapter 1.
+
+
+[4
+
+]
+
+[5]
+
+LaTeX Warning: Reference `app:TestLogs' on page 6 undefined on input line 69.
+
+
+
+[6]
+
+[7]
+Chapter 2.
+
+
+[8
+
+]
+
+[9]
+
+[10]
+
+[11]
+
+[12]
+
+[13]
+
+[14]
+
+[15]
+
+[16]
+
+[17]
+
+LaTeX Warning: Citation 'oluwagbadeConversationalAINew2024' on page 18 undefined on input line 163.
+
+
+
+[18]
+
+[19]
+
+[20]
+
+[21]
+Chapter 3.
+
+
+[22
+
+]
+
+[23]
+
+[24]
+
+[25]
+Chapter 4.
+
+
+[26
+
+]
+
+[27]
+
+[28]
+
+[29]
+
+[30]
+
+[31]
+Chapter 5.
+
+
+[32
+
+]
+
+[33]
+
+[34]
+
+[35]
+Chapter 6.
+
+
+[36
+
+]
+Chapter 7.
+
+
+[37
+
+]
+
+[38]
+
+[39]
+
+[40]
+Overfull \hbox (1.98958pt too wide) in paragraph at lines 456--456
+\T1/cmr/m/n/10 gies^^Q. In: \T1/cmr/m/it/10 Man-age-ment:Journal of Sus-tain-able Busi-ness and Man-age-ment So-lu-tions in Emerg-ing Economies
+ []
+
+
+
+[41
+
+]
+
+[42]
+
+[43]
+Appendix A.
+<png_files/main_py_architecture.png, id=624, 1165.35374pt x 323.70938pt>
+File: png_files/main_py_architecture.png Graphic file (type png)
+<use png_files/main_py_architecture.png>
+Package pdftex.def Info: png_files/main_py_architecture.png  used on input line 469.
+(pdftex.def)             Requested size: 469.75502pt x 130.48415pt.
+
+
+[44
+
+ <./png_files/main_py_architecture.png>]
+<png_files/main_qml_architecture.png, id=632, 786.94pt x 139.52126pt>
+File: png_files/main_qml_architecture.png Graphic file (type png)
+<use png_files/main_qml_architecture.png>
+Package pdftex.def Info: png_files/main_qml_architecture.png  used on input line 481.
+(pdftex.def)             Requested size: 469.75502pt x 83.28548pt.
+<png_files/reset_users_flow.png, id=633, 285.065pt x 1066.98625pt>
+File: png_files/reset_users_flow.png Graphic file (type png)
+<use png_files/reset_users_flow.png>
+Package pdftex.def Info: png_files/reset_users_flow.png  used on input line 493.
+(pdftex.def)             Requested size: 139.02191pt x 520.35315pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<png_files/print_users_flow.png, id=634, 272.01625pt x 659.46375pt>
+File: png_files/print_users_flow.png Graphic file (type png)
+<use png_files/print_users_flow.png>
+Package pdftex.def Info: png_files/print_users_flow.png  used on input line 505.
+(pdftex.def)             Requested size: 214.63728pt x 520.35683pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<png_files/db_module_flow.png, id=635, 207.77625pt x 301.125pt>
+File: png_files/db_module_flow.png Graphic file (type png)
+<use png_files/db_module_flow.png>
+Package pdftex.def Info: png_files/db_module_flow.png  used on input line 517.
+(pdftex.def)             Requested size: 469.75502pt x 680.88835pt.
+
+LaTeX Warning: Float too large for page by 54.68002pt on input line 519.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[45 <./png_files/main_qml_architecture.png>]
+
+[46]
+
+[47 <./png_files/reset_users_flow.png>]
+
+[48 <./png_files/print_users_flow.png>]
+
+[49 <./png_files/db_module_flow.png>]
+Appendix B.
+
+
+[50
+
+]
+
+[51]
+
+[52]
+Appendix C.
+
+
+[53
+
+]
+Appendix D.
+
+
+[54
+
+] (Report.aux)
+ ***********
+LaTeX2e <2024-11-01>
+L3 programming layer <2024-11-02>
+ ***********
+
+
+LaTeX Warning: There were undefined references.
+
+Package rerunfilecheck Info: File `Report.out' has not changed.
+(rerunfilecheck)             Checksum: AF830B92ED4C665215CF526CC8077D1F;9683.
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                Report
+(biblatex)                and rerun LaTeX afterwards.
+
+Package logreq Info: Writing requests to 'Report.run.xml'.
+\openout1 = `Report.run.xml'.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 21063 strings out of 473682
+ 362485 string characters out of 5714932
+ 1208304 words of memory out of 5000000
+ 43724 multiletter control sequences out of 15000+600000
+ 575683 words of font info for 78 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 75i,12n,81p,3044b,1920s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk>
+Output written on Report.pdf (55 pages, 419814 bytes).
+PDF statistics:
+ 1239 PDF objects out of 1440 (max. 8388607)
+ 198 named destinations out of 1000 (max. 500000)
+ 474 words of extra memory for PDF output out of 10000 (max. 10000000)
+
