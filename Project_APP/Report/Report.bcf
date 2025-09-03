@@ -2383,10 +2383,12 @@
     <bcf:citekey order="7" intorder="1">schwaberAgileProjectManagement2004</bcf:citekey>
     <bcf:citekey order="8" intorder="1">loiroAgileProjectManagement2019</bcf:citekey>
     <bcf:citekey order="9" intorder="1">serradorDoesAgileWork2015</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">alsudiriAlignmentLargeProject2013</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">damijApproachOptimizingKanban2024</bcf:citekey>
-    <bcf:citekey order="12" intorder="1">sonta-draczkowskaChallengesScalingAgile2024</bcf:citekey>
-    <bcf:citekey order="13" intorder="1">sonta-draczkowskaChallengesScalingAgile2024</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">damijApproachOptimizingKanban2024</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">sonta-draczkowskaChallengesScalingAgile2024</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">guanIntelligentVirtualAssistants2023</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">oluwagbadeConversationalAINew2024</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">gaianuPremiseDataCenter2023a</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">gaianuPremiseDataCenter2023a</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">
