@@ -72,6 +72,174 @@
       \endverb
       \keyw{Agile project management,Continuous improvement,Feedback loop,Kanban method,Project management,replenishment,resource capacity,Software,Standards,Task analysis,Visualization,work-in-progress (WIP) limits}
     \endentry
+    \entry{dmytryshynProposalEffectiveTime2022}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=6a83597655edc5b3e6186e0163ecb56f}{%
+           family={Dmytryshyn},
+           familyi={D\bibinitperiod},
+           given={Marta},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cf44d41843e6a662e42748bbfe509992}{%
+           family={Goran},
+           familyi={G\bibinitperiod},
+           given={Tetyana},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Sveučilište u Splitu, Ekonomski fakultet}%
+      }
+      \strng{namehash}{2a8e5e31b74aba8212bfeb75ae0cc07a}
+      \strng{fullhash}{2a8e5e31b74aba8212bfeb75ae0cc07a}
+      \strng{fullhashraw}{2a8e5e31b74aba8212bfeb75ae0cc07a}
+      \strng{bibnamehash}{2a8e5e31b74aba8212bfeb75ae0cc07a}
+      \strng{authorbibnamehash}{2a8e5e31b74aba8212bfeb75ae0cc07a}
+      \strng{authornamehash}{2a8e5e31b74aba8212bfeb75ae0cc07a}
+      \strng{authorfullhash}{2a8e5e31b74aba8212bfeb75ae0cc07a}
+      \strng{authorfullhashraw}{2a8e5e31b74aba8212bfeb75ae0cc07a}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{In this study, we review studies on time management and propose an effective time management system. We introduce an algorithm for identifying time management problems in the form of a decision support system, which allows a consistent review of prob...}
+      \field{day}{30}
+      \field{issn}{1331-0194, 1846-3363}
+      \field{journaltitle}{Management : Journal of Contemporary Management Issues}
+      \field{langid}{english}
+      \field{month}{12}
+      \field{number}{2}
+      \field{title}{Proposal of an Effective Time Management System}
+      \field{urlday}{10}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{27}
+      \field{year}{2022}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{283\bibrangedash 298}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.30924/mjcmi.27.2.15
+      \endverb
+      \verb{file}
+      \verb C:\Users\KnightNight101\Zotero\storage\EDQFBTHQ\Dmytryshyn and Goran - 2022 - Proposal of an effective time management system.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://hrcak.srce.hr/clanak/417245
+      \endverb
+      \verb{url}
+      \verb https://hrcak.srce.hr/clanak/417245
+      \endverb
+    \endentry
+    \entry{gaianuPremiseDataCenter2023a}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a818e5925d2cee3c838b4b33805f3924}{%
+           family={Gaianu},
+           familyi={G\bibinitperiod},
+           given={Mihail},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{a818e5925d2cee3c838b4b33805f3924}
+      \strng{fullhash}{a818e5925d2cee3c838b4b33805f3924}
+      \strng{fullhashraw}{a818e5925d2cee3c838b4b33805f3924}
+      \strng{bibnamehash}{a818e5925d2cee3c838b4b33805f3924}
+      \strng{authorbibnamehash}{a818e5925d2cee3c838b4b33805f3924}
+      \strng{authornamehash}{a818e5925d2cee3c838b4b33805f3924}
+      \strng{authorfullhash}{a818e5925d2cee3c838b4b33805f3924}
+      \strng{authorfullhashraw}{a818e5925d2cee3c838b4b33805f3924}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Cloud computing services recently revolutionized the world. The rise of cloud systems, powered by Amazon Web Services, Google Cloud Platform and Microsoft Azure, persuaded many companies, both large and small, that hosting their data in the cloud is more cost-effective, secure and convenient than maintaining an IT infrastructure on-premises. If you are still unsure which option—cloud versus on-premises—best fits your business needs, explore this comparison for computing, storage and database. This article could be handy for final decision-making. Both on-prem and cloud computing can provide your business with the IT infrastructure it needs. The final choice of the cloud versus on-premises model will likely depend on your business-specific use cases for data use and storage, the level of security required in order to meet compliance standards and the cost structure you prefer. The services modern cloud providers offer are cosmic. For instance, Amazon Web Services has a wide array of ready-to-use cloud computing solutions for an affordable price. So, what is the use of building your own rocket on-premises in case you can entrust its launch and management to an experienced space agency, aka cloud provider?}
+      \field{booktitle}{2023 {{International Conference}} on {{Computational Science}} and {{Computational Intelligence}} ({{CSCI}})}
+      \field{eventtitle}{2023 {{International Conference}} on {{Computational Science}} and {{Computational Intelligence}} ({{CSCI}})}
+      \field{issn}{2769-5654}
+      \field{month}{12}
+      \field{title}{On {{Premise Data Center}} vs {{CLOUD}}}
+      \field{urlday}{2}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{1068\bibrangedash 1071}
+      \range{pages}{4}
+      \verb{doi}
+      \verb 10.1109/CSCI62032.2023.00176
+      \endverb
+      \verb{file}
+      \verb C:\Users\KnightNight101\Zotero\storage\SFQB4Z82\Gaianu - 2023 - On Premise Data Center vs CLOUD.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://ieeexplore.ieee.org/abstract/document/10590214
+      \endverb
+      \verb{url}
+      \verb https://ieeexplore.ieee.org/abstract/document/10590214
+      \endverb
+      \keyw{Cloud,Cloud computing,Computational modeling,Costs,Data centers,On premise data center,Scientific computing,Standards organizations,Web services}
+    \endentry
+    \entry{georgeCloudComedownUnderstanding2024}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=76f8b376a4807dfa830758bfa9444cd2}{%
+           family={George},
+           familyi={G\bibinitperiod},
+           given={Dr\bibnamedelima A.\bibnamedelimi Shaji},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{76f8b376a4807dfa830758bfa9444cd2}
+      \strng{fullhash}{76f8b376a4807dfa830758bfa9444cd2}
+      \strng{fullhashraw}{76f8b376a4807dfa830758bfa9444cd2}
+      \strng{bibnamehash}{76f8b376a4807dfa830758bfa9444cd2}
+      \strng{authorbibnamehash}{76f8b376a4807dfa830758bfa9444cd2}
+      \strng{authornamehash}{76f8b376a4807dfa830758bfa9444cd2}
+      \strng{authorfullhash}{76f8b376a4807dfa830758bfa9444cd2}
+      \strng{authorfullhashraw}{76f8b376a4807dfa830758bfa9444cd2}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{The fast rise of cloud computing during the last decade promised flexibility, scalability, and cost-effectiveness. However, for an increasing number of businesses, the long-term realities of cloud computing are requiring significant rethinking. According to recent studies, 42\% of US businesses have already moved at least half of their cloud workloads back on-premises or are planning to do so. The rising trend of "Cloud Exit" requires a thorough analysis of the cloud's disadvantages in comparison to its widely promoted benefits. Multiple critical variables are driving the shift away from total cloud reliance. Although transitioning to the cloud initially reduces building costs, subsequent operational expenses may ultimately surpass those of private data centers. A 2022 poll revealed that 43\% of IT leaders perceive the expenses associated with transitioning to the cloud as exceeding their initial expectations. Companies often contend with overprovisioning and surplus resources, resulting in unnecessary expenses. Simultaneously, notable cloud breaches at Capital One, Twilio, and others heighten apprehensions regarding the storage of sensitive data externally. Outages at AWS, Azure, and Oracle underscore dependence hazards. The Cloud Exit trend points to the need of a more balanced viewpoint. Although early adoption rates of clouds are strong, current polls reveal just 32\% of corporate cloud migrations are judged totally effective. The gap between the promised outcomes and real-world results suggests cloud computing has been overhyped. Its purported security, reliability, and cost advantages do not universally apply. Moreover, concentration among the "Big Three" cloud providers allows AWS, Azure, and Google inordinate influence over pricing, service terms, and the direction of innovation. Their supremacy and exclusive ecosystems progressively confine users, while unjustly disadvantaging third-party services. Consequently, an increasing number of firms are formulating Cloud Exit strategies to diminish external dependence, reclaim control, and manage dangers. The cloud necessitates ongoing assessment to maintain its competitive and financial viability over time, rather than being a universal solution. Preparedness to shift workloads off-cloud gives firms strategic flexibility. Rather than a one-way path, the cloud requires continuous reassessment. Exit is not failure, but strategic agility retaining on-premises control. With unchecked dependence, dominance and deviation from early claims, businesses are wise to temper cloud enthusiasm with realism. Maintaining hybrid flexibility and an exit strategy avoids innovation stagnation or lock-in. The cloud comedown does not negate its potential, only refocuses usage based on actual outcomes.}
+      \field{day}{25}
+      \field{issn}{2583-9675}
+      \field{journaltitle}{Partners Universal International Innovation Journal}
+      \field{langid}{english}
+      \field{month}{10}
+      \field{number}{5}
+      \field{shortjournal}{Partners Universal International Innovation Journal}
+      \field{shorttitle}{The {{Cloud Comedown}}}
+      \field{title}{The {{Cloud Comedown}}: {{Understanding}} the {{Emerging Trend}} of {{Cloud Exit Strategies}}}
+      \field{urlday}{3}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{2}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{1\bibrangedash 32}
+      \range{pages}{32}
+      \verb{doi}
+      \verb 10.5281/zenodo.13993933
+      \endverb
+      \verb{file}
+      \verb C:\Users\KnightNight101\Zotero\storage\D66M4RW8\George - 2024 - The Cloud Comedown Understanding the Emerging Trend of Cloud Exit Strategies.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://puiij.com/index.php/research/article/view/152
+      \endverb
+      \verb{url}
+      \verb https://puiij.com/index.php/research/article/view/152
+      \endverb
+    \endentry
     \entry{guanIntelligentVirtualAssistants2023}{online}{}{}
       \name{author}{9}{}{%
         {{un=0,uniquepart=base,hash=84ac383ff035e36c56800e60b436fca4}{%
@@ -593,6 +761,200 @@
       \verb https://www.emerald.com/insight/content/doi/10.1108/ijmpb-11-2023-0244/full/html
       \endverb
     \endentry
+    \entry{spinellisVersionControlSystems2005}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=4673030163f3a4f11a60419337b503ad}{%
+           family={Spinellis},
+           familyi={S\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4673030163f3a4f11a60419337b503ad}
+      \strng{fullhash}{4673030163f3a4f11a60419337b503ad}
+      \strng{fullhashraw}{4673030163f3a4f11a60419337b503ad}
+      \strng{bibnamehash}{4673030163f3a4f11a60419337b503ad}
+      \strng{authorbibnamehash}{4673030163f3a4f11a60419337b503ad}
+      \strng{authornamehash}{4673030163f3a4f11a60419337b503ad}
+      \strng{authorfullhash}{4673030163f3a4f11a60419337b503ad}
+      \strng{authorfullhashraw}{4673030163f3a4f11a60419337b503ad}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Sane programmers don't write production code without the help of an editor and an interpreter or a compiler, yet the author has seen many software projects limping along without using a version control system. We can explain this contrast if we think in terms of the increased start-up costs and delayed gratification associated with adopting a VCS. We humans typically discount the future, and therefore implementing version control in a project appears to be a fight against human nature. It's true that you can't beat the productivity boost that compilers and editors provide, but four decades after punched-card programming in assembly language has gone out of fashion, we must now look elsewhere for our next efficiency gains. And if you or your project isn't using a VCS, adopting one might well be the single most important tooling improvement you can undertake.}
+      \field{issn}{1937-4194}
+      \field{journaltitle}{IEEE Software}
+      \field{month}{9}
+      \field{number}{5}
+      \field{title}{Version Control Systems}
+      \field{urlday}{11}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{volume}{22}
+      \field{year}{2005}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{108\bibrangedash 109}
+      \range{pages}{2}
+      \verb{doi}
+      \verb 10.1109/MS.2005.140
+      \endverb
+      \verb{file}
+      \verb C:\Users\KnightNight101\Zotero\storage\5LVLC3XF\Spinellis - 2005 - Version control systems.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://ieeexplore.ieee.org/abstract/document/1504674
+      \endverb
+      \verb{url}
+      \verb https://ieeexplore.ieee.org/abstract/document/1504674
+      \endverb
+      \keyw{Best practices,Books,configuration management,Control systems,Data mining,Documentation,Graphical user interfaces,History,Software testing,VCS,version control system,Web pages,Writing}
+    \endentry
+    \entry{vaseAdvantagesDocker2015}{thesis}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=b7d6271ba3a0f576447c9fcadfce981d}{%
+           family={Vase},
+           familyi={V\bibinitperiod},
+           given={Tuomas},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {University of Jyväskylä}%
+      }
+      \strng{namehash}{b7d6271ba3a0f576447c9fcadfce981d}
+      \strng{fullhash}{b7d6271ba3a0f576447c9fcadfce981d}
+      \strng{fullhashraw}{b7d6271ba3a0f576447c9fcadfce981d}
+      \strng{bibnamehash}{b7d6271ba3a0f576447c9fcadfce981d}
+      \strng{authorbibnamehash}{b7d6271ba3a0f576447c9fcadfce981d}
+      \strng{authornamehash}{b7d6271ba3a0f576447c9fcadfce981d}
+      \strng{authorfullhash}{b7d6271ba3a0f576447c9fcadfce981d}
+      \strng{authorfullhashraw}{b7d6271ba3a0f576447c9fcadfce981d}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Docker is an open platform product that can package an application and its dependencies inside a virtual container and this technology is called as container technology. Those packages can be build, ship and run inside distributed environments by developers or system administrators with ease. This technology offers huge advantages for enterprises with new kind of portability, scalability, speed, delivery and maintenance. This thesis focused on the advantage side of Docker container technology. Differences between virtualization and container technology were examined from several levels which included usability, benefits, disadvantages, risks and performance. The aim of the study was to investigate has Docker all those advantages it is hyped for and is there negative sides in this technology. The most important observation of this study is that Docker has many potential advantages in the fields of usability, performance and security against traditional virtualization. The research was executed as a literature review with some own conclusions. Keywords: docker, virtualization, container, container-technology, performance, advantages, security}
+      \field{title}{Advantages of {{Docker}}}
+      \field{year}{2015}
+      \field{dateera}{ce}
+      \verb{file}
+      \verb C:\Users\KnightNight101\Zotero\storage\5222B99Y\jyx_123456789_48029.html
+      \endverb
+      \verb{urlraw}
+      \verb https://urn.fi/URN:NBN:fi:jyu-201512093942
+      \endverb
+      \verb{url}
+      \verb https://urn.fi/URN:NBN:fi:jyu-201512093942
+      \endverb
+    \endentry
+    \entry{whitePromptPatternCatalog2023}{online}{}{}
+      \name{author}{9}{}{%
+        {{un=0,uniquepart=base,hash=d224ecfefc70293d1b9b28a1915cf6f2}{%
+           family={White},
+           familyi={W\bibinitperiod},
+           given={Jules},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ab0176caa50360bad666daa28f756f93}{%
+           family={Fu},
+           familyi={F\bibinitperiod},
+           given={Quchen},
+           giveni={Q\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9943dbdd82fd112070dcddd02b2f2401}{%
+           family={Hays},
+           familyi={H\bibinitperiod},
+           given={Sam},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=87e11a6af05c6120af38ce9ece0f40c8}{%
+           family={Sandborn},
+           familyi={S\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c06d4561fd87731a8ded5ac60b31c640}{%
+           family={Olea},
+           familyi={O\bibinitperiod},
+           given={Carlos},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7ea1336ce08a1ae58929be02ca500080}{%
+           family={Gilbert},
+           familyi={G\bibinitperiod},
+           given={Henry},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fa1061f09562d7c866b97cd83708c775}{%
+           family={Elnashar},
+           familyi={E\bibinitperiod},
+           given={Ashraf},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f3959a2ce195d5c86770921607092aec}{%
+           family={Spencer-Smith},
+           familyi={S\bibinithyphendelim S\bibinitperiod},
+           given={Jesse},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=45ce9ca7bea6c6c26f4b9dedf96373a8}{%
+           family={Schmidt},
+           familyi={S\bibinitperiod},
+           given={Douglas\bibnamedelima C.},
+           giveni={D\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{c0380e954e9d2fa38dec4914480e8d7a}
+      \strng{fullhash}{70228ca94257b70b6b9ba4686083572f}
+      \strng{fullhashraw}{70228ca94257b70b6b9ba4686083572f}
+      \strng{bibnamehash}{c0380e954e9d2fa38dec4914480e8d7a}
+      \strng{authorbibnamehash}{c0380e954e9d2fa38dec4914480e8d7a}
+      \strng{authornamehash}{c0380e954e9d2fa38dec4914480e8d7a}
+      \strng{authorfullhash}{70228ca94257b70b6b9ba4686083572f}
+      \strng{authorfullhashraw}{70228ca94257b70b6b9ba4686083572f}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Prompt engineering is an increasingly important skill set needed to converse effectively with large language models (LLMs), such as ChatGPT. Prompts are instructions given to an LLM to enforce rules, automate processes, and ensure specific qualities (and quantities) of generated output. Prompts are also a form of programming that can customize the outputs and interactions with an LLM.}
+      \field{day}{21}
+      \field{eprintclass}{cs}
+      \field{eprinttype}{arXiv}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{pubstate}{prepublished}
+      \field{title}{A {{Prompt Pattern Catalog}} to {{Enhance Prompt Engineering}} with {{ChatGPT}}}
+      \field{urlday}{11}
+      \field{urlmonth}{7}
+      \field{urlyear}{2025}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.48550/arXiv.2302.11382
+      \endverb
+      \verb{eprint}
+      \verb 2302.11382
+      \endverb
+      \verb{file}
+      \verb C:\Users\KnightNight101\Zotero\storage\5H8HIE95\White et al. - 2023 - A Prompt Pattern Catalog to Enhance Prompt Enginee.pdf
+      \endverb
+      \verb{urlraw}
+      \verb http://arxiv.org/abs/2302.11382
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/2302.11382
+      \endverb
+      \keyw{Computer Science - Artificial Intelligence,Computer Science - Software Engineering}
+    \endentry
     \entry{xueAnalysisComparisonProject}{article}{}{}
       \name{author}{4}{}{%
         {{un=0,uniquepart=base,hash=d628d74db4e2b82823e6983487ade93c}{%
@@ -641,8 +1003,6 @@
       \endverb
     \endentry
   \enddatalist
-  \missing{gaianuPremiseDataCenter2023a}
-  \missing{oluwagbadeConversationalAINew2024}
 \endrefsection
 \endinput
 
