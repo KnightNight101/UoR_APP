@@ -19,4 +19,10 @@ test_id,model,baseline_makespan,model_makespan,makespan_ratio,dependency_violati
 18,deepseek-r1:8b,23.0,17.0,0.739,2,0.8,66.667,False,74.986
 19,deepseek-r1:8b,17.0,-1,-1,0,0.0,0.0,True,300
 20,deepseek-r1:8b,15.0,32.0,2.133,1,1.0,100.0,False,71.729
-21,deepseek-r1:8b,19.0,-1,-1,0,0.0,0.0,True,300
+21,deepseek-r1:8b,19.0,-1,-1,0,0.0,0.0,True,3001,deepseek-r1:8b,23.0,inf,inf,0,0.0,0.0,True,300
+2,deepseek-r1:8b,19.0,inf,inf,0,0.0,0.0,True,300
+3,deepseek-r1:8b,10.0,inf,inf,0,0.0,0.0,True,300
+4,deepseek-r1:8b,23.0,inf,inf,0,0.0,0.0,True,300
+5,deepseek-r1:8b,26.0,inf,inf,0,0.0,0.0,True,300
+6,deepseek-r1:8b,14.0,inf,inf,0,0.0,0.0,True,300
+7,deepseek-r1:8b,28.0,inf,inf,0,0.0,0.0,True,300
