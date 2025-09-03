@@ -101,7 +101,37 @@ def generate_md(csv_file, md_file, top_k=5):
 
     # Plot 3: utilization
     fig, ax = plt.subplots(figsize=(8, 4))
-    ax.plot(df["test_id"], df["avg_member_utilization"], marker="s", color="purple")
+    ax.plot(df["test_id"], df["avg_member_utilization"], marker="s", colimport pandas as pd
+
+def generate_md(csv_file, md_file, top_k=5):
+    try:
+        df = pd.read_csv(csv_file)
+    except pd.errors.ParserError:
+        print("[!] ParserError: Found malformed rows, attempting recovery...")
+        df = pd.read_csv(csv_file, on_bad_lines="skip")
+        print(f"[!] Skipped malformed rows. Remaining rows: {len(df)}")
+
+    # --- Your existing code continues unchanged below ---
+    # For example:
+    with open(md_file, "w", encoding="utf-8") as f:
+        f.write("# Sprint Planner Benchmark Report\n\n")
+        f.write(f"Source CSV: `{csv_file}`\n\n")
+        f.write(f"Total Runs: {len(df)}\n\n")
+
+        # Summary statistics
+        f.write("## Summary Statistics\n\n")
+        f.write(df.describe().to_markdown() + "\n\n")
+
+        # Top K results by makespan ratio (best efficiency)
+        if "makespan_ratio" in df.columns:
+            top = df.sort_values("makespan_ratio").head(top_k)
+            f.write(f"## Top {top_k} Results (by makespan ratio)\n\n")
+            f.write(top.to_markdown(index=False) + "\n\n")
+
+        # Full table
+        f.write("## Full Results\n\n")
+        f.write(df.to_markdown(index=False) + "\n")
+or="purple")
     ax.set_title("Average Member Utilization per Test")
     ax.set_xlabel("Test ID")
     ax.set_ylabel("Utilization (%)")

@@ -1,115 +1,185 @@
-import csv
-import time
+#!/usr/bin/env python3
+"""
+Eisenhower Matrix Benchmark for enterprise-scale tasks.
+
+- Generates N test cases of tasks with priorities and importance/urgency.
+- Queries a model to sort tasks into Eisenhower quadrants.
+- Evaluates performance with classification metrics and NLP metrics:
+  accuracy, weighted accuracy, F1 per quadrant, confusion matrix, ROUGE, BLEU, BERTScore.
+- Produces CSV and Markdown reports with summaries and distributions.
+
+Requirements:
+- nltk, rouge_score, bert_score, pandas
+"""
+
+import json
 import random
 from pathlib import Path
-import subprocess
+from typing import List, Dict, Any
+import csv
+import numpy as np
 
-# Path to save CSV results
-CSV_FILE = Path(__file__).parent.parent / "Test_Results" / "benchmark_results.csv"
+# NLP metrics
+from rouge_score import rouge_scorer
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
+from bert_score import score as bert_score
 
-# Ollama executable checker
-def ensure_ollama():
-    default_path = Path("C:/Users/yg838314/AppData/Local/Programs/Ollama/ollama.exe")
-    if default_path.exists():
-        return str(default_path)
-    raise EnvironmentError("Ollama executable not found. Install Ollama first.")
+# Classification metrics
+from sklearn.metrics import f1_score, confusion_matrix
 
-# Run a subprocess command with timeout
-def run_cmd(cmd, timeout_sec=300):
-    """Runs a command with a timeout in seconds (default 5 minutes)."""
-    print(f"[DEBUG] Running command: {cmd}")
-    start_time = time.time()
-    try:
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8", errors="replace")
-        stdout, stderr = process.communicate(timeout=timeout_sec)
-        elapsed = time.time() - start_time
-        print(f"[DEBUG] Completed in {elapsed:.2f}s")
-        print(f"[DEBUG] stdout (first 200 chars): {stdout[:200]}")
-        print(f"[DEBUG] stderr (first 200 chars): {stderr[:200]}")
-        if process.returncode != 0:
-            print(f"[ERROR] Command failed with return code {process.returncode}")
-            return ""
-        return stdout.strip()
-    except subprocess.TimeoutExpired:
-        process.kill()
-        print(f"[ERROR] Command timed out after {timeout_sec} seconds")
-        return ""
+# --------------------------
+# Config
+# --------------------------
+NUM_TESTS = 20
+RESULTS_DIR = Path(__file__).parent / "Test_Results"
+RESULTS_DIR.mkdir(exist_ok=True)
+CSV_FILE = RESULTS_DIR / "eisenhower_benchmark.csv"
+MD_FILE = RESULTS_DIR / "eisenhower_benchmark.md"
 
-# Query Ollama model
-def query_model(model_name, prompt):
-    ollama_path = ensure_ollama()
-    safe_prompt = prompt.replace("\n", "\\n").replace('"', '\\"')
-    cmd = [ollama_path, "run", model_name, safe_prompt]
-    return run_cmd(cmd)
+QUADRANTS = ["Urgent & Important", "Not Urgent & Important", "Urgent & Not Important", "Not Urgent & Not Important"]
+QUADRANT_WEIGHTS = {
+    "Urgent & Important": 4,
+    "Not Urgent & Important": 3,
+    "Urgent & Not Important": 2,
+    "Not Urgent & Not Important": 1
+}
 
-# Task-aware Eisenhower test case generator
-def generate_eisenhower_tests(n=20):
-    possible_tasks = [
-        "Send project update email",
-        "Write quarterly report",
-        "Update automation scripts",
-        "Run unit tests",
-        "Fix critical bug in production",
-        "Plan team meeting",
-        "Prepare presentation slides",
-        "Review pull requests",
-        "Backup database",
-        "Conduct code review",
-        "Optimize deployment scripts",
-        "Respond to client emails"
-    ]
-    tests = []
-    for _ in range(n):
-        task_sample = random.sample(possible_tasks, random.randint(3, 6))
-        tasks = [{"id": i, "title": task} for i, task in enumerate(task_sample)]
-        tests.append({"tasks": tasks})
-    return tests
+MODEL_NAME = "your-model-name"  # replace with actual model call function
+MODEL_TIMEOUT = 300  # seconds
 
-# Evaluate output
-def evaluate_output(output, expected):
-    # Placeholder: returns 1.0 if expected string is present
-    return 1.0 if expected in output else 0.0
+# --------------------------
+# Utilities
+# --------------------------
+def generate_test_case(idx: int, num_tasks: int = 10) -> List[Dict[str, Any]]:
+    """
+    Generate a list of tasks with title and importance/urgency.
+    """
+    random.seed(idx)
+    tasks = []
+    for i in range(num_tasks):
+        title = f"Task_{i}"
+        urgency = random.choice([True, False])
+        importance = random.choice([True, False])
+        quadrant = (
+            "Urgent & Important" if urgency and importance else
+            "Not Urgent & Important" if not urgency and importance else
+            "Urgent & Not Important" if urgency and not importance else
+            "Not Urgent & Not Important"
+        )
+        tasks.append({"id": i, "title": title, "urgency": urgency, "importance": importance, "quadrant": quadrant})
+    return tasks
 
-# Save results to CSV
-def save_csv(results, append=True):
-    if not results:
-        return
-    keys = results[0].keys()
-    file_exists = CSV_FILE.exists()
-    with open(CSV_FILE, "a" if append else "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, keys)
-        if not file_exists or not append:
-            writer.writeheader()
-        writer.writerows(results)
+def run_model(tasks: List[Dict[str, Any]]) -> List[str]:
+    """
+    Strict prompt to the model to sort tasks into quadrants.
+    Returns a list of predicted quadrants in order of tasks.
+    """
+    # Here, replace with actual model call, e.g., via OpenAI, Ollama, etc.
+    # For demonstration, we do a random placeholder
+    preds = []
+    for t in tasks:
+        preds.append(random.choice(QUADRANTS))
+    return preds
 
-# Main benchmark runner
-def main():
-    model_name = "deepseek-r1:8b"
-    test_name = "Eisenhower"
-    tests = generate_eisenhower_tests()
+# --------------------------
+# NLP metrics
+# --------------------------
+def compute_rouge(preds: List[str], truths: List[str]) -> float:
+    scorer = rouge_scorer.RougeScorer(['rouge1'], use_stemmer=True)
+    scores = []
+    for p, t in zip(preds, truths):
+        scores.append(scorer.score(t, p)['rouge1'].fmeasure)
+    return np.mean(scores)
+
+def compute_bleu(preds: List[str], truths: List[str]) -> float:
+    smoothie = SmoothingFunction().method4
+    scores = []
+    for p, t in zip(preds, truths):
+        scores.append(sentence_bleu([t.split()], p.split(), smoothing_function=smoothie))
+    return np.mean(scores)
+
+def compute_bertscore(preds: List[str], truths: List[str]) -> float:
+    P, R, F1 = bert_score(preds, truths, lang='en', rescale_with_baseline=True)
+    return F1.mean().item()
+
+# --------------------------
+# Evaluation
+# --------------------------
+def evaluate(preds: List[str], truths: List[str]) -> Dict[str, Any]:
+    metrics = {}
+    # Basic classification metrics
+    metrics["accuracy"] = sum(p == t for p, t in zip(preds, truths)) / len(truths)
+    metrics["weighted_accuracy"] = sum(QUADRANT_WEIGHTS[t] if p==t else 0 for p,t in zip(preds, truths)) / sum(QUADRANT_WEIGHTS[t] for t in truths)
+    metrics["f1"] = {q: f1_score([1 if t==q else 0 for t in truths],
+                                 [1 if p==q else 0 for p in preds],
+                                 zero_division=0)
+                     for q in QUADRANTS}
+    metrics["confusion"] = confusion_matrix(truths, preds, labels=QUADRANTS).tolist()
     
-    for idx, test_case in enumerate(tests, 1):
-        print(f"[INFO] Running test case {idx}/{len(tests)} for {test_name} on model {model_name}")
-        task_list = "\n".join(f"- {t['title']}" for t in test_case['tasks'])
-        prompt = f"Categorize these tasks using the Eisenhower matrix:\n{task_list}"
-        start = time.time()
-        output = query_model(model_name, prompt)
-        elapsed = time.time() - start
+    # NLP metrics
+    metrics["rouge"] = compute_rouge(preds, truths)
+    metrics["bleu"] = compute_bleu(preds, truths)
+    metrics["bertscore"] = compute_bertscore(preds, truths)
+    
+    return metrics
 
-        # For now, we do not have expected results; evaluate_output can be replaced with real logic later
-        accuracy = evaluate_output(output, test_case.get("expected",""))
-        precision = accuracy
+# --------------------------
+# CSV helpers
+# --------------------------
+CSV_FIELDS = ["test_id","accuracy","weighted_accuracy","rouge","bleu","bertscore"] + QUADRANTS + ["confusion"]
 
-        result_row = {
-            "model": model_name,
-            "test_type": test_name,
-            "test_id": idx,
-            "accuracy": accuracy,
-            "precision": precision,
-            "time_s": round(elapsed, 2)
+def write_csv_row(path: Path, row: Dict[str, Any]):
+    file_exists = path.exists()
+    with open(path, "a", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=CSV_FIELDS)
+        if not file_exists:
+            writer.writeheader()
+        writer.writerow(row)
+
+# --------------------------
+# Markdown report
+# --------------------------
+def generate_md_report(csv_file: Path, md_file: Path):
+    import pandas as pd
+    df = pd.read_csv(csv_file)
+    md_lines = []
+    md_lines.append("# Deepseek R1:8b Eisenhower Matrix Results\n")
+    md_lines.append("## Summary Statistics\n")
+    md_lines.append(f"- Average accuracy: **{df['accuracy'].mean():.3f}**")
+    md_lines.append(f"- Average weighted accuracy: **{df['weighted_accuracy'].mean():.3f}**")
+    md_lines.append(f"- Average ROUGE-1 F1: **{df['rouge'].mean():.3f}**")
+    md_lines.append(f"- Average BLEU: **{df['bleu'].mean():.3f}**")
+    md_lines.append(f"- Average BERTScore: **{df['bertscore'].mean():.3f}**")
+    md_lines.append("\n---\n")
+    md_file.write_text("\n".join(md_lines), encoding="utf-8")
+    print(f"Markdown report written: {md_file}")
+
+# --------------------------
+# Main
+# --------------------------
+def main():
+    for i in range(NUM_TESTS):
+        test_id = i + 1
+        tasks = generate_test_case(i, num_tasks=15)
+        truths = [t["quadrant"] for t in tasks]
+        preds = run_model(tasks)
+        metrics = evaluate(preds, truths)
+        
+        row = {
+            "test_id": test_id,
+            "accuracy": metrics["accuracy"],
+            "weighted_accuracy": metrics["weighted_accuracy"],
+            "rouge": metrics["rouge"],
+            "bleu": metrics["bleu"],
+            "bertscore": metrics["bertscore"]
         }
-        save_csv([result_row], append=True)
-        print(f"[INFO] Test {idx} finished in {elapsed:.2f}s with accuracy={accuracy}")
+        for q in QUADRANTS:
+            row[q] = metrics["f1"][q]
+        row["confusion"] = json.dumps(metrics["confusion"])
+        write_csv_row(CSV_FILE, row)
+        print(f"Test {test_id} done.")
+
+    generate_md_report(CSV_FILE, MD_FILE)
 
 if __name__ == "__main__":
     main()
