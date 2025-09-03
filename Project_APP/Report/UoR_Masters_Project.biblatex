@@ -1,3 +1,10 @@
+@online{AdvantagesDockerJYX,
+  title = {Advantages of {{Docker}} :: {{JYX}}},
+  url = {https://jyx.jyu.fi/jyx/Record/jyx_123456789_48029},
+  urldate = {2025-09-02},
+  file = {C:\Users\KnightNight101\Zotero\storage\N5T9XX9P\jyx_123456789_48029.html}
+}
+
 @article{ahmed1453BitesizeTeaching2021,
   title = {1453 {{Bitesize}} Teaching: Learning- but Make It Snappy},
   shorttitle = {1453 {{Bitesize}} Teaching},
@@ -421,6 +428,57 @@
   keywords = {process improvement,product quality,productivity,Scrum,sprint retrospective,statistical analysis}
 }
 
+@inproceedings{gaianuPremiseDataCenter2023,
+  title = {On {{Premise Data Center}} vs {{CLOUD}}},
+  booktitle = {2023 {{International Conference}} on {{Computational Science}} and {{Computational Intelligence}} ({{CSCI}})},
+  author = {Gaianu, Mihail},
+  date = {2023-12},
+  pages = {1068--1071},
+  issn = {2769-5654},
+  doi = {10.1109/CSCI62032.2023.00176},
+  url = {https://ieeexplore.ieee.org/abstract/document/10590214},
+  urldate = {2025-09-02},
+  abstract = {Cloud computing services recently revolutionized the world. The rise of cloud systems, powered by Amazon Web Services, Google Cloud Platform and Microsoft Azure, persuaded many companies, both large and small, that hosting their data in the cloud is more cost-effective, secure and convenient than maintaining an IT infrastructure on-premises. If you are still unsure which option—cloud versus on-premises—best fits your business needs, explore this comparison for computing, storage and database. This article could be handy for final decision-making. Both on-prem and cloud computing can provide your business with the IT infrastructure it needs. The final choice of the cloud versus on-premises model will likely depend on your business-specific use cases for data use and storage, the level of security required in order to meet compliance standards and the cost structure you prefer. The services modern cloud providers offer are cosmic. For instance, Amazon Web Services has a wide array of ready-to-use cloud computing solutions for an affordable price. So, what is the use of building your own rocket on-premises in case you can entrust its launch and management to an experienced space agency, aka cloud provider?},
+  eventtitle = {2023 {{International Conference}} on {{Computational Science}} and {{Computational Intelligence}} ({{CSCI}})},
+  keywords = {Cloud,Cloud computing,Computational modeling,Costs,Data centers,On premise data center,Scientific computing,Standards organizations,Web services},
+  file = {C:\Users\KnightNight101\Zotero\storage\PWFPDHCL\10590214.html}
+}
+
+@inproceedings{gaianuPremiseDataCenter2023a,
+  title = {On {{Premise Data Center}} vs {{CLOUD}}},
+  booktitle = {2023 {{International Conference}} on {{Computational Science}} and {{Computational Intelligence}} ({{CSCI}})},
+  author = {Gaianu, Mihail},
+  date = {2023-12},
+  pages = {1068--1071},
+  issn = {2769-5654},
+  doi = {10.1109/CSCI62032.2023.00176},
+  url = {https://ieeexplore.ieee.org/abstract/document/10590214},
+  urldate = {2025-09-02},
+  abstract = {Cloud computing services recently revolutionized the world. The rise of cloud systems, powered by Amazon Web Services, Google Cloud Platform and Microsoft Azure, persuaded many companies, both large and small, that hosting their data in the cloud is more cost-effective, secure and convenient than maintaining an IT infrastructure on-premises. If you are still unsure which option—cloud versus on-premises—best fits your business needs, explore this comparison for computing, storage and database. This article could be handy for final decision-making. Both on-prem and cloud computing can provide your business with the IT infrastructure it needs. The final choice of the cloud versus on-premises model will likely depend on your business-specific use cases for data use and storage, the level of security required in order to meet compliance standards and the cost structure you prefer. The services modern cloud providers offer are cosmic. For instance, Amazon Web Services has a wide array of ready-to-use cloud computing solutions for an affordable price. So, what is the use of building your own rocket on-premises in case you can entrust its launch and management to an experienced space agency, aka cloud provider?},
+  eventtitle = {2023 {{International Conference}} on {{Computational Science}} and {{Computational Intelligence}} ({{CSCI}})},
+  keywords = {Cloud,Cloud computing,Computational modeling,Costs,Data centers,On premise data center,Scientific computing,Standards organizations,Web services},
+  file = {C:\Users\KnightNight101\Zotero\storage\SFQB4Z82\Gaianu - 2023 - On Premise Data Center vs CLOUD.pdf}
+}
+
+@article{georgeCloudComedownUnderstanding2024,
+  title = {The {{Cloud Comedown}}: {{Understanding}} the {{Emerging Trend}} of {{Cloud Exit Strategies}}},
+  shorttitle = {The {{Cloud Comedown}}},
+  author = {George, Dr A. Shaji},
+  date = {2024-10-25},
+  journaltitle = {Partners Universal International Innovation Journal},
+  shortjournal = {Partners Universal International Innovation Journal},
+  volume = {2},
+  number = {5},
+  pages = {1--32},
+  issn = {2583-9675},
+  doi = {10.5281/zenodo.13993933},
+  url = {https://puiij.com/index.php/research/article/view/152},
+  urldate = {2025-09-03},
+  abstract = {The fast rise of cloud computing during the last decade promised flexibility, scalability, and cost-effectiveness. However, for an increasing number of businesses, the long-term realities of cloud computing are requiring significant rethinking. According to recent studies, 42\% of US businesses have already moved at least half of their cloud workloads back on-premises or are planning to do so. The rising trend of "Cloud Exit" requires a thorough analysis of the cloud's disadvantages in comparison to its widely promoted benefits. Multiple critical variables are driving the shift away from total cloud reliance. Although transitioning to the cloud initially reduces building costs, subsequent operational expenses may ultimately surpass those of private data centers. A 2022 poll revealed that 43\% of IT leaders perceive the expenses associated with transitioning to the cloud as exceeding their initial expectations. Companies often contend with overprovisioning and surplus resources, resulting in unnecessary expenses. Simultaneously, notable cloud breaches at Capital One, Twilio, and others heighten apprehensions regarding the storage of sensitive data externally. Outages at AWS, Azure, and Oracle underscore dependence hazards. The Cloud Exit trend points to the need of a more balanced viewpoint. Although early adoption rates of clouds are strong, current polls reveal just 32\% of corporate cloud migrations are judged totally effective. The gap between the promised outcomes and real-world results suggests cloud computing has been overhyped. Its purported security, reliability, and cost advantages do not universally apply. Moreover, concentration among the "Big Three" cloud providers allows AWS, Azure, and Google inordinate influence over pricing, service terms, and the direction of innovation. Their supremacy and exclusive ecosystems progressively confine users, while unjustly disadvantaging third-party services. Consequently, an increasing number of firms are formulating Cloud Exit strategies to diminish external dependence, reclaim control, and manage dangers. The cloud necessitates ongoing assessment to maintain its competitive and financial viability over time, rather than being a universal solution. Preparedness to shift workloads off-cloud gives firms strategic flexibility. Rather than a one-way path, the cloud requires continuous reassessment. Exit is not failure, but strategic agility retaining on-premises control. With unchecked dependence, dominance and deviation from early claims, businesses are wise to temper cloud enthusiasm with realism. Maintaining hybrid flexibility and an exit strategy avoids innovation stagnation or lock-in. The cloud comedown does not negate its potential, only refocuses usage based on actual outcomes.},
+  langid = {english},
+  file = {C:\Users\KnightNight101\Zotero\storage\D66M4RW8\George - 2024 - The Cloud Comedown Understanding the Emerging Trend of Cloud Exit Strategies.pdf}
+}
+
 @incollection{geroimenkoKeyTechniquesWriting2025,
   title = {Key {{Techniques}} for {{Writing Effective Prompts}}},
   booktitle = {The {{Essential Guide}} to {{Prompt Engineering}}: {{Key Principles}}, {{Techniques}}, {{Challenges}}, and {{Security Risks}}},
@@ -729,6 +787,22 @@
   langid = {english}
 }
 
+@inproceedings{kithulwattaAdoptionDockerContainers2022,
+  title = {Adoption of {{Docker Containers}} as an {{Infrastructure}} for {{Deploying Software Applications}}: {{A Review}}},
+  shorttitle = {Adoption of {{Docker Containers}} as an {{Infrastructure}} for {{Deploying Software Applications}}},
+  booktitle = {Advances on {{Smart}} and {{Soft Computing}}},
+  author = {Kithulwatta, W. M. C. J. T. and Wickramaarachchi, Wiraj Udara and Jayasena, K. P. N. and Kumara, B. T. G. S. and Rathnayaka, R. M. K. T.},
+  editor = {Saeed, Faisal and Al-Hadhrami, Tawfik and Mohammed, Errais and Al-Sarem, Mohammed},
+  date = {2022},
+  pages = {247--259},
+  publisher = {Springer},
+  location = {Singapore},
+  doi = {10.1007/978-981-16-5559-3_21},
+  abstract = {Containerized infrastructure and containerized software applications have become one of the most popular topics in the field of Information Technology today. Containerization has been identified as an alternative for virtualization. However, due to the challenges and threats of virtualization, containerization has become attractive among many users and organizations; in particular, Docker has become the most popular to deploy software applications or services in the last few years among all container vendors. The current study is mainly focused on the features of containers and differences of Docker containers, which are addressed in the modern literature. The main objective of this research study is to understand how the Docker containers contribute as value-added infrastructure for software application deployments based on reputed twenty-six studies, which were summarized which are available in public. The study emphasizes the theoretical and practical relevance of Docker containers to make a more featured infrastructure that launched a comprehensive investigation, in comparison to the respective virtualizations. According to the studies, the Docker containers have achieved a grand market share.},
+  isbn = {978-981-16-5559-3},
+  langid = {english}
+}
+
 @report{leatongrayEvaluationBBCsBitesize2016,
   type = {Report},
   title = {Evaluation of the {{BBC}}'s {{Bitesize Programme}} with Special Reference to the Different Educational Frameworks of the {{UK}}’s Component Nations},
@@ -1019,6 +1093,16 @@
   file = {C:\Users\KnightNight101\Zotero\storage\A3F49XVX\Object - Impact of Employee Motivation on Employee Performa.pdf}
 }
 
+@article{oluwagbadeConversationalAINew2024,
+  title = {Conversational {{AI}} as the {{New Employee Liaison}}: {{LLM-Powered Chatbots}} in {{Enhancing Workplace Collaboration}} and {{Inclusion}}},
+  author = {Oluwagbade,, Elizabeth},
+  date = {2024-11-01},
+  url = {https://www.researchgate.net/profile/Elizabeth-Oluwagbade/publication/386875179_Conversational_AI_as_the_New_Employee_Liaison_LLM-Powered_Chatbots_in_Enhancing_Workplace_Collaboration_and_Inclusion/links/675a40f06150084b45fe4a67/Conversational-AI-as-the-New-Employee-Liaison-LLM-Powered-Chatbots-in-Enhancing-Workplace-Collaboration-and-Inclusion.pdf},
+  urldate = {2025-07-11},
+  abstract = {- Conversational AI, powered by Large Language Models (LLMs), is transforming workplace dynamics by bridging communication gaps and fostering collaboration. This article explores the potential of LLM-powered chatbots as virtual liaisons that enhance workplace inclusivity and teamwork. By leveraging natural language processing and emotional intelligence, these systems enable seamless communication, personalized support, and conflict resolution. The discussion delves into technical architecture, ethical considerations, and challenges in deploying LLM-based solutions in diverse organizational contexts. Finally, we propose a framework for integrating conversational AI into workplace strategies to maximize employee engagement and inclusivity while addressing scalability and bias.},
+  file = {C:\Users\KnightNight101\Zotero\storage\XNL8PPRL\Conversational-AI-as-the-New-Employee-Liaison-LLM-Powered-Chatbots-in-Enhancing-Workplace-Collaborat.pdf}
+}
+
 @article{pricaEnhancingProjectEfficiency2025,
   title = {Enhancing {{Project Efficiency}}: {{The Role}} of {{Agile Project Management}} in a {{Dynamic Corporate Landscape}}},
   shorttitle = {Enhancing {{Project Efficiency}}},
@@ -1273,6 +1357,16 @@
   keywords = {Academic performance,Attention,Cognitive control,Media multitasking,Socioemotional functioning}
 }
 
+@thesis{vaseAdvantagesDocker2015,
+  title = {Advantages of {{Docker}}},
+  author = {Vase, Tuomas},
+  date = {2015},
+  institution = {University of Jyväskylä},
+  url = {https://urn.fi/URN:NBN:fi:jyu-201512093942},
+  abstract = {Docker is an open platform product that can package an application and its dependencies inside a virtual container and this technology is called as container technology. Those packages can be build, ship and run inside distributed environments by developers or system administrators with ease. This technology offers huge advantages for enterprises with new kind of portability, scalability, speed, delivery and maintenance. This thesis focused on the advantage side of Docker container technology. Differences between virtualization and container technology were examined from several levels which included usability, benefits, disadvantages, risks and performance. The aim of the study was to investigate has Docker all those advantages it is hyped for and is there negative sides in this technology. The most important observation of this study is that Docker has many potential advantages in the fields of usability, performance and security against traditional virtualization. The research was executed as a literature review with some own conclusions. Keywords: docker, virtualization, container, container-technology, performance, advantages, security},
+  file = {C:\Users\KnightNight101\Zotero\storage\5222B99Y\jyx_123456789_48029.html}
+}
+
 @online{whitePromptPatternCatalog2023,
   title = {A {{Prompt Pattern Catalog}} to {{Enhance Prompt Engineering}} with {{ChatGPT}}},
   author = {White, Jules and Fu, Quchen and Hays, Sam and Sandborn, Michael and Olea, Carlos and Gilbert, Henry and Elnashar, Ashraf and Spencer-Smith, Jesse and Schmidt, Douglas C.},
@@ -1365,6 +1459,23 @@
   eventtitle = {Proceedings of the {{IEEE}}/{{CVF Conference}} on {{Computer Vision}} and {{Pattern Recognition}}},
   langid = {english},
   file = {C:\Users\KnightNight101\Zotero\storage\RU7PJF4H\Yao et al. - 2024 - PromptCoT Align Prompt Distribution via Adapted C.pdf}
+}
+
+@online{yeProAgentRoboticProcess2023,
+  title = {{{ProAgent}}: {{From Robotic Process Automation}} to {{Agentic Process Automation}}},
+  shorttitle = {{{ProAgent}}},
+  author = {Ye, Yining and Cong, Xin and Tian, Shizuo and Cao, Jiannan and Wang, Hao and Qin, Yujia and Lu, Yaxi and Yu, Heyang and Wang, Huadong and Lin, Yankai and Liu, Zhiyuan and Sun, Maosong},
+  date = {2023-11-23},
+  eprint = {2311.10751},
+  eprinttype = {arXiv},
+  eprintclass = {cs},
+  doi = {10.48550/arXiv.2311.10751},
+  url = {http://arxiv.org/abs/2311.10751},
+  urldate = {2025-09-02},
+  abstract = {From ancient water wheels to robotic process automation (RPA), automation technology has evolved throughout history to liberate human beings from arduous tasks. Yet, RPA struggles with tasks needing human-like intelligence, especially in elaborate design of workflow construction and dynamic decision-making in workflow execution. As Large Language Models (LLMs) have emerged human-like intelligence, this paper introduces Agentic Process Automation (APA), a groundbreaking automation paradigm using LLM-based agents for advanced automation by offloading the human labor to agents associated with construction and execution. We then instantiate ProAgent, an LLM-based agent designed to craft workflows from human instructions and make intricate decisions by coordinating specialized agents. Empirical experiments are conducted to detail its construction and execution procedure of workflow, showcasing the feasibility of APA, unveiling the possibility of a new paradigm of automation driven by agents. Our code is public at https://github.com/OpenBMB/ProAgent.},
+  pubstate = {prepublished},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Robotics},
+  file = {C\:\\Users\\KnightNight101\\Zotero\\storage\\MFYFTH3A\\Ye et al. - 2023 - ProAgent From Robotic Process Automation to Agentic Process Automation.pdf;C\:\\Users\\KnightNight101\\Zotero\\storage\\Q5ZC7KY3\\2311.html}
 }
 
 @online{yePromptEngineeringPrompt2024,
