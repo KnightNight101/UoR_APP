@@ -1,149 +1,151 @@
-import csv
-import random
-import time
-from pathlib import Path
 import subprocess
+import json
+import time
+import csv
+from nltk.tokenize import word_tokenize
+from nltk.translate.bleu_score import sentence_bleu
+from nltk.translate.meteor_score import single_meteor_score
+from rouge_score import rouge_scorer
+from sentence_transformers import SentenceTransformer, util
+import Levenshtein
 
-# Optional metrics libraries
-try:
-    from sentence_transformers import SentenceTransformer, util
-    from bert_score import score as bert_score
-    from rouge_score import rouge_scorer
-    from nltk.translate.bleu_score import sentence_bleu
-except ImportError:
-    print("[WARNING] Some metrics libraries not installed. Install sentence-transformers, bert-score, rouge-score, nltk.")
+# -----------------------
+# CONFIGURATION
+# -----------------------
+OLLAMA_PATH = r"C:\Users\KnightNight101\AppData\Local\Programs\Ollama\ollama.exe"
+MODEL = "deepseek-r1:8b"
+TIMEOUT = 600  # seconds
+OUTPUT_CSV = r"C:\Users\KnightNight101\UoR_APP\commit_summary_results.csv"
 
-CSV_FILE = Path(__file__).parent.parent / "Test_Results" / "deepseek_r1_8b_commit_summary.csv"
+# Initialize SBERT model for semantic similarity
+sbert_model = SentenceTransformer('all-MiniLM-L6-v2')
 
-def ensure_ollama():
-    path = Path("C:/Users/yg838314/AppData/Local/Programs/Ollama/ollama.exe")
-    if path.exists():
-        return str(path)
-    raise FileNotFoundError("Ollama executable not found.")
+# -----------------------
+# TEST CASES
+# -----------------------
+test_cases = [
+    {"diff": "Added function to calculate factorial", "reference_commit": "Add factorial function"},
+    {"diff": "Fixed bug in user authentication logic", "reference_commit": "Fix authentication bug"},
+    {"diff": "Refactored database connection module", "reference_commit": "Refactor DB connection module"},
+    {"diff": "Updated README with installation instructions", "reference_commit": "Update README with install guide"},
+    {"diff": "Removed deprecated login API endpoints", "reference_commit": "Remove deprecated login endpoints"}
+]
 
-def run_cmd(cmd, timeout=300):
-    """Run a subprocess command with UTF-8 decoding and timeout."""
+# -----------------------
+# HELPER FUNCTIONS
+# -----------------------
+def run_ollama(prompt):
     start_time = time.time()
     try:
-        process = subprocess.Popen(
-            cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+        proc = subprocess.run(
+            [OLLAMA_PATH, "run", MODEL, prompt],
+            capture_output=True,
             text=True,
             encoding="utf-8",
-            errors="replace"
+            errors="ignore",
+            timeout=TIMEOUT
         )
-        stdout, stderr = process.communicate(timeout=timeout)
         elapsed = time.time() - start_time
+        return proc.stdout.strip(), proc.stderr.strip(), elapsed
     except subprocess.TimeoutExpired:
-        process.kill()
-        stdout, stderr = process.communicate()
-        elapsed = timeout
-        print(f"[ERROR] Command timed out after {timeout}s")
+        return "", "[TIMEOUT]", TIMEOUT
 
-    if process.returncode != 0:
-        print(f"[ERROR] Command failed: {cmd}\nstdout: {stdout}\nstderr: {stderr}")
+def evaluate_metrics(reference, hypothesis, thoughts):
+    reference_tokens = word_tokenize(reference.lower())
+    hypothesis_tokens = word_tokenize(hypothesis.lower())
 
-    return stdout.strip(), stderr.strip(), elapsed
+    try:
+        bleu = sentence_bleu([reference_tokens], hypothesis_tokens) * 100
+    except:
+        bleu = 0.0
 
-def query_model(model_name, prompt):
-    ollama = ensure_ollama()
-    cmd = [ollama, "run", model_name, prompt]
-    return run_cmd(cmd)
+    try:
+        meteor = single_meteor_score(reference_tokens, hypothesis_tokens)
+    except:
+        meteor = 0.0
 
-def generate_commit_tests(n=20):
-    """Generate realistic commit diffs for testing."""
-    actions = ["+", "-"]
-    files = ["script.py", "main.cpp", "utils.js", "README.md", "config.yaml"]
-    tests = []
-    for _ in range(n):
-        lines = [f"{random.choice(actions)} {random.randint(1,999)} {random.choice(files)}"
-                 for _ in range(random.randint(3,6))]
-        expected_summary = "Some changes in code files"  # Could be refined for better metric evaluation
-        tests.append({"diff": "\n".join(lines), "expected": expected_summary})
-    return tests
+    rouge = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
+    rouge_l = rouge.score(reference, hypothesis)['rougeL'].fmeasure
 
-def evaluate_metrics(output, expected):
-    """Compute all metrics for a single test case."""
-    metrics = {
-        "accuracy": 1.0 if output == expected else 0.0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "f1_score": 0.0,
-        "semantic_similarity": 0.0,
-        "bert_precision": 0.0,
-        "bert_recall": 0.0,
-        "bert_f1": 0.0,
-        "rouge1_f1": 0.0,
-        "rouge2_f1": 0.0,
-        "rougeL_f1": 0.0,
-        "bleu": 0.0
+    try:
+        emb_ref = sbert_model.encode(reference, convert_to_tensor=True)
+        emb_hyp = sbert_model.encode(hypothesis, convert_to_tensor=True)
+        sem_sim = util.cos_sim(emb_ref, emb_hyp).item()
+    except:
+        sem_sim = 0.0
+
+    edit_dist = Levenshtein.distance(reference, hypothesis)
+    exact_match = int(reference.strip() == hypothesis.strip())
+    instruction_adherence = int(thoughts.strip() == "")
+
+    return {
+        "BLEU": bleu,
+        "METEOR": meteor,
+        "ROUGE_L": rouge_l,
+        "SemanticSim": sem_sim,
+        "EditDist": edit_dist,
+        "ExactMatch": exact_match,
+        "InstructionAdherence": instruction_adherence
     }
 
-    # Semantic similarity
-    try:
-        st_model = SentenceTransformer('all-MiniLM-L6-v2')
-        sim = util.cos_sim(st_model.encode(expected), st_model.encode(output)).item()
-        metrics["semantic_similarity"] = sim
-    except Exception:
-        pass
+# -----------------------
+# MAIN LOOP
+# -----------------------
+results = []
 
-    # BERTScore
-    try:
-        P, R, F1 = bert_score([output], [expected], lang='en')
-        metrics["bert_precision"] = P[0].item()
-        metrics["bert_recall"] = R[0].item()
-        metrics["bert_f1"] = F1[0].item()
-    except Exception:
-        pass
+for idx, case in enumerate(test_cases, start=1):
+    print(f"[INFO] Test case {idx}")
+    prompt = f"""You are a git commit summarizer.
+Read the following diff and provide ONLY a concise commit message.
+DO NOT provide explanations or reasoning.
+Provide your commit message in JSON format: {{\"commit_msg\": \"...\", \"thoughts\": \"...\"}}
 
-    # ROUGE
-    try:
-        scorer = rouge_scorer.RougeScorer(['rouge1','rouge2','rougeL'], use_stemmer=True)
-        scores = scorer.score(expected, output)
-        metrics["rouge1_f1"] = scores["rouge1"].fmeasure
-        metrics["rouge2_f1"] = scores["rouge2"].fmeasure
-        metrics["rougeL_f1"] = scores["rougeL"].fmeasure
-    except Exception:
-        pass
+DIFF:
+{case['diff']}"""
 
-    # BLEU
-    try:
-        metrics["bleu"] = sentence_bleu([expected.split()], output.split())
-    except Exception:
-        pass
+    stdout, stderr, elapsed = run_ollama(prompt)
 
-    return metrics
+    valid_json = True
+    commit_msg = ""
+    thoughts = ""
 
-def save_csv_row(row):
-    fieldnames = [
-        "accuracy","precision","recall","f1_score",
-        "semantic_similarity","bert_precision","bert_recall","bert_f1",
-        "rouge1_f1","rouge2_f1","rougeL_f1","bleu",
-        "model","test_type","time_s"
-    ]
-    file_exists = CSV_FILE.exists()
-    with open(CSV_FILE, "a", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames)
-        if not file_exists:
-            writer.writeheader()
-        writer.writerow(row)
+    if stdout:
+        try:
+            data = json.loads(stdout)
+            commit_msg = data.get("commit_msg", "")
+            thoughts = data.get("thoughts", "")
+        except json.JSONDecodeError:
+            valid_json = False
+            commit_msg = stdout
+            thoughts = ""
+    else:
+        valid_json = False
+        commit_msg = ""
+        thoughts = ""
 
-def main():
-    model_name = "deepseek-r1:8b"
-    test_type = "Commit Summary"
-    tests = generate_commit_tests(20)
+    metrics = evaluate_metrics(case['reference_commit'], commit_msg, thoughts)
 
-    for idx, test in enumerate(tests, 1):
-        print(f"[INFO] Running test case {idx}/{len(tests)} for {test_type}")
-        prompt = f"Summarize the following diff:\n{test['diff']}"
-        output, stderr, elapsed = query_model(model_name, prompt)
+    row = {
+        "test_case": idx,
+        "diff": case['diff'],
+        "reference_commit": case['reference_commit'],
+        "commit_msg": commit_msg,
+        "thoughts": thoughts,
+        "valid_json": valid_json,
+        "time_total": elapsed,
+        **metrics
+    }
 
-        metrics = evaluate_metrics(output, test["expected"])
-        metrics.update({"model": model_name, "test_type": test_type, "time_s": elapsed})
+    results.append(row)
+    print(f"[RESULT] {row}\n")
 
-        save_csv_row(metrics)
-        print(f"[INFO] Test {idx} finished in {elapsed:.2f}s | Semantic Sim={metrics['semantic_similarity']:.3f}")
+# -----------------------
+# SAVE CSV
+# -----------------------
+csv_columns = list(results[0].keys())
+with open(OUTPUT_CSV, mode='w', newline='', encoding='utf-8') as f:
+    writer = csv.DictWriter(f, fieldnames=csv_columns)
+    writer.writeheader()
+    writer.writerows(results)
 
-if __name__ == "__main__":
-    main()
+print(f"[INFO] Results saved to {OUTPUT_CSV}")
