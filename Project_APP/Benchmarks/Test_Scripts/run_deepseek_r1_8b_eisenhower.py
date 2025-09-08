@@ -1,97 +1,187 @@
-import random
-import evaluate
-from sklearn.metrics import accuracy_score, f1_score
+# eisenhower_benchmark.py
 
-# Load metrics
-rouge = evaluate.load("rouge")
-bleu = evaluate.load("bleu")
-bertscore = evaluate.load("bertscore")
+import csv
+import json
+import time
+import re
+import subprocess
+from sklearn.metrics import precision_score, recall_score, f1_score
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
+from rouge_score import rouge_scorer
+from difflib import SequenceMatcher
+import nltk
 
-# Eisenhower quadrants
-QUADRANTS = ["Urgent & Important", "Urgent & Not Important",
-             "Not Urgent & Important", "Not Urgent & Not Important"]
+# Ensure NLTK data is available
+nltk.download('wordnet', quiet=True)
+nltk.download('omw-1.4', quiet=True)
 
-def generate_task():
-    """Generate a mock task description and its correct quadrant."""
-    task_type = random.choice(["Report", "Email", "Meeting", "Presentation", "Code Review"])
-    urgency = random.choice(["Urgent", "Not Urgent"])
-    importance = random.choice(["Important", "Not Important"])
-    description = f"{task_type} ({urgency}, {importance})"
-    quadrant = f"{urgency} & {importance}"
-    return description, quadrant
+###############################
+# Utility Functions
+###############################
 
-def mock_model_predict(tasks):
-    """Mock prediction function; replace with actual model inference."""
-    predictions = []
-    for desc, true_quadrant in tasks:
-        # Mock high-performance prompting: add some randomness to simulate model mistakes
-        if random.random() < 0.7:
-            predictions.append(true_quadrant)  # correct
+def normalize_quadrant(label: str) -> str:
+    """Normalize quadrant labels to standard 4 categories."""
+    if not label:
+        return "Unknown"
+    l = label.strip().lower()
+    if "urgent" in l and "important" in l:
+        if "not urgent" in l and "not important" in l:
+            return "Not Urgent & Not Important"
+        elif "not urgent" in l:
+            return "Not Urgent & Important"
+        elif "not important" in l:
+            return "Urgent & Not Important"
         else:
-            # pick wrong quadrant
-            wrong_choices = [q for q in QUADRANTS if q != true_quadrant]
-            predictions.append(random.choice(wrong_choices))
-    return predictions
+            return "Urgent & Important"
+    return "Unknown"
 
-def compute_metrics(reference, prediction):
-    """Compute Accuracy, F1, ROUGE-1, BLEU, BERTScore"""
-    # Accuracy & weighted F1
-    accuracy = accuracy_score(reference, prediction)
-    f1 = f1_score(reference, prediction, average='weighted')
-    
-    # ROUGE-1
-    rouge_res = rouge.compute(predictions=prediction, references=reference, rouge_types=["rouge1"])
-    rouge1_f1 = rouge_res["rouge1"].mid.fmeasure if hasattr(rouge_res["rouge1"], "mid") else rouge_res["rouge1"]
-    
-    # BLEU
-    bleu_res = bleu.compute(predictions=prediction, references=[[r] for r in reference])
-    bleu_score = bleu_res["bleu"]
-    
-    # BERTScore
-    bert_res = bertscore.compute(predictions=prediction, references=reference, lang="en")
-    bertscore_f1 = sum(bert_res["f1"]) / len(bert_res["f1"])
-    
-    return accuracy, f1, rouge1_f1, bleu_score, bertscore_f1
+def jaccard_index(a, b):
+    set_a, set_b = set(a.split()), set(b.split())
+    return len(set_a & set_b) / len(set_a | set_b) if set_a | set_b else 0
 
-def run_benchmark(n_tasks=30, n_runs=5, model_predict_func=mock_model_predict):
-    """Run multiple benchmark runs and collect metrics."""
-    results = []
-    for run in range(n_runs):
-        tasks = [generate_task() for _ in range(n_tasks)]
-        descriptions = [t[0] for t in tasks]
-        reference = [t[1] for t in tasks]
-        predictions = model_predict_func(tasks)
-        
-        metrics = compute_metrics(reference, predictions)
-        results.append(metrics)
-        print(f"Run {run+1}: Accuracy={metrics[0]:.3f}, F1={metrics[1]:.3f}, "
-              f"ROUGE-1 F1={metrics[2]:.3f}, BLEU={metrics[3]:.3f}, BERTScore={metrics[4]:.3f}")
-    return results
+def semantic_similarity(a, b):
+    return SequenceMatcher(None, a, b).ratio()
 
-def summarize_results(results):
-    """Compute average statistics and return Markdown string."""
-    n = len(results)
-    avg_metrics = [sum(m[i] for m in results)/n for i in range(len(results[0]))]
-    md = "# Deepseek R1:8b Eisenhower Matrix Results\n\n"
-    md += "## Summary Statistics\n\n"
-    md += f"- Average Accuracy: **{avg_metrics[0]:.3f}**\n"
-    md += f"- Average Weighted F1: **{avg_metrics[1]:.3f}**\n"
-    md += f"- Average ROUGE-1 F1: **{avg_metrics[2]:.3f}**\n"
-    md += f"- Average BLEU: **{avg_metrics[3]:.3f}**\n"
-    md += f"- Average BERTScore: **{avg_metrics[4]:.3f}**\n\n"
-    md += "---\n\n## Run Results\n\n"
-    for idx, m in enumerate(results):
-        md += (f"- Run {idx+1}: Accuracy={m[0]:.3f}, F1={m[1]:.3f}, "
-               f"ROUGE-1 F1={m[2]:.3f}, BLEU={m[3]:.3f}, BERTScore={m[4]:.3f}\n")
-    return md
+###############################
+# Test Cases
+###############################
+
+test_cases = [
+    ("Finish quarterly report", "Urgent & Important"),
+    ("Plan team building event", "Not Urgent & Important"),
+    ("Reply to casual emails", "Urgent & Not Important"),
+    ("Read industry news", "Not Urgent & Not Important"),
+    ("Prepare presentation for next week", "Urgent & Important"),
+]
+
+###############################
+# Model Runner
+###############################
+
+def run_ollama(prompt):
+    """Run ollama with subprocess and capture stdout/stderr/time."""
+    start = time.time()
+    try:
+        result = subprocess.run(
+            ["ollama", "run", "deepseek-r1:8b"],
+            input=prompt.encode("utf-8"),
+            capture_output=True,
+            timeout=1200
+        )
+        stdout, stderr = result.stdout.decode("utf-8"), result.stderr.decode("utf-8")
+    except subprocess.TimeoutExpired:
+        return "", "TIMEOUT", 1200
+    elapsed = time.time() - start
+    return stdout.strip(), stderr.strip(), elapsed
+
+###############################
+# Main Benchmark
+###############################
+
+def main():
+    results_file = "results_eisenhower.csv"
+    fieldnames = [
+        "test_case", "task", "expected_quadrant", "predicted_quadrant",
+        "thoughts", "raw_output", "valid_json",
+        "accuracy", "semantic_similarity", "precision", "recall", "f1_score",
+        "jaccard_index", "rouge_l", "bleu",
+        "time_total", "time_thinking"
+    ]
+
+    with open(results_file, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for i, (task, expected) in enumerate(test_cases, start=1):
+            print(f"\n[INFO] Test case {i}: {task}")
+            prompt = f"""
+You are an assistant that classifies tasks into the Eisenhower Matrix.
+
+The four quadrants are:
+1. Urgent & Important
+2. Not Urgent & Important
+3. Urgent & Not Important
+4. Not Urgent & Not Important
+
+Return ONLY a JSON object with two fields:
+- "quadrant": one of the four quadrant labels above
+- "thoughts": your reasoning
+
+Task: "{task}"
+"""
+
+            stdout, stderr, elapsed = run_ollama(prompt)
+            raw_output = stdout
+            print("[RAW OUTPUT]", raw_output[:300], "...\n")
+
+            valid_json = False
+            predicted, thoughts = "Unknown", ""
+            time_thinking = 0.0
+
+            # Try to extract JSON
+            try:
+                match = re.search(r"\{.*\}", raw_output, re.DOTALL)
+                if match:
+                    data = json.loads(match.group(0))
+                    predicted = normalize_quadrant(data.get("quadrant", ""))
+                    thoughts = data.get("thoughts", "")
+                    valid_json = True
+            except Exception as e:
+                print(f"[ERROR] JSON parse failed: {e}")
+
+            expected_norm = normalize_quadrant(expected)
+
+                        # Metrics
+            accuracy = int(predicted == expected_norm)
+            sem_sim = semantic_similarity(expected_norm, predicted)
+
+            precision = recall = f1 = 0.0
+            if predicted != "Unknown":
+                try:
+                    precision = precision_score([expected_norm], [predicted], average="micro", zero_division=0)
+                    recall = recall_score([expected_norm], [predicted], average="micro", zero_division=0)
+                    f1 = f1_score([expected_norm], [predicted], average="micro", zero_division=0)
+                except Exception as e:
+                    print(f"[WARNING] Skipping precision/recall/f1 calculation: {e}")
+
+            jaccard = jaccard_index(expected_norm, predicted)
+
+            rouge = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
+            rouge_l = rouge.score(expected_norm, predicted)["rougeL"].fmeasure
+
+            smoothie = SmoothingFunction().method4
+            bleu = sentence_bleu([expected_norm.split()], predicted.split(), smoothing_function=smoothie)
+
+            row = {
+                "test_case": i,
+                "task": task,
+                "expected_quadrant": expected_norm,
+                "predicted_quadrant": predicted,
+                "thoughts": thoughts,
+                "raw_output": raw_output,
+                "valid_json": valid_json,
+                "accuracy": accuracy,
+                "semantic_similarity": sem_sim,
+                "precision": precision,
+                "recall": recall,
+                "f1_score": f1,
+                "jaccard_index": jaccard,
+                "rouge_l": rouge_l,
+                "bleu": bleu,
+                "time_total": elapsed,
+                "time_thinking": time_thinking
+            }
+
+            writer.writerow(row)
+            print(f"[RESULT] Predicted={predicted}, Expected={expected_norm}, Acc={accuracy}, BLEU={bleu:.3f}, ROUGE-L={rouge_l:.3f}")
+
+    print(f"\n[INFO] Benchmark completed. Results saved to {results_file}")
+
+
+###############################
+# Run
+###############################
 
 if __name__ == "__main__":
-    benchmark_results = run_benchmark(n_tasks=30, n_runs=20)
-    md_report = summarize_results(benchmark_results)
-    
-    # Save Markdown
-    MD_FILE = "deepseek_r1_8b_eisenhower_results.md"
-    with open(MD_FILE, "w", encoding="utf-8") as f:
-        f.write(md_report)
-    
-    print(f"\nBenchmark complete. Markdown report saved to {MD_FILE}")
+    main()
+

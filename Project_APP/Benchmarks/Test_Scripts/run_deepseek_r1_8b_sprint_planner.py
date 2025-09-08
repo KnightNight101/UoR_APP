@@ -1,618 +1,567 @@
-#!/usr/bin/env python3
-"""
-Unified Sprint Planner benchmark with feasibility repair for Deepseek R1:8b.
+# sprint_benchmark.py
 
-- Generates N test problems (tasks, dependencies, team members).
-- Produces a deterministic baseline schedule (resource constrained).
-- Asks the model (via Ollama CLI) to produce a JSON schedule (multi-sprint capable).
-- Parses/repairs AI schedules for feasibility (dependencies, capacity).
-- Compares schedules and computes metrics.
-- Writes incremental CSV results and per-test schedule JSONs.
-- Produces a Markdown report with summary stats.
-
-Windows-compatible: invokes Ollama executable directly as a command (no --stdin).
-"""
-
+import csv
 import json
 import time
-import random
+import re
 import subprocess
-import csv
-from pathlib import Path
-from typing import List, Dict, Tuple, Any
+from difflib import SequenceMatcher
+import nltk
+from datetime import datetime, timedelta
 
-# --------------------------
-# Config
-# --------------------------
-NUM_TESTS = 20
-RESULTS_DIR = Path(__file__).parent / "Test_Results"
-RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-CSV_FILE = RESULTS_DIR / "deepseek_r1_8b_sprint_benchmark.csv"
-SCHEDULES_DIR = RESULTS_DIR / "schedules"
-SCHEDULES_DIR.mkdir(exist_ok=True)
-MD_REPORT = RESULTS_DIR / "deepseek_r1_8b_sprint_report.md"
 
-MODEL_NAME = "deepseek-r1:8b"
-OLLAMA_CANDIDATE_PATHS = [
-    Path("C:/Users/yg838314/AppData/Local/Programs/Ollama/ollama.exe"),
-    Path("C:/Program Files/Ollama/ollama.exe"),
-    Path("C:/Program Files (x86)/Ollama/ollama.exe"),
-    Path("C:/Program Files/Ollama/ollama.EXE"),
+# Ensure NLTK data is available
+nltk.download('wordnet', quiet=True)
+nltk.download('omw-1.4', quiet=True)
+###############################
+# Utility Functions
+###############################
+
+def semantic_similarity(a, b):
+    """Compute simple similarity between two strings using SequenceMatcher."""
+    return SequenceMatcher(None, a, b).ratio()
+
+import subprocess
+import threading
+
+def run_ollama_live(prompt: str, timeout: int = 1200):
+    """
+    Run ollama in live mode with streaming stdout/stderr.
+    Returns: stdout_text, stderr_text, elapsed_time
+    """
+    stdout_lines = []
+    stderr_lines = []
+
+    # Reader function for live printing
+    def reader(stream, collector, label=""):
+        try:
+            for line_bytes in iter(stream.readline, b""):
+                line = line_bytes.decode("utf-8", errors="replace")
+                print(line, end="")  # live print
+                collector.append(line)
+        except Exception as e:
+            print(f"[ERROR] Reader {label}: {e}")
+        finally:
+            stream.close()
+
+    start_time = time.time()
+    try:
+        proc = subprocess.Popen(
+            ["ollama", "run", "deepseek-r1:8b"],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            bufsize=1,
+        )
+
+        # Start stdout and stderr reader threads
+        t_out = threading.Thread(target=reader, args=(proc.stdout, stdout_lines, "stdout"))
+        t_err = threading.Thread(target=reader, args=(proc.stderr, stderr_lines, "stderr"))
+        t_out.start()
+        t_err.start()
+
+        # Send prompt
+        proc.stdin.write(prompt.encode("utf-8"))
+        proc.stdin.close()
+
+        # Wait for process to finish or timeout
+        try:
+            proc.wait(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            print(f"[ERROR] Timeout expired after {timeout} seconds")
+
+        t_out.join()
+        t_err.join()
+
+    except KeyboardInterrupt:
+        proc.kill()
+        print("[INFO] KeyboardInterrupt detected. Process killed.")
+    except Exception as e:
+        proc.kill()
+        print(f"[ERROR] Exception in run_ollama_live: {e}")
+
+    elapsed = time.time() - start_time
+    stdout_text = "".join(stdout_lines)
+    stderr_text = "".join(stderr_lines)
+    return stdout_text, stderr_text, elapsed
+
+
+
+
+def extract_json_array(raw_output: str):
+    """
+    Finds the first JSON array in the model output.
+    Strips code fences and leading explanations.
+    """
+    # Remove ```json fences
+    cleaned = re.sub(r"^```json|```$", "", raw_output, flags=re.IGNORECASE).strip()
+    # Find first JSON array
+    match = re.search(r"\[.*?\]", cleaned, re.DOTALL)
+    if match:
+        try:
+            return json.loads(match.group(0))
+        except json.JSONDecodeError as e:
+            print(f"[ERROR] JSON decode failed: {e}")
+            return None
+    return None
+
+
+def check_feasibility(plan, tasks, team, sprint_days):
+    """
+    Check if the model's sprint plan is feasible.
+    
+    - Dependencies are respected.
+    - Assigned hours do not exceed team capacity.
+    - Dates are within sprint_days.
+    
+    Returns: (feasible_bool, notes_list)
+    """
+    task_map = {t['name']: t for t in tasks}
+    team_map = {m['name']: m['hours_per_day'] * sprint_days for m in team}
+    feasible = True
+    notes = []
+
+    for t in plan:
+        name = t.get('task')
+        assigned = t.get('assigned_to')
+        start = t.get('start')
+        end = t.get('end')
+        duration = t.get('duration_hours', 0)
+
+        # Check if team member exists
+        if assigned not in team_map:
+            feasible = False
+            notes.append(f"Unknown team member assigned to task {name}")
+            continue
+
+        # Check if assigned duration exceeds capacity
+        if duration > team_map[assigned]:
+            feasible = False
+            notes.append(
+                f"Task {name} assigned hours {duration} exceed {assigned}'s capacity {team_map[assigned]}"
+            )
+
+        # Check dependencies
+        deps = task_map[name].get('dependencies', [])
+        for d in deps:
+            dep_task = next((x for x in plan if x['task'] == d), None)
+            if not dep_task:
+                feasible = False
+                notes.append(f"Dependency {d} for task {name} not scheduled")
+            else:
+                dep_end = datetime.fromisoformat(dep_task['end'])
+                task_start = datetime.fromisoformat(start)
+                if task_start < dep_end:
+                    feasible = False
+                    notes.append(f"Task {name} starts before dependency {d} ends")
+
+    return feasible, notes
+
+
+###############################
+# Team & Sprint Settings
+###############################
+
+# Define team members and their daily available hours
+team_members = [
+    {"name": "Alice", "hours_per_day": 6},
+    {"name": "Bob", "hours_per_day": 4},
+    {"name": "Charlie", "hours_per_day": 8},
 ]
 
-MODEL_TIMEOUT = 300  # seconds
+# Sprint length in days
+sprint_days = 5
 
-# --------------------------
-# Utilities
-# --------------------------
-def ensure_ollama() -> str:
-    from shutil import which
-    for p in OLLAMA_CANDIDATE_PATHS:
-        if p.exists():
-            return str(p)
-    w = which("ollama")
-    if w:
-        return w
-    raise EnvironmentError("Ollama executable not found. Install Ollama or update OLLAMA_CANDIDATE_PATHS.")
+# Sprint start date
+sprint_start_date = datetime.today().replace(hour=9, minute=0, second=0, microsecond=0)
 
-def run_ollama(model_name: str, prompt: str, timeout: int = MODEL_TIMEOUT) -> Tuple[str, float, bool]:
+###############################
+# Test Cases
+###############################
+
+# Each test case is a dictionary:
+# - 'tasks': list of tasks with dependencies, estimated hours, optional assigned_to
+# - 'description': what the scenario is testing
+test_cases = [
+    {
+        "description": "Simple 3-task linear dependency",
+        "tasks": [
+            {"name": "Task A", "duration_hours": 8, "dependencies": [], "assigned_to": "Alice"},
+            {"name": "Task B", "duration_hours": 4, "dependencies": ["Task A"], "assigned_to": "Bob"},
+            {"name": "Task C", "duration_hours": 6, "dependencies": ["Task B"], "assigned_to": "Charlie"},
+        ]
+    },
+    {
+        "description": "Parallel tasks with shared resources",
+        "tasks": [
+            {"name": "Design UI", "duration_hours": 6, "dependencies": [], "assigned_to": "Alice"},
+            {"name": "Backend API", "duration_hours": 12, "dependencies": [], "assigned_to": "Bob"},
+            {"name": "Integration Testing", "duration_hours": 4, "dependencies": ["Design UI", "Backend API"], "assigned_to": "Charlie"},
+        ]
+    },
+    {
+        "description": "Overbooked team member",
+        "tasks": [
+            {"name": "Task X", "duration_hours": 10, "dependencies": [], "assigned_to": "Alice"},
+            {"name": "Task Y", "duration_hours": 8, "dependencies": ["Task X"], "assigned_to": "Alice"},
+            {"name": "Task Z", "duration_hours": 6, "dependencies": ["Task Y"], "assigned_to": "Bob"},
+        ]
+    },
+    {
+        "description": "Tasks without assigned member (model decides)",
+        "tasks": [
+            {"name": "Write Documentation", "duration_hours": 6, "dependencies": []},
+            {"name": "Code Review", "duration_hours": 4, "dependencies": ["Write Documentation"]},
+            {"name": "Deploy to Production", "duration_hours": 2, "dependencies": ["Code Review"]},
+        ]
+    },
+    {
+        "description": "Complex web with multiple dependencies",
+        "tasks": [
+            {"name": "Set up DB", "duration_hours": 4, "dependencies": []},
+            {"name": "Implement Auth", "duration_hours": 6, "dependencies": ["Set up DB"]},
+            {"name": "Frontend Layout", "duration_hours": 5, "dependencies": []},
+            {"name": "API Integration", "duration_hours": 8, "dependencies": ["Implement Auth", "Frontend Layout"]},
+            {"name": "End-to-End Testing", "duration_hours": 6, "dependencies": ["API Integration"]},
+        ]
+    },
+]
+
+
+def extract_thoughts(raw_output: str, preview_lines: int = 10):
     """
-    Run Ollama with the full prompt as one argument, using UTF-8 decoding and ignoring
-    undecodable bytes to avoid Windows cp1252 crashes. Returns (stdout, elapsed_s, error_flag).
+    Grab the first N lines of the model's reasoning as 'thoughts'.
     """
-    ollama = ensure_ollama()
-    # Pass the prompt directly as one argument; Ollama CLI accepts: ollama run <model> "<prompt>"
-    cmd = [ollama, "run", model_name, prompt]
-    start = time.time()
-    try:
-        proc = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-            encoding="utf-8",
-            errors="ignore",  # prevent UnicodeDecodeError on Windows
-        )
-        elapsed = time.time() - start
-        if proc.returncode != 0:
-            print(f"[ERROR] Ollama returned non-zero: {proc.returncode}; stderr: {proc.stderr.strip()}")
-            return proc.stdout.strip(), elapsed, True
-        return proc.stdout.strip(), elapsed, False
-    except subprocess.TimeoutExpired:
-        print(f"[ERROR] Ollama timed out after {timeout} seconds for model {model_name}")
-        return "", timeout, True
+    lines = raw_output.strip().splitlines()
+    # Skip empty lines and "Thinking..." header
+    meaningful = [l for l in lines if l.strip() and "Thinking" not in l][:preview_lines]
+    return "\n".join(meaningful)
 
-def extract_json_block(text: str) -> str:
-    """
-    Best-effort extraction of a JSON object from model output.
-    Supports ```json fenced blocks and plain trailing explanations.
-    Returns the JSON substring or "" if none found.
-    """
-    if not text:
-        return ""
-    # Prefer fenced ```json blocks
-    fence_start = text.find("```json")
-    if fence_start != -1:
-        fence_start = fence_start + len("```json")
-        fence_end = text.find("```", fence_start)
-        if fence_end != -1:
-            return text[fence_start:fence_end].strip()
-    # Otherwise take the largest {...} slice
-    start = text.find("{")
-    end = text.rfind("}")
-    if start != -1 and end != -1 and end > start:
-        return text[start:end+1].strip()
-    return ""
 
-# --------------------------
-# Test case generation
-# --------------------------
-def generate_test_case(idx: int) -> Dict[str, Any]:
-    # Make deterministic per test id for reproducibility
-    random.seed(10_000 + idx)
-    team_size = random.randint(2, 4)
-    members = {f"member_{i}": random.choice([4, 6, 8]) for i in range(team_size)}  # hours/day capacity
-    n_tasks = random.randint(5, 9)
+def main():
+    results_file = "results_sprint_planner.csv"
+    fieldnames = [
+        "test_case", "description", "valid_json", "raw_output", "thoughts",
+        "schedule_feasible", "dependency_accuracy", "resource_balance",
+        "time_utilization", "makespan_hours", "task_alignment",
+        "semantic_similarity", "precision", "recall", "f1_score",
+        "jaccard_index", "rouge_l", "bleu",
+        "time_total", "time_thinking"
+    ]
 
-    tasks, next_id = [], 0
-    for t in range(n_tasks):
-        do_h = random.randint(2, 8)
-        verify_h = random.randint(1, 4)
-        tasks.append({
-            "id": next_id,
-            "title": f"Task_{t}",
-            "do": do_h,
-            "verify": verify_h,
-            "dependencies": [],
-            "parent": None
-        })
-        next_id += 1
-        # Optional subtasks
-        if random.random() < 0.3:
-            for s in range(random.randint(1, 2)):
-                tasks.append({
-                    "id": next_id,
-                    "title": f"Task_{t}_sub{s}",
-                    "do": max(1, do_h // 2),
-                    "verify": max(1, verify_h // 2),
-                    "dependencies": [],
-                    "parent": t
-                })
-                next_id += 1
+    with open(results_file, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
 
-    # Add dependencies
-    for t in tasks:
-        if random.random() < 0.35:
-            possible = [x["id"] for x in tasks if x["id"] < t["id"]]
-            if possible:
-                t["dependencies"] = random.sample(possible, min(len(possible), random.randint(1, 2)))
+        for i, (desc, tasks) in enumerate(test_cases, start=1):
+            print(f"\n[INFO] Running test case {i}: {desc}")
 
-    return {"team": members, "tasks": tasks}
+            # Build prompt
+            prompt = f"""
+You are an Agile sprint planner. 
+Take the following tasks with estimates, dependencies, and team assignments, and return a sprint plan in JSON array format.
 
-# --------------------------
-# Baseline scheduler (greedy RCPSP with topo order)
-# --------------------------
-def baseline_schedule(case: Dict[str, Any]) -> Dict[str, Any]:
-    tasks, members = case["tasks"], case["team"]
-    adj, indeg = {t["id"]: [] for t in tasks}, {t["id"]: 0 for t in tasks}
-    by_id = {t["id"]: t for t in tasks}
-    for t in tasks:
-        for d in t.get("dependencies", []):
-            adj[d].append(t["id"])
-            indeg[t["id"]] += 1
+Each task object must contain:
+- "id"
+- "name"
+- "hours"
+- "assignee"
+- "start"
+- "end"
 
-    q = [tid for tid, d in indeg.items() if d == 0]
-    topo = []
-    while q:
-        nid = q.pop(0)
-        topo.append(nid)
-        for nb in adj[nid]:
-            indeg[nb] -= 1
-            if indeg[nb] == 0:
-                q.append(nb)
-    if len(topo) != len(tasks):
-        return {"schedule": {}, "makespan": float("inf"), "error": "cycle_in_dependencies"}
+Respond with ONLY a JSON array, nothing else.
+Tasks: {json.dumps(tasks, indent=2)}
+"""
 
-    next_free = {m: 0.0 for m in members.keys()}  # in hours
-    assigned = {}
+            # Run model
+            stdout, stderr, elapsed = run_ollama_live(prompt)
+            raw_output = stdout
+            print("[RAW OUTPUT]", raw_output[:300], "...\n")
 
-    def deps_finish(task_id):
-        deps = by_id[task_id].get("dependencies", [])
-        return max([assigned[d]["finish"] for d in deps if d in assigned], default=0.0)
+            # -------------------------
+            # JSON Extraction & Parsing
+            # -------------------------
+            valid_json = False
+            predicted_plan = extract_json_array(raw_output)
+            valid_json = predicted_plan is not None
+            if not valid_json:
+                print("[WARN] Failed to parse JSON array from model output.")
 
-    for tid in topo:
-        t = by_id[tid]
-        total_hours = t["do"] + t["verify"]
-        earliest_start = deps_finish(tid)
 
-        best, best_finish, chosen_start = None, None, None
-        for m in members.keys():
-            start_candidate = max(next_free[m], earliest_start)
-            finish_candidate = start_candidate + total_hours
-            if best_finish is None or finish_candidate < best_finish:
-                best = m
-                best_finish = finish_candidate
-                chosen_start = start_candidate
+            try:
+                cleaned_output = raw_output.strip()
+                cleaned_output = re.sub(r"^```json", "", cleaned_output, flags=re.IGNORECASE).strip()
+                cleaned_output = re.sub(r"```$", "", cleaned_output).strip()
 
-        assigned[tid] = {
-            "task_id": tid,
-            "assignee": best,
-            "start": chosen_start,
-            "duration": total_hours,
-            "finish": best_finish
-        }
-        next_free[best] = best_finish
+                match = re.search(r"\[.*\]", cleaned_output, re.DOTALL)
+                if match:
+                    predicted_plan = json.loads(match.group(0))
+                    valid_json = True
+                else:
+                    print("[WARN] No JSON array found in output")
 
-    makespan = max(e["finish"] for e in assigned.values()) if assigned else 0.0
-    return {"schedule": assigned, "makespan": makespan, "error": None}
+                # Capture reasoning if present
+                thoughts_match = re.search(r'"thoughts"\s*:\s*"([^"]*)"', cleaned_output, re.DOTALL)
+                if thoughts_match:
+                    thoughts = thoughts_match.group(1)
 
-# --------------------------
-# Parsing/repair
-# --------------------------
-def parse_model_schedule(output: str, case: Dict[str, Any]) -> Dict[int, Dict[str, Any]]:
-    """
-    Parse model output supporting:
-      - new multi-sprint schema: {"sprints":[{tasks:[{id, assigneeId?, duration?, ...}], teamMembers:[{id,name}]}]}
-      - old backlog-style: {"sprint_backlog" | "backlog" | "schedule":[{task_id, assignee, start, duration}]}
+            except Exception as e:
+                print(f"[ERROR] JSON parse failed: {e}")
 
-    Returns internal normalized dict: {task_id: {task_id, assignee, start, duration, finish}}
-    where start is in hours; if not provided, we will set start=0 and let repair re-place it.
-    """
-    txt = extract_json_block(output) or output
-    if not txt:
-        return {}
+            # -------------------------
+            # Evaluate Metrics
+            # -------------------------
+            metrics = {
+                "feasibility": check_feasibility(predicted_plan),
+                "deps": check_dependencies(tasks, predicted_plan),
+                "balance": check_balance(predicted_plan),
+                "utilization": check_utilization(predicted_plan),
+                "effort": check_effort(tasks, predicted_plan),
+                "coverage": check_coverage(tasks, predicted_plan),
+                "coherence": check_coherence(predicted_plan),
+                "scalability": check_scalability(predicted_plan),
+            }
 
-    try:
-        data = json.loads(txt)
-    except Exception:
-        # last resort: try to slice braces
-        start = txt.find("{")
-        end = txt.rfind("}")
-        if start == -1 or end == -1 or end <= start:
-            return {}
+            # Log results to CSV
+            row = {
+                "test_case": i,
+                "description": desc,
+                "expected_tasks": json.dumps(tasks),
+                "predicted_plan": json.dumps(predicted_plan) if valid_json else "",
+                "thoughts": thoughts,
+                "raw_output": raw_output,
+                "valid_json": valid_json,
+                "time_total": elapsed,
+                **metrics
+            }
+            writer.writerow(row)
+            f.flush()  # <-- ensures it's written immediately
+
+            print(f"[RESULT] "
+                  f"Feasibility={metrics['feasibility']:.2f}, "
+                  f"Deps={metrics['deps']:.2f}, "
+                  f"Balance={metrics['balance']:.2f}, "
+                  f"Util={metrics['utilization']:.2f}, "
+                  f"Effort={metrics['effort']:.2f}, "
+                  f"Coverage={metrics['coverage']:.2f}, "
+                  f"Coherence={metrics['coherence']:.2f}, "
+                  f"Scalability={metrics['scalability']:.2f}")
+
+def check_schedule_feasibility(tasks_predicted, sprint_days):
+    """Check if predicted tasks have valid start/end dates within sprint window."""
+    feasible = True
+    for task in tasks_predicted:
         try:
-            data = json.loads(txt[start:end+1])
+            start = datetime.fromisoformat(task["start"])
+            end = datetime.fromisoformat(task["end"])
+            if end < start:
+                feasible = False
+            if (end - start).days > sprint_days:
+                feasible = False
         except Exception:
-            return {}
+            feasible = False
+    return feasible
+def check_dependency_accuracy(tasks_expected, tasks_predicted):
+    """Check how many dependencies are correctly respected."""
+    dep_correct, dep_total = 0, 0
+    expected_deps = {t["name"]: t["dependencies"] for t in tasks_expected}
+    predicted_lookup = {t["name"]: t for t in tasks_predicted}
 
-    # If multi-sprint schema present
-    result: Dict[int, Dict[str, Any]] = {}
-    by_id = {t["id"]: t for t in case["tasks"]}
-    case_members = list(case["team"].keys())  # enforce known members
-    member_fallback = case_members[0] if case_members else "member_0"
-
-    if isinstance(data, dict) and "sprints" in data and isinstance(data["sprints"], list):
-        # Build a per-sprint member map (id->name), but coerce to known case members
-        for sp in data["sprints"]:
-            tasks = sp.get("tasks", []) or []
-            team_members = sp.get("teamMembers", []) or []
-            id_to_name = {}
-            for tm in team_members:
+    for t in tasks_expected:
+        name = t["name"]
+        deps = t.get("dependencies", [])
+        dep_total += len(deps)
+        for d in deps:
+            if name in predicted_lookup and d in predicted_lookup:
                 try:
-                    # Prefer exact case member names; otherwise map to first known member
-                    nm = tm.get("name") or tm.get("id") or ""
-                    if nm in case["team"]:
-                        id_to_name[tm.get("id")] = nm
-                    else:
-                        # Keep id mapping but will coerce later
-                        id_to_name[tm.get("id")] = str(nm)
+                    start = datetime.fromisoformat(predicted_lookup[name]["start"])
+                    end_dep = datetime.fromisoformat(predicted_lookup[d]["end"])
+                    if start >= end_dep:
+                        dep_correct += 1
                 except Exception:
                     pass
 
-            for item in tasks:
-                # Only accept tasks that exist in the generated case
-                tid_raw = item.get("id")
-                try:
-                    tid = int(tid_raw) if isinstance(tid_raw, (int, str)) and str(tid_raw).isdigit() else None
-                except Exception:
-                    tid = None
-                if tid is None or tid not in by_id:
-                    continue
+    return dep_correct / dep_total if dep_total > 0 else 0
 
-                # Duration — prefer model's provided, else compute from case
-                dur = item.get("duration")
-                if not isinstance(dur, (int, float)) or dur <= 0:
-                    dur = by_id[tid]["do"] + by_id[tid]["verify"]
+def check_resource_balance(tasks_predicted, team_availability):
+    """Check workload fairness across team members compared to availability."""
+    workload = {m: 0 for m in team_availability.keys()}
 
-                # Assignee — prefer assigneeId/name mapped to known members
-                assignee = None
-                if "assigneeId" in item:
-                    assignee = id_to_name.get(item["assigneeId"])
-                if not assignee:
-                    nm = item.get("assignee") or item.get("assigneeName")
-                    if isinstance(nm, str) and nm in case["team"]:
-                        assignee = nm
-                if not assignee or assignee not in case["team"]:
-                    assignee = member_fallback
+    for t in tasks_predicted:
+        assignee = t.get("assignee")
+        hours = t.get("hours", 0)
+        if assignee in workload:
+            workload[assignee] += hours
 
-                # Start — optional; we will repair anyway
-                start_v = item.get("start")
-                start = float(start_v) if isinstance(start_v, (int, float, str)) and str(start_v).replace(".", "", 1).isdigit() else 0.0
-                finish = start + float(dur)
+    ratios = []
+    for m, available in team_availability.items():
+        if available > 0:
+            ratios.append(workload[m] / available)
 
-                result[tid] = {
-                    "task_id": tid,
-                    "assignee": assignee,
-                    "start": float(start),
-                    "duration": float(dur),
-                    "finish": float(finish)
-                }
+    if not ratios:
+        return 0.0
 
-        return result
+    # Lower variance = better balance
+    variance = sum((r - sum(ratios)/len(ratios))**2 for r in ratios) / len(ratios)
+    return 1 / (1 + variance)
 
-    # Fallback to old backlog-like schema
-    backlog = data.get("sprint_backlog") or data.get("backlog") or data.get("schedule") or []
-    if isinstance(backlog, list):
-        for item in backlog:
-            try:
-                tid = int(item.get("task_id"))
-                if tid not in by_id:
-                    continue
-                assignee = item.get("assignee") or member_fallback
-                if assignee not in case["team"]:
-                    assignee = member_fallback
-                dur = float(item.get("duration") or (by_id[tid]["do"] + by_id[tid]["verify"]))
-                start = float(item.get("start") or 0.0)
-                result[tid] = {
-                    "task_id": tid,
-                    "assignee": assignee,
-                    "start": start,
-                    "duration": dur,
-                    "finish": start + dur
-                }
-            except Exception:
-                continue
+def check_time_utilization(tasks_predicted, team_availability):
+    """Measure how well total planned hours fit into available hours."""
+    total_planned = sum(t.get("hours", 0) for t in tasks_predicted)
+    total_available = sum(team_availability.values())
 
-    return result
+    if total_available == 0:
+        return 0.0
 
-def repair_model_schedule(case: Dict[str, Any], model_sched: Dict[int, Dict[str, Any]]) -> Dict[int, Dict[str, Any]]:
-    """
-    Feasibility repair:
-      - Topological order on case graph
-      - Respect dependencies
-      - Respect single-resource usage per member (no overlap)
-      - Keep model's chosen assignee when possible, else assign least-loaded member
-      - Duration = case (do+verify) if missing/invalid
-    """
-    tasks = case["tasks"]
-    members = case["team"]
-    by_id = {t["id"]: t for t in tasks}
+    utilization = total_planned / total_available
+    return min(utilization, 1.0)  # cap at 1.0
 
-    # Build topo order
-    adj, indeg = {t["id"]: [] for t in tasks}, {t["id"]: 0 for t in tasks}
-    for t in tasks:
-        for d in t.get("dependencies", []):
-            adj[d].append(t["id"])
-            indeg[t["id"]] += 1
-    q = [tid for tid, d in indeg.items() if d == 0]
-    topo = []
-    while q:
-        nid = q.pop(0)
-        topo.append(nid)
-        for nb in adj[nid]:
-            indeg[nb] -= 1
-            if indeg[nb] == 0:
-                q.append(nb)
-    if len(topo) != len(tasks):
-        # cycle: return what we can from model (won't be feasible anyway)
-        return model_sched
+def check_effort_estimation(tasks_predicted, tasks_expected):
+    """Compare predicted task effort (hours) with expected values."""
+    errors = []
 
-    # Initialize availability and build repaired
-    next_free = {m: 0.0 for m in members.keys()}
-    repaired: Dict[int, Dict[str, Any]] = {}
+    expected_map = {t["id"]: t.get("hours", 0) for t in tasks_expected}
 
-    def deps_finish(task_id):
-        deps = by_id[task_id].get("dependencies", [])
-        # use repaired if present, else model_sched if dependency wasn't in output yet
-        times = []
-        for d in deps:
-            if d in repaired:
-                times.append(repaired[d]["finish"])
-            elif d in model_sched:
-                times.append(model_sched[d]["finish"])
-        return max(times) if times else 0.0
+    for t in tasks_predicted:
+        tid = t.get("id")
+        if tid in expected_map:
+            predicted = t.get("hours", 0)
+            expected = expected_map[tid]
+            if expected > 0:
+                errors.append(abs(predicted - expected) / expected)
 
-    # Pre-compute member load to pick least-loaded when assignee missing
-    def least_loaded_member() -> str:
-        return min(next_free.items(), key=lambda kv: kv[1])[0]
+    if not errors:
+        return 0.0
 
-    for tid in topo:
-        base = by_id[tid]
-        total_hours = float(base["do"] + base["verify"])
-        src = model_sched.get(tid, {})
-        chosen_assignee = src.get("assignee") if src.get("assignee") in members else least_loaded_member()
+    # Lower error = better, so convert to a score
+    mean_error = sum(errors) / len(errors)
+    return max(0.0, 1.0 - mean_error)
 
-        earliest = deps_finish(tid)
-        start_candidate = max(next_free[chosen_assignee], earliest)
-        finish_candidate = start_candidate + total_hours
+def check_coverage(tasks_predicted, tasks_expected):
+    """Check how many expected tasks are included in the plan."""
+    predicted_ids = {t.get("id") for t in tasks_predicted}
+    expected_ids = {t.get("id") for t in tasks_expected}
 
-        repaired[tid] = {
-            "task_id": tid,
-            "assignee": chosen_assignee,
-            "start": start_candidate,
-            "duration": total_hours,
-            "finish": finish_candidate
-        }
-        next_free[chosen_assignee] = finish_candidate
+    if not expected_ids:
+        return 0.0
 
-    return repaired
+    covered = predicted_ids.intersection(expected_ids)
+    return len(covered) / len(expected_ids)
+def check_output_coherence(tasks_predicted):
 
-# --------------------------
-# Evaluation
-# --------------------------
-def evaluate_model_schedule(case: Dict[str, Any], model_sched: Dict[int, Dict[str, Any]], baseline_makespan: float) -> Dict[str, Any]:
-    tasks, members = case["tasks"], case["team"]
-    total_tasks = len(tasks)
-    scheduled = list(model_sched.keys())
-    task_coverage = len(scheduled) / total_tasks if total_tasks else 0.0
+    """Verify that the output has coherent structure and valid fields."""
+    if not isinstance(tasks_predicted, list) or not tasks_predicted:
+        return 0.0
 
-    model_makespan = max((e["finish"] for e in model_sched.values()), default=0.0)
-    if model_makespan <= 0:
-        model_makespan = 0.0
+    required_keys = {"id", "task", "hours", "assignee", "start", "end"}
+    valid_count = 0
 
-    by_id = {t["id"]: t for t in tasks}
-    violations = 0
-    for tid, entry in model_sched.items():
-        deps = by_id.get(tid, {}).get("dependencies", [])
-        for d in deps:
-            dep_finish = model_sched.get(d, {}).get("finish")
-            if dep_finish is None:
-                violations += 1
-            elif entry["start"] < dep_finish - 1e-6:
-                violations += 1
+    for t in tasks_predicted:
+        if not isinstance(t, dict):
+            continue
+        if required_keys.issubset(set(t.keys())):
+            valid_count += 1
 
-    # Utilization (approx): capacity over the period implied by makespan
-    assigned_hours = {m: 0.0 for m in members.keys()}
-    for e in model_sched.values():
-        a = e.get("assignee")
-        if a in assigned_hours:
-            assigned_hours[a] += e.get("duration", 0.0)
+    return valid_count / len(tasks_predicted)
 
-    utils = []
-    if model_makespan > 0:
-        for m, daily in members.items():
-            available_over_period = (model_makespan / 24.0) * daily
-            u = min(assigned_hours.get(m, 0.0) / available_over_period, 1.0) if available_over_period > 0 else 0.0
-            utils.append(u)
-        avg_util = (sum(utils) / len(utils) * 100.0) if utils else 0.0
-    else:
-        avg_util = 0.0
+def check_scalability(tasks_predicted, expected_count):
+    """Check if the model scales to larger sprint plans without truncation."""
+    if expected_count == 0:
+        return 0.0
+    return min(1.0, len(tasks_predicted) / expected_count)
 
-    makespan_ratio = (model_makespan / baseline_makespan) if (baseline_makespan > 0 and model_makespan > 0) else -1
-    feasible = (violations == 0 and (all(u <= 1.0 for u in utils) if utils else False))
-
-    return {
-        "baseline_makespan": round(baseline_makespan, 3) if baseline_makespan != float("inf") else -1,
-        "model_makespan": round(model_makespan, 3) if model_makespan != float("inf") else -1,
-        "makespan_ratio": round(makespan_ratio, 3) if makespan_ratio != -1 else -1,
-        "dependency_violations": violations,
-        "task_coverage": round(task_coverage, 3),
-        "avg_member_utilization": round(avg_util, 2),
-        "feasible": feasible
-    }
-
-# --------------------------
-# Markdown report
-# --------------------------
-def generate_md_report(csv_file: Path, md_file: Path):
-    import pandas as pd
-    df = pd.read_csv(csv_file)
-    avg_makespan_ratio = round(df['makespan_ratio'].replace(-1, float('nan')).mean(), 3)
-    avg_task_coverage = round(df['task_coverage'].replace(-1, float('nan')).mean() * 100, 2)
-    avg_member_utilization = round(df['avg_member_utilization'].replace(-1, float('nan')).mean(), 2)
-    feasible_pct = round((df['feasible'] == True).sum() / len(df) * 100, 1)
-    md_lines = [
-        "# Deepseek R1:8b Sprint Planner Results",
-        "## Summary Statistics",
-        f"- Average makespan ratio: **{avg_makespan_ratio}**",
-        f"- Average task coverage: **{avg_task_coverage}%**",
-        f"- Average member utilization: **{avg_member_utilization}%**",
-        f"- Feasible schedules: **{feasible_pct}%**",
-        "\n---\n",
-        "## Makespan Ratio Distribution (Mermaid)",
-        "```mermaid",
-        "%% add Gantt chart code here",
-        "```"
-    ]
-    md_file.write_text("\n".join(md_lines), encoding="utf-8")
-    print(f"[INFO] Markdown report written to {md_file}")
-
-# --------------------------
-# Prompt builder (strict, multi-sprint, schema-locked)
-# --------------------------
-def build_prompt(case: Dict[str, Any]) -> str:
-    """
-    Force the model to:
-      - Use EXACT task IDs and durations (do+verify)
-      - Use ONLY provided team member keys as assignees
-      - Return STRICT JSON with a 'sprints' array
-      - Provide at least 2 sprints total
-    We do NOT require start times; the repair phase will schedule feasibly.
-    """
-    team = case["team"]
-    tasks = case["tasks"]
-    members_list = list(team.keys())
-    # Precompute canonical durations we expect the model to use
-    task_brief = [
-        {
-            "id": t["id"],
-            "title": t["title"],
-            "duration_hours": t["do"] + t["verify"],
-            "dependencies": t.get("dependencies", []),
-        }
-        for t in tasks
-    ]
-    # Compose strict instruction
-    prompt = (
-        "Return ONLY valid JSON (no markdown, no commentary). "
-        "Produce a multi-sprint agile plan using this schema:\n"
-        "{\n"
-        '  "sprints": [\n'
-        "    {\n"
-        '      "id": "SPRINT-1",\n'
-        '      "startDate": "2025-01-01",\n'
-        '      "endDate": "2025-01-14",\n'
-        '      "description": "Auto-planned sprint.",\n'
-        '      "teamMembers": [ { "id": 1, "name": "'
-        + members_list[0]
-        + '" }'
-        + (
-            "".join(
-                f', {{ "id": {i+1}, "name": "{members_list[i]}" }}'
-                for i in range(1, len(members_list))
-            )
-            if len(members_list) > 1
-            else ""
-        )
-        + " ],\n"
-        '      "tasks": [ { "id": 0, "assigneeId": 1, "duration": 1 } ]\n'
-        "    }\n"
-        "  ]\n"
-        "}\n\n"
-        "Rules:\n"
-        "- Create AT LEAST 2 sprints in total. You may distribute tasks across them.\n"
-        "- You MUST use ONLY these assignee names: "
-        + ", ".join(members_list)
-        + ". If you use assigneeId, map them to those names.\n"
-        "- You MUST use EXACT task ids and durations from the provided list below.\n"
-        "- Each task must include either assigneeId or assignee/name.\n"
-        "- Do NOT invent new tasks or members.\n"
-        "- You may omit start times; durations are in hours.\n"
-        "- Respect dependencies: a task cannot start before all its dependencies have finished.\n"
-        "- Output strictly the JSON object, no extra text.\n\n"
-        "Provided tasks (id, duration_hours, dependencies):\n"
-        + json.dumps(task_brief, separators=(",", ":"))
-        + "\n"
-    )
-    return prompt
-
-# --------------------------
-# Main benchmark loop
-# --------------------------
 def main():
-    headers = [
-        "test_id",
-        "model",
-        "baseline_makespan",
-        "model_makespan",
-        "makespan_ratio",
-        "dependency_violations",
-        "task_coverage",
-        "avg_member_utilization",
-        "feasible",
-        "time_s",
+    results_file = "results_sprint.csv"
+    fieldnames = [
+        "test_case", "description", "valid_json", "thoughts", "raw_output",
+        "schedule_feasibility", "dependency_accuracy", "resource_balance",
+        "time_utilization", "effort_accuracy", "coverage",
+        "output_coherence", "scalability",
+        "time_total"
     ]
-    if not CSV_FILE.exists():
-        with open(CSV_FILE, "w", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-            writer.writerow(headers)
 
-    for test_id in range(1, NUM_TESTS + 1):
-        print(f"[INFO] Generating test case {test_id}...")
-        case = generate_test_case(test_id)
+    with open(results_file, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
 
-        baseline = baseline_schedule(case)
-        baseline_makespan = baseline.get("makespan", -1)
+        for i, case in enumerate(test_cases, start=1):
+            print(f"\n[INFO] Running test case {i}: {case['description']}")
 
-        prompt_text = build_prompt(case)
-        output, elapsed, err = run_ollama(MODEL_NAME, prompt_text)
+            # Prompt model
+            prompt = f"""
+You are an assistant that creates Agile sprint plans.
 
-        # Save raw model output
-        (SCHEDULES_DIR / f"test_{test_id}_model_raw.txt").write_text(output, encoding="utf-8")
+Each plan must output a JSON array of tasks with fields:
+- id (string)
+- task (string)
+- hours (int)
+- assignee (string)
+- start (ISO datetime)
+- end (ISO datetime)
 
-        # Parse -> repair
-        parsed = parse_model_schedule(output, case)
-        if not parsed:
-            print(f"[WARN] Empty/invalid model schedule for test {test_id}; falling back to baseline for evaluation.")
-            parsed = {}  # let repair place everything
-        repaired = repair_model_schedule(case, parsed)
+Consider task dependencies, available hours, and resource balancing.
+Ensure schedule is feasible.
 
-        # Save parsed/repaired schedules
-        (SCHEDULES_DIR / f"test_{test_id}_model_parsed.json").write_text(json.dumps(parsed, indent=2), encoding="utf-8")
-        (SCHEDULES_DIR / f"test_{test_id}_model_repaired.json").write_text(json.dumps(repaired, indent=2), encoding="utf-8")
+Tasks:
+{json.dumps(case['tasks'], indent=2)}
+"""
 
-        metrics = evaluate_model_schedule(case, repaired, baseline_makespan)
+            stdout, stderr, elapsed = run_ollama_live(prompt)
+            raw_output = stdout
+            print("[RAW OUTPUT]", raw_output[:400], "...\n")
 
-        # If the model failed completely, repaired will still schedule everything feasibly; no inf metrics.
-        row = [
-            test_id,
-            MODEL_NAME,
-            metrics["baseline_makespan"],
-            metrics["model_makespan"],
-            metrics["makespan_ratio"],
-            metrics["dependency_violations"],
-            metrics["task_coverage"],
-            metrics["avg_member_utilization"],
-            metrics["feasible"],
-            round(elapsed, 3),
-        ]
-        with open(CSV_FILE, "a", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
+            valid_json = False
+            tasks_predicted, thoughts = [], ""
+
+            # Parse JSON
+            try:
+                match = re.search(r"\[.*\]", raw_output, re.DOTALL)
+                if match:
+                    tasks_predicted = json.loads(match.group(0))
+                    valid_json = True
+                # Extract thoughts before JSON
+                thoughts_match = re.split(r"\[", raw_output, 1)
+                if len(thoughts_match) > 1:
+                    thoughts = thoughts_match[0].strip()
+            except Exception as e:
+                print(f"[ERROR] JSON parse failed: {e}")
+
+            # Metrics
+            schedule_feasibility = check_schedule_feasibility(tasks_predicted) if valid_json else 0
+            dependency_accuracy = check_dependency_accuracy(tasks_predicted, case['tasks']) if valid_json else 0
+            resource_balance = check_resource_balance(tasks_predicted) if valid_json else 0
+            time_utilization = check_time_utilization(tasks_predicted, case['resources']) if valid_json else 0
+            effort_accuracy = check_effort_accuracy(tasks_predicted, case['tasks']) if valid_json else 0
+            coverage = check_coverage(tasks_predicted, case['tasks']) if valid_json else 0
+            output_coherence = check_output_coherence(tasks_predicted) if valid_json else 0
+            scalability = check_scalability(tasks_predicted, len(case['tasks'])) if valid_json else 0
+
+            # Save result
+            row = {
+                "test_case": i,
+                "description": case["description"],
+                "valid_json": valid_json,
+                "thoughts": thoughts,
+                "raw_output": raw_output,
+                "schedule_feasibility": schedule_feasibility,
+                "dependency_accuracy": dependency_accuracy,
+                "resource_balance": resource_balance,
+                "time_utilization": time_utilization,
+                "effort_accuracy": effort_accuracy,
+                "coverage": coverage,
+                "output_coherence": output_coherence,
+                "scalability": scalability,
+                "time_total": elapsed,
+            }
             writer.writerow(row)
 
-        print(f"[INFO] Test {test_id} complete. Feasible: {metrics['feasible']}")
-
-    generate_md_report(CSV_FILE, MD_REPORT)
+            # Print live results
+            print(f"[RESULT] Feasibility={schedule_feasibility:.2f}, "
+                  f"Deps={dependency_accuracy:.2f}, Balance={resource_balance:.2f}, "
+                  f"Util={time_utilization:.2f}, Effort={effort_accuracy:.2f}, "
+                  f"Coverage={coverage:.2f}, Coherence={output_coherence:.2f}, "
+                  f"Scalability={scalability:.2f}")
 
 if __name__ == "__main__":
     main()

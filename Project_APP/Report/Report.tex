@@ -66,7 +66,7 @@ Finally, the project emphasises data security and deployment flexibility by cont
 
 Testing for this project will focus on validating both functional performance and usability across the four core components. For the multi-dimensional sprint planner, tests will assess the accuracy and adaptability of task prioritization and scheduling in response to simulated changes in team availability, task dependencies, and deadlines. The Eisenhower Matrix task generator will be evaluated on its ability to categorise tasks correctly based on urgency and importance, as well as its impact on user focus and task completion rates.
 The version control system and commit summarisation feature will be tested for robustness in tracking file changes, accuracy of LLM-generated summaries, and their usefulness in aiding project recall and progress reporting. Context-switching support will be assessed through user testing to measure reductions in ramp-up time when switching between tasks or projects.
-Finally, the containerised deployment will be tested for security, performance, and reliability in an isolated enterprise environment. This includes ensuring data remains local, validating LLM module swap-ins' do not disrupt functionality, and confirming that all features work without requiring prompt engineering. The specific details of the testing methodology will be outlined in the Methodology chapter with greater detail of the test cases available in Appendix \ref{app:TestLogs}.
+Finally, the containerised deployment will be tested for security, performance, and reliability in an isolated enterprise environment. This includes ensuring data remains local, validating LLM module swap-ins' do not disrupt functionality, and confirming that all features work without requiring prompt engineering. The specific details of the testing methodology will be outlined in the Methodology chapter with greater detail of the test cases available in Appendix \ref{app:Test Logs and Scripts}.
 
 % 2. Background & Literature Review
 \chapter{Background and Literature Review}  % ~2000 words
@@ -188,8 +188,8 @@ Dmytryshyn's study on the Eisenhower Matrix emphasises that time is a limited an
 \chapter{Methodology}  % ~1500 words
 
 From the outset, the objectives were clear: to create a project management tool that integrated the power of large language models (LLMs) while maintaining security, locality, and accountability. Existing solutions in the market tended to sacrifice these values in exchange for convenience, relying on cloud platforms that expose users to surveillance, data harvesting, and opaque decision-making. The aim of this project was to show that another path was possible.
-Yet the path was not straightforward. The final system—a lightweight Python application with a QML interface—was the result of iteration, reconsideration, and adaptation. Early versions of the project looked very different. At first, the system was conceived as a web application, powered by a centralised server that would process requests and host LLM modules. This design was motivated by performance. By placing the model on a server, more powerful language models could be deployed, models that would be too resource-intensive for individual user machines. The web interface, meanwhile, would give users familiar access through their browsers, requiring no installation and simplifying the experience.
-The concept was attractive in theory. It promised scalability, flexibility, and the possibility of stronger AI performance. However, it soon became apparent that this approach was not viable within the scope of the project. Building and maintaining a server-side architecture, with user authentication, task persistence, and model hosting, would require a skillset in web frameworks and frontend languages such as React. Lacking prior experience with these tools, progress was slow. More importantly, the approach threatened to undermine the very principles the project was founded upon. Even if the server were hosted on-site rather than in the cloud, users would still be asked to trust a system where their data travelled across a network to reach the point of processing. This risk, combined with the time limitations of the project, made the web-based design untenable.
+Yet the path was not straightforward. The final system, a lightweight Python application with a QML interface, was the result of iteration, reconsideration, and adaptation. Early versions of the project looked very different. At first, the system was conceived as a web application, powered by a centralised server that would process requests and host LLM modules. This design was motivated by performance. By placing the model on a server, more powerful language models could be deployed, models that would be too resource-intensive for individual user machines. The web interface, meanwhile, would give users familiar access through their browsers, requiring no installation and simplifying the experience.
+The concept was attractive in theory. It promised scalability, flexibility, and the possibility of stronger AI performance. However, it soon became apparent that this approach was not viable within the scope of the project. Building and maintaining a server-side architecture, with user authentication, task persistence, and model hosting, would require a skillset in web frameworks and frontend languages such as React. Lacking prior experience with these tools, progress was slow. Even if the server were hosted on-site rather than in the cloud, users would still be asked to trust a system where their data travelled across a network to reach the point of processing. While there are many established and secure ways of countering this risk, for example by using an Secure Shell (SSH) when combined with the time limitations of the project, made the web-based design untenable.
 The decision was made to pivot toward a different architecture: one centred on Python, running locally on the user's machine. This choice immediately aligned with the ethical requirements. By keeping everything local, the system avoided the pitfalls of remote storage and network transfer. Users would retain complete control over their data, with no risk of third-party access. The use of Python also made development more realistic within the given timeframe. Its rich ecosystem of libraries, coupled with the developer's familiarity with the language, made it possible to build and iterate quickly. To provide a modern interface without the complexity of a web stack, QML was adopted. This allowed the frontend to look and feel polished, while still communicating directly with the Python backend in a lightweight and transparent way.
 This chapter retraces this journey, describing the requirements that guided development, the design choices that were made, the treatment of data, the integration of the LLM, and the architecture that ultimately emerged. The emphasis is not on presenting a rigid blueprint but on showing how each stage of development reflects the project's principles: privacy, accountability, and usability.
 
@@ -512,11 +512,11 @@ This document provides a high-level architectural overview of the main applicati
 
 \subsection{backend/db.py}
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{png_files/db_module_flow.png}
-    \caption{Diagram of \texttt{backend/db.py} acting as a bridge to the main application database functions.}
-\end{figure}
+%\begin{figure}[h]
+%    \centering
+%    \includegraphics[width=\textwidth]{png_files/db_module_flow.png}
+%    \caption{Diagram of \texttt{backend/db.py} acting as a bridge to the main application database functions.}
+%\end{figure}
 
 \noindent
 \textbf{Explanation:} \\
@@ -561,7 +561,7 @@ This document provides a high-level architectural overview of the main applicati
 - As a user, I want to categorize tasks and subtasks using the Eisenhower matrix, so that I can prioritize my work effectively.
 - As a user, I want to drag and drop tasks/subtasks between categories, so that I can easily update priorities.
 
-\section{Visualization and Planning}
+\section{Visualisation and Planning}
 - As a user, I want to view my tasks and subtasks in a dashboard, so that I can see what needs to be done today.
 
 - As a user, I want to see a Gantt chart of project tasks and subtasks, so that I can visualize timelines and dependencies.

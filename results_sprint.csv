@@ -1,0 +1,868 @@
+test_case,description,valid_json,thoughts,raw_output,schedule_feasibility,dependency_accuracy,resource_balance,time_utilization,effort_accuracy,coverage,output_coherence,scalability,time_total
+1,Simple 3-task linear dependency,False,,"Thinking...
+We are given a list of tasks with:
+   - name (string)
+   - duration_hours (int)
+   - dependencies (list of task names that must be completed before this one can start)
+   - assigned_to (string)
+
+ We need to assign each task an id, and then schedule them as an array in the format:
+   [
+     { ""id"": ""..."", ... },
+     ...
+   ]
+
+ Steps:
+
+ 1. Assign unique ids: Since we don't have a specific requirement for id generation, let's use the task name with a prefix (e.g., ""T"") or just assign sequential numbers? But note: the example output uses string ids and no particular format is given.
+
+    However, looking at the input tasks, they are named without any ID. We can create IDs by using the first letter of each task's name and making them unique, but that might not be enough if there are multiple tasks with same starting letter.
+
+    Alternatively, we can use a numbering system (like T001, T002) or just use the full task names as ids? But note: dependencies refer to by name. However, in our output, we need an id for each task and then keep the task field as string too?
+
+    The problem says:
+        - id (string)
+        - task (string)
+
+    So perhaps it's better to have two fields that together uniquely identify a task? But note: dependencies are given by name. However, in our output we must use the id for ordering and constraints.
+
+ 2. We need to schedule tasks with ISO datetime strings for start and end.
+
+    Constraints:
+      - A task cannot start before its dependencies (if any) have finished.
+      - Each assignee has a maximum number of hours they can work per sprint? But note: we don't know the total available time in the sprint, so we must balance resources. However, without knowing the sprint duration, it's hard.
+
+    Let's assume that each task is assigned to one person and cannot be split (unless multiple people are allowed on a task). Then we have to schedule tasks for their assigned person such that they don't overlap with other tasks of the same person and respect dependencies.
+
+ 3. We must consider available hours: Since it's an Agile sprint, typically the sprint duration is fixed (e.g., two weeks) but here we are not given a total sprint time. Instead, we have to assign start and end times for each task.
+
+    However, note that tasks might be assigned to different people, so they can run in parallel if no dependencies exist.
+
+ 4. We need to create a feasible schedule:
+
+    Let's assume the sprint starts at Monday 9 AM (for example) of week W2023-10 or whatever). But we don't know the actual date. So perhaps we should output relative times? Or just use an arbitrary starting point?
+
+    Since we are not given any specific dates, let's choose a starting time and then schedule based on durations.
+
+    We can set:
+        start_time: The earliest possible time (without knowing sprint duration) is difficult because tasks might be part of a longer project. But note: dependencies must complete in order for the task to start.
+
+    Alternatively, we can use the concept that without constraints, we could have each task start at 00:00 on some day and then run sequentially until it finishes. However, with multiple people and dependencies, we need to interleave tasks appropriately.
+
+    But note: the problem says ""Consider task dependencies, available hours, and resource balancing"". We don't know how many hours a person can work in a sprint because the sprint duration is not fixed? Actually, in Agile sprints, typically one week is 40 hours (if working full-time). Let's assume:
+
+        Alice: works from Monday to Friday for 8 hours per day -> total 40 hours
+        Bob and Charlie similarly.
+
+    However, without a defined sprint period, we cannot enforce that the tasks must be within a certain time window. We are only asked to schedule until each task is done, respecting dependencies and resource availability (i.e., one person works on one task at a time).
+
+ 5. Approach:
+
+    Since we don't have a fixed sprint duration but want to balance resources, let's assume the tasks can be scheduled in overlapping days if necessary? Actually, no: typically in Agile, each day is part of the sprint and you don't work outside the sprint.
+
+    But without knowing the sprint start date, we cannot assign absolute ISO datetimes. We can set a relative schedule by choosing an arbitrary starting point (e.g., 2023-10-09T08:00:00Z) for Task A and then proceed from there, but then note that if one task runs over multiple days, we have to assign the same day until it finishes.
+
+    However, let's reframe:
+
+        We are not given a sprint duration. So perhaps we should output the tasks in an order of execution, starting at 9 AM Monday (arbitrary) and then having each task start when its dependencies are done and if the person is available.
+
+    Steps for scheduling:
+
+      - First, determine the earliest start time for each task based on dependencies.
+      - Then, ensure that a person doesn't have overlapping tasks. So we must schedule two tasks of the same person to be non-overlapping (i.e., one finishes before the next starts).
+
+    But note: without knowing which days are available and total hours per day, it's complex.
+
+    Let me simplify:
+
+        We assume each task is assigned a fixed number of hours (given by duration_hours) and that during these hours, the person can only work on this task. So if two tasks are assigned to the same person, their time intervals must not overlap.
+
+        However, we don't know how many days or what hours per day they have. But typically, a sprint is about 40-160 working hours (for two weeks) but with non-working hours being available? We cannot assume that because tasks might be scheduled in different time zones and the exact dates are not known.
+
+        Alternatively, let's think of it as:
+
+          - Each task has a duration in hours.
+          - The sprint starts at an arbitrary date-time (we can set to Monday 9 AM) for Task A if no dependencies? But what about other tasks?
+
+    We need to assign absolute start and end times. Let's choose a starting point: the earliest possible time when all dependencies are satisfied, but without knowing the overall project timeline, we might just use relative dates.
+
+    However, note that in Agile sprints, often you have multiple sprints and you don't know the exact date until you fix it as part of the sprint plan. But here, since there's no other constraint, let's set:
+
+        The first task (with no dependencies) starts at 2023-10-09T08:00:00Z.
+
+    Then we can compute the start and end times for each task based on its duration and dependency. But note that multiple tasks might be started by different people without conflict, so they can run in parallel until their assigned person's time is blocked.
+
+ 6. Algorithm:
+
+      We have to assign a schedule (start and end) to each task such that:
+        - The start of Task X must be >= the finish of all its dependencies.
+        - For any two tasks Y and Z, if they are assigned to the same person, then either Y is before Z or Z is before Y without overlap.
+
+      We can do:
+
+        Step 1: Create a graph where nodes are tasks and edges from task X to task Y if X depends on Y (i.e., Y must finish for X to start).
+
+          Actually, note: the dependencies array in each task says which tasks must be completed first. So we have an edge from dependency task to this task.
+
+        Step 2: Find a topological order of the tasks (if there's no cycle). We can do:
+
+            Let all_tasks = list of tasks with their name and duration.
+            Create graph_edges: for each task, add edges from its dependencies to itself.
+
+            Then use Kahn's algorithm or DFS to find a topological sort.
+
+        Step 3: Now we need to schedule the tasks in that order. But note: two tasks without direct dependency might still have an indirect one and also they can be scheduled independently if assigned to different people, but same person cannot do two at once.
+
+      However, we are constrained by:
+
+          - Each task requires a certain number of hours (duration_hours) from its assignee.
+          - The assignee has no other tasks during that time? But note: the total available sprint time is not fixed. We can assume they work continuously until the task finishes?
+
+      So let's do:
+
+          Start with an arbitrary date and time for Task A if it exists as a root (no dependencies). Then, when we have multiple ready tasks (with no unresolved dependencies), we choose one that has its assignee available.
+
+      But note: without knowing the sprint dates or available hours per day, we are going to schedule by absolute hours. We can assume:
+
+          - The person works continuously for their assigned task until it is done.
+          - Tasks cannot be split (they must run consecutively on a single machine).
+
+      However, if two tasks of the same person have dependencies that allow them to start at different times, we need to schedule non-overlapping intervals.
+
+ 7. Let's break down:
+
+        We'll set:
+            sprint_start = ""2023-10-09T08:00:00Z""
+
+        Then for each task, the earliest it can start is after all its dependencies are done (which we will compute). And then within that person's available time, we assign an interval.
+
+        But note: without knowing the total sprint duration in hours, we cannot set constraints on how long tasks take. So we'll just schedule until they finish.
+
+      Steps:
+
+          - Start at a base date and time for all root tasks (tasks with no dependencies).
+          - We can choose to start multiple root tasks simultaneously if they are assigned to different people? Or should the sprint have one starting point?
+
+        Actually, let's assume that we want to set an overall project start date. So:
+
+            For root tasks (those without any dependency), we will schedule them all at the same time? But note: in reality, multiple root tasks can be started independently by different people.
+
+          However, if we don't have a fixed sprint period, then it's okay for each task to have its own start and end. So let's do:
+
+            - Each task starts as soon as its dependencies are done (if any) or immediately (otherwise). Then the task runs for duration_hours in a row by that person.
+
+          But wait: what if two tasks of different people can be scheduled at the same time? That is, they run in parallel. So we don't need to worry about resource availability across different people.
+
+      We are only concerned with one assignee per task and no splitting. So:
+
+          - A task assigned to a person must not conflict (overlap) with any other task of that person.
+          - Tasks from the same person can be scheduled consecutively or non-consecutively, but they cannot overlap.
+
+        How do we schedule?
+
+            We need to track for each person their current availability. Actually, we don't know when a person becomes available because tasks might start at different times and have durations.
+
+      Proposed method:
+
+          Let's use a timeline (in hours) starting from 0 (representing the base time). But note: ISO datetime is more precise.
+
+          Alternatively, let's work in absolute time but without knowing the sprint dates, we can just set relative days. However, I think using an absolute start date and then computing durations might be easier for demonstration.
+
+      Steps:
+
+          Let current_time = a starting datetime (e.g., ""2023-10-09T08:00:00Z"")
+
+          We'll need to keep track of the end time for each task, but also we must not assign two tasks to the same person at overlapping times.
+
+          However, note that a task might have multiple dependencies. The earliest it can start is after all its dependencies are done.
+
+      So:
+
+          Step 1: Build dependency graph and compute the earliest finish time (or start) for each task by topological sort and then adding durations?
+
+          Actually, we want to schedule in real-time order. Let's do:
+
+            - First, get a topological ordering of tasks.
+            - Then, set an initial available capacity for each person as 0? Or rather, we don't have a fixed sprint duration so the only constraint is that two tasks assigned to same person cannot overlap.
+
+          We can schedule by processing tasks in topological order and then:
+
+            For task T with dependencies D1, D2, ... (which are all completed), let its start time be set as:
+
+                if there is no conflict for its assignee from other ready-to-start tasks? But note: we don't know the exact availability until we schedule.
+
+          We need to do a forward pass and then a backward pass or use resource allocation techniques.
+
+      Another idea:
+
+          - Start with all root tasks (no dependencies). Then, set their start time as current_time.
+          - For each root task assigned to person P, mark that from the starting time until the end of the task (starting + duration) is occupied by P.
+          - Then move on to non-root tasks. When a task's dependencies are done, it becomes ready. But then we must check if its assignee is available at that time.
+
+          However, without knowing the total sprint period, this might cause tasks to start and end arbitrarily far in the future.
+
+      We need an efficient way:
+
+          Since the durations can be long and we don't know when the sprint ends (because no other constraints), let's schedule by continuously updating a timeline for each person until all tasks are done.
+
+          Steps:
+
+            Let base_time = ""2023-10-09T08:00:00Z""
+
+            We'll create an event list that includes:
+                - Start events (when a task starts, at which time and by whom)
+                - End events (when a task ends)
+
+            But note: we have to respect dependencies. So first we must compute the earliest start for each task.
+
+          Let's do:
+
+            Compute the latest finish of each dependency? Actually no, because tasks might be independent in terms of resource allocation but constrained by their own duration and order.
+
+          We can use a critical path method (CPM) or just topological sort to get an ordering. Then we schedule consecutively for that person without gaps until they are done?
+
+          However, note: there might be multiple tasks assigned to the same person with dependencies among themselves? Actually no: because if one task is dependent on another by the same person, then it must wait for that task to finish.
+
+      So:
+
+          For each task T in topological order (i.e., all its direct and indirect dependencies are finished):
+
+            Let available_start_time = max( [end time of last task assigned to T's assignee] + duration_hours? Not exactly: we need the earliest start without conflict, but also note that if a person is busy until some future time, then we might have to wait.
+
+          But how do we know when they become free?
+
+      We can simulate:
+
+            Let timeline be represented by an object for each assignee. Each assignee has:
+                - current_free_time: the earliest time at which they are available (initially base_time)
+
+            Then we process tasks in topological order, but if a task is assigned to a person and that person's free time is later than its dependencies' finish time, then it must wait until the free time.
+
+          However, note: without knowing the total sprint period, this might not be bounded. But since our goal is just to output a feasible schedule (without considering concurrent sprints or other constraints), we can do:
+
+            Step 1: Compute the earliest start for each task by traversing dependencies and taking the maximum finish time of all its direct dependencies.
+
+            How to compute earliest finish?
+
+                Let EFS(task) = max( [earliest finish of each dependency] ) + duration_hours? But wait, a task depends on multiple tasks. The earliest it can start is after all dependencies are done. So:
+
+                    For task T with no dependencies: earliest_start = base_time
+                    Then its earliest_finish = earliest_start + duration_hours
+
+                But then if we have two tasks that depend on the same task and are assigned to different people, they both can start at the same time.
+
+            However, note: a dependency might not be direct but indirect. So:
+
+                Let earliest_start[T] = max( {earliest_finish[D] for D in dependencies} )   if there are any; else base_time
+
+            Then we must schedule by considering resource availability (i.e., no two tasks assigned to same person can overlap). This is now a variant of the scheduling problem with precedence constraints and resource constraints.
+
+      We'll do:
+
+          - First, compute the earliest_start for each task without resource constraints. But then if multiple tasks are trying to start at the same time but require the same person, we must schedule them one after another on that person's timeline.
+
+        However, note: we don't have a fixed sprint duration so we can just assign as soon as resources become available? And the dependencies might force some tasks to wait even if the resource is free, because they haven't finished their prerequisites.
+
+      Steps:
+
+          Step 1: Build graph and topological sort (to get an order where all dependencies are resolved).
+
+          Step 2: Compute earliest_start for each task without considering resources. But note: this might not be feasible if two tasks assigned to the same person have overlapping time intervals, but we haven't scheduled them yet.
+
+      We need a better approach:
+
+          - Let's assume that the project starts at base_time and we are going to schedule until all tasks are done.
+          - Each task has an earliest_start (based on dependencies) and then requires duration_hours. But if two tasks assigned to same person have their earliest_start overlapping, then we must adjust.
+
+      We can do:
+
+          Step 1: Compute the earliest finish time for each task ignoring resource constraints (just topological sort and add durations). This gives an upper bound without resources.
+
+          Step 2: Then schedule by considering resource availability. For a given assignee P, their available capacity is from base_time until infinity? But we don't know when they become free again after being busy?
+
+      Alternatively, let's use the following method:
+
+          We'll maintain for each assignee a list of intervals (or events) where they are busy.
+
+          Step 1: Build dependency graph and topological sort to get an order.
+
+          Step 3: Initialize:
+                - base_time = datetime(""2023-10-09T08:00:00Z"")
+                - For each assignee, set their current_finish_time = None (meaning not started) or a list of busy intervals? Actually we'll keep track for each person the earliest time they can start.
+
+          Step 3: Start with all root tasks. The ready set R initially contains all tasks T where dependencies are resolved and whose direct prerequisites have finished, but also their assignee is free at that moment (if any).
+
+      This becomes complex because a task might be able to start earlier than its earliest_start if we can delay it without violating the dependency? But note: our goal is just to output one feasible schedule.
+
+ 8. Let's simplify:
+
+          We are not constrained by fixed sprint dates, so let's use an event-based simulation that schedules each task as soon as all dependencies are done and the assignee becomes free (if any conflict).
+
+      Algorithm for resource-constrained project scheduling with precedence constraints:
+
+          - We'll maintain a dictionary or list of events: 
+                available_events = { P: [current busy until] }   # for each person, we track their next available time
+
+          Steps:
+
+            Let base_time = ""2023-10-09T08:00:00Z""
+
+            We'll create a priority queue of tasks that are ready (their dependencies are done). The key is to update the earliest_start for each task based on its dependencies' finish times.
+
+          But note: we don't have a fixed timeline, so we can just use absolute time and simulate:
+
+            Let current_time = base_time
+
+            While there are tasks not scheduled:
+
+                Find all tasks that are ready (all dependencies done) and then assign them to the earliest available free resource. However, without knowing when resources become free again, it's a bit tricky.
+
+      We'll do:
+
+          - First, compute for each task T:
+              * The earliest time its prerequisites are met: let this be EST[T] = max( {earliest_finish[D] for D in direct dependencies} )   or base_time if no dependency
+
+          Then we need to schedule by adjusting the start times so that two tasks assigned to same person don't overlap.
+
+      We can use a greedy algorithm:
+
+            Let's keep track of the latest available time for each assignee (the earliest time they are free) and then when scheduling, if a task is ready at time t but its assignee P has an earlier finish event until some future time F, then we must schedule it after max(t, F) + duration_hours? But wait, no: because the resource constraint only says that tasks assigned to same person cannot overlap. So:
+
+            We need to maintain for each person a list of busy intervals (start and end times). Then when scheduling a task T with dependencies resolved at time t0 (but we don't know its exact start time yet) and duration d, then the earliest it can start is max(t0, P's available_time).
+
+          But note: without knowing the total project period, we might let tasks extend arbitrarily. However, for simplicity, I think we'll just do:
+
+            - We have a timeline that extends from base_time to infinity.
+
+          Steps:
+
+            Let current_time be an increasing datetime.
+            For each task T in topological order (",0,0,0,0,0,0,0,0,1200.0380849838257
+2,Parallel tasks with shared resources,False,,"Thinking...
+Okay, the user wants me to create an Agile sprint plan in JSON format with tasks including dependencies and resource balancing. Let me start by understanding what's given.
+
+First, I need to break down each task. The first task is designing the UI, which takes 6 hours. Since it depends on nothing, it can probably start right away. Then there's Backend API development at 12 hours with no dependencies either. These two tasks don't rely on each other or others, so they can be done in parallel. But I should consider if that makes sense for the user. Maybe Alice and Bob are working independently here.
+
+Next is Integration Testing, which depends on both Design UI and Backend API. That means it can't start until both those tasks are finished. So after the first two tasks, this one kicks off once they're done. It takes 4 hours total but needs to be split because there's no single person assigned initially. The user provided that the assignee is Charlie, so I need to check if Charlie is available during all required times.
+
+The challenge here is resource allocation. Alice and Bob are on Design UI and Backend API respectively. Integration Testing requires a team member who can handle both frontend and backend aspects—probably someone with cross-functional skills or perhaps pairing. Since only Charlie is mentioned for this task, maybe we assume he's the one handling it, but I need to split his time correctly.
+
+Alice has 8 hours available from Mon 9AM-5PM (32 hours total). Bob has 10 hours on Tue and Wed, but not Thursday or Friday. Charlie can work all days with some availability constraints based on other tasks. The Integration Testing task needs to be broken into two parts: UI integration and backend testing. But the user didn't specify that, so I'll have to assume it's necessary to split it for planning purposes.
+
+Now, scheduling these tasks without overlapping resources is key. Start by assigning Design UI and Backend API to Alice and Bob on Monday since they can both work 8 hours a day. They might finish early because their durations are less than the daily max (6+12=18 hours). Then Integration Testing needs to start after both are done, so probably Tuesday or later.
+
+But Charlie's availability is limited by other tasks he might be working on. The user didn't mention any other tasks, but I need to consider that Alice and Bob might have their own tasks. Wait—oh right, the sprint plan only includes these three tasks. So maybe no other tasks? Then why would there be constraints for Charlie? Perhaps it's an oversight or maybe the example is incomplete.
+
+Looking back at the problem statement: ""Consider task dependencies, available hours, and resource balancing."" The provided tasks are just examples to illustrate what needs to be done, but in reality, I need to schedule three specific tasks. However, the user hasn't specified other tasks, so perhaps Charlie's time should only consider the days when he's not blocked by other commitments.
+
+Wait, no—maybe there's an implicit assumption that these are all the tasks. So Alice and Bob work on Task1 and Task2 from Monday to Wednesday (since they both have 8 hours Mon-Thu but Bob is off Fri). But Task3 depends on both, so it can't start until both are done.
+
+Let me outline the timeline:
+
+Task1: Design UI - 6 hours
+Task2: Backend API - 12 hours
+
+Both start Monday and finish early. Then Task3 requires 4 hours total but needs to be split because Charlie has other tasks? Wait, maybe not—perhaps in this case, since only one person is assigned (Charlie), I need to find two separate time slots for him if the task can't be done by a single person at once.
+
+But without knowing other constraints, perhaps Task3 can be scheduled entirely on one day. Let's think about resource balancing: maybe Charlie has limited hours available because of other tasks not mentioned. The problem says ""available hours"" but doesn't specify others' schedules except Bob is off Thu/Fri afternoon. Alice and Bob have 8-hour days Mon-Thu, so they can work multiple days.
+
+But the user provided three tasks with dependencies. I think Task3 depends on both Task1 and Task2 being done. So after both are completed, Charlie needs to do Integration Testing (4 hours). But since only one person is assigned, it's a single task that requires 4 hours total from Charlie. However, considering resource balancing: if Alice or Bob have free time, maybe we can adjust who does what.
+
+Wait, the problem says ""assigned_to"" in the tasks, but perhaps I need to reassign based on availability? No, looking back at the user's message: they provided a list of tasks with assigned_to and durations. So I think the assignment is fixed unless there are conflicts or resource constraints.
+
+But Bob (Backend API) has limited hours—only Tue, Wed, Thu morning, Fri off. Alice can work all days. Charlie can work all days but might have other commitments? The problem doesn't specify others' tasks, so maybe we just consider their available times as given in the user's example: ""Bob is only available on Tuesday and Wednesday with 10 hours each day.""
+
+Wait, perhaps I should re-read the initial context carefully. The user didn't provide specific availability for Alice or Bob beyond what they can work (8 hours per day Mon-Thu). Charlie has no explicit constraints in the task description but maybe from the example.
+
+In the example provided by the user:
+
+""Tasks: [
+  { ... },
+  { ... },
+  { name: 'Integration Testing', duration_hours: 4, dependencies: ['Design UI','Backend API'], assigned_to: 'Charlie' }
+]""
+
+And the available hours are given for Alice and Bob. But in this case, there's no other info about Charlie's availability unless we assume he can work all days.
+
+But wait, the user might be implying that we have to consider resource constraints beyond just dependencies? Or perhaps not—maybe only the assigned person's time is considered?
+
+The problem says: ""Consider task dependencies, available hours, and resource balancing."" Available hours aren't explicitly given for Charlie. But in the example, Bob has a specific schedule (only Tue/Wed). Maybe I need to assume that other team members have similar schedules or no constraints.
+
+Alternatively, perhaps the user expects me to handle scheduling with the provided tasks but without explicit availability data beyond what's given.
+
+But looking back at the problem statement: ""Available hours for Alice and Bob"" are mentioned in the example. For Charlie, it might be assumed he can work whenever needed unless specified otherwise.
+
+Wait, maybe the task is to schedule all three tasks considering dependencies and resource constraints (i.e., no one works on two tasks simultaneously). But since Task3 depends on both Task1 and Task2, once they are done, Task3 starts. Charlie's time might be constrained by other factors not mentioned.
+
+In this case, without additional information, I'll proceed with the following:
+
+- Task1: Design UI (6 hours) assigned to Alice.
+  - Available days: Mon-Thu (8 hours each day)
+  - Can start on Monday and take less than a full day. Let's say she works 6 hours on Monday.
+
+- Task2: Backend API (12 hours) assigned to Bob.
+  - Available Tuesday, Wednesday, Thursday mornings/evenings? Wait, the problem says Bob is available only Tue/Wed with 10 hours each day—so maybe he can work up to two days. But since it's a full-time week, perhaps we need to distribute his time accordingly.
+
+Wait, let me re-examine: ""Bob is only available on Tuesday and Wednesday with 10 hours of availability per day."" So that means Bob has 20 hours total (10 * 2). Task2 requires 12 hours. Since he can't work more than 8 hours in a day? No, the problem doesn't specify daily limits, only available days.
+
+Actually, no—Bob is available for 10 hours per day on Tue and Wed. So if we break his time: 6 hours on Tuesday (leaving some buffer) or maybe do it all on one day? But Alice can work multiple days without issue unless specified otherwise.
+
+Perhaps the goal is to balance the load so that tasks start as early as possible, considering dependencies and resource availability.
+
+Given that:
+
+- Design UI (Task1): 6 hours. Can be done in parts.
+  - Option: Start Monday morning and take less than a full day? Or split into multiple days?
+  
+But since Alice is available all week except Friday off—wait no, the user didn't say she's off, only Bob has specified availability.
+
+Wait, looking back at the initial problem statement:
+
+""Available hours:
+- Alice can work from Monday to Thursday with 8 hours of work per day (so total 32 hours).
+- Bob is only available on Tuesday and Wednesday with 10 hours of availability each day.""
+
+So for Task1: Design UI by Alice. She has 8*4=32 hours, but the task takes 6 hours so she can do it in one day or split.
+
+Task2: Backend API by Bob—total 12 hours available (10+10). So he must complete it within two days since each day is up to 10 hours. But Task2 has no dependencies, so maybe start on Monday if needed? Or wait until after some other tasks?
+
+Wait, but the user didn't specify any constraints about when they can start, only availability and dependencies.
+
+Perhaps I should schedule:
+
+- Design UI (Task1) can be done first by Alice—6 hours. She can do it in 6/8 of a day, so let's say Monday: 6 hours.
+  
+- Backend API (Task2) needs 12 hours total. Bob has only two days with 10 hours each. So he must work on Tuesday and Wednesday.
+
+But Task3 depends on both Task1 and Task2, so it can't start until both are done.
+
+So the earliest start for Task3 is after both Task1 and Task2 are finished. Since Alice does Task1 in Monday (6 hours), Bob starts Task2 on Tuesday but needs 12 hours—so he works Tuesday morning and part of Wednesday? Or maybe split into two days: 10 hours Tue, 2 hours Wed.
+
+But then when can Charlie start Task3? After both tasks are done. So if Alice finishes Task1 by Monday evening (assuming she starts early), Bob finishes on Wednesday afternoon. Then Task3 requires 4 hours from Charlie—so he can do it Thursday or Friday morning.
+
+However, without knowing the exact daily structure and constraints for each task, I need to create a schedule that respects dependencies and resource availability.
+...done thinking.
+
+To generate an Agile sprint plan in JSON format with tasks including `id`, `task`, `hours`, `assignee`, `start` (ISO datetime), and `end` (ISO datetime) fields while considering dependencies and available hours:
+
+1. **Design UI**: Assigned to Alice, duration 6 hours. Start as early as possible since no dependencies.
+2. **Backend API**: Assigned to Bob, duration 12 hours with constraints on his availability only Tuesday and Wednesday mornings/evenings.
+3. **Integration Testing**: Depends on both Design UI and Backend API tasks, assigned to Charlie.
+
+The sprint plan must account for the available hours of each team member and ensure that dependencies are met before starting Integration Testing. Here's a feasible schedule:
+
+```json
+[
+  {
+    ""id"": ""1"",
+    ""task"": ""Design UI"",
+    ""hours"": 6,
+    ""assignee"": ""Alice"",
+    ""start"": ""2023-10-24T09:00:00Z"",
+    ""end"": ""2023-10-25T17:00:00Z""
+  },
+  {
+    ""id"": ""2"",
+    ""task"": ""Backend API"",
+    ""hours"": 12,
+    ""assignee"": ""Bob"",
+    ""start"": ""2023-10-26T09:00:00Z"",
+    ""end"": ""2023-10-27T17:00:00Z""
+  },
+  {
+    ""id"": ""3"",
+    ""task"": ""Integration Testing"",
+    ""hours"": 4,
+    ""assignee"": ""Charlie"",
+    ""start"": ""2023-10-28T09:00:00Z"",
+    ""end"": ""2023-10-29T13:00:00Z""
+  }
+]
+
+```
+
+",0,0,0,0,0,0,0,0,590.2517898082733
+3,Overbooked team member,False,,"Thinking...
+We are given a list of tasks with their details. We need to create an Agile sprint plan in the form of a JSON array, each task being an object with: id (string), task (string), hours (int), assignee (string), start and end as ISO datetime strings.
+
+However, note that we don't have explicit dates or durations per day; we are just given total hours. We must consider dependencies and resource allocation (since tasks might be assigned to multiple people? But the input says each task has an ""assigned_to"", so probably one assignee at a time).
+
+But wait, in Agile planning, typically you'd also consider overlapping for different tasks by different teams or resources. However, here we are told that there is only one person per task (assignee). Also, note that dependencies mean Task Y cannot start until Task X is done, and Task Z cannot start until Task Y is done.
+
+We don't have a fixed sprint duration, so let's assume the sprint starts at 2024-01-01T09:00:00Z (a common starting point) and we need to schedule each task without overlapping for the same assignee.
+
+But note: The problem does not specify a sprint length or available hours per day. So let's assume that we are scheduling over consecutive days, with 8-hour workdays? Or should we just schedule continuously?
+
+Wait, but also we have to consider resource balancing. Since there is only one person per task and tasks can be assigned to different people (as in the example: Alice for X and Y, Bob for Z), then we might assume that multiple tasks can run concurrently if they are assigned to different people.
+
+However, note: The input does not specify a total sprint duration or available time. So I think we need to assign start and end times such that:
+
+- Tasks with dependencies cannot start until the previous one is finished.
+- Each task must be scheduled without overlapping for its own assignee (because only one person can work on it at a time).
+- We don't have constraints about the sprint length, so we'll just schedule from a starting date and then represent the dates accordingly.
+
+But note: The example has two tasks assigned to Alice. So if there are multiple tasks with the same assignee, they cannot overlap. 
+
+We can assume:
+  - Each day is an 8-hour workday (standard assumption in many Agile contexts).
+  - We start at a given date (say Monday) and schedule only during working hours.
+  - Tasks must be scheduled on consecutive days if possible? Or broken down into full-day segments.
+
+But the problem doesn't specify, so let's assume that we can break tasks across multiple days but not necessarily whole days. However, since we are representing time in ISO datetime format, we might need to track start and end times as well.
+
+We don't have specific dates or working hours per day, but for simplicity, let's assume a standard work week (Monday-Friday) with 8-hour days from 9:00 AM to 5:00 PM? Or maybe just consecutive 24-hour periods without breaks?
+
+Alternatively, we can represent the sprint as starting on a particular date and then assign tasks in whole or partial day blocks. But note that the task durations are given in hours.
+
+Let's define:
+
+We'll use UTC time for simplicity (since ISO format). We start at 2024-01-01T09:00:00Z? Or maybe we don't specify a specific date but just consecutive days?
+
+But note: The example output should be an array of tasks with their scheduled id, task name, hours (which is the same as duration_hours), assignee, and start/end in ISO format.
+
+We need to schedule without overlapping for the same person. Also, dependencies must hold: if A depends on B, then A can only start after B ends.
+
+Let me outline:
+
+1. We have tasks with durations (in hours) and a list of dependencies.
+2. Each task is assigned to one person at a time (but note: in the example, Task X and Task Y are both assigned to Alice). So if two tasks are assigned to the same person, they cannot overlap.
+
+We'll assume that we can break down tasks into smaller parts? But the input doesn't specify, so maybe each task must be scheduled as one contiguous block (or not necessarily)? The problem says ""task"", but in reality, a task might take multiple days. However, for simplicity, let's schedule each task as one contiguous block.
+
+We need to assign start and end times such that:
+
+- For a given person, the tasks they are working on do not overlap.
+- Dependencies: if Task A depends on Task B, then the entire duration of Task B must be completed before Task A can start.
+
+But note: The example has two tasks for Alice. We have to schedule them one after another because she cannot work on both at once.
+
+Steps:
+
+1. Collect all tasks and sort by dependencies (topological order).
+2. Assign a starting time for each task based on the completion of its dependencies, but also considering that if multiple tasks are assigned to the same person, they must not overlap.
+3. We can start from an initial date and then schedule each task's start time as the earliest possible.
+
+But note: The problem does not specify any available hours per day or week for a person? So we have to assume unlimited working days until all tasks are scheduled?
+
+Alternatively, perhaps we need to consider that one person cannot work more than 8 hours in a day. But wait, the input only gives total duration and dependencies.
+
+Wait, let me re-read: ""Consider task dependencies, available hours, and resource balancing."" 
+
+We don't have available hours per assignee or days off. So maybe we just schedule without considering daily limits? Or perhaps we assume that each person can work 8 hours a day until the task is done?
+
+But note: The example doesn't specify any constraints on working hours beyond what's given.
+
+Let me reframe:
+
+We are to output an array of tasks with start and end in ISO datetime format. We must schedule them without overlapping for the same assignee, but we don't have a fixed sprint duration? Then how do we know when to stop?
+
+Alternatively, perhaps the goal is to create a timeline that starts from some point (like today) and then schedules each task as soon as possible given its dependencies.
+
+But note: The problem does not specify a project start date. We can choose one arbitrarily. Let's set:
+
+start_date = ""2024-01-01T09:00:00Z""
+
+Then, we'll schedule the first task (with no dependencies) to start at this time.
+
+But what if there are multiple tasks with the same assignee? They must be scheduled without overlapping. So:
+
+  - We need to track for each person the next available time they can start a new task.
+  - Initially, all persons have an available time of ""2024-01-01T09:00:00Z""
+
+We'll do:
+
+Let's represent time in terms of total hours from a reference (or just use datetime objects).
+
+But note: The output requires ISO datetime strings. We can schedule tasks to start at the same hour on the day they are available, but if two tasks for the same person have dependencies or not, we need to see.
+
+Example:
+
+Task X starts at 2024-01-01T09:00:00Z and takes 10 hours. Then Task Y (by Alice) depends on Task X, so it can start after Task X ends. But also, if there is another task by Alice without dependency, then we have to schedule that one in the available time.
+
+But note: The tasks are given as an array of objects with name, duration_hours, dependencies, and assignee (via assigned_to). We don't know which person is available on which day or has breaks. So let's assume:
+
+- Each person works 8 hours per day? Not necessarily specified.
+
+Wait, the problem says ""available hours"", but we are not given any constraints about daily working hours. Maybe it means that each task must be scheduled within a single day (if the duration is less than 24 hours) or multiple days if necessary?
+
+But note: The example doesn't specify and the tasks can have durations up to? We don't know.
+
+Alternatively, perhaps we are just to schedule without overlapping for the same person. So:
+
+We'll assign each task a start time (in terms of total hours from epoch) but output as ISO datetime string.
+
+Let's assume that we have 24/7 working days and no breaks. Then scheduling becomes easier: we can put tasks one after another in time, respecting dependencies and the same person cannot work on two tasks at once.
+
+But note: The problem says ""available hours"", so maybe there are daily limits? Since not specified, I think it's safe to assume that a task must be scheduled within working hours (which might be 8-hour day) but without specifying exact breaks, we can just consider the entire hour as available. However, without knowing the specific days or breaks, let me stick with continuous scheduling unless dependencies force breaks.
+
+But then what is the point of ""available hours""? Maybe it's a general constraint that one task cannot exceed 8 hours per day? Or maybe multiple tasks can be scheduled on different days for the same person?
+
+The problem is ambiguous. Let's assume we are to schedule without considering daily limits, but just ensuring no overlapping for the same assignee.
+
+However, let me think about real-world constraints: in a sprint, you might have fixed working hours (like 9 AM to 5 PM). But again, not specified.
+
+Let me stick with a simpler approach:
+
+We'll ignore daily hour limitations and simply schedule tasks without overlap per person, but note that the same task cannot be interrupted by another task of the same assignee until it's done. We can break down long tasks into multiple days? Actually, we are representing time in datetime format.
+
+But how to represent multi-day tasks?
+
+We'll assume:
+
+- The sprint starts at 2024-01-01T09:00:00Z (Monday)
+- Each task is scheduled as a contiguous block of hours from the start time until start_time + duration_hours hours.
+
+Now, we need to assign start times. We'll do:
+
+1. Create a graph of tasks with dependencies.
+2. Sort tasks topologically by their dependencies (so that if Task A depends on Task B, then Task B must be scheduled before Task A).
+3. For each task, the start time should be:
+   - The maximum end time among its dependencies (if any) plus one second? Or we can just use a continuous timeline.
+   - But note: We are representing in hours and without specifying fractional days, so maybe we need to break down by day?
+
+Wait, but durations are given in whole hours. So let's represent the start and end as datetime objects.
+
+We'll choose an initial date (say 2024-01-01) at a specific time (e.g., 9:00 AM).
+
+But note: We don't know if tasks can be split across days or not. Since we are representing in ISO format, we need to account for day boundaries.
+
+Alternatively, let's think of the timeline as continuous and use datetime objects with hours only? But that might get complicated because a task starting at 5 PM on Monday would end Tuesday.
+
+But note: The problem does not specify any specific time zone. We'll assume UTC.
+
+We can do:
+
+- Each person can work continuously until they have to switch to the next task (if no dependency and if their previous task is finished). But without breaks, we just schedule one after another.
+
+However, let me re-read the requirement: ""Consider task dependencies, available hours, and resource balancing.""
+
+If there are multiple tasks for a person, then that person must be allocated in sequence. So:
+
+  - We need to know when each task starts and ends (in absolute time) so we can check if two tasks assigned to the same person overlap.
+
+But note: The input does not have any constraints on days off or working hours per day. We'll assume continuous availability until all tasks are scheduled.
+
+We can do:
+
+  Let's assign a start date for each task based on its dependencies and available time of the assignee.
+
+Steps:
+
+1. First, we need to build a graph from the input.
+2. Then perform topological sort (or dependency resolution) to get an order that respects dependencies.
+3. We'll keep track of:
+   - The current available time for each person: initially set to the start date and time (e.g., 2024-01-01T09:00:00Z).
+   - Then, for each task in topological order, we schedule it as early as possible after its dependencies are done.
+
+But note: A task might have multiple dependencies. So the start time of a task is the maximum end time among all its dependencies plus one second? Or should they wait until all dependencies finish?
+
+Actually, if Task Y depends on Task X (meaning it can only start when X is finished), then we set the start time to be after the end of Task X.
+
+But what about multiple dependencies? We need to consider the latest completion time among its direct and indirect dependencies.
+
+So:
+
+  - Each task T has a set of dependencies D.
+  - The earliest start time for T must be at least the maximum (latest) finish time of all tasks in D, plus one second if we are thinking about discrete steps? But since hours are integer, maybe just use hour level?
+
+But note: We have to output ISO datetime. Let's define:
+
+  Start time for a task is given as an absolute datetime.
+
+We can represent the schedule by having each task start at a specific datetime and take duration_hours consecutive hours.
+
+How about we do:
+
+  - All tasks are scheduled on the same project timeline, which starts at ""2024-01-01T09:00:00Z"".
+  - We'll keep track of two things for each person:
+        available_start: The earliest time they can start a task (initially the project start or after previous tasks)
+    But note, tasks might not be consecutive.
+
+Alternatively, we can think in terms of total hours from epoch? Or just use datetime objects and calculate duration.
+
+But let's keep it simple:
+
+  We'll set an initial time for the sprint: let's say ""2024-01-01T09:00:00Z""
+
+  For each task, we have a list of dependencies. The start time for a task must be at least after all its direct and indirect dependencies are done.
+
+We can do:
+
+  Let tasks = the given array.
+  Build graph: task_id -> dependencies (list of task names that it depends on)
+  Then build a dependency graph to compute the earliest possible start time for each task, but also account for resource constraints (same person cannot work two tasks at once).
+
+But note: The same assignee might be assigned multiple tasks. We must avoid overlapping.
+
+So we need:
+
+  - For each person, track their busy intervals.
+
+Approach:
+
+1. Parse all tasks and build a graph of dependencies.
+2. Topologically sort the tasks (if there's no dependency cycle).
+3. Then, for each task in topological order, check if it has been assigned an available time by its dependencies or by being independent (i.e., start at project start). But also, we must consider that two tasks with the same assignee cannot overlap.
+
+However, without knowing the specific working hours per day, I think we can just schedule continuously in UTC time. We'll use a dictionary to track for each person their current available datetime (initially set to ""2024-01-01T09:00:00Z"").
+
+But note: The task durations are given in hours, so we must break down the timeline by hour? Or just assign start and end times as a single block.
+
+Let me assume:
+
+  We'll represent time with datetime objects. Each task will be scheduled from a starting datetime to an ending datetime (same day or multiple days).
+
+Steps for scheduling:
+
+  - Start with all tasks unscheduled.
+  - Maintain:
+        last_finish: dictionary mapping person -> the datetime when they finished their last task, initially set to None.
+
+    But wait, if we don't break down by day and just use continuous time, then a task might start at any point. However, note that dependencies require waiting until previous tasks are done, even if assigned to different people? Yes, because Task Y depends on Task X: it cannot start until Task X is done.
+
+  So:
+
+    We need two things:
+        - The earliest possible start time for each task (from dependency constraints)
+        - And then we must assign that task to the assignee's available slot.
+
+But wait, dependencies are between tasks regardless of assignee? Yes. Then if a task has multiple dependencies by different people, it can only start after all those dependencies have finished.
+
+We'll do:
+
+  Let the project start time be: ""2024-1-1T09:00:00Z""
+
+  We need to compute for each task:
+      - The earliest start time (EST) is the maximum of:
+          a. The project start time if no dependencies.
+          b. Or, if there are dependencies, then the maximum end time among those.
+
+  Then, we assign that task to its assigned_to person, but we must check if that person has any other tasks scheduled that conflict with this one (i.e., overlapping). However, note that the same person might be working on multiple tasks at different times? We are scheduling in a topological order and assigning each task independently.
+
+  But wait: The dependencies are just for ordering. Two independent tasks can run concurrently if assigned to different people.
+
+  So we need:
+
+      - A timeline of events (start and end) per person.
+
+  Steps:
+
+    Let's map:
+        start_time = {}   # dictionary for each task, the scheduled start time
+        end_time = {}     # dictionary for each task, the scheduled end time
+
+    But also, we must consider that a task might be assigned to someone who is already busy. So we have to check.
+
+  We can do:
+
+      Step 1: Compute the earliest possible start time (from dependencies) and then assign it if the person's available slot allows.
+
+  However, note: The same person might be working on multiple tasks without overlapping. But two tasks assigned to the same person cannot overlap. So we need to schedule each task as soon as its dependencies are done and there is an available slot for the assignee.
+
+  We can use a greedy scheduling:
+
+      Let's set initial project start at ""2024-1-1T09:00:00Z""
+
+      Build a graph of tasks with edges from dependency to dependent. Then, we'll compute the earliest finish time (EFT) for each task.
+
+  Alternatively, let me use:
+
+      We are going to schedule one by one in topological order.
+
+      Let's define:
+          - Each person's available_start is initially set to the project start.
+          But note: a person might be free at different times. However, without breaks we can assume they work continuously until interrupted or finished.
+
+  Since I don't know how to handle continuous time, let me break down:
+
+      We'll represent time in hours from an epoch (e.g., total seconds since the project start). Then each hour is one second? Actually, no, because a task might take multiple days. But we can use datetime.timedelta and add hours.
+
+  Let's do it with datetime objects.
+
+  Define:
+        timeline = {}
+        for person: { ""Alice"": available_start_time }
+
+        We'll keep track of the busy intervals per person as sets or intervals? Maybe not, because two tasks by same person must be scheduled without overlapping. But note that a task is assigned to one person only once at a time.
+
+  Better:
+
+      Let's have for each person: 
+          current_end = None   # the datetime when they are free (if no previous task, then project start)
+          Then we can schedule tasks from that time forward.
+
+  Actually, I think it might be simpler to first compute the earliest required start time based on dependencies and then assign if available. But note:
+
+      We have two constraints for a task T:
+          - It must start after all its direct dependencies are done.
+          - And when we assign it to a person, that person's schedule must not overlap.
+
+  So algorithm:
+
+    Let project_start = datetime.datetime(2024, 1, 1, 9, 0, 0, tzinfo=timezone.utc)   (or ""2024-01-01T09:00:00Z"")
+
+    We'll create a dictionary for each task to store the earliest start time and then adjust it if the person's busy interval starts before that.
+
+  Actually, let me use:
+
+      Let tasks = [{'name': 'Task A'}, ...]
+
+      Build graph:
+          dependencies_graph: task_name -> list of dependent task names (list)
+          reverse_dependencies: dictionary for each task to know which tasks depend on them? Maybe not necessary.
+
+    We'll do a topological sort by using Kahn's algorithm or DFS with in-degrees. But note, we also have resource constraints so that two tasks assigned to the same person cannot overlap.
+
+  I think it might be simpler to schedule all independent tasks first and then for each task, set its start time based on dependencies, but if a conflict arises (same person busy), then adjust accordingly? Or use multiple cores?
+
+But note: The problem does not specify that we have to assign the same person at fixed working hours. It just says ""available hours"", which might mean they are available until their previous task is done.
+
+  We'll do:
+
+      - First, compute for each task T:
+          earliest_start = project_start
+          if dependencies exist: 
+              for each dependency D of T, find the end time of D (which we have already scheduled) and take the max
+
+      Then assign to assigned_to person. But then check if that person's available slot is free at that time.
+
+  However, the same task might be assigned multiple times by dependencies? No, but note: a task can depend on tasks with different people, so two independent paths must not overlap even for the same person.
+
+  Actually, I think we have to schedule all tasks independently. The only constraint is:
+
+      - Dependencies: A task cannot start until its dependency finishes.
+      - Resource constraints (same person): no overlapping tasks by the same assignee.
+
+  So let's break down:
+
+    We'll build a dictionary for each person of their busy intervals? But note that we are scheduling in order, and if two tasks have dependencies from different people, they can run concurrently. However, if a task has multiple dependencies, then it must wait until all the last one finishes.
+
+  How to handle multi-day scheduling:
+
+    We need to represent time with datetime objects.
+
+  Let's assume UTC time is continuous and we don't break down by day. Then each task will be scheduled as:
+
+      start = some datetime
+      end = start + timedelta(hours=duration)
+
+  But note: the problem says ""available hours"", so maybe there are daily working constraints? I think without knowing, let me stick with continuous.
+
+  However, to account for days (so that we can output in ISO format), we should break down by day. Let's assume a typical work week is from Monday to Friday and no tasks start or end on holidays? But again, not specified.
+
+  We'll do:
+
+      project_start = datetime(2024, 1, 1, 9, 0, 0)   # in UTC
+
+      For each task:
+          Let dependencies_end = max( (finish time of all direct/indirect dependencies), or the earliest start if no dependency)
+
+      Then set the task's required_start to that value.
+
+      But then we must assign it to the person. We have a dictionary for each person: 
+          available_for_start = {person_name: datetime}  # the next available time (the time when they can start)
+          However, note: if two tasks with same person are scheduled non-consecutively? Actually, without breaks we need continuous scheduling.
+
+      Alternatively, let me re-read the requirement: ""available hours"" might mean that a task cannot be longer than 24*7 hours per day or something? But again, not specified. Let's assume no.
+
+  I think I should ask for clarification, but since this is an example, we'll proceed without",0,0,0,0,0,0,0,0,1200.0194289684296
