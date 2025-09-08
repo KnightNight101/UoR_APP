@@ -1,0 +1,3 @@
+test_id,model,baseline_makespan,model_makespan,makespan_ratio,dependency_violations,task_coverage,avg_member_utilization,feasible,time_s,source
+1,deepseek-r1:8b,12.0,12.0,1.0,0,1.0,33.33,True,600,baseline_fallback
+2,deepseek-r1:8b,15.0,15.0,1.0,0,1.0,50.0,True,600,baseline_fallback

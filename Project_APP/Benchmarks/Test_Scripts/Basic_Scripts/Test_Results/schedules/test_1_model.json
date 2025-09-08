@@ -1,0 +1,1 @@
+{"0": {"task_id": 0, "assignee": "member_0", "start": 0.0, "duration": 3, "finish": 3.0}, "1": {"task_id": 1, "assignee": "member_0", "start": 3.0, "duration": 3, "finish": 6.0}, "2": {"task_id": 2, "assignee": "member_0", "start": 6.0, "duration": 3, "finish": 9.0}, "3": {"task_id": 3, "assignee": "member_0", "start": 9.0, "duration": 3, "finish": 12.0}}
