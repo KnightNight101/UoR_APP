@@ -1,0 +1,8 @@
+%% SlightlyLessBasic.py - Mermaid Flowchart
+flowchart TD
+    A[Start] --> B[Set model, prompts, output file]
+    B --> C[For each prompt]
+    C --> D[Run Ollama subprocess]
+    D --> E[Print and collect output]
+    E --> F[Save all results to file]
+    F --> G[End]

@@ -1,0 +1,8 @@
+%% apply_schema.py - Mermaid Flowchart
+flowchart TD
+    A[Start] --> B[Read schema SQL from file]
+    B --> C[Connect to SQLite DB]
+    C --> D[Execute schema script]
+    D --> E[Print success message]
+    E --> F[Close connection]
+    F --> G[End]

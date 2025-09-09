@@ -1,0 +1,13 @@
+%% repair_project_members.py - Mermaid Flowchart
+flowchart TD
+    A[Start] --> B[Open DB session]
+    B --> C[For each project]
+    C --> D{Owner membership exists?}
+    D -- Yes --> E[Skip]
+    D -- No --> F[Add owner membership]
+    E --> G[Continue]
+    F --> G
+    G --> H[Commit changes]
+    H --> I[Print summary]
+    I --> J[Close session]
+    J --> K[End]

@@ -1,0 +1,8 @@
+%% login_manager.py - Mermaid Class Diagram
+classDiagram
+    class LoginManager {
+        +loginResult: Signal
+        +verify_credentials(username, password): Slot
+        _users: dict
+    }
+    LoginManager --> QObject : inherits

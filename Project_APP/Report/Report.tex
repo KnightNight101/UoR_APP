@@ -2,6 +2,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\graphicspath{ {C:\Users\KnightNight101\UoR_APP\Project_APP\Report\png_files} }
 \usepackage{amsmath,amssymb}
 \usepackage{hyperref}
 \usepackage{geometry}
@@ -45,6 +46,7 @@
 \usepackage{fancyhdr}
 \usepackage{setspace}
 \usepackage{csquotes}
+
 \usepackage[T1]{fontenc}
 \usepackage[backend=biber,style=authoryear,ibidtracker=false]{biblatex}
 \addbibresource{UoR_Masters_Project.bib}
@@ -180,7 +182,7 @@ However, projects with clearer visions saw enhanced benefits from Agile methods,
 The industry dimension adds further nuance: while Agile produced stronger positive effects in tech-oriented, healthcare, and service sectors, it had little to no effect in sectors with rigid planning requirements (e.g., construction, government). 
 Serrador and Pinto provide empirical reinforcement for this project's claim that Agile's iterative and stakeholder-centric nature aligns more closely with the needs of modern, fast-moving projects than static, universalised methodologies.
 
-However, the relatively low explanatory power (R² values around $0.02\dashv 0.15$) underscores that Agile is not a panacea; other factors contribute significantly to project outcomes.
+However, the relatively low explanatory power ($R^2$ values around 0.02 to 0.15) underscores that Agile is not a panacea; other factors contribute significantly to project outcomes.
 The study advocates for a more sophisticated understanding of Agile, particularly its hybridisation with traditional methodologies; an area under explored yet reflective of current industry practice.
 
 To gain a deeper understanding of the role of Agile, key studies aiming to enhance project efficiency were reviewed. 
@@ -413,9 +415,7 @@ Lacking prior experience with these tools, progress was slow.
 Even if the server were hosted on-site rather than in the cloud, users would still be asked to trust a system where their data travelled across a network to reach the point of processing. 
 While there are many established and secure ways of countering this risk, for example by using a Secure Shell (SSH), when combined with the time limitations of the project, made the web-based design untenable.
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Insert Diagram of SSH architecture %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\includegraphics[width=\textwidth]{png_files/SSH_Architecture.png}
 
 
 The decision was made to pivot toward a different architecture: one centred on Python, running locally on the user's machine. 
@@ -541,6 +541,7 @@ This architecture represents a deliberate balance between modularity and simplic
 Each layer is isolated but tightly integrated, ensuring clear data flow without introducing unnecessary complexity. 
 At the same time, the architecture foregrounds the ethical objectives of the project: locality, transparency, accountability, and offline resilience.
 
+\includegraphics[width=\textwidth]{png_files/main_py_architecture.png}
 \section{User Interface Layer}
 
 The interface was implemented in QML, providing a modern, flexible, and responsive environment that would have been difficult to replicate with standard Python GUI toolkits alone. 

@@ -1,0 +1,8 @@
+%% basic_test.py - Mermaid Flowchart
+flowchart TD
+    A[Start] --> B[Set model and prompt]
+    B --> C[Run Ollama subprocess]
+    C --> D[Print return code]
+    D --> E[Print STDOUT]
+    E --> F[Print STDERR]
+    F --> G[End]

@@ -1,0 +1,9 @@
+%% repair_project_owners.py - Mermaid Flowchart
+flowchart TD
+    A[Start] --> B[Open DB session]
+    B --> C[Update Project.owner_id where 0]
+    C --> D[Update ProjectMember.user_id where 0]
+    D --> E[Commit changes]
+    E --> F[Print summary]
+    F --> G[Close session]
+    G --> H[End]

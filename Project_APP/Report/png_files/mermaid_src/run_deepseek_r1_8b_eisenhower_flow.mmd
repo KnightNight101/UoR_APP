@@ -1,0 +1,9 @@
+%% run_deepseek_r1_8b_eisenhower.py - Mermaid Flowchart
+flowchart TD
+    A[Start] --> B[Initialize test cases]
+    B --> C[For each test case]
+    C --> D[Send prompt to Ollama]
+    D --> E[Parse JSON output]
+    E --> F[Evaluate metrics]
+    F --> G[Save results to CSV]
+    G --> H[End]

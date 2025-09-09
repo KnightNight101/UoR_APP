@@ -1,0 +1,11 @@
+%% get_models.py - Mermaid Flowchart
+flowchart TD
+    A[Start] --> B[Check Ollama executable]
+    B --> C[For each model]
+    C --> D{Model exists?}
+    D -- Yes --> E[Skip]
+    D -- No --> F[Pull model]
+    E --> G[Continue]
+    F --> G
+    G --> H[Print completion message]
+    H --> I[End]

@@ -1,0 +1,14 @@
+%% assign_all_users_to_all_projects.py - Mermaid Flowchart
+flowchart TD
+    A[Start] --> B[Open DB session]
+    B --> C[Query all users]
+    C --> D[Query all projects]
+    D --> E[For each project]
+    E --> F[For each user]
+    F --> G{Is user already a member?}
+    G -- Yes --> H[Skip]
+    G -- No --> I[Add user as member]
+    I --> J[Commit changes]
+    H --> J
+    J --> K[Print assignment summary]
+    K --> L[End]

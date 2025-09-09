@@ -1,0 +1,98 @@
+%% db.py - Mermaid Class Diagram
+classDiagram
+    class User {
+        +id: int
+        +username: str
+        +password_hash: str
+        +created_at: DateTime
+        +is_active: bool
+        +tenant_id: int
+        +sso_provider: str
+    }
+    class Role {
+        +id: int
+        +name: str
+        +description: str
+    }
+    class Permission {
+        +id: int
+        +name: str
+        +description: str
+    }
+    class Project {
+        +id: int
+        +name: str
+        +description: str
+        +deadline: str
+        +tasks_json: str
+        +created_at: DateTime
+        +owner_id: int
+        +tenant_id: int
+    }
+    class ProjectMember {
+        +project_id: int
+        +user_id: int
+        +role: str
+        +joined_at: DateTime
+    }
+    class Task {
+        +id: int
+        +project_id: int
+        +title: str
+        +description: str
+        +status: str
+        +assigned_to: int
+        +due_date: DateTime
+        +hours: float
+        +dependencies: str
+        +created_at: DateTime
+    }
+    class Subtask {
+        +id: int
+        +task_id: int
+        +title: str
+        +description: str
+        +status: str
+        +assigned_to: int
+        +due_date: DateTime
+        +hours: float
+        +dependencies: str
+        +category: str
+        +created_at: DateTime
+    }
+    class File {
+        +id: int
+        +project_id: int
+        +task_id: int
+        +subtask_id: int
+        +filename: str
+        +filepath: str
+        +uploaded_by: int
+        +uploaded_at: DateTime
+        +description: str
+    }
+    class Message {
+        +id: int
+        +sender_id: int
+        +recipient_id: int
+        +content: str
+        +timestamp: DateTime
+        +read: bool
+    }
+    class Tenant {
+        +id: int
+        +name: str
+        +created_at: DateTime
+    }
+    User "1" -- "*" Role : has
+    Role "1" -- "*" Permission : grants
+    Project "1" -- "*" ProjectMember : has
+    Project "1" -- "*" Task : contains
+    Task "1" -- "*" Subtask : contains
+    Project "1" -- "*" File : has
+    Task "1" -- "*" File : has
+    Subtask "1" -- "*" File : has
+    User "1" -- "*" Message : sends
+    User "1" -- "*" Message : receives
+    Tenant "1" -- "*" User : owns
+    Tenant "1" -- "*" Project : owns

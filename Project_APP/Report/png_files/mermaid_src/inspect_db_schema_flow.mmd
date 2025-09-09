@@ -1,0 +1,13 @@
+%% inspect_db_schema.py - Mermaid Flowchart
+flowchart TD
+    A[Start] --> B[Check if DB file exists]
+    B -- No --> C[Print error, End]
+    B -- Yes --> D[Connect to SQLite DB]
+    D --> E[Query all tables]
+    E --> F{Any tables?}
+    F -- No --> G[Print no tables, End]
+    F -- Yes --> H[For each table]
+    H --> I[Query columns]
+    I --> J[Print column info]
+    J --> K[Close connection]
+    K --> L[End]

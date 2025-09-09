@@ -1,12 +1,23 @@
 flowchart TD
-    A[main.py Entry Point] -->|Initializes| B[ProjectFileManager]
-    A -->|Creates| C[QApplication & QQmlApplicationEngine]
-    A -->|Exposes| D[QML Context Properties]
-    D --> E[AuthManager]
-    D --> F[DashboardManager]
-    D --> G[ProjectManager]
-    D --> H[UserManager]
-    D --> I[LogEventBridge]
-    D --> J[LoadingManager]
-    C --> K[Loads Main.qml]
-    K --> L[QML UI]
+A[main.py Entry Point] -->|Initializes| B[ProjectFileManager]
+B -->|Sets up| B1[Directories & Git Repos]
+B -->|Starts| B2[File Watchdog VCS]
+B2 -->|AutoCommit_LLM_Summary| B3[LLM API]
+A -->|Creates| C[QApplication & QQmlApplicationEngine]
+A -->|Exposes| D[QML Context Properties]
+D --> E[AuthManager]
+D --> F[DashboardManager]
+D --> G[ProjectManager]
+D --> H[UserManager]
+D --> I[LogEventBridge]
+D --> J[LoadingManager]
+D --> M[LoginManager]
+E -->|Authenticates| DB[Database]
+F -->|Loads Projects/Tasks| DB
+G -->|CRUD Projects/Tasks/Subtasks| DB
+H -->|Manages Users| DB
+I -->|Logs Events| DB
+J -->|Tracks Loading State| QML
+C --> K[Loads Main.qml]
+K --> L[QML UI]
+L -->|Interacts via Signals/Slots| D

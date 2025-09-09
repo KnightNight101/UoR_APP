@@ -1,0 +1,10 @@
+%% main.py - Mermaid Flowchart
+flowchart TD
+    A[Start] --> B[Initialize Qt Application]
+    B --> C[Setup QML Engine]
+    C --> D[Expose Managers to QML]
+    D --> E[Load QML File]
+    E --> F{QML Loaded?}
+    F -- No --> G[Exit with error]
+    F -- Yes --> H[Start Event Loop]
+    H --> I[End]
