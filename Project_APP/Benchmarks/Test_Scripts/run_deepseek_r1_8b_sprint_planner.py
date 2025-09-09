@@ -39,6 +39,7 @@ def run_ollama_live(prompt: str, model: str = "llama3.1:8b", timeout: int = 1200
     Returns: stdout_clean, stderr_clean, elapsed_time
     """
     start_time = time.time()
+    proc = None
     try:
         proc = subprocess.Popen(
             ["ollama", "run", model],
@@ -64,6 +65,10 @@ def run_ollama_live(prompt: str, model: str = "llama3.1:8b", timeout: int = 1200
     stderr_clean = strip_ansi(stderr)
     return stdout_clean, stderr_clean, elapsed
 
+JSON_ARRAY_RE = re.compile(
+    r"```(?:json)?\s*(?P<fence>[\s\S]*?)```|(?P<nofence>\[[\s\S]*\])",
+    re.IGNORECASE
+)
 
 def extract_json_array(raw_output: str):
     """
@@ -184,11 +189,14 @@ def main():
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
 
-        for i, case in enumerate(test_cases, start=1):
-            print(f"\n[INFO] Running test case {i}: {case['description']}")
+        for i, case in enumerate(TEST_CASES, start=1):
+            desc = case["description"]
+            tasks = case["tasks"]
+
+            print(f"\n[INFO] Running test case {i}: {desc}")
 
             prompt = f"""
-You are an assistant that creates Agile sprint plans.
+You are an Agile sprint planner.
 
 Rules:
 1. Output only a JSON array of tasks. 
@@ -198,9 +206,13 @@ Rules:
 5. Respect dependencies, durations, and avoid overlaps.
 6. If 'assigned_to' is missing, assign to any available member.
 
-Tasks:
-{json.dumps(case['tasks'], indent=2)}
-"""
+Return ONLY a JSON array of task objects. Each object MUST include:
+- "id" (string)
+- "name" (string)
+- "hours" (number)
+- "assignee" (string)
+- "start" (ISO 8601 datetime)
+- "end"   (ISO 8601 datetime)
 
             stdout, stderr, elapsed = run_ollama_live(prompt)
             raw_output = stdout + "\n" + stderr
@@ -227,7 +239,7 @@ Tasks:
 
             row = {
                 "test_case": i,
-                "description": case["description"],
+                "description": desc,
                 "valid_json": valid_json,
                 "raw_output_file": raw_output_file,
                 "thoughts_file": thoughts_file,
@@ -236,6 +248,7 @@ Tasks:
                 "time_total": elapsed,
             }
             writer.writerow(row)
+            f.flush()
 
             print(f"[RESULT] Feasibility={schedule_feasibility:.2f}, "
                   f"Coherence={output_coherence:.2f}, "

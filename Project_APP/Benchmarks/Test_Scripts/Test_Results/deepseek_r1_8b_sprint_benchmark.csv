@@ -7,3 +7,7 @@ test_id,model,baseline_makespan,model_makespan,makespan_ratio,dependency_violati
 5,deepseek-r1:8b,27.0,27.0,1.0,0,1.0,81.48,True,300,baseline_fallback
 1,deepseek-r1:8b,15.0,15.0,1.0,0,1.0,50.0,True,600,baseline_fallback
 1,deepseek-r1:8b,35.0,35.0,1.0,0,1.0,100.0,True,600,baseline_fallback
+1,deepseek-r1:8b,44.0,44.0,1.0,0,1.0,100.0,True,600,baseline_fallback
+2,deepseek-r1:8b,14.0,14.0,1.0,0,1.0,100.0,True,600,baseline_fallback
+3,deepseek-r1:8b,31.0,31.0,1.0,0,1.0,100.0,True,600,baseline_fallback
+4,deepseek-r1:8b,19.0,19.0,1.0,0,1.0,50.0,True,600,baseline_fallback
