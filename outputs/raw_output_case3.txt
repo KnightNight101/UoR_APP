@@ -1,29 +1,39 @@
+```json
 [
   {
     "id": "X",
     "task": "Task X",
     "hours": 10,
     "assignee": "Alice",
-    "start": "Monday, 9am",
-    "end": "Tuesday, 5pm"
+    "start": "Monday 9:00 AM",
+    "end": "Tuesday 5:00 PM"
   },
   {
     "id": "Y",
     "task": "Task Y",
     "hours": 8,
     "assignee": "Alice",
-    "start": "Wednesday, 9am",
-    "end": "Thursday, 5pm"
+    "start": "Tuesday 9:00 AM",
+    "end": "Wednesday 5:00 PM"
   },
   {
     "id": "Z",
     "task": "Task Z",
     "hours": 6,
     "assignee": "Bob",
-    "start": "Friday, 9am",
-    "end": "Friday, 3pm"
+    "start": "Thursday 9:00 AM",
+    "end": "Friday 3:00 PM"
   }
 ]
+```
+
+Here's how I arrived at this solution:
+
+1. We start with the dependencies, so we schedule `Task X` first since it has no dependencies.
+2. Then we schedule `Task Y`, but only after `Task X` is done (i.e., its end date). This way, `Task Y` can be scheduled on Tuesday afternoon.
+3. Finally, we schedule `Task Z`. Since it depends on `Task Y`, it will start on Wednesday afternoon.
+
+I've assigned tasks to individuals based on the `assigned_to` field in the input data. Note that I assumed the sprint length is 5 days (Monday to Friday), and each working day has 8 hours of work, from 9am to 5pm.
 
 
-⠙ ⠹ ⠹ ⠼ ⠴ ⠦ ⠦ ⠇ ⠇ ⠋ ⠋ ⠹ ⠹ ⠼ ⠼ ⠦ ⠧ ⠇ ⠏ ⠏ ⠙ ⠙ ⠹ ⠸ ⠴ ⠴ ⠦ ⠧ ⠇ ⠋ ⠋ ⠹ ⠹ ⠼ ⠴ ⠴ ⠧ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠧ ⠧ ⠏ ⠏ ⠋ ⠹ ⠸ ⠸ ⠼ ⠦ ⠧ ⠧ ⠇ ⠏ ⠙ ⠙ ⠸ ⠸ ⠼ ⠴ ⠧ ⠧ ⠇ ⠏ ⠙ ⠙ ⠸ ⠼ ⠼ ⠦ ⠧ ⠧ ⠇ ⠏ ⠙ ⠹ ⠹ ⠸ ⠴ ⠴ ⠦ ⠇ ⠇ ⠋ ⠋ ⠹ ⠹ ⠼ ⠴ ⠴ ⠧ ⠧ ⠇ ⠏ ⠙ ⠹ ⠹ ⠼ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠋ ⠹ ⠹ ⠼ ⠼ ⠦ ⠦ ⠧ ⠇ ⠋ ⠙ ⠙ ⠹ ⠸ ⠼ ⠦ ⠧ ⠧ ⠇ ⠋ ⠙ ⠙ ⠸ ⠸ ⠴ ⠴ ⠧ ⠧ ⠏ ⠋ ⠋ ⠹ ⠹ ⠼ ⠼ ⠦ ⠦ ⠧ ⠇ ⠋ ⠋ ⠙ ⠹ ⠼ ⠼ 
+⠙ ⠹ ⠹ ⠼ ⠴ ⠴ ⠧ ⠧ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠴ ⠧ ⠧ ⠇ ⠋ ⠋ ⠹ ⠹ ⠼ ⠴ ⠦ ⠧ ⠧ ⠇ ⠋ ⠋ ⠹ ⠹ ⠼ ⠼ ⠦ ⠧ ⠧ ⠏ ⠋ ⠋ ⠹ ⠸ ⠼ ⠼ ⠴ ⠦ ⠧ ⠏ ⠏ ⠙ ⠙ ⠸ ⠸ ⠴ ⠴ ⠧ ⠇ ⠏ ⠏ ⠋ ⠙ ⠸ ⠸ ⠼ ⠦ ⠦ ⠇ ⠏ ⠋ ⠙ ⠙ ⠸ ⠼ ⠴ ⠴ ⠧ ⠇ ⠇ ⠋ ⠋ ⠹ ⠹ ⠸ ⠼ ⠦ ⠦ ⠇ ⠇ ⠋ ⠋ ⠹ ⠹ ⠼ ⠴ ⠴ ⠧ ⠧ ⠏ ⠏ ⠙ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠇ ⠏ ⠏ ⠙ ⠹ ⠹ 

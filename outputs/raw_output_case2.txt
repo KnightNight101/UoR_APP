@@ -1,29 +1,39 @@
+```json
 [
+  {
+    "id": "A",
+    "task": "Start Sprint",
+    "hours": 1,
+    "assignee": "",
+    "start": "Monday 9am",
+    "end": "Tuesday 5pm"
+  },
   {
     "id": "D",
     "task": "Design UI",
     "hours": 6,
     "assignee": "Alice",
-    "start": "2023-02-06T09:00:00.000Z",
-    "end": "2023-02-06T17:00:00.000Z"
+    "start": "Tuesday 9am",
+    "end": "Wednesday 3pm"
   },
   {
     "id": "E",
     "task": "Backend API",
     "hours": 12,
     "assignee": "Bob",
-    "start": "2023-02-07T09:00:00.000Z",
-    "end": "2023-02-07T17:00:00.000Z"
+    "start": "Tuesday 9am",
+    "end": "Thursday 5pm"
   },
   {
     "id": "F",
     "task": "Integration Testing",
     "hours": 4,
     "assignee": "Charlie",
-    "start": "2023-02-08T09:00:00.000Z",
-    "end": "2023-02-08T13:00:00.000Z"
+    "start": "Wednesday 3pm",
+    "end": "Wednesday 7pm"
   }
 ]
+```
 
 
-⠙ ⠹ ⠸ ⠸ ⠼ ⠴ ⠧ ⠧ ⠏ ⠏ ⠙ ⠙ ⠹ ⠼ ⠼ ⠦ ⠦ ⠧ ⠇ ⠏ ⠙ ⠹ ⠹ ⠼ ⠴ ⠴ ⠧ ⠧ ⠏ ⠏ ⠙ ⠹ ⠸ ⠼ ⠼ ⠦ ⠧ ⠇ ⠇ ⠋ ⠙ ⠙ ⠸ ⠸ ⠴ ⠦ ⠧ ⠧ ⠏ ⠏ ⠙ ⠙ ⠸ ⠸ ⠴ ⠴ ⠧ ⠇ ⠇ ⠋ ⠋ ⠹ ⠹ ⠸ ⠴ ⠴ ⠧ ⠇ ⠇ ⠋ ⠋ ⠙ ⠸ ⠼ ⠴ ⠴ ⠧ ⠧ ⠏ ⠋ ⠋ ⠙ ⠸ ⠼ ⠼ ⠦ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠙ ⠸ ⠸ ⠴ ⠴ ⠧ ⠇ ⠏ ⠋ ⠋ ⠙ ⠸ ⠼ ⠼ ⠦ ⠦ ⠇ ⠏ ⠏ ⠙ ⠙ ⠸ ⠼ ⠼ ⠦ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ 
+⠙ ⠹ ⠹ ⠼ ⠼ ⠦ ⠧ ⠧ ⠏ ⠏ ⠋ ⠙ ⠹ ⠼ ⠴ ⠦ ⠧ ⠧ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠦ ⠇ ⠇ ⠋ ⠋ ⠹ ⠹ ⠼ ⠴ ⠦ ⠧ ⠧ ⠏ ⠋ ⠙ ⠹ ⠹ ⠼ ⠴ ⠦ ⠧ ⠇ ⠇ ⠏ ⠋ ⠹ ⠸ ⠼ ⠴ ⠴ ⠧ ⠇ ⠏ ⠏ ⠙ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠋ ⠋ ⠹ ⠹ ⠼ ⠴ ⠴ ⠧ ⠧ ⠏ ⠋ ⠋ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠧ ⠇ ⠏ ⠋ ⠹ ⠹ ⠸ ⠼ ⠴ ⠦ ⠇ ⠏ ⠋ ⠋ ⠹ ⠹ ⠸ ⠴ ⠴ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠼ ⠦ ⠧ ⠇ ⠇ ⠋ ⠙ ⠹ ⠹ ⠼ ⠴ ⠴ ⠧ ⠧ ⠏ ⠏ ⠙ ⠹ ⠸ ⠸ ⠴ ⠴ ⠧ ⠇ ⠏ ⠏ ⠙ ⠙ ⠸ ⠼ 

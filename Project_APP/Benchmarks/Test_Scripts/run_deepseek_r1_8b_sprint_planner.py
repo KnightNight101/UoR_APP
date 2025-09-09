@@ -5,10 +5,11 @@ import json
 import time
 import re
 import subprocess
-import threading
 from difflib import SequenceMatcher
 import nltk
 from datetime import datetime
+from dateutil import parser
+import os
 
 # Ensure NLTK data is available
 nltk.download('wordnet', quiet=True)
@@ -19,27 +20,16 @@ nltk.download('omw-1.4', quiet=True)
 ###############################
 
 def semantic_similarity(a, b):
-    """Compute simple similarity between two strings using SequenceMatcher."""
     return SequenceMatcher(None, a, b).ratio()
 
-import subprocess
-import time
-import re
-
 def strip_ansi(text: str) -> str:
-    """
-    Remove ANSI escape sequences from text (e.g., spinners, colors).
-    """
+    """Remove ANSI escape sequences from text (spinners, colors)."""
     ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
     return ansi_escape.sub('', text)
 
-def run_ollama_live(prompt: str, model: str = "llama3.1:8b", timeout: int = 1200):
-    """
-    Run Ollama in non-interactive mode, capture stdout/stderr.
-    Returns: stdout_clean, stderr_clean, elapsed_time
-    """
+def run_ollama_live(prompt: str, model: str = "llama3.1:8b", timeout: int = 600):
+    """Run Ollama in non-interactive mode, capture stdout/stderr."""
     start_time = time.time()
-    proc = None
     try:
         proc = subprocess.Popen(
             ["ollama", "run", model],
@@ -49,7 +39,6 @@ def run_ollama_live(prompt: str, model: str = "llama3.1:8b", timeout: int = 1200
             text=True,
             encoding="utf-8"
         )
-
         stdout, stderr = proc.communicate(input=prompt, timeout=timeout)
     except subprocess.TimeoutExpired:
         proc.kill()
@@ -59,21 +48,11 @@ def run_ollama_live(prompt: str, model: str = "llama3.1:8b", timeout: int = 1200
         proc.kill()
         stdout, stderr = "", str(e)
         print(f"[ERROR] Exception in run_ollama_live: {e}")
-
     elapsed = time.time() - start_time
-    stdout_clean = strip_ansi(stdout)
-    stderr_clean = strip_ansi(stderr)
-    return stdout_clean, stderr_clean, elapsed
-
-JSON_ARRAY_RE = re.compile(
-    r"```(?:json)?\s*(?P<fence>[\s\S]*?)```|(?P<nofence>\[[\s\S]*\])",
-    re.IGNORECASE
-)
+    return strip_ansi(stdout), strip_ansi(stderr), elapsed
 
 def extract_json_array(raw_output: str):
-    """
-    Finds the first JSON array in the model output.
-    """
+    """Extract the first JSON array found in the output."""
     match = re.search(r"\[.*?\]", raw_output, re.DOTALL)
     if match:
         try:
@@ -82,6 +61,13 @@ def extract_json_array(raw_output: str):
             print(f"[ERROR] JSON decode failed: {e}")
             return None
     return None
+
+def parse_datetime_safe(dt_str):
+    """Parse ISO or human-readable datetime, return None if invalid."""
+    try:
+        return parser.parse(dt_str)
+    except Exception:
+        return None
 
 ###############################
 # Team & Sprint Settings
@@ -151,15 +137,12 @@ test_cases = [
 
 def check_schedule_feasibility(tasks_predicted, sprint_days=5):
     feasible = True
-    for task in tasks_predicted:
-        try:
-            start = datetime.fromisoformat(task["start"])
-            end = datetime.fromisoformat(task["end"])
-            if end < start:
-                feasible = False
-            if (end - start).days > sprint_days:
-                feasible = False
-        except Exception:
+    for t in tasks_predicted:
+        start = parse_datetime_safe(t.get("start"))
+        end = parse_datetime_safe(t.get("end"))
+        if not start or not end:
+            feasible = False
+        elif end < start or (end - start).days > sprint_days:
             feasible = False
     return 1.0 if feasible else 0.0
 
@@ -170,6 +153,61 @@ def check_output_coherence(tasks_predicted):
     valid_count = sum(1 for t in tasks_predicted if isinstance(t, dict) and required_keys.issubset(t.keys()))
     return valid_count / len(tasks_predicted)
 
+def check_dependency_accuracy(tasks_predicted):
+    task_map = {t["id"]: t for t in tasks_predicted}
+    correct = 0
+    total = 0
+    for t in tasks_predicted:
+        deps = t.get("dependencies", [])
+        total += len(deps)
+        for d in deps:
+            dep_task = task_map.get(d)
+            if not dep_task:
+                continue
+            t_start = parse_datetime_safe(t.get("start"))
+            d_end = parse_datetime_safe(dep_task.get("end"))
+            if t_start and d_end and t_start >= d_end:
+                correct += 1
+    return correct / total if total > 0 else 1.0
+
+def check_resource_balance(tasks_predicted, team=team_members):
+    availability = {m["name"]: m["hours_per_day"]*sprint_days for m in team}
+    usage = {m["name"]:0 for m in team}
+    for t in tasks_predicted:
+        assignee = t.get("assignee")
+        hours = t.get("hours", 0)
+        if assignee in usage:
+            usage[assignee] += hours
+    ratios = [usage[m]/availability[m] for m in usage if availability[m]>0]
+    mean_ratio = sum(ratios)/len(ratios) if ratios else 0
+    variance = sum((r - mean_ratio)**2 for r in ratios)/len(ratios) if ratios else 0
+    return 1/(1+variance) if variance>0 else 1.0
+
+def check_time_utilization(tasks_predicted, team=team_members):
+    total_planned = sum(t.get("hours",0) for t in tasks_predicted)
+    total_available = sum(m["hours_per_day"]*sprint_days for m in team)
+    utilization = total_planned/total_available if total_available>0 else 0
+    return min(utilization, 1.0)
+
+def check_effort_accuracy(tasks_predicted, tasks_expected):
+    expected_map = {t["id"]: t.get("duration_hours",0) for t in tasks_expected}
+    errors = []
+    for t in tasks_predicted:
+        tid = t.get("id")
+        if tid in expected_map and expected_map[tid]>0:
+            errors.append(abs(t.get("hours",0)-expected_map[tid])/expected_map[tid])
+    return max(0, 1 - (sum(errors)/len(errors))) if errors else 1.0
+
+def check_metrics(tasks_predicted, tasks_expected):
+    return {
+        "feasibility": check_schedule_feasibility(tasks_predicted),
+        "coherence": check_output_coherence(tasks_predicted),
+        "dependency_accuracy": check_dependency_accuracy(tasks_predicted),
+        "resource_balance": check_resource_balance(tasks_predicted),
+        "time_utilization": check_time_utilization(tasks_predicted),
+        "effort_accuracy": check_effort_accuracy(tasks_predicted, tasks_expected),
+    }
+
 ###############################
 # Main
 ###############################
@@ -177,81 +215,76 @@ def check_output_coherence(tasks_predicted):
 def main():
     results_file = "results_sprint.csv"
     fieldnames = [
-        "test_case", "description", "valid_json",
-        "raw_output_file", "thoughts_file",
-        "schedule_feasibility", "output_coherence", "time_total"
+        "test_case","description","valid_json","raw_output_file","thoughts_file",
+        "feasibility","coherence","dependency_accuracy","resource_balance",
+        "time_utilization","effort_accuracy","time_total"
     ]
 
-    import os
     os.makedirs("outputs", exist_ok=True)
 
     with open(results_file, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
 
-        for i, case in enumerate(TEST_CASES, start=1):
-            desc = case["description"]
-            tasks = case["tasks"]
+        for i, case in enumerate(test_cases, start=1):
+            print(f"\n[INFO] Running test case {i}: {case['description']}")
 
-            print(f"\n[INFO] Running test case {i}: {desc}")
-
-            prompt = f"""
-You are an Agile sprint planner.
-
+            base_prompt = f"""
+You are an assistant that creates Agile sprint plans.
 Rules:
-1. Output only a JSON array of tasks. 
-2. Do not include any explanations, thoughts, or text outside the JSON.
-3. Each task object must contain: id, task, hours, assignee, start, end.
-4. Each working day has 8 hours, sprint length is {sprint_days} days, sprint starts Monday 9am.
-5. Respect dependencies, durations, and avoid overlaps.
-6. If 'assigned_to' is missing, assign to any available member.
+1. Output only a JSON array of tasks.
+2. Each task object must contain: id, task, hours, assignee, start, end.
+3. Each working day has 8 hours, sprint length is {sprint_days} days, sprint starts Monday 9am.
+4. Respect dependencies, durations, and avoid overlaps.
+5. Assign tasks if 'assigned_to' missing.
+Tasks:
+{json.dumps(case['tasks'], indent=2)}
+"""
 
-Return ONLY a JSON array of task objects. Each object MUST include:
-- "id" (string)
-- "name" (string)
-- "hours" (number)
-- "assignee" (string)
-- "start" (ISO 8601 datetime)
-- "end"   (ISO 8601 datetime)
-
-            stdout, stderr, elapsed = run_ollama_live(prompt)
+            stdout, stderr, elapsed = run_ollama_live(base_prompt)
             raw_output = stdout + "\n" + stderr
+            tasks_predicted = extract_json_array(raw_output)
+            valid_json = tasks_predicted is not None
 
-            valid_json = False
-            tasks_predicted = []
-
-            try:
-                tasks_predicted = extract_json_array(raw_output)
+            # Reprompt if invalid or time utilization < 70%
+            if not valid_json or (tasks_predicted and check_time_utilization(tasks_predicted) < 0.7):
+                reprompt = ("Output must be valid JSON array of tasks only, "
+                            "and improve time utilization to use at least 70% of total available hours.")
+                stdout2, stderr2, elapsed2 = run_ollama_live(base_prompt + "\n" + reprompt)
+                raw_output += "\n[REPROMPT]\n" + stdout2 + "\n" + stderr2
+                tasks_predicted = extract_json_array(stdout2)
                 valid_json = tasks_predicted is not None
-            except Exception as e:
-                print(f"[ERROR] JSON parse failed: {e}")
+                elapsed += elapsed2
 
-            schedule_feasibility = check_schedule_feasibility(tasks_predicted) if valid_json else 0
-            output_coherence = check_output_coherence(tasks_predicted) if valid_json else 0
+            metrics = check_metrics(tasks_predicted, case['tasks']) if valid_json else {
+                "feasibility":0,"coherence":0,"dependency_accuracy":0,
+                "resource_balance":0,"time_utilization":0,"effort_accuracy":0
+            }
 
             raw_output_file = f"outputs/raw_output_case{i}.txt"
             thoughts_file = f"outputs/thoughts_case{i}.txt"
-
-            with open(raw_output_file, "w", encoding="utf-8") as rf:
+            with open(raw_output_file,"w",encoding="utf-8") as rf:
                 rf.write(raw_output)
-            with open(thoughts_file, "w", encoding="utf-8") as tf:
+            with open(thoughts_file,"w",encoding="utf-8") as tf:
                 tf.write(stderr)
 
             row = {
-                "test_case": i,
-                "description": desc,
-                "valid_json": valid_json,
-                "raw_output_file": raw_output_file,
-                "thoughts_file": thoughts_file,
-                "schedule_feasibility": schedule_feasibility,
-                "output_coherence": output_coherence,
-                "time_total": elapsed,
+                "test_case":i,
+                "description":case["description"],
+                "valid_json":valid_json,
+                "raw_output_file":raw_output_file,
+                "thoughts_file":thoughts_file,
+                **metrics,
+                "time_total":elapsed
             }
             writer.writerow(row)
-            f.flush()
 
-            print(f"[RESULT] Feasibility={schedule_feasibility:.2f}, "
-                  f"Coherence={output_coherence:.2f}, "
+            print(f"[RESULT] Feasibility={metrics['feasibility']:.2f}, "
+                  f"Coherence={metrics['coherence']:.2f}, "
+                  f"Dependency Accuracy={metrics['dependency_accuracy']:.2f}, "
+                  f"Resource Balance={metrics['resource_balance']:.2f}, "
+                  f"Time Utilization={metrics['time_utilization']:.2f}, "
+                  f"Effort Accuracy={metrics['effort_accuracy']:.2f}, "
                   f"Time={elapsed:.1f}s")
 
 if __name__ == "__main__":

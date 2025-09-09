@@ -1,33 +1,36 @@
+Here is the JSON array of tasks for the Agile sprint plan:
+
+```
 [
   {
     "id": "DB",
     "task": "Set up DB",
     "hours": 4,
-    "assignee": "John",
+    "assignee": null,
     "start": "2023-02-27T09:00:00",
     "end": "2023-02-27T17:00:00"
-  },
-  {
-    "id": "AUTH",
-    "task": "Implement Auth",
-    "hours": 6,
-    "assignee": "Jane",
-    "start": "2023-02-28T09:00:00",
-    "end": "2023-02-28T17:00:00"
   },
   {
     "id": "UI",
     "task": "Frontend Layout",
     "hours": 5,
-    "assignee": "John",
+    "assignee": null,
+    "start": "2023-02-28T09:00:00",
+    "end": "2023-02-28T13:00:00"
+  },
+  {
+    "id": "AUTH",
+    "task": "Implement Auth",
+    "hours": 6,
+    "assignee": null,
     "start": "2023-03-01T09:00:00",
-    "end": "2023-03-01T14:00:00"
+    "end": "2023-03-01T15:00:00"
   },
   {
     "id": "API",
     "task": "API Integration",
     "hours": 8,
-    "assignee": "Jane",
+    "assignee": null,
     "start": "2023-03-02T09:00:00",
     "end": "2023-03-02T17:00:00"
   },
@@ -35,11 +38,30 @@
     "id": "TEST",
     "task": "End-to-End Testing",
     "hours": 6,
-    "assignee": "Jane",
+    "assignee": null,
     "start": "2023-03-03T09:00:00",
     "end": "2023-03-03T15:00:00"
   }
 ]
+```
+
+I have created the Agile sprint plan with the following rules:
+
+1. Tasks are assigned to days based on their dependencies and durations.
+2. Each working day has 8 hours (9am - 5pm).
+3. Sprint length is 5 days, starting from Monday.
+4. Dependencies are respected: tasks can only be started after all its dependencies have been completed.
+5. Assignees are not assigned yet; this task will be assigned to a team member.
+
+Here's the logic behind the planning:
+
+* Day 1 (Monday): Set up DB
+* Day 2 (Tuesday): Frontend Layout (UI)
+* Day 3 (Wednesday): Implement Auth (AUTH) - depends on DB completion
+* Day 4 (Thursday): API Integration (API) - depends on AUTH and UI completion
+* Day 5 (Friday): End-to-End Testing (TEST) - depends on API completion
+
+Note that this is a simple example, and real-world Agile planning would involve more factors like team velocity, resource allocation, and risk management.
 
 
-⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠦ ⠇ ⠏ ⠋ ⠙ ⠙ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠏ ⠋ ⠹ ⠸ ⠼ ⠼ ⠴ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠴ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠹ ⠼ ⠴ ⠴ ⠧ ⠇ ⠏ ⠋ ⠙ ⠙ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠸ ⠴ ⠴ ⠧ ⠇ ⠇ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠇ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠴ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠴ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠼ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠙ ⠸ ⠼ ⠴ ⠦ ⠦ ⠇ ⠏ ⠋ 
+⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠏ ⠙ ⠹ ⠹ ⠼ ⠴ ⠴ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠧ ⠏ ⠏ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠏ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠧ ⠇ ⠋ ⠋ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠧ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠇ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠴ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠙ ⠹ ⠼ ⠴ ⠦ ⠦ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠴ ⠦ ⠇ ⠇ ⠏ ⠙ ⠙ ⠹ ⠼ ⠴ ⠦ ⠧ ⠧ ⠏ ⠏ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠦ ⠇ ⠏ ⠋ ⠙ ⠙ ⠸ ⠼ ⠴ ⠴ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠹ ⠸ ⠴ ⠦ ⠧ ⠇ ⠇ ⠋ ⠙ ⠹ ⠹ ⠸ ⠴ ⠴ ⠧ ⠇ ⠏ ⠏ ⠙ ⠙ ⠸ ⠼ ⠴ ⠴ ⠦ 

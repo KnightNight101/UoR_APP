@@ -1,6 +1,2 @@
-test_case,description,valid_json,raw_output_file,thoughts_file,schedule_feasibility,output_coherence,time_total
-1,Simple 3-task linear dependency,True,outputs/raw_output_case1.txt,outputs/thoughts_case1.txt,0.0,1.0,88.46911287307739
-2,Parallel tasks with shared resources,True,outputs/raw_output_case2.txt,outputs/thoughts_case2.txt,1.0,1.0,67.50748920440674
-3,Overbooked team member,True,outputs/raw_output_case3.txt,outputs/thoughts_case3.txt,0.0,1.0,56.325077533721924
-4,Tasks without assigned member,True,outputs/raw_output_case4.txt,outputs/thoughts_case4.txt,0.0,1.0,52.14740824699402
-5,Complex web with multiple dependencies,True,outputs/raw_output_case5.txt,outputs/thoughts_case5.txt,1.0,1.0,102.77384042739868
+test_case,description,valid_json,raw_output_file,thoughts_file,feasibility,coherence,dependency_accuracy,resource_balance,time_utilization,effort_accuracy,time_total
+1,Simple 3-task linear dependency,False,outputs/raw_output_case1.txt,outputs/thoughts_case1.txt,0,0,0,0,0,0,242.1764907836914
