@@ -1,0 +1,29 @@
+[
+  {
+    "id": "X",
+    "task": "Task X",
+    "hours": 10,
+    "assignee": "Alice",
+    "start": "Monday, 9am",
+    "end": "Tuesday, 5pm"
+  },
+  {
+    "id": "Y",
+    "task": "Task Y",
+    "hours": 8,
+    "assignee": "Alice",
+    "start": "Wednesday, 9am",
+    "end": "Thursday, 5pm"
+  },
+  {
+    "id": "Z",
+    "task": "Task Z",
+    "hours": 6,
+    "assignee": "Bob",
+    "start": "Friday, 9am",
+    "end": "Friday, 3pm"
+  }
+]
+
+
+⠙ ⠹ ⠹ ⠼ ⠴ ⠦ ⠦ ⠇ ⠇ ⠋ ⠋ ⠹ ⠹ ⠼ ⠼ ⠦ ⠧ ⠇ ⠏ ⠏ ⠙ ⠙ ⠹ ⠸ ⠴ ⠴ ⠦ ⠧ ⠇ ⠋ ⠋ ⠹ ⠹ ⠼ ⠴ ⠴ ⠧ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠧ ⠧ ⠏ ⠏ ⠋ ⠹ ⠸ ⠸ ⠼ ⠦ ⠧ ⠧ ⠇ ⠏ ⠙ ⠙ ⠸ ⠸ ⠼ ⠴ ⠧ ⠧ ⠇ ⠏ ⠙ ⠙ ⠸ ⠼ ⠼ ⠦ ⠧ ⠧ ⠇ ⠏ ⠙ ⠹ ⠹ ⠸ ⠴ ⠴ ⠦ ⠇ ⠇ ⠋ ⠋ ⠹ ⠹ ⠼ ⠴ ⠴ ⠧ ⠧ ⠇ ⠏ ⠙ ⠹ ⠹ ⠼ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠋ ⠹ ⠹ ⠼ ⠼ ⠦ ⠦ ⠧ ⠇ ⠋ ⠙ ⠙ ⠹ ⠸ ⠼ ⠦ ⠧ ⠧ ⠇ ⠋ ⠙ ⠙ ⠸ ⠸ ⠴ ⠴ ⠧ ⠧ ⠏ ⠋ ⠋ ⠹ ⠹ ⠼ ⠼ ⠦ ⠦ ⠧ ⠇ ⠋ ⠋ ⠙ ⠹ ⠼ ⠼ 

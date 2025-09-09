@@ -280,3 +280,43 @@
 [2025-09-01T16:04:30.550343] Removed user ID 7 from team
 [2025-09-01T16:04:56.935714] User logged out (window closed)
 [2025-09-01T16:04:56.972552] Navigated to page: dashboard
+[2025-09-08T12:36:22.674194] Opened project details: (Untitled Project)
+[2025-09-08T12:36:30.727809] User 'Nithin' logged in
+[2025-09-08T12:36:30.737473] User 'Nithin' logged in
+[2025-09-08T12:36:32.681765] Navigated to page: createProject
+[2025-09-08T12:36:39.636685] Navigated to page: dashboard
+[2025-09-08T12:36:41.402653] Navigated to project details: New Project
+[2025-09-08T12:36:41.434716] Navigated to page: projectDetails
+[2025-09-08T12:36:47.209993] Navigated to Team tab
+[2025-09-08T12:36:52.042373] Navigated to page: dashboard
+[2025-09-08T12:36:53.018649] Navigated to project details: New Project
+[2025-09-08T12:36:53.049131] Navigated to page: projectDetails
+[2025-09-08T12:36:53.084523] Navigated to Team tab
+[2025-09-08T12:37:03.510167] Navigated to Team tab
+[2025-09-08T12:37:05.217795] Navigated to page: dashboard
+[2025-09-08T12:37:07.417994] Navigated to project details: Master's Dissertation
+[2025-09-08T12:37:07.449541] Navigated to page: projectDetails
+[2025-09-08T12:37:07.486927] Navigated to Team tab
+[2025-09-08T12:37:08.657466] Navigated to page: dashboard
+[2025-09-08T12:37:13.865919] Navigated to page: calendar
+[2025-09-08T12:37:18.457660] Navigated to page: dashboard
+[2025-09-08T12:37:21.026461] Navigated to page: eventlog
+[2025-09-08T12:37:25.648629] Navigated to page: dashboard
+[2025-09-08T12:37:27.681665] Navigated to page: settings
+[2025-09-08T12:37:27.713971] Navigated to settings page
+[2025-09-08T12:37:29.826006] Navigated to page: dashboard
+[2025-09-08T12:37:29.865094] Returned to dashboard from settings
+[2025-09-08T12:37:31.601337] User logged out
+[2025-09-08T14:45:40.530927] Opened project details: (Untitled Project)
+[2025-09-08T14:46:21.589703] Failed login attempt for user 'Nithin'
+[2025-09-08T14:46:26.638690] User 'Nithin' logged in
+[2025-09-08T14:46:26.649689] User 'Nithin' logged in
+[2025-09-08T14:46:48.406565] Navigated to page: createProject
+[2025-09-08T14:46:51.628419] Navigated to page: dashboard
+[2025-09-08T14:46:53.506101] Navigated to project details: Master's Dissertation
+[2025-09-08T14:46:53.542053] Navigated to page: projectDetails
+[2025-09-08T14:47:00.066020] Navigated to Team tab
+[2025-09-08T14:47:04.047447] Navigated to page: dashboard
+[2025-09-08T14:47:08.026822] Navigated to page: eventlog
+[2025-09-08T14:47:33.973811] Navigated to page: dashboard
+[2025-09-08T14:50:02.584274] User logged out

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "D1",
+    "task": "Write Documentation",
+    "hours": 6,
+    "assignee": "Member 1",
+    "start": "Monday, 9am",
+    "end": "Monday, 5pm"
+  },
+  {
+    "id": "D2",
+    "task": "Code Review",
+    "hours": 4,
+    "assignee": "Member 2",
+    "start": "Tuesday, 9am",
+    "end": "Tuesday, 1pm"
+  },
+  {
+    "id": "D3",
+    "task": "Deploy to Production",
+    "hours": 2,
+    "assignee": "Member 3",
+    "start": "Wednesday, 9am",
+    "end": "Wednesday, 11am"
+  }
+]
+
+
+⠙ ⠹ ⠹ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠋ ⠋ ⠹ ⠸ ⠼ ⠴ ⠦ ⠦ ⠇ ⠇ ⠋ ⠙ ⠙ ⠹ ⠼ ⠴ ⠦ ⠦ ⠇ ⠇ ⠋ ⠋ ⠹ ⠸ ⠸ ⠼ ⠴ ⠧ ⠧ ⠇ ⠋ ⠙ ⠹ ⠹ ⠼ ⠴ ⠦ ⠧ ⠇ ⠇ ⠋ ⠙ ⠙ ⠸ ⠼ ⠴ ⠦ ⠦ ⠇ ⠏ ⠏ ⠙ ⠹ ⠹ ⠸ ⠴ ⠦ ⠦ ⠇ ⠇ ⠏ ⠋ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠏ ⠙ ⠙ ⠸ ⠼ ⠴ ⠦ ⠦ ⠧ ⠏ ⠋ ⠋ ⠹ ⠹ ⠸ ⠼ ⠦ ⠧ ⠇ ⠏ 
