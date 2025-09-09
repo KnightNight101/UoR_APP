@@ -1,4 +1,5 @@
 \documentclass{report}
+
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{amsmath,amssymb}
@@ -6,19 +7,55 @@
 \usepackage{geometry}
 \usepackage{titlesec}
 \usepackage{listings}
+\lstdefinestyle{pythonstyle}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    numbersep=5pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10}
+}
+
+% QML style (custom)
+\lstdefinestyle{qmlstyle}{
+    language=[Sharp]C, % base language for syntax highlighting
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{purple}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{orange},
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    numbersep=5pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10}
+}
+
+\usepackage{xcolor}
 \usepackage{pythonhighlight}
 \usepackage{fancyhdr}
 \usepackage{setspace}
 \usepackage{csquotes}
 \usepackage[T1]{fontenc}
-\usepackage[style=authoryear-ibid,backend=biber]{biblatex}
-\addbibresource{UoR_Masters_Project.biblatex}
+\usepackage[backend=biber,style=authoryear,ibidtracker=false]{biblatex}
+\addbibresource{UoR_Masters_Project.bib}
+
+
 
 % Page settings
 \geometry{margin=1in}
 \setlength{\parskip}{0.8em}
 \setlength{\parindent}{0pt}
-\doublespacing% Header and Footer
+\doublespacing%
 \pagestyle{fancy}
 \fancyhf{}
 \rhead{\thepage}
@@ -93,7 +130,7 @@ Testing for this project will focus on validating both functional performance an
 For the multi-dimensional sprint planner, tests will assess the accuracy and adaptability of task prioritisation and scheduling in response to simulated changes in team availability, task dependencies, and deadlines. 
 The Eisenhower Matrix task generator will be evaluated on its ability to categorise tasks correctly based on urgency and importance, as well as its impact on user focus and task completion rates.
 The version control system and commit summarisation feature will be tested for robustness in tracking file changes, accuracy of LLM-generated summaries, and their usefulness in aiding project recall and progress reporting. 
-The specific details of the testing methodology will be outlined in the Methodology chapter with greater detail of the test cases available in Appendix \ref{app:Scripts}.
+The specific details of the testing methodology will be outlined in the Methodology chapter with greater detail of the test cases available in Appendix~\ref{app:Scripts}.
 
 % 2. Background & Literature Review
 \chapter{Background and Literature Review}  % ~2000 words
@@ -106,7 +143,7 @@ In order to ascertain which framework would be the best to start working with, `
 Xue et.\ al.\ sets out to analyse and compare three prominent PM references (PMBoK, ISO 21500, and ISO/IEC 29110) to assist project managers in making an informed choice, tailored to the scale of their project and its needs.
 
 The motivation behind the study is grounded in the evolution of project management practices and the increasing need for clear guidance, especially in a landscape where projects vary vastly in size, complexity, and organisational structure. 
-The paper begins by providing a historical context, illustrating that project management (PM) has been practised for millennia, and has continuously evolved with tools like Gantt charts, The Critical Path Method (CPM), Work Breakdown Structure (WBS), and Earned Value Management (EVM) becoming integral to contemporary PM. 
+The paper begins by providing a historical context, illustrating that project management (PM) has been practised for millennia, and has continuously evolved with tools like Gantt charts, The Critical Path Method (CPM), Work Breakdown Structure (WBS), and Earned Value Management (EVM) becoming integral to contemporary Project Management.  
 However, the variety of standards and guides, each designed with different target audiences, creates confusion for project managers, especially those unfamiliar with the subtle differences or lacking the time to conduct deep comparative analysis.
 
 The analysis and comparison conducted directly responds to its problem statement by reducing the complexity around PM standard selection, thereby facilitating better adoption of PM practices tailored to project and organisational size. 
@@ -143,7 +180,7 @@ However, projects with clearer visions saw enhanced benefits from Agile methods,
 The industry dimension adds further nuance: while Agile produced stronger positive effects in tech-oriented, healthcare, and service sectors, it had little to no effect in sectors with rigid planning requirements (e.g., construction, government). 
 Serrador and Pinto provide empirical reinforcement for this project's claim that Agile's iterative and stakeholder-centric nature aligns more closely with the needs of modern, fast-moving projects than static, universalised methodologies.
 
-However, the relatively low explanatory power (R² values around 0.02\dashv0.15) underscores that Agile is not a panacea; other factors contribute significantly to project outcomes. 
+However, the relatively low explanatory power (R² values around $0.02\dashv 0.15$) underscores that Agile is not a panacea; other factors contribute significantly to project outcomes.
 The study advocates for a more sophisticated understanding of Agile, particularly its hybridisation with traditional methodologies; an area under explored yet reflective of current industry practice.
 
 To gain a deeper understanding of the role of Agile, key studies aiming to enhance project efficiency were reviewed. 
@@ -343,7 +380,7 @@ Finally, To ensure data security, a variety of containersisation systems were re
 Additionally, Docker containers offer `portability, delivery, scalability, speed and density' \parencite{vaseAdvantagesDocker2015}, each offering increasing usability and decreasing operational hurdles faced by developers and system operators or decreasing the time taken for each task; directly supporting the project objective of improving deployment efficiency and developer productivity. 
 Moreover, containers launch in sub-second times and allow high-density deployments on a single physical host \parencite{vaseAdvantagesDocker2015} which facilitates the improvement of system performance and rapid deployment, especially in cloud or enterprise environments, thus supporting this project in the realisation of these objectives.
 
-`One of the biggest problems removed is the “dependency hell” as containers contain all the needed dependencies and therefore properly executed and built containers are guaranteed to work in every other Docker instance' \parencite{vaseAdvantagesDocker2015}. 
+`One of the biggest problems removed is the "dependency hell" as containers contain all the needed dependencies and therefore properly executed and built containers are guaranteed to work in every other Docker instance' \parencite{vaseAdvantagesDocker2015}. 
 The `dependency hell' problem Docker solves for supports this project's problem statement regarding the need for reliable deployment pipelines and reducing environment-related failures and its use facilitates this goal. 
 Defense-in-depth and least-privilege principles are emphasised improving system security. 
 Additionally, properly configured Docker containers provide additional isolation and control, both features address this project's objectives concerning secure deployment practices and safeguarding enterprise applications.
@@ -462,7 +499,7 @@ What makes this architecture distinctive is its tight integration: Backend funct
 This made iteration rapid and transparent, even if it sacrificed some of the modular separation found in more industrial architectures.
 
 By discarding unnecessary layers of complexity—such as web servers, authentication flows, or cloud connectors, the system remained true to its ethical principles. 
-It was fully local, fully offline, and fully under the user's control.
+It was local, offline, and under the user's control.
 
 % 4. System Design & Implementation
 \chapter{System Design and Implementation}
@@ -566,7 +603,7 @@ The model was connected to the system through the three main areas: the project 
 Importantly, the model's output was not presented as a final decision but as a recommendation, reinforcing the project's principle of keeping human judgment central.
 
 Each interaction with the language model was itself logged as an event. 
-This ensured that AI involvement was transparent and auditable, avoiding the “black box” problem that plagues many AI-assisted systems. 
+This ensured that AI involvement was transparent and auditable, avoiding the "black box" problem that plagues many AI-assisted systems. 
 The design thereby embodied both the functional objective of enhancing project management and the ethical objective of accountable, explainable AI integration.
 
 \section{Data and Control Flow}
@@ -598,14 +635,14 @@ These architectural decisions collectively ensured that the system was not only 
 
 % 5. Evaluation & Testing
 \chapter{Evaluation and Testing}  
-The evaluation of the system was designed around three central goals: functional correctness, LLM-assisted workflow quality, and user-centred responsiveness. 
+The evaluation of the system was designed around three central goals: functional correctness, LLM-assisted workflow quality, and user-centred responsiveness.
 Functional correctness referred to the ability of the system to execute expected tasks—creating projects, logging events, managing files, and generating sprints—without errors. 
 Workflow quality assessed whether the LLM component produced useful, coherent, and contextually relevant outputs when prompted. 
 Finally, user-centred responsiveness concerned itself with the stability of the interface, speed of execution, and the seamless integration of frontend and backend components.
 
 Testing therefore needed to serve multiple roles. At the most basic level, it had to verify that each module performed as intended in isolation. 
 At a higher level, it needed to ensure that modules interacted cohesively to produce reliable outputs. 
-And most importantly, it had to capture the dynamic behaviour of the LLM module, where “correctness” could not be reduced to a binary measure, but rather had to be evaluated against consistency, relevance, and utility.
+And most importantly, it had to capture the dynamic behaviour of the LLM module, where "correctness" could not be reduced to a binary measure, but rather had to be evaluated against consistency, relevance, and utility.
 
 \section{Early Testing}
 
@@ -614,7 +651,8 @@ At this stage, the emphasis was on binary correctness: could a project be create
 These scripts mirrored traditional unit tests, which were framed within a formal testing library such as pytest. 
 However for more specific resutlts scripts were run as standalone files with assertions to check outputs:
 
-\begin{python}
+
+\begin{lstlisting}[style=pythonstyle]
     # test_project_creation.py
 from project_manager import ProjectManager
 
@@ -628,28 +666,28 @@ def test_project_creation():
 if __name__ == "__main__":
     test_project_creation()
     print("Basic project creation test passed.")
-\end{python}
+\end{lstlisting}
 
-This early script captured two crucial requirements: persistence of projects and retrievability. 
-However, it quickly revealed an implementation bug: while create\textunderscoreproject correctly instantiated a project object, the persistence layer did not always commit the object to the database, meaning retrieval could fail. 
+This early script captured two crucial requirements, persistence of projects and retrievability. 
+However, it quickly revealed an implementation bug: while `create\_project' correctly instantiated a project object, the persistence layer did not always commit the object to the database, meaning retrieval could fail.
 The act of writing this test thus guided early fixes to the database transaction logic.
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
     def test_multiple_projects():
     for i in range(50):
         pid = pm.create_project(f"Project {i}")
         assert pm.get_project(pid)["name"] == f"Project {i}"
 
-\end{python} 
+\end{lstlisting} 
 
 As confidence grew, the test was expanded into loops that created multiple projects, stressing the system for both performance and consistency.
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
 def test_multiple_projects():
     for i in range(50):
         pid = pm.create_project(f"Project {i}")
         assert pm.get_project(pid)["name"] == f"Project {i}"
-\end{python}    
+\end{lstlisting}    
 
 By scaling from a single assertion to stress testing with dozens of projects, the test scripts illustrated a central theme of this phase: evolution from minimal functionality to robustness under repeated execution.
 As the software expanded beyond simple project creation, the testing philosophy evolved from binary correctness into metric-based evaluation. 
@@ -658,7 +696,7 @@ Instead of merely asking whether a project existed, tests began asking how the s
 One such evolution concerned event logging, where users could attach milestones, tasks, or updates to projects. 
 A test was written to measure not only whether events could be created but also whether the system could handle thousands of events without breaking database consistency
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
 # test_event_logging.py
 from project_manager import ProjectManager
 
@@ -675,13 +713,13 @@ def test_event_logging(n=1000):
 
 if __name__ == "__main__":
     test_event_logging()
-\end{python} 
+\end{lstlisting} 
 
 Running this script surfaced issues with query performance: while the database could store thousands of events, retrieval times increased significantly after about 500.
 This exposed the need for better indexing, as the default implementation relied on linear scans rather than optimised queries.
 
 The metric here was not just correctness but scalability with success being measured by both correctness (all events retrievable) and performance (retrieval times under an acceptable threshold). 
-This marked a transition from “does it work?” to “does it still work well at scale?”
+This marked a transition from "does it work?" to "does it still work well at scale?"
 
 \section{Evaluating LLM Performance}
 \subsection{Sprint planning}
@@ -695,7 +733,7 @@ Each test case was described as a structured list of tasks with fields such as i
 These were progressively constructed to test increasingly complex aspects of planning, beginning with a simple three-task chain, followed by parallelism with convergent dependencies, then scenarios involving overbooking of a single team member, tasks with no pre-assigned worker, and finally a complex dependency web resembling a realistic Agile sprint. 
 For instance, the first of these is encoded in the following way:
 
-\begin{python}[breaklines=true,breakatwhitespace=true]
+\begin{lstlisting}[style=pythonstyle][breaklines=true,breakatwhitespace=true]
     test_cases = [
     {
         "description": "Simple 3-task linear dependency",
@@ -707,13 +745,13 @@ For instance, the first of these is encoded in the following way:
     },
     ...
 ]
-\end{python}
+\end{lstlisting}
 
 The evaluation pipeline begins by constructing a prompt that specifies the rules of sprint planning in natural language.
 These rules constrain the model to output a valid JSON array of tasks, each containing a fixed set of keys, and to respect assumptions such as eight working hours per day and a five-day sprint beginning at 9 a.m. Monday.
 The script then invokes the model through ollama in a controlled subprocess call:
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
     def run_ollama_live(prompt: str, model: str = "llama3.1:8b", timeout: int = 600):
     proc = subprocess.Popen(
         ["ollama", "run", model],
@@ -726,17 +764,17 @@ The script then invokes the model through ollama in a controlled subprocess call
     stdout, stderr = proc.communicate(input=prompt, timeout=timeout)
     return strip_ansi(stdout), strip_ansi(stderr), elapsed
 
-\end{python}
+\end{lstlisting}
 
 This implementation ensures that generations are non-interactive, bounded by a timeout, and cleansed of any terminal control characters through ANSI stripping.
-The design reflects the need for reproducibility: the model’s output must be captured precisely as it was emitted, and invalid formatting cannot be tolerated.
+The design reflects the need for reproducibility: the model's output must be captured precisely as it was emitted, and invalid formatting cannot be tolerated.
 A dedicated parser extracts the first JSON array from the completion and attempts to load it into a Python object.
 
 Once a candidate plan is obtained, the benchmark applies a suite of domain-specific metrics. 
-These are encapsulated in the check_metrics function, which draws upon several auxiliary checks. 
+These are encapsulated in the check\_metrics function, which draws upon several auxiliary checks. 
 The following excerpt demonstrates the structure:
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
     def check_metrics(tasks_predicted, tasks_expected):
     return {
         "feasibility": check_schedule_feasibility(tasks_predicted),
@@ -747,37 +785,37 @@ The following excerpt demonstrates the structure:
         "effort_accuracy": check_effort_accuracy(tasks_predicted, tasks_expected),
     }
 
-\end{python}
+\end{lstlisting}
 
 Each metric operationalises a disinct property of schedule quality.
 Feasibility examines whether all tasks possess valid start and end times within the sprint horizon. 
 Coherence checks that each task object contains the required keys and is structurally consistent. 
 Dependency accuracy verifies that no task commences before its prerequisites have concluded, a particularly important safeguard in parallelised cases. 
-Resource balance compares assigned hours to each team member’s capacity, penalising uneven distributions through a variance-based formula. 
+Resource balance compares assigned hours to each team member's capacity, penalising uneven distributions through a variance-based formula. 
 Time utilisation assesses the proportion of the total available hours that the model employed in its plan, while effort accuracy measures the correspondence between the predicted duration of a task and its declared specification in the test case. 
 Together these form a multidimensional evaluation apparatus that allows a nuanced assessment beyond simple binary correctness.
 
 Because large language models frequently deviate from strict formatting requirements, the script includes a mechanism to reprompt the model when the first attempt is either syntactically invalid or yields an under-utilised schedule. 
 The relevant section is as follows:
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
     if not valid_json or (tasks_predicted and check_time_utilization(tasks_predicted) < 0.7):
     reprompt = ("Output must be valid JSON array of tasks only, "
                 "and improve time utilization to use at least 70\% of total available hours.")
     stdout2, stderr2, elapsed2 = run_ollama_live(base_prompt + "\n" + reprompt)
     ...
 
-\end{python}
+\end{lstlisting}
 
-Here the system effectively plays the role of an iterative supervisor, reinforcing both the structural requirement (“valid JSON array of tasks only”) and the substantive criterion of utilisation. 
+Here the system effectively plays the role of an iterative supervisor, reinforcing both the structural requirement ("valid JSON array of tasks only") and the substantive criterion of utilisation. 
 By forcing the model to regenerate under tightened conditions, the framework captures not only first-pass behaviour but also responsiveness to corrective guidance. 
 This feature is particularly important for real-world deployment, since sprint planning is rarely a one-shot activity but an iterative negotiation between constraints and outputs.
 
 All outputs are carefully archived. 
-The script writes the raw completion to a text file, records any diagnostic information into a companion “thoughts” file, and aggregates numerical scores into a CSV for later analysis. 
+The script writes the raw completion to a text file, records any diagnostic information into a companion "thoughts" file, and aggregates numerical scores into a CSV for later analysis. 
 For example:
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
     raw_output_file = f"outputs/raw_output_case{i}.txt"
 thoughts_file = f"outputs/thoughts_case{i}.txt"
 with open(raw_output_file,"w",encoding="utf-8") as rf:
@@ -785,23 +823,23 @@ with open(raw_output_file,"w",encoding="utf-8") as rf:
 with open(thoughts_file,"w",encoding="utf-8") as tf:
     tf.write(stderr)
 
-\end{python}
+\end{lstlisting}
 
 The emphasis on preservation of raw data was deliberate, since it allows for re-evaluation as metrics evolve and ensures transparency in the face of the inherently stochastic nature of LLM output.
 
 \subsection{Eisenhower Matrix}
 
-A second dimension of evaluation focused on the capacity of the model to apply prioritisation frameworks, specifically the Eisenhower Matrix, which classifies tasks into one of four quadrants: “Urgent & Important,” “Not Urgent & Important,” “Urgent & Not Important,” and “Not Urgent & Not Important.” 
+A second dimension of evaluation focused on the capacity of the model to apply prioritisation frameworks, specifically the Eisenhower Matrix, which classifies tasks into one of four quadrants: "Urgent \& Important," "Not Urgent \& Important," "Urgent \& Not Important," and "Not Urgent \& Not Important." 
 This task differs fundamentally from sprint planning, in that it does not require temporal reasoning or resource allocation, but rather conceptual classification based on urgency and importance. 
 At first sight this appears straightforward, yet in practice the ambiguity of natural language tasks, coupled with the subtlety of urgency and importance as socially and organisationally situated concepts, makes it a meaningful challenge for an LLM.
 
-To operationalise this evaluation, the benchmarking system was encoded in a dedicated Python script, eisenhower_benchmark.py~\ref{app:Scripts}. 
-The test harness defined a small but representative set of tasks, ranging from hard deadlines such as “Finish quarterly report,” through medium-term initiatives such as “Plan team building event,” to low-priority activities like “Read industry news.” 
+To operationalise this evaluation, the benchmarking system was encoded in a dedicated Python script, eisenhower\_benchmark.py~\ref{app:Scripts}. 
+The test harness defined a small but representative set of tasks, ranging from hard deadlines such as "Finish quarterly report," through medium-term initiatives such as "Plan team building event," to low-priority activities like "Read industry news." 
 Each was paired with its canonical quadrant label to serve as the gold standard. 
-This structure allowed the model’s ability to generalise across categories to be examined. 
+This structure allowed the model's ability to generalise across categories to be examined. 
 The test case array is implemented as follows:
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
 test_cases = [
     ("Finish quarterly report", "Urgent & Important"),
     ("Plan team building event", "Not Urgent & Important"),
@@ -810,13 +848,13 @@ test_cases = [
     ("Prepare presentation for next week", "Urgent & Important"),
 ]
 
-\end{python}
+\end{lstlisting}
 
 The prompting strategy required the model to output only a JSON object with two fields: a quadrant assignment and a textual thoughts string explaining its reasoning. 
 The imposition of JSON structure is critical, as it both facilitates automated parsing and imposes discipline on the model to avoid digressive responses. 
 To enforce consistency, a utility function was created to normalise outputs into one of the four accepted quadrant labels:
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
 def normalize_quadrant(label: str) -> str:
     if not label:
         return "Unknown"
@@ -832,28 +870,28 @@ def normalize_quadrant(label: str) -> str:
             return "Urgent & Important"
     return "Unknown"
 
-\end{python}
+\end{lstlisting}
 
-This function reflects the practical reality of working with LLM outputs: even when given precise instructions, models frequently deviate, producing variants such as “important but not urgent” or “not-important urgent tasks.” 
+This function reflects the practical reality of working with LLM outputs: even when given precise instructions, models frequently deviate, producing variants such as "important but not urgent" or "not-important urgent tasks." 
 Without normalisation, such minor surface-level differences would be unfairly penalised as errors, obscuring the underlying semantic correctness.
 
 Once a prediction was obtained, a rich suite of evaluation metrics was applied. 
 Unlike sprint planning, where metrics such as feasibility or makespan are grounded in operational constraints, Eisenhower classification is inherently linguistic. 
 For this reason, the benchmarking framework combined classical exact-match metrics with measures of lexical and semantic similarity. 
 Accuracy was recorded as a binary indicator of whether the predicted quadrant matched the expected normalised label. 
-To capture gradience, semantic similarity was computed using Python’s SequenceMatcher, providing a continuous value between zero and one.
+To capture gradience, semantic similarity was computed using Python's SequenceMatcher, providing a continuous value between zero and one.
 
 To further deepen the evaluation, established natural language metrics were integrated. 
 BLEU, traditionally used for machine translation, was applied at the sentence level to compare n-gram overlap between the expected and predicted labels. 
 A smoothing function was introduced to avoid penalising short labels excessively:
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
 smoothie = SmoothingFunction().method4
 bleu = sentence_bleu([expected_norm.split()], predicted.split(), smoothing_function=smoothie)
 
-\end{python}
+\end{lstlisting}
 
-ROUGE-L, which evaluates the longest common subsequence between two strings, was also computed using the rouge_score library. 
+ROUGE-L, which evaluates the longest common subsequence between two strings, was also computed using the rouge\_score library. 
 This metric approximates structural similarity, capturing whether the predicted label preserves the essential arrangement of key terms. 
 In addition, the Jaccard index was applied as a set-based comparison of word overlap. 
 Together these metrics created a layered perspective, with accuracy offering a strict baseline, semantic similarity and Jaccard capturing partial lexical overlaps, and BLEU and ROUGE-L providing a more nuanced, sequence-sensitive lens.
@@ -863,8 +901,8 @@ While these are typically defined for larger test corpora rather than individual
 This reflects a broader methodological stance: even in non-standard applications, classical metrics retain interpretive value when triangulated with more flexible semantic measures.
 
 The architecture of the benchmark mirrored the approach adopted in sprint planning: results were written to a CSV file for aggregation, while raw outputs were preserved for subsequent inspection. 
-This was especially important in Eisenhower classification, where reasoning chains produced by the model in the “thoughts” field often revealed the interpretive process behind the quadrant assignment. 
-For example, a model might correctly label “Plan team building event” as “Not Urgent & Important,” while explaining that “this improves long-term team cohesion but does not have an immediate deadline.” 
+This was especially important in Eisenhower classification, where reasoning chains produced by the model in the "thoughts" field often revealed the interpretive process behind the quadrant assignment. 
+For example, a model might correctly label "Plan team building event" as "Not Urgent \& Important," while explaining that "this improves long-term team cohesion but does not have an immediate deadline." 
 Such explanations provide insight into the alignment between model reasoning and human managerial logic, complementing the numerical scores.
 
 \subsection{Commit Summaries}
@@ -873,9 +911,11 @@ The third evaluation domain concerned the generation of natural language commit 
 Unlike sprint planning or task prioritisation, this required the model to compress and reformulate a fragment of technical change into a concise, human-readable sentence, consistent with version control best practice. 
 The challenge lay in balancing brevity with semantic fidelity: a commit message must neither omit the essence of the change nor drown it in excessive verbosity.
 
-The benchmarking system for this task was implemented in a Python script, commit_summary_benchmark.py~\ref{app:Scripts}. The test set consisted of a small corpus of synthetic diffs paired with reference commit messages, designed to probe the model’s ability to generalise across categories of change such as feature addition, bug fixing, refactoring, documentation, and deprecation. The definition of the corpus was straightforward yet deliberate:
+The benchmarking system for this task was implemented in a Python script, commit\_summary\_benchmark.py. 
+The test set consisted of a small corpus of synthetic diffs paired with reference commit messages, designed to probe the model's ability to generalise across categories of change such as feature addition, bug fixing, refactoring, documentation, and deprecation. 
+The definition of the corpus was straightforward yet deliberate:
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
 test_cases = [
     {"diff": "Added function to calculate factorial", "reference_commit": "Add factorial function"},
     {"diff": "Fixed bug in user authentication logic", "reference_commit": "Fix authentication bug"},
@@ -884,16 +924,16 @@ test_cases = [
     {"diff": "Removed deprecated login API endpoints", "reference_commit": "Remove deprecated login endpoints"}
 ]
 
-\end{python}
+\end{lstlisting}
 
 Each case presents a canonical instance of software maintenance activity. 
-“Added function to calculate factorial” corresponds to a prototypical feature addition, while “Removed deprecated login API endpoints” represents deprecation and removal. 
-By distributing the test set across these categories, the benchmark avoided overfitting to a single linguistic pattern, ensuring that evaluation captured the model’s ability to abstract beyond lexical surface forms.
+"Added function to calculate factorial" corresponds to a prototypical feature addition, while "Removed deprecated login API endpoints" represents deprecation and removal. 
+By distributing the test set across these categories, the benchmark avoided overfitting to a single linguistic pattern, ensuring that evaluation captured the model's ability to abstract beyond lexical surface forms.
 
 The prompting strategy followed the paradigm established in the Eisenhower benchmark, where JSON-formatted outputs were mandated. 
 The prompt was carefully worded to minimise digression and enforce consistency:
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
     prompt = f"""You are a git commit summarizer.
 Read the following diff and provide ONLY a concise commit message.
 DO NOT provide explanations or reasoning.
@@ -902,45 +942,45 @@ Provide your commit message in JSON format: {{"commit_msg": "...", "thoughts": "
 DIFF:
 {case['diff']}"""
 
-\end{python}
+\end{lstlisting}
 
-The critical element here is the prohibition against reasoning in the commit_msg field, which prevents the model from producing verbose justifications rather than terse messages. 
-Instead, a separate thoughts field was included to capture reasoning chains where available, allowing analysis of whether the model’s internal logic aligned with best practice.
+The critical element here is the prohibition against reasoning in the commit\_msg field, which prevents the model from producing verbose justifications rather than terse messages. 
+Instead, a separate thoughts field was included to capture reasoning chains where available, allowing analysis of whether the model's internal logic aligned with best practice.
 This may seem to go against the project's objectives of auditability, however testing showed that the reasoning captured in the output was sufficient and this particuarly functionlity required such a prompt to prevent hallucinations about the meaning of differences.
 Once predictions were obtained, they were subjected to a comprehensive evaluation pipeline. 
 The first layer consisted of classical lexical metrics. 
 As before, BLEU was applied at the sentence level to measure n-gram overlap. 
 ROUGE-L was included as a complementary measure, capturing longest common subsequences between reference and prediction. 
 METEOR, another translation metric, was used for its sensitivity to synonymy and stemming. 
-For example, “install guide” and “installation instructions” would achieve a high METEOR score even where BLEU or ROUGE penalised the difference.
+For example, "install guide" and "installation instructions" would achieve a high METEOR score even where BLEU or ROUGE penalised the difference.
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
 bleu = sentence_bleu([reference_tokens], hypothesis_tokens) * 100
 meteor = single_meteor_score(reference_tokens, hypothesis_tokens)
 rouge = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
 rouge_l = rouge.score(reference, hypothesis)['rougeL'].fmeasure
 
-\end{python}
+\end{lstlisting}
 
 Beyond lexical overlap, semantic similarity was calculated using sentence embeddings from the all-MiniLM-L6-v2 model within the SentenceTransformers library. 
 This provided a more flexible evaluation, sensitive to meaning even in the absence of shared vocabulary. 
 The cosine similarity between reference and hypothesis embeddings yielded a continuous score between zero and one, reflecting semantic alignment.
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
 emb_ref = sbert_model.encode(reference, convert_to_tensor=True)
 emb_hyp = sbert_model.encode(hypothesis, convert_to_tensor=True)
 sem_sim = util.cos_sim(emb_ref, emb_hyp).item()
 
-\end{python}
+\end{lstlisting}
 
 To capture surface-level deviations, Levenshtein edit distance was computed, quantifying the number of insertions, deletions, or substitutions required to transform the prediction into the reference. 
 This metric has interpretive value in contexts where commit messages differ by small edits rather than wholesale rephrasings. 
 Alongside this, a strict ExactMatch binary flag was recorded, indicating whether the prediction exactly matched the reference. 
-Finally, an “InstructionAdherence” indicator was added to capture whether the model followed the directive not to include reasoning in the commit message, reflecting an important aspect of prompt compliance.
+Finally, an "InstructionAdherence" indicator was added to capture whether the model followed the directive not to include reasoning in the commit message, reflecting an important aspect of prompt compliance.
 
 The evaluation function consolidating these metrics is defined as:
 
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
 def evaluate_metrics(reference, hypothesis, thoughts):
     reference_tokens = word_tokenize(reference.lower())
     hypothesis_tokens = word_tokenize(hypothesis.lower())
@@ -967,26 +1007,55 @@ def evaluate_metrics(reference, hypothesis, thoughts):
         "InstructionAdherence": instruction_adherence
     }
 
-\end{python}
+\end{lstlisting}
 
 The design of this evaluation pipeline exemplifies the broader methodological stance of the project: the rejection of accuracy as a sole measure of performance. 
 Just as in sprint planning and Eisenhower classification, multiple valid outputs may exist for any given diff. 
-A model generating “Fix login issue in authentication module” instead of “Fix authentication bug” would be penalised by exact match, but semantic similarity and METEOR would capture the essential equivalence. 
-This multi-metric approach thus provides a more faithful assessment of the model’s competence.
+A model generating "Fix login issue in authentication module" instead of "Fix authentication bug" would be penalised by exact match, but semantic similarity and METEOR would capture the essential equivalence. 
+This multi-metric approach thus provides a more faithful assessment of the model's competence.
 
 Execution time was also recorded for each test case, ensuring that the computational efficiency of generation could be compared across tasks. 
-Results were written to CSV for aggregation and inspection, with raw outputs preserved to permit analysis of both adherence to instruction and the character of the model’s reasoning in the thoughts field.
+Results were written to CSV for aggregation and inspection, with raw outputs preserved to permit analysis of both adherence to instruction and the character of the model's reasoning in the thoughts field.
 
 Taken together, the commit summarisation benchmark extended the testing framework beyond task feasibility and classification into the domain of language generation, demanding conciseness, fidelity, and prompt adherence. 
 By combining translation-inspired metrics with semantic embeddings and edit-distance measures, the evaluation system acknowledged the multiplicity of valid outputs while still imposing rigorous standards of alignment. 
 In doing so, it provided a nuanced view of how large language models might support routine software engineering practice, where clarity, brevity, and semantic fidelity are at a premium
 
-% 6. Discussion
-\chapter{Discussion}  % ~1000 words
+% 6. Discussion %~ 1000words
+\chapter{Discussion} 
 \section{Analysis of Results}
+
+The outputs of the sprint planning module demonstrate a generally high level of coherence and reliability across multiple dimensions. For example, in Test Case 1, representing a simple three-task linear dependency, the model achieved perfect scores for feasibility, coherence, dependency accuracy, and effort accuracy (all equal to 1.0), with resource balance at 0.998 and time utilisation at 0.2. In more complex scenarios, such as Test Case 5, a web of multiple dependencies, feasibility dropped to 0.0 while coherence and dependency accuracy remained at 1.0, and resource balance remained perfect at 1.0, though time utilisation was 0.322. These figures demonstrate that even in intricate situations, the model is capable of producing structured, largely accurate plans, while highlighting areas that require human oversight, particularly in determining task feasibility.
+
+For the Eisenhower classification, accuracy metrics similarly highlight the model's strengths. 
+Tasks such as "Finish quarterly report" and "Prepare presentation for next week" were correctly classified as Urgent \& Important, achieving perfect semantic similarity, BLEU, and ROUGE-L scores of 1.0 and 0.576 respectively in both cases. 
+Conversely, tasks like "Reply to casual emails" resulted in misclassification, yielding an accuracy of 0 and lower semantic similarity (0.917) and BLEU (0.669), illustrating the model's occasional misalignment when task context is ambiguous. 
+Time taken per test case ranged from approximately 124 seconds for planning a team-building event to 195 seconds for complex dependencies in the planner module, and between 124 and 168 seconds for Eisenhower classification tasks. 
+These durations, while non-trivial, are remarkably efficient compared to manual evaluation, demonstrating that even imperfect outputs can serve as actionable templates for human refinement.
+
+Similarly, in the commit summarisation task, despite BLEU and ROUGE-L scores being modest due to stringent metrics (for example, BLEU of 2.78e-77 for the factorial function commit and 0.044 for authentication bug fixes), the outputs were immediately usable. 
+The model produced concise, contextually correct commit messages in JSON format, including thoughts sections that could inform downstream automated workflows or human review. 
+Total times per commit summarisation ranged from approximately 98 seconds for simple fixes to over 426 seconds for larger diffs, further highlighting the trade-off between computational time and actionable output.
+
+Taken together, these results demonstrate a key advantage: even when the outputs are not perfect, the speed and structure of the model's responses provide a valuable foundation. 
+When coupled with the overall architecture of the project, where human adjustments to LLM suggestions are fed back as context for subsequent iterations,the system has the potential to learn and refine its outputs continuously. 
+Over time, this approach should converge toward generating fully aligned outputs that mirror the decision-making patterns of a given team, dramatically reducing human planning overhead.
+
 \section{Challenges Faced}
+
+One of the primary challenges encountered was the inherent limitation of using a general-purpose model rather than one trained on domain-specific organisational data. The absence of publicly available datasets detailing employee perceptions of task urgency, importance, and project planning decisions restricted the model to generic heuristics. While this sufficed for proof-of-concept purposes, it occasionally resulted in outputs that diverged from expected human decision-making patterns, particularly in nuanced cases requiring context-sensitive judgement.
+
+Another practical challenge involved balancing computational efficiency with the quality of outputs. Even though the model was capable of generating structured results quickly, more complex scenarios required longer runtimes—sometimes exceeding three minutes per test case in the planner module and up to seven minutes for commit summarisation. Managing these runtimes while ensuring the model produced usable outputs demanded careful orchestration of subprocess calls, timeouts, and caching mechanisms to prevent bottlenecks in evaluation.
+
 \section{Agile Methodology Reflection}
+
+The project leveraged an iterative development approach consistent with Agile principles. Each model output, whether a proposed schedule, priority classification, or commit message, was treated as a sprint deliverable that could be refined in subsequent iterations. Importantly, the design allowed human-in-the-loop interventions: adjustments made to initial outputs were fed back as contextual information, enabling the model to improve subsequent recommendations. This iterative feedback loop exemplifies the Agile value of responding to change and continuous improvement. Moreover, by generating draft outputs rapidly, the LLM allowed sprints to focus on higher-level strategic refinement rather than repetitive manual planning, thus increasing the velocity of incremental progress.
+
 \section{Model Performance vs Expectations}
+
+Overall, the general-purpose model performed well relative to expectations given the constraints. Despite not being specifically trained for project planning, task prioritisation, or commit summarisation, it produced outputs that were largely correct, coherent, and actionable. In quantitative terms, planner module results maintained high feasibility, coherence, and dependency accuracy for simpler cases, while more complex test cases highlighted the areas for human adjustment. In Eisenhower classifications, perfect predictions were achieved for clearly urgent and important tasks, though ambiguous or context-dependent tasks demonstrated lower accuracy. Commit summarisation outputs, while scoring low on automated similarity metrics like BLEU or ROUGE-L, were still concise, semantically accurate, and immediately usable.
+
+The combination of speed, structure, and human-in-the-loop adaptability underscores a significant benefit: even imperfect outputs function as templates that accelerate decision-making. Over time, as human corrections are incorporated and contextual patterns accumulate, the system is expected to converge toward near-perfect emulation of a team's prioritisation and planning strategies, achieving high fidelity in both efficiency and accuracy. This aligns with project goals of demonstrating the viability of LLM-assisted planning and decision support systems within real-world operational constraints, and suggests promising avenues for future development with domain-specific fine-tuning and dataset expansion.
 
 % 7. Conclusion & Future Work
 \chapter{Conclusion and Future Work}  % ~700 words
@@ -1020,15 +1089,14 @@ Additionally, future work could focus on the integration of domain-specific trai
 
 % References
 
-\printbibliography \bibliographystyle{plainnat}
-
+\printbibliography 
 
 % Appendices 
 \appendix
 \chapter{Scripts}
 \section{App Code}
 \subsection{main.py}
-\begin{python}
+\begin{lstlisting}[style=pythonstyle]
 # import datetime
 # import traceback
 # 
@@ -2062,10 +2130,10 @@ if not engine.rootObjects():
     sys.exit(-1)
 # Start the Qt event loop
 sys.exit(app.exec())
-\end{python}
+\end{lstlisting}
 
 \subsection{main.qml}
-\begin{lstlisting}
+\begin{lstlisting}[style=qmlstyle]
     /*
     Main.qml - Login Page Implementation
 
@@ -4232,8 +4300,644 @@ Dialog {
 }
 
 \end{lstlisting}
-\section{Supporting Code}
 \section{Benchmarking Code}
+\subsection{Sprint Planning Benchmark}
+\begin{lstlisting}[style=pythonstyle]
+import csv
+import json
+import time
+import re
+import subprocess
+import threading
+from difflib import SequenceMatcher
+import nltk
+from datetime import datetime
+from dateutil import parser
+import os
+
+# Ensure NLTK data is available
+nltk.download('wordnet', quiet=True)
+nltk.download('omw-1.4', quiet=True)
+
+###############################
+# Utility Functions
+###############################
+
+def semantic_similarity(a, b):
+    return SequenceMatcher(None, a, b).ratio()
+
+def strip_ansi(text: str) -> str:
+    """Remove ANSI escape sequences from text (spinners, colors)."""
+    ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+    return ansi_escape.sub('', text)
+
+def run_ollama_live(prompt: str, model: str = "llama3.1:8b", timeout: int = 600):
+    """Run Ollama in non-interactive mode, capture stdout/stderr."""
+    start_time = time.time()
+    try:
+        proc = subprocess.Popen(
+            ["ollama", "run", model],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            encoding="utf-8"
+        )
+        stdout, stderr = proc.communicate(input=prompt, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        stdout, stderr = proc.communicate()
+        print(f"[ERROR] Timeout expired after {timeout} seconds")
+    except Exception as e:
+        proc.kill()
+        stdout, stderr = "", str(e)
+        print(f"[ERROR] Exception in run_ollama_live: {e}")
+    elapsed = time.time() - start_time
+    return strip_ansi(stdout), strip_ansi(stderr), elapsed
+
+def extract_json_array(raw_output: str):
+    """Extract the first JSON array found in the output."""
+    match = re.search(r"\[.*?\]", raw_output, re.DOTALL)
+    if match:
+        try:
+            return json.loads(match.group(0))
+        except json.JSONDecodeError as e:
+            print(f"[ERROR] JSON decode failed: {e}")
+            return None
+    return None
+
+def parse_datetime_safe(dt_str):
+    """Parse ISO or human-readable datetime, return None if invalid."""
+    try:
+        return parser.parse(dt_str)
+    except Exception:
+        return None
+
+###############################
+# Team & Sprint Settings
+###############################
+
+team_members = [
+    {"name": "Alice", "hours_per_day": 6},
+    {"name": "Bob", "hours_per_day": 4},
+    {"name": "Charlie", "hours_per_day": 8},
+]
+
+sprint_days = 5
+sprint_start_date = datetime.today().replace(hour=9, minute=0, second=0, microsecond=0)
+
+###############################
+# Test Cases
+###############################
+
+test_cases = [
+    {
+        "description": "Simple 3-task linear dependency",
+        "tasks": [
+            {"id": "A", "name": "Task A", "duration_hours": 8, "dependencies": [], "assigned_to": "Alice"},
+            {"id": "B", "name": "Task B", "duration_hours": 4, "dependencies": ["A"], "assigned_to": "Bob"},
+            {"id": "C", "name": "Task C", "duration_hours": 6, "dependencies": ["B"], "assigned_to": "Charlie"},
+        ]
+    },
+    {
+        "description": "Parallel tasks with shared resources",
+        "tasks": [
+            {"id": "D", "name": "Design UI", "duration_hours": 6, "dependencies": [], "assigned_to": "Alice"},
+            {"id": "E", "name": "Backend API", "duration_hours": 12, "dependencies": [], "assigned_to": "Bob"},
+            {"id": "F", "name": "Integration Testing", "duration_hours": 4, "dependencies": ["D", "E"], "assigned_to": "Charlie"},
+        ]
+    },
+    {
+        "description": "Overbooked team member",
+        "tasks": [
+            {"id": "X", "name": "Task X", "duration_hours": 10, "dependencies": [], "assigned_to": "Alice"},
+            {"id": "Y", "name": "Task Y", "duration_hours": 8, "dependencies": ["X"], "assigned_to": "Alice"},
+            {"id": "Z", "name": "Task Z", "duration_hours": 6, "dependencies": ["Y"], "assigned_to": "Bob"},
+        ]
+    },
+    {
+        "description": "Tasks without assigned member",
+        "tasks": [
+            {"id": "D1", "name": "Write Documentation", "duration_hours": 6, "dependencies": []},
+            {"id": "D2", "name": "Code Review", "duration_hours": 4, "dependencies": ["D1"]},
+            {"id": "D3", "name": "Deploy to Production", "duration_hours": 2, "dependencies": ["D2"]},
+        ]
+    },
+    {
+        "description": "Complex web with multiple dependencies",
+        "tasks": [
+            {"id": "DB", "name": "Set up DB", "duration_hours": 4, "dependencies": []},
+            {"id": "AUTH", "name": "Implement Auth", "duration_hours": 6, "dependencies": ["DB"]},
+            {"id": "UI", "name": "Frontend Layout", "duration_hours": 5, "dependencies": []},
+            {"id": "API", "name": "API Integration", "duration_hours": 8, "dependencies": ["AUTH", "UI"]},
+            {"id": "TEST", "name": "End-to-End Testing", "duration_hours": 6, "dependencies": ["API"]},
+        ]
+    },
+]
+
+###############################
+# Metrics
+###############################
+
+def check_schedule_feasibility(tasks_predicted, sprint_days=5):
+    feasible = True
+    for t in tasks_predicted:
+        start = parse_datetime_safe(t.get("start"))
+        end = parse_datetime_safe(t.get("end"))
+        if not start or not end:
+            feasible = False
+        elif end < start or (end - start).days > sprint_days:
+            feasible = False
+    return 1.0 if feasible else 0.0
+
+def check_output_coherence(tasks_predicted):
+    if not isinstance(tasks_predicted, list) or not tasks_predicted:
+        return 0.0
+    required_keys = {"id", "task", "hours", "assignee", "start", "end"}
+    valid_count = sum(1 for t in tasks_predicted if isinstance(t, dict) and required_keys.issubset(t.keys()))
+    return valid_count / len(tasks_predicted)
+
+def check_dependency_accuracy(tasks_predicted):
+    task_map = {t["id"]: t for t in tasks_predicted}
+    correct = 0
+    total = 0
+    for t in tasks_predicted:
+        deps = t.get("dependencies", [])
+        total += len(deps)
+        for d in deps:
+            dep_task = task_map.get(d)
+            if not dep_task:
+                continue
+            t_start = parse_datetime_safe(t.get("start"))
+            d_end = parse_datetime_safe(dep_task.get("end"))
+            if t_start and d_end and t_start >= d_end:
+                correct += 1
+    return correct / total if total > 0 else 1.0
+
+def check_resource_balance(tasks_predicted, team=team_members):
+    availability = {m["name"]: m["hours_per_day"]*sprint_days for m in team}
+    usage = {m["name"]:0 for m in team}
+    for t in tasks_predicted:
+        assignee = t.get("assignee")
+        hours = t.get("hours", 0)
+        if assignee in usage:
+            usage[assignee] += hours
+    ratios = [usage[m]/availability[m] for m in usage if availability[m]>0]
+    mean_ratio = sum(ratios)/len(ratios) if ratios else 0
+    variance = sum((r - mean_ratio)**2 for r in ratios)/len(ratios) if ratios else 0
+    return 1/(1+variance) if variance>0 else 1.0
+
+def check_time_utilization(tasks_predicted, team=team_members):
+    total_planned = sum(t.get("hours",0) for t in tasks_predicted)
+    total_available = sum(m["hours_per_day"]*sprint_days for m in team)
+    utilization = total_planned/total_available if total_available>0 else 0
+    return min(utilization, 1.0)
+
+def check_effort_accuracy(tasks_predicted, tasks_expected):
+    expected_map = {t["id"]: t.get("duration_hours",0) for t in tasks_expected}
+    errors = []
+    for t in tasks_predicted:
+        tid = t.get("id")
+        if tid in expected_map and expected_map[tid]>0:
+            errors.append(abs(t.get("hours",0)-expected_map[tid])/expected_map[tid])
+    return max(0, 1 - (sum(errors)/len(errors))) if errors else 1.0
+
+def check_metrics(tasks_predicted, tasks_expected):
+    return {
+        "feasibility": check_schedule_feasibility(tasks_predicted),
+        "coherence": check_output_coherence(tasks_predicted),
+        "dependency_accuracy": check_dependency_accuracy(tasks_predicted),
+        "resource_balance": check_resource_balance(tasks_predicted),
+        "time_utilization": check_time_utilization(tasks_predicted),
+        "effort_accuracy": check_effort_accuracy(tasks_predicted, tasks_expected),
+    }
+
+###############################
+# Main
+###############################
+
+def main():
+    results_file = "results_sprint.csv"
+    fieldnames = [
+        "test_case","description","valid_json","raw_output_file","thoughts_file",
+        "feasibility","coherence","dependency_accuracy","resource_balance",
+        "time_utilization","effort_accuracy","time_total"
+    ]
+
+    os.makedirs("outputs", exist_ok=True)
+
+    with open(results_file, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for i, case in enumerate(test_cases, start=1):
+            print(f"\n[INFO] Running test case {i}: {case['description']}")
+
+            base_prompt = f"""
+You are an assistant that creates Agile sprint plans.
+Rules:
+1. Output only a JSON array of tasks.
+2. Each task object must contain: id, task, hours, assignee, start, end.
+3. Each working day has 8 hours, sprint length is {sprint_days} days, sprint starts Monday 9am.
+4. Respect dependencies, durations, and avoid overlaps.
+5. Assign tasks if 'assigned_to' missing.
+Tasks:
+{json.dumps(case['tasks'], indent=2)}
+"""
+
+            stdout, stderr, elapsed = run_ollama_live(base_prompt)
+            raw_output = stdout + "\n" + stderr
+            tasks_predicted = extract_json_array(raw_output)
+            valid_json = tasks_predicted is not None
+
+            # Reprompt if invalid
+            if not valid_json:
+                reprompt = "Output must be valid JSON array of tasks only, follow the rules strictly."
+                stdout2, stderr2, elapsed2 = run_ollama_live(base_prompt + "\n" + reprompt)
+                raw_output += "\n[REPROMPT]\n" + stdout2 + "\n" + stderr2
+                tasks_predicted = extract_json_array(stdout2)
+                valid_json = tasks_predicted is not None
+                elapsed += elapsed2
+
+            metrics = check_metrics(tasks_predicted, case['tasks']) if valid_json else {
+                "feasibility":0,"coherence":0,"dependency_accuracy":0,
+                "resource_balance":0,"time_utilization":0,"effort_accuracy":0
+            }
+
+            raw_output_file = f"outputs/raw_output_case{i}.txt"
+            thoughts_file = f"outputs/thoughts_case{i}.txt"
+            with open(raw_output_file,"w",encoding="utf-8") as rf:
+                rf.write(raw_output)
+            with open(thoughts_file,"w",encoding="utf-8") as tf:
+                tf.write(stderr)
+
+            row = {
+                "test_case":i,
+                "description":case["description"],
+                "valid_json":valid_json,
+                "raw_output_file":raw_output_file,
+                "thoughts_file":thoughts_file,
+                **metrics,
+                "time_total":elapsed
+            }
+            writer.writerow(row)
+
+            print(f"[RESULT] Feasibility={metrics['feasibility']:.2f}, "
+                  f"Coherence={metrics['coherence']:.2f}, "
+                  f"Dependency Accuracy={metrics['dependency_accuracy']:.2f}, "
+                  f"Resource Balance={metrics['resource_balance']:.2f}, "
+                  f"Time Utilization={metrics['time_utilization']:.2f}, "
+                  f"Effort Accuracy={metrics['effort_accuracy']:.2f}, "
+                  f"Time={elapsed:.1f}s")
+
+if __name__ == "__main__":
+    main()
+\end{lstlisting}
+\subsection{Eisenhower Matrix Benchmark}
+\begin{lstlisting}[style=pythonstyle]
+# eisenhower_benchmark.py
+
+import csv
+import json
+import time
+import re
+import subprocess
+from sklearn.metrics import precision_score, recall_score, f1_score
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
+from rouge_score import rouge_scorer
+from difflib import SequenceMatcher
+import nltk
+
+# Ensure NLTK data is available
+nltk.download('wordnet', quiet=True)
+nltk.download('omw-1.4', quiet=True)
+
+###############################
+# Utility Functions
+###############################
+
+def normalize_quadrant(label: str) -> str:
+    """Normalize quadrant labels to standard 4 categories."""
+    if not label:
+        return "Unknown"
+    l = label.strip().lower()
+    if "urgent" in l and "important" in l:
+        if "not urgent" in l and "not important" in l:
+            return "Not Urgent & Not Important"
+        elif "not urgent" in l:
+            return "Not Urgent & Important"
+        elif "not important" in l:
+            return "Urgent & Not Important"
+        else:
+            return "Urgent & Important"
+    return "Unknown"
+
+def jaccard_index(a, b):
+    set_a, set_b = set(a.split()), set(b.split())
+    return len(set_a & set_b) / len(set_a | set_b) if set_a | set_b else 0
+
+def semantic_similarity(a, b):
+    return SequenceMatcher(None, a, b).ratio()
+
+###############################
+# Test Cases
+###############################
+
+test_cases = [
+    ("Finish quarterly report", "Urgent & Important"),
+    ("Plan team building event", "Not Urgent & Important"),
+    ("Reply to casual emails", "Urgent & Not Important"),
+    ("Read industry news", "Not Urgent & Not Important"),
+    ("Prepare presentation for next week", "Urgent & Important"),
+]
+
+###############################
+# Model Runner
+###############################
+
+def run_ollama(prompt):
+    """Run ollama with subprocess and capture stdout/stderr/time."""
+    start = time.time()
+    try:
+        result = subprocess.run(
+            ["ollama", "run", "deepseek-r1:8b"],
+            input=prompt.encode("utf-8"),
+            capture_output=True,
+            timeout=1200
+        )
+        stdout, stderr = result.stdout.decode("utf-8"), result.stderr.decode("utf-8")
+    except subprocess.TimeoutExpired:
+        return "", "TIMEOUT", 1200
+    elapsed = time.time() - start
+    return stdout.strip(), stderr.strip(), elapsed
+
+###############################
+# Main Benchmark
+###############################
+
+def main():
+    results_file = "results_eisenhower.csv"
+    fieldnames = [
+        "test_case", "task", "expected_quadrant", "predicted_quadrant",
+        "thoughts", "raw_output", "valid_json",
+        "accuracy", "semantic_similarity", "precision", "recall", "f1_score",
+        "jaccard_index", "rouge_l", "bleu",
+        "time_total", "time_thinking"
+    ]
+
+    with open(results_file, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for i, (task, expected) in enumerate(test_cases, start=1):
+            print(f"\n[INFO] Test case {i}: {task}")
+            prompt = f"""
+You are an assistant that classifies tasks into the Eisenhower Matrix.
+
+The four quadrants are:
+1. Urgent & Important
+2. Not Urgent & Important
+3. Urgent & Not Important
+4. Not Urgent & Not Important
+
+Return ONLY a JSON object with two fields:
+- "quadrant": one of the four quadrant labels above
+- "thoughts": your reasoning
+
+Task: "{task}"
+"""
+
+            stdout, stderr, elapsed = run_ollama(prompt)
+            raw_output = stdout
+            print("[RAW OUTPUT]", raw_output[:300], "...\n")
+
+            valid_json = False
+            predicted, thoughts = "Unknown", ""
+            time_thinking = 0.0
+
+            # Try to extract JSON
+            try:
+                match = re.search(r"\{.*\}", raw_output, re.DOTALL)
+                if match:
+                    data = json.loads(match.group(0))
+                    predicted = normalize_quadrant(data.get("quadrant", ""))
+                    thoughts = data.get("thoughts", "")
+                    valid_json = True
+            except Exception as e:
+                print(f"[ERROR] JSON parse failed: {e}")
+
+            expected_norm = normalize_quadrant(expected)
+
+                        # Metrics
+            accuracy = int(predicted == expected_norm)
+            sem_sim = semantic_similarity(expected_norm, predicted)
+
+            precision = recall = f1 = 0.0
+            if predicted != "Unknown":
+                try:
+                    precision = precision_score([expected_norm], [predicted], average="micro", zero_division=0)
+                    recall = recall_score([expected_norm], [predicted], average="micro", zero_division=0)
+                    f1 = f1_score([expected_norm], [predicted], average="micro", zero_division=0)
+                except Exception as e:
+                    print(f"[WARNING] Skipping precision/recall/f1 calculation: {e}")
+
+            jaccard = jaccard_index(expected_norm, predicted)
+
+            rouge = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
+            rouge_l = rouge.score(expected_norm, predicted)["rougeL"].fmeasure
+
+            smoothie = SmoothingFunction().method4
+            bleu = sentence_bleu([expected_norm.split()], predicted.split(), smoothing_function=smoothie)
+
+            row = {
+                "test_case": i,
+                "task": task,
+                "expected_quadrant": expected_norm,
+                "predicted_quadrant": predicted,
+                "thoughts": thoughts,
+                "raw_output": raw_output,
+                "valid_json": valid_json,
+                "accuracy": accuracy,
+                "semantic_similarity": sem_sim,
+                "precision": precision,
+                "recall": recall,
+                "f1_score": f1,
+                "jaccard_index": jaccard,
+                "rouge_l": rouge_l,
+                "bleu": bleu,
+                "time_total": elapsed,
+                "time_thinking": time_thinking
+            }
+
+            writer.writerow(row)
+            print(f"[RESULT] Predicted={predicted}, Expected={expected_norm}, Acc={accuracy}, BLEU={bleu:.3f}, ROUGE-L={rouge_l:.3f}")
+
+    print(f"\n[INFO] Benchmark completed. Results saved to {results_file}")
+
+
+###############################
+# Run
+###############################
+
+if __name__ == "__main__":
+    main()
+
+\end{lstlisting}
+\subsection{VCS Commit Summaries}
+\begin{lstlisting}[style=pythonstyle]
+    import subprocess
+    import json
+    import time
+    import csv
+    from nltk.tokenize import word_tokenize
+    from nltk.translate.bleu_score import sentence_bleu
+    from nltk.translate.meteor_score import single_meteor_score
+    from rouge_score import rouge_scorer
+    from sentence_transformers import SentenceTransformer, util
+    import Levenshtein
+
+    # -----------------------
+    # CONFIGURATION
+    # -----------------------
+    OLLAMA_PATH = r"C:\Users\KnightNight101\AppData\Local\Programs\Ollama\ollama.exe"
+    MODEL = "deepseek-r1:8b"
+    TIMEOUT = 600  # seconds
+    OUTPUT_CSV = r"C:\Users\KnightNight101\UoR_APP\commit_summary_results.csv"
+
+    # Initialize SBERT model for semantic similarity
+    sbert_model = SentenceTransformer('all-MiniLM-L6-v2')
+
+    # -----------------------
+    # TEST CASES
+    # -----------------------
+    test_cases = [
+        {"diff": "Added function to calculate factorial", "reference_commit": "Add factorial function"},
+        {"diff": "Fixed bug in user authentication logic", "reference_commit": "Fix authentication bug"},
+        {"diff": "Refactored database connection module", "reference_commit": "Refactor DB connection module"},
+        {"diff": "Updated README with installation instructions", "reference_commit": "Update README with install guide"},
+        {"diff": "Removed deprecated login API endpoints", "reference_commit": "Remove deprecated login endpoints"}
+    ]
+
+    # -----------------------
+    # HELPER FUNCTIONS
+    # -----------------------
+    def run_ollama(prompt):
+        start_time = time.time()
+        try:
+            proc = subprocess.run(
+                [OLLAMA_PATH, "run", MODEL, prompt],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="ignore",
+                timeout=TIMEOUT
+            )
+            elapsed = time.time() - start_time
+            return proc.stdout.strip(), proc.stderr.strip(), elapsed
+        except subprocess.TimeoutExpired:
+            return "", "[TIMEOUT]", TIMEOUT
+
+    def evaluate_metrics(reference, hypothesis, thoughts):
+        reference_tokens = word_tokenize(reference.lower())
+        hypothesis_tokens = word_tokenize(hypothesis.lower())
+
+        try:
+            bleu = sentence_bleu([reference_tokens], hypothesis_tokens) * 100
+        except:
+            bleu = 0.0
+
+        try:
+            meteor = single_meteor_score(reference_tokens, hypothesis_tokens)
+        except:
+            meteor = 0.0
+
+        rouge = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
+        rouge_l = rouge.score(reference, hypothesis)['rougeL'].fmeasure
+
+        try:
+            emb_ref = sbert_model.encode(reference, convert_to_tensor=True)
+            emb_hyp = sbert_model.encode(hypothesis, convert_to_tensor=True)
+            sem_sim = util.cos_sim(emb_ref, emb_hyp).item()
+        except:
+            sem_sim = 0.0
+
+        edit_dist = Levenshtein.distance(reference, hypothesis)
+        exact_match = int(reference.strip() == hypothesis.strip())
+        instruction_adherence = int(thoughts.strip() == "")
+
+        return {
+            "BLEU": bleu,
+            "METEOR": meteor,
+            "ROUGE_L": rouge_l,
+            "SemanticSim": sem_sim,
+            "EditDist": edit_dist,
+            "ExactMatch": exact_match,
+            "InstructionAdherence": instruction_adherence
+        }
+
+    # -----------------------
+    # MAIN LOOP
+    # -----------------------
+    results = []
+
+    for idx, case in enumerate(test_cases, start=1):
+        print(f"[INFO] Test case {idx}")
+        prompt = f"""You are a git commit summarizer.
+    Read the following diff and provide ONLY a concise commit message.
+    DO NOT provide explanations or reasoning.
+    # Provide your commit message in JSON format: {"commit_msg": "...", "thoughts": "..."}
+
+    DIFF:
+    {case['diff']}"""
+
+        stdout, stderr, elapsed = run_ollama(prompt)
+
+        valid_json = True
+        commit_msg = ""
+        thoughts = ""
+
+        if stdout:
+            try:
+                data = json.loads(stdout)
+                commit_msg = data.get("commit_msg", "")
+                thoughts = data.get("thoughts", "")
+            except json.JSONDecodeError:
+                valid_json = False
+                commit_msg = stdout
+                thoughts = ""
+        else:
+            valid_json = False
+            commit_msg = ""
+            thoughts = ""
+
+        metrics = evaluate_metrics(case['reference_commit'], commit_msg, thoughts)
+
+        row = {
+            "test_case": idx,
+            "diff": case['diff'],
+            "reference_commit": case['reference_commit'],
+            "commit_msg": commit_msg,
+            "thoughts": thoughts,
+            "valid_json": valid_json,
+            "time_total": elapsed,
+            **metrics
+        }
+
+        results.append(row)
+        print(f"[RESULT] {row}\n")
+
+    # -----------------------
+    # SAVE CSV
+    # -----------------------
+    csv_columns = list(results[0].keys())
+    with open(OUTPUT_CSV, mode='w', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=csv_columns)
+        writer.writeheader()
+        writer.writerows(results)
+
+    print(f"[INFO] Results saved to {OUTPUT_CSV}")
+
+\end{lstlisting}
 \chapter{Architecture}
 This document provides a high-level architectural overview of the main application components. Each section includes a diagram and an explanation of the component's role and structure.
 \section{main.py}

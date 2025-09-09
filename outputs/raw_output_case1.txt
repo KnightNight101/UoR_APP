@@ -5,101 +5,33 @@
     "task": "Task A",
     "hours": 8,
     "assignee": "Alice",
-    "start": "Monday, 09:00 AM",
-    "end": "Monday, 05:00 PM"
+    "start": "2023-02-06T09:00:00.000Z",
+    "end": "2023-02-06T17:00:00.000Z"
   },
   {
     "id": "B",
     "task": "Task B",
     "hours": 4,
     "assignee": "Bob",
-    "start": "Tuesday, 09:00 AM",
-    "end": "Tuesday, 01:00 PM"
+    "start": "2023-02-07T09:00:00.000Z",
+    "end": "2023-02-07T13:00:00.000Z"
   },
   {
     "id": "C",
     "task": "Task C",
     "hours": 6,
     "assignee": "Charlie",
-    "start": "Wednesday, 09:00 AM",
-    "end": "Wednesday, 03:00 PM"
+    "start": "2023-02-08T09:00:00.000Z",
+    "end": "2023-02-08T15:00:00.000Z"
   }
 ]
 ```
 
-
-⠙ ⠹ ⠹ ⠼ ⠴ ⠴ ⠦ ⠇ ⠏ ⠏ ⠙ ⠙ ⠸ ⠸ ⠼ ⠦ ⠦ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠴ ⠧ ⠧ ⠏ ⠋ ⠋ ⠹ ⠸ ⠸ ⠴ ⠴ ⠦ ⠇ ⠇ ⠋ ⠙ ⠹ ⠹ ⠸ ⠴ ⠴ ⠧ ⠧ ⠏ ⠋ ⠙ ⠙ ⠸ ⠸ ⠼ ⠦ ⠧ ⠧ ⠏ ⠋ ⠙ ⠹ ⠸ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠋ ⠋ ⠹ ⠹ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠏ ⠋ ⠹ ⠹ ⠸ ⠼ ⠦ ⠧ ⠇ ⠏ ⠏ ⠙ ⠹ ⠹ ⠼ ⠴ ⠦ ⠧ ⠧ ⠇ ⠋ ⠙ ⠹ ⠸ ⠼ ⠼ ⠦ ⠧ ⠧ ⠏ ⠋ ⠋ ⠙ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠼ ⠴ ⠧ ⠇ ⠏ ⠏ ⠋ ⠹ ⠹ ⠸ ⠼ ⠴ ⠴ ⠦ ⠧ ⠏ ⠋ ⠋ ⠹ ⠸ ⠸ ⠴ ⠴ ⠧ ⠧ ⠇ ⠏ ⠙ ⠹ ⠸ ⠼ ⠼ ⠦ ⠧ ⠧ ⠏ ⠋ ⠙ ⠙ ⠸ ⠼ ⠴ ⠦ ⠧ ⠧ ⠏ ⠋ ⠙ ⠹ ⠸ ⠸ ⠴ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠹ ⠸ 
-[REPROMPT]
-```javascript
-const tasks = [
-  {
-    id: "A",
-    name: "Task A",
-    duration_hours: 8,
-    dependencies: [],
-    assigned_to: "Alice"
-  },
-  {
-    id: "B",
-    name: "Task B",
-    duration_hours: 4,
-    dependencies: ["A"],
-    assigned_to: "Bob"
-  },
-  {
-    id: "C",
-    name: "Task C",
-    duration_hours: 6,
-    dependencies: ["B"],
-    assigned_to: "Charlie"
-  }
-];
-
-const assignedTo = {
-  Alice: null,
-  Bob: null,
-  Charlie: null
-};
-
-Object.keys(tasks).forEach(key => {
-  const task = tasks[key];
-  if (!task.assigned_to || assignedTo[task.assigned_to] === null) {
-    assignedTo[task.assigned_to] = key;
-  }
-});
-
-const sortedTasks = Object.values(tasks).sort((a, b) => a.dependencies.length - b.dependencies.length);
-
-let totalHours = 8 * 5; // 40
-let taskIndex = 0;
-
-const sprintPlan = [];
-
-for (let day = 0; day < 5; day++) {
-  let remainingHours = 8;
-  while (remainingHours > 0) {
-    const task = sortedTasks[taskIndex];
-    if (!task.dependencies.every(dependency => Object.values(tasks).find(task => task.id === dependency))) {
-      taskIndex++;
-      continue;
-    }
-    const hoursAvailable = Math.min(remainingHours, task.duration_hours);
-    sprintPlan.push({
-      id: task.id,
-      task: task.name,
-      hours: hoursAvailable,
-      assignee: assignedTo[Object.keys(tasks).find(key => tasks[key].id === task.assigned_to)],
-      start: `Day ${day + 1} 9am`,
-      end: `Day ${day + 1} 5pm (${hoursAvailable} hours)`
-    });
-    remainingHours -= hoursAvailable;
-    totalHours -= hoursAvailable;
-    taskIndex++;
-  }
-}
-
-console.log(JSON.stringify(sprintPlan));
-```
+In this plan, each task is assigned to its corresponding team member and has the correct start and end dates, taking into account dependencies and durations.
+Task A starts on Monday (Sprint Start) at 9am and takes up all of Monday's working hours.
+Task B depends on Task A and can only start after it has finished. It takes 4 hours to complete, so it runs from Tuesday morning till just before lunch.
+Task C depends on Task B and also follows the same pattern of starting immediately after its dependency finishes.
+Each task is assigned to a team member with the highest capacity for their respective dependencies.
 
 
-⠙ ⠹ ⠸ ⠸ ⠴ ⠴ ⠧ ⠧ ⠏ ⠏ ⠙ ⠙ ⠸ ⠼ ⠴ ⠴ ⠧ ⠧ ⠏ ⠏ ⠙ ⠹ ⠹ ⠼ ⠼ ⠦ ⠦ ⠧ ⠏ ⠋ ⠙ ⠙ ⠹ ⠼ ⠼ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠙ ⠹ ⠼ 
+⠋ ⠙ ⠹ ⠼ ⠴ ⠦ ⠦ 

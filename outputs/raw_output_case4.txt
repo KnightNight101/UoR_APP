@@ -3,33 +3,37 @@
   {
     "id": "D1",
     "task": "Write Documentation",
-    "hours": 6,
+    "hours": 8,
     "assignee": "John Doe",
-    "start": "2024-02-05T09:00:00.000Z",
-    "end": "2024-02-05T17:00:00.000Z"
+    "start": "2023-09-04T09:00:00Z",
+    "end": "2023-09-04T17:00:00Z"
   },
   {
     "id": "D2",
     "task": "Code Review",
     "hours": 4,
     "assignee": "Jane Doe",
-    "start": "2024-02-06T09:00:00.000Z",
-    "end": "2024-02-06T13:00:00.000Z"
+    "start": "2023-09-05T09:00:00Z",
+    "end": "2023-09-05T13:00:00Z"
   },
   {
     "id": "D3",
     "task": "Deploy to Production",
     "hours": 2,
     "assignee": "John Doe",
-    "start": "2024-02-07T09:00:00.000Z",
-    "end": "2024-02-07T11:00:00.000Z"
+    "start": "2023-09-06T09:00:00Z",
+    "end": "2023-09-06T11:00:00Z"
   }
 ]
 ```
 
-This sprint plan starts on Monday (February 5th) at 9am and has a length of five days, with each working day consisting of eight hours. The tasks are assigned to John Doe and Jane Doe as required by the input data. 
+The tasks are assigned as follows:
 
-Please note that these tasks assume no breaks during the workday, which is not realistic in many environments. You might want to add some buffer time between tasks for breaks.
+* D1 is assigned to John Doe on Monday (2023-09-04) from 9am to 5pm.
+* D2 is assigned to Jane Doe on Tuesday (2023-09-05) from 9am to 1pm.
+* D3 is assigned to John Doe on Wednesday (2023-09-06) from 9am to 11am.
+
+The assignments were made by checking the dependencies and assigning tasks in order of their dependencies. The first task with no dependencies was assigned to the team member with the earliest available time slot, who in this case is John Doe on Monday. The second task (D2) was assigned to Jane Doe as she has no other tasks assigned during her availability. Finally, D3 was assigned back to John Doe after completing D1 and having enough time before Wednesday.
 
 
-⠙ ⠙ ⠸ ⠼ ⠴ ⠴ ⠦ ⠧ ⠏ ⠏ ⠙ ⠹ ⠸ ⠼ ⠼ ⠦ ⠧ ⠧ ⠏ ⠋ ⠙ ⠙ ⠹ ⠼ ⠼ ⠴ ⠧ ⠇ ⠏ ⠏ ⠙ ⠙ ⠹ ⠼ ⠼ ⠴ ⠧ ⠧ ⠇ ⠋ ⠋ ⠙ ⠹ ⠼ ⠼ ⠦ ⠧ ⠇ ⠏ ⠋ ⠋ ⠹ ⠹ ⠼ ⠼ ⠴ ⠦ ⠧ ⠇ ⠋ ⠋ ⠹ ⠹ ⠸ ⠴ ⠦ ⠧ ⠇ ⠏ ⠏ ⠙ ⠙ ⠹ ⠸ ⠴ ⠴ ⠦ ⠇ ⠇ ⠋ ⠋ ⠹ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏ ⠙ ⠙ ⠸ ⠸ ⠴ ⠦ ⠦ ⠇ ⠏ ⠏ ⠙ ⠙ ⠸ ⠸ ⠴ ⠦ ⠧ ⠧ ⠏ ⠋ ⠙ 
+⠙ ⠙ ⠹ ⠼ ⠼ ⠦ ⠦ ⠇ ⠏ ⠏ ⠋ ⠹ ⠸ ⠸ ⠴ ⠦ ⠧ ⠇ ⠇ ⠋ ⠙ ⠙ ⠹ ⠼ ⠴ ⠴ ⠦ ⠇ ⠏ ⠏ ⠙ ⠙ ⠹ ⠸ ⠴ ⠴ ⠧ ⠇ ⠇ ⠏ ⠙ ⠹ ⠸ ⠸ ⠴ ⠦ ⠧ ⠧ ⠏ ⠏ ⠙ ⠙ ⠹ ⠼ ⠴ ⠦ ⠧ ⠧ ⠇ ⠏ ⠋ ⠹ ⠸ ⠸ ⠴ ⠴ ⠧ ⠧ ⠏ ⠏ ⠋ ⠙ ⠹ ⠼ ⠴ ⠴ ⠧ ⠧ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠼ ⠴ ⠦ ⠇ ⠇ ⠋ ⠋ ⠹ ⠸ ⠼ ⠼ ⠦ ⠦ ⠇ ⠇ ⠋ ⠙ ⠙ ⠸ ⠸ ⠴ ⠦ ⠧ ⠇ ⠇ ⠏ ⠋ ⠹ ⠹ ⠼ ⠼ ⠦ ⠧ ⠧ ⠇ ⠏ ⠋ ⠹ ⠸ ⠸ ⠼ ⠴ ⠧ ⠇ ⠇ ⠏ ⠋ ⠹ ⠹ ⠼ ⠼ ⠦ ⠧ ⠇ ⠇ ⠋ ⠙ ⠹ ⠹ ⠸ ⠴ ⠴ ⠧ ⠧ ⠏ ⠏ ⠋ ⠹ ⠸ 

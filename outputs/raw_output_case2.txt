@@ -1,39 +1,48 @@
 ```json
 [
   {
-    "id": "A",
-    "task": "Start Sprint",
-    "hours": 1,
-    "assignee": "",
-    "start": "Monday 9am",
-    "end": "Tuesday 5pm"
-  },
-  {
     "id": "D",
     "task": "Design UI",
     "hours": 6,
     "assignee": "Alice",
-    "start": "Tuesday 9am",
-    "end": "Wednesday 3pm"
+    "start": "Monday, 9:00 AM",
+    "end": "Tuesday, 5:00 PM"
   },
   {
     "id": "E",
     "task": "Backend API",
     "hours": 12,
     "assignee": "Bob",
-    "start": "Tuesday 9am",
-    "end": "Thursday 5pm"
+    "start": "Tuesday, 9:00 AM",
+    "end": "Thursday, 5:00 PM"
   },
   {
     "id": "F",
     "task": "Integration Testing",
     "hours": 4,
     "assignee": "Charlie",
-    "start": "Wednesday 3pm",
-    "end": "Wednesday 7pm"
+    "start": "Friday, 9:00 AM",
+    "end": "Friday, 1:00 PM"
   }
 ]
 ```
 
+Here's the step-by-step solution to create the Agile sprint plan:
 
-⠙ ⠹ ⠹ ⠼ ⠼ ⠦ ⠧ ⠧ ⠏ ⠏ ⠋ ⠙ ⠹ ⠼ ⠴ ⠦ ⠧ ⠧ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠦ ⠇ ⠇ ⠋ ⠋ ⠹ ⠹ ⠼ ⠴ ⠦ ⠧ ⠧ ⠏ ⠋ ⠙ ⠹ ⠹ ⠼ ⠴ ⠦ ⠧ ⠇ ⠇ ⠏ ⠋ ⠹ ⠸ ⠼ ⠴ ⠴ ⠧ ⠇ ⠏ ⠏ ⠙ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠋ ⠋ ⠹ ⠹ ⠼ ⠴ ⠴ ⠧ ⠧ ⠏ ⠋ ⠋ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠧ ⠇ ⠏ ⠋ ⠹ ⠹ ⠸ ⠼ ⠴ ⠦ ⠇ ⠏ ⠋ ⠋ ⠹ ⠹ ⠸ ⠴ ⠴ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠸ ⠼ ⠼ ⠦ ⠧ ⠇ ⠇ ⠋ ⠙ ⠹ ⠹ ⠼ ⠴ ⠴ ⠧ ⠧ ⠏ ⠏ ⠙ ⠹ ⠸ ⠸ ⠴ ⠴ ⠧ ⠇ ⠏ ⠏ ⠙ ⠙ ⠸ ⠼ 
+1. **Sort tasks by duration**:
+   Sort the tasks in descending order of their durations so that we can start with the longest task and assign it to the first day.
+
+2. **Assign tasks for each working day**:
+   For a 5-day sprint, starting on Monday at 9 AM and considering 8 hours per day, we need to assign tasks accordingly.
+   
+3. **Assign tasks for Day 1 (Monday)**:
+   Since Monday is already occupied with task D, which has an assignment for Alice, we'll keep it as is.
+
+4. **Assign tasks for Day 2 (Tuesday)**:
+   We have assigned Task E to Bob on Tuesday. Now, there's no more space available for the remaining tasks (F) during this day because Task F is dependent on both Tasks D and E which are already placed on Days 1 and 2 respectively.
+
+5. **Assign tasks for Day 3 (Wednesday)**:
+   Since all the tasks from Monday to Tuesday have been assigned, we now move to Wednesday and place task F here as it's only dependent on Task D which is already done by then.
+
+
+⠙ ⠹ ⠸ ⠸ ⠴ ⠦ ⠧ ⠧ ⠏ ⠋ ⠋ ⠙ ⠸ ⠸ ⠴ ⠴ ⠧ ⠧ ⠇ ⠏ ⠙ ⠹ ⠹ ⠼ ⠼ ⠦ ⠧ ⠇ ⠏ ⠏ ⠋ ⠙ ⠸ ⠸ ⠼ ⠦ ⠦ ⠇ ⠇ ⠋ ⠙ ⠹ ⠸ ⠼ ⠼ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠙ ⠸ ⠸ ⠴ ⠴ ⠦ ⠇ ⠏ ⠏ ⠋ ⠹ ⠸ ⠸ ⠴ ⠦ ⠧ ⠇ ⠏ ⠋ ⠙ ⠙ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠇ ⠏ ⠙ ⠙ ⠹ ⠼ ⠴ ⠦ ⠧ ⠇ ⠇ ⠏ ⠙ ⠙ ⠸ ⠼ ⠴ ⠦ ⠧ ⠧ ⠏ ⠏ ⠙ ⠹ ⠹ ⠼ ⠴ ⠴ ⠧ ⠇ ⠏ ⠋ ⠙ ⠹ ⠹ ⠸ ⠴ ⠦ ⠧ ⠇ ⠇ ⠋ ⠙ ⠹ ⠸ ⠸ ⠴ ⠦ ⠦ ⠧ ⠏ ⠋ ⠙ ⠙ ⠸ ⠼ ⠼ ⠴ ⠧ ⠇ ⠇ ⠋ ⠋ ⠹ ⠸ ⠸ ⠴ ⠴ ⠧ ⠧ ⠇ ⠋ ⠙ ⠙ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠇ ⠏ ⠙ ⠹ ⠸ ⠼ 

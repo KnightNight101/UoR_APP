@@ -1,10 +1,9 @@
-# sprint_benchmark.py
-
 import csv
 import json
 import time
 import re
 import subprocess
+import threading
 from difflib import SequenceMatcher
 import nltk
 from datetime import datetime
@@ -246,10 +245,9 @@ Tasks:
             tasks_predicted = extract_json_array(raw_output)
             valid_json = tasks_predicted is not None
 
-            # Reprompt if invalid or time utilization < 70%
-            if not valid_json or (tasks_predicted and check_time_utilization(tasks_predicted) < 0.7):
-                reprompt = ("Output must be valid JSON array of tasks only, "
-                            "and improve time utilization to use at least 70% of total available hours.")
+            # Reprompt if invalid
+            if not valid_json:
+                reprompt = "Output must be valid JSON array of tasks only, follow the rules strictly."
                 stdout2, stderr2, elapsed2 = run_ollama_live(base_prompt + "\n" + reprompt)
                 raw_output += "\n[REPROMPT]\n" + stdout2 + "\n" + stderr2
                 tasks_predicted = extract_json_array(stdout2)
