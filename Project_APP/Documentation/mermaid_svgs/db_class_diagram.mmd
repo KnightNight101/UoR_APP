@@ -1,0 +1,63 @@
+classDiagram
+    class User {
+        +id: int
+        +username: str
+        +password_hash: str
+        +created_at: datetime
+        +is_active: bool
+        +roles: Role[]
+        +projects: Project[]
+        +assigned_tasks: Task[]
+        +assigned_subtasks: Subtask[]
+    }
+    class Project {
+        +id: int
+        +name: str
+        +description: str
+        +deadline: str
+        +owner: User
+        +members: ProjectMember[]
+        +tasks: Task[]
+    }
+    class ProjectMember {
+        +project_id: int
+        +user_id: int
+        +role: str
+        +joined_at: datetime
+        +user: User
+        +project: Project
+    }
+    class Task {
+        +id: int
+        +project_id: int
+        +title: str
+        +description: str
+        +status: str
+        +assigned_to: User
+        +due_date: datetime
+        +hours: float
+        +dependencies: str
+        +subtasks: Subtask[]
+    }
+    class Subtask {
+        +id: int
+        +task_id: int
+        +title: str
+        +description: str
+        +status: str
+        +assigned_to: User
+        +due_date: datetime
+        +hours: float
+        +dependencies: str
+        +category: str
+    }
+    User "1" -- "many" ProjectMember : membership
+    Project "1" -- "many" ProjectMember : members
+    Project "1" -- "many" Task : tasks
+    Task "1" -- "many" Subtask : subtasks
+    User "1" -- "many" Task : assigned_tasks
+    User "1" -- "many" Subtask : assigned_subtasks
+    ProjectMember "1" -- "1" User : user
+    ProjectMember "1" -- "1" Project : project
+    Task "1" -- "1" User : assigned_to
+    Subtask "1" -- "1" User : assigned_to

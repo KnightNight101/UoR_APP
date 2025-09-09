@@ -129,3 +129,7 @@
 [DEBUG] authenticate_user: user.id=2, user.username=Nithin, user.password_hash='$2b$12$Fv.yUNVgZX2Dlgd7SYpxO.ssAwcBs0T.hIGG5pm5dwXrnn8fIQWxa'
 [DEBUG] authenticate_user: verify_password result=True
 [DEBUG] authenticate_user: returning user_with_roles=True
+[DEBUG] authenticate_user: username='Nithin', user_found=True
+[DEBUG] authenticate_user: user.id=2, user.username=Nithin, user.password_hash='$2b$12$Fv.yUNVgZX2Dlgd7SYpxO.ssAwcBs0T.hIGG5pm5dwXrnn8fIQWxa'
+[DEBUG] authenticate_user: verify_password result=True
+[DEBUG] authenticate_user: returning user_with_roles=True

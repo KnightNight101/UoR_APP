@@ -1,0 +1,64 @@
+\contentsline {chapter}{\numberline {1}Introduction}{6}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Problem Statement and Motivation}{6}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Project Objectives}{7}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Develop a Multi-Dimensional Sprint Planner}{7}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Implement an Eisenhower Matrix-Based To-Do List Generator}{8}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Integrate a Version Control System with LLM-Generated Commit Summaries}{8}{subsection.1.2.3}%
+\contentsline {subsection}{\numberline {1.2.4}Ensure Secure, Containerised Local Deployment}{8}{subsection.1.2.4}%
+\contentsline {chapter}{\numberline {2}Background and Literature Review}{10}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Project Management}{10}{section.2.1}%
+\contentsline {chapter}{\numberline {3}Methodology}{24}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Requirements Gathering}{26}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Design Approach}{27}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Data Sources and Processing}{27}{section.3.3}%
+\contentsline {section}{\numberline {3.4}LLM Integration}{28}{section.3.4}%
+\contentsline {section}{\numberline {3.5}System Architecture}{28}{section.3.5}%
+\contentsline {chapter}{\numberline {4}System Design and Implementation}{29}{chapter.4}%
+\contentsline {section}{\numberline {4.1}From Web Ambitions to Local Implementation}{29}{section.4.1}%
+\contentsline {section}{\numberline {4.2}High-Level Architecture}{30}{section.4.2}%
+\contentsline {section}{\numberline {4.3}User Interface Layer}{31}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Backend Managers}{32}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Database and Persistence Layer}{32}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Event Logging}{33}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Integration of Language Models}{33}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Data and Control Flow}{34}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Security, Privacy, and Ethics}{34}{section.4.9}%
+\contentsline {chapter}{\numberline {5}Evaluation and Testing}{36}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Early Testing}{36}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Evaluating LLM Performance}{39}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Sprint planning}{39}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Eisenhower Matrix}{42}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Commit Summaries}{44}{subsection.5.2.3}%
+\contentsline {chapter}{\numberline {6}Discussion}{49}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Analysis of Results}{49}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Challenges Faced}{50}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Agile Methodology Reflection}{51}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Model Performance vs Expectations}{51}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Conclusion and Future Work}{52}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Summary of Contributions}{52}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Applications and Impact}{53}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Limitations}{54}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Future Improvements}{54}{section.7.4}%
+\contentsline {chapter}{\numberline {A}Scripts}{59}{appendix.A}%
+\contentsline {section}{\numberline {A.1}App Code}{59}{section.A.1}%
+\contentsline {subsection}{\numberline {A.1.1}main.py}{59}{subsection.A.1.1}%
+\contentsline {subsection}{\numberline {A.1.2}main.qml}{90}{subsection.A.1.2}%
+\contentsline {section}{\numberline {A.2}Benchmarking Code}{159}{section.A.2}%
+\contentsline {subsection}{\numberline {A.2.1}Sprint Planning Benchmark}{159}{subsection.A.2.1}%
+\contentsline {subsection}{\numberline {A.2.2}Eisenhower Matrix Benchmark}{168}{subsection.A.2.2}%
+\contentsline {subsection}{\numberline {A.2.3}VCS Commit Summaries}{174}{subsection.A.2.3}%
+\contentsline {chapter}{\numberline {B}Architecture}{180}{appendix.B}%
+\contentsline {chapter}{\numberline {C}User Stories}{184}{appendix.C}%
+\contentsline {section}{\numberline {C.1}Authentication}{184}{section.C.1}%
+\contentsline {section}{\numberline {C.2}Project Management}{185}{section.C.2}%
+\contentsline {section}{\numberline {C.3}Team and Role Management}{185}{section.C.3}%
+\contentsline {section}{\numberline {C.4}Task and Subtask Management}{186}{section.C.4}%
+\contentsline {section}{\numberline {C.5}Visualization and Planning}{186}{section.C.5}%
+\contentsline {section}{\numberline {C.6}Event Logging}{187}{section.C.6}%
+\contentsline {section}{\numberline {C.7}AI/LLM Integration}{187}{section.C.7}%
+\contentsline {section}{\numberline {C.8}Miscellaneous}{188}{section.C.8}%
+\contentsline {chapter}{\numberline {D}Screenshots and Interface Designs}{189}{appendix.D}%
+\contentsline {chapter}{\numberline {E}Peer Review}{193}{appendix.E}%
+\contentsline {section}{\numberline {E.1}Nithin Gandhi Simanand}{193}{section.E.1}%
+\contentsline {section}{\numberline {E.2}Rema Majed I Algunaibet}{193}{section.E.2}%
+\contentsline {subsection}{\numberline {E.2.1}Enhancing Contextual Conversations in LLM Chatbots with an Embeddings Database}{193}{subsection.E.2.1}%

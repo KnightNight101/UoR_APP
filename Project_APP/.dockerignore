@@ -1,0 +1,33 @@
+# Python cache and logs
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.db
+
+# Build artifacts
+build/
+*.aux
+*.out
+*.toc
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.bbl
+*.pdf
+
+# VSCode and OS files
+.vscode/
+*.swp
+.DS_Store
+
+# Output and test files
+outputs/
+.pytest_cache/
+event_log.txt
+login_debug.log
+Archive/
+project_files/
+thoughts/

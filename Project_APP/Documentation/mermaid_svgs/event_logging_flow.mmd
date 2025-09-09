@@ -1,0 +1,8 @@
+flowchart TD
+    A[User/System Action] --> B[Call log_event or log_structured_event]
+    B --> C{Is it structured?}
+    C -- Yes --> D[Write to EventLog table in DB]
+    C -- No --> E[Append to event_log.txt file]
+    D --> F[Emit eventLogChanged signal optional]
+    E --> F
+    F --> G[QML/UI updates event log display]

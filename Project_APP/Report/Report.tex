@@ -72,6 +72,35 @@
 
 \maketitle
 
+\thispagestyle{plain}
+\begin{center}
+    \Large
+    \textbf{An LLM-Powered Application for Agile Project Management}
+        
+    \vspace{0.4cm}
+    \textbf{Nithin Gandhi Simanand}
+       
+    \vspace{0.9cm}
+    \textbf{Abstract}
+\end{center}
+The integration of artificial intelligence, particularly large language models (LLMs), is transforming organisational productivity and project management. 
+This research investigates the feasibility and potential of using general-purpose LLMs to support corporate task management, focusing on automated project planning, task prioritisation via the Eisenhower Matrix, and summarisation of software development commit messages. 
+The study evaluates whether models trained on broad, non-specialised corpora can approximate human decision-making and whether rapid machine-generated outputs can offset occasional inaccuracies within a human-in-the-loop workflow.
+
+An experimental approach was adopted, utilising a publicly available LLM rather than bespoke datasets. 
+This reflects both practical constraints and real-world scenarios, where organisations often rely on off-the-shelf models. 
+Three modules were developed: a project planner generating structured plans with dependencies, resources, and timelines; an Eisenhower classifier categorising tasks by urgency and importance; and a commit summariser converting code changes into coherent natural-language summaries.
+
+Results show certain feasibility but indicate mixed performance. 
+The Eisenhower classifier achieved perfect alignment with human judgement in several cases but struggled with ambiguous tasks, highlighting both model limitations and contextual variability. 
+The planner produced coherent outputs, although dependency accuracy and resource allocation were inconsistent. 
+By contrast, the commit summariser performed consistently well, reflecting LLMs' strength in linguistic tasks. Importantly, time-to-completion metrics show that even imperfect outputs provide rapid, actionable templates for human refinement.
+
+These findings emphasise the value of human-machine collaboration. 
+LLMs accelerate task structuring and summarisation, while iterative human adjustments enable models to align with organisational heuristics. 
+Challenges included the absence of task-specific datasets, manual ground-truth creation, and occasional unpredictable outputs, mirroring common adoption obstacles.
+
+
 \tableofcontents
 
 \newpage
@@ -132,7 +161,7 @@ Testing for this project will focus on validating both functional performance an
 For the multi-dimensional sprint planner, tests will assess the accuracy and adaptability of task prioritisation and scheduling in response to simulated changes in team availability, task dependencies, and deadlines. 
 The Eisenhower Matrix task generator will be evaluated on its ability to categorise tasks correctly based on urgency and importance, as well as its impact on user focus and task completion rates.
 The version control system and commit summarisation feature will be tested for robustness in tracking file changes, accuracy of LLM-generated summaries, and their usefulness in aiding project recall and progress reporting. 
-The specific details of the testing methodology will be outlined in the Methodology chapter with greater detail of the test cases available in Appendix~\ref{app:Scripts}.
+The specific details of the testing methodology will be outlined in the Methodology chapter with greater detail of the test cases available in Appendix \ref{Scripts}.
 
 % 2. Background & Literature Review
 \chapter{Background and Literature Review}  % ~2000 words
@@ -415,7 +444,12 @@ Lacking prior experience with these tools, progress was slow.
 Even if the server were hosted on-site rather than in the cloud, users would still be asked to trust a system where their data travelled across a network to reach the point of processing. 
 While there are many established and secure ways of countering this risk, for example by using a Secure Shell (SSH), when combined with the time limitations of the project, made the web-based design untenable.
 
-\includegraphics[width=\textwidth]{png_files/SSH_Architecture.png}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{png_files/SSH_Architecture.png}
+  \caption{Diagram of the SSH architecture \parencite{barrettSSHSecureShell2005}}
+    \label{fig:SSH Architecture}
+\end{figure}
 
 
 The decision was made to pivot toward a different architecture: one centred on Python, running locally on the user's machine. 
@@ -541,7 +575,13 @@ This architecture represents a deliberate balance between modularity and simplic
 Each layer is isolated but tightly integrated, ensuring clear data flow without introducing unnecessary complexity. 
 At the same time, the architecture foregrounds the ethical objectives of the project: locality, transparency, accountability, and offline resilience.
 
-\includegraphics[width=\textwidth]{png_files/main_py_architecture.png}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{png_files/main_py_architecture.png}
+  \caption{Diagram of the main Python architecture}
+    \label{fig:Main Python Architecture}
+\end{figure}
+
 \section{User Interface Layer}
 
 The interface was implemented in QML, providing a modern, flexible, and responsive environment that would have been difficult to replicate with standard Python GUI toolkits alone. 
@@ -551,6 +591,14 @@ By exposing backend managers as properties and slots within QML, the system allo
 The decision to adopt QML was also a response to a common critique of local applications: that they often feel outdated compared to the sleek, browser-based tools users are accustomed to. 
 By pairing PySide6 with QML, the project retained the ethical benefits of locality while delivering a polished user experience. 
 Navigation, data entry, and task management were designed to be intuitive, ensuring that ethical principles did not come at the cost of usability.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{png_files/main_qml_architecture.png}
+  \caption{Diagram of the main QML architecture}
+    \label{fig:Main QML Architecture}
+\end{figure}
+
 
 \section{Backend Managers}
 
@@ -580,8 +628,14 @@ File storage was designed with equal care.
 User documents, particularly LibreOffice files, are stored directly on the local filesystem but tied into the application through metadata stored in the database. 
 Each document is versioned using Git, creating a complete record of changes over time. 
 By integrating ODFDiff, the system was able to go beyond simple commit histories, offering semantic diffs that show meaningful changes to document content.
-
-
+\begin{samepage}
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{png_files/db_class_diagram.png}
+    \caption{Diagram of the databass class}
+        \label{fig:db class diagram}
+    \end{figure}
+\end{samepage}
 \section{Event Logging}
 
 Transparency and accountability were central to the problem statement, and these were operationalised through the event logging system. 
@@ -630,14 +684,14 @@ Role-based access control provided an additional layer of protection, ensuring t
 Beyond these technical safeguards, the architecture operationalised ethical principles in subtler ways. 
 The event log made decision-making processes transparent. 
 AI integration was designed to be assistive rather than directive, avoiding the risk of displacing human judgment. 
-The offline-first model supported contexts—such as secure environments or resource-limited organisations—where cloud-based tools would be either inappropriate or inaccessible.
+The offline-first model makes it useable in situations such as secure environments or resource-limited organisations where cloud-based tools would be either inappropriate or inaccessible.
 
 These architectural decisions collectively ensured that the system was not only functional but aligned with the ethical imperatives set out in the problem statement.
 
 % 5. Evaluation & Testing
 \chapter{Evaluation and Testing}  
 The evaluation of the system was designed around three central goals: functional correctness, LLM-assisted workflow quality, and user-centred responsiveness.
-Functional correctness referred to the ability of the system to execute expected tasks—creating projects, logging events, managing files, and generating sprints—without errors. 
+Functional correctness referred to the ability of the system to execute expected tasks: creating projects, logging events, managing files, and generating sprints without errors. 
 Workflow quality assessed whether the LLM component produced useful, coherent, and contextually relevant outputs when prompted. 
 Finally, user-centred responsiveness concerned itself with the stability of the interface, speed of execution, and the seamless integration of frontend and backend components.
 
@@ -1094,7 +1148,7 @@ Additionally, future work could focus on the integration of domain-specific trai
 
 % Appendices 
 \appendix
-\chapter{Scripts}
+\chapter{Scripts}\label{Scripts}
 \section{App Code}
 \subsection{main.py}
 \begin{lstlisting}[style=pythonstyle]
@@ -4939,128 +4993,210 @@ if __name__ == "__main__":
     print(f"[INFO] Results saved to {OUTPUT_CSV}")
 
 \end{lstlisting}
-\chapter{Architecture}
-This document provides a high-level architectural overview of the main application components. Each section includes a diagram and an explanation of the component's role and structure.
-\section{main.py}
+\chapter{Architecture}\label{Architecture}
+\section*{Systematic Review of Application Architecture}
 
-\begin{figure}[ht]
+This appendix provides a comprehensive, layered review of all code and components in \texttt{Project\_APP} and its subdirectories, structured by architecture layers. Each section references relevant files and diagrams.
+
+\subsection*{Overall Architecture}
+\begin{figure}
 \centering
-\includegraphics[width=\textwidth]{png_files/main_py_architecture.png}
-\caption{Architecture diagram of \texttt{main.py} showing entry point, initialization of components, and connections to the UI.}
+\includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{png_files/main_py_architecture.png}
+\caption{Main Python architecture: entry point, initialization, and backend/frontend connections.}
 \end{figure}
 
-\noindent
-\textbf{Explanation:} \\
-\texttt{main.py} is the application's entry point, responsible for initializing the backend (including file management and Git integration), setting up the Qt application and QML engine, and exposing Python backend objects to the QML frontend. It manages the connection between the UI and backend logic, ensuring that user actions in the interface are handled by the appropriate Python classes.
+The application is a fully offline desktop platform, composed of three major layers:
+\begin{itemize}
+    \item \textbf{QML-based UI} (\texttt{Main.qml}): Modern, responsive interface for all user interactions.
+    \item \textbf{Python Backend} (\texttt{main.py}, backend managers): Handles logic, persistence, and LLM integration.
+    \item \textbf{Persistence Layer} (\texttt{db.py}, SQLite, file repositories): Stores all structured data and files locally.
+\end{itemize}
 
-\section{Main.qml}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{png_files/main_qml_architecture.png}
-    \caption{Diagram of \texttt{Main.qml} structure, including application window, pages, navigation, and backend context properties.}
+\subsection*{User Interface Layer}
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{png_files/main_qml_architecture.png}
+\caption{Main QML architecture: UI structure, navigation, and backend context properties.}
 \end{figure}
 
-\noindent
-\textbf{Explanation:} \\
-\texttt{Main.qml} defines the main user interface using QML. It structures the application window, navigation, and all major pages (login, dashboard, project details, event log, settings). The UI is dynamic, responding to backend signals and exposing user actions to Python logic via context properties. The dashboard and project details pages are modular, supporting tabbed navigation and dialogs for project and team management.
+\texttt{Main.qml} defines the application window, login, dashboard, project details, event log, calendar, and settings. It exposes backend managers as context properties, enabling rich interaction and modular navigation. The dashboard supports tabbed views for tasks, Gantt charts, calendars, and team management.
 
-\section{reset\_users.py}
+\subsection*{Backend Layer}
+\begin{itemize}
+    \item \texttt{main.py}: Entry point, initializes backend managers, sets up QML engine, exposes Python objects to QML.
+    \item \texttt{server.py}: Flask REST API for tasks, events, projects, and LLM endpoints.
+    \item \texttt{backend/get\_models.py}: Utility for managing Ollama LLM models.
+    \item \texttt{backend/deepseek\_r1.py}, \texttt{deepseek\_r1\_32b.py}, \texttt{tiny\_llama.py}: LLM interface classes for querying local models.
+    \item \texttt{backend/db.py}: Re-exports database functions and models for modular backend logic.
+\end{itemize}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{png_files/reset_users_flow.png}
-    \caption{Diagram of \texttt{reset\_users.py} showing its interaction with the user and role tables.}
+Backend managers encapsulate authentication, dashboard logic, project/task management, user management, and event logging. All significant actions are recorded in an append-only event log.
+
+\subsection*{Database and Persistence Layer}
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{png_files/db_class_diagram.png}
+\caption{Database class diagram: users, projects, roles, tasks, subtasks, files, events.}
 \end{figure}
 
-\noindent
-\textbf{Explanation:} \\
-\texttt{reset\_users.py} is a utility script for database maintenance. It resets the user table to a predefined set of users, updating passwords and roles as needed. This ensures a consistent user base for development or testing, removing any extraneous users and enforcing correct role assignments.
+\texttt{db.py} and related modules implement the persistence layer using SQLAlchemy ORM and SQLite. Data includes users, roles, permissions, projects, tasks, subtasks, files, and events. File versioning is handled via GitPython, with semantic diffs using ODFDiff. All documents are stored locally and changes are auditable.
 
-\section{print\_users.py}
+\subsection*{LLM Integration}
+\begin{itemize}
+    \item \texttt{backend/get\_models.py}: Manages available LLMs via Ollama.
+    \item \texttt{backend/deepseek\_r1.py}, \texttt{deepseek\_r1\_32b.py}, \texttt{tiny\_llama.py}: Provide interfaces for querying DeepSeek and TinyLlama models.
+    \item LLMs are used for sprint planning, Eisenhower matrix categorization, and commit summary generation.
+\end{itemize}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{png_files/print_users_flow.png}
-    \caption{Diagram of \texttt{print\_users.py} showing query flow for retrieving user IDs and usernames.}
-\end{figure}
+All LLM interactions are logged for transparency. The system supports iterative prompting and human-in-the-loop refinement.
 
-\noindent
-\textbf{Explanation:} \\
-\texttt{print\_users.py} is a simple script that queries all users from the database and prints their IDs and usernames. It is primarily used for debugging or verifying the current state of the user table.
+\subsection*{Other Components}
+\begin{itemize}
+    \item \texttt{reset\_users.py}, \texttt{print\_users.py}: Utility scripts for database maintenance and debugging.
+    \item \texttt{ProjectFileManager} (in \texttt{main.py}): Handles project file directories, sets up Git repositories, and watches for file changes.
+    \item Event logging and audit trail: All actions are recorded for accountability.
+\end{itemize}
 
-\subsection{backend/db.py}
 
-%\begin{figure}[ht]
-%    \centering
-%    \includegraphics[width=\textwidth]{png_files/db_module_flow.png}
-%    \caption{Diagram of \texttt{backend/db.py} acting as a bridge to the main application database functions.}
-%\end{figure}
 
-\noindent
-\textbf{Explanation:} \\
-\texttt{backend/db.py} acts as a bridge, re-exporting database functions and models from the main application database module. This allows backend logic to be organized and accessed consistently, supporting modularity and maintainability.
+\chapter{User Stories}\label{UserStories}
+This appendix provides a comprehensive overview of all user stories, including their context, goals, and mapping to implemented features. User stories were gathered from project documentation and reflect both functional requirements and stakeholder needs. Each story is linked to specific modules and UI components in the application.
 
-\chapter{User Stories}
 \section{Authentication}
-
-- As a user, I want to log in securely, so that I can access my personalized dashboard and data.
-- As an admin, I want to reset the user database, so that I can ensure only authorized users have access.
+\textbf{Context:} Secure access is fundamental for protecting user data and ensuring only authorized users interact with the system.
+\begin{itemize}
+    \item \textbf{Story:} As a user, I want to log in securely, so that I can access my personalized dashboard and data.
+    \item \textbf{Story:} As an admin, I want to reset the user database, so that I can ensure only authorized users have access.
+    \item \textbf{Goals:} Protect sensitive information, enable role-based access, and support administrative control.
+    \item \textbf{Features:} Login page (\texttt{Main.qml}), authentication logic (\texttt{main.py}: AuthManager), user reset utility (\texttt{reset\_users.py}).
+\end{itemize}
 
 \section{Project Management}
-- As a user, I want to create new projects, so that I can organize my work and tasks efficiently.
-
-- As a user, I want to view a list of all my projects, so that I can quickly access and manage them.
-
-- As a user, I want to edit project details such as title, description, and deadline, so that project information stays up to date.
-
-- As a user, I want to delete projects, so that I can remove obsolete or completed projects from my workspace.
+\textbf{Context:} Users need to manage multiple projects efficiently, keeping information organized and up to date.
+\begin{itemize}
+    \item \textbf{Story:} As a user, I want to create new projects, so that I can organize my work and tasks efficiently.
+    \item \textbf{Story:} As a user, I want to view a list of all my projects, so that I can quickly access and manage them.
+    \item \textbf{Story:} As a user, I want to edit project details such as title, description, and deadline, so that project information stays up to date.
+    \item \textbf{Story:} As a user, I want to delete projects, so that I can remove obsolete or completed projects from my workspace.
+    \item \textbf{Goals:} Enable project lifecycle management and maintain accurate records.
+    \item \textbf{Features:} Dashboard project list (\texttt{Main.qml}), project CRUD operations (\texttt{main.py}: ProjectManager).
+\end{itemize}
 
 \section{Team and Role Management}
-- As a project owner, I want to add team members to a project and assign roles, so that I can collaborate with others.
-
-- As a project owner, I want to remove team members, so that I can manage project access and responsibilities.
-
-- As a project owner, I want to assign or change the project leader, so that leadership can be transferred as needed.
-
-- As a team member, I want to view the list of project members and their roles, so that I know who is involved.
+\textbf{Context:} Collaboration requires clear roles and flexible team composition.
+\begin{itemize}
+    \item \textbf{Story:} As a project owner, I want to add team members to a project and assign roles, so that I can collaborate with others.
+    \item \textbf{Story:} As a project owner, I want to remove team members, so that I can manage project access and responsibilities.
+    \item \textbf{Story:} As a project owner, I want to assign or change the project leader, so that leadership can be transferred as needed.
+    \item \textbf{Story:} As a team member, I want to view the list of project members and their roles, so that I know who is involved.
+    \item \textbf{Goals:} Support dynamic teams and ensure accountability.
+    \item \textbf{Features:} Team management tab (\texttt{Main.qml}), member assignment logic (\texttt{main.py}: ProjectManager).
+\end{itemize}
 
 \section{Task and Subtask Management}
-- As a user, I want to add tasks and subtasks to projects, so that I can break down work into manageable pieces.
+\textbf{Context:} Breaking down work into tasks and subtasks improves clarity and execution.
+\begin{itemize}
+    \item \textbf{Story:} As a user, I want to add tasks and subtasks to projects, so that I can break down work into manageable pieces.
+    \item \textbf{Story:} As a user, I want to assign tasks and subtasks to team members, so that responsibilities are clear.
+    \item \textbf{Story:} As a user, I want to edit and delete tasks and subtasks, so that I can keep project plans accurate.
+    \item \textbf{Story:} As a user, I want to set deadlines, durations, and dependencies for tasks and subtasks, so that project timelines are well-defined.
+    \item \textbf{Story:} As a user, I want to categorize tasks and subtasks using the Eisenhower matrix, so that I can prioritize my work effectively.
+    \item \textbf{Story:} As a user, I want to drag and drop tasks/subtasks between categories, so that I can easily update priorities.
+    \item \textbf{Goals:} Facilitate granular planning and adaptive prioritization.
+    \item \textbf{Features:} Task management tab (\texttt{Main.qml}), Eisenhower matrix UI, backend logic (\texttt{main.py}: DashboardManager).
+\end{itemize}
 
-- As a user, I want to assign tasks and subtasks to team members, so that responsibilities are clear.
-
-- As a user, I want to edit and delete tasks and subtasks, so that I can keep project plans accurate.
-
-- As a user, I want to set deadlines, durations, and dependencies for tasks and subtasks, so that project timelines are well-defined.
-
-- As a user, I want to categorize tasks and subtasks using the Eisenhower matrix, so that I can prioritize my work effectively.
-- As a user, I want to drag and drop tasks/subtasks between categories, so that I can easily update priorities.
-
-\section{Visualisation and Planning}
-- As a user, I want to view my tasks and subtasks in a dashboard, so that I can see what needs to be done today.
-
-- As a user, I want to see a Gantt chart of project tasks and subtasks, so that I can visualize timelines and dependencies.
-
-- As a user, I want to view a calendar with deadlines, public holidays, and personal time off, so that I can plan my work schedule.
+\section{Visualization and Planning}
+\textbf{Context:} Visual tools help users understand timelines, dependencies, and daily priorities.
+\begin{itemize}
+    \item \textbf{Story:} As a user, I want to view my tasks and subtasks in a dashboard, so that I can see what needs to be done today.
+    \item \textbf{Story:} As a user, I want to see a Gantt chart of project tasks and subtasks, so that I can visualize timelines and dependencies.
+    \item \textbf{Story:} As a user, I want to view a calendar with deadlines, public holidays, and personal time off, so that I can plan my work schedule.
+    \item \textbf{Goals:} Improve planning accuracy and support time management.
+    \item \textbf{Features:} Dashboard, Gantt chart tab, calendar tab (\texttt{Main.qml}), backend logic (\texttt{main.py}: DashboardManager).
+\end{itemize}
 
 \section{Event Logging}
-- As a user, I want to see an event log of actions taken in the system, so that I can track project history and changes.
-
-- As a user, I want to log significant actions (e.g., login, project changes, team updates), so that there is an audit trail.
+\textbf{Context:} Transparency and accountability require a record of all significant actions.
+\begin{itemize}
+    \item \textbf{Story:} As a user, I want to see an event log of actions taken in the system, so that I can track project history and changes.
+    \item \textbf{Story:} As a user, I want to log significant actions (e.g., login, project changes, team updates), so that there is an audit trail.
+    \item \textbf{Goals:} Enable auditing and support compliance.
+    \item \textbf{Features:} Event log tab (\texttt{Main.qml}), event logging logic (\texttt{main.py}: LogEventBridge).
+\end{itemize}
 
 \section{AI/LLM Integration}
-- As a user, I want to receive AI-powered suggestions for task categorization, so that I can prioritize tasks more effectively.
-
-- As a user, I want the system to generate commit summaries for project file changes using an LLM, so that version control messages are meaningful.
-
-- As a user, I want to interact with local LLMs (TinyLlama, DeepSeek) for planning and suggestions, so that I can leverage AI capabilities offline.
+\textbf{Context:} AI augments user decision-making and automates repetitive tasks.
+\begin{itemize}
+    \item \textbf{Story:} As a user, I want to receive AI-powered suggestions for task categorization, so that I can prioritize tasks more effectively.
+    \item \textbf{Story:} As a user, I want the system to generate commit summaries for project file changes using an LLM, so that version control messages are meaningful.
+    \item \textbf{Story:} As a user, I want to interact with local LLMs (TinyLlama, DeepSeek) for planning and suggestions, so that I can leverage AI capabilities offline.
+    \item \textbf{Goals:} Enhance productivity and reduce manual effort.
+    \item \textbf{Features:} LLM integration for task suggestions (\texttt{main.py}: DashboardManager), commit summaries (\texttt{main.py}: ProjectFileManager), local model endpoints.
+\end{itemize}
 
 \section{Miscellaneous}
-- As a user, I want to manage my personal settings, so that I can customize my experience.
+\textbf{Context:} Personalization and security are essential for user satisfaction.
+\begin{itemize}
+    \item \textbf{Story:} As a user, I want to manage my personal settings, so that I can customize my experience.
+    \item \textbf{Story:} As a user, I want to log out securely, so that my account remains protected.
+    \item \textbf{Goals:} Support user autonomy and maintain security.
+    \item \textbf{Features:} Settings tab (\texttt{Main.qml}), logout logic (\texttt{main.py}: AuthManager).
+\end{itemize}
 
-- As a user, I want to log out securely, so that my account remains protected.
+\chapter{Screenshots and Interface Designs}\label{UI}
 
-\chapter{Screenshots and Interface Designs}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth,height=0.3\textheight,keepaspectratio]{png_files/Login.png}
+\caption{Main QML architecture: UI structure, navigation, and backend context properties.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{png_files/Dashboard.png}
+\caption{Main QML architecture: UI structure, navigation, and backend context properties.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{png_files/ProjectCreation.png}
+\caption{Main QML architecture: UI structure, navigation, and backend context properties.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{png_files/ProjectDetails.png}
+\caption{Main QML architecture: UI structure, navigation, and backend context properties.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{png_files/Event_log.png}
+\caption{Main QML architecture: UI structure, navigation, and backend context properties.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{png_files/Calendar.png}
+\caption{Main QML architecture: UI structure, navigation, and backend context properties.}
+\end{figure}
+
+\chapter{Peer Review}
+\section{Nithin Gandhi Simanand}
+\section{Rema Majed I Algunaibet}
+\subsection{Enhancing Contextual Conversations in LLM Chatbots with an Embeddings Database}
+The project specification presents a highly relevant and timely research topic. The background section is particularly strong, as it clearly identifies the limitations of current LLM-based chatbots, namely their restricted attention span and tendency to hallucinate. The discussion of context window constraints and the need for memory-augmented systems is well expressed, setting up a clear rationale for the work. The author links this effectively to broader industry trends such as ChatGPT’s memory features, Google Gemini, and Microsoft’s Recall, which demonstrates an appreciation of both the technical and societal importance of the problem. Overall, the background provides a compelling justification for why the project is needed.
+
+The literature review is comprehensive and logically structured. It begins with early work on neural memory networks and builds through RAG, RETRO, and very recent developments such as LM2 and CAIM. This progression demonstrates a clear awareness of how the field has evolved, while the inclusion of practical frameworks like LangChain and LlamaIndex shows good grounding in applied research. References are varied and relevant, covering both academic publications and technical sources. 
+
+The research question is precise and ambitious, asking whether a dual-store embeddings database can significantly improve coherence, factual accuracy, and personalisation compared with a baseline. This is both clear and measurable, and it is appropriately supported by well-defined objectives. The objectives progress logically from establishing a baseline through to implementing and evaluating enhanced architectures. They make effective use of both automated evaluation methods (LLM-as-a-judge) and human studies, which strengthens the methodology by combining quantitative and qualitative approaches.
+
+The development approach is technically sophisticated and convincingly described. The use of hybrid retrieval (semantic similarity plus BM25), dual-store vector databases, and multilingual embeddings demonstrates careful consideration of both performance and inclusivity. The selection of LLMs (qwen3-32b and gpt-oss-120b) and orchestration tools (LangChain, FAISS, Ollama, Groq) indicates that the project is feasible within the available resources, especially with mitigations such as relying on open-source models and local hardware. Risks are well identified and mitigation strategies are sensible—for instance, addressing hallucinations via retrieval grounding and planning for participant recruitment through collaboration with a research centre.
+
+The specification also demonstrates awareness of social, legal, and ethical issues. Privacy, fairness, misinformation, safety, and regulatory compliance are all addressed systematically. In particular, the attention to bias between English and Arabic is commendable, as it shows consideration of inclusivity and cultural fairness. The mitigation strategies, such as anonymisation of participant data, instructions to evaluators, and audit logging, are appropriate and demonstrate compliance with emerging regulations such as the EU AI Act.
+
+The objectives, tasks, and time plan are well structured, with clear deliverables attached to each stage. The project is broken down into manageable components that build logically towards the final dissertation. The timeline is feasible within the MSc schedule, though dependencies between tasks could be made more explicit to ensure risks of slippage are minimised. Nonetheless, the overall plan provides confidence that the project is achievable within the given timeframe.
+
 
 \end{document}
