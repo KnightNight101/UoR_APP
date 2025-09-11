@@ -1,0 +1,9 @@
+bcrypt
+Flask
+SQLAlchemy
+requests
+cryptography
+PySide6
+gitpython
+watchdog
+setuptools>=78.1.1

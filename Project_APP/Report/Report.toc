@@ -37,28 +37,30 @@
 \contentsline {chapter}{\numberline {7}Conclusion and Future Work}{52}{chapter.7}%
 \contentsline {section}{\numberline {7.1}Summary of Contributions}{52}{section.7.1}%
 \contentsline {section}{\numberline {7.2}Applications and Impact}{53}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Limitations}{54}{section.7.3}%
+\contentsline {section}{\numberline {7.3}Limitations}{53}{section.7.3}%
 \contentsline {section}{\numberline {7.4}Future Improvements}{54}{section.7.4}%
-\contentsline {chapter}{\numberline {A}Scripts}{59}{appendix.A}%
-\contentsline {section}{\numberline {A.1}App Code}{59}{section.A.1}%
-\contentsline {subsection}{\numberline {A.1.1}main.py}{59}{subsection.A.1.1}%
-\contentsline {subsection}{\numberline {A.1.2}main.qml}{90}{subsection.A.1.2}%
-\contentsline {section}{\numberline {A.2}Benchmarking Code}{159}{section.A.2}%
-\contentsline {subsection}{\numberline {A.2.1}Sprint Planning Benchmark}{159}{subsection.A.2.1}%
-\contentsline {subsection}{\numberline {A.2.2}Eisenhower Matrix Benchmark}{168}{subsection.A.2.2}%
-\contentsline {subsection}{\numberline {A.2.3}VCS Commit Summaries}{174}{subsection.A.2.3}%
-\contentsline {chapter}{\numberline {B}Architecture}{180}{appendix.B}%
-\contentsline {chapter}{\numberline {C}User Stories}{184}{appendix.C}%
-\contentsline {section}{\numberline {C.1}Authentication}{184}{section.C.1}%
-\contentsline {section}{\numberline {C.2}Project Management}{185}{section.C.2}%
-\contentsline {section}{\numberline {C.3}Team and Role Management}{185}{section.C.3}%
-\contentsline {section}{\numberline {C.4}Task and Subtask Management}{186}{section.C.4}%
-\contentsline {section}{\numberline {C.5}Visualization and Planning}{186}{section.C.5}%
-\contentsline {section}{\numberline {C.6}Event Logging}{187}{section.C.6}%
-\contentsline {section}{\numberline {C.7}AI/LLM Integration}{187}{section.C.7}%
-\contentsline {section}{\numberline {C.8}Miscellaneous}{188}{section.C.8}%
-\contentsline {chapter}{\numberline {D}Screenshots and Interface Designs}{189}{appendix.D}%
+\contentsline {section}{\numberline {7.5}Reflection}{54}{section.7.5}%
+\contentsline {section}{\numberline {.1}App Code}{58}{section.Alph0.1}%
+\contentsline {subsection}{\numberline {.1.1}main.py}{58}{subsection.Alph0.1.1}%
+\contentsline {subsection}{\numberline {.1.2}main.qml}{89}{subsection.Alph0.1.2}%
+\contentsline {section}{\numberline {.2}Benchmarking Code}{158}{section.Alph0.2}%
+\contentsline {subsection}{\numberline {.2.1}Sprint Planning Benchmark}{158}{subsection.Alph0.2.1}%
+\contentsline {subsection}{\numberline {.2.2}Eisenhower Matrix Benchmark}{167}{subsection.Alph0.2.2}%
+\contentsline {subsection}{\numberline {.2.3}VCS Commit Summaries}{173}{subsection.Alph0.2.3}%
+\contentsline {chapter}{\numberline {A}Architecture}{179}{appendix.A}%
+\contentsline {chapter}{\numberline {B}User Stories}{183}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Authentication}{183}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Project Management}{184}{section.B.2}%
+\contentsline {section}{\numberline {B.3}Team and Role Management}{184}{section.B.3}%
+\contentsline {section}{\numberline {B.4}Task and Subtask Management}{185}{section.B.4}%
+\contentsline {section}{\numberline {B.5}Visualization and Planning}{185}{section.B.5}%
+\contentsline {section}{\numberline {B.6}Event Logging}{186}{section.B.6}%
+\contentsline {section}{\numberline {B.7}AI/LLM Integration}{186}{section.B.7}%
+\contentsline {section}{\numberline {B.8}Miscellaneous}{187}{section.B.8}%
+\contentsline {chapter}{\numberline {C}Screenshots and Interface Designs}{188}{appendix.C}%
+\contentsline {chapter}{\numberline {D}Scripts}{192}{appendix.D}%
 \contentsline {chapter}{\numberline {E}Peer Review}{193}{appendix.E}%
 \contentsline {section}{\numberline {E.1}Nithin Gandhi Simanand}{193}{section.E.1}%
-\contentsline {section}{\numberline {E.2}Rema Majed I Algunaibet}{193}{section.E.2}%
-\contentsline {subsection}{\numberline {E.2.1}Enhancing Contextual Conversations in LLM Chatbots with an Embeddings Database}{193}{subsection.E.2.1}%
+\contentsline {subsection}{\numberline {E.1.1}An LLM-Powered Application for Agile Project Management}{193}{subsection.E.1.1}%
+\contentsline {section}{\numberline {E.2}Rema Majed I Algunaibet}{194}{section.E.2}%
+\contentsline {subsection}{\numberline {E.2.1}Enhancing Contextual Conversations in LLM Chatbots with an Embeddings Database}{194}{subsection.E.2.1}%

@@ -7,7 +7,7 @@ from pathlib import Path
 # --------------------------
 # Configuration
 # --------------------------
-MODELS = ["tinyllama:1.1b", "deepseek-r1:8b", "deepseek-r1:32b"]
+MODELS = ["tinyllama:1.1b", "deepseek-r1:8b", "deepseek-r1:32b", "llama3.1:8b"]
 MODELS_DIR = Path(__file__).parent / "models"
 MODELS_DIR.mkdir(exist_ok=True)
 OLLAMA_EXECUTABLE = shutil.which("ollama") or Path("C:/Program Files/Ollama/ollama.exe")

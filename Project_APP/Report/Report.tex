@@ -100,6 +100,8 @@ These findings emphasise the value of human-machine collaboration.
 LLMs accelerate task structuring and summarisation, while iterative human adjustments enable models to align with organisational heuristics. 
 Challenges included the absence of task-specific datasets, manual ground-truth creation, and occasional unpredictable outputs, mirroring common adoption obstacles.
 
+\href{https://github.com/KnightNight101/UoR_APP/tree/main}{Github Repo},
+\href{https://hub.docker.com/repository/docker/nightknight101/uor_app_nithings/general}{Docker Hub}
 
 \tableofcontents
 
@@ -1115,31 +1117,66 @@ The combination of speed, structure, and human-in-the-loop adaptability undersco
 % 7. Conclusion & Future Work
 \chapter{Conclusion and Future Work}  % ~700 words
 \section{Summary of Contributions}
-This project has produced a fully local, offline project management platform that combines robust software engineering with intelligent support for task prioritisation. The central innovation of this work is the sprint planner, which enables users to manage tasks, subtasks, and project timelines in a structured, adaptive manner. The sprint planner leverages the Eisenhower matrix and historical project activity to help users prioritise work effectively, enhancing productivity and ensuring critical tasks are highlighted and addressed in a timely manner.
+This project has produced a fully local, offline project management platform that combines robust software engineering with intelligent support for task prioritisation. 
+The central innovation of this work is the sprint planner, which enables users to manage tasks, subtasks, and project timelines in a structured, adaptive manner. 
+The sprint planner leverages the Eisenhower matrix and historical project activity to help users prioritise work effectively, enhancing productivity and ensuring critical tasks are highlighted and addressed in a timely manner.
 
-Alongside the sprint planner, the platform incorporates a PyQt (PySide6/QML) interface that balances modern usability with accessibility, providing seamless interaction between the frontend and a secure backend. The backend, built on SQLAlchemy ORM, manages data integrity, user roles, permissions, and file metadata, while the local file versioning system—implemented with GitPython and ODFDiff—ensures that all document changes are auditable and recoverable.
+Alongside the sprint planner, the platform incorporates a PyQt (PySide6/QML) interface that balances modern usability with accessibility, providing seamless interaction between the frontend and a secure backend. 
+The backend, built on SQLAlchemy ORM, manages data integrity, user roles, permissions, and file metadata, while the local file versioning system—implemented with GitPython and ODFDiff—ensures that all document changes are auditable and recoverable.
 
-The platform also integrates a local LLM to provide intelligent suggestions within the sprint planner, using recent project events as context to inform task categorisation. This demonstrates how adaptive AI can support task management without relying on cloud-based services, preserving both user privacy and ethical compliance. Additional contributions include a structured event logging system, secure authentication, role-based access control, and data/file encryption, all of which underpin the platform's offline-first design and reinforce ethical standards in project management.
+A distinctive contribution is the integration of a local LLM to provide intelligent suggestions within the sprint planner. 
+Using recent project events as context, the LLM categorises tasks and proposes priorities based on urgency and importance, allowing the planner to function as an intelligent decision-support tool. 
+Performance testing demonstrated that the model produced coherent and dependency-accurate outputs in nearly all cases, with measured dependency accuracy consistently above 0.94 and coherence at 1.0 across five representative test cases. 
+Even in cases where feasibility or resource balance was imperfect, the system still generated valid JSON outputs that could serve as an actionable template, saving users significant planning time. 
+Importantly, the average execution time for generating suggestions remained well under 200 seconds per test case, even on hardware comparable to standard office computers.
 
-From a development perspective, the project illustrates how iterative, feature-driven workflows can be applied in academic settings, translating industrial software engineering practices into a functional, user-focused solution. The work contributes not only a working system but also a blueprint for integrating intelligent planning tools in secure, offline environments.
+This time-efficiency is especially valuable in an offline-first architecture. 
+When coupled with the platform’s design, which allows human adjustments to be captured as context for future inference, the system is capable of progressively aligning with the decision-making patterns of its users. 
+Over time, this creates a feedback loop in which the LLM’s suggestions become increasingly personalised and reliable, while maintaining data privacy by keeping all computation local.
+
+From a development perspective, the project demonstrates the feasibility of bringing intelligent planning to an offline environment using only locally available resources. 
+It illustrates how iterative, feature-driven workflows can translate industrial practices into academic research, providing a blueprint for integrating AI-assisted planning in a secure, privacy-preserving manner.
+
 \section{Applications and Impact}
-The sprint planner offers a practical solution for teams and individuals who require structured, adaptive project management within secure, offline environments. By combining intelligent task prioritisation with an intuitive, modern interface, the system enhances productivity by allowing users to visualise and manage priorities, deadlines, and dependencies effectively. The integration of the Eisenhower matrix within the sprint planner ensures that critical tasks are immediately highlighted, facilitating better decision-making and time management.
+The sprint planner offers a practical solution for teams and individuals who require structured, adaptive project management within secure, offline environments. 
+By combining intelligent task prioritisation with an intuitive interface, the system enhances productivity by allowing users to visualise and manage priorities, deadlines, and dependencies effectively. 
+The integration of the Eisenhower matrix within the sprint planner ensures that critical tasks are highlighted, facilitating better decision-making and resource allocation. 
 
-The platform's offline-first architecture ensures that sensitive project data, files, and communication remain local to the user's machine, aligning with stringent privacy and ethical requirements. Role-based access control, secure authentication, and encrypted file storage further safeguard data integrity and confidentiality, providing a level of trust and reliability often lacking in cloud-based solutions.
+The offline-first architecture is particularly impactful for privacy-sensitive contexts, ensuring that all data, file histories, and interactions remain on the user's machine. 
+Role-based access control, authentication, and encrypted file storage further strengthen trustworthiness. 
+By showing that such functionality can be implemented without cloud reliance, the platform demonstrates a viable route to privacy-preserving project management for organisations operating under strict compliance or data-protection regimes.
 
-The inclusion of a local LLM to support task categorisation represents an innovative approach to intelligent project management without relying on external networks. By analysing recent events and project activity, the system provides contextually relevant recommendations that help users allocate their time and resources more effectively. This AI-assisted functionality improves workflow efficiency while adhering to ethical standards around data privacy and security.
-
-In addition, the platform demonstrates a comprehensive approach to software design, integrating project/task management, file versioning, event logging, and a responsive user interface. The use of GitPython and ODFDiff for versioning ensures that all changes to documents are auditable, while the QML frontend provides an accessible, user-friendly experience. This combination of intelligent planning, robust backend architecture, and ethical design principles positions the sprint planner as a highly practical tool for real-world project management scenarios.
-
-By focusing on these core features, the platform delivers tangible benefits in productivity, task management, and secure data handling, making it a valuable tool for individuals and organisations seeking a reliable, AI-assisted project management solution.
 \section{Limitations}
-Despite the successful implementation of the project management platform, several limitations remain that have influenced both the scope and the immediate performance of the system. A primary constraint was the choice of the language model itself. The system employs a generic large language model rather than one specifically trained on project management data. While this allows for functional demonstration of LLM-assisted task categorisation, it inherently limits the accuracy, relevance, and contextual awareness of the model's suggestions. Access to authentic project data from real-world companies is restricted for privacy and confidentiality reasons, preventing the creation of a finely tuned, domain-specific model. Consequently, the model's performance is constrained by the absence of rich, structured project datasets, which limits the depth and reliability of its recommendations.
+Despite the success of the implementation, several limitations have shaped the system’s performance. 
+A major constraint was the use of a general-purpose LLM downloaded from a public repository rather than a model specifically trained for project management. 
+This was a practical necessity due to the lack of publicly available, verified datasets on real companies’ project planning and decision-making patterns. 
+As a result, while outputs were coherent, they occasionally required manual refinement to fully align with expected organisational workflows.
 
-Another significant limitation was the practical challenge of software development alongside full-time MSc commitments. The original ambition of developing an idealised system, featuring a centralised server architecture with secure employee terminals, proved infeasible within the project's timescale. This vision, had it been realised, would have enabled distributed computing, advanced LLM operations, and multi-user interaction. The necessity to scale back to a fully local, offline application preserved the core objectives of secure, private project management but constrained functionality in areas such as messaging, document sharing, and multi-user collaboration. These limitations illustrate the tension between technical ambition and the practical realities of individual development, as well as the difficulty of achieving enterprise-scale functionality within the bounds of an academic project.
+Another limitation arose from development scope and time constraints. 
+The original goal of creating a multi-user, server-backed architecture had to be scaled back to a single-machine application, reducing collaborative features such as real-time messaging and shared task updates. 
+Finally, benchmarking had to be performed on hardware comparable to that of a typical office workstation. 
+While this verified that the system performs under realistic conditions, it lengthened the time required for running tests and limited the overall sample size available for statistical validation.
+
 \section{Future Improvements}
-Future iterations of the system offer significant potential for expansion and enhanced performance. Transitioning to a centralised server model with built-in load balancing would allow for the deployment of more powerful LLMs, capable of processing larger volumes of project data and offering more contextually accurate guidance. Such an architecture would enable advanced functionalities, including real-time translation of messages and documents for international teams, more sophisticated context switching, and personalized employee feedback derived from task completion patterns. By leveraging version control metadata and performance metrics, the system could identify areas for skill development and recommend targeted interventions to improve efficiency.
+Future work should explore transitioning to a centralised compute model capable of supporting more powerful models and multi-user interaction. 
+Such an architecture would enable richer real-time collaboration, automated context switching, and the deployment of fine-tuned models trained on domain-specific project management data, either synthetic or anonymised.
+Further, automating the capture of user edits as reinforcement data could allow the system to perform online learning, making it increasingly aligned with the specific workflows and preferences of each team.
 
-Additionally, future work could focus on the integration of domain-specific training data, potentially through anonymised or synthetic project datasets, to further improve the precision and relevance of LLM suggestions. Expanding the platform to support secure multi-user collaboration would also broaden its applicability, enabling real-world deployment in organisational environments. These enhancements would not only increase the system's utility but also demonstrate the transformative potential of combining local project management tools with intelligent, adaptive language models in a secure and ethically responsible framework.
+\section{Reflection}
+This project provided substantial personal learning opportunities, particularly regarding the interplay between vision, feasibility, and execution. 
+One of the key insights gained was the importance of having a clear, well-scoped vision at the outset. 
+The project’s feasibility-driven, exploratory approach allowed for experimentation with different architectures and product directions, which was intellectually rewarding but came at the cost of development time, resulting in a platform that, while functional, lacks complete feature parity with the original concept.
+
+Testing served as a crucial verification mechanism, ensuring that newly introduced modules did not regress existing functionality. 
+However, the absence of a rigid set of requirements at the beginning led to pursuing multiple dead ends that did not directly contribute to the final objectives. 
+The lack of access to verified project management datasets meant that model training could not go beyond the use of generic LLMs.
+Considerable time was spent simply getting models such as TinyLlama, DeepSeek, and LLaMA 3.1 to produce structured outputs that could be interpreted by the application, an extended “smoke test” that demonstrated feasibility but fell short of statistically significant benchmarking.
+
+In hindsight, beginning with the simplest possible implementation and incrementally approaching the idealised architecture would have produced a more cohesive final product. 
+The decision to aim high from the outset was educational but delayed the delivery of a production-ready tool. 
+Additionally, performing tests on average-level hardware ensured realistic validation but slowed benchmarking, further reducing the number of test cases that could be evaluated.
+
+Overall, the experience highlighted the balance that needs to be struck between research ambition and engineering pragmatism, underscoring the importance of accomodating for both  exploratory learning with disciplined project scoping.
 
 
 % References
@@ -1148,7 +1185,7 @@ Additionally, future work could focus on the integration of domain-specific trai
 
 % Appendices 
 \appendix
-\chapter{Scripts}\label{Scripts}
+
 \section{App Code}
 \subsection{main.py}
 \begin{lstlisting}[style=pythonstyle]
@@ -5057,8 +5094,6 @@ All LLM interactions are logged for transparency. The system supports iterative 
     \item Event logging and audit trail: All actions are recorded for accountability.
 \end{itemize}
 
-
-
 \chapter{User Stories}\label{UserStories}
 This appendix provides a comprehensive overview of all user stories, including their context, goals, and mapping to implemented features. User stories were gathered from project documentation and reflect both functional requirements and stakeholder needs. Each story is linked to specific modules and UI components in the application.
 
@@ -5182,8 +5217,48 @@ This appendix provides a comprehensive overview of all user stories, including t
 \caption{Main QML architecture: UI structure, navigation, and backend context properties.}
 \end{figure}
 
+\chapter{Scripts}\label{Scripts}
+
 \chapter{Peer Review}
 \section{Nithin Gandhi Simanand}
+\subsection{An LLM-Powered Application for Agile Project Management}
+The project specification form is scoped well to address a clear gap, which is providing 
+intelligent assistance for project management in settings where data privacy/security and 
+offline operations are paramount. The background has a solid rationale, linking limitations of 
+conventional frameworks and organisational practice to opportunities for augmentation with 
+LLM. In addition, it addresses the practical hurdles; including cognitive load, coordination 
+overhead, and privacy concerns. The narrative moves smoothly from enterprise pain points 
+to the proposed solution space, demonstrating academic relevance and a sound problem 
+definition. The research question is precise revolving on whether a fully local, offline 
+platform can integrate intelligent task categorisation while safeguarding privacy, 
+transparency, and ethical AI making it suitable for investigation within the project timeline. To 
+strengthen testability, the question could be accompanied by explicit success criteria such as
+user trust or acceptance thresholds.
+The literature review is relevant, however, formatting is inconsistent with the programme’s 
+required style (Harvard) and could benefit from propoer consistency style with the dates and 
+other citation elements. Furthermore, I would recommend exploring the literature around 
+small-language models (SLMs), resource constraints, encryption/usability trade-offs, and 
+explainability to ground the chosen methodology with solid literature.
+The methodology and development plan is a notable strength. The modular Python + 
+PySide6/QML architecture, with local persistence via SQLite/SQLAlchemy, role-based 
+access control, encryption, and versioning (GitPython + ODFDiff), is coherent and 
+implementable within the project timeline. The proposed integration of a local LLM for 
+Eisenhower-matrix task categorisation, driven by structured event logs and accompanied by 
+comprehensive auditing, aligns well with the research aims. To de-risk execution, the 
+specification should include the names of candidate models, define fallback heuristics when 
+confidence is low, and pre-register evaluation metrics. Reproducibility would benefit from
+saved prompt templates.
+Social, legal, and ethical considerations are addressed with good depth: strict local 
+processing, GDPR awareness, encryption using established primitives, and explicit user 
+agency over AI recommendations. As enhancements, a lightweight DPIA/threat model could
+be completed together with a bias-auditing plan for classification errors (periodic sampling 
+and error taxonomy), licence-compliance checks for dependencies/models, and a secure 
+offline update pathway. Clarifying data retention and deletion policies would further reinforce 
+accountability.
+Objectives are clear and map to concrete components; the work plan enumerates tasks, 
+deliverables, and test frameworks that are appropriate to the scope. Overall, this is a strong, 
+feasible specification that demonstrates critical thinking, methodological fit, and attention to 
+ethics
 \section{Rema Majed I Algunaibet}
 \subsection{Enhancing Contextual Conversations in LLM Chatbots with an Embeddings Database}
 The project specification presents a highly relevant and timely research topic. The background section is particularly strong, as it clearly identifies the limitations of current LLM-based chatbots, namely their restricted attention span and tendency to hallucinate. The discussion of context window constraints and the need for memory-augmented systems is well expressed, setting up a clear rationale for the work. The author links this effectively to broader industry trends such as ChatGPT’s memory features, Google Gemini, and Microsoft’s Recall, which demonstrates an appreciation of both the technical and societal importance of the problem. Overall, the background provides a compelling justification for why the project is needed.

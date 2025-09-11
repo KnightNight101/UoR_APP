@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.1)  9 SEP 2025 21:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.1)  12 SEP 2025 00:16
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -674,7 +674,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.104 \tableofcontents
+l.106 \tableofcontents
                        [1] (Report.toc
 
 [2
@@ -727,7 +727,7 @@ Chapter 2.
 
 [19]
 
-LaTeX Warning: Citation 'oluwagbadeConversationalAINew2024' on page 20 undefined on input line 370.
+LaTeX Warning: Citation 'oluwagbadeConversationalAINew2024' on page 20 undefined on input line 372.
 
 
 
@@ -744,10 +744,10 @@ Chapter 3.
 [24
 
 ]
-<png_files/SSH_Architecture.png, id=485, 1167.61218pt x 1207.51125pt>
+<png_files/SSH_Architecture.png, id=497, 1167.61218pt x 1207.51125pt>
 File: png_files/SSH_Architecture.png Graphic file (type png)
 <use png_files/SSH_Architecture.png>
-Package pdftex.def Info: png_files/SSH_Architecture.png  used on input line 449.
+Package pdftex.def Info: png_files/SSH_Architecture.png  used on input line 451.
 (pdftex.def)             Requested size: 469.74467pt x 485.79655pt.
 
 
@@ -764,10 +764,10 @@ Chapter 4.
 [29
 
 ]
-<png_files/main_py_architecture.png, id=511, 1573.88pt x 596.2275pt>
+<png_files/main_py_architecture.png, id=523, 1573.88pt x 596.2275pt>
 File: png_files/main_py_architecture.png Graphic file (type png)
 <use png_files/main_py_architecture.png>
-Package pdftex.def Info: png_files/main_py_architecture.png  used on input line 580.
+Package pdftex.def Info: png_files/main_py_architecture.png  used on input line 582.
 (pdftex.def)             Requested size: 469.74208pt x 177.95076pt.
 
 
@@ -776,22 +776,22 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 [30]
-<png_files/main_qml_architecture.png, id=517, 786.94pt x 139.52126pt>
+<png_files/main_qml_architecture.png, id=529, 786.94pt x 139.52126pt>
 File: png_files/main_qml_architecture.png Graphic file (type png)
 <use png_files/main_qml_architecture.png>
-Package pdftex.def Info: png_files/main_qml_architecture.png  used on input line 597.
+Package pdftex.def Info: png_files/main_qml_architecture.png  used on input line 599.
 (pdftex.def)             Requested size: 469.75409pt x 83.28548pt.
 
 
 [31 <./png_files/main_py_architecture.png> <./png_files/main_qml_architecture.png>]
-<png_files/db_class_diagram.png, id=524, 1397.22pt x 3613.5pt>
+<png_files/db_class_diagram.png, id=536, 1397.22pt x 3613.5pt>
 File: png_files/db_class_diagram.png Graphic file (type png)
 <use png_files/db_class_diagram.png>
-Package pdftex.def Info: png_files/db_class_diagram.png  used on input line 634.
+Package pdftex.def Info: png_files/db_class_diagram.png  used on input line 636.
 (pdftex.def)             Requested size: 251.48875pt x 650.40195pt.
 
 
-LaTeX Warning: Float too large for page by 23.91591pt on input line 637.
+LaTeX Warning: Float too large for page by 23.91591pt on input line 639.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -814,18 +814,18 @@ File: lstlang1.sty 2024/09/23 1.10c listings language file
 
 ]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <9> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 712.
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 714.
 
 
 [37]
 
 [38]
 
-LaTeX Warning: Reference `app:Scripts' on page 39 undefined on input line 786.
+LaTeX Warning: Reference `app:Scripts' on page 39 undefined on input line 788.
 
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 791.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 793.
 
-Package Listings Warning: Text dropped after begin of listing on input line 791.
+Package Listings Warning: Text dropped after begin of listing on input line 793.
 
 
 
@@ -835,14 +835,14 @@ Package Listings Warning: Text dropped after begin of listing on input line 791.
 
 [41]
 
-LaTeX Warning: Reference `app:Scripts' on page 42 undefined on input line 891.
+LaTeX Warning: Reference `app:Scripts' on page 42 undefined on input line 893.
 
 
 
 [42]
 
 [43]
-Overfull \hbox (8.23936pt too wide) in paragraph at lines 969--972
+Overfull \hbox (8.23936pt too wide) in paragraph at lines 971--974
 []\T1/cmr/m/n/10 The bench-mark-ing sys-tem for this task was im-ple-mented in a Python script, com-mit_summary_benchmark.py.
  []
 
@@ -879,7 +879,7 @@ Chapter 7.
 [54]
 
 [55]
-Overfull \hbox (1.98958pt too wide) in paragraph at lines 1148--1148
+Overfull \hbox (1.98958pt too wide) in paragraph at lines 1185--1185
 \T1/cmr/m/n/10 gies^^Q. In: \T1/cmr/m/it/10 Man-age-ment:Journal of Sus-tain-able Busi-ness and Man-age-ment So-lu-tions in Emerg-ing Economies
  []
 
@@ -892,12 +892,8 @@ Overfull \hbox (1.98958pt too wide) in paragraph at lines 1148--1148
 [57]
 
 [58]
-Appendix A.
 
-
-[59
-
-]
+[59]
 
 [60]
 
@@ -955,11 +951,11 @@ Appendix A.
 
 [87]
 
-[88]
-
-[89] (C:\Users\KnightNight101\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+[88] (C:\Users\KnightNight101\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
+
+[89]
 
 [90]
 
@@ -1138,89 +1134,93 @@ File: lstlang1.sty 2024/09/23 1.10c listings language file
 [177]
 
 [178]
-
-[179]
-Appendix B.
+Appendix A.
 File: png_files/main_py_architecture.png Graphic file (type png)
 <use png_files/main_py_architecture.png>
-Package pdftex.def Info: png_files/main_py_architecture.png  used on input line 5004.
+Package pdftex.def Info: png_files/main_py_architecture.png  used on input line 5041.
 (pdftex.def)             Requested size: 469.74208pt x 177.95076pt.
 File: png_files/main_qml_architecture.png Graphic file (type png)
 <use png_files/main_qml_architecture.png>
-Package pdftex.def Info: png_files/main_qml_architecture.png  used on input line 5018.
+Package pdftex.def Info: png_files/main_qml_architecture.png  used on input line 5055.
 (pdftex.def)             Requested size: 469.75409pt x 83.28548pt.
 
 
-[180
+[179
 
 ]
 File: png_files/db_class_diagram.png Graphic file (type png)
 <use png_files/db_class_diagram.png>
-Package pdftex.def Info: png_files/db_class_diagram.png  used on input line 5038.
+Package pdftex.def Info: png_files/db_class_diagram.png  used on input line 5075.
 (pdftex.def)             Requested size: 226.33134pt x 585.33969pt.
 
+
+[180]
 
 [181]
 
 [182]
-
-[183]
-Appendix C.
+Appendix B.
 
 
-[184
+[183
 
 ]
+
+[184]
 
 [185]
 
 [186]
 
 [187]
-
-[188]
-Appendix D.
-<png_files/Login.png, id=5219, 362.85562pt x 505.89pt>
+Appendix C.
+<png_files/Login.png, id=5227, 362.85562pt x 505.89pt>
 File: png_files/Login.png Graphic file (type png)
 <use png_files/Login.png>
-Package pdftex.def Info: png_files/Login.png  used on input line 5151.
+Package pdftex.def Info: png_files/Login.png  used on input line 5186.
 (pdftex.def)             Requested size: 139.96283pt x 195.1349pt.
-<png_files/Dashboard.png, id=5220, 1445.4pt x 813.0375pt>
+<png_files/Dashboard.png, id=5228, 1445.4pt x 813.0375pt>
 File: png_files/Dashboard.png Graphic file (type png)
 <use png_files/Dashboard.png>
-Package pdftex.def Info: png_files/Dashboard.png  used on input line 5157.
+Package pdftex.def Info: png_files/Dashboard.png  used on input line 5192.
 (pdftex.def)             Requested size: 469.74944pt x 264.23405pt.
-<png_files/ProjectCreation.png, id=5221, 1445.4pt x 813.0375pt>
+<png_files/ProjectCreation.png, id=5229, 1445.4pt x 813.0375pt>
 File: png_files/ProjectCreation.png Graphic file (type png)
 <use png_files/ProjectCreation.png>
-Package pdftex.def Info: png_files/ProjectCreation.png  used on input line 5163.
+Package pdftex.def Info: png_files/ProjectCreation.png  used on input line 5198.
 (pdftex.def)             Requested size: 469.74944pt x 264.23405pt.
-<png_files/ProjectDetails.png, id=5222, 1927.2pt x 1084.05pt>
+<png_files/ProjectDetails.png, id=5230, 1927.2pt x 1084.05pt>
 File: png_files/ProjectDetails.png Graphic file (type png)
 <use png_files/ProjectDetails.png>
-Package pdftex.def Info: png_files/ProjectDetails.png  used on input line 5169.
+Package pdftex.def Info: png_files/ProjectDetails.png  used on input line 5204.
 (pdftex.def)             Requested size: 469.7421pt x 264.22992pt.
-<png_files/Event_log.png, id=5223, 1445.4pt x 813.0375pt>
+<png_files/Event_log.png, id=5231, 1445.4pt x 813.0375pt>
 File: png_files/Event_log.png Graphic file (type png)
 <use png_files/Event_log.png>
-Package pdftex.def Info: png_files/Event_log.png  used on input line 5175.
+Package pdftex.def Info: png_files/Event_log.png  used on input line 5210.
 (pdftex.def)             Requested size: 469.74944pt x 264.23405pt.
-<png_files/Calendar.png, id=5224, 1445.4pt x 813.0375pt>
+<png_files/Calendar.png, id=5232, 1445.4pt x 813.0375pt>
 File: png_files/Calendar.png Graphic file (type png)
 <use png_files/Calendar.png>
-Package pdftex.def Info: png_files/Calendar.png  used on input line 5181.
+Package pdftex.def Info: png_files/Calendar.png  used on input line 5216.
 (pdftex.def)             Requested size: 469.74944pt x 264.23405pt.
 
 
-[189
+[188
 
  <./png_files/Login.png>]
 
-[190 <./png_files/Dashboard.png> <./png_files/ProjectCreation.png>]
+[189 <./png_files/Dashboard.png> <./png_files/ProjectCreation.png>]
 
-[191 <./png_files/ProjectDetails.png> <./png_files/Event_log.png>]
+[190 <./png_files/ProjectDetails.png> <./png_files/Event_log.png>]
 
-[192 <./png_files/Calendar.png>]
+[191 <./png_files/Calendar.png>]
+Appendix D.
+
+
+[192
+
+]
 Appendix E.
 
 
@@ -1228,7 +1228,9 @@ Appendix E.
 
 ]
 
-[194] (Report.aux)
+[194]
+
+[195] (Report.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
@@ -1238,7 +1240,7 @@ L3 programming layer <2024-11-02>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `Report.out' has not changed.
-(rerunfilecheck)             Checksum: 9F68DF0564B7D72E66979127175A131A;11219.
+(rerunfilecheck)             Checksum: B7AD12726D5739F979761E9D4650F644;11725.
 
 Package biblatex Warning: Please (re)run Biber on the file:
 (biblatex)                Report
@@ -1249,17 +1251,17 @@ Package logreq Info: Writing requests to 'Report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26381 strings out of 473682
- 451743 string characters out of 5714932
- 1552079 words of memory out of 5000000
- 44937 multiletter control sequences out of 15000+600000
+ 26386 strings out of 473682
+ 451885 string characters out of 5714932
+ 1544221 words of memory out of 5000000
+ 44939 multiletter control sequences out of 15000+600000
  577842 words of font info for 82 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  79i,12n,93p,3143b,2230s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0900.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit0900.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0500.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb>
-Output written on Report.pdf (195 pages, 3238069 bytes).
+Output written on Report.pdf (196 pages, 3244990 bytes).
 PDF statistics:
- 6847 PDF objects out of 7423 (max. 8388607)
- 4284 named destinations out of 4296 (max. 500000)
- 563 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6869 PDF objects out of 7423 (max. 8388607)
+ 4287 named destinations out of 4296 (max. 500000)
+ 579 words of extra memory for PDF output out of 10000 (max. 10000000)
 
