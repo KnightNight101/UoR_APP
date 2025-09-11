@@ -1122,7 +1122,7 @@ The central innovation of this work is the sprint planner, which enables users t
 The sprint planner leverages the Eisenhower matrix and historical project activity to help users prioritise work effectively, enhancing productivity and ensuring critical tasks are highlighted and addressed in a timely manner.
 
 Alongside the sprint planner, the platform incorporates a PyQt (PySide6/QML) interface that balances modern usability with accessibility, providing seamless interaction between the frontend and a secure backend. 
-The backend, built on SQLAlchemy ORM, manages data integrity, user roles, permissions, and file metadata, while the local file versioning system—implemented with GitPython and ODFDiff—ensures that all document changes are auditable and recoverable.
+The backend, built on SQLAlchemy ORM, manages data integrity, user roles, permissions, and file metadata, while the local file versioning system, implemented with GitPython and ODFDiff, ensures that all document changes are auditable and recoverable.
 
 A distinctive contribution is the integration of a local LLM to provide intelligent suggestions within the sprint planner. 
 Using recent project events as context, the LLM categorises tasks and proposes priorities based on urgency and importance, allowing the planner to function as an intelligent decision-support tool. 
@@ -1131,8 +1131,8 @@ Even in cases where feasibility or resource balance was imperfect, the system st
 Importantly, the average execution time for generating suggestions remained well under 200 seconds per test case, even on hardware comparable to standard office computers.
 
 This time-efficiency is especially valuable in an offline-first architecture. 
-When coupled with the platform’s design, which allows human adjustments to be captured as context for future inference, the system is capable of progressively aligning with the decision-making patterns of its users. 
-Over time, this creates a feedback loop in which the LLM’s suggestions become increasingly personalised and reliable, while maintaining data privacy by keeping all computation local.
+When coupled with the platform's design, which allows human adjustments to be captured as context for future inference, the system is capable of progressively aligning with the decision-making patterns of its users. 
+Over time, this creates a feedback loop in which the LLM's suggestions become increasingly personalised and reliable, while maintaining data privacy by keeping all computation local.
 
 From a development perspective, the project demonstrates the feasibility of bringing intelligent planning to an offline environment using only locally available resources. 
 It illustrates how iterative, feature-driven workflows can translate industrial practices into academic research, providing a blueprint for integrating AI-assisted planning in a secure, privacy-preserving manner.
@@ -1147,9 +1147,9 @@ Role-based access control, authentication, and encrypted file storage further st
 By showing that such functionality can be implemented without cloud reliance, the platform demonstrates a viable route to privacy-preserving project management for organisations operating under strict compliance or data-protection regimes.
 
 \section{Limitations}
-Despite the success of the implementation, several limitations have shaped the system’s performance. 
+Despite the success of the implementation, several limitations have shaped the system's performance.
 A major constraint was the use of a general-purpose LLM downloaded from a public repository rather than a model specifically trained for project management. 
-This was a practical necessity due to the lack of publicly available, verified datasets on real companies’ project planning and decision-making patterns. 
+This was a practical necessity due to the lack of publicly available, verified datasets on real companies' project planning and decision-making patterns. 
 As a result, while outputs were coherent, they occasionally required manual refinement to fully align with expected organisational workflows.
 
 Another limitation arose from development scope and time constraints. 
@@ -1165,12 +1165,12 @@ Further, automating the capture of user edits as reinforcement data could allow 
 \section{Reflection}
 This project provided substantial personal learning opportunities, particularly regarding the interplay between vision, feasibility, and execution. 
 One of the key insights gained was the importance of having a clear, well-scoped vision at the outset. 
-The project’s feasibility-driven, exploratory approach allowed for experimentation with different architectures and product directions, which was intellectually rewarding but came at the cost of development time, resulting in a platform that, while functional, lacks complete feature parity with the original concept.
+The project' feasibility-driven, exploratory approach allowed for experimentation with different architectures and product directions, which was intellectually rewarding but came at the cost of development time, resulting in a platform that, while functional, lacks complete feature parity with the original concept.
 
 Testing served as a crucial verification mechanism, ensuring that newly introduced modules did not regress existing functionality. 
 However, the absence of a rigid set of requirements at the beginning led to pursuing multiple dead ends that did not directly contribute to the final objectives. 
 The lack of access to verified project management datasets meant that model training could not go beyond the use of generic LLMs.
-Considerable time was spent simply getting models such as TinyLlama, DeepSeek, and LLaMA 3.1 to produce structured outputs that could be interpreted by the application, an extended “smoke test” that demonstrated feasibility but fell short of statistically significant benchmarking.
+Considerable time was spent simply getting models such as TinyLlama, DeepSeek, and LLaMA 3.1 to produce structured outputs that could be interpreted by the application, an extended "smoke test" that demonstrated feasibility but fell short of statistically significant benchmarking.
 
 In hindsight, beginning with the simplest possible implementation and incrementally approaching the idealised architecture would have produced a more cohesive final product. 
 The decision to aim high from the outset was educational but delayed the delivery of a production-ready tool. 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.1)  12 SEP 2025 00:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.12.1)  12 SEP 2025 00:35
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -601,7 +601,6 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 Package hyperref Info: Link coloring OFF on input line 71.
- (Report.out) (Report.out)
 \@outlinefile=\write4
 \openout4 = `Report.out'.
 
@@ -675,39 +674,44 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has b
 <to be read again> 
                    \relax 
 l.106 \tableofcontents
-                       [1] (Report.toc
-
-[2
-
-]
-
-[3]
-
-[4])
+                       [1]
+No file Report.toc.
 \tf@toc=\write5
 \openout5 = `Report.toc'.
 
 
 
-[5]
+[2
+
+]
 Chapter 1.
 
 
-[6
+[3
 
 ]
 
-[7]
+[4]
+
+LaTeX Warning: Reference `Scripts' on page 5 undefined on input line 166.
+
+
+
+[5]
+
+[6]
+Chapter 2.
+
+
+[7
+
+]
 
 [8]
 
 [9]
-Chapter 2.
 
-
-[10
-
-]
+[10]
 
 [11]
 
@@ -721,50 +725,44 @@ Chapter 2.
 
 [16]
 
+LaTeX Warning: Citation 'oluwagbadeConversationalAINew2024' on page 17 undefined on input line 372.
+
+
+
 [17]
 
 [18]
 
 [19]
 
-LaTeX Warning: Citation 'oluwagbadeConversationalAINew2024' on page 20 undefined on input line 372.
-
-
-
 [20]
-
-[21]
-
-[22]
-
-[23]
 Chapter 3.
 
 
-[24
+[21
 
 ]
-<png_files/SSH_Architecture.png, id=497, 1167.61218pt x 1207.51125pt>
+<png_files/SSH_Architecture.png, id=163, 1167.61218pt x 1207.51125pt>
 File: png_files/SSH_Architecture.png Graphic file (type png)
 <use png_files/SSH_Architecture.png>
 Package pdftex.def Info: png_files/SSH_Architecture.png  used on input line 451.
 (pdftex.def)             Requested size: 469.74467pt x 485.79655pt.
 
 
-[25 <./png_files/SSH_Architecture.png>]
+[22 <./png_files/SSH_Architecture.png>]
 
-[26]
+[23]
 
-[27]
+[24]
 
-[28]
+[25]
 Chapter 4.
 
 
-[29
+[26
 
 ]
-<png_files/main_py_architecture.png, id=523, 1573.88pt x 596.2275pt>
+<png_files/main_py_architecture.png, id=197, 1573.88pt x 596.2275pt>
 File: png_files/main_py_architecture.png Graphic file (type png)
 <use png_files/main_py_architecture.png>
 Package pdftex.def Info: png_files/main_py_architecture.png  used on input line 582.
@@ -775,16 +773,16 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[30]
-<png_files/main_qml_architecture.png, id=529, 786.94pt x 139.52126pt>
+[27]
+<png_files/main_qml_architecture.png, id=204, 786.94pt x 139.52126pt>
 File: png_files/main_qml_architecture.png Graphic file (type png)
 <use png_files/main_qml_architecture.png>
 Package pdftex.def Info: png_files/main_qml_architecture.png  used on input line 599.
 (pdftex.def)             Requested size: 469.75409pt x 83.28548pt.
 
 
-[31 <./png_files/main_py_architecture.png> <./png_files/main_qml_architecture.png>]
-<png_files/db_class_diagram.png, id=536, 1397.22pt x 3613.5pt>
+[28 <./png_files/main_py_architecture.png> <./png_files/main_qml_architecture.png>]
+<png_files/db_class_diagram.png, id=212, 1397.22pt x 3613.5pt>
 File: png_files/db_class_diagram.png Graphic file (type png)
 <use png_files/db_class_diagram.png>
 Package pdftex.def Info: png_files/db_class_diagram.png  used on input line 636.
@@ -798,30 +796,30 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[32]
+[29]
 
-[33]
+[30]
 
-[34]
+[31]
 
-[35 <./png_files/db_class_diagram.png>]
+[32 <./png_files/db_class_diagram.png>]
 Chapter 5.
 (C:\Users\KnightNight101\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
 
-[36
+[33
 
 ]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <9> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 714.
 
 
-[37]
+[34]
 
-[38]
+[35]
 
-LaTeX Warning: Reference `app:Scripts' on page 39 undefined on input line 788.
+LaTeX Warning: Reference `app:Scripts' on page 36 undefined on input line 788.
 
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 793.
 
@@ -829,35 +827,45 @@ Package Listings Warning: Text dropped after begin of listing on input line 793.
 
 
 
+[36]
+
+[37]
+
+[38]
+
+LaTeX Warning: Reference `app:Scripts' on page 39 undefined on input line 893.
+
+
+
 [39]
 
 [40]
-
-[41]
-
-LaTeX Warning: Reference `app:Scripts' on page 42 undefined on input line 893.
-
-
-
-[42]
-
-[43]
 Overfull \hbox (8.23936pt too wide) in paragraph at lines 971--974
 []\T1/cmr/m/n/10 The bench-mark-ing sys-tem for this task was im-ple-mented in a Python script, com-mit_summary_benchmark.py.
  []
 
 
 
+[41]
+
+[42]
+
+[43]
+
 [44]
 
 [45]
+Chapter 6.
 
-[46]
+
+[46
+
+]
 
 [47]
 
 [48]
-Chapter 6.
+Chapter 7.
 
 
 [49
@@ -867,27 +875,23 @@ Chapter 6.
 [50]
 
 [51]
-Chapter 7.
 
-
-[52
-
-]
-
-[53]
-
-[54]
-
-[55]
+[52]
 Overfull \hbox (1.98958pt too wide) in paragraph at lines 1185--1185
 \T1/cmr/m/n/10 gies^^Q. In: \T1/cmr/m/it/10 Man-age-ment:Journal of Sus-tain-able Busi-ness and Man-age-ment So-lu-tions in Emerg-ing Economies
  []
 
 
 
-[56
+[53
 
 ]
+
+[54]
+
+[55]
+
+[56]
 
 [57]
 
@@ -945,15 +949,15 @@ Overfull \hbox (1.98958pt too wide) in paragraph at lines 1185--1185
 
 [84]
 
-[85]
+[85] (C:\Users\KnightNight101\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2024/09/23 1.10c listings language file
+)
 
 [86]
 
 [87]
 
-[88] (C:\Users\KnightNight101\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
-File: lstlang1.sty 2024/09/23 1.10c listings language file
-)
+[88]
 
 [89]
 
@@ -1128,12 +1132,6 @@ File: lstlang1.sty 2024/09/23 1.10c listings language file
 [174]
 
 [175]
-
-[176]
-
-[177]
-
-[178]
 Appendix A.
 File: png_files/main_py_architecture.png Graphic file (type png)
 <use png_files/main_py_architecture.png>
@@ -1145,7 +1143,7 @@ Package pdftex.def Info: png_files/main_qml_architecture.png  used on input line
 (pdftex.def)             Requested size: 469.75409pt x 83.28548pt.
 
 
-[179
+[176
 
 ]
 File: png_files/db_class_diagram.png Graphic file (type png)
@@ -1154,83 +1152,83 @@ Package pdftex.def Info: png_files/db_class_diagram.png  used on input line 5075
 (pdftex.def)             Requested size: 226.33134pt x 585.33969pt.
 
 
-[180]
+[177]
+
+[178]
+
+[179]
+Appendix B.
+
+
+[180
+
+]
 
 [181]
 
 [182]
-Appendix B.
 
-
-[183
-
-]
+[183]
 
 [184]
-
-[185]
-
-[186]
-
-[187]
 Appendix C.
-<png_files/Login.png, id=5227, 362.85562pt x 505.89pt>
+<png_files/Login.png, id=4942, 362.85562pt x 505.89pt>
 File: png_files/Login.png Graphic file (type png)
 <use png_files/Login.png>
 Package pdftex.def Info: png_files/Login.png  used on input line 5186.
 (pdftex.def)             Requested size: 139.96283pt x 195.1349pt.
-<png_files/Dashboard.png, id=5228, 1445.4pt x 813.0375pt>
+<png_files/Dashboard.png, id=4943, 1445.4pt x 813.0375pt>
 File: png_files/Dashboard.png Graphic file (type png)
 <use png_files/Dashboard.png>
 Package pdftex.def Info: png_files/Dashboard.png  used on input line 5192.
 (pdftex.def)             Requested size: 469.74944pt x 264.23405pt.
-<png_files/ProjectCreation.png, id=5229, 1445.4pt x 813.0375pt>
+<png_files/ProjectCreation.png, id=4944, 1445.4pt x 813.0375pt>
 File: png_files/ProjectCreation.png Graphic file (type png)
 <use png_files/ProjectCreation.png>
 Package pdftex.def Info: png_files/ProjectCreation.png  used on input line 5198.
 (pdftex.def)             Requested size: 469.74944pt x 264.23405pt.
-<png_files/ProjectDetails.png, id=5230, 1927.2pt x 1084.05pt>
+<png_files/ProjectDetails.png, id=4945, 1927.2pt x 1084.05pt>
 File: png_files/ProjectDetails.png Graphic file (type png)
 <use png_files/ProjectDetails.png>
 Package pdftex.def Info: png_files/ProjectDetails.png  used on input line 5204.
 (pdftex.def)             Requested size: 469.7421pt x 264.22992pt.
-<png_files/Event_log.png, id=5231, 1445.4pt x 813.0375pt>
+<png_files/Event_log.png, id=4946, 1445.4pt x 813.0375pt>
 File: png_files/Event_log.png Graphic file (type png)
 <use png_files/Event_log.png>
 Package pdftex.def Info: png_files/Event_log.png  used on input line 5210.
 (pdftex.def)             Requested size: 469.74944pt x 264.23405pt.
-<png_files/Calendar.png, id=5232, 1445.4pt x 813.0375pt>
+<png_files/Calendar.png, id=4947, 1445.4pt x 813.0375pt>
 File: png_files/Calendar.png Graphic file (type png)
 <use png_files/Calendar.png>
 Package pdftex.def Info: png_files/Calendar.png  used on input line 5216.
 (pdftex.def)             Requested size: 469.74944pt x 264.23405pt.
 
 
-[188
+[185
 
  <./png_files/Login.png>]
 
-[189 <./png_files/Dashboard.png> <./png_files/ProjectCreation.png>]
+[186 <./png_files/Dashboard.png> <./png_files/ProjectCreation.png>]
 
-[190 <./png_files/ProjectDetails.png> <./png_files/Event_log.png>]
+[187 <./png_files/ProjectDetails.png> <./png_files/Event_log.png>]
 
-[191 <./png_files/Calendar.png>]
+[188 <./png_files/Calendar.png>]
 Appendix D.
 
 
-[192
+[189
 
 ]
 Appendix E.
 
 
-[193
+[190
 
 ]
 
-[194]
+[191]
 
-[195] (Report.aux)
+[192] (Report.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
@@ -1239,8 +1237,17 @@ L3 programming layer <2024-11-02>
 
 LaTeX Warning: There were undefined references.
 
-Package rerunfilecheck Info: File `Report.out' has not changed.
-(rerunfilecheck)             Checksum: B7AD12726D5739F979761E9D4650F644;11725.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `Report.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `Report.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  B7AD12726D5739F979761E9D4650F644;11725.
 
 Package biblatex Warning: Please (re)run Biber on the file:
 (biblatex)                Report
@@ -1251,17 +1258,17 @@ Package logreq Info: Writing requests to 'Report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26386 strings out of 473682
- 451885 string characters out of 5714932
- 1544221 words of memory out of 5000000
- 44939 multiletter control sequences out of 15000+600000
+ 26260 strings out of 473682
+ 450140 string characters out of 5714932
+ 1542593 words of memory out of 5000000
+ 44822 multiletter control sequences out of 15000+600000
  577842 words of font info for 82 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  79i,12n,93p,3143b,2230s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0900.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit0900.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0500.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb>
-Output written on Report.pdf (196 pages, 3244990 bytes).
+ <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt0900.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecit0900.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0500.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\KnightNight101\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/KnightNight101/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb>
+Output written on Report.pdf (193 pages, 3197680 bytes).
 PDF statistics:
- 6869 PDF objects out of 7423 (max. 8388607)
- 4287 named destinations out of 4296 (max. 500000)
- 579 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6572 PDF objects out of 7423 (max. 8388607)
+ 4284 named destinations out of 4296 (max. 500000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
